@@ -1,0 +1,28 @@
+Description: Make strncmp case-sensitive again
+Author: Thierry Rascle <thierr26@free.fr>
+Bug: https://savannah.gnu.org/bugs/?51348
+Bug-Debian: https://bugs.debian.org/867212
+Reviewed-by: Mike Miller <mtmiller@debian.org>
+Last-Update: 2017-08-18
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+--- a/liboctave/util/oct-string.cc
++++ b/liboctave/util/oct-string.cc
+@@ -147,7 +147,7 @@
+                          const typename T::size_type n)
+ {
+   return (numel (str_a) >= n && numel (str_b) >= n
+-          && str_data_cmpi<T> (str_a.data (), str_b.data (), n));
++          && str_data_cmp<T> (str_a.data (), str_b.data (), n));
+ }
+ 
+ template<typename T>
+@@ -156,7 +156,7 @@
+                          const typename T::size_type n)
+ {
+   return (numel (str_a) >= n && strlen<T> (str_b) >= n
+-          && str_data_cmpi<T> (str_a.data (), str_b, n));
++          && str_data_cmp<T> (str_a.data (), str_b, n));
+ }
+ 
+ 

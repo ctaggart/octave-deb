@@ -7,3 +7,4 @@ always-build-octave-jar.patch
 hdf5-flags.patch
 hdf5-mkoctfile.patch
 appstream-upgrade-spec.patch
+strncmp.patch
