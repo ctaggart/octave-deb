@@ -68,7 +68,7 @@ Depends: ${shlibs:Depends},
          texinfo,
          octave-common (= ${source:Version}),
          liboctave4 (= ${binary:Version})
-Recommends: gnuplot-x11 | gnuplot-qt,
+Recommends: gnuplot-qt | gnuplot-x11 | gnuplot-nox,
             libopenblas-base | libatlas3-base,
             pstoedit,
             default-jre-headless [!hppa !hurd-i386 !kfreebsd-amd64 !kfreebsd-i386 !m68k !mips !mipsel !sparc !sparc64],
