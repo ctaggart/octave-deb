@@ -76,8 +76,6 @@ Recommends: gnuplot-qt | gnuplot-x11 | gnuplot-nox,
 Suggests: octave-doc,
           octave-htmldoc
 Breaks: liboctave3v5
-Conflicts: octave-java
-Replaces: octave-java
 Description: GNU Octave language for numerical computations
  Octave is a (mostly Matlab (R) compatible) high-level language, primarily
  intended for numerical computations. It provides a convenient command-line
