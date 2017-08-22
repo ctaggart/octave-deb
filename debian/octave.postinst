@@ -7,15 +7,18 @@ set -e
 #DEBHELPER#
 
 rebuild_pkg_database () {
-    octave --silent --no-history --no-init-file --no-window-system	\
-	   --eval "pkg ('rebuild');"
+    # Invoke /usr/bin/octave explicitly to build the system package cache.
+    # Ensures that our instance of octave has its package cache updated
+    # correctly, rather than whichever octave happens to be first in $PATH.
+    /usr/bin/octave --silent --no-history --no-init-file --no-window-system \
+                    --eval "pkg ('rebuild');"
 }
 
 case "$1" in
     configure)
-	rebuild_pkg_database
-	;;
-    
+        rebuild_pkg_database
+        ;;
+
     triggered)
         rebuild_pkg_database
         ;;
