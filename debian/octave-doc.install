@@ -1,9 +1,0 @@
-# This file can be transformed into a .docs one as soon as we upgrade to
-# debhelper compat level 11 (since docs file will then be installed by default
-# in the main octave package and not in octave-doc, as mandated by policy
-# §12.3)
-doc/liboctave/liboctave.pdf	usr/share/doc/octave
-doc/interpreter/octave.pdf	usr/share/doc/octave
-doc/refcard/refcard-a4.pdf	usr/share/doc/octave
-doc/refcard/refcard-legal.pdf	usr/share/doc/octave
-doc/refcard/refcard-letter.pdf	usr/share/doc/octave
