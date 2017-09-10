@@ -56,7 +56,7 @@ override_dh_auto_configure:
 # dh_auto_test tries to run "make test", so override it
 override_dh_auto_test:
 ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
-	xvfb-run make check
+	make check
 endif
 
 # override normal dh_compress call to avoid compressing .pdf files
