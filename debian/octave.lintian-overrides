@@ -13,3 +13,9 @@ octave: package-contains-empty-directory usr/share/octave/packages/
 
 # The call to exit() happens in a private library
 octave: shlib-calls-exit usr/lib/*/octave/*/liboctgui.so.*
+
+# The path is on purpose, it avoids running a user-installed octave binary
+octave: command-with-path-in-maintainer-script postinst:* /usr/bin/octave
+
+# This is a permanent Breaks; using Conflicts would make upgrades more painful
+octave: breaks-without-version liboctave3v5
