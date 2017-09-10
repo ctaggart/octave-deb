@@ -78,10 +78,6 @@ override_dh_installinfo-indep:
 		sed -i "s/src=\"$$f\"/src=\"octave-$$f\"/g" debian/octave-info/usr/share/info/octave.info*; \
 	done
 
-# Handle migration to automatic debug packages
-override_dh_strip:
-	dh_strip -a --dbgsym-migration='octave-dbg (<< 4.0.1~rc2-1~)'
-
 # Strip the executable bit from the .oct files
 # Cannot be done in dh_fixperms, as then dh_strip and dh_shlibdeps don't take the
 # .oct files into account
