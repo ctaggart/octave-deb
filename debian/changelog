@@ -1,3 +1,44 @@
+octave (4.2.1-3) unstable; urgency=medium
+
+  [ Sébastien Villemot ]
+  * d/strncmp.patch: new patch, makes strncmp case-sensitive again.
+    Thanks to Thierry Rascle (Closes: #867212)
+  * d/rules: drop --max-parallel workaround to dh_auto_install.
+    As a consequence, build-depend on debhelper ≥ 10.3.
+  * Set gnuplot-qt as the preferred gnuplot alternative, also add gnuplot-nox.
+  * d/control: drop useless Breaks on liboctave{1,2,3}.
+  * d/watch: revert to xz format only.
+    The dropping of .xz in 4.2.0 was an accident, now repaired. And if we also
+    check for .gz, it takes precedence, which is not what we want.
+  * Enforce generic BLAS.
+    Avoids tying the binary to OpenBLAS or ATLAS.
+  * No longer run the testsuite using xvfb-run.
+    This fixes SIGILL with Qt5.
+  * Install back the PDF files of the octave-doc package in
+    /usr/share/doc/octave-doc. This fixes FTBFS with DEB_BUILD_OPTIONS=nodoc.
+    The PDF will be moved again to /usr/share/doc/octave when we bump to
+    debhelper compat level 11.
+  * java9.patch: new patch, fixes FTBFS with Java 9. (Closes: #873996)
+
+  [ Mike Miller ]
+  * d/control: drop useless Build-Depends on libftgl-dev. (Closes: #870657)
+  * d/control: Build-Depends on bison, gperf, icoutils, librsvg2-bin.
+  * d/clean: List files in the source distribution that should be rebuilt.
+    (Closes: #870690)
+  * d/control: Build-Depend on Qt 5 libraries, drop Qt 4 equivalents.
+    (Closes: #875063)
+  * d/control: drop obsolete Conflicts/Replaces against octave-java.
+  * d/octave.postinst: run /usr/bin/octave explicitly to build package cache.
+
+  [ Rafael Laboissiere ]
+  * d/u/metadata: Change type of reference to "manual"
+  * d/u/metadata: Use BibTeX format in Author field
+  * d/u/metadata: Update reference for version 4.2.0
+  * d/p/add-corrcoef-function.patch: New patch
+  * d/control: Bump Standards-Version to 4.1.0 (no changes needed)
+
+ -- Sébastien Villemot <sebastien@debian.org>  Sun, 10 Sep 2017 17:34:32 +0200
+
 octave (4.2.1-2) unstable; urgency=medium
 
   [ Sébastien Villemot ]
