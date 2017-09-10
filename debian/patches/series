@@ -9,3 +9,4 @@ hdf5-mkoctfile.patch
 appstream-upgrade-spec.patch
 strncmp.patch
 add-corrcoef-function.patch
+java9.patch
