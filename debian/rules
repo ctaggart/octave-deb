@@ -49,8 +49,9 @@ endif
 	dh $@
 
 override_dh_auto_configure:
-	# override normal dh_auto_configure call to pass OpenMP flag to it (#631831)
-	dh_auto_configure -- --enable-openmp $(WITH_JAVA_FLAGS) $(JIT_FLAG) $(HDF5_FLAGS) $(DOC_FLAG)
+	# Enforce generic BLAS (in order to avoid tying the binary to OpenBLAS or ATLAS)
+	# Also pass OpenMP flag (#631831)
+	dh_auto_configure -- --with-blas=blas --enable-openmp $(WITH_JAVA_FLAGS) $(JIT_FLAG) $(HDF5_FLAGS) $(DOC_FLAG)
 
 # dh_auto_test tries to run "make test", so override it
 override_dh_auto_test:
