@@ -70,7 +70,7 @@ Depends: ${shlibs:Depends},
 Recommends: gnuplot-qt | gnuplot-x11 | gnuplot-nox,
             libopenblas-base | libatlas3-base,
             pstoedit,
-            default-jre-headless [!armel !hppa !hurd-i386 !m68k !mips !mipsel !sparc64],
+            default-jre-headless [!armel !hppa !hurd-i386 !m68k !mips !mipsel !powerpc !sparc64],
             octave-info
 Suggests: octave-doc,
           octave-htmldoc

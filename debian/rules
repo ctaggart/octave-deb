@@ -18,7 +18,7 @@ export DEB_VERSION_UPSTREAM
 # build deps because it is needed for octave-common, see
 # debian/patches/always-build-octave-jar.patch).
 include /usr/share/dpkg/architecture.mk
-NO_JDK_ARCHS := armel hppa hurd-i386 m68k mips mipsel sparc64
+NO_JDK_ARCHS := armel hppa hurd-i386 m68k mips mipsel powerpc sparc64
 ifneq (,$(filter $(DEB_HOST_ARCH),$(NO_JDK_ARCHS)))
 WITH_JAVA_FLAGS := --disable-java
 else
