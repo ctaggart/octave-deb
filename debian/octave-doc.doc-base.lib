@@ -1,4 +1,4 @@
-Document: octave-lib-pdf
+Document: octave-lib
 Title: The GNU Octave Library
 Author: John W. Eaton
 Abstract: This document describes the Octave libraries. Octave is a
@@ -6,6 +6,10 @@ Abstract: This document describes the Octave libraries. Octave is a
  for numerical computations.  It provides a convenient command-line
  interface for solving linear and nonlinear problems numerically.
 Section: Science/Mathematics
+
+Format: HTML
+Index: /usr/share/doc/octave/liboctave.html/index.html
+Files: /usr/share/doc/octave/liboctave.html/*.html
 
 Format: PDF
 Files: /usr/share/doc/octave/liboctave.pdf

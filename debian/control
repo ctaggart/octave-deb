@@ -71,9 +71,7 @@ Recommends: gnuplot-qt | gnuplot-x11 | gnuplot-nox,
             libopenblas-base | libatlas3-base,
             pstoedit,
             default-jre-headless [!armel !hppa !hurd-i386 !m68k !mips !mipsel !powerpc !sparc64],
-            octave-info
-Suggests: octave-doc,
-          octave-htmldoc
+            octave-doc
 Breaks: liboctave3v5
 Description: GNU Octave language for numerical computations
  Octave is a (mostly Matlab (R) compatible) high-level language, primarily
@@ -99,50 +97,44 @@ Description: architecture-independent files for octave
 Package: octave-doc
 Architecture: all
 Section: doc
-Depends: ${misc:Depends}
-Suggests: octave,
-          xpdf | pdf-viewer
+Depends: ${misc:Depends},
+         info
+Suggests: www-browser | pdf-viewer
+Enhances: octave
 Multi-Arch: foreign
-Description: PDF documentation on the GNU Octave language
+Description: documentation of the GNU Octave language
  Octave is a (mostly Matlab (R) compatible) high-level language, primarily
  intended for numerical computations. It provides a convenient command-line
  interface for solving linear and nonlinear problems numerically.
  .
- This package provides the following documentation in PDF format: a reference
- card in a4, letter and legal formats, a document on the C++ classes used by
- Octave, as well as the main octave documentation which is also included in
- info format in the octave-info package.
+ This package provides the following documentation in HTML, PDF and Info
+ formats:
+ - the main user manual
+ - a document on the C++ classes used internally by Octave.
+ .
+ It also includes a reference card in PDF format and in a4, letter and legal
+ paper sizes.
+ .
+ This package is required by the 'help -i' command at the Octave command-line
+ and by the help documentation browser in the graphical interface.
 
 Package: octave-htmldoc
 Architecture: all
-Section: doc
-Depends: ${misc:Depends}
-Suggests: octave,
-          lynx-cur | www-browser
+Section: oldlibs
+Depends: ${misc:Depends},
+         octave-doc
 Multi-Arch: foreign
-Description: HTML documentation on the GNU Octave language
- Octave is a (mostly Matlab (R) compatible) high-level language, primarily
- intended for numerical computations. It provides a convenient command-line
- interface for solving linear and nonlinear problems numerically.
- .
- This package provides the following documentation in html format: a document
- on the C++ classes used by Octave, as well as the main octave documentation
- which is also included in info format in the main Octave package.
+Description: Transitional package for Octave documentation.
+ This is a transitional dummy package. It can be safely removed.
 
 Package: octave-info
 Architecture: all
-Section: doc
-Depends: info,
-         ${misc:Depends}
+Section: oldlibs
+Depends: ${misc:Depends},
+         octave-doc
 Multi-Arch: foreign
-Description: GNU Info documentation on the GNU Octave language
- Octave is a (mostly Matlab (R) compatible) high-level language, primarily
- intended for numerical computations. It provides a convenient command-line
- interface for solving linear and nonlinear problems numerically.
- .
- This package provides the following documentation in info format: a document
- on the C++ classes used by Octave, as well as the main octave documentation
- which is needed for the 'help -i foo' command within Octave.
+Description: Transitional package for Octave documentation.
+ This is a transitional dummy package. It can be safely removed.
 
 Package: liboctave4
 Architecture: any

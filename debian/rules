@@ -74,7 +74,7 @@ override_dh_auto_install:
 override_dh_installinfo-indep:
 	dh_installinfo
 	for f in `grep -a src=\".*\" doc/interpreter/*.info* | sed 's/.*src="\([^"]*\)".*/\1/'`; do \
-		cp doc/interpreter/$$f debian/octave-info/usr/share/info/; \
+		cp doc/interpreter/$$f debian/octave-doc/usr/share/info/; \
 	done
 
 # Strip the executable bit from the .oct files
@@ -89,12 +89,6 @@ override_dh_shlibdeps:
 override_dh_makeshlibs:
 	dh_makeshlibs --package=octave --noscripts
 	dh_makeshlibs --no-package=octave
-
-# Since octave-htmldoc does not end with "-doc", dh_installdocs needs help in order
-# to figure the main doc package.
-override_dh_installdocs:
-	dh_installdocs --package=octave-htmldoc --doc-main-package=octave
-	dh_installdocs --no-package=octave-htmldoc
 
 get-orig-source:
 	uscan --force-download --rename --destdir .

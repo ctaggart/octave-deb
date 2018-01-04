@@ -1,11 +1,10 @@
 General information
 ===================
 
-The octave-doc package contains extra documentation in PDF form which can be
-found in the directory /usr/share/doc/octave once this supplementary
-package is installed. Similarly, documentation in HTML format is available in
-the octave-htmldoc package, and documentation in Info format is in the
-octave-info package.
+The octave-doc package contains extra documentation in PDF and HTML formats
+which can be found in the doc-base system or directly under
+/usr/share/doc/octave once this supplementary package is installed. It also
+installs documentation in the Info format.
 
 Further information on Octave, the Octave mailing-lists and the Octave 
 source archive can be found at http://www.octave.org
@@ -48,5 +47,5 @@ these packages, so one can use mkoctfile then.
 pkg.m is not part of liboctave-dev as it's used to find already installed
 packages (via /etc/octave.conf).
 
- -- Sébastien Villemot <sebastien@debian.org>, Thu,  4 Jan 2018 15:54:01 +0100
+ -- Sébastien Villemot <sebastien@debian.org>, Thu,  4 Jan 2018 15:57:09 +0100
 
