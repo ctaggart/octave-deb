@@ -66,14 +66,15 @@ override_dh_auto_install:
 	# Delete .la files (for liboctgui)
 	find debian/tmp -name '*.la' -delete
 
-# The info files have references to .png images
-# Rename them by prefixing their name with "octave-", adapt the *.info files to
-#  this new name, and ship the images under /usr/share/info
+# The info files have references to .png images, so also ship those.
+# Note that we do not install all doc/interpreter/*.png, since some are not referenced
+# when compiling the output info (using @ifnotinfo macro).
+# We used to rename them by prefixing their name with "octave-", but this was breaking some
+# info files (see #816534).
 override_dh_installinfo-indep:
 	dh_installinfo
 	for f in `grep -a src=\".*\" doc/interpreter/*.info* | sed 's/.*src="\([^"]*\)".*/\1/'`; do \
-		cp doc/interpreter/$$f debian/octave-info/usr/share/info/octave-$$f; \
-		sed -i "s/src=\"$$f\"/src=\"octave-$$f\"/g" debian/octave-info/usr/share/info/octave.info*; \
+		cp doc/interpreter/$$f debian/octave-info/usr/share/info/; \
 	done
 
 # Strip the executable bit from the .oct files
