@@ -8,5 +8,5 @@ Abstract: This document describes the Octave libraries. Octave is a
 Section: Science/Mathematics
 
 Format: HTML
-Index: /usr/share/doc/octave-htmldoc/liboctave.html/index.html
-Files: /usr/share/doc/octave-htmldoc/liboctave.html/*.html
+Index: /usr/share/doc/octave/liboctave.html/index.html
+Files: /usr/share/doc/octave/liboctave.html/*.html
