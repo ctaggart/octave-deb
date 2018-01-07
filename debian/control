@@ -72,6 +72,7 @@ Recommends: gnuplot-qt | gnuplot-x11 | gnuplot-nox,
             pstoedit,
             default-jre-headless [!armel !hppa !hurd-i386 !m68k !mips !mipsel !powerpc !sparc64],
             octave-doc
+Suggests: liboctave-dev
 Breaks: liboctave3v5
 Description: GNU Octave language for numerical computations
  Octave is a (mostly Matlab (R) compatible) high-level language, primarily
@@ -167,6 +168,7 @@ Depends: ${shlibs:Depends},
          gfortran,
          gcc,
          g++
+Enhances: octave
 Description: Development files for the GNU Octave language
  Octave is a (mostly Matlab (R) compatible) high-level language, primarily
  intended for numerical computations. It provides a convenient command-line
