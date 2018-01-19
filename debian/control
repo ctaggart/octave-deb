@@ -1,5 +1,5 @@
 Source: octave
-Maintainer: Debian Octave Group <pkg-octave-devel@lists.alioth.debian.org>
+Maintainer: Debian Octave Group <team+pkg-octave-team@tracker.debian.org>
 Uploaders: Sébastien Villemot <sebastien@debian.org>,
            Rafael Laboissiere <rafael@debian.org>
 Section: math
