@@ -9,3 +9,8 @@ Reference:
   Year: 2016
   Type: manual
   URL: http://www.gnu.org/software/octave/doc/interpreter/
+Registry:
+  - Name: SciCrunch
+    Entry: SCR_014398
+  - Name: biii
+    Entry: gnu-octave
