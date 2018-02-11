@@ -125,8 +125,9 @@ Section: oldlibs
 Depends: ${misc:Depends},
          octave-doc
 Multi-Arch: foreign
-Description: Transitional package for Octave documentation.
- This is a transitional dummy package. It can be safely removed.
+Description: transitional package for Octave HTML documentation
+ This is a transitional dummy package for the Octave HTML
+ documentation. It can be safely removed.
 
 Package: octave-info
 Architecture: all
@@ -134,8 +135,9 @@ Section: oldlibs
 Depends: ${misc:Depends},
          octave-doc
 Multi-Arch: foreign
-Description: Transitional package for Octave documentation.
- This is a transitional dummy package. It can be safely removed.
+Description: transitional package for Octave info documentation
+ This is a transitional dummy package for the for Octave info
+ documentation. It can be safely removed.
 
 Package: liboctave4
 Architecture: any
@@ -144,7 +146,7 @@ Section: libs
 Depends: ${shlibs:Depends},
          ${misc:Depends}
 Pre-Depends: ${misc:Pre-Depends}
-Description: Shared libraries of the GNU Octave language
+Description: shared libraries of the GNU Octave language
  Octave is a (mostly Matlab (R) compatible) high-level language, primarily
  intended for numerical computations. It provides a convenient command-line
  interface for solving linear and nonlinear problems numerically.
@@ -169,7 +171,7 @@ Depends: ${shlibs:Depends},
          gcc,
          g++
 Enhances: octave
-Description: Development files for the GNU Octave language
+Description: development files for the GNU Octave language
  Octave is a (mostly Matlab (R) compatible) high-level language, primarily
  intended for numerical computations. It provides a convenient command-line
  interface for solving linear and nonlinear problems numerically.
