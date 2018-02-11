@@ -1,3 +1,17 @@
+octave (4.2.1-6) unstable; urgency=medium
+
+  [ Sébastien Villemot ]
+  * Merge octave-{htmldoc,info} into octave-doc (and make them transitional).
+  * octave now Suggests liboctave-dev, and liboctave-dev now Enhances octave.
+  * doc-base handle for reference card is now "octave-refcard".
+
+  [ Rafael Laboissiere ]
+  * d/control:
+    - Use Debian's GitLab URLs in Vcs-* headers
+    - Change Maintainer to team+pkg-octave-team@tracker.debian.org
+
+ -- Rafael Laboissiere <rafael@debian.org>  Sun, 11 Feb 2018 07:04:14 -0200
+
 octave (4.2.1-5) unstable; urgency=medium
 
   * Disable java on powerpc, fixes FTBFS on that arch.
