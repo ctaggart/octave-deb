@@ -70,6 +70,7 @@ Depends: ${shlibs:Depends},
 Recommends: gnuplot-qt | gnuplot-x11 | gnuplot-nox,
             libopenblas-base | libatlas3-base,
             pstoedit,
+            epstool,
             default-jre-headless [!armel !hppa !hurd-i386 !m68k !mips !mipsel !powerpc !sparc64],
             octave-doc
 Suggests: liboctave-dev
