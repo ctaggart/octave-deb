@@ -1,3 +1,11 @@
+octave (4.2.1-7) unstable; urgency=medium
+
+  * Add missing Breaks+Replaces on octave-doc against octave-{info,htmldoc}.
+    (Closes: #890229)
+  * octave now Recommends epstool (which is used by print.m). (Closes: #889797)
+
+ -- Sébastien Villemot <sebastien@debian.org>  Mon, 12 Feb 2018 10:39:08 +0100
+
 octave (4.2.1-6) unstable; urgency=medium
 
   [ Sébastien Villemot ]
