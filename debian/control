@@ -101,6 +101,8 @@ Section: doc
 Depends: ${misc:Depends},
          info
 Suggests: www-browser | pdf-viewer
+Breaks: octave-info (<< 4.2.1-6), octave-htmldoc (<< 4.2.1-6)
+Replaces: octave-info (<< 4.2.1-6), octave-htmldoc (<< 4.2.1-6)
 Enhances: octave
 Multi-Arch: foreign
 Description: documentation of the GNU Octave language
