@@ -7,7 +7,7 @@ which can be found in the doc-base system or directly under
 installs documentation in the Info format.
 
 Further information on Octave, the Octave mailing-lists and the Octave 
-source archive can be found at http://www.octave.org
+source archive can be found at https://www.octave.org/
 
 The Debian Octave-related packages are collectively maintained by the Debian
 Octave Group (https://wiki.debian.org/Teams/DebianOctaveGroup).
@@ -28,7 +28,7 @@ About Octave-Forge packages
 ===========================
 
 If you want to install packages from the Octave-Forge project
-(http://octave.sourceforge.net/), the recommended way is to use the packages
+(https://octave.sourceforge.io/), the recommended way is to use the packages
 distributed by Debian. Most Octave-Forge packages are available in Debian under
 the name octave-<pkgname> (for example, the statistics package from
 Octave-Forge is available as the octave-statistics package in Debian). The use
