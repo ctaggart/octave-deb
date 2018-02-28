@@ -1,0 +1,3 @@
+Tests: smoke, upstream-testsuite
+Depends: octave, shunit2
+Restrictions: allow-stderr
