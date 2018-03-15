@@ -60,6 +60,12 @@ octave_qt_link::octave_qt_link (QWidget *p,
   connect (command_interpreter, SIGNAL (octave_ready_signal ()),
            p, SLOT (handle_octave_ready ()));
 
+  connect (command_interpreter, SIGNAL (octave_finished_signal (int)),
+           main_thread, SLOT (quit ()));
+
+  connect (main_thread, SIGNAL (finished ()),
+           main_thread, SLOT (deleteLater ()));
+
   command_interpreter->moveToThread (main_thread);
 
   main_thread->start ();
@@ -67,8 +73,11 @@ octave_qt_link::octave_qt_link (QWidget *p,
 
 octave_qt_link::~octave_qt_link (void)
 {
+  // Note that we don't delete main_thread here.  That is handled by
+  // deleteLater slot that is called when the main_thread issues a
+  // finished signal.
+
   delete command_interpreter;
-  delete main_thread;
 }
 
 void
@@ -401,8 +410,8 @@ octave_qt_link::do_debug_cd_or_addpath_error (const std::string& file,
 
   QString title = tr ("Change Directory or Add Directory to Load Path");
 
-  QString cd_txt = tr ("Change Directory");
-  QString addpath_txt = tr ("Add Directory to Load Path");
+  QString cd_txt = tr ("&Change Directory");
+  QString addpath_txt = tr ("&Add Directory to Load Path");
   QString cancel_txt = tr ("Cancel");
 
   QStringList btn;

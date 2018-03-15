@@ -2,7 +2,7 @@
 # name: cache
 # type: cell
 # rows: 3
-# columns: 1635
+# columns: 1645
 # name: <cell-element>
 # type: sq_string
 # elements: 1
@@ -3835,11 +3835,11 @@ dasrt
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 4080
- -- : [X, XDOT, T_OUT, ISTAT, MSG] = dasrt (FCN, [], X_0, XDOT_0, T)
- -- : ... = dasrt (FCN, G, X_0, XDOT_0, T)
- -- : ... = dasrt (FCN, [], X_0, XDOT_0, T, T_CRIT)
+# length: 4072
+ -- : [X, XDOT, T_OUT, ISTAT, MSG] = dasrt (FCN, G, X_0, XDOT_0, T)
  -- : ... = dasrt (FCN, G, X_0, XDOT_0, T, T_CRIT)
+ -- : ... = dasrt (FCN, X_0, XDOT_0, T)
+ -- : ... = dasrt (FCN, X_0, XDOT_0, T, T_CRIT)
      Solve the set of differential-algebraic equations
 
           0 = f (x, xdot, t)
@@ -4263,12 +4263,11 @@ cumsum
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 503
+# length: 465
  -- : cumsum (X)
  -- : cumsum (X, DIM)
  -- : cumsum (..., "native")
  -- : cumsum (..., "double")
- -- : cumsum (..., "extra")
      Cumulative sum of elements along dimension DIM.
 
      If DIM is omitted, it defaults to the first non-singleton dimension.  For example:
@@ -4278,7 +4277,7 @@ cumsum
                  4   6
                  9  12
 
-     See 'sum' for an explanation of the optional parameters "native", "double", and "extra".
+     See 'sum' for an explanation of the optional parameters "native" and "double".
 
      See also: sum, cumprod.
    
@@ -5049,14 +5048,14 @@ complex
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 435
+# length: 436
  -- : complex (X)
  -- : complex (RE, IM)
      Return a complex value from real arguments.
 
      With 1 real argument X, return the complex result 'X + 0i'.
 
-     With 2 real arguments, return the complex result 'RE + IM'.  'complex' can often be more convenient than expressions such as 'a + i*b'.  For example:
+     With 2 real arguments, return the complex result 'RE + IMi'.  'complex' can often be more convenient than expressions such as 'a + b*i'.  For example:
 
           complex ([1, 2], [3, 4])
             => [ 1 + 3i   2 + 4i ]
@@ -5882,26 +5881,26 @@ linspace
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 825
- -- : linspace (BASE, LIMIT)
- -- : linspace (BASE, LIMIT, N)
-     Return a row vector with N linearly spaced elements between BASE and LIMIT.
+# length: 830
+ -- : linspace (START, END)
+ -- : linspace (START, END, N)
+     Return a row vector with N linearly spaced elements between START and END.
 
-     If the number of elements is greater than one, then the endpoints BASE and LIMIT are always included in the range.  If BASE is greater than LIMIT, the elements are stored in decreasing order.  If the number of points is not specified, a value of 100 is used.
+     If the number of elements is greater than one, then the endpoints START and END are always included in the range.  If START is greater than END, the elements are stored in decreasing order.  If the number of points is not specified, a value of 100 is used.
 
-     The 'linspace' function returns a row vector when both BASE and LIMIT are scalars.  If one, or both, inputs are vectors, then 'linspace' transforms them to column vectors and returns a matrix where each row is an independent sequence between 'BASE(ROW_N), LIMIT(ROW_N)'.
+     The 'linspace' function returns a row vector when both START and END are scalars.  If one, or both, inputs are vectors, then 'linspace' transforms them to column vectors and returns a matrix where each row is an independent sequence between 'START(ROW_N), END(ROW_N)'.
 
-     For compatibility with MATLAB, return the second argument (LIMIT) if fewer than two values are requested.
+     For compatibility with MATLAB, return the second argument (END) when only a single value (N = 1) is requested.
 
-     See also: logspace.
+     See also: colon, logspace.
    
 
 
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 75
-Return a row vector with N linearly spaced elements between BASE and LIMIT.
+# length: 74
+Return a row vector with N linearly spaced elements between START and END.
 
 
 
@@ -6163,7 +6162,7 @@ not
  -- : Z = not (X)
      Return the logical NOT of X.
 
-     This function is equivalent to the operator syntax '! x'.
+     This function is equivalent to the operator syntax '! X'.
 
      See also: and, or, xor.
    
@@ -6189,7 +6188,7 @@ uplus
 # elements: 1
 # length: 99
  -- : uplus (X)
-     This function and + x are equivalent.
+     This function and + X are equivalent.
 
      See also: uminus, plus, minus.
    
@@ -6199,7 +6198,7 @@ uplus
 # type: sq_string
 # elements: 1
 # length: 37
-This function and + x are equivalent.
+This function and + X are equivalent.
 
 
 
@@ -6215,7 +6214,7 @@ uminus
 # elements: 1
 # length: 93
  -- : uminus (X)
-     This function and - x are equivalent.
+     This function and - X are equivalent.
 
      See also: uplus, minus.
    
@@ -6225,7 +6224,7 @@ uminus
 # type: sq_string
 # elements: 1
 # length: 37
-This function and - x are equivalent.
+This function and - X are equivalent.
 
 
 
@@ -6243,7 +6242,7 @@ transpose
  -- : transpose (X)
      Return the transpose of X.
 
-     This function and x.'  are equivalent.
+     This function and X.'  are equivalent.
 
      See also: ctranspose.
    
@@ -6271,7 +6270,7 @@ ctranspose
  -- : ctranspose (X)
      Return the complex conjugate transpose of X.
 
-     This function and x' are equivalent.
+     This function and X' are equivalent.
 
      See also: transpose.
    
@@ -6298,11 +6297,11 @@ plus
 # length: 294
  -- : plus (X, Y)
  -- : plus (X1, X2, ...)
-     This function and x + y are equivalent.
+     This function and X + Y are equivalent.
 
      If more arguments are given, the summation is applied cumulatively from left to right:
 
-          (...((x1 + x2) + x3) + ...)
+          (...((X1 + X2) + X3) + ...)
 
      At least one argument is required.
 
@@ -6314,7 +6313,7 @@ plus
 # type: sq_string
 # elements: 1
 # length: 39
-This function and x + y are equivalent.
+This function and X + Y are equivalent.
 
 
 
@@ -6330,7 +6329,7 @@ minus
 # elements: 1
 # length: 97
  -- : minus (X, Y)
-     This function and x - y are equivalent.
+     This function and X - Y are equivalent.
 
      See also: plus, uminus.
    
@@ -6340,7 +6339,7 @@ minus
 # type: sq_string
 # elements: 1
 # length: 39
-This function and x - y are equivalent.
+This function and X - Y are equivalent.
 
 
 
@@ -6359,9 +6358,9 @@ mtimes
  -- : mtimes (X1, X2, ...)
      Return the matrix multiplication product of inputs.
 
-     This function and x * y are equivalent.  If more arguments are given, the multiplication is applied cumulatively from left to right:
+     This function and X * Y are equivalent.  If more arguments are given, the multiplication is applied cumulatively from left to right:
 
-          (...((x1 * x2) * x3) * ...)
+          (...((X1 * X2) * X3) * ...)
 
      At least one argument is required.
 
@@ -6391,7 +6390,7 @@ mrdivide
  -- : mrdivide (X, Y)
      Return the matrix right division of X and Y.
 
-     This function and x / y are equivalent.
+     This function and X / Y are equivalent.
 
      See also: mldivide, rdivide, plus, minus.
    
@@ -6419,7 +6418,7 @@ mpower
  -- : mpower (X, Y)
      Return the matrix power operation of X raised to the Y power.
 
-     This function and x ^ y are equivalent.
+     This function and X ^ Y are equivalent.
 
      See also: power, mtimes, plus, minus.
    
@@ -6447,7 +6446,7 @@ mldivide
  -- : mldivide (X, Y)
      Return the matrix left division of X and Y.
 
-     This function and x \ y are equivalent.
+     This function and X \ Y are equivalent.
 
      See also: mrdivide, ldivide, rdivide.
    
@@ -6473,7 +6472,7 @@ lt
 # elements: 1
 # length: 100
  -- : lt (X, Y)
-     This function is equivalent to 'x < y'.
+     This function is equivalent to 'X < Y'.
 
      See also: le, eq, ge, gt, ne.
    
@@ -6483,7 +6482,7 @@ lt
 # type: sq_string
 # elements: 1
 # length: 39
-This function is equivalent to 'x < y'.
+This function is equivalent to 'X < Y'.
 
 
 
@@ -6499,7 +6498,7 @@ le
 # elements: 1
 # length: 101
  -- : le (X, Y)
-     This function is equivalent to 'x <= y'.
+     This function is equivalent to 'X <= Y'.
 
      See also: eq, ge, gt, ne, lt.
    
@@ -6509,7 +6508,7 @@ le
 # type: sq_string
 # elements: 1
 # length: 40
-This function is equivalent to 'x <= y'.
+This function is equivalent to 'X <= Y'.
 
 
 
@@ -6527,7 +6526,7 @@ eq
  -- : eq (X, Y)
      Return true if the two inputs are equal.
 
-     This function is equivalent to 'x == y'.
+     This function is equivalent to 'X == Y'.
 
      See also: ne, isequal, le, ge, gt, ne, lt.
    
@@ -6553,7 +6552,7 @@ ge
 # elements: 1
 # length: 101
  -- : ge (X, Y)
-     This function is equivalent to 'x >= y'.
+     This function is equivalent to 'X >= Y'.
 
      See also: le, eq, gt, ne, lt.
    
@@ -6563,7 +6562,7 @@ ge
 # type: sq_string
 # elements: 1
 # length: 40
-This function is equivalent to 'x >= y'.
+This function is equivalent to 'X >= Y'.
 
 
 
@@ -6579,7 +6578,7 @@ gt
 # elements: 1
 # length: 100
  -- : gt (X, Y)
-     This function is equivalent to 'x > y'.
+     This function is equivalent to 'X > Y'.
 
      See also: le, eq, ge, ne, lt.
    
@@ -6589,7 +6588,7 @@ gt
 # type: sq_string
 # elements: 1
 # length: 39
-This function is equivalent to 'x > y'.
+This function is equivalent to 'X > Y'.
 
 
 
@@ -6607,7 +6606,7 @@ ne
  -- : ne (X, Y)
      Return true if the two inputs are not equal.
 
-     This function is equivalent to 'x != y'.
+     This function is equivalent to 'X != Y'.
 
      See also: eq, isequal, le, ge, lt.
    
@@ -6636,9 +6635,9 @@ times
  -- : times (X1, X2, ...)
      Return the element-by-element multiplication product of inputs.
 
-     This function and x .* y are equivalent.  If more arguments are given, the multiplication is applied cumulatively from left to right:
+     This function and X .* Y are equivalent.  If more arguments are given, the multiplication is applied cumulatively from left to right:
 
-          (...((x1 .* x2) .* x3) .* ...)
+          (...((X1 .* X2) .* X3) .* ...)
 
      At least one argument is required.
 
@@ -6668,7 +6667,7 @@ rdivide
  -- : rdivide (X, Y)
      Return the element-by-element right division of X and Y.
 
-     This function and x ./ y are equivalent.
+     This function and X ./ Y are equivalent.
 
      See also: ldivide, mrdivide, times, plus.
    
@@ -6696,7 +6695,7 @@ power
  -- : power (X, Y)
      Return the element-by-element operation of X raised to the Y power.
 
-     This function and x .^ y are equivalent.
+     This function and X .^ Y are equivalent.
 
      If several complex results are possible, returns the one with smallest non-negative argument (angle).  Use 'realpow', 'realsqrt', 'cbrt', or 'nthroot' if a real result is preferred.
 
@@ -6726,7 +6725,7 @@ ldivide
  -- : ldivide (X, Y)
      Return the element-by-element left division of X and Y.
 
-     This function and x .\ y are equivalent.
+     This function and X .\ Y are equivalent.
 
      See also: rdivide, mldivide, times, plus.
    
@@ -6755,9 +6754,9 @@ and
  -- : Z = and (X1, X2, ...)
      Return the logical AND of X and Y.
 
-     This function is equivalent to the operator syntax 'x & y'.  If more than two arguments are given, the logical AND is applied cumulatively from left to right:
+     This function is equivalent to the operator syntax 'X & Y'.  If more than two arguments are given, the logical AND is applied cumulatively from left to right:
 
-          (...((x1 & x2) & x3) & ...)
+          (...((X1 & X2) & X3) & ...)
 
      At least one argument is required.
 
@@ -6788,9 +6787,9 @@ or
  -- : Z = or (X1, X2, ...)
      Return the logical OR of X and Y.
 
-     This function is equivalent to the operator syntax 'x | y'.  If more than two arguments are given, the logical OR is applied cumulatively from left to right:
+     This function is equivalent to the operator syntax 'X | Y'.  If more than two arguments are given, the logical OR is applied cumulatively from left to right:
 
-          (...((x1 | x2) | x3) | ...)
+          (...((X1 | X2) | X3) | ...)
 
      At least one argument is required.
 
@@ -6816,12 +6815,14 @@ colon
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 281
+# length: 307
  -- : R = colon (BASE, LIMIT)
  -- : R = colon (BASE, INCREMENT, LIMIT)
      Return the result of the colon expression corresponding to BASE, LIMIT, and optionally, INCREMENT.
 
-     This function is equivalent to the operator syntax 'base : limit' or 'base : increment : limit'.
+     This function is equivalent to the operator syntax 'BASE : LIMIT' or 'BASE : INCREMENT : LIMIT'.
+
+     See also: linspace.
    
 
 
@@ -8418,7 +8419,7 @@ eig
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 4710
+# length: 4714
  -- : LAMBDA = eig (A)
  -- : LAMBDA = eig (A, B)
  -- : [V, LAMBDA] = eig (A)
@@ -8428,7 +8429,7 @@ eig
  -- : [...] = eig (A, BALANCEOPTION)
  -- : [...] = eig (A, B, ALGORITHM)
  -- : [...] = eig (..., EIGVALOPTION)
-     Compute the right eigenvalues(V) and optionally the eigenvectors(lambda) and the left eigenvalues(W) of a matrix or a pair of matrices.
+     Compute the eigenvalues (LAMBDA) and optionally the right eigenvectors (V) and the left eigenvectors (W) of a matrix or a pair of matrices.
 
      The flag BALANCEOPTION can be one of:
 
@@ -8468,8 +8469,8 @@ eig
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 135
-Compute the right eigenvalues(V) and optionally the eigenvectors(lambda) and the left eigenvalues(W) of a matrix or a pair of matrices.
+# length: 139
+Compute the eigenvalues (LAMBDA) and optionally the right eigenvectors (V) and the left eigenvectors (W) of a matrix or a pair of matrices.
 
 
 
@@ -8619,7 +8620,7 @@ warning
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 2597
+# length: 2609
  -- : warning (TEMPLATE, ...)
  -- : warning (ID, TEMPLATE, ...)
  -- : warning ("on", ID)
@@ -8632,7 +8633,7 @@ warning
 
      Format the optional arguments under the control of the template string TEMPLATE using the same rules as the 'printf' family of functions (*note Formatted Output::) and print the resulting message on the 'stderr' stream.  The message is prefixed by the character string 'warning: '.  You should use this function when you want to notify the user of an unusual condition, but only when it makes sense for your program to go on.
 
-     The optional message identifier allows users to enable or disable warnings tagged by ID.  A message identifier is of the form "NAMESPACE:WARNING-NAME". Octave's own warnings use the "Octave" namespace (*note XREFwarning_ids::).  The special identifier "all" may be used to set the state of all warnings.
+     The optional message identifier allows users to enable or disable warnings tagged by ID.  A message identifier is of the form "NAMESPACE:WARNING-NAME". Octave's own warnings use the "Octave" namespace (*note warning_ids: XREFwarning_ids.).  The special identifier "all" may be used to set the state of all warnings.
 
      If the first argument is "on" or "off", set the state of a particular warning using the identifier ID.  If the first argument is "query", query the state of this warning instead.  If the identifier is omitted, a value of "all" is assumed.  If you set the state of a warning to "error", the warning named by ID is handled as if it were an error instead.  So, for example, the following handles all warnings as errors:
 
@@ -8879,17 +8880,17 @@ fft
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 868
+# length: 869
  -- : fft (X)
  -- : fft (X, N)
  -- : fft (X, N, DIM)
-     Compute the discrete Fourier transform of A using a Fast Fourier Transform (FFT) algorithm.
+     Compute the discrete Fourier transform of X using a Fast Fourier Transform (FFT) algorithm.
 
      The FFT is calculated along the first non-singleton dimension of the array.  Thus if X is a matrix, 'fft (X)' computes the FFT for each column of X.
 
      If called with two arguments, N is expected to be an integer specifying the number of elements of X to use, or an empty matrix to specify that its value should be ignored.  If N is larger than the dimension along which the FFT is calculated, then X is resized and padded with zeros.  Otherwise, if N is smaller than the dimension along which the FFT is calculated, then X is truncated.
 
-     If called with three arguments, DIM is an integer specifying the dimension of the matrix along which the FFT is performed
+     If called with three arguments, DIM is an integer specifying the dimension of the matrix along which the FFT is performed.
 
      See also: ifft, fft2, fftn, fftw.
    
@@ -8899,7 +8900,7 @@ fft
 # type: sq_string
 # elements: 1
 # length: 91
-Compute the discrete Fourier transform of A using a Fast Fourier Transform (FFT) algorithm.
+Compute the discrete Fourier transform of X using a Fast Fourier Transform (FFT) algorithm.
 
 
 
@@ -8913,17 +8914,17 @@ ifft
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 920
+# length: 921
  -- : ifft (X)
  -- : ifft (X, N)
  -- : ifft (X, N, DIM)
-     Compute the inverse discrete Fourier transform of A using a Fast Fourier Transform (FFT) algorithm.
+     Compute the inverse discrete Fourier transform of X using a Fast Fourier Transform (FFT) algorithm.
 
      The inverse FFT is calculated along the first non-singleton dimension of the array.  Thus if X is a matrix, 'fft (X)' computes the inverse FFT for each column of X.
 
      If called with two arguments, N is expected to be an integer specifying the number of elements of X to use, or an empty matrix to specify that its value should be ignored.  If N is larger than the dimension along which the inverse FFT is calculated, then X is resized and padded with zeros.  Otherwise, if N is smaller than the dimension along which the inverse FFT is calculated, then X is truncated.
 
-     If called with three arguments, DIM is an integer specifying the dimension of the matrix along which the inverse FFT is performed
+     If called with three arguments, DIM is an integer specifying the dimension of the matrix along which the inverse FFT is performed.
 
      See also: fft, ifft2, ifftn, fftw.
    
@@ -8933,7 +8934,7 @@ ifft
 # type: sq_string
 # elements: 1
 # length: 99
-Compute the inverse discrete Fourier transform of A using a Fast Fourier Transform (FFT) algorithm.
+Compute the inverse discrete Fourier transform of X using a Fast Fourier Transform (FFT) algorithm.
 
 
 
@@ -8978,14 +8979,14 @@ ifft2
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 491
+# length: 492
  -- : ifft2 (A)
  -- : ifft2 (A, M, N)
      Compute the inverse two-dimensional discrete Fourier transform of A using a Fast Fourier Transform (FFT) algorithm.
 
      The optional arguments M and N may be used specify the number of rows and columns of A to use.  If either of these is larger than the size of A, A is resized and padded with zeros.
 
-     If A is a multi-dimensional matrix, each two-dimensional sub-matrix of A is treated separately
+     If A is a multi-dimensional matrix, each two-dimensional sub-matrix of A is treated separately.
 
      See also: fft2, ifft, ifftn, fftw.
    
@@ -9257,7 +9258,7 @@ fopen
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 3329
+# length: 3776
  -- : FID = fopen (NAME)
  -- : FID = fopen (NAME, MODE)
  -- : FID = fopen (NAME, MODE, ARCH)
@@ -9280,7 +9281,7 @@ fopen
 
      Opening a file that is already open simply opens it again and returns a separate file id.  It is not an error to open a file several times, though writing to the same file through several different file ids may produce unexpected results.
 
-     The possible values 'mode' may have are
+     The possible values of MODE are
 
      'r' (default)
           Open a file for reading.
@@ -9300,7 +9301,7 @@ fopen
      'a+'
           Open or create a file for reading or writing at the end of the file.
 
-     Append a "t" to the mode string to open the file in text mode or a "b" to open in binary mode.  On Windows and Macintosh systems, text mode reading and writing automatically converts linefeeds to the appropriate line end character for the system (carriage-return linefeed on Windows, carriage-return on Macintosh).  The default when no mode is specified is binary mode.
+     Append a "t" to the mode string to open the file in text mode or a "b" to open in binary mode.  On Windows systems, text mode reading and writing automatically converts linefeeds to the appropriate line end character for the system (carriage-return linefeed on Windows).  The default when no mode is specified is binary.
 
      Additionally, you may append a "z" to the mode string to open a gzipped file for reading or writing.  For this to be successful, you must also open the file in binary mode.
 
@@ -9318,6 +9319,8 @@ fopen
      However, conversions are currently only supported for 'native', 'ieee-be', and 'ieee-le' formats.
 
      When opening a new file that does not yet exist, permissions will be set to '0666 - UMASK'.
+
+     Compatibility Note: Octave opens files using buffered I/O. Small writes are accumulated until an internal buffer is filled, and then everything is written in a single operation.  This is very efficient and improves performance.  MATLAB, however, opens files using flushed I/O where every write operation is immediately performed.  If the write operation must be performed immediately after data has been written then the write should be followed by a call to 'fflush' to flush the internal buffer.
 
      See also: fclose, fgets, fgetl, fscanf, fread, fputs, fdisp, fprintf, fwrite, fskipl, fseek, frewind, ftell, feof, ferror, fclear, fflush, freport, umask.
    
@@ -9703,9 +9706,9 @@ scanf
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 293
+# length: 292
  -- : [VAL, COUNT, ERRMSG] = scanf (TEMPLATE, SIZE)
- -- : [V1, V2, ..., COUNT, ERRMSG]] = scanf (TEMPLATE, "C")
+ -- : [V1, V2, ..., COUNT, ERRMSG] = scanf (TEMPLATE, "C")
      This is equivalent to calling 'fscanf' with FID = 'stdin'.
 
      It is currently not useful to call 'scanf' in interactive programs.
@@ -11394,7 +11397,7 @@ addlistener
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 1117
+# length: 1130
  -- : addlistener (H, PROP, FCN)
      Register FCN as listener for the property PROP of the graphics object H.
 
@@ -11412,7 +11415,7 @@ addlistener
 
           addlistener (gcf, "position", {@my_listener, "my string"})
 
-     See also: addproperty, hggroup.
+     See also: dellistener, addproperty, hggroup.
    
 
 
@@ -11434,7 +11437,7 @@ dellistener
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 618
+# length: 646
  -- : dellistener (H, PROP, FCN)
      Remove the registration of FCN as a listener for the property PROP of the graphics object H.
 
@@ -11452,6 +11455,7 @@ dellistener
           addlistener (gcf, "position", c);
           dellistener (gcf, "position", c);
 
+     See also: addlistener.
    
 
 
@@ -12366,7 +12370,7 @@ PS1
 
      When executing interactively, Octave displays the primary prompt when it is ready to read a command.
 
-     The default value of the primary prompt string is "octave:\#> ".  To change it, use a command like
+     The default value of the primary prompt string is 'octave:\#> '.  To change it, use a command like
 
           PS1 ("\\u@\\H> ")
 
@@ -12581,7 +12585,7 @@ inv
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 691
+# length: 697
  -- : X = inv (A)
  -- : [X, RCOND] = inv (A)
      Compute the inverse of the square matrix A.
@@ -12592,7 +12596,7 @@ inv
 
      If called with a sparse matrix, then in general X will be a full matrix requiring significantly more storage.  Avoid forming the inverse of a sparse matrix if possible.
 
-     See also: ldivide, rdivide.
+     See also: ldivide, rdivide, pinv.
    
 
 
@@ -13346,7 +13350,7 @@ lookup
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 1541
+# length: 1537
  -- : IDX = lookup (TABLE, Y)
  -- : IDX = lookup (TABLE, Y, OPT)
      Lookup values in a sorted table.
@@ -13364,7 +13368,7 @@ lookup
      If OPTS is specified, it must be a string with letters indicating additional options.
 
      'm'
-          'table(idx(i)) == val(i)' if 'val(i)' occurs in table; otherwise, 'idx(i)' is zero.
+          'table(idx(i)) == y(i)' if 'y(i)' occurs in table; otherwise, 'idx(i)' is zero.
 
      'b'
           'idx(i)' is a logical 1 or 0, indicating whether 'val(i)' is contained in table or not.
@@ -13423,7 +13427,7 @@ lsode
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 2691
+# length: 2721
  -- : [X, ISTATE, MSG] = lsode (FCN, X_0, T)
  -- : [X, ISTATE, MSG] = lsode (FCN, X_0, T, T_CRIT)
      Ordinary Differential Equation (ODE) solver.
@@ -13468,7 +13472,7 @@ lsode
                        | ----  ----  ...  ---- |
                        | dx_1  dx_2       dx_N |
 
-     The second and third arguments specify the initial state of the system, x_0, and the initial value of the independent variable t_0.
+     The second argument specifies the initial state of the system x_0.  The third argument is a vector, T, specifying the time values for which a solution is sought.
 
      The fourth argument is optional, and may be used to specify a set of times that the ODE solver should not integrate past.  It is useful for avoiding difficulties with singularities and points where there is a discontinuity in the derivative.
 
@@ -16221,26 +16225,26 @@ pinv
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 301
+# length: 288
  -- : pinv (X)
  -- : pinv (X, TOL)
-     Return the pseudoinverse of X.
+     Return the Moore-Penrose pseudoinverse of X.
 
      Singular values less than TOL are ignored.
 
      If the second argument is omitted, it is taken to be
 
-          tol = max (size (X)) * sigma_max (X) * eps,
+          tol = max ([rows(X), columns(X)]) * norm (X) * eps
 
-     where 'sigma_max (X)' is the maximal singular value of X.
+     See also: inv, ldivide.
    
 
 
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 30
-Return the pseudoinverse of X.
+# length: 44
+Return the Moore-Penrose pseudoinverse of X.
 
 
 
@@ -16289,8 +16293,9 @@ disp
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 378
+# length: 399
  -- : disp (X)
+ -- : STR = disp (X)
      Display the value of X.
 
      For example:
@@ -16705,7 +16710,7 @@ quad
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 1657
+# length: 1654
  -- : Q = quad (F, A, B)
  -- : Q = quad (F, A, B, TOL)
  -- : Q = quad (F, A, B, TOL, SING)
@@ -16716,7 +16721,7 @@ quad
 
      A and B are the lower and upper limits of integration.  Either or both may be infinite.
 
-     The optional argument TOL is a vector that specifies the desired accuracy of the result.  The first element of the vector is the desired absolute tolerance, and the second element is the desired relative tolerance.  To choose a relative test only, set the absolute tolerance to zero.  To choose an absolute test only, set the relative tolerance to zero.  Both tolerances default to 'sqrt (eps)' or approximately 1.5e^{-8}.
+     The optional argument TOL is a vector that specifies the desired accuracy of the result.  The first element of the vector is the desired absolute tolerance, and the second element is the desired relative tolerance.  To choose a relative test only, set the absolute tolerance to zero.  To choose an absolute test only, set the relative tolerance to zero.  Both tolerances default to 'sqrt (eps)' or approximately 1.5e-8.
 
      The optional argument SING is a vector of values at which the integrand is known to be singular.
 
@@ -16754,7 +16759,7 @@ quadcc
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 2720
+# length: 2717
  -- : Q = quadcc (F, A, B)
  -- : Q = quadcc (F, A, B, TOL)
  -- : Q = quadcc (F, A, B, TOL, SING)
@@ -16769,7 +16774,7 @@ quadcc
 
      A and B are the lower and upper limits of integration.  Either or both limits may be infinite.  'quadcc' handles an inifinite limit by substituting the variable of integration with 'x = tan (pi/2*u)'.
 
-     The optional argument TOL defines the relative tolerance used to stop the integration procedure.  The default value is 1e^{-6}.
+     The optional argument TOL defines the relative tolerance used to stop the integration procedure.  The default value is 1e-6.
 
      The optional argument SING contains a list of points where the integrand has known singularities, or discontinuities in any of its derivatives, inside the integration interval.  For the example above, which has a discontinuity at x=1, the call to 'quadcc' would be as follows
 
@@ -16813,19 +16818,24 @@ qz
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 1824
+# length: 1978
  -- : LAMBDA = qz (A, B)
- -- : LAMBDA = qz (A, B, OPT)
-     QZ decomposition of the generalized eigenvalue problem (A x = s B x).
+ -- : [AA, BB, Q, Z, V, W, LAMBDA] = qz (A, B)
+ -- : [AA, BB, Z] = qz (A, B, OPT)
+ -- : [AA, BB, Z, LAMBDA] = qz (A, B, OPT)
+     QZ decomposition of the generalized eigenvalue problem
 
-     There are three ways to call this function:
+     A x = LAMBDA B x
+
+     There are three calling forms of the function:
+
        1. 'LAMBDA = qz (A, B)'
 
-          Computes the generalized eigenvalues LAMBDA of (A - s B).
+          Compute the generalized eigenvalues LAMBDA.
 
        2. '[AA, BB, Q, Z, V, W, LAMBDA] = qz (A, B)'
 
-          Computes QZ decomposition, generalized eigenvectors, and generalized eigenvalues of (A - s B)
+          Compute QZ decomposition, generalized eigenvectors, and generalized eigenvalues.
 
 
                A * V = B * V * diag (LAMBDA)
@@ -16833,31 +16843,31 @@ qz
                AA = Q * A * Z, BB = Q * B * Z
 
 
-          with Q and Z orthogonal (unitary)= I
+          with Q and Z orthogonal (unitary for complex case).
 
-       3. '[AA,BB,Z{, LAMBDA}] = qz (A, B, OPT)'
+       3. '[AA, BB, Z {, LAMBDA}] = qz (A, B, OPT)'
 
-          As in form [2], but allows ordering of generalized eigenpairs for, e.g., solution of discrete time algebraic Riccati equations.  Form 3 is not available for complex matrices, and does not compute the generalized eigenvectors V, W, nor the orthogonal matrix Q.
+          As in form 2 above, but allows ordering of generalized eigenpairs for, e.g., solution of discrete time algebraic Riccati equations.  Form 3 is not available for complex matrices, and does not compute the generalized eigenvectors V, W, nor the orthogonal matrix Q.
 
           OPT
                for ordering eigenvalues of the GEP pencil.  The leading block of the revised pencil contains all eigenvalues that satisfy:
 
                "N"
-                    = unordered (default)
+                    unordered (default)
 
                "S"
-                    = small: leading block has all |lambda| <= 1
+                    small: leading block has all |LAMBDA| < 1
 
                "B"
-                    = big: leading block has all |lambda| >= 1
+                    big: leading block has all |LAMBDA| >= 1
 
                "-"
-                    = negative real part: leading block has all eigenvalues in the open left half-plane
+                    negative real part: leading block has all eigenvalues in the open left half-plane
 
                "+"
-                    = non-negative real part: leading block has all eigenvalues in the closed right half-plane
+                    non-negative real part: leading block has all eigenvalues in the closed right half-plane
 
-     Note: 'qz' performs permutation balancing, but not scaling (*note XREFbalance::).  The order of output arguments was selected for compatibility with MATLAB.
+     Note: 'qz' performs permutation balancing, but not scaling (*note balance: XREFbalance.), which may be lead to less accurate results than 'eig'.  The order of output arguments was selected for compatibility with MATLAB.
 
      See also: eig, balance, lu, chol, hess, qr, qzhess, schur, svd.
    
@@ -16866,8 +16876,8 @@ qz
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 69
-QZ decomposition of the generalized eigenvalue problem (A x = s B x).
+# length: 55
+QZ decomposition of the generalized eigenvalue problem 
 
 
 
@@ -17035,10 +17045,10 @@ randg
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 1840
- -- : randg (N)
- -- : randg (M, N, ...)
- -- : randg ([M N ...])
+# length: 1850
+ -- : randg (A, N)
+ -- : randg (A, M, N, ...)
+ -- : randg (A, [M N ...])
  -- : V = randg ("state")
  -- : randg ("state", V)
  -- : randg ("state", "reset")
@@ -17047,6 +17057,7 @@ randg
  -- : randg ("seed", "reset")
  -- : randg (..., "single")
  -- : randg (..., "double")
+
      Return a matrix with 'gamma (A,1)' distributed random elements.
 
      The arguments are handled the same as the arguments for 'rand', except for the argument A.
@@ -17240,7 +17251,7 @@ regexp
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 8609
+# length: 9104
  -- : [S, E, TE, M, T, NM, SP] = regexp (STR, PAT)
  -- : [...] = regexp (STR, PAT, "OPT1", ...)
      Regular expression string matching.
@@ -17404,6 +17415,12 @@ regexp
           Return zero-length matches.
 
           'regexp ('a', 'b*', 'emptymatch')' returns '[1 2]' because there are zero or more 'b' characters at positions 1 and end-of-string.
+
+     Stack Limitation Note: Pattern searches are done with a recursive function which can overflow the program stack when there are a high number of matches.  For example,
+
+          regexp (repmat ('a', 1, 1e5), '(a)+')
+
+     may lead to a segfault.  As an alternative, consider constructing pattern searches that reduce the number of matches (e.g., by creatively using set complement), and then further processing the return variables (now reduced in size) with successive 'regexp' searches.
 
      See also: regexpi, strfind, regexprep.
    
@@ -18068,7 +18085,7 @@ char
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 1040
+# length: 1019
  -- : char (X)
  -- : char (X, ...)
  -- : char (S1, S2, ...)
@@ -18082,13 +18099,13 @@ char
      For cell arrays, each element is concatenated separately.  Cell arrays converted through 'char' can mostly be converted back with 'cellstr'.  For example:
 
           char ([97, 98, 99], "", {"98", "99", 100}, "str1", ["ha", "lf"])
-             => ["abc    "
-                 "       "
-                 "98     "
-                 "99     "
-                 "d      "
-                 "str1   "
-                 "half   "]
+             => ["abc "
+                 "    "
+                 "98  "
+                 "99  "
+                 "d   "
+                 "str1"
+                 "half"]
 
      See also: strvcat, cellstr.
    
@@ -18112,7 +18129,7 @@ strvcat
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 1060
+# length: 1042
  -- : strvcat (X)
  -- : strvcat (X, ...)
  -- : strvcat (S1, S2, ...)
@@ -18126,12 +18143,12 @@ strvcat
      For cell arrays, each element is concatenated separately.  Cell arrays converted through 'strvcat' can mostly be converted back with 'cellstr'.  For example:
 
           strvcat ([97, 98, 99], "", {"98", "99", 100}, "str1", ["ha", "lf"])
-                => ["abc    "
-                    "98     "
-                    "99     "
-                    "d      "
-                    "str1   "
-                    "half   "]
+                => ["abc "
+                    "98  "
+                    "99  "
+                    "d   "
+                    "str1"
+                    "half"]
 
      See also: char, strcat, cstrcat.
    
@@ -24007,9 +24024,13 @@ Logical 'not' operator.
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 64
+# length: 222
  -- : ~
      Logical 'not' operator.
+
+     The symbol may also be used to discard outputs of a function that are unwanted without using a temporary variable.
+
+          [~, IDX_OF_MAX] = max (X)
 
      See also: !, not.
    
@@ -24085,9 +24106,13 @@ Logical 'not equals' operator.
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 34
+# length: 269
  -- : "
      String delimiter.
+
+     Escape sequences within double-quoted strings are expanded.  I.e., "\n" is a 1-character string representing a newline.  See the single quote delimiter (') to create strings without escape sequence processing.
+
+     See also: '.
    
 
 
@@ -24161,9 +24186,11 @@ Begin comment character.
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 197
+# length: 204
  -- : #{
-     Begin block comment.  There must be nothing else, other than whitespace, in the line both before and after '#{'.  It is possible to nest block comments.
+     Begin block comment.
+
+     There must be no other characters, other than whitespace, on the line before and after '#{'.  It is possible to nest block comments.
 
      See also: %{, #}, #.
    
@@ -24187,9 +24214,11 @@ Begin block comment.
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 197
+# length: 204
  -- : %{
-     Begin block comment.  There must be nothing else, other than whitespace, in the line both before and after '%{'.  It is possible to nest block comments.
+     Begin block comment.
+
+     There must be no other characters, other than whitespace, on the line before and after '%{'.  It is possible to nest block comments.
 
      See also: #{, %}, %.
    
@@ -24213,9 +24242,11 @@ Begin block comment.
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 197
+# length: 204
  -- : #}
-     Close block comment.  There must be nothing else, other than whitespace, in the line both before and after '#}'.  It is possible to nest block comments.
+     Close block comment.
+
+     There must be no other characters, other than whitespace, on the line before and after '#}'.  It is possible to nest block comments.
 
      See also: %}, #{, #.
    
@@ -24239,9 +24270,11 @@ Close block comment.
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 197
+# length: 204
  -- : %}
-     Close block comment.  There must be nothing else, other than whitespace, in the line both before and after '%}'.  It is possible to nest block comments.
+     Close block comment.
+
+     There must be no other characters, other than whitespace, on the line before and after '%}'.  It is possible to nest block comments.
 
      See also: #}, %{, %.
    
@@ -24265,9 +24298,11 @@ Close block comment.
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 80
+# length: 85
  -- : ...
-     Continuation marker.  Joins current line with following line.
+     Continuation marker.
+
+     Joins current line with following line.
    
 
 
@@ -24341,21 +24376,23 @@ Logical 'and' operator (with short-circuit evaluation).
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 304
+# length: 431
  -- : '
-     Matrix transpose operator.  For complex matrices, computes the complex conjugate (Hermitian) transpose.
+     Matrix transpose operator or string delimiter.
 
-     The single quote character may also be used to delimit strings, but it is better to use the double quote character, since that is never ambiguous.
+     For complex matrices, computes the complex conjugate (Hermitian) transpose.
 
-     See also: .', transpose.
+     The single quote character may also be used to delimit strings.  Escape sequences within single-quoted strings are not expanded.  I.e., '\n' is a 2-character string '\' and 'n' rather than "\n" which is a single character representing a newline.
+
+     See also: .', transpose, ".
    
 
 
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 26
-Matrix transpose operator.
+# length: 46
+Matrix transpose operator or string delimiter.
 
 
 
@@ -24443,9 +24480,11 @@ Multiplication operator.
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 240
+# length: 245
  -- : **
-     Power operator.  This may return complex results for real inputs.  Use 'realsqrt', 'cbrt', 'nthroot', or 'realroot' to obtain real results when possible.
+     Power operator.
+
+     This may return complex results for real inputs.  Use 'realsqrt', 'cbrt', 'nthroot', or 'realroot' to obtain real results when possible.
 
      See also: power, ^, .**, .^, realpow, realsqrt, cbrt, nthroot.
    
@@ -24469,9 +24508,11 @@ Power operator.
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 240
+# length: 245
  -- : ^
-     Power operator.  This may return complex results for real inputs.  Use 'realsqrt', 'cbrt', 'nthroot', or 'realroot' to obtain real results when possible.
+     Power operator.
+
+     This may return complex results for real inputs.  Use 'realsqrt', 'cbrt', 'nthroot', or 'realroot' to obtain real results when possible.
 
      See also: power, **, .^, .**, realpow, realsqrt, cbrt, nthroot.
    
@@ -24521,9 +24562,11 @@ Addition operator.
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 114
+# length: 119
  -- : ++
-     Increment operator.  As in C, may be applied as a prefix or postfix operator.
+     Increment operator.
+
+     As in C, may be applied as a prefix or postfix operator.
 
      See also: -.
    
@@ -24597,9 +24640,11 @@ Subtraction or unary negation operator.
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 115
+# length: 120
  -- : --
-     Decrement operator.  As in C, may be applied as a prefix or postfix operator.
+     Decrement operator.
+
+     As in C, may be applied as a prefix or postfix operator.
 
      See also: ++.
    
@@ -24623,9 +24668,11 @@ Decrement operator.
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 160
+# length: 177
  -- : .'
-     Matrix transpose operator.  For complex matrices, computes the transpose, _not_ the complex conjugate transpose.
+     Matrix transpose operator.
+
+     For complex matrices, computes the transpose, _not_ the complex conjugate (Hermitian) transpose.
 
      See also: ', transpose.
    
@@ -24675,9 +24722,11 @@ Element by element multiplication operator.
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 304
+# length: 309
  -- : .**
-     Element by element power operator.  If several complex results are possible, returns the one with smallest non-negative argument (angle).  Use 'realpow', 'realsqrt', 'cbrt', or 'nthroot' if a real result is preferred.
+     Element by element power operator.
+
+     If several complex results are possible, returns the one with smallest non-negative argument (angle).  Use 'realpow', 'realsqrt', 'cbrt', or 'nthroot' if a real result is preferred.
 
      See also: **, ^, .^, power, realpow, realsqrt, cbrt, nthroot.
    
@@ -24701,9 +24750,11 @@ Element by element power operator.
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 304
+# length: 309
  -- : .^
-     Element by element power operator.  If several complex results are possible, returns the one with smallest non-negative argument (angle).  Use 'realpow', 'realsqrt', 'cbrt', or 'nthroot' if a real result is preferred.
+     Element by element power operator.
+
+     If several complex results are possible, returns the one with smallest non-negative argument (angle).  Use 'realpow', 'realsqrt', 'cbrt', or 'nthroot' if a real result is preferred.
 
      See also: .**, ^, **, power, realpow, realsqrt, cbrt, nthroot.
    
@@ -25139,9 +25190,9 @@ break
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 122
+# length: 123
  -- : break
-     Exit the innermost enclosing do, while or for loop.
+     Exit the innermost enclosing do, while, or for loop.
 
      See also: do, while, for, parfor, continue.
    
@@ -25150,8 +25201,8 @@ break
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 51
-Exit the innermost enclosing do, while or for loop.
+# length: 52
+Exit the innermost enclosing do, while, or for loop.
 
 
 
@@ -25165,10 +25216,12 @@ case
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 258
+# length: 269
  -- : case VALUE
  -- : case {VALUE, ...}
-     A case statement in a switch.  Octave cases are exclusive and do not fall-through as do C-language cases.  A switch statement must have at least one case.  See 'switch' for an example.
+     A case statement in a switch block.
+
+     Octave cases are exclusive and do not fall-through as do C-language cases.  A switch statement must have at least one case.  See 'switch' for an example.
 
      See also: switch.
    
@@ -25177,8 +25230,8 @@ case
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 29
-A case statement in a switch.
+# length: 35
+A case statement in a switch block.
 
 
 
@@ -25213,25 +25266,51 @@ Begin the cleanup part of a try-catch block.
 # type: sq_string
 # elements: 1
 # length: 8
-continue
+classdef
 
 
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 136
- -- : continue
-     Jump to the end of the innermost enclosing do, while or for loop.
+# length: 105
+ -- : classdef
+     Begin a classdef block.
 
-     See also: do, while, for, parfor, break.
+     See also: properties, methods, events, enumeration.
    
 
 
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 65
-Jump to the end of the innermost enclosing do, while or for loop.
+# length: 23
+Begin a classdef block.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 8
+continue
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 137
+ -- : continue
+     Jump to the end of the innermost enclosing do, while, or for loop.
+
+     See also: break, do, while, for, parfor.
+   
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 66
+Jump to the end of the innermost enclosing do, while, or for loop.
 
 
 
@@ -25245,9 +25324,11 @@ do
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 239
+# length: 241
  -- : do
-     Begin a do-until loop.  This differs from a do-while loop in that the body of the loop is executed at least once.
+     Begin a do-until loop.
+
+     This differs from a while loop in that the body of the loop is executed at least once.
 
           i = 0;
           do
@@ -25328,9 +25409,9 @@ end_try_catch
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 94
+# length: 93
  -- : end_try_catch
-     Mark the end of an 'try-catch' block.
+     Mark the end of a 'try-catch' block.
 
      See also: try, catch.
    
@@ -25339,8 +25420,8 @@ end_try_catch
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 37
-Mark the end of an 'try-catch' block.
+# length: 36
+Mark the end of a 'try-catch' block.
 
 
 
@@ -25367,6 +25448,84 @@ end_unwind_protect
 # elements: 1
 # length: 40
 Mark the end of an unwind_protect block.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 11
+endclassdef
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 91
+ -- : endclassdef
+     Mark the end of a classdef definition.
+
+     See also: classdef.
+   
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 38
+Mark the end of a classdef definition.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 14
+endenumeration
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 121
+ -- : endenumeration
+     Mark the end of an enumeration block in a classdef definition.
+
+     See also: enumeration.
+   
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 62
+Mark the end of an enumeration block in a classdef definition.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 9
+endevents
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 106
+ -- : endevents
+     Mark the end of an events block in a classdef definition.
+
+     See also: events.
+   
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 57
+Mark the end of an events block in a classdef definition.
 
 
 
@@ -25451,6 +25610,32 @@ Mark the end of an if block.
 # name: <cell-element>
 # type: sq_string
 # elements: 1
+# length: 10
+endmethods
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 108
+ -- : endmethods
+     Mark the end of a methods block in a classdef definition.
+
+     See also: methods.
+   
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 57
+Mark the end of a methods block in a classdef definition.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
 # length: 9
 endparfor
 
@@ -25471,6 +25656,32 @@ endparfor
 # elements: 1
 # length: 30
 Mark the end of a parfor loop.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 13
+endproperties
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 117
+ -- : endproperties
+     Mark the end of a properties block in a classdef definition.
+
+     See also: properties.
+   
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 60
+Mark the end of a properties block in a classdef definition.
 
 
 
@@ -25529,6 +25740,54 @@ Mark the end of a while loop.
 # name: <cell-element>
 # type: sq_string
 # elements: 1
+# length: 11
+enumeration
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 79
+ -- : enumeration
+     Begin an enumeration block in a classdef definition.
+   
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 52
+Begin an enumeration block in a classdef definition.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 6
+events
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 69
+ -- : events
+     Begin an events block in a classdef definition.
+   
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 47
+Begin an events block in a classdef definition.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
 # length: 3
 for
 
@@ -25544,7 +25803,7 @@ for
             i
           endfor
 
-     See also: do, parfor, while.
+     See also: parfor, do, while.
    
 
 
@@ -25625,7 +25884,7 @@ if
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 395
+# length: 537
  -- : if (COND) ... endif
  -- : if (COND) ... else ... endif
  -- : if (COND) ... elseif (COND) ... endif
@@ -25642,7 +25901,7 @@ if
           endif
 
      See also: switch.
-   
+   ## FIXME: Can't have duplicate DOCSTRING entries.  The function methods ## already has a docstring which overrides this keyword definition.  #
 
 
 # name: <cell-element>
@@ -25656,6 +25915,30 @@ Begin an if block.
 # name: <cell-element>
 # type: sq_string
 # elements: 1
+# length: 10
+methods ##
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 74
+ -- : methods
+     #Begin a methods block in a classdef definition.  #
+   
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 48
+#Begin a methods block in a classdef definition.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
 # length: 9
 otherwise
 
@@ -25663,19 +25946,19 @@ otherwise
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 122
+# length: 159
  -- : otherwise
-     The default statement in a switch block (similar to else in an if block).
+     The default statement in a switch block which is executed when no other case statements match the input.
 
-     See also: switch.
+     See also: switch, case.
    
 
 
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 73
-The default statement in a switch block (similar to else in an if block).
+# length: 104
+The default statement in a switch block which is executed when no other case statements match the input.
 
 
 
@@ -25720,9 +26003,11 @@ persistent
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 402
+# length: 407
  -- : persistent VAR
-     Declare variables as persistent.  A variable that has been declared persistent within a function will retain its contents in memory between subsequent calls to the same function.  The difference between persistent variables and global variables is that persistent variables are local in scope to a particular function and are not visible elsewhere.
+     Declare variables as persistent.
+
+     A variable that has been declared persistent within a function will retain its contents in memory between subsequent calls to the same function.  The difference between persistent variables and global variables is that persistent variables are local in scope to a particular function and are not visible elsewhere.
 
      See also: global.
    
@@ -25733,6 +26018,30 @@ persistent
 # elements: 1
 # length: 32
 Declare variables as persistent.
+
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 10
+properties
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 76
+ -- : properties
+     Begin a properties block in a classdef definition.
+   
+
+
+# name: <cell-element>
+# type: sq_string
+# elements: 1
+# length: 50
+Begin a properties block in a classdef definition.
 
 
 
@@ -25798,13 +26107,13 @@ switch
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 357
+# length: 360
  -- : switch STATEMENT
      Begin a switch block.
 
-          yesno = "yes"
+          yesno = "yes";
 
-          switch yesno
+          switch (yesno)
             case {"Yes" "yes" "YES" "y" "Y"}
               value = 1;
             case {"No" "no" "NO" "n" "N"}
@@ -25889,11 +26198,11 @@ unwind_protect
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 468
+# length: 494
  -- : unwind_protect
      Begin an unwind_protect block.
 
-     If an error occurs within the first part of an unwind_protect block the commands within the unwind_protect_cleanup block are executed before the error is thrown.  If an error is not thrown, then the unwind_protect_cleanup block is still executed (in other words, the unwind_protect_cleanup will be run with or without an error in the unwind_protect block).
+     If an error occurs within the first part of an unwind_protect block the commands within the unwind_protect_cleanup block are executed before the error is thrown.  If an error is not thrown, then the unwind_protect_cleanup block is still executed.  In other words, the unwind_protect_cleanup code is guaranteed to execute regardless of success or failure in the unwind_protect block.
 
      See also: unwind_protect_cleanup, try.
    
@@ -26026,8 +26335,8 @@ lin2mu
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 340
- -- : lin2mu (X, N)
+# length: 344
+ -- : Y = lin2mu (X, N)
      Convert audio data from linear to mu-law.
 
      Mu-law values use 8-bit unsigned integers.  Linear values use N-bit signed integers or floating point values in the range -1 <= X <= 1 if N is 0.
@@ -26056,11 +26365,11 @@ mu2lin
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 288
- -- : mu2lin (X, N)
+# length: 296
+ -- : Y = mu2lin (X, N)
      Convert audio data from mu-law to linear.
 
-     Mu-law values are 8-bit unsigned integers.  Linear values use N-bit signed integers or floating point values in the range -1<=y<=1 if N is 0.
+     Mu-law values are 8-bit unsigned integers.  Linear values use N-bit signed integers or floating point values in the range -1 <= Y <= 1 if N is 0.
 
      If N is not specified it defaults to 0.
 
@@ -26335,7 +26644,7 @@ Pause the audioplayer PLAYER.
  -- : play (PLAYER, LIMITS)
      Play audio stored in the audioplayer object PLAYER without blocking.
 
-     Given optional argument start, begin playing at START seconds in the recording.  Given a two-element vector LIMITS, begin and end playing at the number of seconds specified by the elements of the vector.
+     Given optional argument start, begin playing at START samples in the recording.  Given a two-element vector LIMITS, begin and end playing at the number of samples specified by the elements of the vector.
    
 
 
@@ -26363,7 +26672,7 @@ Play audio stored in the audioplayer object PLAYER without blocking.
  -- : playblocking (PLAYER, LIMITS)
      Play audio stored in the audioplayer object PLAYER with blocking.
 
-     Given optional argument start, begin playing at START seconds in the recording.  Given a two-element vector LIMITS, begin and end playing at the number of seconds specified by the elements of the vector.
+     Given optional argument start, begin playing at START samples in the recording.  Given a two-element vector LIMITS, begin and end playing at the number of samples specified by the elements of the vector.
    
 
 
@@ -26990,13 +27299,13 @@ delaunay3
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 1377
+# length: 1366
  -- : TETR = delaunay3 (X, Y, Z)
  -- : TETR = delaunay3 (X, Y, Z, OPTIONS)
 
      'delaunay3' is deprecated and will be removed in Octave version 4.4.  Please use 'delaunay' in all new code.
 
-     Compute the Delaunay triangulation for a 3-D set of points.  The return value TETR is a set of tetrahedrons which satisfies the Delaunay circum-circle criterion, i.e., only a single data point from [X, Y, Z] is within the circum-circle of the defining tetrahedron.
+     Compute the Delaunay triangulation for a 3-D set of points.  The return value TETR is a set of tetrahedrons which satisfies the Delaunay circum-circle criterion, i.e., no data point from [X, Y, Z] is within the circum-circle of the defining tetrahedron.
 
      The set of tetrahedrons TETR is a matrix of size [n, 4].  Each row defines a tetrahedron and the four columns are the four vertices of the tetrahedron.  The value of 'TETR(i,j)' is an index into X, Y, Z for the location of the j-th vertex of the i-th tetrahedron.
 
@@ -27148,14 +27457,14 @@ fnmatch
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 453
+# length: 445
  -- : fnmatch (PATTERN, STRING)
 
      'fnmatch' is deprecated and will be removed in Octave version 4.4.  Please use 'glob' or 'regexp' in all new code.
 
      Return true or false for each element of STRING that matches any of the elements of the string array PATTERN, using the rules of filename pattern matching.  For example:
 
-          fnmatch (\"a*b\", {\"ab\"; \"axyzb\"; \"xyzab\"})
+          fnmatch ("a*b", {"ab"; "axyzb"; "xyzab"})
                => [ 1; 1; 0 ]
 
      See also: glob, regexp.
@@ -27355,17 +27664,17 @@ md5sum
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 501
+# length: 497
  -- : md5sum (FILE)
  -- : md5sum (STR, OPT)
 
      'md5sum' is deprecated and will be removed in Octave version 4.6.  For equivalent functionality replace calls like 'md5sum (FILE)' with:
 
-          hash (\"md5\", fileread (FILE))
+          hash ("md5", fileread (FILE))
 
      And calls like 'md5sum (STR, true)' with:
 
-          hash (\"md5\", fileread (STR))
+          hash ("md5", fileread (STR))
 
      Calculate the MD5 sum of the file FILE.
 
@@ -27756,7 +28065,7 @@ usage
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 942
+# length: 940
  -- : usage (MSG)
 
      'usage' is deprecated and will be removed in Octave version 4.4.  Please use 'print_usage' in all new code.
@@ -27768,7 +28077,7 @@ usage
      You should use this function for reporting problems errors that result from an improper call to a function, such as calling a function with an incorrect number of arguments, or with arguments of the wrong type.  For example, most functions distributed with Octave begin with code like this
 
           if (nargin != 2)
-            usage (\"foo (a, b)\");
+            usage ("foo (a, b)");
           endif
 
      to check for the proper number of arguments.
@@ -28192,9 +28501,9 @@ atan2d
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 131
+# length: 130
  -- : atan2d (Y, X)
-     Compute atan2 (Y / X) in degrees for corresponding elements from Y and X.
+     Compute atan (Y / X) in degrees for corresponding elements from Y and X.
 
      See also: tand, atan2.
    
@@ -28203,8 +28512,8 @@ atan2d
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 73
-Compute atan2 (Y / X) in degrees for corresponding elements from Y and X.
+# length: 72
+Compute atan (Y / X) in degrees for corresponding elements from Y and X.
 
 
 
@@ -28562,7 +28871,7 @@ accumarray
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 3885
+# length: 3887
  -- : accumarray (SUBS, VALS, SZ, FUNC, FILLVAL, ISSPARSE)
  -- : accumarray (SUBS, VALS, ...)
 
@@ -28574,7 +28883,7 @@ accumarray
 
      The default action of 'accumarray' is to sum the elements with the same subscripts.  This behavior can be modified by defining the FUNC function.  This should be a function or function handle that accepts a column vector and returns a scalar.  The result of the function should not depend on the order of the subscripts.
 
-     The elements of the returned array that have no subscripts associated with them are set to zero.  Defining FILLVAL to some other value allows these values to be defined.  This behavior changes, however, for certain values of FUNC.  If FUNC is 'min' (respectively, 'max') then the result will be filled with the minimum (respectively, maximum) integer if VALS is of integral type, logical false (respectively, logical true) if VALS is of logical type, zero if FILLVAL is zero and all values are non-positive (respectively, non-negative), and NaN otherwise.
+     The elements of the returned array that have no subscripts associated with them are set to zero.  Defining FILLVAL to some other value allows these values to be defined.  This behavior changes, however, for certain values of FUNC.  If FUNC is '@min' (respectively, '@max') then the result will be filled with the minimum (respectively, maximum) integer if VALS is of integral type, logical false (respectively, logical true) if VALS is of logical type, zero if FILLVAL is zero and all values are non-positive (respectively, non-negative), and NaN otherwise.
 
      By default 'accumarray' returns a full matrix.  If ISSPARSE is logically true, then a sparse matrix is returned instead.
 
@@ -29211,7 +29520,7 @@ dblquad
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 1151
+# length: 1148
  -- : dblquad (F, XA, XB, YA, YB)
  -- : dblquad (F, XA, XB, YA, YB, TOL)
  -- : dblquad (F, XA, XB, YA, YB, TOL, QUADF)
@@ -29222,7 +29531,7 @@ dblquad
 
      XA, YA and XB, YB are the lower and upper limits of integration for x and y respectively.  The underlying integrator determines whether infinite bounds are accepted.
 
-     The optional argument TOL defines the absolute tolerance used to integrate each sub-integral.  The default value is 1e^{-6}.
+     The optional argument TOL defines the absolute tolerance used to integrate each sub-integral.  The default value is 1e-6.
 
      The optional argument QUADF specifies which underlying integrator function to use.  Any choice but 'quad' is available and the default is 'quadcc'.
 
@@ -30005,7 +30314,7 @@ interp2
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 2118
+# length: 2115
  -- : ZI = interp2 (X, Y, Z, XI, YI)
  -- : ZI = interp2 (Z, XI, YI)
  -- : ZI = interp2 (Z, N)
@@ -30038,7 +30347,7 @@ interp2
      "spline"
           Cubic spline interpolation--smooth first and second derivatives throughout the curve.
 
-     EXTRAP is a scalar number.  It replaces values beyond the endpoints with EXTRAP.  Note that if EXTRAPVAL is used, METHOD must be specified as well.  If EXTRAP is omitted and the METHOD is "spline", then the extrapolated values of the "spline" are used.  Otherwise the default EXTRAP value for any other METHOD is "NA".
+     EXTRAP is a scalar number.  It replaces values beyond the endpoints with EXTRAP.  Note that if EXTRAP is used, METHOD must be specified as well.  If EXTRAP is omitted and the METHOD is "spline", then the extrapolated values of the "spline" are used.  Otherwise the default EXTRAP value for any other METHOD is "NA".
 
      See also: interp1, interp3, interpn, meshgrid.
    
@@ -30318,7 +30627,7 @@ logspace
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 492
+# length: 509
  -- : logspace (A, B)
  -- : logspace (A, B, N)
  -- : logspace (A, pi, N)
@@ -30328,7 +30637,7 @@ logspace
 
      If B is equal to pi, the points are between 10^A and pi, _not_ 10^A and 10^pi, in order to be compatible with the corresponding MATLAB function.
 
-     Also for compatibility with MATLAB, return the second argument B if fewer than two values are requested.
+     Also for compatibility with MATLAB, return the right-hand side of the range (10^B) when just a single value is requested.
 
      See also: linspace.
    
@@ -31864,16 +32173,16 @@ delaunay
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 2174
+# length: 2152
  -- : TRI = delaunay (X, Y)
  -- : TETR = delaunay (X, Y, Z)
  -- : TRI = delaunay (X)
  -- : TRI = delaunay (..., OPTIONS)
      Compute the Delaunay triangulation for a 2-D or 3-D set of points.
 
-     For 2-D sets, the return value TRI is a set of triangles which satisfies the Delaunay circum-circle criterion, i.e., only a single data point from [X, Y] is within the circum-circle of the defining triangle.  The set of triangles TRI is a matrix of size [n, 3].  Each row defines a triangle and the three columns are the three vertices of the triangle.  The value of 'TRI(i,j)' is an index into X and Y for the location of the j-th vertex of the i-th triangle.
+     For 2-D sets, the return value TRI is a set of triangles which satisfies the Delaunay circum-circle criterion, i.e., no data point from [X, Y] is within the circum-circle of the defining triangle.  The set of triangles TRI is a matrix of size [n, 3].  Each row defines a triangle and the three columns are the three vertices of the triangle.  The value of 'TRI(i,j)' is an index into X and Y for the location of the j-th vertex of the i-th triangle.
 
-     For 3-D sets, the return value TETR is a set of tetrahedrons which satisfies the Delaunay circum-circle criterion, i.e., only a single data point from [X, Y, Z] is within the circum-circle of the defining tetrahedron.  The set of tetrahedrons is a matrix of size [n, 4].  Each row defines a tetrahedron and the four columns are the four vertices of the tetrahedron.  The value of 'TETR(i,j)' is an index into X, Y, Z for the location of the j-th vertex of the i-th tetrahedron.
+     For 3-D sets, the return value TETR is a set of tetrahedrons which satisfies the Delaunay circum-circle criterion, i.e., no data point from [X, Y, Z] is within the circum-circle of the defining tetrahedron.  The set of tetrahedrons is a matrix of size [n, 4].  Each row defines a tetrahedron and the four columns are the four vertices of the tetrahedron.  The value of 'TETR(i,j)' is an index into X, Y, Z for the location of the j-th vertex of the i-th tetrahedron.
 
      The input X may also be a matrix with two or three columns where the first column contains x-data, the second y-data, and the optional third column contains z-data.
 
@@ -32186,7 +32495,7 @@ voronoi
 
      If "linespec" is given it is used to set the color and line style of the plot.
 
-     If an axis graphics handle HAX is supplied then the Voronoi diagram is drawn on the specified axis rather than in a new figure.
+     If an axes graphics handle HAX is supplied then the Voronoi diagram is drawn on the specified axes rather than in a new figure.
 
      If a single output argument is requested then the Voronoi diagram will be plotted and a graphics handle H to the plot is returned.
 
@@ -35161,11 +35470,11 @@ ind2gray
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 816
+# length: 814
  -- : I = ind2gray (X, MAP)
      Convert a color indexed image to a grayscale intensity image.
 
-     The image X must be an indexed image which will be converted using the colormap CMAP.  If CMAP does not contain enough colors for the image, pixels in X outside the range are mapped to the last color in the map before conversion to grayscale.
+     The image X must be an indexed image which will be converted using the colormap MAP.  If MAP does not contain enough colors for the image, pixels in X outside the range are mapped to the last color in the map before conversion to grayscale.
 
      The output I is of the same class as the input X and may be one of 'uint8', 'uint16', 'single', or 'double'.
 
@@ -35468,14 +35777,14 @@ rgb2ind
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 899
+# length: 900
  -- : [X, MAP] = rgb2ind (RGB)
  -- : [X, MAP] = rgb2ind (R, G, B)
      Convert an image in red-green-blue (RGB) color space to an indexed image.
 
      The input image RGB can be specified as a single matrix of size MxNx3, or as three separate variables, R, G, and B, its three color channels, red, green, and blue.
 
-     It outputs an indexed image X and a colormap MAP to interpret an image exactly the same as the input.  No dithering or other form of color quantization is performed.  The output class of the indexed image X can be uint8, uint16 or double, whichever is required to specify the number of unique colors in the image (which will be equal to the number of rows in MAP) in order
+     It outputs an indexed image X and a colormap MAP to interpret an image exactly the same as the input.  No dithering or other form of color quantization is performed.  The output class of the indexed image X can be uint8, uint16 or double, whichever is required to specify the number of unique colors in the image (which will be equal to the number of rows in MAP) in order.
 
      Multi-dimensional indexed images (of size MxNx3xK) are also supported, both via a single input (RGB) or its three color channels as separate variables.
 
@@ -36018,7 +36327,7 @@ strread
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 5300
+# length: 5308
  -- : [A, ...] = strread (STR)
  -- : [A, ...] = strread (STR, FORMAT)
  -- : [A, ...] = strread (STR, FORMAT, FORMAT_REPEAT)
@@ -36041,7 +36350,9 @@ strread
      '%u'
           The word is parsed as a number and converted to int32.
 
-     '%*', '%*f', '%*s'
+     '%*'
+     '%*f'
+     '%*s'
           The word is skipped.
 
           For %s and %d, %f, %n, %u and the associated %*s ... specifiers an optional width can be specified as %Ns, etc. where N is an integer > 1.  For %f, format specifiers like %N.Mf are allowed.
@@ -39580,7 +39891,7 @@ setfield
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 2544
+# length: 2555
  -- : SOUT = setfield (S, FIELD, VAL)
  -- : SOUT = setfield (S, SIDX1, FIELD1, FIDX1, SIDX2, FIELD2, FIDX2, ..., VAL)
 
@@ -39595,7 +39906,7 @@ setfield
 
           S.("foo bar") = 42;
 
-     Note that ordinary structure syntax 'S.foo bar = 42' cannot be used here, as the field name is not a valid Octave identifier because of the space character.  Using arbitrary strings for field names is incompatible with MATLAB, and this usage will emit a warning if the warning ID 'Octave:language-extension' is enabled.  *Note XREFwarning_ids::.
+     Note that ordinary structure syntax 'S.foo bar = 42' cannot be used here, as the field name is not a valid Octave identifier because of the space character.  Using arbitrary strings for field names is incompatible with MATLAB, and this usage will emit a warning if the warning ID 'Octave:language-extension' is enabled.  *Note warning_ids: XREFwarning_ids.
 
      With the second calling form, set a field of a structure array.  The input SIDX selects an element of the structure array, FIELD specifies the field name of the selected element, and FIDX selects which element of the field (in the case of an array or cell array).  The SIDX, FIELD, and FIDX inputs can be repeated to address nested structure array elements.  The structure array index and field element index must be cell arrays while the field name must be a string.
 
@@ -40020,7 +40331,7 @@ ver
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 758
+# length: 755
  -- : ver
  -- : ver Octave
  -- : ver PACKAGE
@@ -40038,11 +40349,11 @@ ver
      'Version'
           Version of the package.
 
-     'Revision'
-          Revision of the package.
+     'Release'
+          Release of the package.
 
      'Date'
-          Date of the version/revision.
+          Date of the version/release.
 
      See also: version, usejava, pkg.
    
@@ -41457,7 +41768,7 @@ qp
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 1795
+# length: 1971
  -- : [X, OBJ, INFO, LAMBDA] = qp (X0, H)
  -- : [X, OBJ, INFO, LAMBDA] = qp (X0, H, Q)
  -- : [X, OBJ, INFO, LAMBDA] = qp (X0, H, Q, A, B)
@@ -41479,7 +41790,7 @@ qp
 
      using a null-space active-set method.
 
-     Any bound (A, B, LB, UB, A_LB, A_UB) may be set to the empty matrix ('[]') if not present.  If the initial guess is feasible the algorithm is faster.
+     Any bound (A, B, LB, UB, A_IN, A_LB, A_UB) may be set to the empty matrix ('[]') if not present.  The constraints A and A_IN are matrices with each row representing a single constraint.  The other bounds are scalars or vectors depending on the number of constraints.  The algorithm is faster if the initial guess is feasible.
 
      OPTIONS
           An optional structure containing the following parameter(s) used to define the behavior of the solver.  Missing elements in the structure take on default values, so you only need to set the elements that you wish to change from the default.
@@ -42011,7 +42322,7 @@ axis
  -- : LIMITS = axis ()
      Set axis limits and appearance.
 
-     The argument LIMITS should be a 2-, 4-, 6-, or 8-element vector.  The first and second elements specify the lower and upper limits for the x-axis.  The third and fourth specify the limits for the y-axis, the fifth and sixth specify the limits for the z-axis, and the seventh and eighth specify the limits for the color axis.  The special values -Inf and Inf may be used to indicate that the limit should be automatically computed based on the data in the axis.
+     The argument LIMITS should be a 2-, 4-, 6-, or 8-element vector.  The first and second elements specify the lower and upper limits for the x-axis.  The third and fourth specify the limits for the y-axis, the fifth and sixth specify the limits for the z-axis, and the seventh and eighth specify the limits for the color axis.  The special values -Inf and Inf may be used to indicate that the limit should be automatically computed based on the data in the axes.
 
      Without any arguments, 'axis' turns autoscaling on.
 
@@ -42056,7 +42367,7 @@ axis
      "nolabel"
           Turn tick labels off for all axes.
 
-     Note: If there are no tick marks for an axis then there can be no labels.
+     Note: If there are no tick marks for an axes then there can be no labels.
 
      The following options affect the direction of increasing values on the axes.
 
@@ -42111,11 +42422,11 @@ box
  -- : box on
  -- : box off
  -- : box (HAX, ...)
-     Control display of the axis border.
+     Control display of the axes border.
 
      The argument may be either "on" or "off".  If it is omitted, the current box state is toggled.
 
-     If the first argument HAX is an axes handle, then operate on this axis rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then operate on this axes rather than the current axes returned by 'gca'.
 
      See also: axis, grid.
    
@@ -42125,7 +42436,7 @@ box
 # type: sq_string
 # elements: 1
 # length: 35
-Control display of the axis border.
+Control display of the axes border.
 
 
 
@@ -42151,7 +42462,7 @@ caxis
 
      If the "auto" option is given then automatic colormap limits are applied.  The automatic algorithm sets CMIN to the minimum data value and CMAX to the maximum data value.  If "manual" is specified then the "climmode" property is set to "manual" and the numeric values in the "clim" property are used for limits.
 
-     If the first argument HAX is an axes handle, then operate on this axis rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then operate on this axes rather than the current axes returned by 'gca'.
 
      Called without arguments the current color axis limits are returned.
 
@@ -42269,18 +42580,21 @@ datetick
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 551
+# length: 702
  -- : datetick ()
+ -- : datetick (AXIS_STR)
  -- : datetick (DATE_FORMAT)
  -- : datetick (AXIS_STR, DATE_FORMAT)
  -- : datetick (..., "keeplimits")
  -- : datetick (..., "keepticks")
  -- : datetick (HAX, ...)
-     Add date formatted tick labels to an axis.
+     Add date-formatted tick labels to an axis.
 
      The axis to apply the ticks to is determined by AXIS_STR which can take the values "x", "y", or "z".  The default value is "x".
 
      The formatting of the labels is determined by the variable DATE_FORMAT, which can either be a string or positive integer that 'datestr' accepts.
+
+     If the first argument HAX is an axes handle, then plot into this axes, rather than the current axes returned by 'gca'.
 
      See also: datenum, datestr.
    
@@ -42290,7 +42604,7 @@ datetick
 # type: sq_string
 # elements: 1
 # length: 42
-Add date formatted tick labels to an axis.
+Add date-formatted tick labels to an axis.
 
 
 
@@ -42346,9 +42660,9 @@ grid
 
      When the first argument is "minor" all subsequent commands modify the minor grid rather than the major grid.
 
-     If the first argument HAX is an axes handle, then operate on this axis rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then operate on this axes rather than the current axes returned by 'gca'.
 
-     To control the grid lines for an individual axis use the 'set' function.  For example:
+     To control the grid lines for an individual axes use the 'set' function.  For example:
 
           set (gca, "ygrid", "on");
 
@@ -42463,7 +42777,7 @@ legend
 
      Legend entries may be specified as individual character string arguments, a character array, or a cell array of character strings.
 
-     If the first argument HAX is an axes handle, then plot into this axis, rather than the current axes returned by 'gca'.  If the handles, HOBJS, are not specified then the legend's strings will be associated with the axes' descendants.  'legend' works on line graphs, bar graphs, etc.  A plot must exist before legend is called.
+     If the first argument HAX is an axes handle, then plot into this axes, rather than the current axes returned by 'gca'.  If the handles, HOBJS, are not specified then the legend's strings will be associated with the axes' descendants.  'legend' works on line graphs, bar graphs, etc.  A plot must exist before legend is called.
 
      The optional parameter POS specifies the location of the legend as follows:
 
@@ -42561,7 +42875,7 @@ lighting
      "none"
           Draw objects without light and shadow effects.
 
-     If the first argument HAX is an axes handle, then change the lighting effects of objects in this axis, rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then change the lighting effects of objects in this axes, rather than the current axes returned by 'gca'.
 
      The lighting effects are only visible if at least one light object is present and visible in the same axes.
 
@@ -42741,7 +43055,7 @@ shading
      "interp"
           Colors between patch vertices are interpolated and the patch edges are invisible.
 
-     If the first argument HAX is an axes handle, then plot into this axis, rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then plot into this axes, rather than the current axes returned by 'gca'.
 
      See also: fill, mesh, patch, pcolor, surf, surface, hidden, lighting.
    
@@ -42840,7 +43154,7 @@ title
 
      An optional list of PROPERTY/VALUE pairs can be used to change the appearance of the created title text object.
 
-     If the first argument HAX is an axes handle, then plot into this axis, rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then plot into this axes, rather than the current axes returned by 'gca'.
 
      The optional return value H is a graphics handle to the created text object.
 
@@ -42882,7 +43196,7 @@ view
 
      The call 'view (3)' sets the viewpoint to AZIMUTH = -37.5 and ELEVATION = 30, which is the default for 3-D graphs.
 
-     If the first argument HAX is an axes handle, then operate on this axis rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then operate on this axes rather than the current axes returned by 'gca'.
 
      If no inputs are given, return the current AZIMUTH and ELEVATION.
    
@@ -42950,7 +43264,7 @@ xlabel
 
      An optional list of PROPERTY/VALUE pairs can be used to change the properties of the created text label.
 
-     If the first argument HAX is an axes handle, then operate on this axis rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then operate on this axes rather than the current axes returned by 'gca'.
 
      The optional return value H is a graphics handle to the created text object.
 
@@ -42993,7 +43307,7 @@ xlim
 
      The current plotting mode can be changed by using either "auto" or "manual" as the argument.
 
-     If the first argument HAX is an axes handle, then operate on this axis rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then operate on this axes rather than the current axes returned by 'gca'.
 
      Programming Note: The 'xlim' function operates by modifying the "xlim" and "xlimmode" properties of an axes object.  These properties can be be directly inspected and altered with 'get'/'set'.
 
@@ -43030,7 +43344,7 @@ ylabel
 
      An optional list of PROPERTY/VALUE pairs can be used to change the properties of the created text label.
 
-     If the first argument HAX is an axes handle, then operate on this axis rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then operate on this axes rather than the current axes returned by 'gca'.
 
      The optional return value H is a graphics handle to the created text object.
 
@@ -43073,7 +43387,7 @@ ylim
 
      The current plotting mode can be changed by using either "auto" or "manual" as the argument.
 
-     If the first argument HAX is an axes handle, then operate on this axis rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then operate on this axes rather than the current axes returned by 'gca'.
 
      Programming Note: The 'ylim' function operates by modifying the "ylim" and "ylimmode" properties of an axes object.  These properties can be be directly inspected and altered with 'get'/'set'.
 
@@ -43108,7 +43422,7 @@ zlabel
 
      An optional list of PROPERTY/VALUE pairs can be used to change the properties of the created text label.
 
-     If the first argument HAX is an axes handle, then operate on this axis rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then operate on this axes rather than the current axes returned by 'gca'.
 
      The optional return value H is a graphics handle to the created text object.
 
@@ -43151,7 +43465,7 @@ zlim
 
      The current plotting mode can be changed by using either "auto" or "manual" as the argument.
 
-     If the first argument HAX is an axes handle, then operate on this axis rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then operate on this axes rather than the current axes returned by 'gca'.
 
      Programming Note: The 'zlim' function operates by modifying the "zlim" and "zlimmode" properties of an axes object.  These properties can be be directly inspected and altered with 'get'/'set'.
 
@@ -43192,7 +43506,7 @@ area
 
      Additional property/value pairs are passed directly to the underlying patch object.
 
-     If the first argument HAX is an axes handle, then plot into this axis, rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then plot into this axes, rather than the current axes returned by 'gca'.
 
      The optional return value H is a graphics handle to the hggroup object comprising the area patch objects.  The "BaseValue" property of the hggroup can be used to adjust the level where shading begins.
 
@@ -43255,7 +43569,7 @@ barh
 
      Optional property/value pairs are passed directly to the underlying patch objects.
 
-     If the first argument HAX is an axes handle, then plot into this axis, rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then plot into this axes, rather than the current axes returned by 'gca'.
 
      The optional return value H is a graphics handle to the created bar series hggroup.  For a description of the use of the bar series, *note bar: XREFbar.
 
@@ -43311,7 +43625,7 @@ bar
 
      Optional property/value pairs are passed directly to the underlying patch objects.
 
-     If the first argument HAX is an axes handle, then plot into this axis, rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then plot into this axes, rather than the current axes returned by 'gca'.
 
      The optional return value H is a vector of handles to the created "bar series" hggroups with one handle per column of the variable Y.  This series makes it possible to change a common element in one bar series object and have the change reflected in the other "bar series".  For example,
 
@@ -43463,7 +43777,7 @@ colorbar
 
      To remove a colorbar from a plot use any one of the following keywords for the DELETE_OPTION: "delete", "hide", "off".
 
-     If the argument "peer" is given, then the following argument is treated as the axes handle in which to add the colorbar.  Alternatively, If the first argument HAX is an axes handle, then the colorbar is added to this axis, rather than the current axes returned by 'gca'.
+     If the argument "peer" is given, then the following argument is treated as the axes handle in which to add the colorbar.  Alternatively, If the first argument HAX is an axes handle, then the colorbar is added to this axes, rather than the current axes returned by 'gca'.
 
      If the first argument HCB is a handle to a colorbar object, then operate on this colorbar directly.
 
@@ -43506,7 +43820,7 @@ comet3
 
      The speed of the comet may be controlled by P, which represents the time each point is displayed before moving to the next one.  The default for P is 0.1 seconds.
 
-     If the first argument HAX is an axes handle, then plot into this axis, rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then plot into this axes, rather than the current axes returned by 'gca'.
 
      See also: comet.
    
@@ -43541,7 +43855,7 @@ comet
 
      The speed of the comet may be controlled by P, which represents the time each point is displayed before moving to the next one.  The default for P is 0.1 seconds.
 
-     If the first argument HAX is an axes handle, then plot into this axis, rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then plot into this axes, rather than the current axes returned by 'gca'.
 
      See also: comet3.
    
@@ -43578,7 +43892,7 @@ compass
 
      The style to use for the plot can be defined with a line style STYLE of the same format as the 'plot' command.
 
-     If the first argument HAX is an axes handle, then plot into this axis, rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then plot into this axes, rather than the current axes returned by 'gca'.
 
      The optional return value H is a vector of graphics handles to the line objects representing the drawn vectors.
 
@@ -43623,7 +43937,7 @@ contour3
 
      The appearance of contour lines can be defined with a line style STYLE in the same manner as 'plot'.  Only line style and color are used; Any markers defined by STYLE are ignored.
 
-     If the first argument HAX is an axes handle, then plot into this axis, rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then plot into this axes, rather than the current axes returned by 'gca'.
 
      The optional output C are the contour levels in 'contourc' format.
 
@@ -43665,7 +43979,7 @@ contourc
  -- : [C, LEV] = contourc (X, Y, Z, VN)
      Compute contour lines (isolines of constant Z value).
 
-     The matrix Z contains height values above the rectangular grid determined by X and Y.  If only a single input Z is provided then X is taken to be '1:rows (Z)' and Y is taken to be '1:columns (Z)'.
+     The matrix Z contains height values above the rectangular grid determined by X and Y.  If only a single input Z is provided then X is taken to be '1:columns (Z)' and Y is taken to be '1:rows (Z)'.
 
      The optional input VN is either a scalar denoting the number of contour lines to compute or a vector containing the Z values where lines will be computed.  When VN is a vector the number of contour lines is 'numel (VN)'.  However, to compute a single contour line at a given value use 'VN = [val, val]'.  If VN is omitted it defaults to 10.
 
@@ -43725,7 +44039,7 @@ contourf
 
      The appearance of contour lines can be defined with a line style STYLE in the same manner as 'plot'.  Only line style and color are used; Any markers defined by STYLE are ignored.
 
-     If the first argument HAX is an axes handle, then plot into this axis, rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then plot into this axes, rather than the current axes returned by 'gca'.
 
      The optional output C contains the contour levels in 'contourc' format.
 
@@ -43772,7 +44086,7 @@ contour
 
      The appearance of contour lines can be defined with a line style STYLE in the same manner as 'plot'.  Only line style and color are used; Any markers defined by STYLE are ignored.
 
-     If the first argument HAX is an axes handle, then plot into this axis, rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then plot into this axes, rather than the current axes returned by 'gca'.
 
      The optional output C contains the contour levels in 'contourc' format.
 
@@ -43820,7 +44134,7 @@ cylinder
 
      The optional input N determines the number of faces around the circumference of the cylinder.  The default value is 20.
 
-     If the first argument HAX is an axes handle, then plot into this axis, rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then plot into this axes, rather than the current axes returned by 'gca'.
 
      If outputs are requested 'cylinder' returns three matrices in 'meshgrid' format, such that 'surf (X, Y, Z)' generates a unit cylinder.
 
@@ -43863,7 +44177,7 @@ ellipsoid
 
      The optional input N determines the number of faces around the circumference of the cylinder.  The default value is 20.
 
-     If the first argument HAX is an axes handle, then plot into this axis, rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then plot into this axes, rather than the current axes returned by 'gca'.
 
      If outputs are requested 'ellipsoid' returns three matrices in 'meshgrid' format, such that 'surf (X, Y, Z)' generates the ellipsoid.
 
@@ -43952,7 +44266,7 @@ errorbar
      '#~>'
           Set xyboxes plot style.
 
-     If the first argument HAX is an axes handle, then plot into this axis, rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then plot into this axes, rather than the current axes returned by 'gca'.
 
      The optional return value H is a handle to the hggroup object representing the data plot and errorbars.
 
@@ -44011,7 +44325,7 @@ ezcontourf
 
      N is a scalar defining the number of points to use in each dimension.
 
-     If the first argument HAX is an axes handle, then plot into this axis, rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then plot into this axes, rather than the current axes returned by 'gca'.
 
      The optional return value H is a graphics handle to the created plot.
 
@@ -44057,7 +44371,7 @@ ezcontour
 
      N is a scalar defining the number of points to use in each dimension.
 
-     If the first argument HAX is an axes handle, then plot into this axis, rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then plot into this axes, rather than the current axes returned by 'gca'.
 
      The optional return value H is a graphics handle to the created plot.
 
@@ -44088,7 +44402,7 @@ ezmeshc
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 1431
+# length: 1428
  -- : ezmeshc (F)
  -- : ezmeshc (FX, FY, FZ)
  -- : ezmeshc (..., DOM)
@@ -44101,7 +44415,7 @@ ezmeshc
 
      F is a string, inline function, or function handle with two arguments defining the function.  By default the plot is over the meshed domain '-2*pi <= X | Y <= 2*pi' with 60 points in each dimension.
 
-     If three functions are passed, then plot the parametrically defined function '[FX (S, T), FY (S, T), FZ (S, T)]'.
+     If three functions are passed, then plot the parametrically defined function '[FX(S, T), FY(S, T), FZ(S, T)]'.
 
      If DOM is a two element vector, it represents the minimum and maximum values of both X and Y.  If DOM is a four element vector, then the minimum and maximum values are '[xmin xmax ymin ymax]'.
 
@@ -44109,7 +44423,7 @@ ezmeshc
 
      If the argument "circ" is given, then the function is plotted over a disk centered on the middle of the domain DOM.
 
-     If the first argument HAX is an axes handle, then plot into this axis, rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then plot into this axes, rather than the current axes returned by 'gca'.
 
      The optional return value H is a 2-element vector with a graphics handle for the created mesh plot and a second handle for the created contour plot.
 
@@ -44140,7 +44454,7 @@ ezmesh
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 1562
+# length: 1559
  -- : ezmesh (F)
  -- : ezmesh (FX, FY, FZ)
  -- : ezmesh (..., DOM)
@@ -44153,7 +44467,7 @@ ezmesh
 
      F is a string, inline function, or function handle with two arguments defining the function.  By default the plot is over the meshed domain '-2*pi <= X | Y <= 2*pi' with 60 points in each dimension.
 
-     If three functions are passed, then plot the parametrically defined function '[FX (S, T), FY (S, T), FZ (S, T)]'.
+     If three functions are passed, then plot the parametrically defined function '[FX(S, T), FY(S, T), FZ(S, T)]'.
 
      If DOM is a two element vector, it represents the minimum and maximum values of both X and Y.  If DOM is a four element vector, then the minimum and maximum values are '[xmin xmax ymin ymax]'.
 
@@ -44161,7 +44475,7 @@ ezmesh
 
      If the argument "circ" is given, then the function is plotted over a disk centered on the middle of the domain DOM.
 
-     If the first argument HAX is an axes handle, then plot into this axis, rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then plot into this axes, rather than the current axes returned by 'gca'.
 
      The optional return value H is a graphics handle to the created surface object.
 
@@ -44217,7 +44531,7 @@ ezplot3
 
      If the "animate" option is given then the plotting is animated in the style of 'comet3'.
 
-     If the first argument HAX is an axes handle, then plot into this axis, rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then plot into this axes, rather than the current axes returned by 'gca'.
 
      The optional return value H is a graphics handle to the created plot.
 
@@ -44278,7 +44592,7 @@ ezplot
 
      N is a scalar defining the number of points to use in plotting the function.
 
-     If the first argument HAX is an axes handle, then plot into this axis, rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then plot into this axes, rather than the current axes returned by 'gca'.
 
      The optional return value H is a vector of graphics handles to the created line objects.
 
@@ -44319,7 +44633,7 @@ ezpolar
 
      N is a scalar defining the number of points to use in plotting the function.
 
-     If the first argument HAX is an axes handle, then plot into this axis, rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then plot into this axes, rather than the current axes returned by 'gca'.
 
      The optional return value H is a graphics handle to the created plot.
 
@@ -44349,7 +44663,7 @@ ezsurfc
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 1418
+# length: 1415
  -- : ezsurfc (F)
  -- : ezsurfc (FX, FY, FZ)
  -- : ezsurfc (..., DOM)
@@ -44362,7 +44676,7 @@ ezsurfc
 
      F is a string, inline function, or function handle with two arguments defining the function.  By default the plot is over the meshed domain '-2*pi <= X | Y <= 2*pi' with 60 points in each dimension.
 
-     If three functions are passed, then plot the parametrically defined function '[FX (S, T), FY (S, T), FZ (S, T)]'.
+     If three functions are passed, then plot the parametrically defined function '[FX(S, T), FY(S, T), FZ(S, T)]'.
 
      If DOM is a two element vector, it represents the minimum and maximum values of both X and Y.  If DOM is a four element vector, then the minimum and maximum values are '[xmin xmax ymin ymax]'.
 
@@ -44370,7 +44684,7 @@ ezsurfc
 
      If the argument "circ" is given, then the function is plotted over a disk centered on the middle of the domain DOM.
 
-     If the first argument HAX is an axes handle, then plot into this axis, rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then plot into this axes, rather than the current axes returned by 'gca'.
 
      The optional return value H is a 2-element vector with a graphics handle for the created surface plot and a second handle for the created contour plot.
 
@@ -44401,7 +44715,7 @@ ezsurf
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 1566
+# length: 1563
  -- : ezsurf (F)
  -- : ezsurf (FX, FY, FZ)
  -- : ezsurf (..., DOM)
@@ -44414,7 +44728,7 @@ ezsurf
 
      F is a string, inline function, or function handle with two arguments defining the function.  By default the plot is over the meshed domain '-2*pi <= X | Y <= 2*pi' with 60 points in each dimension.
 
-     If three functions are passed, then plot the parametrically defined function '[FX (S, T), FY (S, T), FZ (S, T)]'.
+     If three functions are passed, then plot the parametrically defined function '[FX(S, T), FY(S, T), FZ(S, T)]'.
 
      If DOM is a two element vector, it represents the minimum and maximum values of both X and Y.  If DOM is a four element vector, then the minimum and maximum values are '[xmin xmax ymin ymax]'.
 
@@ -44422,7 +44736,7 @@ ezsurf
 
      If the argument "circ" is given, then the function is plotted over a disk centered on the middle of the domain DOM.
 
-     If the first argument HAX is an axes handle, then plot into this axis, rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then plot into this axes, rather than the current axes returned by 'gca'.
 
      The optional return value H is a graphics handle to the created surface object.
 
@@ -44473,7 +44787,7 @@ feather
 
      The style to use for the plot can be defined with a line style STYLE of the same format as the 'plot' command.
 
-     If the first argument HAX is an axes handle, then plot into this axis, rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then plot into this axes, rather than the current axes returned by 'gca'.
 
      The optional return value H is a vector of graphics handles to the line objects representing the drawn vectors.
 
@@ -44516,7 +44830,7 @@ fill
 
      Multiple property/value pairs for the underlying patch object may be specified, but they must appear in pairs.
 
-     If the first argument HAX is an axes handle, then plot into this axis, rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then plot into this axes, rather than the current axes returned by 'gca'.
 
      The optional return value H is a vector of graphics handles to the created patch objects.
 
@@ -44552,7 +44866,7 @@ fplot
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 1748
+# length: 1750
  -- : fplot (FN, LIMITS)
  -- : fplot (..., TOL)
  -- : fplot (..., N)
@@ -44568,11 +44882,11 @@ fplot
 
      TOL is the relative tolerance to use for the plot and defaults to 2e-3 (.2%).
 
-     N is the minimum number of points to use.  When N is specified, the maximum stepsize will be 'XHI - XLO / N'.  More than N points may still be used in order to meet the relative tolerance requirement.
+     N is the minimum number of points to use.  When N is specified, the maximum stepsize will be '(XHI - XLO) / N'.  More than N points may still be used in order to meet the relative tolerance requirement.
 
      The FMT argument specifies the linestyle to be used by the plot command.
 
-     If the first argument HAX is an axes handle, then plot into this axis, rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then plot into this axes, rather than the current axes returned by 'gca'.
 
      With no output arguments the results are immediately plotted.  With two output arguments the 2-D plot data is returned.  The data can subsequently be plotted manually with 'plot (X, Y)'.
 
@@ -44638,7 +44952,7 @@ hist
           hist (rand (10, 3));
           colormap (summer ());
 
-     If the first argument HAX is an axes handle, then plot into this axis, rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then plot into this axes, rather than the current axes returned by 'gca'.
 
      With two output arguments, produce the values NN (numbers of elements) and XX (bin centers) such that 'bar (XX, NN)' will plot the histogram.
 
@@ -45042,7 +45356,7 @@ line
 
      Multiple property-value pairs may be specified for the line object, but they must appear in pairs.
 
-     If the first argument HAX is an axes handle, then plot into this axis, rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then plot into this axes, rather than the current axes returned by 'gca'.
 
      The optional return value H is a graphics handle (or vector of handles) to the line objects created.
 
@@ -45087,7 +45401,7 @@ loglogerr
 
      which produces a double logarithm plot of Y versus X with errors in the Y-scale defined by EY and the plot format defined by FMT.  *Note errorbar: XREFerrorbar, for available formats and additional information.
 
-     If the first argument HAX is an axes handle, then plot into this axis, rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then plot into this axes, rather than the current axes returned by 'gca'.
 
      See also: errorbar, semilogxerr, semilogyerr.
    
@@ -45122,7 +45436,7 @@ loglog
 
      See the documentation of 'plot' for a description of the arguments that 'loglog' will accept.
 
-     If the first argument HAX is an axes handle, then plot into this axis, rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then plot into this axes, rather than the current axes returned by 'gca'.
 
      The optional return value H is a graphics handle to the created plot.
 
@@ -45165,7 +45479,7 @@ meshc
 
      Any property/value pairs are passed directly to the underlying surface object.
 
-     If the first argument HAX is an axes handle, then plot into this axis, rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then plot into this axes, rather than the current axes returned by 'gca'.
 
      The optional return value H is a 2-element vector with a graphics handle to the created surface object and to the created contour plot.
 
@@ -45208,7 +45522,7 @@ mesh
 
      Any property/value pairs are passed directly to the underlying surface object.
 
-     If the first argument HAX is an axes handle, then plot into this axis, rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then plot into this axes, rather than the current axes returned by 'gca'.
 
      The optional return value H is a graphics handle to the created surface object.
 
@@ -45234,7 +45548,7 @@ meshz
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 1352
+# length: 1356
  -- : meshz (X, Y, Z)
  -- : meshz (Z)
  -- : meshz (..., C)
@@ -45243,7 +45557,7 @@ meshz
  -- : H = meshz (...)
      Plot a 3-D wireframe mesh with a surrounding curtain.
 
-     The wireframe mesh is plotted using rectangles.  The vertices of the rectangles [X, Y] are typically the output of 'meshgrid'.  over a 2-D rectangular region in the x-y plane.  Z determines the height above the plane of each vertex.  If only a single Z matrix is given, then it is plotted over the meshgrid 'X = 0:columns (Z) - 1, Y = 0:rows (Z) - 1'.  Thus, columns of Z correspond to different X values and rows of Z correspond to different Y values.
+     The wireframe mesh is plotted using rectangles.  The vertices of the rectangles [X, Y] are typically the output of 'meshgrid'.  over a 2-D rectangular region in the x-y plane.  Z determines the height above the plane of each vertex.  If only a single Z matrix is given, then it is plotted over the meshgrid 'X = 0:(columns (Z) - 1), Y = 0:(rows (Z) - 1').  Thus, columns of Z correspond to different X values and rows of Z correspond to different Y values.
 
      The color of the mesh is computed by linearly scaling the Z values to fit the range of the current colormap.  Use 'caxis' and/or change the colormap to control the appearance.
 
@@ -45251,7 +45565,7 @@ meshz
 
      Any property/value pairs are passed directly to the underlying surface object.
 
-     If the first argument HAX is an axes handle, then plot into this axis, rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then plot into this axes, rather than the current axes returned by 'gca'.
 
      The optional return value H is a graphics handle to the created surface object.
 
@@ -45290,7 +45604,7 @@ pareto
 
      Typically only the magnitude data Y is present in which case X is taken to be the range '1 : length (Y)'.  If X is given it may be a string array, a cell array of strings, or a numerical vector.
 
-     If the first argument HAX is an axes handle, then plot into this axis, rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then plot into this axes, rather than the current axes returned by 'gca'.
 
      The optional return value H is a 2-element vector with a graphics handle for the created bar plot and a second handle for the created line plot.
 
@@ -45344,7 +45658,7 @@ patch
 
      Instead of using property/value pairs, any property can be set by passing a structure PROPSTRUCT with the respective field names.
 
-     If the first argument HAX is an axes handle, then plot into this axis, rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then plot into this axes, rather than the current axes returned by 'gca'.
 
      The optional return value H is a graphics handle to the created patch object.
 
@@ -45387,7 +45701,7 @@ pcolor
 
      'shading' modifies an attribute determining the manner by which the face color of each cell is interpolated from the values of C, and the visibility of the cells' edges.  By default the attribute is "faceted", which renders a single color for each cell's face with the edge visible.
 
-     If the first argument HAX is an axes handle, then plot into this axis, rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then plot into this axes, rather than the current axes returned by 'gca'.
 
      The optional return value H is a graphics handle to the created surface object.
 
@@ -45471,7 +45785,7 @@ pie3
 
      The optional input LABELS is a cell array of strings of the same length as X specifying the label for each slice.
 
-     If the first argument HAX is an axes handle, then plot into this axis, rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then plot into this axes, rather than the current axes returned by 'gca'.
 
      The optional return value H is a list of graphics handles to the patch, surface, and text objects generating the plot.
 
@@ -45513,7 +45827,7 @@ pie
 
      The optional input LABELS is a cell array of strings of the same length as X specifying the label for each slice.
 
-     If the first argument HAX is an axes handle, then plot into this axis, rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then plot into this axes, rather than the current axes returned by 'gca'.
 
      The optional return value H is a list of handles to the patch and text objects generating the plot.
 
@@ -45581,7 +45895,7 @@ plot3
 
      Multiple property-value pairs may be specified which will affect the line objects drawn by 'plot3'.  If the FMT argument is supplied it will format the line objects in the same manner as 'plot'.
 
-     If the first argument HAX is an axes handle, then plot into this axis, rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then plot into this axes, rather than the current axes returned by 'gca'.
 
      The optional return value H is a graphics handle to the created plot.
 
@@ -45717,7 +46031,7 @@ plot
 
      This will plot the cosine and sine functions and label them accordingly in the legend.
 
-     If the first argument HAX is an axes handle, then plot into this axis, rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then plot into this axes, rather than the current axes returned by 'gca'.
 
      The optional return value H is a vector of graphics handles to the created line objects.
 
@@ -45765,11 +46079,11 @@ plotmatrix
 
      The marker to use can be changed with the STYLE argument, that is a string defining a marker in the same manner as the 'plot' command.
 
-     If the first argument HAX is an axes handle, then plot into this axis, rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then plot into this axes, rather than the current axes returned by 'gca'.
 
-     The optional return value H provides handles to the individual graphics objects in the scatter plots, whereas AX returns the handles to the scatter plot axis objects.
+     The optional return value H provides handles to the individual graphics objects in the scatter plots, whereas AX returns the handles to the scatter plot axes objects.
 
-     BIGAX is a hidden axis object that surrounds the other axes, such that the commands 'xlabel', 'title', etc., will be associated with this hidden axis.
+     BIGAX is a hidden axes object that surrounds the other axes, such that the commands 'xlabel', 'title', etc., will be associated with this hidden axes.
 
      Finally, P returns the graphics objects associated with the histogram and PAX the corresponding axes objects.
 
@@ -45813,9 +46127,9 @@ plotyy
 
      The function to use for each of the plots can be independently defined with FUN1 and FUN2.
 
-     If the first argument HAX is an axes handle, then it defines the principal axis in which to plot the X1 and Y1 data.
+     If the first argument HAX is an axes handle, then it defines the principal axes in which to plot the X1 and Y1 data.
 
-     The return value AX is a vector with the axis handles of the two y-axes.  H1 and H2 are handles to the objects generated by the plot commands.
+     The return value AX is a vector with the axes handles of the two y-axes.  H1 and H2 are handles to the objects generated by the plot commands.
 
           x = 0:0.1:2*pi;
           y1 = sin (x);
@@ -45860,7 +46174,7 @@ polar
 
      The optional argument FMT specifies the line format in the same way as 'plot'.
 
-     If the first argument HAX is an axes handle, then plot into this axis, rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then plot into this axes, rather than the current axes returned by 'gca'.
 
      The optional return value H is a graphics handle to the created plot.
 
@@ -45888,7 +46202,7 @@ quiver3
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 1565
+# length: 1797
  -- : quiver3 (U, V, W)
  -- : quiver3 (X, Y, Z, U, V, W)
  -- : quiver3 (..., S)
@@ -45899,15 +46213,15 @@ quiver3
 
      Plot a 3-D vector field with arrows.
 
-     Plot the (U, V, W) components of a vector field in an (X, Y, Z) meshgrid.  If the grid is uniform then X, Y, and Z can be specified as vectors.
+     Plot the (U, V, W) components of a vector field at the grid points defined by (X, Y, Z).  If the grid is uniform then X, Y, and Z can be specified as vectors and 'meshgrid' is used to create the 3-D grid.
 
-     If X, Y, and Z are undefined they are assumed to be '(1:M, 1:N, 1:P)' where '[M, N] = size (U)' and 'P = max (size (W))'.
+     If X, Y, and Z are not given they are assumed to be '(1:M, 1:N, 1:P)' where '[M, N] = size (U)' and 'P = max (size (W))'.
 
-     The variable S is a scalar defining a scaling factor to use for the arrows of the field relative to the mesh spacing.  A value of 0 disables all scaling.  The default value is 0.9.
+     The optional input S is a scalar defining a scaling factor to use for the arrows of the field relative to the mesh spacing.  A value of 1.0 will result in the longest vector exactly filling one grid cube.  A value of 0 disables all scaling.  The default value is 0.9.
 
-     The style to use for the plot can be defined with a line style STYLE of the same format as the 'plot' command.  If a marker is specified then markers at the grid points of the vectors are drawn rather than arrows.  If the argument "filled" is given then the markers are filled.
+     The style to use for the plot can be defined with a line style STYLE of the same format as the 'plot' command.  If a marker is specified then the markers are drawn at the origin of the vectors (which are the grid points defined by X, Y, Z).  When a marker is specified, the arrowhead is not drawn.  If the argument "filled" is given then the markers are filled.
 
-     If the first argument HAX is an axes handle, then plot into this axis, rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then plot into this axes, rather than the current axes returned by 'gca'.
 
      The optional return value H is a graphics handle to a quiver object.  A quiver object regroups the components of the quiver plot (body, arrow, and marker), and allows them to be changed together.
 
@@ -45940,7 +46254,7 @@ quiver
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 1454
+# length: 1688
  -- : quiver (U, V)
  -- : quiver (X, Y, U, V)
  -- : quiver (..., S)
@@ -45951,15 +46265,15 @@ quiver
 
      Plot a 2-D vector field with arrows.
 
-     Plot the (U, V) components of a vector field in an (X, Y) meshgrid.  If the grid is uniform then X and Y can be specified as vectors.
+     Plot the (U, V) components of a vector field at the grid points defined by (X, Y).  If the grid is uniform then X and Y can be specified as vectors and 'meshgrid' is used to create the 2-D grid.
 
-     If X and Y are undefined they are assumed to be '(1:M, 1:N)' where '[M, N] = size (U)'.
+     If X and Y are not given they are assumed to be '(1:M, 1:N)' where '[M, N] = size (U)'.
 
-     The variable S is a scalar defining a scaling factor to use for the arrows of the field relative to the mesh spacing.  A value of 0 disables all scaling.  The default value is 0.9.
+     The optional input S is a scalar defining a scaling factor to use for the arrows of the field relative to the mesh spacing.  A value of 1.0 will result in the longest vector exactly filling one grid square.  A value of 0 disables all scaling.  The default value is 0.9.
 
-     The style to use for the plot can be defined with a line style STYLE of the same format as the 'plot' command.  If a marker is specified then markers at the grid points of the vectors are drawn rather than arrows.  If the argument "filled" is given then the markers are filled.
+     The style to use for the plot can be defined with a line style STYLE of the same format as the 'plot' command.  If a marker is specified then the markers are drawn at the origin of the vectors (which are the grid points defined by X and Y).  When a marker is specified, the arrowhead is not drawn.  If the argument "filled" is given then the markers are filled.
 
-     If the first argument HAX is an axes handle, then plot into this axis, rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then plot into this axes, rather than the current axes returned by 'gca'.
 
      The optional return value H is a graphics handle to a quiver object.  A quiver object regroups the components of the quiver plot (body, arrow, and marker), and allows them to be changed together.
 
@@ -46011,7 +46325,7 @@ rectangle
 
      Additional property/value pairs are passed to the underlying patch command.
 
-     If the first argument HAX is an axes handle, then plot into this axis, rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then plot into this axes, rather than the current axes returned by 'gca'.
 
      The optional return value H is a graphics handle to the created rectangle object.
 
@@ -46154,7 +46468,7 @@ ribbon
 
      The optional parameter WIDTH specifies the width of a single ribbon (default is 0.75).
 
-     If the first argument HAX is an axes handle, then plot into this axis, rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then plot into this axes, rather than the current axes returned by 'gca'.
 
      The optional return value H is a vector of graphics handles to the surface objects representing each ribbon.
 
@@ -46193,7 +46507,7 @@ rose
 
      If NBINS is given and is a scalar, then the histogram is produced with NBIN bins.  If BINS is a vector, then the center of each bin is defined by the values in BINS and the number of bins is given by the number of elements in BINS.
 
-     If the first argument HAX is an axes handle, then plot into this axis, rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then plot into this axes, rather than the current axes returned by 'gca'.
 
      The optional return value H is a vector of graphics handles to the line objects representing each histogram.
 
@@ -46249,7 +46563,7 @@ scatter3
 
      Additional property/value pairs are passed directly to the underlying patch object.
 
-     If the first argument HAX is an axes handle, then plot into this axis, rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then plot into this axes, rather than the current axes returned by 'gca'.
 
      The optional return value H is a graphics handle to the hggroup object representing the points.
 
@@ -46299,7 +46613,7 @@ scatter
 
      Additional property/value pairs are passed directly to the underlying patch object.
 
-     If the first argument HAX is an axes handle, then plot into this axis, rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then plot into this axes, rather than the current axes returned by 'gca'.
 
      The optional return value H is a graphics handle to the created scatter object.
 
@@ -46350,7 +46664,7 @@ semilogxerr
 
      which produces a semi-logarithmic plot of Y versus X with errors in the Y-scale defined by EY and the plot format defined by FMT.  *Note errorbar: XREFerrorbar, for available formats and additional information.
 
-     If the first argument HAX is an axes handle, then plot into this axis, rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then plot into this axes, rather than the current axes returned by 'gca'.
 
      See also: errorbar, semilogyerr, loglogerr.
    
@@ -46385,7 +46699,7 @@ semilogx
 
      See the documentation of 'plot' for a description of the arguments that 'semilogx' will accept.
 
-     If the first argument HAX is an axes handle, then plot into this axis, rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then plot into this axes, rather than the current axes returned by 'gca'.
 
      The optional return value H is a graphics handle to the created plot.
 
@@ -46430,7 +46744,7 @@ semilogyerr
 
      which produces a semi-logarithmic plot of Y versus X with errors in the Y-scale defined by EY and the plot format defined by FMT.  *Note errorbar: XREFerrorbar, for available formats and additional information.
 
-     If the first argument HAX is an axes handle, then plot into this axis, rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then plot into this axes, rather than the current axes returned by 'gca'.
 
      See also: errorbar, semilogxerr, loglogerr.
    
@@ -46465,7 +46779,7 @@ semilogy
 
      See the documentation of 'plot' for a description of the arguments that 'semilogy' will accept.
 
-     If the first argument HAX is an axes handle, then plot into this axis, rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then plot into this axes, rather than the current axes returned by 'gca'.
 
      The optional return value H is a graphics handle to the created plot.
 
@@ -46574,7 +46888,7 @@ slice
 
      The default method is "linear".
 
-     If the first argument HAX is an axes handle, then plot into this axis, rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then plot into this axes, rather than the current axes returned by 'gca'.
 
      The optional return value H is a graphics handle to the created surface object.
 
@@ -46703,7 +47017,7 @@ sphere
 
      The optional input N determines the number of faces around the circumference of the sphere.  The default value is 20.
 
-     If the first argument HAX is an axes handle, then plot into this axis, rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then plot into this axes, rather than the current axes returned by 'gca'.
 
      If outputs are requested 'sphere' returns three matrices in 'meshgrid' format such that 'surf (X, Y, Z)' generates a unit sphere.
 
@@ -46736,7 +47050,7 @@ stairs
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 1082
+# length: 1095
  -- : stairs (Y)
  -- : stairs (X, Y)
  -- : stairs (..., STYLE)
@@ -46746,13 +47060,13 @@ stairs
  -- : [XSTEP, YSTEP] = stairs (...)
      Produce a stairstep plot.
 
-     The arguments X and Y may be vectors or matrices.  If only one argument is given, it is taken as a vector of Y values and the X coordinates are taken to be the indices of the elements.
+     The arguments X and Y may be vectors or matrices.  If only one argument is given, it is taken as a vector of Y values and the X coordinates are taken to be the indices of the elements ('X = 1:numel (Y)').
 
      The style to use for the plot can be defined with a line style STYLE of the same format as the 'plot' command.
 
      Multiple property/value pairs may be specified, but they must appear in pairs.
 
-     If the first argument HAX is an axis handle, then plot into this axis, rather than the current axis handle returned by 'gca'.
+     If the first argument HAX is an axes handle, then plot into this axes, rather than the current axes returned by 'gca'.
 
      If one output argument is requested, return a graphics handle to the created plot.  If two output arguments are specified, the data are generated but not plotted.  For example,
 
@@ -46802,7 +47116,7 @@ stem3
 
      Optional property/value pairs may be specified to control the appearance of the plot.
 
-     If the first argument HAX is an axes handle, then plot into this axis, rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then plot into this axes, rather than the current axes returned by 'gca'.
 
      The optional return value H is a handle to the "stem series" hggroup containing the line and marker objects used for the plot.  *Note stem: XREFstem, for a description of the "stem series" object.
 
@@ -46917,7 +47231,7 @@ stem
 
      Optional property/value pairs may be specified to control the appearance of the plot.
 
-     If the first argument HAX is an axes handle, then plot into this axis, rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then plot into this axes, rather than the current axes returned by 'gca'.
 
      The optional return value H is a handle to a "stem series" hggroup.  The single hggroup handle has all of the graphical elements comprising the plot as its children; This allows the properties of multiple graphics objects to be changed by modifying just a single property of the "stem series" hggroup.
 
@@ -46992,11 +47306,11 @@ surface
  -- : H = surface (...)
      Create a surface graphic object given matrices X and Y from 'meshgrid' and a matrix of values Z corresponding to the X and Y coordinates of the surface.
 
-     If X and Y are vectors, then a typical vertex is (X(j), Y(i), Z(i,j)).  Thus, columns of Z correspond to different X values and rows of Z correspond to different Y values.  If only a single input Z is given then X is taken to be '1:rows (Z)' and Y is '1:columns (Z)'.
+     If X and Y are vectors, then a typical vertex is (X(j), Y(i), Z(i,j)).  Thus, columns of Z correspond to different X values and rows of Z correspond to different Y values.  If only a single input Z is given then X is taken to be '1:columns (Z)' and Y is '1:rows (Z)'.
 
      Any property/value input pairs are assigned to the surface object.
 
-     If the first argument HAX is an axes handle, then plot into this axis, rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then plot into this axes, rather than the current axes returned by 'gca'.
 
      The optional return value H is a graphics handle to the created surface object.
 
@@ -47039,7 +47353,7 @@ surfc
 
      Any property/value pairs are passed directly to the underlying surface object.
 
-     If the first argument HAX is an axes handle, then plot into this axis, rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then plot into this axes, rather than the current axes returned by 'gca'.
 
      The optional return value H is a graphics handle to the created surface object.
 
@@ -47094,7 +47408,7 @@ surfl
 
      "EXP" specular exponent
 
-     If the first argument HAX is an axes handle, then plot into this axis, rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then plot into this axes, rather than the current axes returned by 'gca'.
 
      The optional return value H is a graphics handle to the created surface object.
 
@@ -47143,7 +47457,7 @@ surf
 
      Any property/value pairs are passed directly to the underlying surface object.
 
-     If the first argument HAX is an axes handle, then plot into this axis, rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then plot into this axes, rather than the current axes returned by 'gca'.
 
      The optional return value H is a graphics handle to the created surface object.
 
@@ -47179,17 +47493,17 @@ surfnorm
  -- : [NX, NY, NZ] = surfnorm (...)
      Find the vectors normal to a meshgridded surface.
 
-     If X and Y are vectors, then a typical vertex is (X(j), Y(i), Z(i,j)).  Thus, columns of Z correspond to different X values and rows of Z correspond to different Y values.  If only a single input Z is given then X is taken to be '1:rows (Z)' and Y is '1:columns (Z)'.
+     If X and Y are vectors, then a typical vertex is (X(j), Y(i), Z(i,j)).  Thus, columns of Z correspond to different X values and rows of Z correspond to different Y values.  If only a single input Z is given then X is taken to be '1:columns (Z)' and Y is '1:rows (Z)'.
 
      If no return arguments are requested, a surface plot with the normal vectors to the surface is plotted.
 
      Any property/value input pairs are assigned to the surface object.
 
-     If the first argument HAX is an axes handle, then plot into this axis, rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then plot into this axes, rather than the current axes returned by 'gca'.
 
      If output arguments are requested then the components of the normal vectors are returned in NX, NY, and NZ and no plot is made.  The normal vectors are unnormalized (magnitude != 1).  To normalize, use
 
-          mag = sqrt (nx.^2 + ny.^2 + nz.^2);
+          len = sqrt (nx.^2 + ny.^2 + nz.^2);
           nx ./= len;  ny ./= len;  nz ./= len;
 
      An example of the use of 'surfnorm' is
@@ -47261,7 +47575,7 @@ trimesh
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 1292
+# length: 1374
  -- : trimesh (TRI, X, Y, Z, C)
  -- : trimesh (TRI, X, Y, Z)
  -- : trimesh (TRI, X, Y)
@@ -47275,7 +47589,7 @@ trimesh
 
      The color of the trimesh is computed by linearly scaling the Z values to fit the range of the current colormap.  Use 'caxis' and/or change the colormap to control the appearance.
 
-     Optionally, the color of the mesh can be specified independently of Z by supplying a color matrix, C.  If Z has N elements, then C should be an Nx1 vector for colormap data or an Nx3 matrix for RGB data.
+     Optionally, the color of the mesh can be specified independently of Z by supplying C, which is a vector for colormap data, or a matrix with three columns for RGB data.  The number of colors specified in C must either equal the number of vertices in Z or the number of triangles in TRI.
 
      Any property/value pairs are passed directly to the underlying patch object.
 
@@ -47337,7 +47651,7 @@ trisurf
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 1185
+# length: 1461
  -- : trisurf (TRI, X, Y, Z, C)
  -- : trisurf (TRI, X, Y, Z)
  -- : trisurf (..., PROP, VAL, ...)
@@ -47348,9 +47662,9 @@ trisurf
 
      TRI is typically the output of a Delaunay triangulation over the grid of X, Y.  Every row of TRI represents one triangle and contains three indices into [X, Y] which are the vertices of the triangles in the x-y plane.  Z determines the height above the plane of each vertex.
 
-     The color of the trimesh is computed by linearly scaling the Z values to fit the range of the current colormap.  Use 'caxis' and/or change the colormap to control the appearance.
+     The color of the trisurf is computed by linearly scaling the Z values to fit the range of the current colormap.  Use 'caxis' and/or change the colormap to control the appearance.
 
-     Optionally, the color of the mesh can be specified independently of Z by supplying a color matrix, C.  If Z has N elements, then C should be an Nx1 vector for colormap data or an Nx3 matrix for RGB data.
+     Optionally, the color of the mesh can be specified independently of Z by supplying C, which is a vector for colormap data, or a matrix with three columns for RGB data.  The number of colors specified in C must either equal the number of vertices in Z or the number of triangles in TRI.  When specifying the color at each vertex the triangle will be colored according to the color of the first vertex only (see patch documentation and the "FaceColor" property when set to "flat").
 
      Any property/value pairs are passed directly to the underlying patch object.
 
@@ -47397,7 +47711,7 @@ waterfall
 
      Any property/value pairs are passed directly to the underlying surface object.
 
-     If the first argument HAX is an axes handle, then plot into this axis, rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then plot into this axes, rather than the current axes returned by 'gca'.
 
      The optional return value H is a graphics handle to the created surface object.
 
@@ -47495,7 +47809,7 @@ axes
 
      Called without any arguments, or with PROPERTY/VALUE pairs, construct a new axes.  For accepted properties and corresponding values, *note set: XREFset.
 
-     Called with a single axes handle argument HAX, the function makes HAX the current axis.  It also restacks the axes in the corresponding figure so that HAX is the first entry in the list of children.  This causes HAX to be displayed on top of any other axes objects (Z-order stacking).
+     Called with a single axes handle argument HAX, the function makes HAX the current axes.  It also restacks the axes in the corresponding figure so that HAX is the first entry in the list of children.  This causes HAX to be displayed on top of any other axes objects (Z-order stacking).
 
      See also: gca, set, get.
    
@@ -47528,9 +47842,9 @@ cla
 
      'cla' operates by deleting child graphic objects with visible handles (HandleVisibility = "on").
 
-     If the optional argument "reset" is specified, delete all child objects including those with hidden handles and reset all axis properties to their defaults.  However, the following properties are not reset: Position, Units.
+     If the optional argument "reset" is specified, delete all child objects including those with hidden handles and reset all axes properties to their defaults.  However, the following properties are not reset: Position, Units.
 
-     If the first argument HAX is an axes handle, then operate on this axis rather than the current axes returned by 'gca'.
+     If the first argument HAX is an axes handle, then operate on this axes rather than the current axes returned by 'gca'.
 
      See also: clf, delete, reset.
    
@@ -47757,7 +48071,7 @@ findall
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 728
+# length: 723
  -- : H = findall ()
  -- : H = findall (PROP_NAME, PROP_VALUE, ...)
  -- : H = findall (PROP_NAME, PROP_VALUE, "-LOGICAL_OP", PROP_NAME, PROP_VALUE)
@@ -47766,7 +48080,7 @@ findall
  -- : H = findall (HLIST, ...)
  -- : H = findall (HLIST, "flat", ...)
  -- : H = findall (HLIST, "-depth", D, ...)
-     Find graphics object, including hidden ones, with specified property values.
+     Find graphics object, including hidden ones, with specified properties.
 
      The return value H is a list of handles to the found graphic objects.
 
@@ -47779,8 +48093,8 @@ findall
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 76
-Find graphics object, including hidden ones, with specified property values.
+# length: 71
+Find graphics object, including hidden ones, with specified properties.
 
 
 
@@ -47820,7 +48134,7 @@ findobj
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 1884
+# length: 2363
  -- : H = findobj ()
  -- : H = findobj (PROP_NAME, PROP_VALUE, ...)
  -- : H = findobj (PROP_NAME, PROP_VALUE, "-LOGICAL_OP", PROP_NAME, PROP_VALUE)
@@ -47829,27 +48143,33 @@ findobj
  -- : H = findobj (HLIST, ...)
  -- : H = findobj (HLIST, "flat", ...)
  -- : H = findobj (HLIST, "-depth", D, ...)
-     Find graphics object with specified property values.
+     Find graphics objects with specified properties.
 
-     The simplest form is
+     When called without arguments, return all graphic objects beginning with the root object (0) and including all of its descendants.
+
+     The simplest form for narrowing the results is
 
           findobj (PROP_NAME, PROP_VALUE)
 
-     which returns the handles of all objects which have a property named PROP_NAME that has the value PROP_VALUE.  If multiple property/value pairs are specified then only objects meeting all of the conditions are returned.
+     which returns the handles of all objects which have a property named PROP_NAME that has the value PROP_VALUE.  If multiple property/value pairs are specified then only objects meeting all of the conditions (equivalent to '-and') are returned.
 
      The search can be limited to a particular set of objects and their descendants, by passing a handle or set of handles HLIST as the first argument.
 
-     The depth of the object hierarchy to search can be limited with the "-depth" argument.  An example of searching only three generations of children is:
+     The depth of the object hierarchy to search can be limited with the "-depth" argument.  An example of searching through only three generations of children is:
 
           findobj (HLIST, "-depth", 3, PROP_NAME, PROP_VALUE)
 
-     Specifying a depth D of 0, limits the search to the set of objects passed in HLIST.  A depth D of 0 is equivalent to the "flat" argument.
+     Specifying a depth D of 0 limits the search to the set of objects passed in HLIST.  A depth of 0 is also equivalent to the "flat" argument.  The default depth value is 'Inf' which includes all descendants.
 
-     A specified logical operator may be applied to the pairs of PROP_NAME and PROP_VALUE.  The supported logical operators are: "-and", "-or", "-xor", "-not".
+     A specified logical operator may be used between PROP_NAME, PROP_VALUE pairs.  The supported logical operators are: "-and", "-or", "-xor", "-not".  Example code to locate all figure and axes objects is
+
+          findobj ("type", "figure", "-or", "type", "axes")
 
      Objects may also be matched by comparing a regular expression to the property values, where property values that match 'regexp (PROP_VALUE, PATTERN)' are returned.
 
-     Finally, objects may be matched by property name only by using the "-property" option.
+     Finally, objects which have a property name can be found with the "-property" option.  For example, code to locate objects with a "meshstyle" property is
+
+          findobj ("-property", "meshstyle")
 
      Implementation Note: The search only includes objects with visible handles (HandleVisibility = "on").  *Note findall: XREFfindall, to search for all objects including hidden ones.
 
@@ -47860,8 +48180,8 @@ findobj
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 52
-Find graphics object with specified property values.
+# length: 48
+Find graphics objects with specified properties.
 
 
 
@@ -47877,9 +48197,9 @@ gca
 # elements: 1
 # length: 827
  -- : H = gca ()
-     Return a handle to the current axis object.
+     Return a handle to the current axes object.
 
-     The current axis is the default target for graphics output.  In the case of a figure with multiple axes, 'gca' returns the last created axes or the last axes that was clicked on with the mouse.
+     The current axes is the default target for graphics output.  In the case of a figure with multiple axes, 'gca' returns the last created axes or the last axes that was clicked on with the mouse.
 
      If no current axes object exists, create one and return its handle.  The handle may then be used to examine or set properties of the axes.  For example,
 
@@ -47888,7 +48208,7 @@ gca
 
      creates an empty axes object and then changes its location and size in the figure window.
 
-     Note: To find the current axis without creating a new axes object if it does not exist, query the "CurrentAxes" property of a figure.
+     Note: To find the current axes without creating a new axes object if it does not exist, query the "CurrentAxes" property of a figure.
 
           get (gcf, "currentaxes");
 
@@ -47900,7 +48220,7 @@ gca
 # type: sq_string
 # elements: 1
 # length: 43
-Return a handle to the current axis object.
+Return a handle to the current axes object.
 
 
 
@@ -48269,12 +48589,12 @@ hold
           Equivalent to 'hold on'.
 
      'hold off'
-          Restore default graphics settings which clear the graph and reset axis properties before each new plot command.  (default).
+          Restore default graphics settings which clear the graph and reset axes properties before each new plot command.  (default).
 
      'hold'
           Toggle the current hold state.
 
-     When given the additional argument HAX, the hold state is modified for this axis rather than the current axes returned by 'gca'.
+     When given the additional argument HAX, the hold state is modified for this axes rather than the current axes returned by 'gca'.
 
      To query the current hold state use the 'ishold' function.
 
@@ -48619,7 +48939,7 @@ newplot
  -- : HAX = newplot (...)
      Prepare graphics engine to produce a new plot.
 
-     This function is called at the beginning of all high-level plotting functions.  It is not normally required in user programs.  'newplot' queries the "NextPlot" field of the current figure and axis to determine what to do.
+     This function is called at the beginning of all high-level plotting functions.  It is not normally required in user programs.  'newplot' queries the "NextPlot" field of the current figure and axes to determine what to do.
 
      Figure NextPlot                                                                                                                                                                                                                                                  Action
      ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -48631,19 +48951,19 @@ newplot
                                                                                                                                                                                                                                                                       
      "replace"                                                                                                                                                                                                                                                        Delete all child objects of the figure and reset all figure properties to their defaults.  However, the following four properties are not reset: Position, Units, PaperPosition, PaperUnits.  This is equivalent to 'clf reset'.
 
-     Axis NextPlot                                                                                                                                                                                                                                                    Action
+     Axes NextPlot                                                                                                                                                                                                                                                    Action
      ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
      "add"                                                                                                                                                                                                                                                            Add new graphic objects to the current axes.  This is equivalent to 'hold on'.
                                                                                                                                                                                                                                                                       
-     "replacechildren"                                                                                                                                                                                                                                                Delete child objects whose HandleVisibility is set to "on", but leave axis properties unmodified.  This typically clears a plot, but preserves special settings such as log scaling for axes.  This is equivalent to 'cla'.
+     "replacechildren"                                                                                                                                                                                                                                                Delete child objects whose HandleVisibility is set to "on", but leave axes properties unmodified.  This typically clears a plot, but preserves special settings such as log scaling for axes.  This is equivalent to 'cla'.
                                                                                                                                                                                                                                                                       
-     "replace" (default)                                                                                                                                                                                                                                              Delete all child objects of the axis and reset all axis properties to their defaults.  However, the following properties are not reset: Position, Units.  This is equivalent to 'cla reset'.
+     "replace" (default)                                                                                                                                                                                                                                              Delete all child objects of the axes and reset all axes properties to their defaults.  However, the following properties are not reset: Position, Units.  This is equivalent to 'cla reset'.
 
      If the optional input HFIG or HAX is given then prepare the specified figure or axes rather than the current figure and axes.
 
      The optional return value HAX is a graphics handle to the created axes object (not figure).
 
-     *Caution:* Calling 'newplot' may change the current figure and current axis.
+     *Caution:* Calling 'newplot' may change the current figure and current axes.
    
 
 
@@ -48704,7 +49024,7 @@ print
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 8858
+# length: 8922
  -- : print ()
  -- : print (OPTIONS)
  -- : print (FILENAME, OPTIONS)
@@ -48719,7 +49039,7 @@ print
 
      For output to a printer, PostScript file, or PDF file, the paper size is specified by the figure's 'papersize' property.  The location and size of the image on the page are specified by the figure's 'paperposition' property.  The orientation of the page is specified by the figure's 'paperorientation' property.
 
-     The width and height of images are specified by the figure's 'paperpositon(3:4)' property values.
+     The width and height of images are specified by the figure's 'paperposition(3:4)' property values.
 
      The 'print' command supports many OPTIONS:
 
@@ -48755,13 +49075,13 @@ print
           'ps2'
           'psc'
           'psc2'
-               PostScript (level 1 and 2, mono and color).  The FLTK graphics toolkit generates PostScript level 3.0.
+               PostScript (level 1 and 2, mono and color).  The OpenGL-based toolkits always generate PostScript level 3.0.
 
           'eps'
           'eps2'
           'epsc'
           'epsc2'
-               Encapsulated PostScript (level 1 and 2, mono and color).  The FLTK graphic toolkit generates PostScript level 3.0.
+               Encapsulated PostScript (level 1 and 2, mono and color).  The OpenGL-based toolkits always generate PostScript level 3.0.
 
           'pslatex'
           'epslatex'
@@ -48831,7 +49151,7 @@ print
 
      'tikz'
      'tikzstandalone'
-          Generate a LaTeX file using PGF/TikZ.  For the FLTK toolkit the result is PGF.  The 'tikzstandalone' device produces a LaTeX document which includes the TikZ file ('tikzstandalone' is only available for the Gnuplot graphics toolkit).
+          Generate a LaTeX file using PGF/TikZ format.  The OpenGL-based toolkits create a PGF file while Gnuplot creates a TikZ file.  The 'tikzstandalone' device produces a LaTeX document which includes the TikZ file ('tikzstandalone' and is only available for the Gnuplot graphics toolkit).
 
           If the device is omitted, it is inferred from the file extension, or if there is no filename it is sent to the printer as PostScript.
 
@@ -49242,21 +49562,21 @@ subplot
           |  4  |  5  |  6  |
           +-----+-----+-----+
 
-     INDEX may also be a vector.  In this case, the new axis will enclose the grid locations specified.  The first demo illustrates this:
+     INDEX may also be a vector.  In this case, the new axes will enclose the grid locations specified.  The first demo illustrates this:
 
           demo ("subplot", 1)
 
      The index of the subplot to make active may also be specified by its axes handle, HAX, returned from a previous 'subplot' command.
 
-     If the option "align" is given then the plot boxes of the subwindows will align, but this may leave no room for axis tick marks or labels.
+     If the option "align" is given then the plot boxes of the subwindows will align, but this may leave no room for axes tick marks or labels.
 
-     If the option "replace" is given then the subplot axis will be reset, rather than just switching the current axis for plotting to the requested subplot.
+     If the option "replace" is given then the subplot axes will be reset, rather than just switching the current axes for plotting to the requested subplot.
 
      The "position" property can be used to exactly position the subplot axes within the current figure.  The option POS is a 4-element vector [x, y, width, height] that determines the location and size of the axes.  The values in POS are normalized in the range [0,1].
 
      Any property/value pairs are passed directly to the underlying axes object.
 
-     If the output HAX is requested, subplot returns the axis handle for the subplot.  This is useful for modifying the properties of a subplot using 'set'.
+     If the output HAX is requested, subplot returns the axes handle for the subplot.  This is useful for modifying the properties of a subplot using 'set'.
 
      See also: axes, plot, gca, set.
    
@@ -49434,7 +49754,7 @@ mkpp
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 971
+# length: 976
  -- : PP = mkpp (BREAKS, COEFS)
  -- : PP = mkpp (BREAKS, COEFS, D)
 
@@ -49442,11 +49762,11 @@ mkpp
 
      BREAKS must be a vector of strictly increasing values.  The number of intervals is given by 'NI = length (BREAKS) - 1'.
 
-     When M is the polynomial order COEFS must be of size: NI x M + 1.
+     When M is the polynomial order COEFS must be of size: NI-by-(M + 1).
 
      The i-th row of COEFS, 'COEFS (I,:)', contains the coefficients for the polynomial over the I-th interval, ordered from highest (M) to lowest (0).
 
-     COEFS may also be a multi-dimensional array, specifying a vector-valued or array-valued polynomial.  In that case the polynomial order is defined by the length of the last dimension of COEFS.  The size of first dimension(s) are given by the scalar or vector D.  If D is not given it is set to '1'.  In any case COEFS is reshaped to a 2-D matrix of size '[NI*prod(D M)]'.
+     COEFS may also be a multi-dimensional array, specifying a vector-valued or array-valued polynomial.  In that case the polynomial order M is defined by the length of the last dimension of COEFS.  The size of first dimension(s) are given by the scalar or vector D.  If D is not given it is set to '1'.  In any case COEFS is reshaped to a 2-D matrix of size '[NI*prod(D) M]'.
 
      See also: unmkpp, ppval, spline, pchip, ppder, ppint, ppjumps.
    
@@ -51725,7 +52045,7 @@ periodogram
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 1830
+# length: 1828
  -- : [PXX, W] = periodogram (X)
  -- : [PXX, W] = periodogram (X, WIN)
  -- : [PXX, W] = periodogram (X, WIN, NFFT)
@@ -51750,7 +52070,7 @@ periodogram
           sampling rate.  The default is 1.
 
      RANGE
-          range of spectrum.  "onesided" computes spectrum from [0..nfft/2+1].  "twosided" computes spectrum from [0..nfft-1].
+          range of spectrum.  "onesided" computes spectrum from [0:nfft/2+1].  "twosided" computes spectrum from [0:nfft-1].
 
      The optional second output W are the normalized angular frequencies.  For a one-sided calculation W is in the range [0, pi] if NFFT is even and [0, pi) if NFFT is odd.  Similarly, for a two-sided calculation W is in the range [0, 2*pi] or [0, 2*pi) depending on NFFT.
 
@@ -52289,7 +52609,7 @@ eigs
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 5289
+# length: 5311
  -- : D = eigs (A)
  -- : D = eigs (A, K)
  -- : D = eigs (A, K, SIGMA)
@@ -52372,7 +52692,7 @@ eigs
           Flag if 'chol (B)' is passed rather than B.  The default is false.
 
      'permB'
-          The permutation vector of the Cholesky factorization of B if 'cholB' is true.  That is 'chol (B(permB, permB))'.  The default is '1:N'.
+          The permutation vector of the Cholesky factorization of B if 'cholB' is true.  It is obtained by '[R, ~, permB] = chol (B, "vector")'.  The default is '1:N'.
 
      It is also possible to represent A by a function denoted AF.  AF must be followed by a scalar argument N defining the length of the vector argument accepted by AF.  AF can be a function handle, an inline function, or a string.  When AF is a string it holds the name of the function to use.
 
@@ -54983,7 +55303,7 @@ corr
 
      If each row of X and Y is an observation and each column is a variable, then the (I, J)-th entry of 'corr (X, Y)' is the correlation between the I-th variable in X and the J-th variable in Y.
 
-          corr (x,y) = cov (x,y) / (std (x) * std (y))
+          corr (X,Y) = cov (X,Y) / (std (X) * std (Y))
 
      If called with one argument, compute 'corr (X, X)', the correlation between the columns of X.
 
@@ -55009,7 +55329,7 @@ cov
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 1194
+# length: 1248
  -- : cov (X)
  -- : cov (X, OPT)
  -- : cov (X, Y)
@@ -55018,7 +55338,9 @@ cov
 
      If each row of X and Y is an observation, and each column is a variable, then the (I, J)-th entry of 'cov (X, Y)' is the covariance between the I-th variable in X and the J-th variable in Y.
 
-          cov (x) = 1/N-1 * SUM_i (x(i) - mean(x)) * (y(i) - mean(y))
+          cov (X) = 1/(N-1) * SUM_i (X(i) - mean(X)) * (Y(i) - mean(Y))
+
+     where N is the length of the X and Y vectors.
 
      If called with one argument, compute 'cov (X, X)', the covariance between the columns of X.
 
@@ -55054,22 +55376,26 @@ gls
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 644
+# length: 1097
  -- : [BETA, V, R] = gls (Y, X, O)
-     Generalized least squares model.
+     Generalized least squares (GLS) model.
 
-     Perform a generalized least squares estimation for the multivariate model y = x*b + e with mean (e) = 0 and cov (vec (e)) = (s^2) o, where y is a t by p matrix, x is a t by k matrix, b is a k by p matrix, e is a t by p matrix, and o is a t*p by t*p matrix.
+     Perform a generalized least squares estimation for the multivariate model Y = X*B + E where Y is a t-by-p matrix, X is a t-by-k matrix, B is a k-by-p matrix and E is a t-by-p matrix.
 
-     Each row of Y and X is an observation and each column a variable.  The return values BETA, V, and R are defined as follows.
+     Each row of Y is a p-variate observation in which each column represents a variable.  Likewise, the rows of X represent k-variate observations or possibly designed values.  Furthermore, the collection of observations X must be of adequate rank, k, otherwise B cannot be uniquely estimated.
+
+     The observation errors, E, are assumed to originate from an underlying p-variate distribution with zero mean but possibly heteroscedastic observations.  That is, in general, 'mean (E) = 0' and 'cov (vec (E)) = (s^2)*O' in which s is a scalar and O is a t*p-by-t*p matrix.
+
+     The return values BETA, V, and R are defined as follows.
 
      BETA
-          The GLS estimator for b.
+          The GLS estimator for matrix B.
 
      V
-          The GLS estimator for s^2.
+          The GLS estimator for scalar s^2.
 
      R
-          The matrix of GLS residuals, r = y - x*beta.
+          The matrix of GLS residuals, R = Y - X*BETA.
 
      See also: ols.
    
@@ -55078,8 +55404,8 @@ gls
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 32
-Generalized least squares model.
+# length: 38
+Generalized least squares (GLS) model.
 
 
 
@@ -55168,10 +55494,10 @@ kendall
      For two data vectors X, Y of common length N, Kendall's TAU is the correlation of the signs of all rank differences of X and Y; i.e., if both X and Y have distinct entries, then
 
                    1
-          tau = -------   SUM sign (q(i) - q(j)) * sign (r(i) - r(j))
-                n (n-1)   i,j
+          TAU = -------   SUM sign (Q(i) - Q(j)) * sign (R(i) - R(j))
+                N (N-1)   i,j
 
-     in which the Q(I) and R(I) are the ranks of X and Y, respectively.
+     in which the Q(i) and R(i) are the ranks of X and Y, respectively.
 
      If X and Y are drawn from independent distributions, Kendall's TAU is asymptotically normal with mean 0 and variance '(2 * (2N+5)) / (9 * N * (N-1))'.
 
@@ -55199,7 +55525,7 @@ kurtosis
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 1152
+# length: 1197
  -- : kurtosis (X)
  -- : kurtosis (X, FLAG)
  -- : kurtosis (X, FLAG, DIM)
@@ -55216,6 +55542,8 @@ kurtosis
                         N - 1
           k0 = 3 + -------------- * ((N + 1) * k1 - 3 * (N - 1))
                    (N - 2)(N - 3)
+
+     where N is the length of the X vector.
 
      The bias-corrected kurtosis coefficient is obtained by replacing the sample second and fourth central moments by their unbiased versions.  It is an unbiased estimate of the population kurtosis for normal populations.
 
@@ -55315,7 +55643,7 @@ mean
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 758
+# length: 803
  -- : mean (X)
  -- : mean (X, DIM)
  -- : mean (X, OPT)
@@ -55324,7 +55652,9 @@ mean
 
      The mean is defined as
 
-          mean (x) = SUM_i x(i) / N
+          mean (X) = SUM_i X(i) / N
+
+     where N is the length of the X vector.
 
      If X is a matrix, compute the mean for each column and return them in a row vector.
 
@@ -55365,16 +55695,18 @@ meansq
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 381
+# length: 422
  -- : meansq (X)
  -- : meansq (X, DIM)
      Compute the mean square of the elements of the vector X.
 
      The mean square is defined as
 
-          meansq (x) = 1/N SUM_i x(i)^2
+          meansq (X) = 1/N SUM_i X(i)^2
 
-     For matrix arguments, return a row vector containing the mean square of each column.
+     where N is the length of the X vector.
+
+     If X is a matrix, return a row vector containing the mean square of each column.
 
      If the optional argument DIM is given, operate along this dimension.
 
@@ -55400,16 +55732,16 @@ median
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 622
+# length: 644
  -- : median (X)
  -- : median (X, DIM)
      Compute the median value of the elements of the vector X.
 
-     When the elements of X are sorted, the median is defined as
+     When the elements of X are sorted, say 'S = sort (X)', the median is defined as
 
-                        x(ceil(N/2))             N odd
-          median (x) =
-                       (x(N/2) + x((N/2)+1))/2   N even
+                       |  S(ceil(N/2))           N odd
+          median (X) = |
+                       | (S(N/2) + S(N/2+1))/2   N even
 
      If X is of a discrete type such as integer or logical, then the case of even N rounds up (or toward 'true').
 
@@ -55475,15 +55807,17 @@ moment
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 1055
+# length: 1100
  -- : moment (X, P)
  -- : moment (X, P, TYPE)
  -- : moment (X, P, DIM)
  -- : moment (X, P, TYPE, DIM)
  -- : moment (X, P, DIM, TYPE)
-     Compute the P-th central moment of the vector X.
+     Compute the P-th central moment of the vector X:
 
-          1/N SUM_i (x(i) - mean(x))^p
+          1/N SUM_i (X(i) - mean(X))^P
+
+     where N is the length of the X vector.
 
      If X is a matrix, return the row vector containing the P-th central moment of each column.
 
@@ -55498,17 +55832,17 @@ moment
      "ac"
           Absolute Central Moment.  The moment about the mean ignoring sign defined as
 
-               1/N SUM_i (abs (x(i) - mean(x)))^p
+               1/N SUM_i (abs (X(i) - mean(X)))^P
 
      "r"
           Raw Moment.  The moment about zero defined as
 
-               moment (x) = 1/N SUM_i x(i)^p
+               moment (X) = 1/N SUM_i X(i)^P
 
      "ar"
           Absolute Raw Moment.  The moment about zero ignoring sign defined as
 
-               1/N SUM_i ( abs (x(i)) )^p
+               1/N SUM_i ( abs (X(i)) )^P
 
      If both TYPE and DIM are given they may appear in any order.
 
@@ -55519,8 +55853,8 @@ moment
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 48
-Compute the P-th central moment of the vector X.
+# length: 49
+Compute the P-th central moment of the vector X: 
 
 
 
@@ -55534,25 +55868,25 @@ ols
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 892
+# length: 1498
  -- : [BETA, SIGMA, R] = ols (Y, X)
-     Ordinary least squares estimation.
+     Ordinary least squares (OLS) estimation.
 
-     OLS applies to the multivariate model y = x*b + e with mean (e) = 0 and cov (vec (e)) = kron (s, I). where y is a t by p matrix, x is a t by k matrix, b is a k by p matrix, and e is a t by p matrix.
+     OLS applies to the multivariate model Y = X*B + E where Y is a t-by-p matrix, X is a t-by-k matrix, B is a k-by-p matrix, and E is a t-by-p matrix.
 
-     Each row of Y and X is an observation and each column a variable.
+     Each row of Y is a p-variate observation in which each column represents a variable.  Likewise, the rows of X represent k-variate observations or possibly designed values.  Furthermore, the collection of observations X must be of adequate rank, k, otherwise B cannot be uniquely estimated.
+
+     The observation errors, E, are assumed to originate from an underlying p-variate distribution with zero mean and p-by-p covariance matrix S, both constant conditioned on X.  Furthermore, the matrix S is constant with respect to each observation such that 'mean (E) = 0' and 'cov (vec (E)) = kron (S, I)'.  (For cases that don't meet this criteria, such as autocorrelated errors, see generalized least squares, gls, for more efficient estimations.)
 
      The return values BETA, SIGMA, and R are defined as follows.
 
      BETA
-          The OLS estimator for b.  BETA is calculated directly via 'inv (x'*x) * x' * y' if the matrix 'x'*x' is of full rank.  Otherwise, 'BETA = pinv (X) * Y' where 'pinv (X)' denotes the pseudoinverse of X.
+          The OLS estimator for matrix B.  BETA is calculated directly via 'inv (X'*X) * X' * Y' if the matrix 'X'*X' is of full rank.  Otherwise, 'BETA = pinv (X) * Y' where 'pinv (X)' denotes the pseudoinverse of X.
 
      SIGMA
           The OLS estimator for the matrix S,
 
-               SIGMA = (Y-X*BETA)'
-                 * (Y-X*BETA)
-                 / (T-rank(X))
+               SIGMA = (Y-X*BETA)' * (Y-X*BETA) / (t-rank(X))
 
      R
           The matrix of OLS residuals, 'R = Y - X*BETA'.
@@ -55564,8 +55898,8 @@ ols
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 34
-Ordinary least squares estimation.
+# length: 40
+Ordinary least squares (OLS) estimation.
 
 
 
@@ -55623,7 +55957,7 @@ prctile
  -- : Q = prctile (X, P, DIM)
      For a sample X, compute the quantiles, Q, corresponding to the cumulative probability values, P, in percent.
 
-     If X is a matrix, compute the percentiles for each column and return them in a matrix, such that the i-th row of Y contains the P(i)th percentiles of each column of X.
+     If X is a matrix, compute the percentiles for each column and return them in a matrix, such that the i-th row of Q contains the P(i)th percentiles of each column of X.
 
      If P is unspecified, return the quantiles for '[0 25 50 75 100]'.
 
@@ -55721,7 +56055,7 @@ quantile
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 2757
+# length: 2784
  -- : Q = quantile (X)
  -- : Q = quantile (X, P)
  -- : Q = quantile (X, P, DIM)
@@ -55742,19 +56076,19 @@ quantile
 
        3. Method 3: SAS definition: nearest even order statistic.
 
-     Continuous sample quantile methods 4 through 9, where p(k) is the linear interpolation function respecting each methods' representative cdf.
+     Continuous sample quantile methods 4 through 9, where P(k) is the linear interpolation function respecting each method's representative cdf.
 
-       4. Method 4: p(k) = k / n.  That is, linear interpolation of the empirical cdf.
+       4. Method 4: P(k) = k / N. That is, linear interpolation of the empirical cdf, where N is the length of P.
 
-       5. Method 5: p(k) = (k - 0.5) / n.  That is a piecewise linear function where the knots are the values midway through the steps of the empirical cdf.
+       5. Method 5: P(k) = (k - 0.5) / N. That is, a piecewise linear function where the knots are the values midway through the steps of the empirical cdf.
 
-       6. Method 6: p(k) = k / (n + 1).
+       6. Method 6: P(k) = k / (N + 1).
 
-       7. Method 7: p(k) = (k - 1) / (n - 1).
+       7. Method 7: P(k) = (k - 1) / (N - 1).
 
-       8. Method 8: p(k) = (k - 1/3) / (n + 1/3).  The resulting quantile estimates are approximately median-unbiased regardless of the distribution of X.
+       8. Method 8: P(k) = (k - 1/3) / (N + 1/3).  The resulting quantile estimates are approximately median-unbiased regardless of the distribution of X.
 
-       9. Method 9: p(k) = (k - 3/8) / (n + 1/4).  The resulting quantile estimates are approximately unbiased for the expected order statistics if X is normally distributed.
+       9. Method 9: P(k) = (k - 3/8) / (N + 1/4).  The resulting quantile estimates are approximately unbiased for the expected order statistics if X is normally distributed.
 
      Hyndman and Fan (1996) recommend method 8.  Maxima, S, and R (versions prior to 2.0.0) use 7 as their default.  Minitab and SPSS use method 6.  MATLAB uses method 5.
 
@@ -55918,7 +56252,7 @@ skewness
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 1170
+# length: 1215
  -- : skewness (X)
  -- : skewness (X, FLAG)
  -- : skewness (X, FLAG, DIM)
@@ -55935,6 +56269,8 @@ skewness
                             sqrt (N*(N-1))   mean ((X - mean (X)).^3)
           skewness (X, 0) = -------------- * ------------------------.
                                 (N - 2)             std (X).^3
+
+     where N is the length of the X vector.
 
      The adjusted skewness coefficient is obtained by replacing the sample second and third central moments by their bias-corrected versions.
 
@@ -55962,14 +56298,14 @@ spearman
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 447
+# length: 493
  -- : spearman (X)
  -- : spearman (X, Y)
      Compute Spearman's rank correlation coefficient RHO.
 
      For two data vectors X and Y, Spearman's RHO is the correlation coefficient of the ranks of X and Y.
 
-     If X and Y are drawn from independent distributions, RHO has zero mean and variance '1 / (n - 1)', and is asymptotically normally distributed.
+     If X and Y are drawn from independent distributions, RHO has zero mean and variance '1 / (N - 1)', where N is the length of the X and Y vectors, and is asymptotically normally distributed.
 
      'spearman (X)' is equivalent to 'spearman (X, X)'.
 
@@ -56026,7 +56362,7 @@ std
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 813
+# length: 829
  -- : std (X)
  -- : std (X, OPT)
  -- : std (X, OPT, DIM)
@@ -56034,9 +56370,9 @@ std
 
      The standard deviation is defined as
 
-          std (x) = sqrt ( 1/(N-1) SUM_i (x(i) - mean(x))^2 )
+          std (X) = sqrt ( 1/(N-1) SUM_i (X(i) - mean(X))^2 )
 
-     where N is the number of elements.
+     where N is the number of elements of the X vector.
 
      If X is a matrix, compute the standard deviation for each column and return them in a row vector.
 
@@ -56101,7 +56437,7 @@ var
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 777
+# length: 833
  -- : var (X)
  -- : var (X, OPT)
  -- : var (X, OPT, DIM)
@@ -56109,7 +56445,9 @@ var
 
      The variance is defined as
 
-          var (x) = 1/(N-1) SUM_i (x(i) - mean(x))^2
+          var (X) = 1/(N-1) SUM_i (X(i) - mean(X))^2
+
+     where N is the length of the X vector.
 
      If X is a matrix, compute the variance for each column and return them in a row vector.
 
@@ -56121,7 +56459,7 @@ var
      1:
           normalizes with N, this provides the second moment around the mean
 
-     If N==1 the value of OPT is ignored and normalization by N is used.
+     If N is equal to 1 the value of OPT is ignored and normalization by N is used.
 
      If the optional argument DIM is given, operate along this dimension.
 
@@ -60110,13 +60448,13 @@ regexptranslate
           The wildcard characters '.', '*', and '?' are replaced with wildcards that are appropriate for a regular expression.  For example:
 
                regexptranslate ("wildcard", "*.m")
-                    => ".*\.m"
+                    => '.*\.m'
 
      "escape"
           The characters '$.?[]', that have special meaning for regular expressions are escaped so that they are treated literally.  For example:
 
                regexptranslate ("escape", "12.5")
-                    => "12\.5"
+                    => '12\.5'
 
      See also: regexp, regexpi, regexprep.
    

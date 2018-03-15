@@ -1,6 +1,6 @@
 dnl Process this file with autoconf to produce a configure script.
 dnl
-dnl Copyright (C) 1993-2017 John W. Eaton
+dnl Copyright (C) 1993-2018 John W. Eaton
 ###
 ### This file is part of Octave.
 ###
@@ -19,21 +19,21 @@ dnl Copyright (C) 1993-2017 John W. Eaton
 ### <http://www.gnu.org/licenses/>.
 
 AC_PREREQ([2.63])
-AC_INIT([GNU Octave], [4.2.1], [http://octave.org/bugs.html], [octave])
+AC_INIT([GNU Octave], [4.2.2], [http://octave.org/bugs.html], [octave])
 
 dnl Note that the version number is duplicated here and in AC_INIT
 dnl because AC_INIT requires it to be static, not computed from
 dnl shell variables.
 OCTAVE_MAJOR_VERSION=4
 OCTAVE_MINOR_VERSION=2
-OCTAVE_PATCH_VERSION=1
+OCTAVE_PATCH_VERSION=2
 
 dnl PACKAGE_VERSION is set by the AC_INIT VERSION arg
 OCTAVE_VERSION="$PACKAGE_VERSION"
 
-OCTAVE_COPYRIGHT="Copyright (C) 2017 John W. Eaton and others."
+OCTAVE_COPYRIGHT="Copyright (C) 2018 John W. Eaton and others."
 
-OCTAVE_RELEASE_DATE="2017-02-22"
+OCTAVE_RELEASE_DATE="2018-03-13"
 
 ## The "API version" is used as a way of checking that interfaces in the
 ## liboctave and libinterp libraries haven't changed in a backwardly
@@ -65,7 +65,7 @@ AC_CONFIG_HEADERS([config.h:config.in.h])
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_MACRO_DIR([m4])
 
-AM_INIT_AUTOMAKE([1.11 foreign -Wno-portability -Wno-override tar-ustar subdir-objects dist-lzip])
+AM_INIT_AUTOMAKE([1.11 foreign -Wno-portability -Wno-override tar-ustar subdir-objects dist-lzip dist-xz])
 
 ## Add the option to enable silent rules and make silent rules the
 ## default behavior.  Available since Automake 1.11 and included by
@@ -1390,7 +1390,7 @@ dnl   ## JIT build disabled
 dnl   warn_llvm="JIT compiler disabled, some performance loss for loops"
 dnl   OCTAVE_CONFIGURE_WARNING([warn_llvm])
 fi
-if test $ENABLE_JIT; then
+if test $ENABLE_JIT = yes; then
   AC_DEFINE(ENABLE_JIT, 1, [Define to 1 to enable JIT compiler.])
 fi
 
@@ -1564,9 +1564,9 @@ if test $check_magick = yes; then
     ## packages add extra flags that are useful when building
     ## Graphics/ImageMagick++ extentions.  These extra flags break the
     ## Octave build.
-    MAGICK_CPPFLAGS=`$PKG_CONFIG --cflags-only-I $magick++`
-    MAGICK_LDFLAGS=`$PKG_CONFIG --libs-only-L $magick++`
-    MAGICK_LIBS=`$PKG_CONFIG --libs-only-l $magick++`
+    MAGICK_CPPFLAGS="$($PKG_CONFIG --cflags-only-I $magick++ | $SED -e 's/^ *$//')"
+    MAGICK_LDFLAGS="$($PKG_CONFIG --libs-only-L $magick++ | $SED -e 's/^ *$//')"
+    MAGICK_LIBS="$($PKG_CONFIG --libs-only-l $magick++ | $SED -e 's/^ *$//')"
 
     warn_magick="$magick++ library fails tests.  The imread, imwrite, and imfinfo functions for reading and writing image files will not be fully functional."
 
@@ -2145,9 +2145,14 @@ OCTAVE_CHECK_LIB([arpack], ARPACK,
   [dseupd],
   [Fortran 77], [don't use the ARPACK library, disable eigs function],
   [warn_arpack=
-   OCTAVE_CHECK_LIB_ARPACK_OK(
+   OCTAVE_CHECK_LIB_ARPACK_OK_1(
      [AC_DEFINE(HAVE_ARPACK, 1, [Define to 1 if ARPACK is available.])],
-     [warn_arpack="ARPACK library found, but does not seem to work properly; disabling eigs function"])])
+     [warn_arpack="ARPACK library found, but does not seem to work properly; disabling eigs function"])
+   if test -z "$warn_arpack"; then
+     OCTAVE_CHECK_LIB_ARPACK_OK_2([],
+       [AC_MSG_WARN([ARPACK library found, but is buggy; upgrade library (>= v3.3.0) for better results])])
+   fi
+   ])
 LIBS="$save_LIBS"
 
 ### Check for readline library.
@@ -2758,8 +2763,8 @@ do
   AC_MSG_RESULT([$java_version])
   java_major=[`echo $java_version | $SED -e 's/^\([0-9][0-9]*\)\.\([0-9][0-9]*\)\..*$/\1/'`]
   java_minor=[`echo $java_version | $SED -e 's/^\([0-9][0-9]*\)\.\([0-9][0-9]*\)\..*$/\2/'`]
-  if test $java_major -ge 1 && test $java_minor -ge 5; then
-    :  # Version is ok.  Do nothing.
+  if test $java_major -gt 1 || (test $java_major -eq 1 && test $java_minor -ge 5); then
+    :  # Version is OK.  Do nothing.
   else
     warn_java="Java version is too old (< 1.5).  Octave will not be able to call Java methods."
     break

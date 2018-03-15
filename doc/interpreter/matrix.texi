@@ -362,7 +362,7 @@ additional options.
 
 @table @code
 @item m
-@code{table(idx(i)) == val(i)} if @code{val(i)}
+@code{table(idx(i)) == y(i)} if @code{y(i)}
 occurs in table; otherwise, @code{idx(i)} is zero.
 
 @item b
@@ -1326,25 +1326,25 @@ create vectors with evenly or logarithmically spaced elements.
 
 @c linspace libinterp/corefcn/data.cc
 @anchor{XREFlinspace}
-@deftypefn  {} {} linspace (@var{base}, @var{limit})
-@deftypefnx {} {} linspace (@var{base}, @var{limit}, @var{n})
-Return a row vector with @var{n} linearly spaced elements between
-@var{base} and @var{limit}.
+@deftypefn  {} {} linspace (@var{start}, @var{end})
+@deftypefnx {} {} linspace (@var{start}, @var{end}, @var{n})
+Return a row vector with @var{n} linearly spaced elements between @var{start}
+and @var{end}.
 
-If the number of elements is greater than one, then the endpoints @var{base}
-and @var{limit} are always included in the range.  If @var{base} is greater
-than @var{limit}, the elements are stored in decreasing order.  If the
-number of points is not specified, a value of 100 is used.
+If the number of elements is greater than one, then the endpoints @var{start}
+and @var{end} are always included in the range.  If @var{start} is greater than
+@var{end}, the elements are stored in decreasing order.  If the number of
+points is not specified, a value of 100 is used.
 
-The @code{linspace} function returns a row vector when both @var{base}
-and @var{limit} are scalars.  If one, or both, inputs are vectors, then
+The @code{linspace} function returns a row vector when both @var{start} and
+@var{end} are scalars.  If one, or both, inputs are vectors, then
 @code{linspace} transforms them to column vectors and returns a matrix where
 each row is an independent sequence between
-@w{@code{@var{base}(@var{row_n}), @var{limit}(@var{row_n})}}.
+@w{@code{@var{start}(@var{row_n}), @var{end}(@var{row_n})}}.
 
-For compatibility with @sc{matlab}, return the second argument (@var{limit})
-if fewer than two values are requested.
-@seealso{@ref{XREFlogspace,,logspace}}
+For compatibility with @sc{matlab}, return the second argument (@var{end}) when
+only a single value (@var{n} = 1) is requested.
+@seealso{@ref{XREFcolon,,colon}, @ref{XREFlogspace,,logspace}}
 @end deftypefn
 
 
@@ -1386,8 +1386,15 @@ $10^{a}$ and $10^{\pi}$,
 @end ifnottex
 in order to be compatible with the corresponding @sc{matlab} function.
 
-Also for compatibility with @sc{matlab}, return the second argument @var{b}
-if fewer than two values are requested.
+Also for compatibility with @sc{matlab}, return the right-hand side of
+the range
+@tex
+($10^{b}$)
+@end tex
+@ifnottex
+(10^@var{b})
+@end ifnottex
+when just a single value is requested.
 @seealso{@ref{XREFlinspace,,linspace}}
 @end deftypefn
 
@@ -1642,9 +1649,9 @@ classes.
 
 @c randg libinterp/corefcn/rand.cc
 @anchor{XREFrandg}
-@deftypefn  {} {} randg (@var{n})
-@deftypefnx {} {} randg (@var{m}, @var{n}, @dots{})
-@deftypefnx {} {} randg ([@var{m} @var{n} @dots{}])
+@deftypefn  {} {} randg (@var{a}, @var{n})
+@deftypefnx {} {} randg (@var{a}, @var{m}, @var{n}, @dots{})
+@deftypefnx {} {} randg (@var{a}, [@var{m} @var{n} @dots{}])
 @deftypefnx {} {@var{v} =} randg ("state")
 @deftypefnx {} {} randg ("state", @var{v})
 @deftypefnx {} {} randg ("state", "reset")
@@ -1653,6 +1660,7 @@ classes.
 @deftypefnx {} {} randg ("seed", "reset")
 @deftypefnx {} {} randg (@dots{}, "single")
 @deftypefnx {} {} randg (@dots{}, "double")
+
 Return a matrix with @code{gamma (@var{a},1)} distributed random elements.
 
 The arguments are handled the same as the arguments for @code{rand}, except

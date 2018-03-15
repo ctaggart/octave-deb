@@ -1,3 +1,1718 @@
+2018-03-13  John W. Eaton  <jwe@octave.org>
+
+	Version 4.2.2 released.
+
+	Files: NEWS
+
+2018-03-13  Kai T. Ohlhus  <k.ohlhus@gmail.com>
+
+	More updates for 4.2.2 release.
+
+	* configure.ac: Remove rc suffix and update dates.
+
+	* doc/interpreter/octave.texi: Update dates.
+
+	Files: configure.ac doc/interpreter/octave.texi
+
+2018-03-13  John W. Eaton  <jwe@octave.org>
+
+	* NEWS: Update for 4.2.2 release.
+
+	Files: NEWS configure.ac
+
+2018-03-08  John W. Eaton  <jwe@octave.org>
+
+	make leftdiv work for scalar \ int-matrix (bug #51682)
+
+	* op-int.h (OCTAVE_SM_INT_ARITH_OPS): Fix likely cut/paste typo in
+	ldiv operator.
+
+	Files: libinterp/operators/op-int.h
+
+2018-03-01  Mike Miller  <mtmiller@octave.org>
+
+	test: ensure all unit tests restore global random state after setting it
+
+	* conv2.cc: Restore the rand "seed" and "state" after setting a fixed "seed".
+	* rand.cc: Restore the "seed" and "state" parameters for all rand functions
+	after completing all unit tests.
+	* eigs.m: Restore the rand "state" after setting a fixed "state" for each
+	block of tests.
+	* median.m: Restore the rand "state" after setting a fixed "state".
+
+	Files: libinterp/corefcn/conv2.cc libinterp/corefcn/rand.cc
+	scripts/sparse/eigs.m scripts/statistics/base/median.m
+
+2018-02-23  Philip Nienhuis  <prnienhuis@user.sf.net>
+
+	inputdlg.m: Avoid crash when prompt and defaults sizes differ (bug #53209).
+
+	* inputdlg.m: Validate numel() of prompt and defaults match or emit an error.
+
+	Files: scripts/gui/inputdlg.m
+
+2018-02-27  Mike Miller  <mtmiller@octave.org>
+
+	__gripe_missing_component__.m: fix BIST tests when missing_component_hook exists
+
+	* __gripe_missing_component__.m: Fix BIST tests when the missing_component_hook
+	function exists, overriding the expected error messages.
+
+	Files: scripts/help/__gripe_missing_component__.m
+
+2017-11-24  Sébastien Villemot  <sebastien@debian.org>
+
+	tie octave_classdef::numel method to "numel" user override method (bug #46571)
+
+	* ov-classdef.cc, ov-classdef.h (octave_classdef::numel):
+	New method: calls "numel" user override method if present, otherwise fallback
+	to octave_base_value::numel.
+
+	* test/classdef/struct_wrapper.m, test/classdef/classdef.tst: New testcase.
+
+	* test/classdef/module.mk: Add test file to test infrastructure.
+
+	Files: libinterp/octave-value/ov-classdef.cc libinterp/octave-value/ov-
+	classdef.h test/classdef/classdef.tst test/classdef/module.mk
+	test/classdef/struct_wrapper.m
+
+2018-02-26  Rik  <rik@octave.org>
+
+	Fix performance of Sparse fsolve for complex sparse matrices (bug #53140).
+
+	* CSparse.cc (SparseComplexMatrix::bsolve, SparseComplexMatrix::fsolve): Use
+	floating point arithmetic to calculate a new matrix size as a fraction of the
+	existing number of non-zero elements when a resize is required.
+
+	Files: liboctave/array/CSparse.cc
+
+2018-02-19  Rik  <rik@octave.org>
+
+	Fix performance of Sparse fsolve (bug #53140).
+
+	* dSparse.cc (SparseMatrix::bsolve, SparseMatrix::fsolve): Use
+	floating point arithmetic to calculate a new matrix size as a
+	fraction of the existing number of non-zero elements when a
+	resize is required.
+
+	Files: liboctave/array/dSparse.cc
+
+2018-02-15  Rik  <rik@octave.org>
+
+	Document second calling form of disp().
+
+	* pr-output.cc (Fdisp): Document second calling form where string is returned.
+
+	Files: libinterp/corefcn/pr-output.cc
+
+2018-02-07  Ronny Standtke  <ronny.standtke@gmx.net>
+
+	octave.desktop.in: No repetition of Name in Comment field and start I10n (bug #53078).
+
+	* etc/icons/octave.desktop.in: The Comment field redundantly repeated the Name
+	field.  Add German translation of the Comment field.
+
+	Pushed by Kai T. Ohlhus <k.ohlhus@gmail.com>.
+
+	Files: etc/icons/octave.desktop.in
+
+2018-01-17  Rik  <rik@octave.org>
+
+	doc: Use @var{} around variables in operator functions such as and, or, uplus.
+
+	* data.cc (Fnot, Fuplus, Fuminus, Ftranspose, Fctranspose, Fplus, Fminus,
+	Fmtimes, Fmrdivide, Fmpower, Fmldivide, Flt, Fle, Feq, Fge, Fgt, Fne, Ftimes,
+	Frdivide, Fpower, Fldivide, Fand, For, Fcolon): Use @var{} around variables
+	in docstrings.
+
+	Files: libinterp/corefcn/data.cc
+
+2018-01-16  Rik  <rik@octave.org>
+
+	Don't create partially invalid graphic objects (bug #52904).
+
+	* graphics.cc (make_graphics_object): Wrap xset() call within try/catch block
+	in case additional arguments given to primitive object cause a failure.  If
+	error caught, delete the partially formed object before issuing an error.
+	Also, correct function identified in error message to be "__go_%s__".
+
+	Files: libinterp/corefcn/graphics.cc
+
+	print.m: Fix typo in docstring.
+
+	* print.m: Change "positon" to "position".
+
+	Files: scripts/plot/util/print.m
+
+2018-01-15  Colin Macdonald  <cbm@m.fsf.org>
+
+	Test for incorrect regexprep on ARM platforms (bug #52810).
+
+	* regexp.cc (regexprep): Add BIST test.
+
+	Files: libinterp/corefcn/regexp.cc
+
+2018-01-15  Rik  <rik@octave.org>
+
+	Fix incorrect regexprep on ARM platforms (bug #52810).
+
+	* lo-regexp.cc (regexp::replace): Extend static_cast<size_t> to surround entire
+	length calculations of (end - start + 1).
+
+	Files: liboctave/util/lo-regexp.cc
+
+2018-01-14  Rik  <rik@octave.org>
+
+	maint: Get rid of second stable head.
+
+	Files: 
+
+	doc: Remove backslashes before double quotes in m-file docstrings (bug #52870).
+	Documentation converted from C++ had backslashes before double quotes.
+
+	* fnmatch.m, md5sum.m, usage.m: Remove backslashes before double quotes.
+
+	Files: scripts/deprecated/fnmatch.m scripts/deprecated/md5sum.m
+	scripts/deprecated/usage.m
+
+	doc: Tweaks to use single quotes instead of double quotes (bug #52870).
+
+	* input.cc (FPS1): Use single quotes around PS1 default value which contains
+	backslash.
+
+	* regexptranslate.m: Use single quotes around results which contain backslash.
+
+	Files: libinterp/corefcn/input.cc scripts/strings/regexptranslate.m
+
+2018-01-10  Kai T. Ohlhus  <k.ohlhus@gmail.com>
+
+	doc: Correct fieldname of returned struct in ver (bug #52845).
+
+	* scripts/miscellaneous/ver.m: Revision ==> Release.
+
+	Files: scripts/miscellaneous/ver.m
+
+2018-01-09  Rik  <rik@octave.org>
+
+	doc: Cleanup @code example in Appendix on test functions (bug #52852).
+
+	* testfun.txi: Add space between "%!" and "assert" to make line a comment.
+	Use @var{} around variable in @example code.
+
+	Files: doc/interpreter/testfun.txi
+
+	doc: Fixes for signal, image, audio, and OOP chapters (bug #52844).
+
+	* oop.txi: Remove duplicate word "can".
+
+	* package.txi: Change @example code to find current_installation_directory so
+	that it would actually run.  Rewrite BuildRequires item.
+
+	* plot.txi: Re-phrase language about when Contour group objects are created.
+
+	* fft.cc (Ffft, Fifft): Use the same variable name 'x' in docstring as in
+	@deftypefn.  Add period to final sentence of docstring.
+
+	* fft2.cc (Ffft2): Add period to final sentence of docstring.
+
+	* lin2mu.m: Add output variable 'y' to @deftypefn.
+
+	* mu2lin.m: Add output variable 'y' to @deftypefn.  Space out mathematical
+	expression for better readibility.
+
+	* ind2gray.m: Use the same variable name 'map' in docstring as in @deftypefn.
+
+	* rgb2ind.m: Add period to final sentence of docstring.
+
+	* periodogram.m: Use ':' operator rather than '..' to indicate range.
+
+	Files: doc/interpreter/oop.txi doc/interpreter/package.txi
+	doc/interpreter/plot.txi libinterp/corefcn/fft.cc
+	libinterp/corefcn/fft2.cc scripts/audio/lin2mu.m
+	scripts/audio/mu2lin.m scripts/image/ind2gray.m
+	scripts/image/rgb2ind.m scripts/signal/periodogram.m
+
+2018-01-08  Rik  <rik@octave.org>
+
+	doc: Fix issues in geometry, polynomial, and interpolation chapters (bug #52835).
+
+	* geometry.txi: Re-write section on how to calculate Barycentric coordinates.
+	Correct example code to actually work.
+
+	* interp2.m: Rename "extrapval" to "extrap" to match rest of documentation.
+
+	* tsearchn.m (cart2bary) : Clean up comments explaining code.
+
+	* mkpp.m: Clarify size of output matrix for multi-dimensional interpolation.
+
+	Files: doc/interpreter/geometry.txi scripts/general/interp2.m
+	scripts/geometry/tsearchn.m scripts/polynomial/mkpp.m
+
+	doc: Fix TeX documentation for qp and clarify size of inputs (bug #52829).
+
+	* optim.txi: Add missing variable 'x' to multiplication "A_in x" in TeX format.
+
+	* qp.m: Add missing variable 'x' to multiplication "A_in x" in TeX format.
+	Clarify size of the constraint inputs.
+
+	Files: doc/interpreter/optim.txi scripts/optimization/qp.m
+
+2018-01-07  Rik  <rik@octave.org>
+
+	doc: Correct errors in Diagonal matrix chapter of manual (bug #52814).
+
+	* diagperm.txi: Correct definition of multiplication when rows exceeds columns.
+	Use parentheses to accurately show how to solve A*x = b using LU decomposition.
+
+	Files: doc/interpreter/diagperm.txi
+
+	doc: Replace @math{1e^{XXX}} sequences with raw 1eXXX (bug #52827).
+	Expansion in TeX leads to incorrect interpretation of 1 * e^{XXX}
+	rather than 1 * 10^{XXX}.
+	* quad.txi, quad.cc (Fquad), quadcc.cc (Fquad.cc), dblquad.m, quadl.m:
+	Replace @math{1e^{XXX}} sequences with raw 1eXXX (bug #52827).
+
+	Files: doc/interpreter/quad.txi libinterp/corefcn/quad.cc
+	libinterp/corefcn/quadcc.cc scripts/general/dblquad.m
+	scripts/general/quadl.m
+
+	doc: Use '...' rather than deprecated '\' for line continuation (bug #52828).
+
+	* diffeq.txi: Replace '\' for line continuation outside of double-quoted string
+	with '...' in example code.
+
+	Files: doc/interpreter/diffeq.txi
+
+2018-01-04  Rik  <rik@octave.org>
+
+	doc: Remove unimplemented option "extra" from cumsum documentation.
+
+	* data.cc (Fcumsum): Remove @deftypefnx with "extra" option.
+	Remove mention of "extra" in docstring.
+
+	Files: libinterp/corefcn/data.cc
+
+2017-12-27  Daniel J Sebald  <daniel.sebald@ieee.org>
+
+	Make documentation Sec 26.1 more consistent and Sec 25.4 clearer (bug #52685)
+
+	* corr.m: Add space in LaTeX formula.  For the example, place variables in a
+	  @var qualifier.
+
+	* cov.m: Use @var in LaTeX for x and y when referring to function input vector.
+	  Correct Octave-help formula by placing parentheses around N-1 so that -1 is
+	  in the denominator.  Define N after the formula in which it is used.
+
+	* gls.m: Define what GLS stands for.  Use @var instead of @math for function
+	  input and output variables.  Move the description of matrix O and scalar s
+	  to a third paragraph, ensuring s is lower case.  Give a little more context
+	  to the description of X and Y in the second paragraph.  Add an expansive
+	  paragraph three for details about the error variables E including the
+	  description of O and s along with their dimensions.  Add "matrix" before
+	  B and "scalar" before s for clarity.  Place @var around variables r, y, x
+	  and beta to make those upper case in Octave-help.
+
+	* histc.m: Use LaTeX math rather than @code for the @tex scenario.
+
+	* kendall.m: Treat tau differently for LaTeX and Octave-help scenarios.  Add
+	  space in LaTeX formulas.  Treat tau as @var in Octave-help case.  Use lower
+	  case 'i' for index variable and upper case 'N' for vector length.
+
+	* kurtosis.m: For mean value of x, use script rather than non-script.  Define
+	  N after the formula in which it is used for Octave-help case.
+
+	* mean.m: Indicate N is number of elements.  Use @var on input vector x for
+	  Octave-help case.
+
+	* meansq.m: Indicate N is number of elements, but drop the reference to mean
+	  value because there is none.  Use @var on input vector x for Octave-help
+	  case.  Use "If x is a matrix" consistent with all others.
+
+	* median.m: Indicate N is number of elements for LaTeX case.  For Octave-help
+	  place some vertical lines to represent case curly-bracket.  Place @math
+	  around N.  Define an intermediate vector S representing sorted X and use
+	  that in the math formula.
+
+	* moment.m: Define x-bar as mean and N as number of elements.  Use @var on
+	  x and p in the Octave-help formulas.
+
+	* ols.m: Define meaning of OLS.  Add @var to LaTeX variables to make them
+	  non-script vectors.  Use @var instead of @math for function input and output
+	  variables.  Use hyphens for matrix dimensions in Octave-help formula.  Move
+	  the description of matrix S to a third paragraph.  Give a little more context
+	  to the description of X and Y in the second paragraph.  Add an expansive
+	  paragraph three for details about the error variables E including the
+	  description of matrix S along with its dimensions, ensuring S is upper case.
+	  Add "matrix" before B for clarity.  Make the definition of SIGMA one line for
+	  appearance in Octave-help.
+
+	* prctile.m: Change a mistaken 'y' to 'q' to work in LaTeX as well.
+
+	* quantile.m: Use @var{method} rather than METHOD.  Break up all the method
+	  formulas for p(k) into LaTeX and Octave-help versions for better control.
+	  Use upper case N for the length of P.
+
+	* skewness.m: Remove @var from x when referring to vector elements in LaTeX.
+	  Indicate N is number of elements.
+
+	* spearman.m: Break into separate LaTeX and Octave-help cases rather than
+	  use @code for LaTeX.  Use Greek symbol rho in LaTeX.
+
+	* std.m: Add @var to x variable to indicate LaTeX or Octave-help vector.  Add
+	  clarification about N being number elements of x to both LaTeX and
+	  Octave-help formulas.
+
+	* var.m: Indicate N is number of elements.  Apply @var to x to show it is a
+	  vector.  Change == to "is equal to" for normal text.
+
+	Files: scripts/statistics/base/corr.m scripts/statistics/base/cov.m
+	scripts/statistics/base/gls.m scripts/statistics/base/histc.m
+	scripts/statistics/base/kendall.m scripts/statistics/base/kurtosis.m
+	scripts/statistics/base/mean.m scripts/statistics/base/meansq.m
+	scripts/statistics/base/median.m scripts/statistics/base/moment.m
+	scripts/statistics/base/ols.m scripts/statistics/base/prctile.m
+	scripts/statistics/base/quantile.m
+	scripts/statistics/base/skewness.m
+	scripts/statistics/base/spearman.m scripts/statistics/base/std.m
+	scripts/statistics/base/var.m
+
+2018-01-03  Rik  <rik@octave.org>
+
+	doc: Documentation fixes for linspace, logspace, lookup (bug #52785).
+
+	* data.cc (Flinspace): Use "start", "end" as input variables rather than "base"
+	and "limit".  Wrap docstring to 80 characters.  Add seealso link to colon.
+	* data.cc (Fcolon): Add seealso link to linspace.
+
+	* logspace.m: Document that when a single value is requested it is the right-hand
+	limit of range which is returned.
+
+	* lookup.cc (Flookup): Rename "val" to "y" which is name of input to function.
+
+	Files: libinterp/corefcn/data.cc libinterp/corefcn/lookup.cc
+	scripts/general/logspace.m
+
+	atan2d.m: Correct documentation to match atan docstring (bug #52786).
+
+	* atan2d.m: Clarify that atan (y/x) is computed, not atan2 (y/x) which isn't
+	possible.
+
+	Files: scripts/elfun/atan2d.m
+
+2017-12-21  Markus Mützel  <markus.muetzel@gmx.de>
+
+	Correctly handle reading of characters >127 in scanf family (bug #52681).
+
+	* oct-stream.cc (FINISH_CHARACTER_CONVERSION): Cast "char" to "unsigned char"
+	before assigning to "double".
+
+	Files: libinterp/corefcn/oct-stream.cc
+
+2017-12-29  Rik  <rik@octave.org>
+
+	doc: Small tweaks to fplot and surfnorm docstrings (bug #52761).
+
+	* fplot.m: Use parentheses around numerator in stepsize calculation
+	"(xhi - xlo) / N".
+
+	* surfnorm.m: Use same variable name "len" for overal length of normal vector.
+
+	Files: scripts/plot/draw/fplot.m scripts/plot/draw/surfnorm.m
+
+2017-12-26  Rik  <rik@octave.org>
+
+	doc: Rewrite documentation for Advanced Indexing (bug #52723).
+
+	* expr.txi: Rewrite documentation for Advanced Indexing.
+
+	* func.txi: Fix typo in example code for subfunctions and nested functions.
+
+	Files: doc/interpreter/expr.txi doc/interpreter/func.txi
+
+	doc: Delete extra ']' in scanf docstring (bug #52742).
+
+	* file-io.cc (Fscanf): Delete extra ']' in deftypefnx calling form.
+
+	Files: libinterp/corefcn/file-io.cc
+
+2017-12-22  Rik  <rik@octave.org>
+
+	doc: Fix mistaken use of space between function and '(' in documentation (bug #52723).
+
+	* expr.txi: Reword section on Advanced Indexing for clarity.
+
+	*ezmesh.m, ezmeshc.m, ezsurf.m, ezsurfc.m: Fix use of space between function
+	'(' in documentation.
+
+	Files: doc/interpreter/expr.txi scripts/plot/draw/ezmesh.m
+	scripts/plot/draw/ezmeshc.m scripts/plot/draw/ezsurf.m
+	scripts/plot/draw/ezsurfc.m
+
+2017-12-21  Rik  <rik@octave.org>
+
+	doc: Fix various inconsistencies in manual (bug #52712).
+
+	* container.txi: Correct size of structure array in example.
+
+	* var.txi: Fix example code for who which used non-existent option
+	"-variables".
+
+	* data.cc (Fcomplex): Use common syntax in docstring that a complex number is
+	"a+bi".
+
+	* error.cc (Fwarning), qz.cc (Fqz), setfield.m: Use 3-input form of @xref
+	to generate a correct reference in PDF version of manual.
+
+	Files: doc/interpreter/container.txi doc/interpreter/var.txi
+	libinterp/corefcn/data.cc libinterp/corefcn/error.cc
+	libinterp/corefcn/qz.cc scripts/miscellaneous/setfield.m
+
+	Fix typo in cset 8354b505ad6b (bug #52702).
+
+	* strfns.cc (Fchar): Remove one more space from example code in docstring.
+
+	Files: libinterp/corefcn/strfns.cc
+
+2017-12-20  Rik  <rik@octave.org>
+
+	doc: Fix inconsistencies with char, strvcat, strread docstrings (bug #52702.
+
+	* strfns.cc (Fchar, Fstrvcat): Correct number of spaces in results of example
+	code in docstring.
+
+	* strread.m: Use @itemx to associate one explanation with multiple items in
+	table.
+
+	Files: libinterp/corefcn/strfns.cc scripts/io/strread.m
+
+2017-12-19  Rik  <rik@octave.org>
+
+	doc: Use 'axes' rather than 'axis' appropriately in docstrings.
+
+	* voronoi.m, axis.m, box.m, caxis.m, datetick.m, grid.m, legend.m,
+	lighting.m, shading.m, title.m, view.m, xlabel.m, xlim.m, ylabel.m, ylim.m,
+	zlabel.m, zlim.m, area.m, bar.m, barh.m, colorbar.m, comet.m, comet3.m,
+	compass.m, contour.m, contour3.m, contourf.m, cylinder.m, ellipsoid.m,
+	errorbar.m, ezcontour.m, ezcontourf.m, ezmesh.m, ezmeshc.m, ezplot.m,
+	ezplot3.m, ezpolar.m, ezsurf.m, ezsurfc.m, feather.m, fill.m, fplot.m, hist.m,
+	line.m, loglog.m, loglogerr.m, mesh.m, meshc.m, meshz.m, pareto.m, patch.m,
+	pcolor.m, pie.m, pie3.m, plot.m, plot3.m, plotmatrix.m, plotyy.m, polar.m,
+	quiver.m, quiver3.m, rectangle.m, ribbon.m, rose.m, scatter.m, scatter3.m,
+	semilogx.m, semilogxerr.m, semilogy.m, semilogyerr.m, slice.m, sphere.m,
+	stairs.m, stem.m, stem3.m, surf.m, surface.m, surfc.m, surfl.m, surfnorm.m,
+	waterfall.m, axes.m, cla.m, gca.m, hold.m, newplot.m, subplot.m:
+	Use 'axes' rather than 'axis' appropriately in docstrings.
+
+	Files: scripts/geometry/voronoi.m scripts/plot/appearance/axis.m
+	scripts/plot/appearance/box.m scripts/plot/appearance/caxis.m
+	scripts/plot/appearance/datetick.m scripts/plot/appearance/grid.m
+	scripts/plot/appearance/legend.m scripts/plot/appearance/lighting.m
+	scripts/plot/appearance/shading.m scripts/plot/appearance/title.m
+	scripts/plot/appearance/view.m scripts/plot/appearance/xlabel.m
+	scripts/plot/appearance/xlim.m scripts/plot/appearance/ylabel.m
+	scripts/plot/appearance/ylim.m scripts/plot/appearance/zlabel.m
+	scripts/plot/appearance/zlim.m scripts/plot/draw/area.m
+	scripts/plot/draw/bar.m scripts/plot/draw/barh.m
+	scripts/plot/draw/colorbar.m scripts/plot/draw/comet.m
+	scripts/plot/draw/comet3.m scripts/plot/draw/compass.m
+	scripts/plot/draw/contour.m scripts/plot/draw/contour3.m
+	scripts/plot/draw/contourf.m scripts/plot/draw/cylinder.m
+	scripts/plot/draw/ellipsoid.m scripts/plot/draw/errorbar.m
+	scripts/plot/draw/ezcontour.m scripts/plot/draw/ezcontourf.m
+	scripts/plot/draw/ezmesh.m scripts/plot/draw/ezmeshc.m
+	scripts/plot/draw/ezplot.m scripts/plot/draw/ezplot3.m
+	scripts/plot/draw/ezpolar.m scripts/plot/draw/ezsurf.m
+	scripts/plot/draw/ezsurfc.m scripts/plot/draw/feather.m
+	scripts/plot/draw/fill.m scripts/plot/draw/fplot.m
+	scripts/plot/draw/hist.m scripts/plot/draw/line.m
+	scripts/plot/draw/loglog.m scripts/plot/draw/loglogerr.m
+	scripts/plot/draw/mesh.m scripts/plot/draw/meshc.m
+	scripts/plot/draw/meshz.m scripts/plot/draw/pareto.m
+	scripts/plot/draw/patch.m scripts/plot/draw/pcolor.m
+	scripts/plot/draw/pie.m scripts/plot/draw/pie3.m
+	scripts/plot/draw/plot.m scripts/plot/draw/plot3.m
+	scripts/plot/draw/plotmatrix.m scripts/plot/draw/plotyy.m
+	scripts/plot/draw/polar.m scripts/plot/draw/quiver.m
+	scripts/plot/draw/quiver3.m scripts/plot/draw/rectangle.m
+	scripts/plot/draw/ribbon.m scripts/plot/draw/rose.m
+	scripts/plot/draw/scatter.m scripts/plot/draw/scatter3.m
+	scripts/plot/draw/semilogx.m scripts/plot/draw/semilogxerr.m
+	scripts/plot/draw/semilogy.m scripts/plot/draw/semilogyerr.m
+	scripts/plot/draw/slice.m scripts/plot/draw/sphere.m
+	scripts/plot/draw/stairs.m scripts/plot/draw/stem.m
+	scripts/plot/draw/stem3.m scripts/plot/draw/surf.m
+	scripts/plot/draw/surface.m scripts/plot/draw/surfc.m
+	scripts/plot/draw/surfl.m scripts/plot/draw/surfnorm.m
+	scripts/plot/draw/waterfall.m scripts/plot/util/axes.m
+	scripts/plot/util/cla.m scripts/plot/util/gca.m
+	scripts/plot/util/hold.m scripts/plot/util/newplot.m
+	scripts/plot/util/subplot.m
+
+2017-06-25  Markus Mützel  <markus.muetzel@gmx.de>
+
+	Fix addpath for UNC paths on Windows (bug #51268).
+
+	* load-path.cc (Faddpath): Check for duplicate file separators starting
+	from the second character in Windows.
+
+	Files: libinterp/corefcn/load-path.cc
+
+2017-12-14  Daniel J Sebald  <daniel.sebald@ieee.org>
+
+	Protect being-deleted objects on figure list from second deletion (bug #52666)
+
+	* graphics.cc (gh_manager::do_delete_children): Check whether hchild is in
+	  the process of being deleted before freeing that child.
+
+	Files: libinterp/corefcn/graphics.cc
+
+2017-12-16  Andreas Weber  <andy.weber.aw@gmail.com>
+
+	dlmwrite.m: Close fid if filename is only one char long (bug #52679)
+
+	Files: scripts/io/dlmwrite.m
+
+2017-12-15  Rik  <rik@octave.org>
+
+	doc: Explain Matlab compatibility of fopen modes (bug #52644).
+
+	* file-io.cc (Ffopen): Add Compatibility Note explaing how to use fflush if
+	necessary.
+
+	Files: libinterp/corefcn/file-io.cc
+
+2017-12-14  Rik  <rik@octave.org>
+
+	doc: Update documentation for keywords to include classdef statements (Bug #52591).
+
+	* op-kw-docs: Add classdef, properties, events, enumeration keywords.  Add
+	endXXX versions of those words including endmethods.  Add documentation about
+	the difference between single and double quote delimiters for strings.
+	Add explanation of '~' for discarding outputs of functions.  Add newlines so
+	that first summary sentence stands alone as it does for functions.
+
+	Files: libinterp/op-kw-docs
+
+	doc: Fix documentation of third input to lsode() (bug #52664).
+
+	* lsode.cc (Flsode): Rewrite documentation for third input t.
+
+	Files: libinterp/corefcn/lsode.cc
+
+2017-12-12  Daniel J Sebald  <daniel.sebald@ieee.org>
+
+	Set gnuplot color data to half output range when autoscaling zero input range (bug #52624).
+
+	* __gnuplot_draw_axes__.m: Ensure cbrange is not zero when cmap_sz is 1 by
+	  using 2 instead to avoid gnuplot error.
+	  (mapcdata): When the clim range is zero, set cdata to half range in both the
+	  TrueColor and colormap cases using the proper truncation of fraction.
+
+	Files: scripts/plot/util/private/__gnuplot_draw_axes__.m
+
+2017-12-13  Rik  <rik@octave.org>
+
+	doc: Improve documentation for findobj, findall.
+
+	* findall.m, findobj.m: Improve docstrings.
+
+	Files: scripts/plot/util/findall.m scripts/plot/util/findobj.m
+
+2017-12-11  Rik  <rik@octave.org>
+
+	doc: Add seealso links between addlistener/dellistener.
+
+	* graphics.cc (Faddlistener, Fdellistener): Add seealso links between
+	these two functions.
+
+	Files: libinterp/corefcn/graphics.cc
+
+	Add polarplot() to the list of unimplemented functions (bug #52643).
+
+	* __unimplemented__.m: Add special case for polarplot() which gives a message
+	pointing to polar() as the current workaround.
+
+	Files: scripts/help/__unimplemented__.m
+
+	legend.m: Fix callback error when changing a legend string to "".
+
+	* legend.m (updateline): Check whether hplots variable is empty before
+	trying to index into it.  Add FIXME notes to the code about why this
+	is necessary, and why it is innefficient.
+
+	Files: scripts/plot/appearance/legend.m
+
+2017-12-07  Rik  <rik@octave.org>
+
+	configure.ac: Fix test for Java version (bug #52617).
+
+	* configure.ac: Check for major Java version > 1 or major/minor > 1.5.
+
+	Files: configure.ac
+
+2017-12-06  Daniel J Sebald  <daniel.sebald@ieee.org>
+
+	For gnuplot toolkit, do not map TrueColor data to colormap size (bug #52599).
+
+	* __gnuplot_draw_axes__.m (mapcdata): Use 'cdata' as a return variable rather
+	  than 'retval'.  Don't scale the TrueColor data to range cmap_sz.
+
+	Files: scripts/plot/util/private/__gnuplot_draw_axes__.m
+
+2017-12-07  Rik  <rik@octave.org>
+
+	Fix incorrect color of markers in quiver plots when linestyle given.
+
+	* __quiver__.m: If linestyle is given, but no color was specified, use the next
+	default line color.  Change marker plot commands to always include a color
+	specification.
+
+	Files: scripts/plot/draw/private/__quiver__.m
+
+	doc: Clarify quiver/quiver3 documentation when a linestyle is given (bug #52608).
+
+	* quiver.m: Rewrite docstring.  Add 3 more demos showing quiver behavior
+	including behavior when a linestyle is given.
+
+	* quiver3.m: Rewrite docstring.  Change titles applied to plots in demos.
+
+	Files: scripts/plot/draw/quiver.m scripts/plot/draw/quiver3.m
+
+2017-12-06  Rik  <rik@octave.org>
+
+	Fix ENABLE_JIT mistakenly being set by configure.
+
+	* configure.ac: Check that ENABLE_JIT = yes, rather than just being defined,
+	before calling AC_DEFINE.
+
+	Files: configure.ac
+
+2017-12-06  Pantxo Diribarne  <pantxo.diribarne@gmail.com>
+
+	Make wheel scroll behave more consistently in pan mode (bug #52588).
+
+	* Canvas.cc (Canvas::canvasWheelEvent): Wheel scroll moves vertically by
+	default and horizontally with shift modifier key.
+
+	Files: libgui/graphics/Canvas.cc
+
+2017-12-06  Daniel J Sebald  <daniel.sebald@ieee.org>
+
+	Make gnuplot color have three components for interpolated edge color (bug #52595).
+
+	* __gnuplot_draw_axes__.m: Map the color data into a three-component eight bit
+	  integer for the interpolated edgecolor scenario.
+
+	Files: scripts/plot/util/private/__gnuplot_draw_axes__.m
+
+2017-12-05  Daniel J Sebald  <daniel.sebald@ieee.org>
+
+	Simplify gnuplot toolkit scripts for image/non-image data plots (bug #52589).
+
+	* __gnuplot_draw_axes__.m: Drop the semicolon from the image data "with"
+	  clause and remove lines of code that subtract that semicolon later.  Move
+	  the test for removing background and foreground rectangles prior to all
+	  plot/splot commands and make it only dependent on any image present.
+	  Eliminate conditions in which the fprintf() is identical after the above
+	  changes.
+
+	Files: scripts/plot/util/private/__gnuplot_draw_axes__.m
+
+2017-12-05  Rik  <rik@octave.org>
+
+	doc: grammarcheck of Object Oriented Programming chapter in manual.
+
+	* oop.txi: Backport grammarcheck changes to stable branch from cset
+	3a730821e4a2.  Also, remove @group around polynomial2.m function
+	which is too large to display on a single page without wrapping.
+
+	* examples/code/polynomial2.m: Add semicolon to properties definition.
+
+	Files: doc/interpreter/oop.txi examples/code/polynomial2.m
+
+2017-04-18  Rik  <rik@octave.org>
+
+	Revert change to Copyright word wrapping in 907f8c3e1c8d.
+
+	* oop.txi: Use standard form of Octave Copyright.
+
+	Files: doc/interpreter/oop.txi
+
+2017-04-19  Markus Mützel  <markus.muetzel@gmx.de>
+
+	doc: new section about classdef classes with example (bug #44590).
+
+	* doc/interpreter/oop.txi: new documentation about classdef classes including
+	their creation, properties, methods, inheritance, and the difference between
+	value and handle classes.
+
+	* examples/code/polynomial2.m: new example to illustrate the classdef version
+	of @polynomial.
+
+	* examples/module.mk: add entry for new example class.
+
+	Pushed and modified patch (file #40225) by Kai T. Ohlhus <k.ohlhus@gmail.com>.
+
+	Files: doc/interpreter/oop.txi examples/code/polynomial2.m
+	examples/module.mk
+
+2017-11-30  Rik  <rik@octave.org>
+
+	Fix concatenation of empty char matrices with other strings (bug #52542).
+
+	* pt-mat.cc (tm_const::init): When executing special case of appending a
+	2-D char matrix, verify that the existing element is not empty before
+	appending.  If it is empty, just replace the existing element's dimension
+	vector with the to-be-appended element's dimension vector.
+
+	* parser.tst: Add concatenation tests for bug #52542 to other parser tests.
+
+	Files: libinterp/parse-tree/pt-mat.cc test/parser.tst
+
+2017-11-29  Rik  <rik@octave.org>
+
+	build: Fix compiling OCTAVE_ARPACK_OK_2 Fortran code (bug #52425).
+
+	* m4/acinclude.m4 (OCTAVE_ARPACK_OK_2): Save FFLAGS.  Add $F77_INTEGER_8_FLAG
+	to FFLAGS for compilation of test Fortran code.  Restore FFLAGS.
+
+	Files: m4/acinclude.m4
+
+	configure.ac: Fix regression in detecting ARPACK library in cset f52d91f6ef80.
+
+	* configure.ac: Use AC_MSG_WARN directly when reporting about buggy ARPACK
+	library rather than setting warn_arpack which disables the library entirely.
+
+	Files: configure.ac
+
+2017-11-27  Rik  <rik@octave.org>
+
+	stairs.m: Add example @code section showing what "indices of elements" means.
+
+	* stairs.m: Add example @code section showing what "indices of elements" means.
+
+	Files: scripts/plot/draw/stairs.m
+
+	doc: Correct surface plot explanation of  meshgridded results of 1 input (bug #52536)
+
+	* contourc.m, meshz.m, surface.m, surfnorm.m: Correctly explain that X is
+	determined from the columns of Z and Y is determined from the rows of Z for a
+	single input argument Z.
+
+	Files: scripts/plot/draw/contourc.m scripts/plot/draw/meshz.m
+	scripts/plot/draw/surface.m scripts/plot/draw/surfnorm.m
+
+2017-11-25  Hugo Raguet  <hugo.raguet@gmail.com>
+
+	trisurf.m, trimesh.m: Fix input validation (bug #48109).
+
+
+	* trimesh.m, trisurf.m: Change docstring to specify that C matrix must
+	match either the number of vertices in Z or the number of triangles in TRI.
+	Change input validation to accept a color matrix C with the same number
+	of triangles as TRI.  Add BIST tests.
+
+	Files: scripts/plot/draw/trimesh.m scripts/plot/draw/trisurf.m
+
+2017-11-24  Torsten  <mttl@mailbox.org>
+
+	do not change selection when (un)commenting lines in the editor ()
+
+	* file-editor-tab.cc (do_comment_selected_tex): restore previous selection
+	  after (un)commenting lines in the editor
+
+	Files: libgui/src/m-editor/file-editor-tab.cc
+
+2017-11-21  Torsten  <mttl@mailbox.org>
+
+	allow uncommenting in editor when line begins with whitespace (bug #52406)
+
+	* file-editor-tab.cc (do_comment_selected_text): use a regular expression
+	  instead of only checking the beginning of the line for a comment string
+
+	Files: libgui/src/m-editor/file-editor-tab.cc
+
+2017-11-09  Torsten  <mttl@mailbox.org>
+
+	do not extend selection when indenting/commenting in editor (bug #45610)
+
+	* file-editor-tab.cc (do_indent_selected_text, do_comment_selected_text):
+	  extend selction to line lenght - 1 only
+
+	Files: libgui/src/m-editor/file-editor-tab.cc
+
+2017-11-22  Daniel J Sebald  <daniel.sebald@ieee.org>
+
+	Remove all delimiters from whitespace list in textscan function (bug #52479).
+
+	* oct-stream.cc (textscan::parse_options): After all options have been
+	  processed, remove all characters in 'delims' string and all strings in
+	  'delim_list' cell from the 'whitespace' string in case user adds a
+	  whitespace character as a delimiter.
+
+	* file-io.cc (Ftextscan): Add BIST test for bug #52479.
+
+	Files: libinterp/corefcn/file-io.cc libinterp/corefcn/oct-stream.cc
+
+2017-11-23  Rik  <rik@octave.org>
+
+	Calculate 1-norm of matrices to assess whether NaN or Inf are present (bug #39000).
+
+	* CMatrix.cc, dMatrix.cc, fCMatrix.cc, fMatrix.cc (norm1): New local function
+	to calculate 1-norm.
+
+	* CMatrix.cc, dMatrix.cc, fCMatrix.cc, fMatrix.cc: Replace "xnorm (foo, 1)"
+	with "norm1 (foo)".  Replace "foo.abs ().sum ().row (0).max ()" with
+	"norm1 (foo)".
+
+	Files: liboctave/array/CMatrix.cc liboctave/array/dMatrix.cc
+	liboctave/array/fCMatrix.cc liboctave/array/fMatrix.cc
+
+2017-11-23  Torsten  <mttl@mailbox.org>
+
+	* workspae_view (save_settings): add missing call to virtual base function
+
+	Files: libgui/src/workspace-view.cc
+
+2017-11-20  Torsten  <mttl@mailbox.org>
+
+	prevent extra ampersand under KDE in cd-or-add-to-path dialog (bug #52423)
+
+	* octave-qt-link (do_debug_cd_or_addpath_error): Add an ampersand into the
+	  button texts preventing an extra ampersand by KDE
+
+	Files: libgui/src/octave-qt-link.cc
+
+2017-11-23  Rik  <rik@octave.org>
+
+	plotyy.m: Fix error when using FUN2 argument (bug #48115)
+
+	* plotyy.m: Change feval to call FUN2 (x,y, ...) rather than FUN2 (hax2, x, y).
+
+	Files: scripts/plot/draw/plotyy.m
+
+2017-11-21  Rik  <rik@octave.org>
+
+	Check ARPACK library for buggy behavior in configure (bug #52425)
+
+	* configure.ac: Call both OCTAVE_CHECK_LIB_ARPACK_OK_1 and new
+	OCTAVE_CHECK_LIB_ARPACK_OK_2 to determine if ARPACK library is okay.
+
+	* m4/acinclude.m4 (OCTAVE_CHECK_LIB_ARPACK_OK_1): Macro renamed from
+	OCTAVE_CHECK_LIB_ARPACK_OK.  Minor whitespace and punctuation changes.
+	* m4/acinclude.m4 (OCTAVE_CHECK_LIB_ARPACK_OK_2): New macro with test
+	Fortran code to check whether ARPACK library is buggy.
+
+	Files: configure.ac m4/acinclude.m4
+
+2017-07-24  Pantxo Diribarne  <pantxo.diribarne@gmail.com>
+
+	Fix printing integer type images (bug #51558)
+
+	*gl2ps-print.cc(gl2ps_renderer::draw_pixels): get the correct maximum value for
+	 uint8_t and uint16_t types.
+
+	Files: libinterp/corefcn/gl2ps-print.cc
+
+2017-11-19  Torsten  <mttl@mailbox.org>
+
+	update wrong setting keys accidentally introduced into the settings file
+
+	* octave-dock-widget.cc (handle_settings): check whether wrong settings keys
+	  fixed with cset bda0c5b38bda exist in the settings file and update them if so;
+
+	* resource-manager.cc (do_update_settings_key): new function for testing
+	  existence of wrong settings key and copying it to the new one if necessary;
+
+	* resource-manager.h (update_settings_key): static wrapper for new function
+	  do_update_settings_key
+
+	Files: libgui/src/octave-dock-widget.cc libgui/src/resource-manager.cc
+	libgui/src/resource-manager.h
+
+2017-11-12  Torsten  <mttl@mailbox.org>
+
+	consistent case of settings keys in the settings file (important for qt5)
+
+	* settings_dialog (settings_dialog, write_changed_settings):
+	  change Dockwidgets into DockWidgets
+
+	* octave-dock-widget.cc (handle_settings):
+	  change Dockwidgets into DockWidgets
+
+	Files: libgui/src/octave-dock-widget.cc libgui/src/settings-dialog.cc
+
+2017-11-16  Rik  <rik@octave.org>
+
+	Fix definition of Delaunay triangulation in docstrings (bug #52416).
+
+	* delaunay3.m, delaunay.m: Fix definition of Delaunay triangulation in
+	docstring.
+
+	Files: scripts/deprecated/delaunay3.m scripts/geometry/delaunay.m
+
+	accumarray.m: Add '@' to function handles in docstring (bug #52418).
+
+	* accumarray.m: Add '@' to function handles in docstring.
+
+	Files: scripts/general/accumarray.m
+
+	Eliminate possible segfaults related to not cleaning up Qhull workspace.
+
+	* __delaunayn__.cc (free_qhull_memor): Change function name in error message to
+	"__delaunayn__".
+
+	* __voronoi__.cc, convhulln.cc (free_qhull_memory): New function with code to
+	clear temporary Qhull memory.
+	* __voronoi__.cc, convhulln.cc (F__voronoi__, Fconvhulln): Use frame.add_fcn to
+	guarantee that free_qhull_memory() is called whenever function exits.
+
+	Files: libinterp/dldfcn/__delaunayn__.cc libinterp/dldfcn/__voronoi__.cc
+	libinterp/dldfcn/convhulln.cc
+
+2017-11-15  Rik  <rik@octave.org>
+
+	Fix segfault in delaunayn when Qhull memory is not properly cleared (bug #52410).
+
+	* __delaunayn__.cc (free_qhull_memory): New function with code to clear
+	temporary Qhull memory.
+	* __delaunayn__.cc (F__delaunayn__): Use frame.add_fcn to guarantee that
+	free_qhull_memory() is called whenever function exits.
+
+	Files: libinterp/dldfcn/__delaunayn__.cc
+
+	Fix segfault with CHOLMOD library and empty matrices (bug #52365).
+
+	* dSparse.cc, CSparse.cc (fsolve): Verify data() pointer to sparse matrix
+	elements is not a nullptr.  If it is, replace with a pointer to a valid
+	memory location (local temporary variable on the stack).
+
+	Files: liboctave/array/CSparse.cc liboctave/array/dSparse.cc
+
+2017-11-08  John W. Eaton  <jwe@octave.org>
+
+	tag global and persistent symbols as variables when parsing (bug #52363)
+
+	* oct-parse.in.yy (base_parser::make_decl_command): Also tag variables
+	in initializer list as pending local variables.
+
+	Files: libinterp/parse-tree/oct-parse.in.yy
+
+2017-11-08  Rik  <rik@octave.org>
+
+	Correct calling forms of dasrt in docstring.
+
+	* dasrt.cc (Fdasrt): Correct calling forms which do not have a constraint
+	function.
+
+	Files: libinterp/corefcn/dasrt.cc
+
+2017-11-08  John W. Eaton  <jwe@octave.org>
+
+	correctly parse dasrt arguments
+
+	* dasrt.cc (Fdasrt): Increment argument index after extracting state
+	vector value.  Bug introduced in 85e5efae848a.
+
+	Files: libinterp/corefcn/dasrt.cc
+
+2017-11-06  Kai T. Ohlhus  <k.ohlhus@gmail.com>
+
+	doc: Update docstring for pinv.
+
+	* pinv.cc (Fpinv): Use curly backets for @seealso{}.  Added in cset
+	63fc7a75a3d7.
+
+	Files: libinterp/corefcn/pinv.cc
+
+2017-11-03  Rik  <rik@octave.org>
+
+	doc: Update docstring for pinv and inv.
+
+	* inv.cc (Finv): Add seealso reference to pinv.
+
+	* pinv.cc (Fpinv): Specify that Moore-Penrose pseudoinverse is calculated.
+	Clarify calculation of default tolerance.  Add seealso links to inv, ldivide.
+
+	Files: libinterp/corefcn/inv.cc libinterp/corefcn/pinv.cc
+
+2017-10-28  Rik  <rik@octave.org>
+
+	doc: Update manual to explain \deg and \circ symbols (bug #52287).
+
+	* plot.txi: Add new subsubsection to explain why \circ and \deg are different.
+
+	Files: doc/interpreter/plot.txi
+
+2017-09-27  Daniel J Sebald  <daniel.sebald@ieee.org>
+
+	Properly restore the input stream pointer at end of textscan (bug #52116 et al.)
+
+	* oct-stream.cc (delimited_stream::refresh_buf): Do not update stream pointer
+	  buf_in_file from the current input stream position unless the delimited
+	  stream buffer is completely empty, e.g., at start of processing.
+
+	Files: libinterp/corefcn/oct-stream.cc
+
+2017-10-16  Markus Mützel  <markus.muetzel@gmx.de>
+
+	Fix building with Qt4 for Windows (bug #52237).
+
+	* libgui/qterminal/libqterminal/win32/QWinTerminalImpl.cpp: QChar::Space is not
+	defined in Qt4.
+
+	Files: libgui/qterminal/libqterminal/win32/QWinTerminalImpl.cpp
+
+2017-09-26  Rik  <rik@octave.org>
+
+	doc: Correct documentation for randg (bug #52118).
+
+	* rand.cc (Frandg): Correct documentation to state that first argument is A, an
+	input to gamma(), rather than matrix dimensions of return argument.
+
+	Files: libinterp/corefcn/rand.cc
+
+2017-09-19  Pantxo Diribarne  <pantxo.diribarne@gmail.com>
+
+	Ensure numeric values are passed for the axes "clim" property (bug #52053).
+
+	* imagesc.m, imshow.m, slice.m: Cast values to double before setting "clim".
+
+	* caxis.m (__caxis__): Issue an error if requested clim vector is not increasing
+	 and numeric.  Change misleading argument name from "ax" to arg1.
+
+	Files: scripts/image/imagesc.m scripts/image/imshow.m
+	scripts/plot/appearance/caxis.m scripts/plot/draw/slice.m
+
+2017-09-17  John D  <john.donoghue@ieee.org>
+
+	* libgui/qterminal/libqterminal/win32/QWinTerminalImpl.cpp: use standard code formatting
+
+	Files: libgui/qterminal/libqterminal/win32/QWinTerminalImpl.cpp
+
+2017-09-16  John D  <john.donoghue@ieee.org>
+
+	qterminal(win32): mark null characters as spaces when copying to clipboard
+
+	* libgui/qterminal/libqterminal/win32/QWinTerminalImpl.cpp:
+	  (QConsolePrivate::getSelection): if character is null, set it to a space character
+
+	Files: libgui/qterminal/libqterminal/win32/QWinTerminalImpl.cpp
+
+2017-09-05  John W. Eaton  <jwe@octave.org>
+
+	avoid abort on exit from GUI (bug #50664)
+
+	* octave-interpreter.cc (octave_interpreter::execute): Emit
+	octave_finished_signal when execute_interpreter returns.
+	* octave-interpreter.h (octave_interpreter::octave_finished_signal):
+	New signal.
+
+	* octave-qt-link.cc (octave_qt_link::octave_qt_link): Connect
+	command_interpreter octave_finished_signal to main_thread quit slot.
+	Connect main_thread finished signal to main_thread deleteLater slot.
+	(octave_qt_link::~octave_qt_link): Don't delete main_thread.
+
+	Files: libgui/src/octave-interpreter.cc libgui/src/octave-interpreter.h
+	libgui/src/octave-qt-link.cc
+
+2017-08-27  Markus Mützel  <markus.muetzel@gmx.de>
+
+	Correct auto limits on log axes with negative and zero values (bug #51861).
+
+	* graphics.cc (axes::properties::get_axis_limits): Correct auto limits
+	on axes with logarithmic scale that span from negative values to zero.
+
+	Files: libinterp/corefcn/graphics.cc
+
+2017-08-28  Marco Caliari  <marco.caliari@univr.it>
+
+	Fix warning in quadgk with zero size interval (bug #51867)
+
+	* quadgk.m: set q = err = 0 when the interval has size zero.
+	New test.
+
+	Files: scripts/general/quadgk.m
+
+2017-08-29  John W. Eaton  <jwe@octave.org>
+
+	sparse: correctly handle scalar column index (bug #51880)
+
+	* Sparse.cc (Sparse::Sparse): Correctly initialize column index vector
+	when column index vector contains a single element.
+	New tests.
+
+	Files: liboctave/array/Sparse.cc
+
+2017-08-14  John W. Eaton  <jwe@octave.org>
+
+	don't return cs-list from group and password functions
+
+	* getgrent.cc (mk_gr_map): Undo change made in f1b2a2dbc0e1.  This
+	function returns an octave_value, so it is not correct to assign an
+	octave_value_list to retval.
+
+	* getpwent.cc (mk_pw_map): Likewise.
+
+	Files: libinterp/corefcn/getgrent.cc libinterp/corefcn/getpwent.cc
+
+2017-08-12  Richard Zweig  <richard.zweig@gmx.de>
+
+	Fix segfault in ichol under certain conditions (bug #51736).
+
+	* __ichol__.cc (ichol_t): New variable std::vector<bool> mark to record whether
+	column has been processed.  Test whether column has already been processed
+	before beginning operations.
+
+	Files: libinterp/corefcn/__ichol__.cc
+
+2017-08-07  Mike Miller  <mtmiller@octave.org>
+
+	configure: ensure empty pkg-config results are actually empty (bug #51680)
+
+	* configure.ac (MAGICK_CPPFLAGS, MAGICK_LDFLAGS, MAGICK_LIBS): Trim pkg-config
+	results to eliminate strings that are entirely spaces.  This is a workaround
+	for versions of pkg-config older than 0.28 that may emit an answer that looks
+	empty but actually contains space characters.
+	* acinclude.m4 (OCTAVE_CHECK_LIB, OCTAVE_CHECK_QT_VERSION): Likewise.
+
+	Files: configure.ac m4/acinclude.m4
+
+2017-08-01  Tejaswi D Prakash  <tejaswidp@protonmail.com>
+
+	Fix 'legend hide' for gnuplot (bug #50483).
+
+	* __gnuplot_draw_axes__.m: Check that legend object is visible before
+	displaying it.
+
+	* contributors.in: Add Tejaswi D Prakash to list of contributors.
+
+	Files: doc/interpreter/contributors.in
+	scripts/plot/util/private/__gnuplot_draw_axes__.m
+
+2017-07-28  Daniel J Sebald  <daniel.sebald@ieee.org>
+
+	Add documentation about PCRE library regexp stack overflow (bug #51589).
+
+	* regexp.cc: Place detailed note at end of help about stack overflow for high
+	  match count recursion in regexp() searches, an upstream issue for which no
+	  good solution was found.
+
+	Files: libinterp/corefcn/regexp.cc
+
+2017-07-19  Rik  <rik@octave.org>
+
+	regexp.cc: Correctly size temporary buffer to avoid segfault when re-arranging outputs.
+
+	* regexp.cc (octregexp): Change OCTAVE_LOCAL_BUFFER to
+	OCTAVE_LOCAL_BUFFER_INIT.  Change size of temporary buffer to 7 (number of
+	return args for function) rather than 6.  Initialize temporary to false.
+	Change for loop bound to 7 to operate over all possible outputs.
+
+	Files: libinterp/corefcn/regexp.cc
+
+2017-07-13  Rik  <rik@octave.org>
+
+	qqplot.m: Fix typo in input validation (bug #51458).
+
+	* qqplot.m: Change "%s_inv" to just "_inv" in string concatenation since
+	sprintf is no longer used.
+
+	Files: scripts/statistics/base/qqplot.m
+
+2017-07-06  John D  <John D>
+
+	Add possible '\r' to smartindent regex exprepression (Bug #51279)
+
+	* libgui/src/m-editor/file-editor-tab.cc
+	  (file_editor_tab::do_smart_indent): add [\r]? to bkey, mkey, ekey regex.
+
+	Files: libgui/src/m-editor/file-editor-tab.cc
+
+2017-07-05  John W. Eaton  <jwe@octave.org>
+
+	make strncmp case sensitive again (bug #51384)
+
+	* oct-string.cc (octave::string::strncmp): Use str_data_cmp, not
+	str_data_cmpi.  From Thierry Rascle <thierr26@free.fr>.
+	* strfns.cc: New tests.
+
+	Files: libinterp/corefcn/strfns.cc liboctave/util/oct-string.cc
+
+2017-06-16  Mike Miller  <mtmiller@octave.org>
+
+	maint: also generate xz compressed dist by default
+
+	* configure.ac (AM_INIT_AUTOMAKE): Include dist-xz option to also enable xz
+	compressed dist by default.
+
+	Files: configure.ac
+
+2017-06-16  Marco Caliari  <marco.caliari@univr.it>
+
+	Fix possible infinite loop in normest1.m (bug #51241)
+
+	* normest1.m: fix the computation of available unparallel columns in S.
+
+	Files: scripts/linear-algebra/normest1.m
+
+2017-06-15  John W. Eaton  <jwe@octave.org>
+
+	also run unwind protect cleanup code on interrupt exceptions (bug #51209)
+
+	* pt-eval.cc (tree_evaluator::visit_unwind_protect_command):
+	Also perform cleanup block for interrupt exceptions.
+
+	Files: libinterp/parse-tree/pt-eval.cc
+
+2017-06-15  Rik  <rik@octave.org>
+
+	playblocking.m: Correct documentation about start and limits inputs (bug #51217).
+
+	* playblocking.m: Document that start and limit refer to the sample number, not
+	to the number of seconds.
+
+	Files: scripts/audio/@audioplayer/playblocking.m
+
+	play.m: Correct documentation about start and limits inputs (bug #51217).
+
+	* play.m: Document that start and limit refer to the sample number, not to the
+	number of seconds.
+
+	Files: scripts/audio/@audioplayer/play.m
+
+2017-06-07  Sébastien Villemot  <sebastien@debian.org>
+
+	Fix crash when inverting complex matrices with NaNs (bug #51198).
+
+	* CMatrix.cc (CompleMatrix::finverse): Test for NaN or Inf in norm of matrix
+	before executing zgetri.
+
+	* fCMatrix.cc (FloatCompleMatrix::finverse): Test for NaN or Inf in norm of
+	matrix before executing zgetri.
+
+	Files: liboctave/array/CMatrix.cc liboctave/array/fCMatrix.cc
+
+2017-06-08  Marco Caliari  <marco.caliari@univr.it>
+
+	Improve accuracy of residue for inputs with very different magnitudes (bug #51148).
+
+	* residue.m: compute pn as product of remaining denominators,
+	and not as the division of least common multiple by pm.
+
+	Files: scripts/polynomial/residue.m
+
+2017-06-06  Rik  <rik@octave.org>
+
+	publish.m: Fix corruption of results for some code inputs (bug #51178).
+
+	* publish.m (eval_code_helper): Save context (existing variables) using
+	Octave's binary format rather than default -text format because it preserves
+	accuracy of range variables.
+
+	Files: scripts/general/publish.m
+
+2016-10-10  Rik  <rik@octave.org>
+
+	residue.m: Remove code that filters out small return values (bug #34266, bug #49291).
+
+	* residue.m (rresidue): Delete code that filters out coefficients that are small relative to the eps of the largest coefficient.  Correct BIST tests for new behavior.
+	Add new BIST test from bug #49291.
+
+	Files: scripts/polynomial/residue.m
+
+2017-05-30  John W. Eaton  <jwe@octave.org>
+
+	avoid possible double free at interpreter exit (bug #51088)
+
+	* symtab.cc (symbol_table::cleanup): Remove pointer to symbol table
+	from all_instances map before deleting it.
+	* symtab.h (symbol_table::erase_scope): Likewise.
+
+	Files: libinterp/corefcn/symtab.cc libinterp/corefcn/symtab.h
+
+2017-05-28  John W. Eaton  <jwe@octave.org>
+
+	show stack trace for errors in command line and startup files (bug #49346)
+
+	* interpreter.cc (safe_source_file): Display stack trace for execution
+	errors.
+
+	Files: libinterp/corefcn/interpreter.cc
+
+2017-05-19  John D  <john.donoghue@ieee.org>
+
+	m-editor: do not disable global actions in editor
+
+	* libgui/src/m-editor/file-editor.cc
+	  (file_editor::insert_global_actions): do not call setEnabled(false) on _paste_action, _copy_action and _undo_action
+
+	Files: libgui/src/m-editor/file-editor.cc
+
+2017-05-23  Mike Miller  <mtmiller@octave.org>
+
+	maint: fix file permissions on source files
+
+	* TerminalView.cpp, TerminalView.h, pkg.m: Fix permissions, unset the
+	executable bit.
+
+	Files: libgui/qterminal/libqterminal/unix/TerminalView.cpp
+	libgui/qterminal/libqterminal/unix/TerminalView.h scripts/pkg/pkg.m
+
+2017-05-18  Rik  <rik@octave.org>
+
+	interp1.m: Return NA for all columns which are out of bounds (bug #51030).
+
+	* interp1.m: Propagate EXTRAP value to all columns, not just first column, when
+	xi is out of bounds.
+
+	Files: scripts/general/interp1.m
+
+2017-05-11  Rik  <rik@octave.org>
+
+	print.m: Update documentation to refer to OpenGL-based toolkits, not just FLTK.
+
+	* print.m: Update documentation to refer to OpenGL-based toolkits, not just FLTK.
+
+	Files: scripts/plot/util/print.m
+
+2017-05-04  John W. Eaton  <jwe@octave.org>
+
+	use idx_type for dimensions instead of int (bug #50934)
+
+	* ov-cell.cc (Fcell): Use octave_idx_type for dimensions.  New test.
+	* utils.cc (get_dimensions): Use octave_idx_type for dimensions.
+
+	Files: libinterp/corefcn/utils.cc libinterp/octave-value/ov-cell.cc
+
+2017-04-28  John W. Eaton  <jwe@octave.org>
+
+	show stack trace for wrong type arg errors (bug #50894)
+
+	* error.h, error.cc (make_execution_exception): Make public.
+	* errwarn.cc (err_user_supplied_eval, err_wrong_type_arg):
+	Initialize execution_exception object.
+
+	Files: libinterp/corefcn/error.cc libinterp/corefcn/error.h
+	libinterp/corefcn/errwarn.cc
+
+2017-04-22  Rik  <rik@octave.org>
+
+	doc: Redo docstring for qz (bug #50846).
+
+	* qz.cc (Fqz): Redo docstring.
+
+	Files: libinterp/corefcn/qz.cc
+
+2017-04-19  Rik  <rik@octave.org>
+
+	acinclude.m4: Look for "qscintilla_qt5" as another name for Qt5 scintilla library.
+
+	* acinclude.m4 (OCTAVE_CHECK_QT_VERSION): Add "qscintilla2_qt5" to list of possible Qt5 QScintilla library names.
+
+	Files: m4/acinclude.m4
+
+2017-04-13  John W. Eaton  <jwe@octave.org>
+
+	maint: Strip trailing whitespace from source files.
+
+	Files: doc/interpreter/genpropdoc.m libgui/graphics/Canvas.h
+	libinterp/corefcn/dlmread.cc scripts/plot/appearance/datetick.m
+	scripts/time/datenum.m
+
+2017-03-31  Pantxo Diribarne  <pantxo.diribarne@gmail.com>
+
+	Let mouse selection of Qt figures update "currentfigure" (bug #50666)
+
+	* Canvas.cc (Canvas::canvasMousePressEvent): update root "currentfigure"
+	   property
+
+	Files: libgui/graphics/Canvas.cc
+
+2017-04-03  John D  <John D>
+
+	disable qscintilla editor drag and drop so parent will handle it (Bug #50559)
+
+	* libgui/src/m-editor/file-editor-tab.cc:
+	  (file_editor_tab::file_editor_tab): disable editor widget drag and drops
+
+	Files: libgui/src/m-editor/file-editor-tab.cc
+
+2017-03-27  Kai T. Ohlhus  <k.ohlhus@gmail.com>
+
+	doc: describe optional install dependencies PortAudio and SUNDIALS (bug #50513).
+
+	* doc/interpreter/install.txi: Enrich the list of optional install dependecies
+	by PortAudio and SUNDIALS.
+
+	Files: doc/interpreter/install.txi
+
+2017-03-23  Kai T. Ohlhus  <k.ohlhus@gmail.com>
+
+	test: publish to a temporary directory to ensure write access.
+
+	* test/publish/publish.tst: Don't rely on the test directory to be installed in
+	a writeable location.  To ensure the integration test to be successful, publish
+	to a temporary directory.
+
+	Files: test/publish/publish.tst
+
+2017-03-21  Nicholas R. Jankowski  <jankowskin@asme.org>
+
+	quadgk.m: Correct error messages which point to quadv (bug #50604).
+
+	* quadgk.m: Change error messages which have incorrect prefix of "quadv:".
+
+	Files: scripts/general/quadgk.m
+
+2017-03-21  Rik  <rik@octave.org>
+
+	Don't error out if RANGE specification for dlmread contains large values.
+
+	* dlmread.cc (idx_max): Redefine static const variable that holds the maximum
+	row or column idx for a range specification to be max octave_idx_type - 1.
+	* dlmread.cc (idx_max_dbl): New static const variable that holds the maximum
+	possible row or column idx for a range specification as a double value.
+	* dlmread.cc (parse_range_spec): Use new idx_max constant.
+	Use std::min (x, idx_max_dbl) to eliminate overflow when casting double to
+	octave_idx_type.
+	* dlmread.cc (Fdlmread): Use new idx_max constant.  After parsing range
+	specification, return an empty matrix immediately if range is empty.  When
+	skipping lines at beginning of file, look at both the number of lines to skip
+	and the output of getline; The EOF may be reached before the number of lines to
+	skip.
+
+	Files: libinterp/corefcn/dlmread.cc
+
+2017-03-21  John D  <John D>
+
+	Set version on AppUserModelId (Bug #50428)
+
+	* libinterp/corefcn/sysdep.cc
+	  (set_application_id): use gnu.octave.VERSION for SetCurrentProcessExplicitAppUserModelID
+
+	Files: libinterp/corefcn/sysdep.cc
+
+2017-03-20  Rik  <rik@octave.org>
+
+	version-rcfile: Only try to execute "startup.m", not "startup" or "startup.m".
+
+	* version-rcfile: Change exist call to look only for "startup.m" which is
+	the Matlab-defined initialization script.
+
+	Files: scripts/startup/version-rcfile
+
+	version-rcfile: Don't try to execute startup directory, only startup.m (bug #50593).
+
+	* version-rcfile: Check that return code from exist is 2 indicating a file to
+	execute rather than just a directory.
+
+	Files: scripts/startup/version-rcfile
+
+	errorbar.m: move code for axes modifications AFTER plot has been made.
+	Change cset c0cc56ab176d to conform to general pattern in plot/draw directory.
+
+	* errorbar.m: Move code to turn 'box' on after errorbar has been plotted.
+
+	Files: scripts/plot/draw/errorbar.m
+
+2017-03-20  Pantxo Diribarne  <pantxo.diribarne@gmail.com>
+
+	errorbar.m: force "box"->"on" like for other 2D high level plots
+
+	Files: scripts/plot/draw/errorbar.m
+
+2017-03-19  Rik  <rik@octave.org>
+
+	dlmread: Return empty matrix when requested range is outside data (bug #50102).
+
+	* dlmread.cc (Fdlmread): When no data was read, or when the requested
+	beginning column number c0 is greater than the actual number of data columns,
+	return an empty 0x0 matrix.  Recode BIST tests to guarantee that temporary
+	file used in tests is deleted.  Add new BIST tests for empty matrix return
+	value.
+
+	Files: libinterp/corefcn/dlmread.cc
+
+2017-03-17  Marco Caliari  <marco.caliari@univr.it>
+
+	Fix eigs for generalized nonsymmetric and shift-invert problems (bug #39573).
+
+	* liboctave/numeric/eigs-base.cc: Fix the operator which computes mtmp in
+	EigsRealNonSymmetricMatrix and EigsComplexNonSymmetricMatrix.  Fix
+	vector_product for ido=-1.
+
+	* scripts/sparse/eigs.m: Add tests for the generalized nonsymmetric
+	problem (nonsymmetric and complex) and for the generalized shift-invert
+	problems (symmetric, nonsymmetric and complex).
+
+	Files: liboctave/numeric/eigs-base.cc scripts/sparse/eigs.m
+
+2017-03-16  Marco Caliari  <marco.caliari@univr.it>
+
+	Fix eigs for the generalized eigenvalue problem (bug #50546)
+
+	* liboctave/numeric/eigs-base.cc: fix ltsolve and utsolve when a nontrivial
+	Q is given, fix the operator which computes mtmp in EigsRealSymmetricMatrix.
+
+	* scripts/sparse/eigs.m: improve the documentation for permB, add tests for
+	the generalized problem.
+
+	Files: liboctave/numeric/eigs-base.cc scripts/sparse/eigs.m
+
+2017-03-10  Lars Kindermann  <Lars Kindermann>
+
+	datetick.m: Fix uneven range bugs (bug #50493)
+
+	* datetick.m: Use round() and floor() to calculate an even series of ticks.
+
+	Files: scripts/plot/appearance/datetick.m
+
+2017-03-16  Lars Kindermann  <Lars Kindermann>
+
+	datenum.m: Correct calculation for fractional leap years (bug #50508).
+
+	* datenum.m: Add new code block to convert fractional part of year field to
+	days.  Add BIST tests.
+
+	Files: scripts/time/datenum.m
+
+2017-03-12  Victor Norton  <vic@norton.name>
+
+	doc: Fix eig output argument description (bug #50524).
+
+	* eig.cc (Feig): Fix eig output argument description.
+
+	Files: libinterp/corefcn/eig.cc
+
+2017-03-15  Rik  <rik@octave.org>
+
+	datenum.m: Allow horizontal vectors of dates with fractional months (bug #50508).
+
+	* datenum.m: Remember shape of input in sz_reshape.  Convert inputs to uniform
+	size using common_size().  Perform all of the remainder of function with
+	column vectors only.  Restore shape at end of function if necessary with reshape.
+
+	Files: scripts/time/datenum.m
+
+2017-03-12  Rik  <rik@octave.org>
+
+	datenum.m: Accept legal input of vectors with fractional months (bug #50508).
+
+	* datenum.m: Accept vector inputs which contain fractional months.  Include the
+	effects of leap years for fractional February months.  Add BIST tests for February
+	calculations.
+
+	Files: scripts/time/datenum.m
+
+2017-03-10  Rik  <rik@octave.org>
+
+	Fix compilation error from d77f5721db51 graft to stable.
+
+	* parser.cc (get_next_node): Remove extra '}'.
+
+	Files: libgui/src/qtinfo/parser.cc
+
+2017-03-10  Torsten  <mttl@mailbox.org>
+
+	fix the anchor position in the info text of the doc browser (bug #50422)
+
+	* parser.cc (append_line): new function calculating the real length of
+	  a line read from an info file taking multi-byte chars into account;
+	  (get_next_node): update text length correction in the case of image tags,
+	  append method replaced by new function append_line
+
+	* parser.h: new function append_line
+
+	Files: libgui/src/qtinfo/parser.cc libgui/src/qtinfo/parser.h
+
+2017-03-08  Pantxo Diribarne  <pantxo.diribarne@gmail.com>
+
+	Fix order of legend labels with plotyy axes (bug #50497)
+
+	Files: scripts/plot/appearance/legend.m
+
+2016-10-16  Daniel J Sebald  <daniel.sebald@ieee.org>
+
+	Correct hggroup plot legends for gnuplot toolkit, add legend demo 17 items (bug #49341)
+
+	* legend.m: For demo 17, use 2x1 subplots and add a stem example having both
+	  stem series with single color and with different color for stems and markers.
+	  Place both plot legends in the northwest corner.
+
+	* __gnuplot_draw_axes__.m: Move title and phantom data sooner in 'line' object
+	  case and set is_image_data, parametric, have_cdata and have_3d_patch array
+	  values all to 'false'.  Distinguish between stem series data and error bar
+	  data under 'line' case by checking for existence of 'format' property in the
+	  hggroup.  For stem series data, call another do_linestyle_command using the
+	  parent, i.e., hggroup.  For the 'patch' case, copy the parent 'displayname'
+	  property to the object--as was done prior to the phantom data approach.  The
+	  above two changes fixes 'demo legend 17'.  For 'surface' case, make a mock
+	  key symbol using phantom data and a thick line.  The above change fixes
+	  'demo legend 18'.
+	  (do_linestyle_command): Remove extraneous '! isempty (pt)' conditional tests.
+
+	Files: scripts/plot/appearance/legend.m
+	scripts/plot/util/private/__gnuplot_draw_axes__.m
+
+2016-10-06  Daniel J Sebald  <daniel.sebald@ieee.org>
+
+	For gnuplot graphics toolkit, show only one key entry for errorbars (bug #49260)
+
+	* __gnuplot_draw_axes__.m: Move the removal of the handle from 'kids' array
+	  sooner in the loop, but keep a record of the current handle as h_obj.  Use
+	  handle h_obj in place of 'kids(end)'.  Do not copy hggroup displayname to
+	  its children objects.  Remove use of 'errbars' in do_linestyle_command().
+	  If graphics object is the first object (last-processed) in an hggroup, set
+	  its 'displayname' property and create bogus NaN data to create a key entry
+	  but no visible plot element.
+	  (do_linestyle_command): Drop all use of 'errbars' variable and realign
+	  indentation accordingly.
+	  (gnuplot_pointtype): For 'none' point type, use string "-1" rather than "".
+
+	Files: scripts/plot/util/private/__gnuplot_draw_axes__.m
+
+2017-03-02  Kai T. Ohlhus  <k.ohlhus@gmail.com>
+
+	doc: update CITATION date, version, and permalink to manual (bug #47058)
+
+	* CITATION: update date, version, and permalink to manual.
+
+	Files: CITATION
+
+2017-03-02  Mike Miller  <mtmiller@octave.org>
+
+	Fix compilation of jit caused by cset d0562b3159c7 (bug #50398).
+
+	* jit-typeinfo.cc (octave_jit_err_nan_to_logical_conversion): Change function
+	to file local rather than placing in octave_jit_octave namespace.
+	* jit-typeinfo.cc (jit_typeinfo): Call local function
+	octave_jit_err_nan_to_logical_conversion.
+
+	Files: libinterp/corefcn/jit-typeinfo.cc
+
+2017-02-25  Kai T. Ohlhus  <k.ohlhus@gmail.com>
+
+	doc: Update titlepage copyright year.
+
+	* doc/interpreter/octave.texi: Update titlepage copyright year.
+
+	Files: doc/interpreter/octave.texi
+
+2017-02-24  Rik  <rik@octave.org>
+
+	Remove inline keyword on file_stat destructor which breaks MacOS compilation (bug #50234).
+
+	* file-stat.cc (file_stat::~file_stat): Remove inline keyword on empty destructor.
+
+	Files: liboctave/system/file-stat.cc
+
+2017-02-24  John W. Eaton  <jwe@octave.org>
+
+	Added tag release-4-2-1 for changeset 1327ea4f5a93
+
+	Files: .hgtags
+
 2017-02-22  John W. Eaton  <jwe@octave.org>
 
 	Version 4.2.1 released.

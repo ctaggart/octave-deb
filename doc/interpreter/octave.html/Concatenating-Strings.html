@@ -1,15 +1,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<!-- Created by GNU Texinfo 6.3, http://www.gnu.org/software/texinfo/ -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
-<title>GNU Octave: Concatenating Strings</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Concatenating Strings (GNU Octave)</title>
 
-<meta name="description" content="GNU Octave: Concatenating Strings">
-<meta name="keywords" content="GNU Octave: Concatenating Strings">
+<meta name="description" content="Concatenating Strings (GNU Octave)">
+<meta name="keywords" content="Concatenating Strings (GNU Octave)">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link href="index.html#Top" rel="start" title="Top">
 <link href="Concept-Index.html#Concept-Index" rel="index" title="Concept Index">
 <link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
@@ -184,13 +184,13 @@ converted through <code>char</code> can mostly be converted back with
 </p>
 <div class="example">
 <pre class="example">char ([97, 98, 99], &quot;&quot;, {&quot;98&quot;, &quot;99&quot;, 100}, &quot;str1&quot;, [&quot;ha&quot;, &quot;lf&quot;])
-   &rArr; [&quot;abc    &quot;
-       &quot;       &quot;
-       &quot;98     &quot;
-       &quot;99     &quot;
-       &quot;d      &quot;
-       &quot;str1   &quot;
-       &quot;half   &quot;]
+   &rArr; [&quot;abc &quot;
+       &quot;    &quot;
+       &quot;98  &quot;
+       &quot;99  &quot;
+       &quot;d   &quot;
+       &quot;str1&quot;
+       &quot;half&quot;]
 </pre></div>
 
 <p><strong>See also:</strong> <a href="#XREFstrvcat">strvcat</a>, <a href="Cell-Arrays-of-Strings.html#XREFcellstr">cellstr</a>.
@@ -220,12 +220,12 @@ converted through <code>strvcat</code> can mostly be converted back with
 </p>
 <div class="example">
 <pre class="example">strvcat ([97, 98, 99], &quot;&quot;, {&quot;98&quot;, &quot;99&quot;, 100}, &quot;str1&quot;, [&quot;ha&quot;, &quot;lf&quot;])
-      &rArr; [&quot;abc    &quot;
-          &quot;98     &quot;
-          &quot;99     &quot;
-          &quot;d      &quot;
-          &quot;str1   &quot;
-          &quot;half   &quot;]
+      &rArr; [&quot;abc &quot;
+          &quot;98  &quot;
+          &quot;99  &quot;
+          &quot;d   &quot;
+          &quot;str1&quot;
+          &quot;half&quot;]
 </pre></div>
 
 <p><strong>See also:</strong> <a href="#XREFchar">char</a>, <a href="#XREFstrcat">strcat</a>, <a href="#XREFcstrcat">cstrcat</a>.

@@ -31,7 +31,7 @@ Octave is built.
 @deftypefn  {} {} fft (@var{x})
 @deftypefnx {} {} fft (@var{x}, @var{n})
 @deftypefnx {} {} fft (@var{x}, @var{n}, @var{dim})
-Compute the discrete Fourier transform of @var{A} using
+Compute the discrete Fourier transform of @var{x} using
 a Fast Fourier Transform (FFT) algorithm.
 
 The FFT is calculated along the first non-singleton dimension of the
@@ -47,7 +47,7 @@ smaller than the dimension along which the FFT is calculated, then
 @var{x} is truncated.
 
 If called with three arguments, @var{dim} is an integer specifying the
-dimension of the matrix along which the FFT is performed
+dimension of the matrix along which the FFT is performed.
 @seealso{@ref{XREFifft,,ifft}, @ref{XREFfft2,,fft2}, @ref{XREFfftn,,fftn}, @ref{XREFfftw,,fftw}}
 @end deftypefn
 
@@ -57,7 +57,7 @@ dimension of the matrix along which the FFT is performed
 @deftypefn  {} {} ifft (@var{x})
 @deftypefnx {} {} ifft (@var{x}, @var{n})
 @deftypefnx {} {} ifft (@var{x}, @var{n}, @var{dim})
-Compute the inverse discrete Fourier transform of @var{A}
+Compute the inverse discrete Fourier transform of @var{x}
 using a Fast Fourier Transform (FFT) algorithm.
 
 The inverse FFT is calculated along the first non-singleton dimension
@@ -73,7 +73,7 @@ smaller than the dimension along which the inverse FFT is calculated,
 then @var{x} is truncated.
 
 If called with three arguments, @var{dim} is an integer specifying the
-dimension of the matrix along which the inverse FFT is performed
+dimension of the matrix along which the inverse FFT is performed.
 @seealso{@ref{XREFfft,,fft}, @ref{XREFifft2,,ifft2}, @ref{XREFifftn,,ifftn}, @ref{XREFfftw,,fftw}}
 @end deftypefn
 
@@ -107,7 +107,7 @@ rows and columns of @var{A} to use.  If either of these is larger than the
 size of @var{A}, @var{A} is resized and padded with zeros.
 
 If @var{A} is a multi-dimensional matrix, each two-dimensional sub-matrix
-of @var{A} is treated separately
+of @var{A} is treated separately.
 @seealso{@ref{XREFfft2,,fft2}, @ref{XREFifft,,ifft}, @ref{XREFifftn,,ifftn}, @ref{XREFfftw,,fftw}}
 @end deftypefn
 
@@ -935,8 +935,8 @@ sampling rate.  The default is 1.
 
 @item range
 range of spectrum.  @qcode{"@nospell{onesided}"} computes spectrum from
-[0..nfft/2+1].  @qcode{"@nospell{twosided}"} computes spectrum from
-[0..nfft-1].
+[0:nfft/2+1].  @qcode{"@nospell{twosided}"} computes spectrum from
+[0:nfft-1].
 @end table
 
 The optional second output @var{w} are the normalized angular frequencies.

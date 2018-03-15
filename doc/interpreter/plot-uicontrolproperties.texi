@@ -28,7 +28,7 @@
 
 @anchor{XREFuicontrolbackgroundcolor}
 @cindex uicontrol backgroundcolor
-@item @code{backgroundcolor}: def. @code{[0.90980   0.90980   0.90588]}
+@item @code{backgroundcolor}: def. @code{[0.93725   0.92157   0.90588]}
 
 
 
@@ -134,7 +134,7 @@ For information on how to write graphics listener functions see @ref{Callbacks, 
 
 @anchor{XREFuicontrolforegroundcolor}
 @cindex uicontrol foregroundcolor
-@item @code{foregroundcolor}: def. @code{[0.18039   0.20392   0.21176]}
+@item @code{foregroundcolor}: def. @code{[0   0   0]}
 
 
 

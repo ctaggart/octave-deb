@@ -1,15 +1,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<!-- Created by GNU Texinfo 6.3, http://www.gnu.org/software/texinfo/ -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
-<title>GNU Octave: Three-Dimensional Plots</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Three-Dimensional Plots (GNU Octave)</title>
 
-<meta name="description" content="GNU Octave: Three-Dimensional Plots">
-<meta name="keywords" content="GNU Octave: Three-Dimensional Plots">
+<meta name="description" content="Three-Dimensional Plots (GNU Octave)">
+<meta name="keywords" content="Three-Dimensional Plots (GNU Octave)">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link href="index.html#Top" rel="start" title="Top">
 <link href="Concept-Index.html#Concept-Index" rel="index" title="Concept Index">
 <link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
@@ -136,7 +136,7 @@ by supplying a color matrix, <var>c</var>.
 <p>Any property/value pairs are passed directly to the underlying surface
 object.
 </p>
-<p>If the first argument <var>hax</var> is an axes handle, then plot into this axis,
+<p>If the first argument <var>hax</var> is an axes handle, then plot into this axes,
 rather than the current axes returned by <code>gca</code>.
 </p>
 <p>The optional return value <var>h</var> is a graphics handle to the created
@@ -175,7 +175,7 @@ by supplying a color matrix, <var>c</var>.
 <p>Any property/value pairs are passed directly to the underlying surface
 object.
 </p>
-<p>If the first argument <var>hax</var> is an axes handle, then plot into this axis,
+<p>If the first argument <var>hax</var> is an axes handle, then plot into this axes,
 rather than the current axes returned by <code>gca</code>.
 </p>
 <p>The optional return value <var>h</var> is a 2-element vector with a graphics
@@ -200,7 +200,7 @@ rectangles [<var>x</var>, <var>y</var>] are typically the output of <code>meshgr
 over a 2-D rectangular region in the x-y plane.  <var>z</var> determines the
 height above the plane of each vertex.  If only a single <var>z</var> matrix is
 given, then it is plotted over the meshgrid
-<code><var>x</var> = 0:columns (<var>z</var>) - 1, <var>y</var> = 0:rows (<var>z</var>) - 1</code>.
+<code><var>x</var> = 0:(columns (<var>z</var>) - 1), <var>y</var> = 0:(rows (<var>z</var>) - 1</code>).
 Thus, columns of <var>z</var> correspond to different <var>x</var> values and rows
 of <var>z</var> correspond to different <var>y</var> values.
 </p>
@@ -214,7 +214,7 @@ by supplying a color matrix, <var>c</var>.
 <p>Any property/value pairs are passed directly to the underlying surface
 object.
 </p>
-<p>If the first argument <var>hax</var> is an axes handle, then plot into this axis,
+<p>If the first argument <var>hax</var> is an axes handle, then plot into this axes,
 rather than the current axes returned by <code>gca</code>.
 </p>
 <p>The optional return value <var>h</var> is a graphics handle to the created
@@ -278,7 +278,7 @@ change the colormap to control the appearance.
 <p>Any property/value pairs are passed directly to the underlying surface
 object.
 </p>
-<p>If the first argument <var>hax</var> is an axes handle, then plot into this axis,
+<p>If the first argument <var>hax</var> is an axes handle, then plot into this axes,
 rather than the current axes returned by <code>gca</code>.
 </p>
 <p>The optional return value <var>h</var> is a graphics handle to the created
@@ -320,7 +320,7 @@ change the colormap to control the appearance.
 <p>Any property/value pairs are passed directly to the underlying surface
 object.
 </p>
-<p>If the first argument <var>hax</var> is an axes handle, then plot into this axis,
+<p>If the first argument <var>hax</var> is an axes handle, then plot into this axes,
 rather than the current axes returned by <code>gca</code>.
 </p>
 <p>The optional return value <var>h</var> is a graphics handle to the created
@@ -375,7 +375,7 @@ vector <var>P</var> = [<var>AM</var> <var>D</var> <var>SP</var> <var>exp</var>] 
 <dt><code>&quot;EXP&quot;</code> specular exponent</dt>
 </dl>
 
-<p>If the first argument <var>hax</var> is an axes handle, then plot into this axis,
+<p>If the first argument <var>hax</var> is an axes handle, then plot into this axes,
 rather than the current axes returned by <code>gca</code>.
 </p>
 <p>The optional return value <var>h</var> is a graphics handle to the created
@@ -405,15 +405,15 @@ shading interp;
 (<var>x</var>(j), <var>y</var>(i), <var>z</var>(i,j)).  Thus, columns of <var>z</var> correspond
 to different <var>x</var> values and rows of <var>z</var> correspond to different
 <var>y</var> values.  If only a single input <var>z</var> is given then <var>x</var> is
-taken to be <code>1:rows (<var>z</var>)</code> and <var>y</var> is
-<code>1:columns (<var>z</var>)</code>.
+taken to be <code>1:columns (<var>z</var>)</code> and <var>y</var> is
+<code>1:rows (<var>z</var>)</code>.
 </p>
 <p>If no return arguments are requested, a surface plot with the normal
 vectors to the surface is plotted.
 </p>
 <p>Any property/value input pairs are assigned to the surface object.
 </p>
-<p>If the first argument <var>hax</var> is an axes handle, then plot into this axis,
+<p>If the first argument <var>hax</var> is an axes handle, then plot into this axes,
 rather than the current axes returned by <code>gca</code>.
 </p>
 <p>If output arguments are requested then the components of the normal
@@ -422,7 +422,7 @@ made.  The normal vectors are unnormalized (magnitude != 1).  To normalize,
 use
 </p>
 <div class="example">
-<pre class="example">mag = sqrt (nx.^2 + ny.^2 + nz.^2);
+<pre class="example">len = sqrt (nx.^2 + ny.^2 + nz.^2);
 nx ./= len;  ny ./= len;  nz ./= len;
 </pre></div>
 
@@ -1045,7 +1045,7 @@ vertices.
 </dl>
 
 <p>If the first argument <var>hax</var> is an axes handle, then change the lighting
-effects of objects in this axis, rather than the current axes returned by
+effects of objects in this axes, rather than the current axes returned by
 <code>gca</code>.
 </p>
 <p>The lighting effects are only visible if at least one light object is
@@ -1300,7 +1300,7 @@ with an empty format string, as
 objects drawn by <code>plot3</code>.  If the <var>fmt</var> argument is supplied it
 will format the line objects in the same manner as <code>plot</code>.
 </p>
-<p>If the first argument <var>hax</var> is an axes handle, then plot into this axis,
+<p>If the first argument <var>hax</var> is an axes handle, then plot into this axes,
 rather than the current axes returned by <code>gca</code>.
 </p>
 <p>The optional return value <var>h</var> is a graphics handle to the created plot.
@@ -1338,7 +1338,7 @@ and <var>elevation</var>&nbsp;=&nbsp;90<!-- /@w -->, which is the default for 2-
 and <var>elevation</var>&nbsp;=&nbsp;30<!-- /@w -->, which is the default for 3-D graphs.
 </p>
 <p>If the first argument <var>hax</var> is an axes handle, then operate on
-this axis rather than the current axes returned by <code>gca</code>.
+this axes rather than the current axes returned by <code>gca</code>.
 </p>
 <p>If no inputs are given, return the current <var>azimuth</var> and
 <var>elevation</var>.
@@ -1391,7 +1391,7 @@ throughout the curve.
 
 <p>The default method is <code>&quot;linear&quot;</code>.
 </p>
-<p>If the first argument <var>hax</var> is an axes handle, then plot into this axis,
+<p>If the first argument <var>hax</var> is an axes handle, then plot into this axes,
 rather than the current axes returned by <code>gca</code>.
 </p>
 <p>The optional return value <var>h</var> is a graphics handle to the created
@@ -1429,7 +1429,7 @@ same number of elements as rows of <var>y</var> in which case the same
 <p>The optional parameter <var>width</var> specifies the width of a single ribbon
 (default is 0.75).
 </p>
-<p>If the first argument <var>hax</var> is an axes handle, then plot into this axis,
+<p>If the first argument <var>hax</var> is an axes handle, then plot into this axes,
 rather than the current axes returned by <code>gca</code>.
 </p>
 <p>The optional return value <var>h</var> is a vector of graphics handles to
@@ -1461,7 +1461,7 @@ invisible.
 </p></dd>
 </dl>
 
-<p>If the first argument <var>hax</var> is an axes handle, then plot into this axis,
+<p>If the first argument <var>hax</var> is an axes handle, then plot into this axes,
 rather than the current axes returned by <code>gca</code>.
 </p>
 <p><strong>See also:</strong> <a href="Two_002dDimensional-Plots.html#XREFfill">fill</a>, <a href="#XREFmesh">mesh</a>, <a href="Graphics-Objects.html#XREFpatch">patch</a>, <a href="Two_002dDimensional-Plots.html#XREFpcolor">pcolor</a>, <a href="#XREFsurf">surf</a>, <a href="Graphics-Objects.html#XREFsurface">surface</a>, <a href="#XREFhidden">hidden</a>, <a href="#XREFlighting">lighting</a>.
@@ -1501,7 +1501,7 @@ If the argument <code>&quot;filled&quot;</code> is given then the markers are fi
 <p>Additional property/value pairs are passed directly to the underlying
 patch object.
 </p>
-<p>If the first argument <var>hax</var> is an axes handle, then plot into this axis,
+<p>If the first argument <var>hax</var> is an axes handle, then plot into this axes,
 rather than the current axes returned by <code>gca</code>.
 </p>
 <p>The optional return value <var>h</var> is a graphics handle to the hggroup
@@ -1548,7 +1548,7 @@ by supplying a color matrix, <var>c</var>.
 <p>Any property/value pairs are passed directly to the underlying surface
 object.
 </p>
-<p>If the first argument <var>hax</var> is an axes handle, then plot into this axis,
+<p>If the first argument <var>hax</var> is an axes handle, then plot into this axes,
 rather than the current axes returned by <code>gca</code>.
 </p>
 <p>The optional return value <var>h</var> is a graphics handle to the created

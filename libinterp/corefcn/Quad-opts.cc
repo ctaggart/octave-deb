@@ -1,5 +1,5 @@
 // DO NOT EDIT!
-// Generated automatically from ../liboctave/numeric/Quad-opts.in.
+// Generated automatically from /home/jwe/src/octave-stable/liboctave/numeric/Quad-opts.in.
 
 // This file should not include config.h.  It is only included in other
 // C++ source files that should have included config.h before including

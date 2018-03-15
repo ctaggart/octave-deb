@@ -1,15 +1,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<!-- Created by GNU Texinfo 6.3, http://www.gnu.org/software/texinfo/ -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
-<title>GNU Octave: Graphics Objects</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Graphics Objects (GNU Octave)</title>
 
-<meta name="description" content="GNU Octave: Graphics Objects">
-<meta name="keywords" content="GNU Octave: Graphics Objects">
+<meta name="description" content="Graphics Objects (GNU Octave)">
+<meta name="keywords" content="Graphics Objects (GNU Octave)">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link href="index.html#Top" rel="start" title="Top">
 <link href="Concept-Index.html#Concept-Index" rel="index" title="Concept Index">
 <link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
@@ -151,14 +151,14 @@ Instead of calling <code>line</code>, use <code>plot</code>.  Or use <code>surf<
 to <var>hax</var>.
 </p>
 <p>Called without any arguments, or with <var>property</var>/<var>value</var> pairs,
-construct a new axes.  For accepted properties and corresponding
-values, see <a href="#XREFset">set</a>.
+construct a new axes.  For accepted properties and corresponding values,
+see <a href="#XREFset">set</a>.
 </p>
 <p>Called with a single axes handle argument <var>hax</var>, the function makes
-<var>hax</var> the current axis.  It also restacks the axes in the
-corresponding figure so that <var>hax</var> is the first entry in the list
-of children.  This causes <var>hax</var> to be displayed on top of any other
-axes objects (Z-order stacking).
+<var>hax</var> the current axes.  It also restacks the axes in the corresponding
+figure so that <var>hax</var> is the first entry in the list of children.  This
+causes <var>hax</var> to be displayed on top of any other axes objects (Z-order
+stacking).
 </p>
 
 <p><strong>See also:</strong> <a href="#XREFgca">gca</a>, <a href="#XREFset">set</a>, <a href="#XREFget">get</a>.
@@ -180,7 +180,7 @@ insert in the current axes.
 <p>Multiple property-value pairs may be specified for the line object, but they
 must appear in pairs.
 </p>
-<p>If the first argument <var>hax</var> is an axes handle, then plot into this axis,
+<p>If the first argument <var>hax</var> is an axes handle, then plot into this axes,
 rather than the current axes returned by <code>gca</code>.
 </p>
 <p>The optional return value <var>h</var> is a graphics handle (or vector of
@@ -233,7 +233,7 @@ inputs.
 <p>Instead of using property/value pairs, any property can be set by passing a
 structure <var>propstruct</var> with the respective field names.
 </p>
-<p>If the first argument <var>hax</var> is an axes handle, then plot into this axis,
+<p>If the first argument <var>hax</var> is an axes handle, then plot into this axes,
 rather than the current axes returned by <code>gca</code>.
 </p>
 <p>The optional return value <var>h</var> is a graphics handle to the created patch
@@ -264,12 +264,12 @@ properties are: <code>&quot;cdata&quot;</code>, <code>&quot;edgecolor&quot;</cod
 (<var>x</var>(j), <var>y</var>(i), <var>z</var>(i,j)).  Thus, columns of <var>z</var> correspond
 to different <var>x</var> values and rows of <var>z</var> correspond to different
 <var>y</var> values.  If only a single input <var>z</var> is given then <var>x</var> is
-taken to be <code>1:rows (<var>z</var>)</code> and <var>y</var> is
-<code>1:columns (<var>z</var>)</code>.
+taken to be <code>1:columns (<var>z</var>)</code> and <var>y</var> is
+<code>1:rows (<var>z</var>)</code>.
 </p>
 <p>Any property/value input pairs are assigned to the surface object.
 </p>
-<p>If the first argument <var>hax</var> is an axes handle, then plot into this axis,
+<p>If the first argument <var>hax</var> is an axes handle, then plot into this axes,
 rather than the current axes returned by <code>gca</code>.
 </p>
 <p>The optional return value <var>h</var> is a graphics handle to the created
@@ -427,9 +427,9 @@ object.
 
 <a name="XREFgca"></a><dl>
 <dt><a name="index-gca"></a>: <em><var>h</var> =</em> <strong>gca</strong> <em>()</em></dt>
-<dd><p>Return a handle to the current axis object.
+<dd><p>Return a handle to the current axes object.
 </p>
-<p>The current axis is the default target for graphics output.  In the case
+<p>The current axes is the default target for graphics output.  In the case
 of a figure with multiple axes, <code>gca</code> returns the last created axes
 or the last axes that was clicked on with the mouse.
 </p>
@@ -445,7 +445,7 @@ set (ax, &quot;position&quot;, [0.5, 0.5, 0.5, 0.5]);
 <p>creates an empty axes object and then changes its location and size in the
 figure window.
 </p>
-<p>Note: To find the current axis without creating a new axes object if it
+<p>Note: To find the current axes without creating a new axes object if it
 does not exist, query the <code>&quot;CurrentAxes&quot;</code> property of a figure.
 </p>
 <div class="example">

@@ -290,7 +290,7 @@ x(2).b = 2;
 @end example
 
 @noindent
-which creates a 2-by-1 structure array with two fields.  Another way
+which creates a 1-by-2 structure array with two fields.  Another way
 to create a structure array is with the @code{struct} function
 (@pxref{Creating Structures}).  As previously, to print the value of
 the structure array, you can type its name:
@@ -675,7 +675,7 @@ used here, as the field name is not a valid Octave identifier because of
 the space character.  Using arbitrary strings for field names is
 incompatible with @sc{matlab}, and this usage will emit a warning if the
 warning ID @code{Octave:language-extension} is enabled.
-@xref{XREFwarning_ids}.
+@xref{XREFwarning_ids,,warning_ids}.
 
 With the second calling form, set a field of a structure array.  The
 input @var{sidx} selects an element of the structure array, @var{field}

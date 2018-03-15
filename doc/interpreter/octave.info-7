@@ -1,11 +1,11 @@
-This is octave.info, produced by makeinfo version 6.3 from octave.texi.
+This is octave.info, produced by makeinfo version 6.5 from octave.texi.
 
 START-INFO-DIR-ENTRY
 * Octave: (octave).           Interactive language for numerical computations.
 
 END-INFO-DIR-ENTRY
 
-   Copyright © 1996-2016 John W. Eaton.
+   Copyright © 1996-2018 John W. Eaton.
 
    Permission is granted to make and distribute verbatim copies of this
 manual provided the copyright notice and this permission notice are
@@ -19,6 +19,230 @@ permission notice identical to this one.
    Permission is granted to copy and distribute translations of this
 manual into another language, under the above conditions for modified
 versions.
+
+
+File: octave.info,  Node: Indexing Objects,  Next: Overloading Objects,  Prev: Class Methods,  Up: Object Oriented Programming
+
+34.3 Indexing Objects
+=====================
+
+* Menu:
+
+* Defining Indexing And Indexed Assignment::
+* Indexed Assignment Optimization::
+
+
+File: octave.info,  Node: Defining Indexing And Indexed Assignment,  Next: Indexed Assignment Optimization,  Up: Indexing Objects
+
+34.3.1 Defining Indexing And Indexed Assignment
+-----------------------------------------------
+
+Objects can be indexed with parentheses or braces, either like
+‘OBJ(IDX)’ or like ‘OBJ{IDX}’, or even like ‘OBJ(IDX).FIELD’.  However,
+it is up to the programmer to decide what this indexing actually means.
+In the case of the polynomial class ‘P(N)’ might mean either the
+coefficient of the N-th power of the polynomial, or it might be the
+evaluation of the polynomial at N.  The meaning of this subscripted
+referencing is determined by the ‘subsref’ method.
+
+ -- : subsref (VAL, IDX)
+     Perform the subscripted element selection operation on VAL
+     according to the subscript specified by IDX.
+
+     The subscript IDX must be a structure array with fields ‘type’ and
+     ‘subs’.  Valid values for ‘type’ are "()", "{}", and ".".  The
+     ‘subs’ field may be either ":" or a cell array of index values.
+
+     The following example shows how to extract the first two columns of
+     a matrix
+
+          val = magic (3)
+              ⇒ val = [ 8   1   6
+                         3   5   7
+                         4   9   2 ]
+          idx.type = "()";
+          idx.subs = {":", 1:2};
+          subsref (val, idx)
+               ⇒ [ 8   1
+                    3   5
+                    4   9 ]
+
+     Note that this is the same as writing ‘val(:, 1:2)’.
+
+     If IDX is an empty structure array with fields ‘type’ and ‘subs’,
+     return VAL.
+
+     See also: *note subsasgn: XREFsubsasgn, *note substruct:
+     XREFsubstruct.
+
+   For example, this class uses the convention that indexing with "()"
+evaluates the polynomial and indexing with "{}" returns the N-th
+coefficient (of the N-th power).  The code for the ‘subsref’ method
+looks like
+
+     function r = subsref (p, s)
+     
+       if (isempty (s))
+         error ("@polynomial/subsref: missing index");
+       endif
+     
+       switch (s(1).type)
+     
+         case "()"
+           idx = s(1).subs;
+           if (numel (idx) != 1)
+             error ("@polynomial/subsref: need exactly one index");
+           endif
+           r = polyval (fliplr (p.poly), idx{1});
+     
+         case "{}"
+           idx = s(1).subs;
+           if (numel (idx) != 1)
+             error ("@polynomial/subsref: need exactly one index");
+           endif
+     
+           if (isnumeric (idx{1}))
+             r = p.poly(idx{1}+1);
+           else
+             r = p.poly(idx{1});
+           endif
+     
+         case "."
+           fld = s.subs;
+           if (! strcmp (fld, "poly"))
+             error ('@polynomial/subsref: invalid property "%s"', fld);
+           endif
+           r = p.poly;
+     
+         otherwise
+           error ("@polynomial/subsref: invalid subscript type");
+     
+       endswitch
+     
+       if (numel (s) > 1)
+         r = subsref (r, s(2:end));
+       endif
+     
+     endfunction
+
+   The equivalent functionality for subscripted assignments uses the
+‘subsasgn’ method.
+
+ -- : subsasgn (VAL, IDX, RHS)
+     Perform the subscripted assignment operation according to the
+     subscript specified by IDX.
+
+     The subscript IDX must be a structure array with fields ‘type’ and
+     ‘subs’.  Valid values for ‘type’ are "()", "{}", and ".".  The
+     ‘subs’ field may be either ":" or a cell array of index values.
+
+     The following example shows how to set the two first columns of a
+     3-by-3 matrix to zero.
+
+          val = magic (3);
+          idx.type = "()";
+          idx.subs = {":", 1:2};
+          subsasgn (val, idx, 0)
+               ⇒  [ 0   0   6
+                     0   0   7
+                     0   0   2 ]
+
+     Note that this is the same as writing ‘val(:, 1:2) = 0’.
+
+     If IDX is an empty structure array with fields ‘type’ and ‘subs’,
+     return RHS.
+
+     See also: *note subsref: XREFsubsref, *note substruct:
+     XREFsubstruct, *note optimize_subsasgn_calls:
+     XREFoptimize_subsasgn_calls.
+
+ -- : VAL = optimize_subsasgn_calls ()
+ -- : OLD_VAL = optimize_subsasgn_calls (NEW_VAL)
+ -- : optimize_subsasgn_calls (NEW_VAL, "local")
+     Query or set the internal flag for ‘subsasgn’ method call
+     optimizations.
+
+     If true, Octave will attempt to eliminate the redundant copying
+     when calling the ‘subsasgn’ method of a user-defined class.
+
+     When called from inside a function with the "local" option, the
+     variable is changed locally for the function and any subroutines it
+     calls.  The original variable value is restored when exiting the
+     function.
+
+     See also: *note subsasgn: XREFsubsasgn.
+
+   Note that the ‘subsref’ and ‘subsasgn’ methods always receive the
+whole index chain, while they usually handle only the first element.  It
+is the responsibility of these methods to handle the rest of the chain
+(if needed), usually by forwarding it again to ‘subsref’ or ‘subsasgn’.
+
+   If you wish to use the ‘end’ keyword in subscripted expressions of an
+object, then there must be an ‘end’ method defined.  For example, the
+‘end’ method for the polynomial class might look like
+
+     function r = end (obj, index_pos, num_indices)
+     
+       if (num_indices != 1)
+         error ("polynomial object may only have one index");
+       endif
+     
+       r = length (obj.poly) - 1;
+     
+     endfunction
+
+which is a fairly generic ‘end’ method that has a behavior similar to
+the ‘end’ keyword for Octave Array classes.  An example using the
+polynomial class is then
+
+     p = polynomial ([1,2,3,4]);
+     p{end-1}
+       ⇒ 3
+
+   Objects can also be used themselves as the index in a subscripted
+expression and this is controlled by the ‘subsindex’ function.
+
+ -- : IDX = subsindex (OBJ)
+     Convert an object to an index vector.
+
+     When OBJ is a class object defined with a class constructor, then
+     ‘subsindex’ is the overloading method that allows the conversion of
+     this class object to a valid indexing vector.  It is important to
+     note that ‘subsindex’ must return a zero-based real integer vector
+     of the class "double".  For example, if the class constructor were
+
+          function obj = myclass (a)
+            obj = class (struct ("a", a), "myclass");
+          endfunction
+
+     then the ‘subsindex’ function
+
+          function idx = subsindex (obj)
+            idx = double (obj.a) - 1.0;
+          endfunction
+
+     could be used as follows
+
+          a = myclass (1:4);
+          b = 1:10;
+          b(a)
+          ⇒ 1  2  3  4
+
+     See also: *note class: XREFclass, *note subsref: XREFsubsref, *note
+     subsasgn: XREFsubsasgn.
+
+   Finally, objects can be used like ranges by providing a ‘colon’
+method.
+
+ -- : R = colon (BASE, LIMIT)
+ -- : R = colon (BASE, INCREMENT, LIMIT)
+     Return the result of the colon expression corresponding to BASE,
+     LIMIT, and optionally, INCREMENT.
+
+     This function is equivalent to the operator syntax ‘BASE : LIMIT’
+     or ‘BASE : INCREMENT : LIMIT’.
+
+     See also: *note linspace: XREFlinspace.
 
 
 File: octave.info,  Node: Indexed Assignment Optimization,  Prev: Defining Indexing And Indexed Assignment,  Up: Indexing Objects
@@ -104,13 +328,13 @@ pertinent example for the polynomial class might be to overload the
 ‘polyval’ function.
 
      function [y, dy] = polyval (p, varargin)
-
+     
        if (nargout > 1)
          [y, dy] = polyval (fliplr (p.poly), varargin{:});
        else
          y = polyval (fliplr (p.poly), varargin{:});
        endif
-
+     
      endfunction
 
    This function just hands off the work to the normal Octave ‘polyval’
@@ -118,7 +342,7 @@ function.  Another interesting example of an overloaded function for the
 polynomial class is the ‘plot’ function.
 
      function h = plot (p, varargin)
-
+     
        n = 128;
        rmax = max (abs (roots (p.poly)));
        x = [0 : (n - 1)] / (n - 1) * 2.2 * rmax - 1.1 * rmax;
@@ -127,7 +351,7 @@ polynomial class is the ‘plot’ function.
        else
          plot (x, polyval (p, x), varargin{:});
        endif
-
+     
      endfunction
 
 which allows polynomials to be plotted in the domain near the region of
@@ -136,9 +360,9 @@ the roots of the polynomial.
    Functions that are of particular interest for overloading are the
 class conversion functions such as ‘double’.  Overloading these
 functions allows the ‘cast’ function to work with a user class.  It can
-also can aid in the use of a class object with methods and functions
-from other classes since the object can be transformed to the requisite
-input form for the new function.  An example ‘double’ function for the
+also aid in the use of a class object with methods and functions from
+other classes since the object can be transformed to the requisite input
+form for the new function.  An example ‘double’ function for the
 polynomial class might look like
 
      function a = double (p)
@@ -250,13 +474,13 @@ particular the polynomial class constructor would be modified to
      ## @noindent
      ## from a vector of coefficients [a0 a1 a2 @dots{} an].
      ## @end deftypefn
-
+     
      function p = polynomial (a)
-
+     
        if (nargin > 1)
          print_usage ();
        endif
-
+     
        if (nargin == 0)
          p.poly = [0];
          p = class (p, "polynomial");
@@ -270,9 +494,9 @@ particular the polynomial class constructor would be modified to
            error ("@polynomial: A must be a real vector");
          endif
        endif
-
+     
        superiorto ("double");
-
+     
      endfunction
 
    Note that user classes _always_ have higher precedence than built-in
@@ -283,7 +507,7 @@ Octave types.  Thus, marking the polynomial class higher than the
 the method of the object that appears first in the list of arguments.
 
 
-File: octave.info,  Node: Inheritance and Aggregation,  Prev: Overloading Objects,  Up: Object Oriented Programming
+File: octave.info,  Node: Inheritance and Aggregation,  Next: classdef Classes,  Prev: Overloading Objects,  Up: Object Oriented Programming
 
 34.5 Inheritance and Aggregation
 ================================
@@ -317,22 +541,22 @@ directory ‘@FIRfilter’.
      ## @deftypefnx {} {} FIRfilter (@var{p})
      ## Create a FIR filter with polynomial @var{p} as coefficient vector.
      ## @end deftypefn
-
+     
      function f = FIRfilter (p)
-
+     
        if (nargin > 1)
          print_usage ();
        endif
-
+     
        if (nargin == 0)
          p = @polynomial ([1]);
        elseif (! isa (p, "polynomial"))
          error ("@FIRfilter: P must be a polynomial object");
        endif
-
+     
        f.polynomial = [];
        f = class (f, "FIRfilter", p);
-
+     
      endfunction
 
    As before, the leading comments provide documentation for the class
@@ -394,25 +618,25 @@ mechanism to access the fields.  The ‘subsref’ method may be used for
 both tasks.
 
      function r = subsref (f, x)
-
+     
        switch (x.type)
-
+     
          case "()"
            n = f.polynomial;
            r = filter (n.poly, 1, x.subs{1});
-
+     
          case "."
            fld = x.subs;
            if (! strcmp (fld, "polynomial"))
              error ('@FIRfilter/subsref: invalid property "%s"', fld);
            endif
            r = f.polynomial;
-
+     
          otherwise
            error ("@FIRfilter/subsref: invalid subscript type for FIR filter");
-
+     
        endswitch
-
+     
      endfunction
 
    The "()" case allows us to filter data using the polynomial provided
@@ -440,7 +664,7 @@ needed.  For example, the following code makes the polynomial field
 publicly writable
 
      function fout = subsasgn (f, index, val)
-
+     
        switch (index.type)
          case "."
            fld = index.subs;
@@ -449,11 +673,11 @@ publicly writable
            endif
            fout = f;
            fout.polynomial = val;
-
+     
          otherwise
            error ("@FIRfilter/subsasgn: Invalid index type")
        endswitch
-
+     
      endfunction
 
 so that
@@ -474,29 +698,391 @@ class structure.  A class constructor for the aggregation case might be
      ## @deftypefnx {} {} FIRfilter (@var{p})
      ## Create a FIR filter with polynomial @var{p} as coefficient vector.
      ## @end deftypefn
-
+     
      function f = FIRfilter (p)
-
+     
        if (nargin > 1)
          print_usage ();
        endif
-
+     
        if (nargin == 0)
          f.polynomial = @polynomial ([1]);
        else
          if (! isa (p, "polynomial"))
            error ("@FIRfilter: P must be a polynomial object");
          endif
-
+     
          f.polynomial = p;
        endif
-
+     
        f = class (f, "FIRfilter");
-
+     
      endfunction
 
    For this example only the constructor needs changing, and all other
 class methods stay the same.
+
+
+File: octave.info,  Node: classdef Classes,  Prev: Inheritance and Aggregation,  Up: Object Oriented Programming
+
+34.6 ‘classdef’ Classes
+=======================
+
+Since version 4.0, Octave has limited support for ‘classdef’ classes.
+In contrast to the aforementioned classes, called “old style classes” in
+this section, ‘classdef’ classes can be defined within a single m-file.
+Other innovations of ‘classdef’ classes are:
+
+   • access rights for properties and methods,
+
+   • static methods, i.e., methods that are independent of an object,
+     and
+
+   • the distinction between value and handle classes.
+
+   Several features have to be added in future versions of Octave to be
+fully compatible to MATLAB.  An overview of what is missing can be found
+at <http://wiki.octave.org/Classdef>.
+
+* Menu:
+
+* Creating a classdef Class::
+* Properties::
+* Methods::
+* Inheritance::
+* Value Classes vs. Handle Classes::
+
+
+File: octave.info,  Node: Creating a classdef Class,  Next: Properties,  Up: classdef Classes
+
+34.6.1 Creating a ‘classdef’ Class
+----------------------------------
+
+A very basic ‘classdef’ value class (*note Value Classes vs. Handle
+Classes::) is defined by:
+
+     classdef some_class
+       properties
+       endproperties
+
+       methods
+       endmethods
+     endclassdef
+
+   In contrast to old style classes, the ‘properties’-‘endproperties’
+block as well as the ‘methods’-‘endmethods’ block can be used to define
+properties and methods of the class.  Because both blocks are empty,
+they can be omitted in this particular case.
+
+   For simplicity, a more advanced implementation of a ‘classdef’ class
+is shown using the ‘polynomial’ example again (*note Creating a
+Class::):
+
+     classdef polynomial2
+       properties
+         poly = 0;
+       endproperties
+     
+       methods
+         function p = polynomial2 (a)
+           if (nargin > 1)
+             print_usage ();
+           endif
+     
+           if (nargin == 1)
+             if (isa (a, "polynomial2"))
+               p.poly = a.poly;
+             elseif (isreal (a) && isvector (a))
+               p.poly = a(:).';  # force row vector
+             else
+               error ("polynomial2: A must be a real vector");
+             endif
+           endif
+         endfunction
+     
+         function disp (p)
+           a = p.poly;
+           first = true;
+           for i = 1 : length (a);
+             if (a(i) != 0)
+               if (first)
+                 first = false;
+               elseif (a(i) > 0 || isnan (a(i)))
+                 printf (" +");
+               endif
+               if (a(i) < 0)
+                 printf (" -");
+               endif
+               if (i == 1)
+                 printf (" %.5g", abs (a(i)));
+               elseif (abs (a(i)) != 1)
+                 printf (" %.5g *", abs (a(i)));
+               endif
+               if (i > 1)
+                 printf (" X");
+               endif
+               if (i > 2)
+                 printf (" ^ %d", i - 1);
+               endif
+             endif
+           endfor
+     
+           if (first)
+             printf (" 0");
+           endif
+           printf ("\n");
+         endfunction
+       endmethods
+     endclassdef
+
+An object of class ‘polynomial2’ is created by calling the class
+constructor:
+
+     >> p = polynomial2 ([1, 0, 1])
+     ⇒ p =
+
+      1 + X ^ 2
+
+
+File: octave.info,  Node: Properties,  Next: Methods,  Prev: Creating a classdef Class,  Up: classdef Classes
+
+34.6.2 Properties
+-----------------
+
+All class properties must be defined within ‘properties’ blocks.  The
+definition of a default value for a property is optional and can be
+omitted.  The default initial value for each class property is ‘[]’.
+
+   A ‘properties’ block can have additional attributes to specify access
+rights or to define constants:
+
+     classdef some_class
+       properties (Access = MODE)
+         PROP1
+       endproperties
+
+       properties (SetAccess = MODE, GetAccess = MODE)
+         PROP2
+       endproperties
+
+       properties (Constant = true)
+         PROP3 = pi ()
+       endproperties
+
+       properties
+         PROP4 = 1337
+       endproperties
+     endclassdef
+
+where MODE can be one of:
+
+‘public’
+     The properties can be accessed from everywhere.
+
+‘private’
+     The properties can only be accessed from class methods.  Subclasses
+     of that class cannot access them.
+
+‘protected’
+     The properties can only be accessed from class methods and from
+     subclasses of that class.
+
+   When creating an object of ‘some_class’, PROP1 has the default value
+‘[]’ and reading from and writing to PROP1 is defined by a single MODE.
+For PROP2 the read and write access can be set differently.  Finally,
+PROP3 is a constant property which can only be initialized once within
+the ‘properties’ block.
+
+   By default, in the example PROP4, properties are not constant and
+have public read and write access.
+
+
+File: octave.info,  Node: Methods,  Next: Inheritance,  Prev: Properties,  Up: classdef Classes
+
+34.6.3 Methods
+--------------
+
+All class methods must be defined within ‘methods’ blocks.  An exception
+to this rule is described at the end of this subsection.  Those
+‘methods’ blocks can have additional attributes specifying the access
+rights or whether the methods are static, i.e., methods that can be
+called without creating an object of that class.
+
+     classdef some_class
+       methods
+         function obj = some_class ()
+           disp ("New instance created.");
+         endfunction
+
+         function disp (obj)
+           disp ("Here is some_class.");
+         endfunction
+       endmethods
+
+       methods (Access = MODE)
+         function r = func (obj, r)
+           r = 2 * r;
+         endfunction
+       endmethods
+
+       methods (Static = true)
+         function c = circumference (radius)
+           c = 2 * pi () .* radius;
+         endfunction
+       endmethods
+     endclassdef
+
+   The constructor of the class is declared in the ‘methods’ block and
+must have the same name as the class and exactly one output argument
+which is an object of its class.
+
+   It is also possible to overload built-in or inherited methods, like
+the ‘disp’ function in the example above to tell Octave how objects of
+‘some_class’ should be displayed (*note Class Methods::).
+
+   In general, the first argument in a method definition is always the
+object that it is called from.  Class methods can either be called by
+passing the object as the first argument to that method or by calling
+the object followed by a dot ("‘.’") and the method’s name with
+subsequent arguments:
+
+     >> obj = some_class ();
+     New instance created.
+     >> disp (obj);   # both are
+     >> obj.disp ();  # equal
+
+   In ‘some_class’, the method ‘func’ is defined within a ‘methods’
+block setting the ‘Access’ attribute to MODE, which is one of:
+
+‘public’
+     The methods can be accessed from everywhere.
+
+‘private’
+     The methods can only be accessed from other class methods.
+     Subclasses of that class cannot access them.
+
+‘protected’
+     The methods can only be accessed from other class methods and from
+     subclasses of that class.
+
+The default access for methods is ‘public’.
+
+   Finally, the method ‘circumference’ is defined in a static ‘methods’
+block and can be used without creating an object of ‘some_class’.  This
+is useful for methods, that do not depend on any class properties.  The
+class name and the name of the static method, separated by a dot
+("‘.’"), call this static method.  In contrast to non-static methods,
+the object is not passed as first argument even if called using an
+object of ‘some_class’.
+
+     >> some_class.circumference (3)
+     ⇒ ans =  18.850
+     >> obj = some_class ();
+     New instance created.
+     >> obj.circumference (3)
+     ⇒ ans =  18.850
+
+   Additionally, class methods can be defined as functions in a folder
+of the same name as the class prepended with the ‘@’ symbol (*note
+Creating a Class::).  The main ‘classdef’ file has to be stored in this
+class folder as well.
+
+
+File: octave.info,  Node: Inheritance,  Next: Value Classes vs. Handle Classes,  Prev: Methods,  Up: classdef Classes
+
+34.6.4 Inheritance
+------------------
+
+Classes can inherit from other classes.  In this case all properties and
+methods of the superclass are inherited to the subclass, considering
+their access rights.  Use this syntax to inherit from ‘superclass’:
+
+     classdef subclass < superclass
+       ...
+     endclassdef
+
+
+File: octave.info,  Node: Value Classes vs. Handle Classes,  Prev: Inheritance,  Up: classdef Classes
+
+34.6.5 Value Classes vs. Handle Classes
+---------------------------------------
+
+There are two intrinsically different types of ‘classdef’ classes, whose
+major difference is the behavior regarding variable assignment.  The
+first type are value classes:
+
+     classdef value_class
+       properties
+         prop1
+       endproperties
+
+       methods
+         function obj = set_prop1 (obj, val)
+           obj.prop1 = val;
+         endfunction
+       endmethods
+     endclassdef
+
+Assigning an object of that class to another variable essentially
+creates a new object:
+
+     >> a = value_class ();
+     >> a.prop1 = 1;
+     >> b = a;
+     >> b.prop1 = 2;
+     >> b.prop1
+     ⇒ ans =  2
+     >> a.prop1
+     ⇒ ans =  1
+
+   But that also means that you might have to assign the output of a
+method that changes properties back to the object manually:
+
+     >> a = value_class ();
+     >> a.prop1 = 1;
+     >> a.set_prop1 (3);
+     ⇒ ans =
+
+     <object value_class>
+
+     >> ans.prop1
+     ⇒ ans =  3
+     >> a.prop1
+     ⇒ ans =  1
+
+   The second type are handle classes.  Those classes have to be derived
+from the abstract ‘handle’ class:
+
+     classdef handle_class < handle
+       properties
+         prop1
+       endproperties
+
+       methods
+         function set_prop1 (obj, val)
+           obj.prop1 = val;
+         endfunction
+       endmethods
+     endclassdef
+
+   In the following example, the variables ‘a’ and ‘b’ refer to the very
+same object of class ‘handle_class’:
+
+     >> a = handle_class ();
+     >> a.prop1 = 1;
+     >> b = a;
+     >> b.prop1 = 2;
+     >> b.prop1
+     ⇒ ans =  2
+     >> a.prop1
+     ⇒ ans =  2
+
+   Object properties that are modified by a method of an handle class
+are changed persistently:
+
+     >> a.set_prop1 (3);
+     >> a.prop1
+     ⇒ ans =  3
 
 
 File: octave.info,  Node: GUI Development,  Next: System Utilities,  Prev: Object Oriented Programming,  Up: Top
@@ -2388,12 +2974,13 @@ useful.
      *note calendar: XREFcalendar.
 
  -- : datetick ()
+ -- : datetick (AXIS_STR)
  -- : datetick (DATE_FORMAT)
  -- : datetick (AXIS_STR, DATE_FORMAT)
  -- : datetick (..., "keeplimits")
  -- : datetick (..., "keepticks")
  -- : datetick (HAX, ...)
-     Add date formatted tick labels to an axis.
+     Add date-formatted tick labels to an axis.
 
      The axis to apply the ticks to is determined by AXIS_STR which can
      take the values "x", "y", or "z".  The default value is "x".
@@ -2401,6 +2988,9 @@ useful.
      The formatting of the labels is determined by the variable
      DATE_FORMAT, which can either be a string or positive integer that
      ‘datestr’ accepts.
+
+     If the first argument HAX is an axes handle, then plot into this
+     axes, rather than the current axes returned by ‘gca’.
 
      See also: *note datenum: XREFdatenum, *note datestr: XREFdatestr.
 
@@ -4513,11 +5103,11 @@ File: octave.info,  Node: System Information,  Next: Hashing Functions,  Prev: G
      ‘Version’
           Version of the package.
 
-     ‘Revision’
-          Revision of the package.
+     ‘Release’
+          Release of the package.
 
      ‘Date’
-          Date of the version/revision.
+          Date of the version/release.
 
      See also: *note version: XREFversion, *note usejava: XREFusejava,
      *note pkg: XREFpkg.
@@ -5047,7 +5637,7 @@ change the installation directory by using the ‘pkg prefix’ command
 
 The current installation directory can be retrieved by typing
 
-     current_installation_directory = pkg prefix
+     current_installation_directory = pkg ("prefix")
 
    To function properly the package manager needs to keep some
 information about the installed packages.  For per-user packages this
@@ -5283,9 +5873,9 @@ The following is a simple example of a ‘DESCRIPTION’ file
      not checked by the package manager.  This is here as a hint to the
      distribution packager.  They follow the same conventions as the
      ‘Depends’ keyword.  Note that in general, packaging systems such as
-     ‘rpm’ or ‘deb’ and autoprobe the install dependencies from the
-     build dependencies, and therefore the often a ‘BuildRequires’
-     dependency removes the need for a ‘SystemRequirements’ dependency.
+     ‘rpm’ or ‘deb’ autoprobe the install dependencies from the build
+     dependencies, and therefore a ‘BuildRequires’ dependency usually
+     removes the need for a ‘SystemRequirements’ dependency.
 
 The developer is free to add additional arguments to the ‘DESCRIPTION’
 file for their own purposes.  One further detail to aid the packager is
@@ -5683,14 +6273,14 @@ command line.
 writing a C++ function that can be linked to Octave.
 
      #include <octave/oct.h>
-
+     
      DEFUN_DLD (helloworld, args, nargout,
                 "Hello World Help String")
      {
        octave_stdout << "Hello World has "
                      << args.length () << " input arguments and "
                      << nargout << " output arguments.\n";
-
+     
        return octave_value_list ();
      }
 
@@ -5870,15 +6460,15 @@ are of interest only for matrices such as ‘transpose’, ‘hermitian’,
 of ‘DEFUN_DLD’ function is as follows
 
      #include <octave/oct.h>
-
+     
      DEFUN_DLD (addtwomatrices, args, , "Add A to B")
      {
        if (args.length () != 2)
          print_usage ();
-
+     
        NDArray A = args(0).array_value ();
        NDArray B = args(1).array_value ();
-
+     
        return octave_value (A + B);
      }
 
@@ -5941,30 +6531,30 @@ A character string in Octave is just a special ‘Array’ class.  Consider
 the example:
 
      #include <octave/oct.h>
-
+     
      DEFUN_DLD (stringdemo, args, , "String Demo")
      {
        if (args.length () != 1)
          print_usage ();
-
+     
        octave_value_list retval;
-
+     
        charMatrix ch = args(0).char_matrix_value ();
-
+     
        retval(1) = octave_value (ch, '\'');  // Single Quote String
-
+     
        octave_idx_type nr = ch.rows ();
-
+     
        for (octave_idx_type i = 0; i < nr / 2; i++)
          {
            std::string tmp = ch.row_as_string (i);
-
+     
            ch.insert (ch.row_as_string (nr-i-1).c_str (), i, 0);
            ch.insert (tmp.c_str (), nr-i-1, 0);
          }
-
+     
        retval(0) = octave_value (ch, '"');  // Double Quote String
-
+     
        return retval;
      }
 
@@ -6021,23 +6611,23 @@ example is
 
      #include <octave/oct.h>
      #include <octave/Cell.h>
-
+     
      DEFUN_DLD (celldemo, args, , "Cell Demo")
      {
        if (args.length () != 1)
          print_usage ();
-
+     
        Cell c = args(0).cell_value ();
-
+     
        octave_value_list retval;
        retval.resize (c.numel ());    // faster code by pre-declaring size
-
+     
        for (octave_idx_type i = 0; i < c.numel (); i++)
          {
            retval(i) = c(i);          // using operator syntax
            //retval(i) = c.elem (i);  // using method syntax
          }
-
+     
        return retval;
      }
 
@@ -6071,34 +6661,34 @@ is
 
      #include <octave/oct.h>
      #include <octave/ov-struct.h>
-
+     
      DEFUN_DLD (structdemo, args, , "Struct Demo")
      {
        if (args.length () != 2)
          print_usage ();
-
+     
        if (! args(0).is_map ())
          error ("structdemo: ARG1 must be a struct");
-
+     
        octave_scalar_map arg0 = args(0).scalar_map_value ();
        //octave_map arg0 = args(0).map_value ();
-
+     
        if (! args(1).is_string ())
          error ("structdemo: ARG2 must be a character string");
-
+     
        std::string arg1 = args(1).string_value ();
-
+     
        octave_value tmp = arg0.contents (arg1);
        //octave_value tmp = arg0.contents (arg1)(0);
-
+     
        if (! tmp.is_defined ())
          error ("structdemo: struct does not have a field named '%s'\n",
                 arg1.c_str ());
-
+     
        octave_scalar_map st;
-
+     
        st.assign ("selected", tmp);
-
+     
        return octave_value (st);
      }
 
@@ -6447,25 +7037,25 @@ what to do if no global variable of the desired name is found.  An
 example of the use of these two functions is
 
      #include <octave/oct.h>
-
+     
      DEFUN_DLD (globaldemo, args, , "Global Demo")
      {
        if (args.length () != 1)
          print_usage ();
-
+     
        octave_value retval;
-
+     
        std::string s = args(0).string_value ();
-
+     
        octave_value tmp = get_global_value (s, true);
-
+     
        if (tmp.is_defined ())
          retval = tmp;
        else
          retval = "Global variable not found";
-
+     
        set_global_value ("a", 42.0);
-
+     
        return retval;
      }
 
@@ -6507,36 +7097,36 @@ an oct-file.
 
      #include <octave/oct.h>
      #include <octave/parse.h>
-
+     
      DEFUN_DLD (funcdemo, args, nargout, "Function Demo")
      {
        int nargin = args.length ();
-
+     
        if (nargin < 2)
          print_usage ();
-
+     
        octave_value_list newargs;
-
+     
        for (octave_idx_type i = nargin - 1; i > 0; i--)
          newargs(i-1) = args(i);
-
+     
        octave_value_list retval;
-
+     
        if (args(0).is_function_handle () || args(0).is_inline_function ())
          {
            octave_function *fcn = args(0).function_value ();
-
+     
            retval = feval (fcn, newargs, nargout);
          }
        else if (args(0).is_string ())
          {
            std::string fcn = args(0).string_value ();
-
+     
            retval = feval (fcn, newargs, nargout);
          }
        else
          error ("funcdemo: INPUT must be string, inline, or function handle");
-
+     
        return retval;
      }
 
@@ -6627,29 +7217,29 @@ given in the following example, where the C++ wrapper is
 
      #include <octave/oct.h>
      #include <octave/f77-fcn.h>
-
+     
      extern "C"
      {
        F77_RET_T
        F77_FUNC (fortransub, FORTSUB)
          (const F77_INT&, F77_DBLE*, F77_CHAR_ARG_DECL F77_CHAR_ARG_LEN_DECL);
      }
-
+     
      DEFUN_DLD (fortrandemo, args, , "Fortran Demo")
      {
        if (args.length () != 1)
          print_usage ();
-
+     
        NDArray a = args(0).array_value ();
-
+     
        double *av = a.fortran_vec ();
        octave_idx_type na = a.numel ();
-
+     
        OCTAVE_LOCAL_BUFFER (char, ctmp, 128);
-
+     
        F77_XFCN (fortransub, FORTSUB,
                  (na, av, ctmp F77_CHAR_ARG_LEN (128)));
-
+     
        return ovl (a, std::string (ctmp));
      }
 
@@ -6738,34 +7328,34 @@ there are some more specialized input validation functions of which a
 few are demonstrated below.
 
      #include <octave/oct.h>
-
+     
      DEFUN_DLD (paramdemo, args, nargout, "Parameter Check Demo")
      {
        if (args.length () != 1)
          print_usage ();
-
+     
        NDArray m = args(0).array_value ();
-
+     
        double min_val = -10.0;
        double max_val = 10.0;
-
+     
        octave_stdout << "Properties of input array:\n";
-
+     
        if (m.any_element_is_negative ())
          octave_stdout << "  includes negative values\n";
-
+     
        if (m.any_element_is_inf_or_nan ())
          octave_stdout << "  includes Inf or NaN values\n";
-
+     
        if (m.any_element_not_one_or_zero ())
          octave_stdout << "  includes other values than 1 and 0\n";
-
+     
        if (m.all_elements_are_int_or_inf_or_nan ())
          octave_stdout << "  includes only int, Inf or NaN values\n";
-
+     
        if (m.all_integers (min_val, max_val))
          octave_stdout << "  includes only integers in [-10,10]\n";
-
+     
        return octave_value_list ();
      }
 
@@ -6831,39 +7421,39 @@ mechanism is
 
      #include <octave/oct.h>
      #include <octave/unwind-prot.h>
-
+     
      void
      my_err_handler (const char *fmt, ...)
      {
        // Do nothing!!
      }
-
+     
      void
      my_err_with_id_handler (const char *id, const char *fmt, ...)
      {
        // Do nothing!!
      }
-
+     
      DEFUN_DLD (unwinddemo, args, nargout, "Unwind Demo")
      {
        if (args.length () < 2)
          print_usage ();
-
+     
        NDArray a = args(0).array_value ();
        NDArray b = args(1).array_value ();
-
+     
        // Declare unwind_protect frame which lasts as long as
        // the variable frame has scope.
        octave::unwind_protect frame;
        frame.add_fcn (set_liboctave_warning_handler,
                       current_liboctave_warning_handler);
-
+     
        frame.add_fcn (set_liboctave_warning_with_id_handler,
                       current_liboctave_warning_with_id_handler);
-
+     
        set_liboctave_warning_handler (my_err_handler);
        set_liboctave_warning_with_id_handler (my_err_with_id_handler);
-
+     
        return octave_value (quotient (a, b));
      }
 
@@ -6981,13 +7571,13 @@ mex-files have the extension ‘.mex’.
    Consider the following short example:
 
      #include "mex.h"
-
+     
      void
      mexFunction (int nlhs, mxArray *plhs[],
                   int nrhs, const mxArray *prhs[])
      {
        mexPrintf ("Hello, World!\n");
-
+     
        mexPrintf ("I have %d inputs and %d outputs\n", nrhs, nlhs);
      }
 
@@ -7043,18 +7633,18 @@ mex-file was called with.  This can be used to alter the behavior of the
 mex-file based on the function name.  For example, if
 
      #include "mex.h"
-
+     
      void
      mexFunction (int nlhs, mxArray *plhs[],
                   int nrhs, const mxArray *prhs[])
      {
        const char *nm;
-
+     
        nm = mexFunctionName ();
        mexPrintf ("You called function: %s\n", nm);
        if (strcmp (nm, "myfunc") == 0)
          mexPrintf ("This is the principal function\n", nm);
-
+     
        return;
      }
 
@@ -7131,7 +7721,7 @@ complex double precision arrays is given by the file ‘mypow2.c’ shown
 below.
 
      #include "mex.h"
-
+     
      void
      mexFunction (int nlhs, mxArray* plhs[],
                   int nrhs, const mxArray* prhs[])
@@ -7139,10 +7729,10 @@ below.
        mwSize n;
        mwIndex i;
        double *vri, *vro;
-
+     
        if (nrhs != 1 || ! mxIsDouble (prhs[0]))
          mexErrMsgTxt ("ARG1 must be a double matrix");
-
+     
        n = mxGetNumberOfElements (prhs[0]);
        plhs[0] = mxCreateNumericArray (mxGetNumberOfDimensions (prhs[0]),
                                        mxGetDimensions (prhs[0]),
@@ -7150,13 +7740,13 @@ below.
                                        mxIsComplex (prhs[0]));
        vri = mxGetPr (prhs[0]);
        vro = mxGetPr (plhs[0]);
-
+     
        if (mxIsComplex (prhs[0]))
          {
            double *vii, *vio;
            vii = mxGetPi (prhs[0]);
            vio = mxGetPi (plhs[0]);
-
+     
            for (i = 0; i < n; i++)
              {
                vro[i] = vri[i] * vri[i] - vii[i] * vii[i];
@@ -7196,7 +7786,7 @@ as shown below.
 
      #include <string.h>
      #include "mex.h"
-
+     
      void
      mexFunction (int nlhs, mxArray *plhs[],
                   int nrhs, const mxArray *prhs[])
@@ -7204,17 +7794,17 @@ as shown below.
        mwSize m, n;
        mwIndex i, j;
        mxChar *pi, *po;
-
+     
        if (nrhs != 1 || ! mxIsChar (prhs[0])
            || mxGetNumberOfDimensions (prhs[0]) > 2)
          mexErrMsgTxt ("ARG1 must be a char matrix");
-
+     
        m = mxGetM (prhs[0]);
        n = mxGetN (prhs[0]);
        pi = mxGetChars (prhs[0]);
        plhs[0] = mxCreateNumericMatrix (m, n, mxCHAR_CLASS, mxREAL);
        po = mxGetChars (plhs[0]);
-
+     
        for (j = 0; j < n; j++)
          for (i = 0; i < m; i++)
            po[j*m + m - 1 - i] = pi[j*m + i];
@@ -7245,20 +7835,20 @@ as in oct-files.  An example that duplicates the function of the
 below.
 
      #include "mex.h"
-
+     
      void
      mexFunction (int nlhs, mxArray* plhs[],
                   int nrhs, const mxArray* prhs[])
      {
        mwSize n;
        mwIndex i;
-
+     
        if (nrhs != 1 || ! mxIsCell (prhs[0]))
          mexErrMsgTxt ("ARG1 must be a cell");
-
+     
        n = mxGetNumberOfElements (prhs[0]);
        n = (n > nlhs ? nlhs : n);
-
+     
        for (i = 0; i < n; i++)
          plhs[i] = mxDuplicateArray (mxGetCell (prhs[0], i));
      }
@@ -7327,7 +7917,7 @@ Array per field of the structure.
 be found in the file ‘mystruct.c’ shown below.
 
      #include "mex.h"
-
+     
      void
      mexFunction (int nlhs, mxArray* plhs[],
                   int nrhs, const mxArray* prhs[])
@@ -7336,10 +7926,10 @@ be found in the file ‘mystruct.c’ shown below.
        mwIndex j;
        mxArray *v;
        const char *keys[] = { "this", "that" };
-
+     
        if (nrhs != 1 || ! mxIsStruct (prhs[0]))
          mexErrMsgTxt ("ARG1 must be a struct");
-
+     
        for (i = 0; i < mxGetNumberOfFields (prhs[0]); i++)
          for (j = 0; j < mxGetNumberOfElements (prhs[0]); j++)
            {
@@ -7347,9 +7937,9 @@ be found in the file ‘mystruct.c’ shown below.
              v = mxGetFieldByNumber (prhs[0], j, i);
              mexCallMATLAB (0, NULL, 1, &v, "disp");
            }
-
+     
        v = mxCreateStructMatrix (2, 2, 2, keys);
-
+     
        mxSetFieldByNumber (v, 0, 0, mxCreateString ("this1"));
        mxSetFieldByNumber (v, 0, 1, mxCreateString ("that1"));
        mxSetFieldByNumber (v, 1, 0, mxCreateString ("this2"));
@@ -7358,7 +7948,7 @@ be found in the file ‘mystruct.c’ shown below.
        mxSetFieldByNumber (v, 2, 1, mxCreateString ("that3"));
        mxSetFieldByNumber (v, 3, 0, mxCreateString ("this4"));
        mxSetFieldByNumber (v, 3, 1, mxCreateString ("that4"));
-
+     
        if (nlhs)
          plhs[0] = v;
      }
@@ -7432,7 +8022,7 @@ example of the use of sparse matrices in mex-files is given by the file
 ‘mysparse.c’ shown below.
 
      #include "mex.h"
-
+     
      void
      mexFunction (int nlhs, mxArray *plhs[],
                   int nrhs, const mxArray *prhs[])
@@ -7444,36 +8034,36 @@ example of the use of sparse matrices in mex-files is given by the file
        double *pr2, *pi2;
        mwIndex *ir, *jc;
        mwIndex *ir2, *jc2;
-
+     
        if (nrhs != 1 || ! mxIsSparse (prhs[0]))
          mexErrMsgTxt ("ARG1 must be a sparse matrix");
-
+     
        m = mxGetM (prhs[0]);
        n = mxGetN (prhs[0]);
        nz = mxGetNzmax (prhs[0]);
-
+     
        if (mxIsComplex (prhs[0]))
          {
            mexPrintf ("Matrix is %d-by-%d complex sparse matrix", m, n);
            mexPrintf (" with %d elements\n", nz);
-
+     
            pr = mxGetPr (prhs[0]);
            pi = mxGetPi (prhs[0]);
            ir = mxGetIr (prhs[0]);
            jc = mxGetJc (prhs[0]);
-
+     
            i = n;
            while (jc[i] == jc[i-1] && i != 0) i--;
-
+     
            mexPrintf ("last nonzero element (%d, %d) = (%g, %g)\n",
                       ir[nz-1]+ 1, i, pr[nz-1], pi[nz-1]);
-
+     
            v = mxCreateSparse (m, n, nz, mxCOMPLEX);
            pr2 = mxGetPr (v);
            pi2 = mxGetPi (v);
            ir2 = mxGetIr (v);
            jc2 = mxGetJc (v);
-
+     
            for (i = 0; i < nz; i++)
              {
                pr2[i] = 2 * pr[i];
@@ -7482,7 +8072,7 @@ example of the use of sparse matrices in mex-files is given by the file
              }
            for (i = 0; i < n + 1; i++)
              jc2[i] = jc[i];
-
+     
            if (nlhs > 0)
              plhs[0] = v;
          }
@@ -7491,21 +8081,21 @@ example of the use of sparse matrices in mex-files is given by the file
            mxLogical *pbr, *pbr2;
            mexPrintf ("Matrix is %d-by-%d logical sparse matrix", m, n);
            mexPrintf (" with %d elements\n", nz);
-
+     
            pbr = mxGetLogicals (prhs[0]);
            ir = mxGetIr (prhs[0]);
            jc = mxGetJc (prhs[0]);
-
+     
            i = n;
            while (jc[i] == jc[i-1] && i != 0) i--;
            mexPrintf ("last nonzero element (%d, %d) = %d\n",
                       ir[nz-1]+ 1, i, pbr[nz-1]);
-
+     
            v = mxCreateSparseLogicalMatrix (m, n, nz);
            pbr2 = mxGetLogicals (v);
            ir2 = mxGetIr (v);
            jc2 = mxGetJc (v);
-
+     
            for (i = 0; i < nz; i++)
              {
                pbr2[i] = pbr[i];
@@ -7513,7 +8103,7 @@ example of the use of sparse matrices in mex-files is given by the file
              }
            for (i = 0; i < n + 1; i++)
              jc2[i] = jc[i];
-
+     
            if (nlhs > 0)
              plhs[0] = v;
          }
@@ -7521,21 +8111,21 @@ example of the use of sparse matrices in mex-files is given by the file
          {
            mexPrintf ("Matrix is %d-by-%d real sparse matrix", m, n);
            mexPrintf (" with %d elements\n", nz);
-
+     
            pr = mxGetPr (prhs[0]);
            ir = mxGetIr (prhs[0]);
            jc = mxGetJc (prhs[0]);
-
+     
            i = n;
            while (jc[i] == jc[i-1] && i != 0) i--;
            mexPrintf ("last nonzero element (%d, %d) = %g\n",
                       ir[nz-1]+ 1, i, pr[nz-1]);
-
+     
            v = mxCreateSparse (m, n, nz, mxREAL);
            pr2 = mxGetPr (v);
            ir2 = mxGetIr (v);
            jc2 = mxGetJc (v);
-
+     
            for (i = 0; i < nz; i++)
              {
                pr2[i] = 2 * pr[i];
@@ -7543,7 +8133,7 @@ example of the use of sparse matrices in mex-files is given by the file
              }
            for (i = 0; i < n + 1; i++)
              jc2[i] = jc[i];
-
+     
            if (nlhs > 0)
              plhs[0] = v;
          }
@@ -7568,30 +8158,30 @@ using ‘mexCallMATLAB’.  An example of the use of ‘mexCallMATLAB’ can be
 see in the example below.
 
      #include "mex.h"
-
+     
      void
      mexFunction (int nlhs, mxArray* plhs[],
                   int nrhs, const mxArray* prhs[])
      {
        char *str;
-
+     
        mexPrintf ("Starting file myfeval.mex\n");
-
+     
        mexPrintf ("I have %d inputs and %d outputs\n", nrhs, nlhs);
-
+     
        if (nrhs < 1 || ! mxIsChar (prhs[0]))
          mexErrMsgTxt ("ARG1 must be a function name");
-
+     
        str = mxArrayToString (prhs[0]);
-
+     
        mexPrintf ("I'm going to call the function %s\n", str);
-
+     
        if (nlhs == 0)
          nlhs = 1;  // Octave's automatic 'ans' variable
-
+     
        /* Cast prhs just to get rid of 'const' qualifier and stop compile warning */
        mexCallMATLAB (nlhs, plhs, nrhs-1, (mxArray**)prhs+1, str);
-
+     
        mxFree (str);
      }
 
@@ -7621,21 +8211,21 @@ The following C++ program, uses class Matrix from ‘liboctave.a’ or
 
      #include <iostream>
      #include <octave/oct.h>
-
+     
      int
      main (void)
      {
        std::cout << "Hello Octave world!\n";
-
+     
        int n = 2;
        Matrix a_matrix = Matrix (n, n);
-
+     
        for (octave_idx_type i = 0; i < n; i++)
          for (octave_idx_type j = 0; j < n; j++)
            a_matrix(i,j) = (i + 1) * 10 + (j + 1);
-
+     
        std::cout << a_matrix;
-
+     
        return 0;
      }
 
@@ -7662,24 +8252,24 @@ do this can then be seen in the code
      #include <octave/octave.h>
      #include <octave/parse.h>
      #include <octave/interpreter.h>
-
+     
      int
      main (void)
      {
        string_vector argv (2);
        argv(0) = "embedded";
        argv(1) = "-q";
-
+     
        octave_main (2, argv.c_str_vec (), 1);
-
+     
        octave_idx_type n = 2;
        octave_value_list in;
-
+     
        for (octave_idx_type i = 0; i < n; i++)
          in(i) = octave_value (5 * (i + 2));
-
+     
        octave_value_list out = feval ("gcd", in, 1);
-
+     
        if (out.length () > 0)
          std::cout << "GCD of ["
                    << in(0).int_value ()
@@ -7689,7 +8279,7 @@ do this can then be seen in the code
                    << std::endl;
        else
          std::cout << "invalid\n";
-
+     
        clean_up_and_exit (0);
      }
 
@@ -7716,29 +8306,29 @@ code
      #include <iostream>
      #include <octave/oct.h>
      #include <octave/builtin-defun-decls.h>
-
+     
      int
      main (void)
      {
        int n = 2;
        Matrix a_matrix = Matrix (n, n);
-
+     
        for (octave_idx_type i = 0; i < n; i++)
          for (octave_idx_type j = 0; j < n; j++)
            a_matrix(i,j) = (i + 1) * 10 + (j + 1);
-
+     
        std::cout << "This is a matrix:" << std::endl
                  << a_matrix            << std::endl;
-
+     
        octave_value_list in;
        in(0) = a_matrix;
-
+     
        octave_value_list out = Fnorm (in, 1);
        double norm_of_the_matrix = out(0).double_value ();
-
+     
        std::cout << "This is the norm of the matrix:" << std::endl
                  << norm_of_the_matrix                << std::endl;
-
+     
        return 0;
      }
 
@@ -7753,704 +8343,4 @@ which is compiled and run as a standalone application with
      This is the norm of the matrix:
      34.4952
      $
-
-
-File: octave.info,  Node: Java Interface,  Prev: Standalone Programs,  Up: External Code Interface
-
-A.4 Java Interface
-==================
-
-The Java Interface is designed for calling Java functions from within
-Octave.  If you want to do the reverse, and call Octave from within
-Java, try a library like ‘javaOctave’
-(<https://kenai.com/projects/javaoctave/pages/Home>) or ‘joPas’
-(<http://jopas.sourceforge.net/>).
-
-* Menu:
-
-* Making Java Classes Available::
-* How to use Java from within Octave::
-* Passing parameters to the JVM::
-* Java Interface Functions::
-
-
-File: octave.info,  Node: Making Java Classes Available,  Next: How to use Java from within Octave,  Up: Java Interface
-
-A.4.1 Making Java Classes Available
------------------------------------
-
-Java finds classes by searching a CLASSPATH which is a list of Java
-archive files and/or directories containing class files.  In Octave the
-CLASSPATH is composed of two parts:
-
-   • the STATIC CLASSPATH is initialized once at startup of the JVM, and
-
-   • the DYNAMIC CLASSPATH which can be modified at runtime.
-
-   Octave searches the STATIC CLASSPATH first, and then the DYNAMIC
-CLASSPATH.  Classes appearing in the STATIC CLASSPATH, as well as in the
-DYNAMIC CLASSPATH, will therefore be found in the STATIC CLASSPATH and
-loaded from this location.  Classes which will be used frequently, or
-must be available to all users, should be added to the STATIC CLASSPATH.
-The STATIC CLASSPATH is populated once from the contents of a plain text
-file named ‘javaclasspath.txt’ (or ‘classpath.txt’ historically) when
-the Java Virtual Machine starts.  This file contains one line for each
-individual classpath to be added to the STATIC CLASSPATH.  These lines
-can identify directories containing class files, or Java archives with
-complete class file hierarchies.  Comment lines starting with a ‘#’ or a
-‘%’ character are ignored.
-
-   The search rules for the file ‘javaclasspath.txt’ (or
-‘classpath.txt’) are:
-
-   • First, Octave tries to locate it in the current directory (where
-     Octave was started from).  If such a file is found, it is read and
-     defines the initial STATIC CLASSPATH.  Thus, it is possible to
-     define a static classpath on a ’per Octave invocation’ basis.
-
-   • Next, Octave searches in the user’s home directory.  If a file
-     ‘javaclasspath.txt’ exists here, its contents are appended to the
-     static classpath (if any).  Thus, it is possible to build an
-     initial static classpath on a ’per user’ basis.
-
-   • Finally, Octave looks for a ‘javaclasspath.txt’ in the m-file
-     directory where Octave Java functions live.  This is where the
-     function ‘javaclasspath.m’ resides, usually something like
-     ‘OCTAVE_HOME/share/octave/OCTAVE_VERSION/m/java/’.  You can find
-     this directory by executing the command
-
-          which javaclasspath
-
-     If this file exists here, its contents are also appended to the
-     STATIC CLASSPATH.  Note that the archives and class directories
-     defined in this last step will affect all users.
-
-   Classes which are used only by a specific script should be placed in
-the DYNAMIC CLASSPATH.  This portion of the classpath can be modified at
-runtime using the ‘javaaddpath’ and ‘javarmpath’ functions.
-
-   Example:
-
-     octave> base_path = "C:/Octave/java_files";
-
-     octave> # add two JAR archives to the dynamic classpath
-     octave> javaaddpath ([base_path, "/someclasses.jar"]);
-     octave> javaaddpath ([base_path, "/moreclasses.jar"]);
-
-     octave> # check the dynamic classpath
-     octave> p = javaclasspath;
-     octave> disp (p{1});
-     C:/Octave/java_files/someclasses.jar
-     octave> disp (p{2});
-     C:/Octave/java_files/moreclasses.jar
-
-     octave> # remove the first element from the classpath
-     octave> javarmpath ([base_path, "/someclasses.jar"]);
-     octave> p = javaclasspath;
-     octave> disp (p{1});
-     C:/Octave/java_files/moreclasses.jar
-
-     octave> # provoke an error
-     octave> disp (p{2});
-     error: A(I): Index exceeds matrix dimension.
-
-   Another way to add files to the DYNAMIC CLASSPATH exclusively for
-your user account is to use the file ‘.octaverc’ which is stored in your
-home directory.  All Octave commands in this file are executed each time
-you start a new instance of Octave.  The following example adds the
-directory ‘octave’ to Octave’s search path and the archive
-‘myclasses.jar’ in this directory to the Java search path.
-
-     # contents of .octaverc:
-     addpath ("~/octave");
-     javaaddpath ("~/octave/myclasses.jar");
-
-
-File: octave.info,  Node: How to use Java from within Octave,  Next: Passing parameters to the JVM,  Prev: Making Java Classes Available,  Up: Java Interface
-
-A.4.2 How to use Java from within Octave
-----------------------------------------
-
-The function *note javaObject: XREFjavaObject. creates Java objects.  In
-fact it invokes the public constructor of the class with the given name
-and with the given parameters.
-
-   The following example shows how to invoke the constructors
-‘BigDecimal(double)’ and ‘BigDecimal(String)’ of the builtin Java class
-‘java.math.BigDecimal’.
-
-     javaObject ("java.math.BigDecimal",  1.001 );
-     javaObject ("java.math.BigDecimal", "1.001");
-
-   Note that parameters of the Octave type ‘double’ are implicitly
-converted into the Java type ‘double’ and the Octave type (array of)
-‘char’ is converted into the java type ‘String’.  A Java object created
-by *note javaObject: XREFjavaObject. is never automatically converted
-into an Octave type but remains a Java object.  It can be assigned to an
-Octave variable.
-
-     a = 1.001;
-     b = javaObject ("java.math.BigDecimal", a);
-
-   Using *note isjava: XREFisjava, it is possible to check whether a
-variable is a Java object and its class can be determined as well.  In
-addition to the previous example:
-
-     isjava (a)
-     ⇒ ans = 0
-     class (a)
-     ⇒ ans = double
-     isjava (b)
-     ⇒ ans = 1
-     class (b)
-     ⇒ ans = java.math.BigDecimal
-
-   The example above can be carried out using only Java objects:
-
-     a = javaObject ("java.lang.Double", 1.001);
-     b = javaObject ("java.math.BigDecimal", a);
-
-     isjava (a)
-     ⇒ ans = 1
-     class (a)
-     ⇒ ans = java.lang.Double
-     isjava (b)
-     ⇒ ans = 1
-     class (b)
-     ⇒ ans = java.math.BigDecimal
-
-   One can see, that even a ‘java.lang.Double’ is not converted to an
-Octave ‘double’, when created by *note javaObject: XREFjavaObject.  But
-ambiguities might arise, if the Java classes ‘java.lang.Double’ or
-‘double’ are parameters of a method (or a constructor).  In this case
-they can be converted into one another, depending on the context.
-
-   Via *note javaObject: XREFjavaObject. one may create all kinds of
-Java objects but arrays.  The latter are created through *note
-javaArray: XREFjavaArray.
-
-   It is possible to invoke public member methods on Java objects in
-Java syntax:
-
-     a.toString
-     ⇒ ans = 1.001
-     b.toString
-     ⇒ ans = 1.000999999999999889865...
-
-   The second result may be surprising, but simply comes from the fact,
-that ‘1.001’ cannot exactly be represented as ‘double’, due to rounding.
-Note that unlike in Java, in Octave methods without arguments can be
-invoked with and without parentheses ‘()’.
-
-   Currently it is not possible to invoke static methods with a Java
-like syntax from within Octave.  Instead, one has to use the function
-*note javaMethod: XREFjavaMethod. as in the following example:
-
-     java.math.BigDecimal.valueOf(1.001);                    # does not work
-     javaMethod ("valueOf", "java.math.BigDecimal", 1.001);  # workaround
-
-   As mentioned before, method and constructor parameters are converted
-automatically between Octave and Java types, if appropriate.  For
-functions this is also true with return values, whereas for constructors
-this is not.
-
-   It is also possible to access public fields of Java objects from
-within Octave using Java syntax, with the limitation of static fields:
-
-     java.math.BigDecimal.ONE;                  # does not work
-     java_get ("java.math.BigDecimal", "ONE");  # workaround
-
-   Accordingly, with *note java_set: XREFjava_set. the value of a field
-can be set.  Note that only public Java fields are accessible from
-within Octave.
-
-   The following example indicates that in Octave empty brackets ‘[]’
-represent Java’s ‘null’ value and how Java exceptions are represented.
-
-     javaObject ("java.math.BigDecimal", []);
-     ⇒ error: [java] java.lang.NullPointerException
-
-   It is not recommended to represent Java’s ‘null’ value by empty
-brackets ‘[]’, because ‘null’ has no type whereas ‘[]’ has type
-‘double’.
-
-   In Octave it is possible to provide limited Java reflection by
-listing the public fields and methods of a Java object, both static or
-not.
-
-     fieldnames (<Java object>)
-     methods (<Java object>)
-
-   Finally, an examples is shown how to access the stack trace from
-within Octave, where the function *note debug_java: XREFdebug_java. is
-used to set and to get the current debug state.  In debug mode, the Java
-error and the stack trace are displayed.
-
-     debug_java (true)  # use "false" to omit display of stack trace
-     debug_java ()
-     ⇒ ans = 1
-     javaObject ("java.math.BigDecimal", "1") ...
-       .divide (javaObject ("java.math.BigDecimal", "0"))
-
-
-File: octave.info,  Node: Passing parameters to the JVM,  Next: Java Interface Functions,  Prev: How to use Java from within Octave,  Up: Java Interface
-
-A.4.3 Passing parameters to the JVM
------------------------------------
-
-In order to execute Java code Octave creates a Java Virtual Machine
-(JVM). Such a JVM allocates a fixed amount of initial memory and may
-expand this pool up to a fixed maximum memory limit.  The default values
-depend on the Java version (*note javamem: XREFjavamem.).  The memory
-pool is shared by all Java objects running in the JVM.  This strict
-memory limit is intended mainly to avoid runaway applications inside web
-browsers or in enterprise servers which can consume all memory and crash
-the system.  When the maximum memory limit is hit, Java code will throw
-exceptions so that applications will fail or behave unexpectedly.
-
-   You can specify options for the creation of the JVM inside a file
-named ‘java.opts’.  This is a text file where enter you enter lines
-containing ‘-X’ and ‘-D’ options that are then passed to the JVM during
-initialization.
-
-   The directory where the Java options file is located is specified by
-the environment variable ‘OCTAVE_JAVA_DIR’.  If unset the directory
-where ‘javaclasspath.m’ resides is used instead (typically
-‘OCTAVE_HOME/share/octave/OCTAVE_VERSION/m/java/’).  You can find this
-directory by executing
-
-     which javaclasspath
-
-   The ‘-X’ options allow you to increase the maximum amount of memory
-available to the JVM.  The following example allows up to 256 Megabytes
-to be used by adding the following line to the ‘java.opts’ file:
-
-     -Xmx256m
-
-   The maximum possible amount of memory depends on your system.  On a
-Windows system with 2 Gigabytes main memory you should be able to set
-this maximum to about 1 Gigabyte.
-
-   If your application requires a large amount of memory from the
-beginning, you can also specify the initial amount of memory allocated
-to the JVM.  Adding the following line to the ‘java.opts’ file starts
-the JVM with 64 Megabytes of initial memory:
-
-     -Xms64m
-
-   For more details on the available ‘-X’ options of your Java Virtual
-Machine issue the command ‘java -X’ at the operating system command
-prompt and consult the Java documentation.
-
-   The ‘-D’ options can be used to define system properties which can
-then be used by Java classes inside Octave.  System properties can be
-retrieved by using the ‘getProperty()’ methods of the ‘java.lang.System’
-class.  The following example line defines the property MYPROPERTY and
-assigns it the string ‘12.34’.
-
-     -DMyProperty=12.34
-
-   The value of this property can then be retrieved as a string by a
-Java object or in Octave:
-
-     octave> javaMethod ("getProperty", "java.lang.System", "MyProperty");
-     ans = 12.34
-
-See also: javamem.
-
-
-File: octave.info,  Node: Java Interface Functions,  Prev: Passing parameters to the JVM,  Up: Java Interface
-
-A.4.4 Java Interface Functions
-------------------------------
-
-The following functions are the core of the Java Interface.  They
-provide a way to create a Java object, get and set its data fields, and
-call Java methods which return results to Octave.
-
- -- : JOBJ = javaObject (CLASSNAME)
- -- : JOBJ = javaObject (CLASSNAME, ARG1, ...)
-     Create a Java object of class CLASSSNAME, by calling the class
-     constructor with the arguments ARG1, ...
-
-     The first example below creates an uninitialized object, while the
-     second example supplies an initial argument to the constructor.
-
-          x = javaObject ("java.lang.StringBuffer")
-          x = javaObject ("java.lang.StringBuffer", "Initial string")
-
-     See also: *note javaMethod: XREFjavaMethod, *note javaArray:
-     XREFjavaArray.
-
- -- : JARY = javaArray (CLASSNAME, SZ)
- -- : JARY = javaArray (CLASSNAME, M, N, ...)
-
-     Create a Java array of size SZ with elements of class CLASSNAME.
-
-     CLASSNAME may be a Java object representing a class or a string
-     containing the fully qualified class name.  The size of the object
-     may also be specified with individual integer arguments M, N, etc.
-
-     The generated array is uninitialized.  All elements are set to null
-     if CLASSNAME is a reference type, or to a default value (usually 0)
-     if CLASSNAME is a primitive type.
-
-     Sample code:
-
-          jary = javaArray ("java.lang.String", 2, 2);
-          jary(1,1) = "Hello";
-
-     See also: *note javaObject: XREFjavaObject.
-
-   There are many different variable types in Octave, but only ones
-created through ‘javaObject’ can use Java functions.  Before using Java
-with an unknown object the type can be checked with ‘isjava’.
-
- -- : isjava (X)
-     Return true if X is a Java object.
-
-     See also: *note class: XREFclass, *note typeinfo: XREFtypeinfo,
-     *note isa: XREFisa, *note javaObject: XREFjavaObject.
-
-   Once an object has been created it is natural to find out what fields
-the object has, and to read (get) and write (set) them.
-
-   In Octave the ‘fieldnames’ function for structures has been
-overloaded to return the fields of a Java object.  For example:
-
-     dobj = javaObject ("java.lang.Double", pi);
-     fieldnames (dobj)
-     ⇒
-     {
-       [1,1] = public static final double java.lang.Double.POSITIVE_INFINITY
-       [1,2] = public static final double java.lang.Double.NEGATIVE_INFINITY
-       [1,3] = public static final double java.lang.Double.NaN
-       [1,4] = public static final double java.lang.Double.MAX_VALUE
-       [1,5] = public static final double java.lang.Double.MIN_NORMAL
-       [1,6] = public static final double java.lang.Double.MIN_VALUE
-       [1,7] = public static final int java.lang.Double.MAX_EXPONENT
-       [1,8] = public static final int java.lang.Double.MIN_EXPONENT
-       [1,9] = public static final int java.lang.Double.SIZE
-       [1,10] = public static final java.lang.Class java.lang.Double.TYPE
-     }
-
-   The analogy of objects with structures is carried over into reading
-and writing object fields.  To read a field the object is indexed with
-the ‘.’ operator from structures.  This is the preferred method for
-reading fields, but Octave also provides a function interface to read
-fields with ‘java_get’.  An example of both styles is shown below.
-
-     dobj = javaObject ("java.lang.Double", pi);
-     dobj.MAX_VALUE
-     ⇒  1.7977e+308
-     java_get ("java.lang.Float", "MAX_VALUE")
-     ⇒  3.4028e+38
-
- -- : VAL = java_get (OBJ, NAME)
-     Get the value of the field NAME of the Java object OBJ.
-
-     For static fields, OBJ can be a string representing the fully
-     qualified name of the corresponding class.
-
-     When OBJ is a regular Java object, structure-like indexing can be
-     used as a shortcut syntax.  For instance, the following two
-     statements are equivalent
-
-            java_get (x, "field1")
-            x.field1
-
-     See also: *note java_set: XREFjava_set, *note javaMethod:
-     XREFjavaMethod, *note javaObject: XREFjavaObject.
-
- -- : OBJ = java_set (OBJ, NAME, VAL)
-     Set the value of the field NAME of the Java object OBJ to VAL.
-
-     For static fields, OBJ can be a string representing the fully
-     qualified named of the corresponding Java class.
-
-     When OBJ is a regular Java object, structure-like indexing can be
-     used as a shortcut syntax.  For instance, the following two
-     statements are equivalent
-
-            java_set (x, "field1", val)
-            x.field1 = val
-
-     See also: *note java_get: XREFjava_get, *note javaMethod:
-     XREFjavaMethod, *note javaObject: XREFjavaObject.
-
-   To see what functions can be called with an object use ‘methods’.
-For example, using the previously created DOBJ:
-
-     methods (dobj)
-     ⇒
-     Methods for class java.lang.Double:
-     boolean equals(java.lang.Object)
-     java.lang.String toString(double)
-     java.lang.String toString()
-     ...
-
-   To call a method of an object the same structure indexing operator
-‘.’ is used.  Octave also provides a functional interface to calling the
-methods of an object through ‘javaMethod’.  An example showing both
-styles is shown below.
-
-     dobj = javaObject ("java.lang.Double", pi);
-     dobj.equals (3)
-     ⇒  0
-     javaMethod ("equals", dobj, pi)
-     ⇒  1
-
- -- : RET = javaMethod (METHODNAME, OBJ)
- -- : RET = javaMethod (METHODNAME, OBJ, ARG1, ...)
-     Invoke the method METHODNAME on the Java object OBJ with the
-     arguments ARG1, ....
-
-     For static methods, OBJ can be a string representing the fully
-     qualified name of the corresponding class.
-
-     When OBJ is a regular Java object, structure-like indexing can be
-     used as a shortcut syntax.  For instance, the two following
-     statements are equivalent
-
-            ret = javaMethod ("method1", x, 1.0, "a string")
-            ret = x.method1 (1.0, "a string")
-
-     ‘javaMethod’ returns the result of the method invocation.
-
-     See also: *note methods: XREFmethods, *note javaObject:
-     XREFjavaObject.
-
-   The following three functions are used to display and modify the
-class path used by the Java Virtual Machine.  This is entirely separate
-from Octave’s ‘PATH’ variable and is used by the JVM to find the correct
-code to execute.
-
- -- : javaclasspath ()
- -- : DPATH = javaclasspath ()
- -- : [DPATH, SPATH] = javaclasspath ()
- -- : CLSPATH = javaclasspath (WHAT)
-     Return the class path of the Java virtual machine in the form of a
-     cell array of strings.
-
-     If called with no inputs:
-
-        • If no output is requested, the dynamic and static classpaths
-          are printed to the standard output.
-
-        • If one output value DPATH is requested, the result is the
-          dynamic classpath.
-
-        • If two output valuesDPATH and SPATH are requested, the first
-          variable will contain the dynamic classpath and the second
-          will contain the static classpath.
-
-     If called with a single input parameter WHAT:
-
-     "-dynamic"
-          Return the dynamic classpath.
-
-     "-static"
-          Return the static classpath.
-
-     "-all"
-          Return both the static and dynamic classpath in a single
-          cellstr.
-
-     See also: *note javaaddpath: XREFjavaaddpath, *note javarmpath:
-     XREFjavarmpath.
-
- -- : javaaddpath (CLSPATH)
- -- : javaaddpath (CLSPATH1, ...)
-     Add CLSPATH to the dynamic class path of the Java virtual machine.
-
-     CLSPATH may either be a directory where ‘.class’ files are found,
-     or a ‘.jar’ file containing Java classes.  Multiple paths may be
-     added at once by specifying additional arguments.
-
-     See also: *note javarmpath: XREFjavarmpath, *note javaclasspath:
-     XREFjavaclasspath.
-
- -- : javarmpath (CLSPATH)
- -- : javarmpath (CLSPATH1, ...)
-     Remove CLSPATH from the dynamic class path of the Java virtual
-     machine.
-
-     CLSPATH may either be a directory where ‘.class’ files are found,
-     or a ‘.jar’ file containing Java classes.  Multiple paths may be
-     removed at once by specifying additional arguments.
-
-     See also: *note javaaddpath: XREFjavaaddpath, *note javaclasspath:
-     XREFjavaclasspath.
-
-   The following functions provide information and control over the
-interface between Octave and the Java Virtual Machine.
-
- -- : javachk (FEATURE)
- -- : javachk (FEATURE, COMPONENT)
- -- : MSG = javachk (...)
-     Check for the presence of the Java FEATURE in the current session
-     and print or return an error message if it is not.
-
-     Possible features are:
-
-     "awt"
-          Abstract Window Toolkit for GUIs.
-
-     "desktop"
-          Interactive desktop is running.
-
-     "jvm"
-          Java Virtual Machine.
-
-     "swing"
-          Swing components for lightweight GUIs.
-
-     If FEATURE is supported and
-
-        • no output argument is requested:
-
-          Return an empty string
-
-        • an output argument is requested:
-
-          Return a struct with fields "feature" and "identifier" both
-          empty
-
-     If FEATURE is not supported and
-
-        • no output argument is requested:
-
-          Emit an error message
-
-        • an output argument is requested:
-
-          Return a struct with field "feature" set to FEATURE and field
-          "identifier" set to COMPONENT
-
-     The optional input COMPONENT will be used in place of FEATURE in
-     any error messages for greater specificity.
-
-     ‘javachk’ determines if specific Java features are available in an
-     Octave session.  This function is provided for scripts which may
-     alter their behavior based on the availability of Java.  The
-     feature "desktop" is never available as Octave has no Java-based
-     desktop.  Other features may be available if Octave was compiled
-     with the Java Interface and Java is installed.
-
-     See also: *note usejava: XREFusejava, *note error: XREFerror.
-
- -- : usejava (FEATURE)
-     Return true if the Java element FEATURE is available.
-
-     Possible features are:
-
-     "awt"
-          Abstract Window Toolkit for GUIs.
-
-     "desktop"
-          Interactive desktop is running.
-
-     "jvm"
-          Java Virtual Machine.
-
-     "swing"
-          Swing components for lightweight GUIs.
-
-     ‘usejava’ determines if specific Java features are available in an
-     Octave session.  This function is provided for scripts which may
-     alter their behavior based on the availability of Java.  The
-     feature "desktop" always returns ‘false’ as Octave has no
-     Java-based desktop.  Other features may be available if Octave was
-     compiled with the Java Interface and Java is installed.
-
-     See also: *note javachk: XREFjavachk.
-
- -- : javamem ()
- -- : JMEM = javamem ()
-     Show the current memory usage of the Java virtual machine (JVM) and
-     run the garbage collector.
-
-     When no return argument is given the info is printed to the screen.
-     Otherwise, the output cell array JMEM contains Maximum, Total, and
-     Free memory (in bytes).
-
-     All Java-based routines are run in the JVM’s shared memory pool, a
-     dedicated and separate part of memory claimed by the JVM from your
-     computer’s total memory (which comprises physical RAM and virtual
-     memory / swap space on hard disk).
-
-     The maximum allowable memory usage can be configured using the file
-     ‘java.opts’.  The directory where this file resides is determined
-     by the environment variable ‘OCTAVE_JAVA_DIR’.  If unset, the
-     directory where ‘javaaddpath.m’ resides is used instead (typically
-     ‘OCTAVE_HOME/share/octave/OCTAVE_VERSION/m/java/’).
-
-     ‘java.opts’ is a plain text file with one option per line.  The
-     default initial memory size and default maximum memory size (which
-     are both system dependent) can be overridden like so:
-
-     -Xms64m
-
-     -Xmx512m
-
-     (in megabytes in this example).  You can adapt these values to your
-     own requirements if your system has limited available physical
-     memory or if you get Java memory errors.
-
-     "Total memory" is what the operating system has currently assigned
-     to the JVM and depends on actual and active memory usage.  "Free
-     memory" is self-explanatory.  During operation of Java-based Octave
-     functions the amount of Total and Free memory will vary, due to
-     Java’s own cleaning up and your operating system’s memory
-     management.
-
- -- : VAL = java_matrix_autoconversion ()
- -- : OLD_VAL = java_matrix_autoconversion (NEW_VAL)
- -- : java_matrix_autoconversion (NEW_VAL, "local")
-     Query or set the internal variable that controls whether Java
-     arrays are automatically converted to Octave matrices.
-
-     The default value is false.
-
-     When called from inside a function with the "local" option, the
-     variable is changed locally for the function and any subroutines it
-     calls.  The original variable value is restored when exiting the
-     function.
-
-     See also: *note java_unsigned_autoconversion:
-     XREFjava_unsigned_autoconversion, *note debug_java: XREFdebug_java.
-
- -- : VAL = java_unsigned_autoconversion ()
- -- : OLD_VAL = java_unsigned_autoconversion (NEW_VAL)
- -- : java_unsigned_autoconversion (NEW_VAL, "local")
-     Query or set the internal variable that controls how integer
-     classes are converted when ‘java_matrix_autoconversion’ is enabled.
-
-     When enabled, Java arrays of class Byte or Integer are converted to
-     matrices of class uint8 or uint32 respectively.  The default value
-     is true.
-
-     When called from inside a function with the "local" option, the
-     variable is changed locally for the function and any subroutines it
-     calls.  The original variable value is restored when exiting the
-     function.
-
-     See also: *note java_matrix_autoconversion:
-     XREFjava_matrix_autoconversion, *note debug_java: XREFdebug_java.
-
- -- : VAL = debug_java ()
- -- : OLD_VAL = debug_java (NEW_VAL)
- -- : debug_java (NEW_VAL, "local")
-     Query or set the internal variable that determines whether extra
-     debugging information regarding the initialization of the JVM and
-     any Java exceptions is printed.
-
-     When called from inside a function with the "local" option, the
-     variable is changed locally for the function and any subroutines it
-     calls.  The original variable value is restored when exiting the
-     function.
-
-     See also: *note java_matrix_autoconversion:
-     XREFjava_matrix_autoconversion, *note java_unsigned_autoconversion:
-     XREFjava_unsigned_autoconversion.
 

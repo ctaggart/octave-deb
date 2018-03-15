@@ -1,15 +1,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<!-- Created by GNU Texinfo 6.3, http://www.gnu.org/software/texinfo/ -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
-<title>GNU Octave: Signal Processing</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Signal Processing (GNU Octave)</title>
 
-<meta name="description" content="GNU Octave: Signal Processing">
-<meta name="keywords" content="GNU Octave: Signal Processing">
+<meta name="description" content="Signal Processing (GNU Octave)">
+<meta name="keywords" content="Signal Processing (GNU Octave)">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link href="index.html#Top" rel="start" title="Top">
 <link href="Concept-Index.html#Concept-Index" rel="index" title="Concept Index">
 <link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
@@ -67,7 +67,7 @@ Octave is built.
 <dt><a name="index-fft"></a>: <em></em> <strong>fft</strong> <em>(<var>x</var>)</em></dt>
 <dt><a name="index-fft-1"></a>: <em></em> <strong>fft</strong> <em>(<var>x</var>, <var>n</var>)</em></dt>
 <dt><a name="index-fft-2"></a>: <em></em> <strong>fft</strong> <em>(<var>x</var>, <var>n</var>, <var>dim</var>)</em></dt>
-<dd><p>Compute the discrete Fourier transform of <var>A</var> using
+<dd><p>Compute the discrete Fourier transform of <var>x</var> using
 a Fast Fourier Transform (FFT) algorithm.
 </p>
 <p>The FFT is calculated along the first non-singleton dimension of the
@@ -83,7 +83,7 @@ smaller than the dimension along which the FFT is calculated, then
 <var>x</var> is truncated.
 </p>
 <p>If called with three arguments, <var>dim</var> is an integer specifying the
-dimension of the matrix along which the FFT is performed
+dimension of the matrix along which the FFT is performed.
 </p>
 <p><strong>See also:</strong> <a href="#XREFifft">ifft</a>, <a href="#XREFfft2">fft2</a>, <a href="#XREFfftn">fftn</a>, <a href="#XREFfftw">fftw</a>.
 </p></dd></dl>
@@ -93,7 +93,7 @@ dimension of the matrix along which the FFT is performed
 <dt><a name="index-ifft"></a>: <em></em> <strong>ifft</strong> <em>(<var>x</var>)</em></dt>
 <dt><a name="index-ifft-1"></a>: <em></em> <strong>ifft</strong> <em>(<var>x</var>, <var>n</var>)</em></dt>
 <dt><a name="index-ifft-2"></a>: <em></em> <strong>ifft</strong> <em>(<var>x</var>, <var>n</var>, <var>dim</var>)</em></dt>
-<dd><p>Compute the inverse discrete Fourier transform of <var>A</var>
+<dd><p>Compute the inverse discrete Fourier transform of <var>x</var>
 using a Fast Fourier Transform (FFT) algorithm.
 </p>
 <p>The inverse FFT is calculated along the first non-singleton dimension
@@ -109,7 +109,7 @@ smaller than the dimension along which the inverse FFT is calculated,
 then <var>x</var> is truncated.
 </p>
 <p>If called with three arguments, <var>dim</var> is an integer specifying the
-dimension of the matrix along which the inverse FFT is performed
+dimension of the matrix along which the inverse FFT is performed.
 </p>
 <p><strong>See also:</strong> <a href="#XREFfft">fft</a>, <a href="#XREFifft2">ifft2</a>, <a href="#XREFifftn">ifftn</a>, <a href="#XREFfftw">fftw</a>.
 </p></dd></dl>
@@ -143,7 +143,7 @@ rows and columns of <var>A</var> to use.  If either of these is larger than the
 size of <var>A</var>, <var>A</var> is resized and padded with zeros.
 </p>
 <p>If <var>A</var> is a multi-dimensional matrix, each two-dimensional sub-matrix
-of <var>A</var> is treated separately
+of <var>A</var> is treated separately.
 </p>
 <p><strong>See also:</strong> <a href="#XREFfft2">fft2</a>, <a href="#XREFifft">ifft</a>, <a href="#XREFifftn">ifftn</a>, <a href="#XREFfftw">fftw</a>.
 </p></dd></dl>
@@ -881,8 +881,8 @@ of <var>nfft</var>.
 </dd>
 <dt><var>range</var></dt>
 <dd><p>range of spectrum.  <code>&quot;onesided&quot;</code> computes spectrum from
-[0..nfft/2+1].  <code>&quot;twosided&quot;</code> computes spectrum from
-[0..nfft-1].
+[0:nfft/2+1].  <code>&quot;twosided&quot;</code> computes spectrum from
+[0:nfft-1].
 </p></dd>
 </dl>
 

@@ -1,15 +1,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<!-- Created by GNU Texinfo 6.3, http://www.gnu.org/software/texinfo/ -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
-<title>GNU Octave: Manipulating Strings</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Manipulating Strings (GNU Octave)</title>
 
-<meta name="description" content="GNU Octave: Manipulating Strings">
-<meta name="keywords" content="GNU Octave: Manipulating Strings">
+<meta name="description" content="Manipulating Strings (GNU Octave)">
+<meta name="keywords" content="Manipulating Strings (GNU Octave)">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link href="index.html#Top" rel="start" title="Top">
 <link href="Concept-Index.html#Concept-Index" rel="index" title="Concept Index">
 <link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
@@ -534,7 +534,9 @@ parsed.  It may contain any combination of the following specifiers:
 <dd><p>The word is parsed as a number and converted to int32.
 </p>
 </dd>
-<dt><code>%*', '%*f', '%*s</code></dt>
+<dt><code>%*</code></dt>
+<dt><code>%*f</code></dt>
+<dt><code>%*s</code></dt>
 <dd><p>The word is skipped.
 </p>
 <p>For %s and %d, %f, %n, %u and the associated %*s &hellip; specifiers an
@@ -978,7 +980,19 @@ are zero or more <code>'b'</code> characters at positions 1 and end-of-string.
 </p>
 </dd>
 </dl>
+<p>Stack Limitation Note: Pattern searches are done with a recursive function
+which can overflow the program stack when there are a high number of matches.
+For example,
+</p>
+<div class="example">
+<pre class="example"><code>regexp (repmat ('a', 1, 1e5), '(a)+')</code>
+</pre></div>
 
+<p>may lead to a segfault.  As an alternative, consider constructing pattern
+searches that reduce the number of matches (e.g., by creatively using set
+complement), and then further processing the return variables (now reduced in
+size) with successive <code>regexp</code> searches.
+</p>
 <p><strong>See also:</strong> <a href="#XREFregexpi">regexpi</a>, <a href="#XREFstrfind">strfind</a>, <a href="#XREFregexprep">regexprep</a>.
 </p></dd></dl>
 
@@ -1054,7 +1068,7 @@ wildcards that are appropriate for a regular expression.  For example:
 </p>
 <div class="example">
 <pre class="example">regexptranslate (&quot;wildcard&quot;, &quot;*.m&quot;)
-     &rArr; &quot;.*\.m&quot;
+     &rArr; '.*\.m'
 </pre></div>
 
 </dd>
@@ -1064,7 +1078,7 @@ expressions are escaped so that they are treated literally.  For example:
 </p>
 <div class="example">
 <pre class="example">regexptranslate (&quot;escape&quot;, &quot;12.5&quot;)
-     &rArr; &quot;12\.5&quot;
+     &rArr; '12\.5'
 </pre></div>
 
 </dd>

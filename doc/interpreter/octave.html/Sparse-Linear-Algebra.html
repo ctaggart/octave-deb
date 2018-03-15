@@ -1,15 +1,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<!-- Created by GNU Texinfo 6.3, http://www.gnu.org/software/texinfo/ -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
-<title>GNU Octave: Sparse Linear Algebra</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Sparse Linear Algebra (GNU Octave)</title>
 
-<meta name="description" content="GNU Octave: Sparse Linear Algebra">
-<meta name="keywords" content="GNU Octave: Sparse Linear Algebra">
+<meta name="description" content="Sparse Linear Algebra (GNU Octave)">
+<meta name="keywords" content="Sparse Linear Algebra (GNU Octave)">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link href="index.html#Top" rel="start" title="Top">
 <link href="Concept-Index.html#Concept-Index" rel="index" title="Concept Index">
 <link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
@@ -76,7 +76,7 @@ account the permutations.  Goto 8
 </li><li> If the matrix is square, banded and if the band density is less
 than that given by <code>spparms (&quot;bandden&quot;)</code> continue, else goto 4.
 
-<ol>
+<ol type="a" start="1">
 <li> If the matrix is tridiagonal and the right-hand side is not sparse
 continue, else goto 3b.
 
@@ -679,8 +679,8 @@ false.
 </dd>
 <dt><code>permB</code></dt>
 <dd><p>The permutation vector of the Cholesky&nbsp;factorization of <var>B</var> if
-<code>cholB</code> is true.  That is <code>chol (<var>B</var>(permB, permB))</code>.  The
-default is <code>1:<var>n</var></code>.
+<code>cholB</code> is true.  It is obtained by <code>[R, ~, permB] =
+chol (<var>B</var>, <code>&quot;vector&quot;</code>)</code>. The default is <code>1:<var>n</var></code>.
 </p>
 </dd>
 </dl>

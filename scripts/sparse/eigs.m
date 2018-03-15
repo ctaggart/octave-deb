@@ -143,8 +143,8 @@
 ##
 ## @item permB
 ## The permutation vector of the Cholesky@tie{}factorization of @var{B} if
-## @code{cholB} is true.  That is @code{chol (@var{B}(permB, permB))}.  The
-## default is @code{1:@var{n}}.
+## @code{cholB} is true.  It is obtained by @code{[R, ~, permB] =
+## chol (@var{B}, @qcode{"vector"})}. The default is @code{1:@var{n}}.
 ##
 ## @end table
 ##
@@ -373,7 +373,7 @@ endfunction
 #### SPARSE MATRIX VERSIONS ####
 
 ## Real positive definite tests, n must be even
-%!shared n, k, A, d0, d2
+%!shared n, k, A, d0, d2, old_state, restore_state
 %! n = 20;
 %! k = 4;
 %! A = sparse ([3:n,1:n,1:(n-2)],[1:(n-2),1:n,3:n],[ones(1,n-2),4*ones(1,n),ones(1,n-2)]);
@@ -381,6 +381,8 @@ endfunction
 %! d2 = sort (d0);
 %! [~, idx] = sort (abs (d0));
 %! d0 = d0(idx);
+%! old_state = rand ("state");
+%! restore_state = onCleanup (@() rand ("state", old_state));
 %! rand ("state", 42); # initialize generator to make eigs behavior reproducible
 %!testif HAVE_ARPACK
 %! d1 = eigs (A, k);
@@ -490,13 +492,15 @@ endfunction
 %! endfor
 
 ## Real unsymmetric tests
-%!shared n, k, A, d0
+%!shared n, k, A, d0, old_state, restore_state
 %! n = 20;
 %! k = 4;
 %! A = sparse ([3:n,1:n,1:(n-2)],[1:(n-2),1:n,3:n],[ones(1,n-2),1:n,-ones(1,n-2)]);
 %! d0 = eig (A);
 %! [~, idx] = sort (abs (d0));
 %! d0 = d0(idx);
+%! old_state = rand ("state");
+%! restore_state = onCleanup (@() rand ("state", old_state));
 %! rand ("state", 42); # initialize generator to make eigs behavior reproducible
 %!testif HAVE_ARPACK
 %! d1 = eigs (A, k);
@@ -617,13 +621,15 @@ endfunction
 
 
 ## Complex hermitian tests
-%!shared n, k, A, d0
+%!shared n, k, A, d0, old_state, restore_state
 %! n = 20;
 %! k = 4;
 %! A = sparse ([3:n,1:n,1:(n-2)],[1:(n-2),1:n,3:n],[1i*ones(1,n-2),4*ones(1,n),-1i*ones(1,n-2)]);
 %! d0 = eig (A);
 %! [~, idx] = sort (abs (d0));
 %! d0 = d0(idx);
+%! old_state = rand ("state");
+%! restore_state = onCleanup (@() rand ("state", old_state));
 %! rand ("state", 42); # initialize generator to make eigs behavior reproducible
 %!testif HAVE_ARPACK
 %! d1 = eigs (A, k);
@@ -743,11 +749,129 @@ endfunction
 %! for i=1:k
 %!   assert (max (abs ((A - d1(i)*speye (n))*v1(:,i))), 0, 1e-11);
 %! endfor
+%!testif HAVE_ARPACK, HAVE_UMFPACK
+%! A = toeplitz (sparse (1:10));
+%! B = toeplitz (sparse ([1, 1], [1, 2], [2, 1], 1, 10));
+%! [v, d] = eigs (A, B, 5, "lm");
+%! for i = 1:5
+%!   assert (A * v(:,i), d(i, i) * B * v(:,i), 1e-12)
+%! endfor
+%! ddiag = diag (d);
+%! [ddiag, idx] = sort (ddiag);
+%! v = v(:, idx);
+%! R = chol (B);
+%! [v1, d1] = eigs (R' \ A / R, 5, "lm");
+%! d1diag = diag (d1);
+%! [d1diag, idx] = sort (d1diag);
+%! v1 = v1(:, idx);
+%! assert (abs (v), abs (R \ v1), 1e-12);
+%!testif HAVE_ARPACK, HAVE_UMFPACK
+%! A = spdiags ([[1./(2:11)]',[-5:-2:-23]',[1:10]'],-1:1,10,10);
+%! B = toeplitz (sparse ([1, 1], [1, 2], [2, 1], 1, 10));
+%! [v, d] = eigs (A, B, 5, "lm");
+%! for i = 1:5
+%!   assert (A * v(:,i), d(i, i) * B * v(:,i), 1e-12);
+%! endfor
+%! ddiag = diag (d);
+%! [ddiag, idx] = sort (ddiag);
+%! v = v(:, idx);
+%! R = chol (B);
+%! [v1, d1] = eigs (R' \ A / R, 5, "lm");
+%! d1diag = diag (d1);
+%! [d1diag, idx] = sort (d1diag);
+%! v1 = v1(:, idx);
+%! assert (abs (v), abs (R \ v1), 1e-12);
+%!testif HAVE_ARPACK, HAVE_UMFPACK
+%! A = spdiags ([[1./(2:11)]',[-5:-2:-23]',[1:10]'],-1:1,10,10) -...
+%! 1i * spdiags ([[1./(2:11)]',[-5:-2:-23]',[1:10]'],-1:1,10,10);
+%! B = toeplitz (sparse ([1, 1], [1, 2], [2, 1], 1, 10));
+%! [v, d] = eigs (A, B, 5, "lm");
+%! for i = 1:5
+%!   assert (A * v(:,i), d(i, i) * B * v(:,i), 1e-12);
+%! endfor
+%! ddiag = diag (d);
+%! [ddiag, idx] = sort (ddiag);
+%! v = v(:, idx);
+%! R = chol (B);
+%! [v1, d1] = eigs (R' \ A / R, 5, "lm");
+%! d1diag = diag (d1);
+%! [d1diag, idx] = sort (d1diag);
+%! v1 = v1(:, idx);
+%! assert (abs (v), abs (R \ v1), 1e-12);
+%!testif HAVE_ARPACK, HAVE_UMFPACK
+%! A = toeplitz (sparse (1:10));
+%! B = toeplitz (sparse ([1, 1], [1, 2], [2, 1], 1, 10));
+%! [v, d] = eigs (A, B, 5, 1);
+%! for i = 1:5
+%!   assert (A * v(:,i), d(i, i) * B * v(:,i), 1e-12);
+%! endfor
+%! ddiag = diag (d);
+%! [ddiag, idx] = sort (ddiag);
+%! v = v(:, idx);
+%! R = chol (B);
+%! [v1, d1] = eigs (R' \ A / R, 5, 1);
+%! d1diag = diag (d1);
+%! [d1diag, idx] = sort (d1diag);
+%! v1 = v1(:, idx);
+%! assert (abs (v), abs (R \ v1), 1e-12);
+%!testif HAVE_ARPACK, HAVE_UMFPACK
+%! A = spdiags ([[1./(2:11)]',[-5:-2:-23]',[1:10]'],-1:1,10,10);
+%! B = toeplitz (sparse ([1, 1], [1, 2], [2, 1], 1, 10));
+%! [v, d] = eigs (A, B, 5, 1);
+%! for i = 1:5
+%!   assert (A * v(:,i), d(i, i) * B * v(:,i), 1e-12);
+%! endfor
+%! ddiag = diag (d);
+%! [ddiag, idx] = sort (ddiag);
+%! v = v(:, idx);
+%! R = chol (B);
+%! [v1, d1] = eigs (R' \ A / R, 5, 1);
+%! d1diag = diag (d1);
+%! [d1diag, idx] = sort (d1diag);
+%! v1 = v1(:, idx);
+%! assert (abs (v), abs (R \ v1), 1e-12);
+%!testif HAVE_ARPACK, HAVE_UMFPACK
+%! A = spdiags ([[1./(2:11)]',[-5:-2:-23]',[1:10]'],-1:1,10,10) -...
+%! 1i * spdiags ([[1./(2:11)]',[-5:-2:-23]',[1:10]'],-1:1,10,10);
+%! B = toeplitz (sparse ([1, 1], [1, 2], [2, 1], 1, 10));
+%! [v, d] = eigs (A, B, 5, 1);
+%! for i = 1:5
+%!   assert (A * v(:,i), d(i, i) * B * v(:,i), 1e-12);
+%! endfor
+%! ddiag = diag (d);
+%! [ddiag, idx] = sort (ddiag);
+%! v = v(:, idx);
+%! R = chol (B);
+%! [v1, d1] = eigs (R' \ A / R, 5, 1);
+%! d1diag = diag (d1);
+%! [d1diag, idx] = sort (d1diag);
+%! v1 = v1(:, idx);
+%! assert (abs (v), abs (R \ v1), 1e-12);
+%!testif HAVE_ARPACK, HAVE_UMFPACK
+%! A = toeplitz (sparse (1:10));
+%! B = toeplitz (sparse ([1, 1], [1, 2], [2, 1], 1, 10));
+%! R = chol (B);
+%! opts.cholB = R;
+%! [v, d] = eigs (A, R, 5, "lm", opts);
+%! for i = 1:5
+%!   assert (A * v(:,i), d(i, i) * B * v(:,i), 1e-12)
+%! endfor
+%!testif HAVE_ARPACK, HAVE_UMFPACK
+%! A = toeplitz (sparse (1:10));
+%! B = toeplitz (sparse ([1, 1], [1, 2], [2, 1], 1, 10));
+%! [R, ~, permB] = chol (B, "vector");
+%! opts.cholB = R;
+%! opts.permB = permB;
+%! [v, d] = eigs (A, R, 5, "lm", opts);
+%! for i = 1:5
+%!   assert (A * v(:,i), d(i, i) * B * v(:,i), 1e-12)
+%! endfor
+
 
 #### FULL MATRIX VERSIONS ####
 
 ## Real positive definite tests, n must be even
-%!shared n, k, A, d0, d2
+%!shared n, k, A, d0, d2, old_state, restore_state
 %! n = 20;
 %! k = 4;
 %! A = full (sparse ([3:n,1:n,1:(n-2)],[1:(n-2),1:n,3:n],[ones(1,n-2),4*ones(1,n),ones(1,n-2)]));
@@ -755,6 +879,8 @@ endfunction
 %! d2 = sort (d0);
 %! [~, idx] = sort (abs (d0));
 %! d0 = d0(idx);
+%! old_state = rand ("state");
+%! restore_state = onCleanup (@() rand ("state", old_state));
 %! rand ("state", 42); # initialize generator to make eigs behavior reproducible
 %!testif HAVE_ARPACK
 %! d1 = eigs (A, k);
@@ -859,13 +985,15 @@ endfunction
 %! endfor
 
 ## Real unsymmetric tests
-%!shared n, k, A, d0
+%!shared n, k, A, d0, old_state, restore_state
 %! n = 20;
 %! k = 4;
 %! A = full (sparse ([3:n,1:n,1:(n-2)],[1:(n-2),1:n,3:n],[ones(1,n-2),1:n,-ones(1,n-2)]));
 %! d0 = eig (A);
 %! [~, idx] = sort (abs (d0));
 %! d0 = d0(idx);
+%! old_state = rand ("state");
+%! restore_state = onCleanup (@() rand ("state", old_state));
 %! rand ("state", 42); # initialize generator to make eigs behavior reproducible
 %!testif HAVE_ARPACK
 %! d1 = eigs (A, k);
@@ -985,13 +1113,15 @@ endfunction
 %! endfor
 
 ## Complex hermitian tests
-%!shared n, k, A, d0
+%!shared n, k, A, d0, old_state, restore_state
 %! n = 20;
 %! k = 4;
 %! A = full (sparse ([3:n,1:n,1:(n-2)],[1:(n-2),1:n,3:n],[1i*ones(1,n-2),4*ones(1,n),-1i*ones(1,n-2)]));
 %! d0 = eig (A);
 %! [~, idx] = sort (abs (d0));
 %! d0 = d0(idx);
+%! old_state = rand ("state");
+%! restore_state = onCleanup (@() rand ("state", old_state));
 %! rand ("state", 42); # initialize generator to make eigs behavior reproducible
 %!testif HAVE_ARPACK
 %! d1 = eigs (A, k);

@@ -1,15 +1,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<!-- Created by GNU Texinfo 6.3, http://www.gnu.org/software/texinfo/ -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
-<title>GNU Octave: Timing Utilities</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Timing Utilities (GNU Octave)</title>
 
-<meta name="description" content="GNU Octave: Timing Utilities">
-<meta name="keywords" content="GNU Octave: Timing Utilities">
+<meta name="description" content="Timing Utilities (GNU Octave)">
+<meta name="keywords" content="Timing Utilities (GNU Octave)">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link href="index.html#Top" rel="start" title="Top">
 <link href="Concept-Index.html#Concept-Index" rel="index" title="Concept Index">
 <link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
@@ -888,12 +888,13 @@ then <var>s</var> will contain the abbreviated name of the weekday.  If
 
 <a name="XREFdatetick"></a><dl>
 <dt><a name="index-datetick"></a>: <em></em> <strong>datetick</strong> <em>()</em></dt>
-<dt><a name="index-datetick-1"></a>: <em></em> <strong>datetick</strong> <em>(<var>date_format</var>)</em></dt>
-<dt><a name="index-datetick-2"></a>: <em></em> <strong>datetick</strong> <em>(<var>axis_str</var>, <var>date_format</var>)</em></dt>
-<dt><a name="index-datetick-3"></a>: <em></em> <strong>datetick</strong> <em>(&hellip;, &quot;keeplimits&quot;)</em></dt>
-<dt><a name="index-datetick-4"></a>: <em></em> <strong>datetick</strong> <em>(&hellip;, &quot;keepticks&quot;)</em></dt>
-<dt><a name="index-datetick-5"></a>: <em></em> <strong>datetick</strong> <em>(<var>hax</var>, &hellip;)</em></dt>
-<dd><p>Add date formatted tick labels to an axis.
+<dt><a name="index-datetick-1"></a>: <em></em> <strong>datetick</strong> <em>(<var>axis_str</var>)</em></dt>
+<dt><a name="index-datetick-2"></a>: <em></em> <strong>datetick</strong> <em>(<var>date_format</var>)</em></dt>
+<dt><a name="index-datetick-3"></a>: <em></em> <strong>datetick</strong> <em>(<var>axis_str</var>, <var>date_format</var>)</em></dt>
+<dt><a name="index-datetick-4"></a>: <em></em> <strong>datetick</strong> <em>(&hellip;, &quot;keeplimits&quot;)</em></dt>
+<dt><a name="index-datetick-5"></a>: <em></em> <strong>datetick</strong> <em>(&hellip;, &quot;keepticks&quot;)</em></dt>
+<dt><a name="index-datetick-6"></a>: <em></em> <strong>datetick</strong> <em>(<var>hax</var>, &hellip;)</em></dt>
+<dd><p>Add date-formatted tick labels to an axis.
 </p>
 <p>The axis to apply the ticks to is determined by <var>axis_str</var> which can
 take the values <code>&quot;x&quot;</code>, <code>&quot;y&quot;</code>, or <code>&quot;z&quot;</code>.  The default
@@ -902,6 +903,9 @@ value is <code>&quot;x&quot;</code>.
 <p>The formatting of the labels is determined by the variable
 <var>date_format</var>, which can either be a string or positive integer that
 <code>datestr</code> accepts.
+</p>
+<p>If the first argument <var>hax</var> is an axes handle, then plot into this axes,
+rather than the current axes returned by <code>gca</code>.
 </p>
 
 <p><strong>See also:</strong> <a href="#XREFdatenum">datenum</a>, <a href="#XREFdatestr">datestr</a>.

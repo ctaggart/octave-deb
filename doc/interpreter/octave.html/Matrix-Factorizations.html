@@ -1,15 +1,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<!-- Created by GNU Texinfo 6.3, http://www.gnu.org/software/texinfo/ -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
-<title>GNU Octave: Matrix Factorizations</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Matrix Factorizations (GNU Octave)</title>
 
-<meta name="description" content="GNU Octave: Matrix Factorizations">
-<meta name="keywords" content="GNU Octave: Matrix Factorizations">
+<meta name="description" content="Matrix Factorizations (GNU Octave)">
+<meta name="keywords" content="Matrix Factorizations (GNU Octave)">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link href="index.html#Top" rel="start" title="Top">
 <link href="Concept-Index.html#Concept-Index" rel="index" title="Concept Index">
 <link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
@@ -582,40 +582,44 @@ of <var>A</var>(:,p)<!-- /@w -->, where p<!-- /@w --> is the permutation <br>
 
 <a name="XREFqz"></a><dl>
 <dt><a name="index-qz"></a>: <em><var>lambda</var> =</em> <strong>qz</strong> <em>(<var>A</var>, <var>B</var>)</em></dt>
-<dt><a name="index-qz-1"></a>: <em><var>lambda</var> =</em> <strong>qz</strong> <em>(<var>A</var>, <var>B</var>, <var>opt</var>)</em></dt>
+<dt><a name="index-qz-1"></a>: <em>[<var>AA</var>, <var>BB</var>, <var>Q</var>, <var>Z</var>, <var>V</var>, <var>W</var>, <var>lambda</var>] =</em> <strong>qz</strong> <em>(<var>A</var>, <var>B</var>)</em></dt>
+<dt><a name="index-qz-2"></a>: <em>[<var>AA</var>, <var>BB</var>, <var>Z</var>] =</em> <strong>qz</strong> <em>(<var>A</var>, <var>B</var>, <var>opt</var>)</em></dt>
+<dt><a name="index-qz-3"></a>: <em>[<var>AA</var>, <var>BB</var>, <var>Z</var>, <var>lambda</var>] =</em> <strong>qz</strong> <em>(<var>A</var>, <var>B</var>, <var>opt</var>)</em></dt>
 <dd><p>QZ&nbsp;decomposition of the generalized eigenvalue problem
-(<em>A x = s B x</em>).
 </p>
-<p>There are three ways to call this function:
-</p><ol>
+<p><em>A x = <var>lambda</var> B x</em>
+</p>
+
+<p>There are three calling forms of the function:
+</p>
+<ol>
 <li> <code><var>lambda</var> = qz (<var>A</var>, <var>B</var>)</code>
 
-<p>Computes the generalized eigenvalues
-<var>lambda</var>
-of <em>(A - s B)</em>.
+<p>Compute the generalized eigenvalues
+<var>lambda</var>.
 </p>
-</li><li> <code>[AA, BB, Q, Z, V, W, <var>lambda</var>] = qz (<var>A</var>, <var>B</var>)</code>
+</li><li> <code>[<var>AA</var>, <var>BB</var>, <var>Q</var>, <var>Z</var>, <var>V</var>, <var>W</var>, <var>lambda</var>] = qz (<var>A</var>, <var>B</var>)</code>
 
-<p>Computes QZ&nbsp;decomposition, generalized eigenvectors, and generalized
-eigenvalues of <em>(A - s B)</em>
+<p>Compute QZ&nbsp;decomposition, generalized eigenvectors, and generalized
+eigenvalues.
 </p>
 <div class="example">
 <pre class="example">
 
-A * V = B * V * diag (<var>lambda</var>)
-W' * A = diag (<var>lambda</var>) * W' * B
-AA = Q * A * Z, BB = Q * B * Z
+<var>A</var> * <var>V</var> = <var>B</var> * <var>V</var> * diag (<var>lambda</var>)
+<var>W</var>' * <var>A</var> = diag (<var>lambda</var>) * <var>W</var>' * <var>B</var>
+<var>AA</var> = <var>Q</var> * <var>A</var> * <var>Z</var>, <var>BB</var> = <var>Q</var> * <var>B</var> * <var>Z</var>
 
 </pre></div>
 
-<p>with <var>Q</var> and <var>Z</var> orthogonal (unitary)= <var>I</var>
+<p>with <var>Q</var> and <var>Z</var> orthogonal (unitary for complex case).
 </p>
-</li><li> <code>[AA,BB,Z{, <var>lambda</var>}] = qz (<var>A</var>, <var>B</var>, <var>opt</var>)</code>
+</li><li> <code>[<var>AA</var>, <var>BB</var>, <var>Z</var> {, <var>lambda</var>}] = qz (<var>A</var>, <var>B</var>, <var>opt</var>)</code>
 
-<p>As in form [2], but allows ordering of generalized eigenpairs for, e.g.,
-solution of discrete time algebraic Riccati equations.  Form 3 is not
-available for complex matrices, and does not compute the generalized
-eigenvectors <var>V</var>, <var>W</var>, nor the orthogonal matrix <var>Q</var>.
+<p>As in form 2 above, but allows ordering of generalized eigenpairs for, e.g.,
+solution of discrete time algebraic Riccati equations.  Form 3 is not available
+for complex matrices, and does not compute the generalized eigenvectors
+<var>V</var>, <var>W</var>, nor the orthogonal matrix <var>Q</var>.
 </p>
 <dl compact="compact">
 <dt><var>opt</var></dt>
@@ -624,25 +628,27 @@ the revised pencil contains all eigenvalues that satisfy:
 </p>
 <dl compact="compact">
 <dt><code>&quot;N&quot;</code></dt>
-<dd><p>= unordered (default)
+<dd><p>unordered (default)
 </p>
 </dd>
 <dt><code>&quot;S&quot;</code></dt>
-<dd><p>= small: leading block has all |lambda| &le; 1
+<dd><p>small: leading block has all
+|<var>lambda</var>| &lt; 1
 </p>
 </dd>
 <dt><code>&quot;B&quot;</code></dt>
-<dd><p>= big: leading block has all |lambda| &ge; 1
+<dd><p>big: leading block has all
+|<var>lambda</var>| &ge; 1
 </p>
 </dd>
 <dt><code>&quot;-&quot;</code></dt>
-<dd><p>= negative real part: leading block has all eigenvalues
-in the open left half-plane
+<dd><p>negative real part: leading block has all eigenvalues in the open left
+half-plane
 </p>
 </dd>
 <dt><code>&quot;+&quot;</code></dt>
-<dd><p>= non-negative real part: leading block has all eigenvalues
-in the closed right half-plane
+<dd><p>non-negative real part: leading block has all eigenvalues in the closed right
+half-plane
 </p></dd>
 </dl>
 </dd>
@@ -650,8 +656,9 @@ in the closed right half-plane
 </li></ol>
 
 <p>Note: <code>qz</code> performs permutation balancing, but not scaling
-(see <a href="Basic-Matrix-Functions.html#XREFbalance">XREFbalance</a>).  The order of output arguments was selected for
-compatibility with <small>MATLAB</small>.
+(see <a href="Basic-Matrix-Functions.html#XREFbalance">balance</a>), which may be lead to less accurate results than
+<code>eig</code>.  The order of output arguments was selected for compatibility with
+<small>MATLAB</small>.
 </p>
 <p><strong>See also:</strong> <a href="Basic-Matrix-Functions.html#XREFeig">eig</a>, <a href="Basic-Matrix-Functions.html#XREFbalance">balance</a>, <a href="#XREFlu">lu</a>, <a href="#XREFchol">chol</a>, <a href="#XREFhess">hess</a>, <a href="#XREFqr">qr</a>, <a href="#XREFqzhess">qzhess</a>, <a href="#XREFschur">schur</a>, <a href="#XREFsvd">svd</a>.
 </p></dd></dl>

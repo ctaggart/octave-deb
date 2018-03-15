@@ -33,7 +33,7 @@
 ## Legend entries may be specified as individual character string arguments,
 ## a character array, or a cell array of character strings.
 ##
-## If the first argument @var{hax} is an axes handle, then plot into this axis,
+## If the first argument @var{hax} is an axes handle, then plot into this axes,
 ## rather than the current axes returned by @code{gca}.  If the handles,
 ## @var{hobjs}, are not specified then the legend's strings will be associated
 ## with the axes' descendants.  @code{legend} works on line graphs,
@@ -160,7 +160,7 @@ function [hleg, hleg_obj, hplot, labels] = legend (varargin)
     if (isscalar (kids))
       kids = get (kids, "children")(:);
     else
-      kids = flipud (vertcat (get (kids, "children"){:}));
+      kids = vertcat (flipud (get (kids, "children")){:});
     endif
   endif
   nargs = numel (varargin);
@@ -412,6 +412,10 @@ function [hleg, hleg_obj, hplot, labels] = legend (varargin)
         endwhile
         if (k > 0)
           if (have_labels)
+            ## FIXME: This is inefficient on an existing legend object because
+            ##        it triggers the updateline() callback which then calls
+            ##        legend() itself.  Possibly better to delete the callback
+            ##        on displayname and then re-attach it.  See bug #52641.
             set (kids(k), "displayname", arg);
           endif
           hplots(end+1) = kids(k);
@@ -1173,7 +1177,11 @@ function updateline (h, ~, hlegend, linelength, update_name)
   if (update_name)
     ## When string changes, have to rebuild legend completely
     [hplots, text_strings] = __getlegenddata__ (hlegend);
-    legend (get (hplots(1), "parent"), hplots, text_strings);
+    ## FIXME: See bug #52641.  Changing an existing legend string to a blank
+    ##        can trigger this.
+    if (! isempty (hplots))
+      legend (get (hplots(1), "parent"), hplots, text_strings);
+    endif
   else
     kids = get (hlegend, "children");
     ll = lm = [];
@@ -1369,6 +1377,12 @@ endfunction
 %! ylim ([0 1.0]);
 %! title ("legend() works for bar graphs (hggroups)");
 %! legend ({"1st Bar", "2nd Bar", "3rd Bar"});
+%! x = linspace (0, 10, 20);
+%! stem (x, 0.5+x.*rand (size (x))/max (x), "markeredgecolor", [0 0.7 0]);
+%! hold on;
+%! stem (x+10/(2*20), x.*(1.0+rand (size (x)))/max (x));
+%! xlim ([0 10+10/(2*20)]);
+%! legend ({"Multicolor", "Unicolor"}, "location", "northwest");
 
 %!demo
 %! clf;

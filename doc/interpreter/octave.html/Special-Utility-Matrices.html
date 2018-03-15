@@ -1,15 +1,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<!-- Created by GNU Texinfo 6.3, http://www.gnu.org/software/texinfo/ -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
-<title>GNU Octave: Special Utility Matrices</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Special Utility Matrices (GNU Octave)</title>
 
-<meta name="description" content="GNU Octave: Special Utility Matrices">
-<meta name="keywords" content="GNU Octave: Special Utility Matrices">
+<meta name="description" content="Special Utility Matrices (GNU Octave)">
+<meta name="keywords" content="Special Utility Matrices (GNU Octave)">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link href="index.html#Top" rel="start" title="Top">
 <link href="Concept-Index.html#Concept-Index" rel="index" title="Concept Index">
 <link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
@@ -213,26 +213,26 @@ create vectors with evenly or logarithmically spaced elements.
 See <a href="Ranges.html#Ranges">Ranges</a>.
 </p>
 <a name="XREFlinspace"></a><dl>
-<dt><a name="index-linspace"></a>: <em></em> <strong>linspace</strong> <em>(<var>base</var>, <var>limit</var>)</em></dt>
-<dt><a name="index-linspace-1"></a>: <em></em> <strong>linspace</strong> <em>(<var>base</var>, <var>limit</var>, <var>n</var>)</em></dt>
-<dd><p>Return a row vector with <var>n</var> linearly spaced elements between
-<var>base</var> and <var>limit</var>.
+<dt><a name="index-linspace"></a>: <em></em> <strong>linspace</strong> <em>(<var>start</var>, <var>end</var>)</em></dt>
+<dt><a name="index-linspace-1"></a>: <em></em> <strong>linspace</strong> <em>(<var>start</var>, <var>end</var>, <var>n</var>)</em></dt>
+<dd><p>Return a row vector with <var>n</var> linearly spaced elements between <var>start</var>
+and <var>end</var>.
 </p>
-<p>If the number of elements is greater than one, then the endpoints <var>base</var>
-and <var>limit</var> are always included in the range.  If <var>base</var> is greater
-than <var>limit</var>, the elements are stored in decreasing order.  If the
-number of points is not specified, a value of 100 is used.
+<p>If the number of elements is greater than one, then the endpoints <var>start</var>
+and <var>end</var> are always included in the range.  If <var>start</var> is greater than
+<var>end</var>, the elements are stored in decreasing order.  If the number of
+points is not specified, a value of 100 is used.
 </p>
-<p>The <code>linspace</code> function returns a row vector when both <var>base</var>
-and <var>limit</var> are scalars.  If one, or both, inputs are vectors, then
+<p>The <code>linspace</code> function returns a row vector when both <var>start</var> and
+<var>end</var> are scalars.  If one, or both, inputs are vectors, then
 <code>linspace</code> transforms them to column vectors and returns a matrix where
 each row is an independent sequence between
-<code><var>base</var>(<var><span class="nolinebreak">row_n</span></var>),&nbsp;<var>limit</var>(<var><span class="nolinebreak">row_n</span></var>)</code><!-- /@w -->.
+<code><var>start</var>(<var><span class="nolinebreak">row_n</span></var>),&nbsp;<var>end</var>(<var><span class="nolinebreak">row_n</span></var>)</code><!-- /@w -->.
 </p>
-<p>For compatibility with <small>MATLAB</small>, return the second argument (<var>limit</var>)
-if fewer than two values are requested.
+<p>For compatibility with <small>MATLAB</small>, return the second argument (<var>end</var>) when
+only a single value (<var>n</var> = 1) is requested.
 </p>
-<p><strong>See also:</strong> <a href="#XREFlogspace">logspace</a>.
+<p><strong>See also:</strong> <a href="Defining-Indexing-And-Indexed-Assignment.html#XREFcolon">colon</a>, <a href="#XREFlogspace">logspace</a>.
 </p></dd></dl>
 
 
@@ -253,8 +253,10 @@ the points are between
 10^<var>a</var> and 10^pi,
 in order to be compatible with the corresponding <small>MATLAB</small> function.
 </p>
-<p>Also for compatibility with <small>MATLAB</small>, return the second argument <var>b</var>
-if fewer than two values are requested.
+<p>Also for compatibility with <small>MATLAB</small>, return the right-hand side of
+the range
+(10^<var>b</var>)
+when just a single value is requested.
 </p>
 <p><strong>See also:</strong> <a href="#XREFlinspace">linspace</a>.
 </p></dd></dl>
@@ -512,9 +514,9 @@ classes.
 
 
 <a name="XREFrandg"></a><dl>
-<dt><a name="index-randg"></a>: <em></em> <strong>randg</strong> <em>(<var>n</var>)</em></dt>
-<dt><a name="index-randg-1"></a>: <em></em> <strong>randg</strong> <em>(<var>m</var>, <var>n</var>, &hellip;)</em></dt>
-<dt><a name="index-randg-2"></a>: <em></em> <strong>randg</strong> <em>([<var>m</var> <var>n</var> &hellip;])</em></dt>
+<dt><a name="index-randg"></a>: <em></em> <strong>randg</strong> <em>(<var>a</var>, <var>n</var>)</em></dt>
+<dt><a name="index-randg-1"></a>: <em></em> <strong>randg</strong> <em>(<var>a</var>, <var>m</var>, <var>n</var>, &hellip;)</em></dt>
+<dt><a name="index-randg-2"></a>: <em></em> <strong>randg</strong> <em>(<var>a</var>, [<var>m</var> <var>n</var> &hellip;])</em></dt>
 <dt><a name="index-randg-3"></a>: <em><var>v</var> =</em> <strong>randg</strong> <em>(&quot;state&quot;)</em></dt>
 <dt><a name="index-randg-4"></a>: <em></em> <strong>randg</strong> <em>(&quot;state&quot;, <var>v</var>)</em></dt>
 <dt><a name="index-randg-5"></a>: <em></em> <strong>randg</strong> <em>(&quot;state&quot;, &quot;reset&quot;)</em></dt>
@@ -523,7 +525,8 @@ classes.
 <dt><a name="index-randg-8"></a>: <em></em> <strong>randg</strong> <em>(&quot;seed&quot;, &quot;reset&quot;)</em></dt>
 <dt><a name="index-randg-9"></a>: <em></em> <strong>randg</strong> <em>(&hellip;, &quot;single&quot;)</em></dt>
 <dt><a name="index-randg-10"></a>: <em></em> <strong>randg</strong> <em>(&hellip;, &quot;double&quot;)</em></dt>
-<dd><p>Return a matrix with <code>gamma (<var>a</var>,1)</code> distributed random elements.
+<dd>
+<p>Return a matrix with <code>gamma (<var>a</var>,1)</code> distributed random elements.
 </p>
 <p>The arguments are handled the same as the arguments for <code>rand</code>, except
 for the argument <var>a</var>.

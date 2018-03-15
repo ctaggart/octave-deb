@@ -6,7 +6,7 @@
 lin2mu
 @c lin2mu scripts/audio/lin2mu.m
 -*- texinfo -*-
-@deftypefn {} {} lin2mu (@var{x}, @var{n})
+@deftypefn {} {@var{y} =} lin2mu (@var{x}, @var{n})
 Convert audio data from linear to mu-law.
 
 Mu-law values use 8-bit unsigned integers.  Linear values use @var{n}-bit
@@ -20,12 +20,12 @@ the range of values in @var{x}.
 mu2lin
 @c mu2lin scripts/audio/mu2lin.m
 -*- texinfo -*-
-@deftypefn {} {} mu2lin (@var{x}, @var{n})
+@deftypefn {} {@var{y} =} mu2lin (@var{x}, @var{n})
 Convert audio data from mu-law to linear.
 
 Mu-law values are 8-bit unsigned integers.  Linear values use @var{n}-bit
-signed integers or floating point values in the range -1@leq{}y@leq{}1 if
-@var{n} is 0.
+signed integers or floating point values in the range -1 @leq{} @var{y}
+@leq{} 1 if @var{n} is 0.
 
 If @var{n} is not specified it defaults to 0.
 @seealso{lin2mu}
@@ -169,9 +169,9 @@ Pause the audioplayer @var{player}.
 @deftypefnx {} {} play (@var{player}, @var{limits})
 Play audio stored in the audioplayer object @var{player} without blocking.
 
-Given optional argument start, begin playing at @var{start} seconds in the
+Given optional argument start, begin playing at @var{start} samples in the
 recording.  Given a two-element vector @var{limits}, begin and end playing
-at the number of seconds specified by the elements of the vector.
+at the number of samples specified by the elements of the vector.
 @end deftypefn
 @audioplayer/playblocking
 @c @audioplayer/playblocking scripts/audio/@audioplayer/playblocking.m
@@ -181,9 +181,9 @@ at the number of seconds specified by the elements of the vector.
 @deftypefnx {} {} playblocking (@var{player}, @var{limits})
 Play audio stored in the audioplayer object @var{player} with blocking.
 
-Given optional argument start, begin playing at @var{start} seconds in the
+Given optional argument start, begin playing at @var{start} samples in the
 recording.  Given a two-element vector @var{limits}, begin and end playing
-at the number of seconds specified by the elements of the vector.
+at the number of samples specified by the elements of the vector.
 @end deftypefn
 @audioplayer/resume
 @c @audioplayer/resume scripts/audio/@audioplayer/resume.m
@@ -429,7 +429,7 @@ Please use @code{delaunay} in all new code.
 
 Compute the Delaunay triangulation for a 3-D set of points.
 The return value @var{tetr} is a set of tetrahedrons which satisfies the
-Delaunay circum-circle criterion, i.e., only a single data point from
+Delaunay circum-circle criterion, i.e., no data point from
 [@var{x}, @var{y}, @var{z}] is within the circum-circle of the defining
 tetrahedron.
 
@@ -528,7 +528,7 @@ filename pattern matching.  For example:
 
 @example
 @group
-fnmatch (\"a*b\", @{\"ab\"; \"axyzb\"; \"xyzab\"@})
+fnmatch ("a*b", @{"ab"; "axyzb"; "xyzab"@})
      @result{} [ 1; 1; 0 ]
 @end group
 @end example
@@ -667,13 +667,13 @@ For equivalent functionality replace calls like @code{md5sum (@var{file})}
 with:
 
 @example
-hash (\"md5\", fileread (@var{file}))
+hash ("md5", fileread (@var{file}))
 @end example
 
 And calls like @code{md5sum (@var{str}, true)} with:
 
 @example
-hash (\"md5\", fileread (@var{str}))
+hash ("md5", fileread (@var{str}))
 @end example
 
 Calculate the MD5 sum of the file @var{file}.
@@ -907,7 +907,7 @@ this
 @example
 @group
 if (nargin != 2)
-  usage (\"foo (a, b)\");
+  usage ("foo (a, b)");
 endif
 @end group
 @end example
@@ -1071,7 +1071,7 @@ Compute the inverse sine in degrees for each element of @var{x}.
 @c atan2d scripts/elfun/atan2d.m
 -*- texinfo -*-
 @deftypefn {} {} atan2d (@var{y}, @var{x})
-Compute atan2 (@var{y} / @var{x}) in degrees for corresponding elements
+Compute atan (@var{y} / @var{x}) in degrees for corresponding elements
 from @var{y} and @var{x}.
 @seealso{tand, atan2}
 @end deftypefn
@@ -1205,8 +1205,8 @@ function should not depend on the order of the subscripts.
 The elements of the returned array that have no subscripts associated
 with them are set to zero.  Defining @var{fillval} to some other value
 allows these values to be defined.  This behavior changes, however,
-for certain values of @var{func}.  If @var{func} is @code{min}
-(respectively, @code{max}) then the result will be filled with the
+for certain values of @var{func}.  If @var{func} is @code{@@min}
+(respectively, @code{@@max}) then the result will be filled with the
 minimum (respectively, maximum) integer if @var{vals} is of integral
 type, logical false (respectively, logical true) if @var{vals} is of
 logical type, zero if @var{fillval} is zero and all values are
@@ -1709,7 +1709,7 @@ integration for x and y respectively.  The underlying integrator determines
 whether infinite bounds are accepted.
 
 The optional argument @var{tol} defines the absolute tolerance used to
-integrate each sub-integral.  The default value is @math{1e^{-6}}.
+integrate each sub-integral.  The default value is 1e-6.
 
 The optional argument @var{quadf} specifies which underlying integrator
 function to use.  Any choice but @code{quad} is available and the default
@@ -2462,7 +2462,7 @@ throughout the curve.
 @end table
 
 @var{extrap} is a scalar number.  It replaces values beyond the endpoints
-with @var{extrap}.  Note that if @var{extrapval} is used, @var{method} must
+with @var{extrap}.  Note that if @var{extrap} is used, @var{method} must
 be specified as well.  If @var{extrap} is omitted and the @var{method} is
 @qcode{"spline"}, then the extrapolated values of the @qcode{"spline"} are
 used.  Otherwise the default @var{extrap} value for any other @var{method}
@@ -2692,8 +2692,15 @@ $10^{a}$ and $10^{\pi}$,
 @end ifnottex
 in order to be compatible with the corresponding @sc{matlab} function.
 
-Also for compatibility with @sc{matlab}, return the second argument @var{b}
-if fewer than two values are requested.
+Also for compatibility with @sc{matlab}, return the right-hand side of
+the range
+@tex
+($10^{b}$)
+@end tex
+@ifnottex
+(10^@var{b})
+@end ifnottex
+when just a single value is requested.
 @seealso{linspace}
 @end deftypefn
 methods
@@ -3264,7 +3271,7 @@ return a vector of output values when given a vector of input values.
 limits must be finite.
 
 The optional argument @var{tol} defines the absolute tolerance with which
-to perform the integration.  The default value is @math{1e-6}.
+to perform the integration.  The default value is 1e-6.
 
 The algorithm used by @code{quadl} involves recursively subdividing the
 integration interval.  If @var{trace} is defined then for each subinterval
@@ -4030,20 +4037,20 @@ default arguments in @var{options}.  Use a null string to pass no arguments.
 Compute the Delaunay triangulation for a 2-D or 3-D set of points.
 
 For 2-D sets, the return value @var{tri} is a set of triangles which
-satisfies the Delaunay circum-circle criterion, i.e., only a single data
-point from [@var{x}, @var{y}] is within the circum-circle of the defining
-triangle.  The set of triangles @var{tri} is a matrix of size [n, 3].  Each
-row defines a triangle and the three columns are the three vertices of the
-triangle.  The value of @code{@var{tri}(i,j)} is an index into @var{x} and
-@var{y} for the location of the j-th vertex of the i-th triangle.
+satisfies the Delaunay circum-circle criterion, i.e., no data point from
+[@var{x}, @var{y}] is within the circum-circle of the defining triangle.
+The set of triangles @var{tri} is a matrix of size [n, 3].  Each row defines
+a triangle and the three columns are the three vertices of the triangle.
+The value of @code{@var{tri}(i,j)} is an index into @var{x} and @var{y} for
+the location of the j-th vertex of the i-th triangle.
 
 For 3-D sets, the return value @var{tetr} is a set of tetrahedrons which
-satisfies the Delaunay circum-circle criterion, i.e., only a single data
-point from [@var{x}, @var{y}, @var{z}] is within the circum-circle of the
-defining tetrahedron.  The set of tetrahedrons is a matrix of size [n, 4].
-Each row defines a tetrahedron and the four columns are the four vertices of
-the tetrahedron.  The value of @code{@var{tetr}(i,j)} is an index into
-@var{x}, @var{y}, @var{z} for the location of the j-th vertex of the i-th
+satisfies the Delaunay circum-circle criterion, i.e., no data point from
+[@var{x}, @var{y}, @var{z}] is within the circum-circle of the defining
+tetrahedron.  The set of tetrahedrons is a matrix of size [n, 4].  Each row
+defines a tetrahedron and the four columns are the four vertices of the
+tetrahedron.  The value of @code{@var{tetr}(i,j)} is an index into @var{x},
+@var{y}, @var{z} for the location of the j-th vertex of the i-th
 tetrahedron.
 
 The input @var{x} may also be a matrix with two or three columns where the
@@ -4237,8 +4244,8 @@ See the documentation for the Qhull library for details
 If @qcode{"linespec"} is given it is used to set the color and line style of
 the plot.
 
-If an axis graphics handle @var{hax} is supplied then the Voronoi diagram is
-drawn on the specified axis rather than in a new figure.
+If an axes graphics handle @var{hax} is supplied then the Voronoi diagram is
+drawn on the specified axes rather than in a new figure.
 
 If a single output argument is requested then the Voronoi diagram will be
 plotted and a graphics handle @var{h} to the plot is returned.
@@ -6729,7 +6736,7 @@ matrix that could be expected when using @code{imread} with the option
 Convert a color indexed image to a grayscale intensity image.
 
 The image @var{x} must be an indexed image which will be converted using the
-colormap @var{cmap}.  If @var{cmap} does not contain enough colors for the
+colormap @var{map}.  If @var{map} does not contain enough colors for the
 image, pixels in @var{x} outside the range are mapped to the last color in
 the map before conversion to grayscale.
 
@@ -6895,7 +6902,7 @@ an image exactly the same as the input.  No dithering or other form of color
 quantization is performed.  The output class of the indexed image @var{x}
 can be uint8, uint16 or double, whichever is required to specify the
 number of unique colors in the image (which will be equal to the number
-of rows in @var{map}) in order
+of rows in @var{map}) in order.
 
 Multi-dimensional indexed images (of size @nospell{MxNx3xK}) are also
 supported, both via a single input (@var{rgb}) or its three color channels
@@ -7233,7 +7240,9 @@ The word is parsed as a number and converted to double.
 @itemx %u
 The word is parsed as a number and converted to int32.
 
-@item %*', '%*f', '%*s
+@item  %*
+@itemx %*f
+@itemx %*s
 The word is skipped.
 
 For %s and %d, %f, %n, %u and the associated %*s @dots{} specifiers an
@@ -9955,7 +9964,7 @@ used here, as the field name is not a valid Octave identifier because of
 the space character.  Using arbitrary strings for field names is
 incompatible with @sc{matlab}, and this usage will emit a warning if the
 warning ID @code{Octave:language-extension} is enabled.
-@xref{XREFwarning_ids}.
+@xref{XREFwarning_ids,,warning_ids}.
 
 With the second calling form, set a field of a structure array.  The
 input @var{sidx} selects an element of the structure array, @var{field}
@@ -10267,11 +10276,11 @@ Package name.
 @item Version
 Version of the package.
 
-@item Revision
-Revision of the package.
+@item Release
+Release of the package.
 
 @item Date
-Date of the version/revision.
+Date of the version/release.
 @end table
 
 @seealso{version, usejava, pkg}
@@ -11790,7 +11799,7 @@ min 0.5 x'*H*x + x'*q
 subject to
 @tex
 $$
- Ax = b \qquad lb \leq x \leq ub \qquad A_{lb} \leq A_{in} \leq A_{ub}
+ A x = b \qquad lb \leq x \leq ub \qquad A_{lb} \leq A_{in} x \leq A_{ub}
 $$
 @end tex
 @ifnottex
@@ -11807,9 +11816,12 @@ A_lb <= A_in*x <= A_ub
 @noindent
 using a null-space active-set method.
 
-Any bound (@var{A}, @var{b}, @var{lb}, @var{ub}, @var{A_lb}, @var{A_ub})
-may be set to the empty matrix (@code{[]}) if not present.  If the initial
-guess is feasible the algorithm is faster.
+Any bound (@var{A}, @var{b}, @var{lb}, @var{ub}, @var{A_in}, @var{A_lb},
+@var{A_ub}) may be set to the empty matrix (@code{[]}) if not present.  The
+constraints @var{A} and @var{A_in} are matrices with each row representing
+a single constraint.  The other bounds are scalars or vectors depending on
+the number of constraints.  The algorithm is faster if the initial guess is
+feasible.
 
 @table @var
 @item options
@@ -12490,7 +12502,7 @@ x-axis.  The third and fourth specify the limits for the y-axis, the fifth
 and sixth specify the limits for the z-axis, and the seventh and eighth
 specify the limits for the color axis.  The special values -Inf and Inf may
 be used to indicate that the limit should be automatically computed based
-on the data in the axis.
+on the data in the axes.
 
 Without any arguments, @code{axis} turns autoscaling on.
 
@@ -12548,7 +12560,7 @@ and off for the remainder.
 Turn tick labels off for all axes.
 @end table
 
-Note: If there are no tick marks for an axis then there can be no labels.
+Note: If there are no tick marks for an axes then there can be no labels.
 
 @noindent
 The following options affect the direction of increasing values on the axes.
@@ -12597,13 +12609,13 @@ axis ("tic", "labely");
 @deftypefnx {} {} box on
 @deftypefnx {} {} box off
 @deftypefnx {} {} box (@var{hax}, @dots{})
-Control display of the axis border.
+Control display of the axes border.
 
 The argument may be either @qcode{"on"} or @qcode{"off"}.  If it is
 omitted, the current box state is toggled.
 
 If the first argument @var{hax} is an axes handle, then operate on this
-axis rather than the current axes returned by @code{gca}.
+axes rather than the current axes returned by @code{gca}.
 @seealso{axis, grid}
 @end deftypefn
 caxis
@@ -12628,7 +12640,7 @@ then the @qcode{"climmode"} property is set to @qcode{"manual"} and the
 numeric values in the @qcode{"clim"} property are used for limits.
 
 If the first argument @var{hax} is an axes handle, then operate on
-this axis rather than the current axes returned by @code{gca}.
+this axes rather than the current axes returned by @code{gca}.
 
 Called without arguments the current color axis limits are returned.
 
@@ -12717,12 +12729,13 @@ Operate on the axes in handle @var{hax} instead of the current axes.
 @c datetick scripts/plot/appearance/datetick.m
 -*- texinfo -*-
 @deftypefn  {} {} datetick ()
+@deftypefnx {} {} datetick (@var{axis_str})
 @deftypefnx {} {} datetick (@var{date_format})
 @deftypefnx {} {} datetick (@var{axis_str}, @var{date_format})
 @deftypefnx {} {} datetick (@dots{}, "keeplimits")
 @deftypefnx {} {} datetick (@dots{}, "keepticks")
 @deftypefnx {} {} datetick (@var{hax}, @dots{})
-Add date formatted tick labels to an axis.
+Add date-formatted tick labels to an axis.
 
 The axis to apply the ticks to is determined by @var{axis_str} which can
 take the values @qcode{"x"}, @qcode{"y"}, or @qcode{"z"}.  The default
@@ -12731,6 +12744,9 @@ value is @qcode{"x"}.
 The formatting of the labels is determined by the variable
 @var{date_format}, which can either be a string or positive integer that
 @code{datestr} accepts.
+
+If the first argument @var{hax} is an axes handle, then plot into this axes,
+rather than the current axes returned by @code{gca}.
 
 @seealso{datenum, datestr}
 @end deftypefn
@@ -12764,9 +12780,9 @@ When the first argument is @qcode{"minor"} all subsequent commands
 modify the minor grid rather than the major grid.
 
 If the first argument @var{hax} is an axes handle, then operate on
-this axis rather than the current axes returned by @code{gca}.
+this axes rather than the current axes returned by @code{gca}.
 
-To control the grid lines for an individual axis use the @code{set}
+To control the grid lines for an individual axes use the @code{set}
 function.  For example:
 
 @example
@@ -12839,7 +12855,7 @@ Display a legend for the current axes using the specified strings as labels.
 Legend entries may be specified as individual character string arguments,
 a character array, or a cell array of character strings.
 
-If the first argument @var{hax} is an axes handle, then plot into this axis,
+If the first argument @var{hax} is an axes handle, then plot into this axes,
 rather than the current axes returned by @code{gca}.  If the handles,
 @var{hobjs}, are not specified then the legend's strings will be associated
 with the axes' descendants.  @code{legend} works on line graphs,
@@ -12942,7 +12958,7 @@ Draw objects without light and shadow effects.
 @end table
 
 If the first argument @var{hax} is an axes handle, then change the lighting
-effects of objects in this axis, rather than the current axes returned by
+effects of objects in this axes, rather than the current axes returned by
 @code{gca}.
 
 The lighting effects are only visible if at least one light object is
@@ -13083,7 +13099,7 @@ Colors between patch vertices are interpolated and the patch edges are
 invisible.
 @end table
 
-If the first argument @var{hax} is an axes handle, then plot into this axis,
+If the first argument @var{hax} is an axes handle, then plot into this axes,
 rather than the current axes returned by @code{gca}.
 @seealso{fill, mesh, patch, pcolor, surf, surface, hidden, lighting}
 @end deftypefn
@@ -13138,7 +13154,7 @@ Specify the string used as a title for the current axis.
 An optional list of @var{property}/@var{value} pairs can be used to change
 the appearance of the created title text object.
 
-If the first argument @var{hax} is an axes handle, then plot into this axis,
+If the first argument @var{hax} is an axes handle, then plot into this axes,
 rather than the current axes returned by @code{gca}.
 
 The optional return value @var{h} is a graphics handle to the created text
@@ -13168,7 +13184,7 @@ The call @code{view (3)} sets the viewpoint to @w{@var{azimuth} = -37.5}
 and @w{@var{elevation} = 30}, which is the default for 3-D graphs.
 
 If the first argument @var{hax} is an axes handle, then operate on
-this axis rather than the current axes returned by @code{gca}.
+this axes rather than the current axes returned by @code{gca}.
 
 If no inputs are given, return the current @var{azimuth} and
 @var{elevation}.
@@ -13208,7 +13224,7 @@ An optional list of @var{property}/@var{value} pairs can be used to change
 the properties of the created text label.
 
 If the first argument @var{hax} is an axes handle, then operate on
-this axis rather than the current axes returned by @code{gca}.
+this axes rather than the current axes returned by @code{gca}.
 
 The optional return value @var{h} is a graphics handle to the created text
 object.
@@ -13240,7 +13256,7 @@ The current plotting mode can be changed by using either @qcode{"auto"}
 or @qcode{"manual"} as the argument.
 
 If the first argument @var{hax} is an axes handle, then operate on
-this axis rather than the current axes returned by @code{gca}.
+this axes rather than the current axes returned by @code{gca}.
 
 Programming Note: The @code{xlim} function operates by modifying the
 @qcode{"xlim"} and @qcode{"xlimmode"} properties of an axes object.  These
@@ -13263,7 +13279,7 @@ An optional list of @var{property}/@var{value} pairs can be used to change
 the properties of the created text label.
 
 If the first argument @var{hax} is an axes handle, then operate on
-this axis rather than the current axes returned by @code{gca}.
+this axes rather than the current axes returned by @code{gca}.
 
 The optional return value @var{h} is a graphics handle to the created text
 object.
@@ -13295,7 +13311,7 @@ The current plotting mode can be changed by using either @qcode{"auto"}
 or @qcode{"manual"} as the argument.
 
 If the first argument @var{hax} is an axes handle, then operate on
-this axis rather than the current axes returned by @code{gca}.
+this axes rather than the current axes returned by @code{gca}.
 
 Programming Note: The @code{ylim} function operates by modifying the
 @qcode{"ylim"} and @qcode{"ylimmode"} properties of an axes object.  These
@@ -13316,7 +13332,7 @@ An optional list of @var{property}/@var{value} pairs can be used to change
 the properties of the created text label.
 
 If the first argument @var{hax} is an axes handle, then operate on
-this axis rather than the current axes returned by @code{gca}.
+this axes rather than the current axes returned by @code{gca}.
 
 The optional return value @var{h} is a graphics handle to the created text
 object.
@@ -13349,7 +13365,7 @@ The current plotting mode can be changed by using either @qcode{"auto"}
 or @qcode{"manual"} as the argument.
 
 If the first argument @var{hax} is an axes handle, then operate on
-this axis rather than the current axes returned by @code{gca}.
+this axes rather than the current axes returned by @code{gca}.
 
 Programming Note: The @code{zlim} function operates by modifying the
 @qcode{"zlim"} and @qcode{"zlimmode"} properties of an axes object.  These
@@ -13379,7 +13395,7 @@ the shading under the curve should be defined.  The default level is 0.
 Additional property/value pairs are passed directly to the underlying patch
 object.
 
-If the first argument @var{hax} is an axes handle, then plot into this axis,
+If the first argument @var{hax} is an axes handle, then plot into this axes,
 rather than the current axes returned by @code{gca}.
 
 The optional return value @var{h} is a graphics handle to the hggroup
@@ -13443,7 +13459,7 @@ Y-coordinate.
 Optional property/value pairs are passed directly to the underlying patch
 objects.
 
-If the first argument @var{hax} is an axes handle, then plot into this axis,
+If the first argument @var{hax} is an axes handle, then plot into this axes,
 rather than the current axes returned by @code{gca}.
 
 The optional return value @var{h} is a graphics handle to the created
@@ -13496,7 +13512,7 @@ X-coordinate.
 Optional property/value pairs are passed directly to the underlying patch
 objects.
 
-If the first argument @var{hax} is an axes handle, then plot into this axis,
+If the first argument @var{hax} is an axes handle, then plot into this axes,
 rather than the current axes returned by @code{gca}.
 
 The optional return value @var{h} is a vector of handles to the created
@@ -13672,7 +13688,7 @@ the @var{delete_option}: @qcode{"delete"}, @qcode{"hide"}, @qcode{"off"}.
 If the argument @qcode{"peer"} is given, then the following argument is
 treated as the axes handle in which to add the colorbar.  Alternatively,
 If the first argument @var{hax} is an axes handle, then the colorbar is
-added to this axis, rather than the current axes returned by @code{gca}.
+added to this axes, rather than the current axes returned by @code{gca}.
 
 If the first argument @var{hcb} is a handle to a colorbar object, then
 operate on this colorbar directly.
@@ -13706,7 +13722,7 @@ The speed of the comet may be controlled by @var{p}, which represents the
 time each point is displayed before moving to the next one.  The default for
 @var{p} is 0.1 seconds.
 
-If the first argument @var{hax} is an axes handle, then plot into this axis,
+If the first argument @var{hax} is an axes handle, then plot into this axes,
 rather than the current axes returned by @code{gca}.
 @seealso{comet}
 @end deftypefn
@@ -13726,7 +13742,7 @@ The speed of the comet may be controlled by @var{p}, which represents the
 time each point is displayed before moving to the next one.  The default for
 @var{p} is 0.1 seconds.
 
-If the first argument @var{hax} is an axes handle, then plot into this axis,
+If the first argument @var{hax} is an axes handle, then plot into this axes,
 rather than the current axes returned by @code{gca}.
 @seealso{comet3}
 @end deftypefn
@@ -13749,7 +13765,7 @@ then @code{@var{u} = real (@var{z})} and @code{@var{v} = imag (@var{z})}.
 The style to use for the plot can be defined with a line style @var{style}
 of the same format as the @code{plot} command.
 
-If the first argument @var{hax} is an axes handle, then plot into this axis,
+If the first argument @var{hax} is an axes handle, then plot into this axes,
 rather than the current axes returned by @code{gca}.
 
 The optional return value @var{h} is a vector of graphics handles to the
@@ -13789,7 +13805,7 @@ The appearance of contour lines can be defined with a line style @var{style}
 in the same manner as @code{plot}.  Only line style and color are used;
 Any markers defined by @var{style} are ignored.
 
-If the first argument @var{hax} is an axes handle, then plot into this axis,
+If the first argument @var{hax} is an axes handle, then plot into this axes,
 rather than the current axes returned by @code{gca}.
 
 The optional output @var{c} are the contour levels in @code{contourc}
@@ -13822,8 +13838,8 @@ Compute contour lines (isolines of constant Z value).
 
 The matrix @var{z} contains height values above the rectangular grid
 determined by @var{x} and @var{y}.  If only a single input @var{z} is
-provided then @var{x} is taken to be @code{1:rows (@var{z})} and @var{y} is
-taken to be @code{1:columns (@var{z})}.
+provided then @var{x} is taken to be @code{1:columns (@var{z})} and @var{y}
+is taken to be @code{1:rows (@var{z})}.
 
 The optional input @var{vn} is either a scalar denoting the number of
 contour lines to compute or a vector containing the Z values where lines
@@ -13886,7 +13902,7 @@ The appearance of contour lines can be defined with a line style @var{style}
 in the same manner as @code{plot}.  Only line style and color are used;
 Any markers defined by @var{style} are ignored.
 
-If the first argument @var{hax} is an axes handle, then plot into this axis,
+If the first argument @var{hax} is an axes handle, then plot into this axes,
 rather than the current axes returned by @code{gca}.
 
 The optional output @var{c} contains the contour levels in @code{contourc}
@@ -13925,7 +13941,7 @@ The appearance of contour lines can be defined with a line style @var{style}
 in the same manner as @code{plot}.  Only line style and color are used;
 Any markers defined by @var{style} are ignored.
 
-If the first argument @var{hax} is an axes handle, then plot into this axis,
+If the first argument @var{hax} is an axes handle, then plot into this axes,
 rather than the current axes returned by @code{gca}.
 
 The optional output @var{c} contains the contour levels in @code{contourc}
@@ -13965,7 +13981,7 @@ and at @code{Z == 1}.
 The optional input @var{n} determines the number of faces around the
 circumference of the cylinder.  The default value is 20.
 
-If the first argument @var{hax} is an axes handle, then plot into this axis,
+If the first argument @var{hax} is an axes handle, then plot into this axes,
 rather than the current axes returned by @code{gca}.
 
 If outputs are requested @code{cylinder} returns three matrices in
@@ -13998,7 +14014,7 @@ The inputs @var{xr}, @var{yr}, @var{zr} specify the semi-major axis lengths.
 The optional input @var{n} determines the number of faces around the
 circumference of the cylinder.  The default value is 20.
 
-If the first argument @var{hax} is an axes handle, then plot into this axis,
+If the first argument @var{hax} is an axes handle, then plot into this axes,
 rather than the current axes returned by @code{gca}.
 
 If outputs are requested @code{ellipsoid} returns three matrices in
@@ -14103,7 +14119,7 @@ Set xboxes plot style.
 Set xyboxes plot style.
 @end table
 
-If the first argument @var{hax} is an axes handle, then plot into this axis,
+If the first argument @var{hax} is an axes handle, then plot into this axes,
 rather than the current axes returned by @code{gca}.
 
 The optional return value @var{h} is a handle to the hggroup object
@@ -14175,7 +14191,7 @@ then the minimum and maximum values are @code{[xmin xmax ymin ymax]}.
 
 @var{n} is a scalar defining the number of points to use in each dimension.
 
-If the first argument @var{hax} is an axes handle, then plot into this axis,
+If the first argument @var{hax} is an axes handle, then plot into this axes,
 rather than the current axes returned by @code{gca}.
 
 The optional return value @var{h} is a graphics handle to the created plot.
@@ -14212,7 +14228,7 @@ then the minimum and maximum values are @code{[xmin xmax ymin ymax]}.
 
 @var{n} is a scalar defining the number of points to use in each dimension.
 
-If the first argument @var{hax} is an axes handle, then plot into this axis,
+If the first argument @var{hax} is an axes handle, then plot into this axes,
 rather than the current axes returned by @code{gca}.
 
 The optional return value @var{h} is a graphics handle to the created plot.
@@ -14246,8 +14262,8 @@ defining the function.  By default the plot is over the meshed domain
 @code{-2*pi <= @var{x} | @var{y} <= 2*pi} with 60 points in each dimension.
 
 If three functions are passed, then plot the parametrically defined
-function @code{[@var{fx} (@var{s}, @var{t}), @var{fy} (@var{s}, @var{t}),
-@var{fz} (@var{s}, @var{t})]}.
+function @code{[@var{fx}(@var{s}, @var{t}), @var{fy}(@var{s}, @var{t}),
+@var{fz}(@var{s}, @var{t})]}.
 
 If @var{dom} is a two element vector, it represents the minimum and maximum
 values of both @var{x} and @var{y}.  If @var{dom} is a four element vector,
@@ -14258,7 +14274,7 @@ then the minimum and maximum values are @code{[xmin xmax ymin ymax]}.
 If the argument @qcode{"circ"} is given, then the function is plotted over
 a disk centered on the middle of the domain @var{dom}.
 
-If the first argument @var{hax} is an axes handle, then plot into this axis,
+If the first argument @var{hax} is an axes handle, then plot into this axes,
 rather than the current axes returned by @code{gca}.
 
 The optional return value @var{h} is a 2-element vector with a graphics
@@ -14294,8 +14310,8 @@ defining the function.  By default the plot is over the meshed domain
 @code{-2*pi <= @var{x} | @var{y} <= 2*pi} with 60 points in each dimension.
 
 If three functions are passed, then plot the parametrically defined
-function @code{[@var{fx} (@var{s}, @var{t}), @var{fy} (@var{s}, @var{t}),
-@var{fz} (@var{s}, @var{t})]}.
+function @code{[@var{fx}(@var{s}, @var{t}), @var{fy}(@var{s}, @var{t}),
+@var{fz}(@var{s}, @var{t})]}.
 
 If @var{dom} is a two element vector, it represents the minimum and maximum
 values of both @var{x} and @var{y}.  If @var{dom} is a four element vector,
@@ -14306,7 +14322,7 @@ then the minimum and maximum values are @code{[xmin xmax ymin ymax]}.
 If the argument @qcode{"circ"} is given, then the function is plotted over
 a disk centered on the middle of the domain @var{dom}.
 
-If the first argument @var{hax} is an axes handle, then plot into this axis,
+If the first argument @var{hax} is an axes handle, then plot into this axes,
 rather than the current axes returned by @code{gca}.
 
 The optional return value @var{h} is a graphics handle to the created
@@ -14360,7 +14376,7 @@ function.
 If the @qcode{"animate"} option is given then the plotting is animated
 in the style of @code{comet3}.
 
-If the first argument @var{hax} is an axes handle, then plot into this axis,
+If the first argument @var{hax} is an axes handle, then plot into this axes,
 rather than the current axes returned by @code{gca}.
 
 The optional return value @var{h} is a graphics handle to the created plot.
@@ -14424,7 +14440,7 @@ values of both @var{x} and @var{y}, or @var{t} for a parametric plot.  If
 @var{n} is a scalar defining the number of points to use in plotting
 the function.
 
-If the first argument @var{hax} is an axes handle, then plot into this axis,
+If the first argument @var{hax} is an axes handle, then plot into this axes,
 rather than the current axes returned by @code{gca}.
 
 The optional return value @var{h} is a vector of graphics handles to
@@ -14455,7 +14471,7 @@ values of @var{theta}.
 @var{n} is a scalar defining the number of points to use in plotting
 the function.
 
-If the first argument @var{hax} is an axes handle, then plot into this axis,
+If the first argument @var{hax} is an axes handle, then plot into this axes,
 rather than the current axes returned by @code{gca}.
 
 The optional return value @var{h} is a graphics handle to the created plot.
@@ -14486,8 +14502,8 @@ defining the function.  By default the plot is over the meshed domain
 @code{-2*pi <= @var{x} | @var{y} <= 2*pi} with 60 points in each dimension.
 
 If three functions are passed, then plot the parametrically defined
-function @code{[@var{fx} (@var{s}, @var{t}), @var{fy} (@var{s}, @var{t}),
-@var{fz} (@var{s}, @var{t})]}.
+function @code{[@var{fx}(@var{s}, @var{t}), @var{fy}(@var{s}, @var{t}),
+@var{fz}(@var{s}, @var{t})]}.
 
 If @var{dom} is a two element vector, it represents the minimum and maximum
 values of both @var{x} and @var{y}.  If @var{dom} is a four element vector,
@@ -14498,7 +14514,7 @@ then the minimum and maximum values are @code{[xmin xmax ymin ymax]}.
 If the argument @qcode{"circ"} is given, then the function is plotted over
 a disk centered on the middle of the domain @var{dom}.
 
-If the first argument @var{hax} is an axes handle, then plot into this axis,
+If the first argument @var{hax} is an axes handle, then plot into this axes,
 rather than the current axes returned by @code{gca}.
 
 The optional return value @var{h} is a 2-element vector with a graphics
@@ -14534,8 +14550,8 @@ defining the function.  By default the plot is over the meshed domain
 @code{-2*pi <= @var{x} | @var{y} <= 2*pi} with 60 points in each dimension.
 
 If three functions are passed, then plot the parametrically defined
-function @code{[@var{fx} (@var{s}, @var{t}), @var{fy} (@var{s}, @var{t}),
-@var{fz} (@var{s}, @var{t})]}.
+function @code{[@var{fx}(@var{s}, @var{t}), @var{fy}(@var{s}, @var{t}),
+@var{fz}(@var{s}, @var{t})]}.
 
 If @var{dom} is a two element vector, it represents the minimum and maximum
 values of both @var{x} and @var{y}.  If @var{dom} is a four element vector,
@@ -14546,7 +14562,7 @@ then the minimum and maximum values are @code{[xmin xmax ymin ymax]}.
 If the argument @qcode{"circ"} is given, then the function is plotted over
 a disk centered on the middle of the domain @var{dom}.
 
-If the first argument @var{hax} is an axes handle, then plot into this axis,
+If the first argument @var{hax} is an axes handle, then plot into this axes,
 rather than the current axes returned by @code{gca}.
 
 The optional return value @var{h} is a graphics handle to the created
@@ -14592,7 +14608,7 @@ If a single complex argument @var{z} is given, then
 The style to use for the plot can be defined with a line style @var{style}
 of the same format as the @code{plot} command.
 
-If the first argument @var{hax} is an axes handle, then plot into this axis,
+If the first argument @var{hax} is an axes handle, then plot into this axes,
 rather than the current axes returned by @code{gca}.
 
 The optional return value @var{h} is a vector of graphics handles to the
@@ -14635,7 +14651,7 @@ color between the vertices.
 Multiple property/value pairs for the underlying patch object may be
 specified, but they must appear in pairs.
 
-If the first argument @var{hax} is an axes handle, then plot into this axis,
+If the first argument @var{hax} is an axes handle, then plot into this axes,
 rather than the current axes returned by @code{gca}.
 
 The optional return value @var{h} is a vector of graphics handles to
@@ -14680,14 +14696,14 @@ given in any order.
 to 2e-3 (.2%).
 
 @var{n} is the minimum number of points to use.  When @var{n} is specified,
-the maximum stepsize will be @code{@var{xhi} - @var{xlo} / @var{n}}.  More
+the maximum stepsize will be @code{(@var{xhi} - @var{xlo}) / @var{n}}.  More
 than @var{n} points may still be used in order to meet the relative
 tolerance requirement.
 
 The @var{fmt} argument specifies the linestyle to be used by the plot
 command.
 
-If the first argument @var{hax} is an axes handle, then plot into this axis,
+If the first argument @var{hax} is an axes handle, then plot into this axes,
 rather than the current axes returned by @code{gca}.
 
 With no output arguments the results are immediately plotted.  With two
@@ -14763,7 +14779,7 @@ colormap (summer ());
 @end group
 @end example
 
-If the first argument @var{hax} is an axes handle, then plot into this axis,
+If the first argument @var{hax} is an axes handle, then plot into this axes,
 rather than the current axes returned by @code{gca}.
 
 With two output arguments, produce the values @var{nn} (numbers of elements)
@@ -15168,7 +15184,7 @@ insert in the current axes.
 Multiple property-value pairs may be specified for the line object, but they
 must appear in pairs.
 
-If the first argument @var{hax} is an axes handle, then plot into this axis,
+If the first argument @var{hax} is an axes handle, then plot into this axes,
 rather than the current axes returned by @code{gca}.
 
 The optional return value @var{h} is a graphics handle (or vector of
@@ -15204,7 +15220,7 @@ with errors in the @var{y}-scale defined by @var{ey} and the plot
 format defined by @var{fmt}.  @xref{XREFerrorbar,,errorbar}, for available
 formats and additional information.
 
-If the first argument @var{hax} is an axes handle, then plot into this axis,
+If the first argument @var{hax} is an axes handle, then plot into this axes,
 rather than the current axes returned by @code{gca}.
 @seealso{errorbar, semilogxerr, semilogyerr}
 @end deftypefn
@@ -15222,7 +15238,7 @@ Produce a 2-D plot using logarithmic scales for both axes.
 See the documentation of @code{plot} for a description of the arguments
 that @code{loglog} will accept.
 
-If the first argument @var{hax} is an axes handle, then plot into this axis,
+If the first argument @var{hax} is an axes handle, then plot into this axes,
 rather than the current axes returned by @code{gca}.
 
 The optional return value @var{h} is a graphics handle to the created plot.
@@ -15258,7 +15274,7 @@ by supplying a color matrix, @var{c}.
 Any property/value pairs are passed directly to the underlying surface
 object.
 
-If the first argument @var{hax} is an axes handle, then plot into this axis,
+If the first argument @var{hax} is an axes handle, then plot into this axes,
 rather than the current axes returned by @code{gca}.
 
 The optional return value @var{h} is a 2-element vector with a graphics
@@ -15296,7 +15312,7 @@ by supplying a color matrix, @var{c}.
 Any property/value pairs are passed directly to the underlying surface
 object.
 
-If the first argument @var{hax} is an axes handle, then plot into this axis,
+If the first argument @var{hax} is an axes handle, then plot into this axes,
 rather than the current axes returned by @code{gca}.
 
 The optional return value @var{h} is a graphics handle to the created
@@ -15320,7 +15336,7 @@ rectangles [@var{x}, @var{y}] are typically the output of @code{meshgrid}.
 over a 2-D rectangular region in the x-y plane.  @var{z} determines the
 height above the plane of each vertex.  If only a single @var{z} matrix is
 given, then it is plotted over the meshgrid
-@code{@var{x} = 0:columns (@var{z}) - 1, @var{y} = 0:rows (@var{z}) - 1}.
+@code{@var{x} = 0:(columns (@var{z}) - 1), @var{y} = 0:(rows (@var{z}) - 1}).
 Thus, columns of @var{z} correspond to different @var{x} values and rows
 of @var{z} correspond to different @var{y} values.
 
@@ -15334,7 +15350,7 @@ by supplying a color matrix, @var{c}.
 Any property/value pairs are passed directly to the underlying surface
 object.
 
-If the first argument @var{hax} is an axes handle, then plot into this axis,
+If the first argument @var{hax} is an axes handle, then plot into this axes,
 rather than the current axes returned by @code{gca}.
 
 The optional return value @var{h} is a graphics handle to the created
@@ -15369,7 +15385,7 @@ Typically only the magnitude data @var{y} is present in which case
 is given it may be a string array, a cell array of strings, or a numerical
 vector.
 
-If the first argument @var{hax} is an axes handle, then plot into this axis,
+If the first argument @var{hax} is an axes handle, then plot into this axes,
 rather than the current axes returned by @code{gca}.
 
 The optional return value @var{h} is a 2-element vector with a graphics
@@ -15432,7 +15448,7 @@ inputs.
 Instead of using property/value pairs, any property can be set by passing a
 structure @var{propstruct} with the respective field names.
 
-If the first argument @var{hax} is an axes handle, then plot into this axis,
+If the first argument @var{hax} is an axes handle, then plot into this axes,
 rather than the current axes returned by @code{gca}.
 
 The optional return value @var{h} is a graphics handle to the created patch
@@ -15475,7 +15491,7 @@ and the visibility of the cells' edges.  By default the attribute is
 @qcode{"faceted"}, which renders a single color for each cell's face with
 the edge visible.
 
-If the first argument @var{hax} is an axes handle, then plot into this axis,
+If the first argument @var{hax} is an axes handle, then plot into this axes,
 rather than the current axes returned by @code{gca}.
 
 The optional return value @var{h} is a graphics handle to the created
@@ -15544,7 +15560,7 @@ that, if nonzero, "explodes" the slice from the pie chart.
 The optional input @var{labels} is a cell array of strings of the same
 length as @var{x} specifying the label for each slice.
 
-If the first argument @var{hax} is an axes handle, then plot into this axis,
+If the first argument @var{hax} is an axes handle, then plot into this axes,
 rather than the current axes returned by @code{gca}.
 
 The optional return value @var{h} is a list of graphics handles to the
@@ -15578,7 +15594,7 @@ that, if nonzero, "explodes" the slice from the pie chart.
 The optional input @var{labels} is a cell array of strings of the same
 length as @var{x} specifying the label for each slice.
 
-If the first argument @var{hax} is an axes handle, then plot into this axis,
+If the first argument @var{hax} is an axes handle, then plot into this axes,
 rather than the current axes returned by @code{gca}.
 
 The optional return value @var{h} is a list of handles to the patch
@@ -15658,7 +15674,7 @@ Multiple property-value pairs may be specified which will affect the line
 objects drawn by @code{plot3}.  If the @var{fmt} argument is supplied it
 will format the line objects in the same manner as @code{plot}.
 
-If the first argument @var{hax} is an axes handle, then plot into this axis,
+If the first argument @var{hax} is an axes handle, then plot into this axes,
 rather than the current axes returned by @code{gca}.
 
 The optional return value @var{h} is a graphics handle to the created plot.
@@ -15852,7 +15868,7 @@ plot (t, cos(t), "-;cos(t);", t, sin(t), "-b;sin(t);");
 This will plot the cosine and sine functions and label them accordingly
 in the legend.
 
-If the first argument @var{hax} is an axes handle, then plot into this axis,
+If the first argument @var{hax} is an axes handle, then plot into this axes,
 rather than the current axes returned by @code{gca}.
 
 The optional return value @var{h} is a vector of graphics handles to
@@ -15893,16 +15909,16 @@ histogram @code{hist (@var{x}(:, i))}.
 The marker to use can be changed with the @var{style} argument, that is a
 string defining a marker in the same manner as the @code{plot} command.
 
-If the first argument @var{hax} is an axes handle, then plot into this axis,
+If the first argument @var{hax} is an axes handle, then plot into this axes,
 rather than the current axes returned by @code{gca}.
 
 The optional return value @var{h} provides handles to the individual
 graphics objects in the scatter plots, whereas @var{ax} returns the
-handles to the scatter plot axis objects.
+handles to the scatter plot axes objects.
 
-@var{bigax} is a hidden axis object that surrounds the other axes, such
+@var{bigax} is a hidden axes object that surrounds the other axes, such
 that the commands @code{xlabel}, @code{title}, etc., will be associated
-with this hidden axis.
+with this hidden axes.
 
 Finally, @var{p} returns the graphics objects associated with the histogram
 and @var{pax} the corresponding axes objects.
@@ -15938,9 +15954,9 @@ The function to use for each of the plots can be independently defined
 with @var{fun1} and @var{fun2}.
 
 If the first argument @var{hax} is an axes handle, then it defines
-the principal axis in which to plot the @var{x1} and @var{y1} data.
+the principal axes in which to plot the @var{x1} and @var{y1} data.
 
-The return value @var{ax} is a vector with the axis handles of the two
+The return value @var{ax} is a vector with the axes handles of the two
 y-axes.  @var{h1} and @var{h2} are handles to the objects generated by the
 plot commands.
 
@@ -15974,7 +15990,7 @@ for @var{theta} and the imaginary part is used for @var{rho}.
 The optional argument @var{fmt} specifies the line format in the same way
 as @code{plot}.
 
-If the first argument @var{hax} is an axes handle, then plot into this axis,
+If the first argument @var{hax} is an axes handle, then plot into this axes,
 rather than the current axes returned by @code{gca}.
 
 The optional return value @var{h} is a graphics handle to the created plot.
@@ -16002,25 +16018,29 @@ angular (theta) direction specified in degrees, i.e., in the range 0--359.
 
 Plot a 3-D vector field with arrows.
 
-Plot the (@var{u}, @var{v}, @var{w}) components of a vector field in
-an (@var{x}, @var{y}, @var{z}) meshgrid.  If the grid is uniform then
-@var{x}, @var{y}, and @var{z} can be specified as vectors.
+Plot the (@var{u}, @var{v}, @var{w}) components of a vector field at the
+grid points defined by (@var{x}, @var{y}, @var{z}).  If the grid is uniform
+then @var{x}, @var{y}, and @var{z} can be specified as vectors and
+@code{meshgrid} is used to create the 3-D grid.
 
-If @var{x}, @var{y}, and @var{z} are undefined they are assumed to be
-@code{(1:@var{m}, 1:@var{n}, 1:@var{p})} where @code{[@var{m}, @var{n}] =
-size (@var{u})} and @code{@var{p} = max (size (@var{w}))}.
+If @var{x}, @var{y}, and @var{z} are not given they are assumed to be
+@code{(1:@var{m}, 1:@var{n}, 1:@var{p})} where
+@code{[@var{m}, @var{n}] = size (@var{u})} and
+@code{@var{p} = max (size (@var{w}))}.
 
-The variable @var{s} is a scalar defining a scaling factor to use for
-the arrows of the field relative to the mesh spacing.  A value of 0
+The optional input @var{s} is a scalar defining a scaling factor to use for
+the arrows of the field relative to the mesh spacing.  A value of 1.0 will
+result in the longest vector exactly filling one grid cube.  A value of 0
 disables all scaling.  The default value is 0.9.
 
 The style to use for the plot can be defined with a line style @var{style}
-of the same format as the @code{plot} command.
-If a marker is specified then markers at the grid points of the vectors are
-drawn rather than arrows.  If the argument @qcode{"filled"} is given then
+of the same format as the @code{plot} command.  If a marker is specified
+then the markers are drawn at the origin of the vectors (which are the grid
+points defined by @var{x}, @var{y}, @var{z}).  When a marker is specified,
+the arrowhead is not drawn.  If the argument @qcode{"filled"} is given then
 the markers are filled.
 
-If the first argument @var{hax} is an axes handle, then plot into this axis,
+If the first argument @var{hax} is an axes handle, then plot into this axes,
 rather than the current axes returned by @code{gca}.
 
 The optional return value @var{h} is a graphics handle to a quiver object.
@@ -16053,25 +16073,28 @@ set (h, "maxheadsize", 0.33);
 
 Plot a 2-D vector field with arrows.
 
-Plot the (@var{u}, @var{v}) components of a vector field in
-an (@var{x}, @var{y}) meshgrid.  If the grid is uniform then @var{x} and
-@var{y} can be specified as vectors.
+Plot the (@var{u}, @var{v}) components of a vector field at the grid points
+defined by (@var{x}, @var{y}).  If the grid is uniform then @var{x} and
+@var{y} can be specified as vectors and @code{meshgrid} is used to create
+the 2-D grid.
 
-If @var{x} and @var{y} are undefined they are assumed to be
+If @var{x} and @var{y} are not given they are assumed to be
 @code{(1:@var{m}, 1:@var{n})} where
 @code{[@var{m}, @var{n}] = size (@var{u})}.
 
-The variable @var{s} is a scalar defining a scaling factor to use for
-the arrows of the field relative to the mesh spacing.  A value of 0
+The optional input @var{s} is a scalar defining a scaling factor to use for
+the arrows of the field relative to the mesh spacing.  A value of 1.0 will
+result in the longest vector exactly filling one grid square.  A value of 0
 disables all scaling.  The default value is 0.9.
 
 The style to use for the plot can be defined with a line style @var{style}
-of the same format as the @code{plot} command.
-If a marker is specified then markers at the grid points of the vectors are
-drawn rather than arrows.  If the argument @qcode{"filled"} is given then
-the markers are filled.
+of the same format as the @code{plot} command.  If a marker is specified
+then the markers are drawn at the origin of the vectors (which are the grid
+points defined by @var{x} and @var{y}).  When a marker is specified, the
+arrowhead is not drawn.  If the argument @qcode{"filled"} is given then the
+markers are filled.
 
-If the first argument @var{hax} is an axes handle, then plot into this axis,
+If the first argument @var{hax} is an axes handle, then plot into this axes,
 rather than the current axes returned by @code{gca}.
 
 The optional return value @var{h} is a graphics handle to a quiver object.
@@ -16123,7 +16146,7 @@ min (pos(1:2)) / max (pos(1:2)) * curv
 
 Additional property/value pairs are passed to the underlying patch command.
 
-If the first argument @var{hax} is an axes handle, then plot into this axis,
+If the first argument @var{hax} is an axes handle, then plot into this axes,
 rather than the current axes returned by @code{gca}.
 
 The optional return value @var{h} is a graphics handle to the created
@@ -16261,7 +16284,7 @@ same number of elements as rows of @var{y} in which case the same
 The optional parameter @var{width} specifies the width of a single ribbon
 (default is 0.75).
 
-If the first argument @var{hax} is an axes handle, then plot into this axis,
+If the first argument @var{hax} is an axes handle, then plot into this axes,
 rather than the current axes returned by @code{gca}.
 
 The optional return value @var{h} is a vector of graphics handles to
@@ -16288,7 +16311,7 @@ If @var{nbins} is given and is a scalar, then the histogram is produced with
 defined by the values in @var{bins} and the number of bins is
 given by the number of elements in @var{bins}.
 
-If the first argument @var{hax} is an axes handle, then plot into this axis,
+If the first argument @var{hax} is an axes handle, then plot into this axes,
 rather than the current axes returned by @code{gca}.
 
 The optional return value @var{h} is a vector of graphics handles to the
@@ -16349,7 +16372,7 @@ If the argument @qcode{"filled"} is given then the markers are filled.
 Additional property/value pairs are passed directly to the underlying
 patch object.
 
-If the first argument @var{hax} is an axes handle, then plot into this axis,
+If the first argument @var{hax} is an axes handle, then plot into this axes,
 rather than the current axes returned by @code{gca}.
 
 The optional return value @var{h} is a graphics handle to the hggroup
@@ -16399,7 +16422,7 @@ If the argument @qcode{"filled"} is given then the markers are filled.
 Additional property/value pairs are passed directly to the underlying
 patch object.
 
-If the first argument @var{hax} is an axes handle, then plot into this axis,
+If the first argument @var{hax} is an axes handle, then plot into this axes,
 rather than the current axes returned by @code{gca}.
 
 The optional return value @var{h} is a graphics handle to the created
@@ -16446,7 +16469,7 @@ with errors in the @var{y}-scale defined by @var{ey} and the plot
 format defined by @var{fmt}.  @xref{XREFerrorbar,,errorbar}, for available
 formats and additional information.
 
-If the first argument @var{hax} is an axes handle, then plot into this axis,
+If the first argument @var{hax} is an axes handle, then plot into this axes,
 rather than the current axes returned by @code{gca}.
 
 @seealso{errorbar, semilogyerr, loglogerr}
@@ -16465,7 +16488,7 @@ Produce a 2-D plot using a logarithmic scale for the x-axis.
 See the documentation of @code{plot} for a description of the
 arguments that @code{semilogx} will accept.
 
-If the first argument @var{hax} is an axes handle, then plot into this axis,
+If the first argument @var{hax} is an axes handle, then plot into this axes,
 rather than the current axes returned by @code{gca}.
 
 The optional return value @var{h} is a graphics handle to the created plot.
@@ -16500,7 +16523,7 @@ with errors in the @var{y}-scale defined by @var{ey} and the plot
 format defined by @var{fmt}.  @xref{XREFerrorbar,,errorbar}, for available
 formats and additional information.
 
-If the first argument @var{hax} is an axes handle, then plot into this axis,
+If the first argument @var{hax} is an axes handle, then plot into this axes,
 rather than the current axes returned by @code{gca}.
 
 @seealso{errorbar, semilogxerr, loglogerr}
@@ -16519,7 +16542,7 @@ Produce a 2-D plot using a logarithmic scale for the y-axis.
 See the documentation of @code{plot} for a description of the
 arguments that @code{semilogy} will accept.
 
-If the first argument @var{hax} is an axes handle, then plot into this axis,
+If the first argument @var{hax} is an axes handle, then plot into this axes,
 rather than the current axes returned by @code{gca}.
 
 The optional return value @var{h} is a graphics handle to the created plot.
@@ -16618,7 +16641,7 @@ throughout the curve.
 
 The default method is @qcode{"linear"}.
 
-If the first argument @var{hax} is an axes handle, then plot into this axis,
+If the first argument @var{hax} is an axes handle, then plot into this axes,
 rather than the current axes returned by @code{gca}.
 
 The optional return value @var{h} is a graphics handle to the created
@@ -16724,7 +16747,7 @@ Plot a 3-D unit sphere.
 The optional input @var{n} determines the number of faces around the
 circumference of the sphere.  The default value is 20.
 
-If the first argument @var{hax} is an axes handle, then plot into this axis,
+If the first argument @var{hax} is an axes handle, then plot into this axes,
 rather than the current axes returned by @code{gca}.
 
 If outputs are requested @code{sphere} returns three matrices in
@@ -16757,7 +16780,8 @@ Produce a stairstep plot.
 
 The arguments @var{x} and @var{y} may be vectors or matrices.
 If only one argument is given, it is taken as a vector of Y values
-and the X coordinates are taken to be the indices of the elements.
+and the X coordinates are taken to be the indices of the elements
+(@code{@var{x} = 1:numel (@var{y})}).
 
 The style to use for the plot can be defined with a line style @var{style}
 of the same format as the @code{plot} command.
@@ -16765,8 +16789,8 @@ of the same format as the @code{plot} command.
 Multiple property/value pairs may be specified, but they must appear in
 pairs.
 
-If the first argument @var{hax} is an axis handle, then plot into this axis,
-rather than the current axis handle returned by @code{gca}.
+If the first argument @var{hax} is an axes handle, then plot into this axes,
+rather than the current axes returned by @code{gca}.
 
 If one output argument is requested, return a graphics handle to the
 created plot.  If two output arguments are specified, the data are generated
@@ -16813,7 +16837,7 @@ present the markers at the top of the stems will be filled in.
 Optional property/value pairs may be specified to control the appearance
 of the plot.
 
-If the first argument @var{hax} is an axes handle, then plot into this axis,
+If the first argument @var{hax} is an axes handle, then plot into this axes,
 rather than the current axes returned by @code{gca}.
 
 The optional return value @var{h} is a handle to the @nospell{"stem series"}
@@ -16934,7 +16958,7 @@ plots 10 stems with heights from 2 to 20 in red;
 Optional property/value pairs may be specified to control the appearance
 of the plot.
 
-If the first argument @var{hax} is an axes handle, then plot into this axis,
+If the first argument @var{hax} is an axes handle, then plot into this axes,
 rather than the current axes returned by @code{gca}.
 
 The optional return value @var{h} is a handle to a @nospell{"stem series"}
@@ -17012,12 +17036,12 @@ If @var{x} and @var{y} are vectors, then a typical vertex is
 (@var{x}(j), @var{y}(i), @var{z}(i,j)).  Thus, columns of @var{z} correspond
 to different @var{x} values and rows of @var{z} correspond to different
 @var{y} values.  If only a single input @var{z} is given then @var{x} is
-taken to be @code{1:rows (@var{z})} and @var{y} is
-@code{1:columns (@var{z})}.
+taken to be @code{1:columns (@var{z})} and @var{y} is
+@code{1:rows (@var{z})}.
 
 Any property/value input pairs are assigned to the surface object.
 
-If the first argument @var{hax} is an axes handle, then plot into this axis,
+If the first argument @var{hax} is an axes handle, then plot into this axes,
 rather than the current axes returned by @code{gca}.
 
 The optional return value @var{h} is a graphics handle to the created
@@ -17054,7 +17078,7 @@ Optionally, the color of the surface can be specified independently of
 Any property/value pairs are passed directly to the underlying surface
 object.
 
-If the first argument @var{hax} is an axes handle, then plot into this axis,
+If the first argument @var{hax} is an axes handle, then plot into this axes,
 rather than the current axes returned by @code{gca}.
 
 The optional return value @var{h} is a graphics handle to the created
@@ -17111,7 +17135,7 @@ vector @var{P} = [@var{AM} @var{D} @var{SP} @var{exp}] which defaults to
 @item @qcode{"EXP"} specular exponent
 @end table
 
-If the first argument @var{hax} is an axes handle, then plot into this axis,
+If the first argument @var{hax} is an axes handle, then plot into this axes,
 rather than the current axes returned by @code{gca}.
 
 The optional return value @var{h} is a graphics handle to the created
@@ -17158,7 +17182,7 @@ Optionally, the color of the surface can be specified independently of
 Any property/value pairs are passed directly to the underlying surface
 object.
 
-If the first argument @var{hax} is an axes handle, then plot into this axis,
+If the first argument @var{hax} is an axes handle, then plot into this axes,
 rather than the current axes returned by @code{gca}.
 
 The optional return value @var{h} is a graphics handle to the created
@@ -17183,15 +17207,15 @@ If @var{x} and @var{y} are vectors, then a typical vertex is
 (@var{x}(j), @var{y}(i), @var{z}(i,j)).  Thus, columns of @var{z} correspond
 to different @var{x} values and rows of @var{z} correspond to different
 @var{y} values.  If only a single input @var{z} is given then @var{x} is
-taken to be @code{1:rows (@var{z})} and @var{y} is
-@code{1:columns (@var{z})}.
+taken to be @code{1:columns (@var{z})} and @var{y} is
+@code{1:rows (@var{z})}.
 
 If no return arguments are requested, a surface plot with the normal
 vectors to the surface is plotted.
 
 Any property/value input pairs are assigned to the surface object.
 
-If the first argument @var{hax} is an axes handle, then plot into this axis,
+If the first argument @var{hax} is an axes handle, then plot into this axes,
 rather than the current axes returned by @code{gca}.
 
 If output arguments are requested then the components of the normal
@@ -17201,7 +17225,7 @@ use
 
 @example
 @group
-mag = sqrt (nx.^2 + ny.^2 + nz.^2);
+len = sqrt (nx.^2 + ny.^2 + nz.^2);
 nx ./= len;  ny ./= len;  nz ./= len;
 @end group
 @end example
@@ -17281,9 +17305,10 @@ to fit the range of the current colormap.  Use @code{caxis} and/or
 change the colormap to control the appearance.
 
 Optionally, the color of the mesh can be specified independently of @var{z}
-by supplying a color matrix, @var{c}.  If @var{z} has N elements, then
-@var{c} should be an Nx1 vector for colormap data or an Nx3 matrix for
-RGB data.
+by supplying @var{c}, which is a vector for colormap data, or a matrix with
+three columns for RGB data.  The number of colors specified in @var{c} must
+either equal the number of vertices in @var{z} or the number of triangles
+in @var{tri}.
 
 Any property/value pairs are passed directly to the underlying patch object.
 
@@ -17325,18 +17350,22 @@ In contrast to @code{surf}, which plots a surface mesh using rectangles,
 
 @var{tri} is typically the output of a Delaunay triangulation over the
 grid of @var{x}, @var{y}.  Every row of @var{tri} represents one triangle
-and contains three indices into [@var{x}, @var{y}] which are the
-vertices of the triangles in the x-y plane.  @var{z} determines the
-height above the plane of each vertex.
+and contains three indices into [@var{x}, @var{y}] which are the vertices of
+the triangles in the x-y plane.  @var{z} determines the height above the
+plane of each vertex.
 
-The color of the trimesh is computed by linearly scaling the @var{z} values
-to fit the range of the current colormap.  Use @code{caxis} and/or
-change the colormap to control the appearance.
+The color of the trisurf is computed by linearly scaling the @var{z} values
+to fit the range of the current colormap.  Use @code{caxis} and/or change
+the colormap to control the appearance.
 
 Optionally, the color of the mesh can be specified independently of @var{z}
-by supplying a color matrix, @var{c}.  If @var{z} has N elements, then
-@var{c} should be an Nx1 vector for colormap data or an Nx3 matrix for
-RGB data.
+by supplying @var{c}, which is a vector for colormap data, or a matrix with
+three columns for RGB data.  The number of colors specified in @var{c} must
+either equal the number of vertices in @var{z} or the number of triangles
+in @var{tri}.  When specifying the color at each vertex the triangle will
+be colored according to the color of the first vertex only (see patch
+documentation and the @qcode{"FaceColor"} property when set to
+@qcode{"flat"}).
 
 Any property/value pairs are passed directly to the underlying patch object.
 
@@ -17377,7 +17406,7 @@ by supplying a color matrix, @var{c}.
 Any property/value pairs are passed directly to the underlying surface
 object.
 
-If the first argument @var{hax} is an axes handle, then plot into this axis,
+If the first argument @var{hax} is an axes handle, then plot into this axes,
 rather than the current axes returned by @code{gca}.
 
 The optional return value @var{h} is a graphics handle to the created
@@ -17504,14 +17533,14 @@ Create an axes object and return a handle to it, or set the current axes
 to @var{hax}.
 
 Called without any arguments, or with @var{property}/@var{value} pairs,
-construct a new axes.  For accepted properties and corresponding
-values, @pxref{XREFset,,set}.
+construct a new axes.  For accepted properties and corresponding values,
+@pxref{XREFset,,set}.
 
 Called with a single axes handle argument @var{hax}, the function makes
-@var{hax} the current axis.  It also restacks the axes in the
-corresponding figure so that @var{hax} is the first entry in the list
-of children.  This causes @var{hax} to be displayed on top of any other
-axes objects (Z-order stacking).
+@var{hax} the current axes.  It also restacks the axes in the corresponding
+figure so that @var{hax} is the first entry in the list of children.  This
+causes @var{hax} to be displayed on top of any other axes objects (Z-order
+stacking).
 
 @seealso{gca, set, get}
 @end deftypefn
@@ -17528,12 +17557,12 @@ Clear the current axes.
 handles (HandleVisibility = @qcode{"on"}).
 
 If the optional argument @qcode{"reset"} is specified, delete all child
-objects including those with hidden handles and reset all axis properties
+objects including those with hidden handles and reset all axes properties
 to their defaults.  However, the following properties are not reset:
 Position, Units.
 
 If the first argument @var{hax} is an axes handle, then operate on
-this axis rather than the current axes returned by @code{gca}.
+this axes rather than the current axes returned by @code{gca}.
 @seealso{clf, delete, reset}
 @end deftypefn
 clf
@@ -17669,7 +17698,7 @@ object.
 @deftypefnx {} {@var{h} =} findall (@var{hlist}, @dots{})
 @deftypefnx {} {@var{h} =} findall (@var{hlist}, "flat", @dots{})
 @deftypefnx {} {@var{h} =} findall (@var{hlist}, "-depth", @var{d}, @dots{})
-Find graphics object, including hidden ones, with specified property values.
+Find graphics object, including hidden ones, with specified properties.
 
 The return value @var{h} is a list of handles to the found graphic objects.
 
@@ -17697,9 +17726,12 @@ onto the screen.
 @deftypefnx {} {@var{h} =} findobj (@var{hlist}, @dots{})
 @deftypefnx {} {@var{h} =} findobj (@var{hlist}, "flat", @dots{})
 @deftypefnx {} {@var{h} =} findobj (@var{hlist}, "-depth", @var{d}, @dots{})
-Find graphics object with specified property values.
+Find graphics objects with specified properties.
 
-The simplest form is
+When called without arguments, return all graphic objects beginning with the
+root object (0) and including all of its descendants.
+
+The simplest form for narrowing the results is
 
 @example
 findobj (@var{prop_name}, @var{prop_value})
@@ -17709,48 +17741,58 @@ findobj (@var{prop_name}, @var{prop_value})
 which returns the handles of all objects which have a property named
 @var{prop_name} that has the value @var{prop_value}.  If multiple
 property/value pairs are specified then only objects meeting all of the
-conditions are returned.
+conditions (equivalent to @code{-and}) are returned.
 
 The search can be limited to a particular set of objects and their
 descendants, by passing a handle or set of handles @var{hlist} as the first
 argument.
 
 The depth of the object hierarchy to search can be limited with the
-@qcode{"-depth"} argument.  An example of searching only three generations
-of children is:
+@qcode{"-depth"} argument.  An example of searching through only three
+generations of children is:
 
 @example
 findobj (@var{hlist}, "-depth", 3, @var{prop_name}, @var{prop_value})
 @end example
 
-Specifying a depth @var{d} of 0, limits the search to the set of objects
-passed in @var{hlist}.  A depth @var{d} of 0 is equivalent to the
-@qcode{"flat"} argument.
+Specifying a depth @var{d} of 0 limits the search to the set of objects
+passed in @var{hlist}.  A depth of 0 is also equivalent to the
+@qcode{"flat"} argument.  The default depth value is @code{Inf} which
+includes all descendants.
 
-A specified logical operator may be applied to the pairs of @var{prop_name}
-and @var{prop_value}.  The supported logical operators are:
-@qcode{"-and"}, @qcode{"-or"},
-@qcode{"-xor"}, @qcode{"-not"}.
+A specified logical operator may be used between @var{prop_name},
+@var{prop_value} pairs.  The supported logical operators are: @qcode{"-and"},
+@qcode{"-or"}, @qcode{"-xor"}, @qcode{"-not"}.  Example code to locate all
+figure and axes objects is
+
+@example
+findobj ("type", "figure", "-or", "type", "axes")
+@end example
 
 Objects may also be matched by comparing a regular expression to the
 property values, where property values that match
 @code{regexp (@var{prop_value}, @var{pattern})} are returned.
 
-Finally, objects may be matched by property name only by using the
-@qcode{"-property"} option.
+Finally, objects which have a property name can be found with the 
+@qcode{"-property"} option.  For example, code to locate objects with a
+@qcode{"meshstyle"} property is
+
+@example
+findobj ("-property", "meshstyle")
+@end example
 
 Implementation Note: The search only includes objects with visible
-handles (HandleVisibility = @qcode{"on"}).  @xref{XREFfindall,,findall}, to
-search for all objects including hidden ones.
+handles (@w{HandleVisibility} = @qcode{"on"}).  @xref{XREFfindall,,findall},
+to search for all objects including hidden ones.
 @seealso{findall, allchild, get, set}
 @end deftypefn
 gca
 @c gca scripts/plot/util/gca.m
 -*- texinfo -*-
 @deftypefn {} {@var{h} =} gca ()
-Return a handle to the current axis object.
+Return a handle to the current axes object.
 
-The current axis is the default target for graphics output.  In the case
+The current axes is the default target for graphics output.  In the case
 of a figure with multiple axes, @code{gca} returns the last created axes
 or the last axes that was clicked on with the mouse.
 
@@ -17769,7 +17811,7 @@ set (ax, "position", [0.5, 0.5, 0.5, 0.5]);
 creates an empty axes object and then changes its location and size in the
 figure window.
 
-Note: To find the current axis without creating a new axes object if it
+Note: To find the current axes without creating a new axes object if it
 does not exist, query the @qcode{"CurrentAxes"} property of a figure.
 
 @example
@@ -18011,7 +18053,7 @@ added.
 Equivalent to @code{hold on}.
 
 @item hold off
-Restore default graphics settings which clear the graph and reset axis
+Restore default graphics settings which clear the graph and reset axes
 properties before each new plot command.  (default).
 
 @item hold
@@ -18019,7 +18061,7 @@ Toggle the current hold state.
 @end table
 
 When given the additional argument @var{hax}, the hold state is modified
-for this axis rather than the current axes returned by @code{gca}.
+for this axes rather than the current axes returned by @code{gca}.
 
 To query the current hold state use the @code{ishold} function.
 @seealso{ishold, cla, clf, newplot}
@@ -18232,7 +18274,7 @@ Prepare graphics engine to produce a new plot.
 
 This function is called at the beginning of all high-level plotting
 functions.  It is not normally required in user programs.  @code{newplot}
-queries the @qcode{"NextPlot"} field of the current figure and axis to
+queries the @qcode{"NextPlot"} field of the current figure and axes to
 determine what to do.
 
 @multitable @columnfractions .25 .75
@@ -18254,17 +18296,17 @@ This is equivalent to @code{clf reset}.
 @end multitable
 
 @multitable @columnfractions .25 .75
-@headitem Axis NextPlot @tab Action
+@headitem Axes NextPlot @tab Action
 @item @qcode{"add"} @tab Add new graphic objects to the current axes.  This
 is equivalent to @code{hold on}.
 
 @item @qcode{"replacechildren"} @tab Delete child objects whose
-HandleVisibility is set to @qcode{"on"}, but leave axis properties
+HandleVisibility is set to @qcode{"on"}, but leave axes properties
 unmodified.  This typically clears a plot, but preserves special settings
 such as log scaling for axes.  This is equivalent to @code{cla}.
 
 @item @qcode{"replace"} (default) @tab Delete all child objects of the
-axis and reset all axis properties to their defaults.  However, the
+axes and reset all axes properties to their defaults.  However, the
 following properties are not reset: Position, Units.  This is equivalent
 to @code{cla reset}.
 @end multitable
@@ -18276,7 +18318,7 @@ The optional return value @var{hax} is a graphics handle to the created
 axes object (not figure).
 
 @strong{Caution:} Calling @code{newplot} may change the current figure and
-current axis.
+current axes.
 @end deftypefn
 pan
 @c pan scripts/plot/util/pan.m
@@ -18329,7 +18371,7 @@ size of the image on the page are specified by the figure's
 by the figure's @code{paperorientation} property.
 
 The width and height of images are specified by the figure's
-@code{paperpositon(3:4)} property values.
+@code{paperposition(3:4)} property values.
 
 The @code{print} command supports many @var{options}:
 
@@ -18379,15 +18421,15 @@ is one of:
 @itemx ps2
 @itemx psc
 @itemx psc2
-    PostScript (level 1 and 2, mono and color).  The FLTK graphics
-toolkit generates PostScript level 3.0.
+    PostScript (level 1 and 2, mono and color).  The OpenGL-based toolkits
+always generate PostScript level 3.0.
 
 @item  eps
 @itemx eps2
 @itemx epsc
 @itemx epsc2
-    Encapsulated PostScript (level 1 and 2, mono and color).  The FLTK
-graphic toolkit generates PostScript level 3.0.
+    Encapsulated PostScript (level 1 and 2, mono and color).  The
+OpenGL-based toolkits always generate PostScript level 3.0.
 
 @item  pslatex
 @itemx epslatex
@@ -18484,10 +18526,11 @@ toolkit).
 
 @item  tikz
 @itemx tikzstandalone
-    Generate a @LaTeX{} file using PGF/TikZ@.  For the FLTK toolkit
-the result is PGF@.  The @samp{tikzstandalone} device produces a @LaTeX{}
-document which includes the TikZ file (@samp{tikzstandalone} is only
-available for the Gnuplot graphics toolkit).
+    Generate a @LaTeX{} file using PGF/TikZ format.  The OpenGL-based
+toolkits create a PGF file while Gnuplot creates a TikZ file.  The
+@samp{tikzstandalone} device produces a @LaTeX{} document which includes the
+TikZ file (@samp{tikzstandalone} and is only available for the Gnuplot
+graphics toolkit).
 
   If the device is omitted, it is inferred from the file extension,
 or if there is no filename it is sent to the printer as PostScript.
@@ -18817,7 +18860,7 @@ height13pt&4&5&6\cr height12pt&&&\cr\noalign{\hrule}}}
 
 @end ifnottex
 
-@var{index} may also be a vector.  In this case, the new axis will enclose
+@var{index} may also be a vector.  In this case, the new axes will enclose
 the grid locations specified.  The first demo illustrates this:
 
 @example
@@ -18828,10 +18871,10 @@ The index of the subplot to make active may also be specified by its axes
 handle, @var{hax}, returned from a previous @code{subplot} command.
 
 If the option @qcode{"align"} is given then the plot boxes of the subwindows
-will align, but this may leave no room for axis tick marks or labels.
+will align, but this may leave no room for axes tick marks or labels.
 
-If the option @qcode{"replace"} is given then the subplot axis will be
-reset, rather than just switching the current axis for plotting to the
+If the option @qcode{"replace"} is given then the subplot axes will be
+reset, rather than just switching the current axes for plotting to the
 requested subplot.
 
 The @qcode{"position"} property can be used to exactly position the subplot
@@ -18841,7 +18884,7 @@ The values in @var{pos} are normalized in the range [0,1].
 
 Any property/value pairs are passed directly to the underlying axes object.
 
-If the output @var{hax} is requested, subplot returns the axis handle for
+If the output @var{hax} is requested, subplot returns the axes handle for
 the subplot.  This is useful for modifying the properties of a subplot
 using @code{set}.
 @seealso{axes, plot, gca, set}
@@ -18975,7 +19018,7 @@ Construct a piecewise polynomial (pp) structure from sample points
 intervals is given by @code{@var{ni} = length (@var{breaks}) - 1}.
 
 When @var{m} is the polynomial order @var{coefs} must be of size:
-@var{ni} x @var{m} + 1.
+@w{@var{ni}-by-(@var{m} + 1)}.
 
 The i-th row of @var{coefs}, @code{@var{coefs} (@var{i},:)}, contains the
 coefficients for the polynomial over the @var{i}-th interval, ordered from
@@ -18983,10 +19026,10 @@ highest (@var{m}) to lowest (@var{0}).
 
 @var{coefs} may also be a multi-dimensional array, specifying a
 vector-valued or array-valued polynomial.  In that case the polynomial
-order is defined by the length of the last dimension of @var{coefs}.  The
-size of first dimension(s) are given by the scalar or vector @var{d}.  If
-@var{d} is not given it is set to @code{1}.  In any case @var{coefs} is
-reshaped to a 2-D matrix of size @code{[@var{ni}*prod(@var{d} @var{m})]}.
+order @var{m} is defined by the length of the last dimension of @var{coefs}.
+The size of first dimension(s) are given by the scalar or vector @var{d}.
+If @var{d} is not given it is set to @code{1}.  In any case @var{coefs} is
+reshaped to a 2-D matrix of size @code{[@var{ni}*prod(@var{d}) @var{m}]}.
 
 @seealso{unmkpp, ppval, spline, pchip, ppder, ppint, ppjumps}
 @end deftypefn
@@ -20678,8 +20721,8 @@ sampling rate.  The default is 1.
 
 @item range
 range of spectrum.  @qcode{"@nospell{onesided}"} computes spectrum from
-[0..nfft/2+1].  @qcode{"@nospell{twosided}"} computes spectrum from
-[0..nfft-1].
+[0:nfft/2+1].  @qcode{"@nospell{twosided}"} computes spectrum from
+[0:nfft-1].
 @end table
 
 The optional second output @var{w} are the normalized angular frequencies.
@@ -21157,8 +21200,8 @@ false.
 
 @item permB
 The permutation vector of the Cholesky@tie{}factorization of @var{B} if
-@code{cholB} is true.  That is @code{chol (@var{B}(permB, permB))}.  The
-default is @code{1:@var{n}}.
+@code{cholB} is true.  It is obtained by @code{[R, ~, permB] =
+chol (@var{B}, @qcode{"vector"})}. The default is @code{1:@var{n}}.
 
 @end table
 
@@ -23751,13 +23794,13 @@ a variable, then the @w{(@var{i}, @var{j})-th} entry of
 @var{i}-th variable in @var{x} and the @var{j}-th variable in @var{y}.
 @tex
 $$
-{\rm corr}(x,y) = {{\rm cov}(x,y) \over {\rm std}(x) {\rm std}(y)}
+{\rm corr}(x,y) = {{\rm cov}(x,y) \over {\rm std}(x) \, {\rm std}(y)}
 $$
 @end tex
 @ifnottex
 
 @example
-corr (x,y) = cov (x,y) / (std (x) * std (y))
+corr (@var{x},@var{y}) = cov (@var{x},@var{y}) / (std (@var{x}) * std (@var{y}))
 @end example
 
 @end ifnottex
@@ -23782,13 +23825,15 @@ variable in @var{x} and the @var{j}-th variable in @var{y}.
 $$
 \sigma_{ij} = {1 \over N-1} \sum_{i=1}^N (x_i - \bar{x})(y_i - \bar{y})
 $$
-where $\bar{x}$ and $\bar{y}$ are the mean values of $x$ and $y$.
+where $\bar{x}$ and $\bar{y}$ are the mean values of @var{x} and @var{y}.
 @end tex
 @ifnottex
 
 @example
-cov (x) = 1/N-1 * SUM_i (x(i) - mean(x)) * (y(i) - mean(y))
+cov (@var{x}) = 1/(N-1) * SUM_i (@var{x}(i) - mean(@var{x})) * (@var{y}(i) - mean(@var{y}))
 @end example
+
+where @math{N} is the length of the @var{x} and @var{y} vectors.
 
 @end ifnottex
 
@@ -23821,44 +23866,64 @@ running in Octave.
 @c gls scripts/statistics/base/gls.m
 -*- texinfo -*-
 @deftypefn {} {[@var{beta}, @var{v}, @var{r}] =} gls (@var{y}, @var{x}, @var{o})
-Generalized least squares model.
+Generalized least squares (GLS) model.
 
 Perform a generalized least squares estimation for the multivariate model
 @tex
-$y = x b + e$
-with $\bar{e} = 0$ and cov(vec($e$)) = $(s^2)o$,
+$@var{y} = @var{x}\,@var{b} + @var{e}$
 @end tex
 @ifnottex
-@w{@math{y = x*b + e}} with @math{mean (e) = 0} and
-@math{cov (vec (e)) = (s^2) o},
+@w{@math{@var{y} = @var{x}*@var{B} + @var{E}}}
 @end ifnottex
 where
 @tex
-$y$ is a $t \times p$ matrix, $x$ is a $t \times k$ matrix, $b$ is a $k
-\times p$ matrix, $e$ is a $t \times p$ matrix, and $o$ is a $tp \times
-tp$ matrix.
+$@var{y}$ is a $t \times p$ matrix, $@var{x}$ is a $t \times k$ matrix,
+$@var{b}$ is a $k \times p$ matrix and $@var{e}$ is a $t \times p$ matrix.
 @end tex
 @ifnottex
-@math{y} is a @math{t} by @math{p} matrix, @math{x} is a @math{t} by
-@math{k} matrix, @math{b} is a @math{k} by @math{p} matrix, @math{e}
-is a @math{t} by @math{p} matrix, and @math{o} is a @math{t*p} by
-@math{t*p} matrix.
+@var{y} is a @math{t}-by-@math{p} matrix, @var{x} is a
+@math{t}-by-@math{k} matrix, @var{b} is a @math{k}-by-@math{p} matrix
+and @var{e} is a @math{t}-by-@math{p} matrix.
 @end ifnottex
 
 @noindent
-Each row of @var{y} and @var{x} is an observation and each column a
-variable.  The return values @var{beta}, @var{v}, and @var{r} are
+Each row of @var{y} is a @math{p}-variate observation in which each column
+represents a variable.  Likewise, the rows of @var{x} represent
+@math{k}-variate observations or possibly designed values.  Furthermore,
+the collection of observations @var{x} must be of adequate rank, @math{k},
+otherwise @var{b} cannot be uniquely estimated.
+
+The observation errors, @var{e}, are assumed to originate from an
+underlying @math{p}-variate distribution with zero mean but possibly
+heteroscedastic observations.  That is, in general,
+@tex
+$\bar{@var{e}} = 0$ and cov(vec(@var{e})) = $s^2@var{o}$
+@end tex
+@ifnottex
+@code{@math{mean (@var{e}) = 0}} and
+@code{@math{cov (vec (@var{e})) = (@math{s}^2)*@var{o}}}
+@end ifnottex
+in which @math{s} is a scalar and @var{o} is a
+@tex
+@math{t \, p \times t \, p}
+@end tex
+@ifnottex
+@math{t*p}-by-@math{t*p}
+@end ifnottex
+matrix.
+
+The return values @var{beta}, @var{v}, and @var{r} are
 defined as follows.
 
 @table @var
 @item beta
-The GLS estimator for @math{b}.
+The GLS estimator for matrix @var{b}.
 
 @item v
-The GLS estimator for @math{s^2}.
+The GLS estimator for scalar @math{s^2}.
 
 @item r
-The matrix of GLS residuals, @math{r = y - x*beta}.
+The matrix of GLS residuals, @math{@var{r} = @var{y} - @var{x}*@var{beta}}.
 @end table
 @seealso{ols}
 @end deftypefn
@@ -23873,8 +23938,20 @@ Compute histogram counts.
 When @var{x} is a vector, the function counts the number of elements of
 @var{x} that fall in the histogram bins defined by @var{edges}.  This
 must be a vector of monotonically increasing values that define the edges
-of the histogram bins.  @code{@var{n}(k)} contains the number of elements
-in @var{x} for which @code{@var{edges}(k) <= @var{x} < @var{edges}(k+1)}.
+of the histogram bins.
+@tex
+$n(k)$
+@end tex
+@ifnottex
+@code{@var{n}(k)}
+@end ifnottex
+contains the number of elements in @var{x} for which
+@tex
+$@var{edges}(k) <= @var{x} < @var{edges}(k+1)$.
+@end tex
+@ifnottex
+@code{@var{edges}(k) <= @var{x} < @var{edges}(k+1)}.
+@end ifnottex
 The final element of @var{n} contains the number of elements of @var{x}
 exactly equal to the last element of @var{edges}.
 
@@ -23911,23 +23988,35 @@ outliers than either @code{range} or @code{std}.
 @deftypefn  {} {} kendall (@var{x})
 @deftypefnx {} {} kendall (@var{x}, @var{y})
 @cindex Kendall's Tau
-Compute Kendall's @var{tau}.
+Compute Kendall's
+@tex
+$\tau$.
+@end tex
+@ifnottex
+@var{tau}.
+@end ifnottex
 
-For two data vectors @var{x}, @var{y} of common length @var{n}, Kendall's
-@var{tau} is the correlation of the signs of all rank differences of
+For two data vectors @var{x}, @var{y} of common length @math{N}, Kendall's
+@tex
+$\tau$
+@end tex
+@ifnottex
+@var{tau}
+@end ifnottex
+is the correlation of the signs of all rank differences of
 @var{x} and @var{y}; i.e., if both @var{x} and @var{y} have distinct
 entries, then
 
 @tex
-$$ \tau = {1 \over n(n-1)} \sum_{i,j} {\rm sign}(q_i-q_j) {\rm sign}(r_i-r_j) $$
+$$ \tau = {1 \over N(N-1)} \sum_{i,j} {\rm sign}(q_i-q_j) \, {\rm sign}(r_i-r_j) $$
 @end tex
 @ifnottex
 
 @example
 @group
          1
-tau = -------   SUM sign (q(i) - q(j)) * sign (r(i) - r(j))
-      n (n-1)   i,j
+@var{tau} = -------   SUM sign (@var{q}(i) - @var{q}(j)) * sign (@var{r}(i) - @var{r}(j))
+      N (N-1)   i,j
 @end group
 @end example
 
@@ -23938,17 +24027,24 @@ in which the
 $q_i$ and $r_i$
 @end tex
 @ifnottex
-@var{q}(@var{i}) and @var{r}(@var{i})
+@var{q}(i) and @var{r}(i)
 @end ifnottex
 are the ranks of @var{x} and @var{y}, respectively.
 
 If @var{x} and @var{y} are drawn from independent distributions,
-Kendall's @var{tau} is asymptotically normal with mean 0 and variance
+Kendall's
 @tex
-${2 (2n+5) \over 9n(n-1)}$.
+$\tau$
 @end tex
 @ifnottex
-@code{(2 * (2@var{n}+5)) / (9 * @var{n} * (@var{n}-1))}.
+@var{tau}
+@end ifnottex
+is asymptotically normal with mean 0 and variance
+@tex
+${2 (2N+5) \over 9N(N-1)}$.
+@end tex
+@ifnottex
+@code{(2 * (2N+5)) / (9 * N * (N-1))}.
 @end ifnottex
 
 @code{kendall (@var{x})} is equivalent to @code{kendall (@var{x},
@@ -23967,9 +24063,9 @@ The sample kurtosis is defined as
 @tex
 $$
 \kappa_1 = {{{1\over N}\,
-         \sum_{i=1}^N (@var{x}_i - \bar{@var{x}})^4} \over \sigma^4},
+         \sum_{i=1}^N (x_i - \bar{x})^4} \over \sigma^4},
 $$
-where $N$ is the length of @var{x}, $\bar{@var{x}}$ its mean, and $\sigma$
+where $N$ is the length of @var{x}, $\bar{x}$ its mean, and $\sigma$
 its (uncorrected) standard deviation.
 @end tex
 @ifnottex
@@ -24004,6 +24100,8 @@ k0 = 3 + -------------- * ((N + 1) * k1 - 3 * (N - 1))
          (N - 2)(N - 3)
 @end group
 @end example
+
+where @math{N} is the length of the @var{x} vector.
 
 @end ifnottex
 The bias-corrected kurtosis coefficient is obtained by replacing the sample
@@ -24086,12 +24184,16 @@ The mean is defined as
 
 @tex
 $$ {\rm mean}(x) = \bar{x} = {1\over N} \sum_{i=1}^N x_i $$
+where $N$ is the number of elements of @var{x}.
+
 @end tex
 @ifnottex
 
 @example
-mean (x) = SUM_i x(i) / N
+mean (@var{x}) = SUM_i @var{x}(i) / N
 @end example
+
+where @math{N} is the length of the @var{x} vector.
 
 @end ifnottex
 If @var{x} is a matrix, compute the mean for each column and return them
@@ -24129,18 +24231,21 @@ The mean square is defined as
 $$
 {\rm meansq} (x) = {\sum_{i=1}^N {x_i}^2 \over N}
 $$
-where $\bar{x}$ is the mean value of $x$.
+where $N$ is the number of elements of @var{x}.
+
 @end tex
 @ifnottex
 
 @example
 @group
-meansq (x) = 1/N SUM_i x(i)^2
+meansq (@var{x}) = 1/N SUM_i @var{x}(i)^2
 @end group
 @end example
 
+where @math{N} is the length of the @var{x} vector.
+
 @end ifnottex
-For matrix arguments, return a row vector containing the mean square
+If @var{x} is a matrix, return a row vector containing the mean square
 of each column.
 
 If the optional argument @var{dim} is given, operate along this dimension.
@@ -24153,27 +24258,30 @@ If the optional argument @var{dim} is given, operate along this dimension.
 @deftypefnx {} {} median (@var{x}, @var{dim})
 Compute the median value of the elements of the vector @var{x}.
 
-When the elements of @var{x} are sorted, the median is defined as
+When the elements of @var{x} are sorted, say @code{@var{s} = sort (@var{x})},
+the median is defined as
 @tex
 $$
 {\rm median} (x) =
-  \cases{x(\lceil N/2\rceil), & $N$ odd;\cr
-          (x(N/2)+x(N/2+1))/2, & $N$ even.}
+  \cases{s(\lceil N/2\rceil), & $N$ odd;\cr
+          (s(N/2)+s(N/2+1))/2, & $N$ even.}
 $$
+where $N$ is the number of elements of @var{x}.
+
 @end tex
 @ifnottex
 
 @example
 @group
-              x(ceil(N/2))             N odd
-median (x) =
-             (x(N/2) + x((N/2)+1))/2   N even
+             |  @var{s}(ceil(N/2))           N odd
+median (@var{x}) = |
+             | (@var{s}(N/2) + @var{s}(N/2+1))/2   N even
 @end group
 @end example
 
 @end ifnottex
 If @var{x} is of a discrete type such as integer or logical, then
-the case of even N rounds up (or toward @code{true}).
+the case of even @math{N} rounds up (or toward @code{true}).
 
 If @var{x} is a matrix, compute the median value for each column and
 return them in a row vector.
@@ -24210,20 +24318,25 @@ frequency.
 @deftypefnx {} {} moment (@var{x}, @var{p}, @var{dim})
 @deftypefnx {} {} moment (@var{x}, @var{p}, @var{type}, @var{dim})
 @deftypefnx {} {} moment (@var{x}, @var{p}, @var{dim}, @var{type})
-Compute the @var{p}-th central moment of the vector @var{x}.
+Compute the @var{p}-th central moment of the vector @var{x}:
 
 @tex
 $$
 {\sum_{i=1}^N (x_i - \bar{x})^p \over N}
 $$
+where $\bar{x}$ is the mean value of @var{x} and $N$ is the number of elements of @var{x}.
+
+
 @end tex
 @ifnottex
 
 @example
 @group
-1/N SUM_i (x(i) - mean(x))^p
+1/N SUM_i (@var{x}(i) - mean(@var{x}))^@var{p}
 @end group
 @end example
+
+where @math{N} is the length of the @var{x} vector.
 
 @end ifnottex
 
@@ -24252,7 +24365,7 @@ $$
 
 @example
 @group
-1/N SUM_i (abs (x(i) - mean(x)))^p
+1/N SUM_i (abs (@var{x}(i) - mean(@var{x})))^@var{p}
 @end group
 @end example
 
@@ -24270,7 +24383,7 @@ $$
 
 @example
 @group
-moment (x) = 1/N SUM_i x(i)^p
+moment (@var{x}) = 1/N SUM_i @var{x}(i)^@var{p}
 @end group
 @end example
 
@@ -24287,7 +24400,7 @@ $$
 
 @example
 @group
-1/N SUM_i ( abs (x(i)) )^p
+1/N SUM_i ( abs (@var{x}(i)) )^@var{p}
 @end group
 @end example
 
@@ -24301,45 +24414,61 @@ If both @var{type} and @var{dim} are given they may appear in any order.
 @c ols scripts/statistics/base/ols.m
 -*- texinfo -*-
 @deftypefn {} {[@var{beta}, @var{sigma}, @var{r}] =} ols (@var{y}, @var{x})
-Ordinary least squares estimation.
+Ordinary least squares (OLS) estimation.
 
 OLS applies to the multivariate model
 @tex
-$y = x b + e$
-with
-$\bar{e} = 0$, and cov(vec($e$)) = kron ($s, I$)
+$@var{y} = @var{x}\,@var{b} + @var{e}$
 @end tex
 @ifnottex
-@w{@math{y = x*b + e}} with
-@math{mean (e) = 0} and @math{cov (vec (e)) = kron (s, I)}.
+@w{@math{@var{y} = @var{x}*@var{b} + @var{e}}}
 @end ifnottex
 where
 @tex
-$y$ is a $t \times p$ matrix, $x$ is a $t \times k$ matrix,
-$b$ is a $k \times p$ matrix, and $e$ is a $t \times p$ matrix.
+$@var{y}$ is a $t \times p$ matrix, $@var{x}$ is a $t \times k$ matrix,
+$@var{b}$ is a $k \times p$ matrix, and $@var{e}$ is a $t \times p$ matrix.
 @end tex
 @ifnottex
-@math{y} is a @math{t} by @math{p} matrix, @math{x} is a @math{t} by @math{k}
-matrix, @math{b} is a @math{k} by @math{p} matrix, and @math{e} is a
-@math{t} by @math{p} matrix.
+@math{@var{y}} is a @math{t}-by-@math{p} matrix, @math{@var{x}} is a
+@math{t}-by-@math{k} matrix, @var{b} is a @math{k}-by-@math{p} matrix, and
+@var{e} is a @math{t}-by-@math{p} matrix.
 @end ifnottex
 
-Each row of @var{y} and @var{x} is an observation and each column a
-variable.
+Each row of @var{y} is a @math{p}-variate observation in which each column
+represents a variable.  Likewise, the rows of @var{x} represent
+@math{k}-variate observations or possibly designed values.  Furthermore,
+the collection of observations @var{x} must be of adequate rank, @math{k},
+otherwise @var{b} cannot be uniquely estimated.
+
+The observation errors, @var{e}, are assumed to originate from an
+underlying @math{p}-variate distribution with zero mean and
+@math{p}-by-@math{p} covariance matrix @var{S}, both constant conditioned
+on @var{x}.  Furthermore, the matrix @var{S} is constant with respect to
+each observation such that
+@tex
+$\bar{@var{e}} = 0$ and cov(vec(@var{e})) =  kron(@var{s},@var{I}).
+@end tex
+@ifnottex
+@code{mean (@var{e}) = 0} and
+@code{cov (vec (@var{e})) = kron (@var{s}, @var{I})}.
+@end ifnottex
+(For cases
+that don't meet this criteria, such as autocorrelated errors, see
+generalized least squares, gls, for more efficient estimations.)
 
 The return values @var{beta}, @var{sigma}, and @var{r} are defined as
 follows.
 
 @table @var
 @item beta
-The OLS estimator for @math{b}.
+The OLS estimator for matrix @var{b}.
 @tex
-$beta$ is calculated directly via $(x^Tx)^{-1} x^T y$ if the matrix $x^Tx$ is
-of full rank.
+@var{beta} is calculated directly via $(@var{x}^T@var{x})^{-1} @var{x}^T
+@var{y}$ if the matrix $@var{x}^T@var{x}$ is of full rank.
 @end tex
 @ifnottex
-@var{beta} is calculated directly via @code{inv (x'*x) * x' * y} if the
-matrix @code{x'*x} is of full rank.
+@var{beta} is calculated directly via @code{inv (@var{x}'*@var{x}) * @var{x}' * @var{y}} if the
+matrix @code{@var{x}'*@var{x}} is of full rank.
 @end ifnottex
 Otherwise, @code{@var{beta} = pinv (@var{x}) * @var{y}} where
 @code{pinv (@var{x})} denotes the pseudoinverse of @var{x}.
@@ -24349,9 +24478,7 @@ The OLS estimator for the matrix @var{s},
 
 @example
 @group
-@var{sigma} = (@var{y}-@var{x}*@var{beta})'
-  * (@var{y}-@var{x}*@var{beta})
-  / (@var{t}-rank(@var{x}))
+@var{sigma} = (@var{y}-@var{x}*@var{beta})' * (@var{y}-@var{x}*@var{beta}) / (@math{t}-rank(@var{x}))
 @end group
 @end example
 
@@ -24401,7 +24528,7 @@ For a sample @var{x}, compute the quantiles, @var{q}, corresponding
 to the cumulative probability values, @var{p}, in percent.
 
 If @var{x} is a matrix, compute the percentiles for each column and return
-them in a matrix, such that the i-th row of @var{y} contains the
+them in a matrix, such that the i-th row of @var{q} contains the
 @var{p}(i)th percentiles of each column of @var{x}.
 
 If @var{p} is unspecified, return the quantiles for @code{[0 25 50 75 100]}.
@@ -24482,7 +24609,7 @@ the first non-singleton dimension.
 
 The methods available to calculate sample quantiles are the nine methods
 used by R (@url{http://www.r-project.org/}).  The default value is
-@w{METHOD = 5}.
+@w{@var{method} = 5}.
 
 Discontinuous sample quantile methods 1, 2, and 3
 
@@ -24494,28 +24621,72 @@ Discontinuous sample quantile methods 1, 2, and 3
 @item Method 3: SAS definition: nearest even order statistic.
 @end enumerate
 
-Continuous sample quantile methods 4 through 9, where p(k) is the linear
-interpolation function respecting each methods' representative cdf.
+Continuous sample quantile methods 4 through 9, where
+@tex
+$p(k)$
+@end tex
+@ifnottex
+@var{p}(k)
+@end ifnottex
+is the linear
+interpolation function respecting each method's representative cdf.
 
 @enumerate 4
-@item Method 4: p(k) = k / n.  That is, linear interpolation of the
-empirical cdf.
+@item Method 4:
+@tex
+$p(k) = k / N$.
+@end tex
+@ifnottex
+@var{p}(k) = k / N.
+@end ifnottex
+That is, linear interpolation of the empirical cdf, where @math{N} is the
+length of @var{P}.
 
-@item Method 5: p(k) = (k - 0.5) / n.  That is a piecewise linear function
-where the knots are the values midway through the steps of the empirical
-cdf.
+@item Method 5:
+@tex
+$p(k) = (k - 0.5) / N$.
+@end tex
+@ifnottex
+@var{p}(k) = (k - 0.5) / N.
+@end ifnottex
+That is, a piecewise linear function where the knots are the values midway
+through the steps of the empirical cdf.
 
-@item Method 6: p(k) = k / (n + 1).
+@item Method 6:
+@tex
+$p(k) = k / (N + 1)$.
+@end tex
+@ifnottex
+@var{p}(k) = k / (N + 1).
+@end ifnottex
 
-@item Method 7: p(k) = (k - 1) / (n - 1).
+@item Method 7:
+@tex
+$p(k) = (k - 1) / (N - 1)$.
+@end tex
+@ifnottex
+@var{p}(k) = (k - 1) / (N - 1).
+@end ifnottex
 
-@item Method 8: p(k) = (k - 1/3) / (n + 1/3).  The resulting quantile
-estimates are approximately median-unbiased regardless of the distribution
-of @var{x}.
+@item Method 8:
+@tex
+$p(k) = (k - 1/3) / (N + 1/3)$.
+@end tex
+@ifnottex
+@var{p}(k) = (k - 1/3) / (N + 1/3).
+@end ifnottex
+The resulting quantile estimates are approximately median-unbiased
+regardless of the distribution of @var{x}.
 
-@item Method 9: p(k) = (k - 3/8) / (n + 1/4).  The resulting quantile
-estimates are approximately unbiased for the expected order statistics if
-@var{x} is normally distributed.
+@item Method 9:
+@tex
+$p(k) = (k - 3/8) / (N + 1/4)$.
+@end tex
+@ifnottex
+@var{p}(k) = (k - 3/8) / (N + 1/4).
+@end ifnottex
+The resulting quantile estimates are approximately unbiased for the
+expected order statistics if @var{x} is normally distributed.
 @end enumerate
 
 @nospell{Hyndman and Fan} (1996) recommend method 8.  Maxima, S, and R
@@ -24619,9 +24790,9 @@ The sample skewness is defined as
 @tex
 $$
 {\rm skewness} (@var{x}) = {{{1\over N}\,
-         \sum_{i=1}^N (@var{x}_i - \bar{@var{x}})^3} \over \sigma^3},
+         \sum_{i=1}^N (x_i - \bar{x})^3} \over \sigma^3},
 $$
-where $N$ is the length of @var{x}, $\bar{@var{x}}$ its mean and $\sigma$
+where $N$ is the length of @var{x}, $\bar{x}$ its mean and $\sigma$
 its (uncorrected) standard deviation.
 @end tex
 @ifnottex
@@ -24644,7 +24815,7 @@ equal to 0, return the adjusted skewness coefficient instead:
 @tex
 $$
 {\rm skewness} (@var{x}) = {\sqrt{N (N - 1)} \over N - 2} \times \,
-  {{{1 \over N} \sum_{i=1}^N (@var{x}_i - \bar{@var{x}})^3} \over \sigma^3}
+  {{{1 \over N} \sum_{i=1}^N (x_i - \bar{x})^3} \over \sigma^3}
 $$
 @end tex
 @ifnottex
@@ -24656,6 +24827,8 @@ skewness (@var{X}, 0) = -------------- * ------------------------.
                       (N - 2)             std (@var{x}).^3
 @end group
 @end example
+
+where @math{N} is the length of the @var{x} vector.
 
 @end ifnottex
 The adjusted skewness coefficient is obtained by replacing the sample second
@@ -24673,14 +24846,39 @@ the skewness along the first non-singleton dimension.  If the optional
 @deftypefn  {} {} spearman (@var{x})
 @deftypefnx {} {} spearman (@var{x}, @var{y})
 @cindex Spearman's Rho
-Compute Spearman's rank correlation coefficient @var{rho}.
+Compute Spearman's rank correlation coefficient
+@tex
+$\rho$.
+@end tex
+@ifnottex
+@var{rho}.
+@end ifnottex
 
-For two data vectors @var{x} and @var{y}, Spearman's @var{rho} is the
-correlation coefficient of the ranks of @var{x} and @var{y}.
+For two data vectors @var{x} and @var{y}, Spearman's
+@tex
+$\rho$
+@end tex
+@ifnottex
+@var{rho}
+@end ifnottex
+is the correlation coefficient of the ranks of @var{x} and @var{y}.
 
-If @var{x} and @var{y} are drawn from independent distributions, @var{rho}
-has zero mean and variance @code{1 / (n - 1)}, and is asymptotically
-normally distributed.
+If @var{x} and @var{y} are drawn from independent distributions,
+@tex
+$\rho$
+@end tex
+@ifnottex
+@var{rho}
+@end ifnottex
+has zero mean and variance
+@tex
+$1 / (N - 1)$,
+@end tex
+@ifnottex
+@code{1 / (N - 1)},
+@end ifnottex
+where @math{N} is the length of the @var{x} and @var{y} vectors, and is
+asymptotically normally distributed.
 
 @code{spearman (@var{x})} is equivalent to
 @code{spearman (@var{x}, @var{x})}.
@@ -24714,18 +24912,18 @@ The standard deviation is defined as
 $$
 {\rm std} (x) = \sigma = \sqrt{{\sum_{i=1}^N (x_i - \bar{x})^2 \over N - 1}}
 $$
-where $\bar{x}$ is the mean value of $x$ and $N$ is the number of elements.
+where $\bar{x}$ is the mean value of @var{x} and $N$ is the number of elements of @var{x}.
 @end tex
 @ifnottex
 
 @example
 @group
-std (x) = sqrt ( 1/(N-1) SUM_i (x(i) - mean(x))^2 )
+std (@var{x}) = sqrt ( 1/(N-1) SUM_i (@var{x}(i) - mean(@var{x}))^2 )
 @end group
 @end example
 
 @noindent
-where @math{N} is the number of elements.
+where @math{N} is the number of elements of the @var{x} vector.
 @end ifnottex
 
 If @var{x} is a matrix, compute the standard deviation for each column and
@@ -24771,15 +24969,19 @@ The variance is defined as
 $$
 {\rm var} (x) = \sigma^2 = {\sum_{i=1}^N (x_i - \bar{x})^2 \over N - 1}
 $$
-where $\bar{x}$ is the mean value of $x$.
+where $\bar{x}$ is the mean value of @var{x} and $N$ is the number of
+elements of @var{x}.
+
 @end tex
 @ifnottex
 
 @example
 @group
-var (x) = 1/(N-1) SUM_i (x(i) - mean(x))^2
+var (@var{x}) = 1/(N-1) SUM_i (@var{x}(i) - mean(@var{x}))^2
 @end group
 @end example
+
+where @math{N} is the length of the @var{x} vector.
 
 @end ifnottex
 If @var{x} is a matrix, compute the variance for each column and return
@@ -24797,8 +24999,8 @@ variance [default]
   normalizes with @math{N}, this provides the second moment around the mean
 @end table
 
-If @math{N==1} the value of @var{opt} is ignored and normalization by
-@math{N} is used.
+If @math{N} is equal to 1 the value of @var{opt} is ignored and
+normalization by @math{N} is used.
 
 If the optional argument @var{dim} is given, operate along this dimension.
 @seealso{cov, std, skewness, kurtosis, moment}
@@ -27055,7 +27257,7 @@ wildcards that are appropriate for a regular expression.  For example:
 @example
 @group
 regexptranslate ("wildcard", "*.m")
-     @result{} ".*\.m"
+     @result{} '.*\.m'
 @end group
 @end example
 
@@ -27066,7 +27268,7 @@ expressions are escaped so that they are treated literally.  For example:
 @example
 @group
 regexptranslate ("escape", "12.5")
-     @result{} "12\.5"
+     @result{} '12\.5'
 @end group
 @end example
 

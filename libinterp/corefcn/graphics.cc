@@ -1639,7 +1639,7 @@ children_property::do_delete_children (bool clear)
     {
       graphics_object go = gh_manager::get_object (hchild);
 
-      if (go.valid_object ())
+      if (go.valid_object () && ! go.get_properties ().is_beingdeleted ())
         gh_manager::free (hchild);
     }
 
@@ -6804,10 +6804,15 @@ axes::properties::get_axis_limits (double xmin, double xmax,
               retval(1) = pow (10., retval(1));
               return retval;
             }
-          if (min_val <= 0 && max_val > 0)
+          if (min_val <= 0)
             {
-              warning ("axis: omitting non-positive data in log plot");
-              min_val = min_pos;
+              if (max_val > 0)
+                {
+                  warning ("axis: omitting non-positive data in log plot");
+                  min_val = min_pos;
+                }
+              else if (max_val == 0)
+                max_val = max_neg;
             }
           // FIXME: maybe this test should also be relative?
           if (std::abs (min_val - max_val)
@@ -10421,13 +10426,23 @@ make_graphics_object (const std::string& go_name,
     }
   catch (octave::execution_exception& e)
     {
-      error (e, "__go%s__: unable to create graphics handle",
+      error (e, "__go_%s__: unable to create graphics handle",
              go_name.c_str ());
     }
 
   adopt (parent, h);
 
-  xset (h, xargs);
+  try
+    {
+      xset (h, xargs);
+    }
+  catch (octave::execution_exception& e)
+    {
+      delete_graphics_object (h);
+      error (e, "__go_%s__: unable to create graphics handle",
+             go_name.c_str ());
+    }
+
   xcreatefcn (h);
   xinitialize (h);
 
@@ -11192,7 +11207,7 @@ addlistener (gcf, "position", @{@@my_listener, "my string"@})
 @end group
 @end example
 
-@seealso{addproperty, hggroup}
+@seealso{dellistener, addproperty, hggroup}
 @end deftypefn */)
 {
   gh_manager::auto_lock guard;
@@ -11251,6 +11266,7 @@ dellistener (gcf, "position", c);
 @end group
 @end example
 
+@seealso{addlistener}
 @end deftypefn */)
 {
   gh_manager::auto_lock guard;

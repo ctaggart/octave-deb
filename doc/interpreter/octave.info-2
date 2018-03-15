@@ -1,11 +1,11 @@
-This is octave.info, produced by makeinfo version 6.3 from octave.texi.
+This is octave.info, produced by makeinfo version 6.5 from octave.texi.
 
 START-INFO-DIR-ENTRY
 * Octave: (octave).           Interactive language for numerical computations.
 
 END-INFO-DIR-ENTRY
 
-   Copyright © 1996-2016 John W. Eaton.
+   Copyright © 1996-2018 John W. Eaton.
 
    Permission is granted to make and distribute verbatim copies of this
 manual provided the copyright notice and this permission notice are
@@ -32,10 +32,10 @@ siblings ‘whos’ and ‘whos_line_format’ will show different information
 about what is in memory, as the following shows.
 
      str = "A random string";
-     who -variables
-          ⊣ *** local user variables:
-          ⊣
-          ⊣ __nargin__  str
+     who
+      ⊣ Variables in the current scope:
+      ⊣
+      ⊣ ans  str
 
  -- : who
  -- : who pattern ...
@@ -532,22 +532,25 @@ File: octave.info,  Node: Advanced Indexing,  Up: Index Expressions
 8.1.1 Advanced Indexing
 -----------------------
 
-An array with ‘n’ dimensions can be indexed using ‘m’ indices.  More
-generally, the set of index tuples determining the result is formed by
-the Cartesian product of the index vectors (or ranges or scalars).
+An array with ‘nd’ dimensions can be indexed by a vector IDX which has
+from 1 to ‘nd’ elements.  If any element of IDX is not a scalar then the
+complete set of index tuples will be generated from the Cartesian
+product of the index elements.
 
-   For the ordinary and most common case, ‘m == n’, and each index
-corresponds to its respective dimension.  If ‘m < n’ and every index is
-less than the size of the array in the i^{th} dimension, ‘m(i) < n(i)’,
-then the index expression is padded with trailing singleton dimensions
-(‘[ones (m-n, 1)]’).  If ‘m < n’ but one of the indices ‘m(i)’ is
-outside the size of the current array, then the last ‘n-m+1’ dimensions
-are folded into a single dimension with an extent equal to the product
-of extents of the original dimensions.  This is easiest to understand
-with an example.
+   For the ordinary and most common case, the number of indices (‘nidx =
+numel (IDX)’) matches the number of dimensions ‘nd’.  In this case, each
+element of IDX corresponds to its respective dimension, i.e., ‘IDX(1)’
+refers to dimension 1, ‘IDX(2)’ refers to dimension 2, etc.  If
+‘nidx < nd’, and every index is less than the size of the array in the
+i^{th} dimension (‘IDX(i) < size (ARRAY, i)’), then the index expression
+is padded with ‘nd - nidx’ trailing singleton dimensions.  If
+‘nidx < nd’ but one of the indices ‘IDX(i)’ is outside the size of the
+current array, then the last ‘nd - nidx + 1’ dimensions are folded into
+a single dimension with an extent equal to the product of extents of the
+original dimensions.  This is easiest to understand with an example.
 
-     a = reshape (1:8, 2, 2, 2)  # Create 3-D array
-     a =
+     A = reshape (1:8, 2, 2, 2)  # Create 3-D array
+     A =
 
      ans(:,:,1) =
 
@@ -559,10 +562,10 @@ with an example.
         5   7
         6   8
 
-     a(2,1,2);   # Case (m == n): ans = 6
-     a(2,1);     # Case (m < n), idx within array:
-                 # equivalent to a(2,1,1), ans = 2
-     a(2,4);     # Case (m < n), idx outside array:
+     A(2,1,2);   # Case (nidx == nd): ans = 6
+     A(2,1);     # Case (nidx < nd), idx within array:
+                 # equivalent to A(2,1,1), ans = 2
+     A(2,4);     # Case (nidx < nd), idx outside array:
                  # Dimension 2 & 3 folded into new dimension of size 2x2 = 4
                  # Select 2nd row, 4th element of [2, 4, 6, 8], ans = 8
 
@@ -981,8 +984,7 @@ X .- Y
 
 X * Y
      Matrix multiplication.  The number of columns of X must agree with
-     the number of rows of Y, or they must be broadcastable to the same
-     shape.
+     the number of rows of Y.
 
 X .* Y
      Element-by-element multiplication.  If both operands are matrices,
@@ -1077,27 +1079,27 @@ useful in this case.
  -- : ctranspose (X)
      Return the complex conjugate transpose of X.
 
-     This function and x’ are equivalent.
+     This function and X’ are equivalent.
 
      See also: *note transpose: XREFtranspose.
 
  -- : ldivide (X, Y)
      Return the element-by-element left division of X and Y.
 
-     This function and x .\ y are equivalent.
+     This function and X .\ Y are equivalent.
 
      See also: *note rdivide: XREFrdivide, *note mldivide: XREFmldivide,
      *note times: XREFtimes, *note plus: XREFplus.
 
  -- : minus (X, Y)
-     This function and x - y are equivalent.
+     This function and X - Y are equivalent.
 
      See also: *note plus: XREFplus, *note uminus: XREFuminus.
 
  -- : mldivide (X, Y)
      Return the matrix left division of X and Y.
 
-     This function and x \ y are equivalent.
+     This function and X \ Y are equivalent.
 
      See also: *note mrdivide: XREFmrdivide, *note ldivide: XREFldivide,
      *note rdivide: XREFrdivide.
@@ -1105,7 +1107,7 @@ useful in this case.
  -- : mpower (X, Y)
      Return the matrix power operation of X raised to the Y power.
 
-     This function and x ^ y are equivalent.
+     This function and X ^ Y are equivalent.
 
      See also: *note power: XREFpower, *note mtimes: XREFmtimes, *note
      plus: XREFplus, *note minus: XREFminus.
@@ -1113,7 +1115,7 @@ useful in this case.
  -- : mrdivide (X, Y)
      Return the matrix right division of X and Y.
 
-     This function and x / y are equivalent.
+     This function and X / Y are equivalent.
 
      See also: *note mldivide: XREFmldivide, *note rdivide: XREFrdivide,
      *note plus: XREFplus, *note minus: XREFminus.
@@ -1122,11 +1124,11 @@ useful in this case.
  -- : mtimes (X1, X2, ...)
      Return the matrix multiplication product of inputs.
 
-     This function and x * y are equivalent.  If more arguments are
+     This function and X * Y are equivalent.  If more arguments are
      given, the multiplication is applied cumulatively from left to
      right:
 
-          (...((x1 * x2) * x3) * ...)
+          (...((X1 * X2) * X3) * ...)
 
      At least one argument is required.
 
@@ -1137,12 +1139,12 @@ useful in this case.
 
  -- : plus (X, Y)
  -- : plus (X1, X2, ...)
-     This function and x + y are equivalent.
+     This function and X + Y are equivalent.
 
      If more arguments are given, the summation is applied cumulatively
      from left to right:
 
-          (...((x1 + x2) + x3) + ...)
+          (...((X1 + X2) + X3) + ...)
 
      At least one argument is required.
 
@@ -1151,7 +1153,7 @@ useful in this case.
  -- : power (X, Y)
      Return the element-by-element operation of X raised to the Y power.
 
-     This function and x .^ y are equivalent.
+     This function and X .^ Y are equivalent.
 
      If several complex results are possible, returns the one with
      smallest non-negative argument (angle).  Use ‘realpow’, ‘realsqrt’,
@@ -1164,7 +1166,7 @@ useful in this case.
  -- : rdivide (X, Y)
      Return the element-by-element right division of X and Y.
 
-     This function and x ./ y are equivalent.
+     This function and X ./ Y are equivalent.
 
      See also: *note ldivide: XREFldivide, *note mrdivide: XREFmrdivide,
      *note times: XREFtimes, *note plus: XREFplus.
@@ -1173,11 +1175,11 @@ useful in this case.
  -- : times (X1, X2, ...)
      Return the element-by-element multiplication product of inputs.
 
-     This function and x .* y are equivalent.  If more arguments are
+     This function and X .* Y are equivalent.  If more arguments are
      given, the multiplication is applied cumulatively from left to
      right:
 
-          (...((x1 .* x2) .* x3) .* ...)
+          (...((X1 .* X2) .* X3) .* ...)
 
      At least one argument is required.
 
@@ -1186,17 +1188,17 @@ useful in this case.
  -- : transpose (X)
      Return the transpose of X.
 
-     This function and x.’ are equivalent.
+     This function and X.’ are equivalent.
 
      See also: *note ctranspose: XREFctranspose.
 
  -- : uminus (X)
-     This function and - x are equivalent.
+     This function and - X are equivalent.
 
      See also: *note uplus: XREFuplus, *note minus: XREFminus.
 
  -- : uplus (X)
-     This function and + x are equivalent.
+     This function and + X are equivalent.
 
      See also: *note uminus: XREFuminus, *note plus: XREFplus, *note
      minus: XREFminus.
@@ -1257,20 +1259,20 @@ not with the comparison operators listed above.  *Note Strings::.
  -- : eq (X, Y)
      Return true if the two inputs are equal.
 
-     This function is equivalent to ‘x == y’.
+     This function is equivalent to ‘X == Y’.
 
      See also: *note ne: XREFne, *note isequal: XREFisequal, *note le:
      XREFle, *note ge: XREFge, *note gt: XREFgt, *note ne: XREFne, *note
      lt: XREFlt.
 
  -- : ge (X, Y)
-     This function is equivalent to ‘x >= y’.
+     This function is equivalent to ‘X >= Y’.
 
      See also: *note le: XREFle, *note eq: XREFeq, *note gt: XREFgt,
      *note ne: XREFne, *note lt: XREFlt.
 
  -- : gt (X, Y)
-     This function is equivalent to ‘x > y’.
+     This function is equivalent to ‘X > Y’.
 
      See also: *note le: XREFle, *note eq: XREFeq, *note ge: XREFge,
      *note ne: XREFne, *note lt: XREFlt.
@@ -1288,13 +1290,13 @@ not with the comparison operators listed above.  *Note Strings::.
      See also: *note isequal: XREFisequal.
 
  -- : le (X, Y)
-     This function is equivalent to ‘x <= y’.
+     This function is equivalent to ‘X <= Y’.
 
      See also: *note eq: XREFeq, *note ge: XREFge, *note gt: XREFgt,
      *note ne: XREFne, *note lt: XREFlt.
 
  -- : lt (X, Y)
-     This function is equivalent to ‘x < y’.
+     This function is equivalent to ‘X < Y’.
 
      See also: *note le: XREFle, *note eq: XREFeq, *note ge: XREFge,
      *note gt: XREFgt, *note ne: XREFne.
@@ -1302,7 +1304,7 @@ not with the comparison operators listed above.  *Note Strings::.
  -- : ne (X, Y)
      Return true if the two inputs are not equal.
 
-     This function is equivalent to ‘x != y’.
+     This function is equivalent to ‘X != Y’.
 
      See also: *note eq: XREFeq, *note isequal: XREFisequal, *note le:
      XREFle, *note ge: XREFge, *note lt: XREFlt.
@@ -1387,11 +1389,11 @@ described for matrix-valued operands.
  -- : Z = and (X1, X2, ...)
      Return the logical AND of X and Y.
 
-     This function is equivalent to the operator syntax ‘x & y’.  If
+     This function is equivalent to the operator syntax ‘X & Y’.  If
      more than two arguments are given, the logical AND is applied
      cumulatively from left to right:
 
-          (...((x1 & x2) & x3) & ...)
+          (...((X1 & X2) & X3) & ...)
 
      At least one argument is required.
 
@@ -1400,7 +1402,7 @@ described for matrix-valued operands.
  -- : Z = not (X)
      Return the logical NOT of X.
 
-     This function is equivalent to the operator syntax ‘! x’.
+     This function is equivalent to the operator syntax ‘! X’.
 
      See also: *note and: XREFand, *note or: XREFor, *note xor: XREFxor.
 
@@ -1408,11 +1410,11 @@ described for matrix-valued operands.
  -- : Z = or (X1, X2, ...)
      Return the logical OR of X and Y.
 
-     This function is equivalent to the operator syntax ‘x | y’.  If
+     This function is equivalent to the operator syntax ‘X | Y’.  If
      more than two arguments are given, the logical OR is applied
      cumulatively from left to right:
 
-          (...((x1 | x2) | x3) | ...)
+          (...((X1 | X2) | X3) | ...)
 
      At least one argument is required.
 
@@ -4489,7 +4491,7 @@ child functions, ‘ex_aa’ and ‘ex_ab’.  For example:
        ## Can NOT call: ex_aa and ex_ab
 
        function ex_a ()
-         ## Call call everything
+         ## Can call everything
 
          function ex_aa ()
            ## Can call everything
@@ -6211,8 +6213,8 @@ available as a namespace for user’s own warnings.
      The optional message identifier allows users to enable or disable
      warnings tagged by ID.  A message identifier is of the form
      "NAMESPACE:WARNING-NAME". Octave’s own warnings use the "Octave"
-     namespace (*note XREFwarning_ids::).  The special identifier "all"
-     may be used to set the state of all warnings.
+     namespace (*note warning_ids: XREFwarning_ids.).  The special
+     identifier "all" may be used to set the state of all warnings.
 
      If the first argument is "on" or "off", set the state of a
      particular warning using the identifier ID.  If the first argument
@@ -7466,6 +7468,7 @@ a variable without printing its name, use the function ‘disp’.
 values with ‘disp’ and through the normal echoing mechanism.
 
  -- : disp (X)
+ -- : STR = disp (X)
      Display the value of X.
 
      For example:

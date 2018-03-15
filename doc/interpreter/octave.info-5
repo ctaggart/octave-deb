@@ -1,11 +1,11 @@
-This is octave.info, produced by makeinfo version 6.3 from octave.texi.
+This is octave.info, produced by makeinfo version 6.5 from octave.texi.
 
 START-INFO-DIR-ENTRY
 * Octave: (octave).           Interactive language for numerical computations.
 
 END-INFO-DIR-ENTRY
 
-   Copyright © 1996-2016 John W. Eaton.
+   Copyright © 1996-2018 John W. Eaton.
 
    Permission is granted to make and distribute verbatim copies of this
 manual provided the copyright notice and this permission notice are
@@ -1072,8 +1072,8 @@ useful.
      The elements of the returned array that have no subscripts
      associated with them are set to zero.  Defining FILLVAL to some
      other value allows these values to be defined.  This behavior
-     changes, however, for certain values of FUNC.  If FUNC is ‘min’
-     (respectively, ‘max’) then the result will be filled with the
+     changes, however, for certain values of FUNC.  If FUNC is ‘@min’
+     (respectively, ‘@max’) then the result will be filled with the
      minimum (respectively, maximum) integer if VALS is of integral
      type, logical false (respectively, logical true) if VALS is of
      logical type, zero if FILLVAL is zero and all values are
@@ -2057,7 +2057,7 @@ n’, then the expression ‘D*M’ is equivalent to
 i.e., trailing ‘n-m’ rows of M are ignored.  If ‘m > n’, then ‘D*M’ is
 equivalent to
 
-     [D(1:n,n) * M; zeros(m-n, columns (M))],
+     [D(1:n,:) * M; zeros(m-n, columns (M))],
 
 i.e., null rows are appended to the result.  The situation for
 right-multiplication ‘M*D’ is analogous.
@@ -2223,7 +2223,7 @@ The following can be used to solve a linear system ‘A*x = b’ using the
 pivoted LU factorization:
 
        [L, U, P] = lu (A); ## now L*U = P*A
-       x = U \ L \ P*b;
+       x = U \ (L \ P) * b;
 
 This is one way to normalize columns of a matrix X to unit norm:
 
@@ -2915,24 +2915,24 @@ fig:spmatrix, for an example of the use of “spy”.  More advanced
 graphical information can be obtained with the “treeplot”, “etreeplot”
 and “gplot” commands.
 
- [image src="spmatrix.png" text="
-            |  * *                          
-            |  * * * *                      
-            |    * *   * *                  
-            |    *   *     * *              
-          5 -      *   *       * *          
-            |      *     *         * *      
-            |        *     *           * *  
-            |        *       *             *
-            |          *       *            
-         10 -          *         *          
-            |            *         *        
-            |            *           *      
-            |              *           *    
-            |              *             *  
-         15 -                *             *
-            |----------|---------|---------|
-                       5        10        15" ]
+             
+                         |  * *                          
+                         |  * * * *                      
+                         |    * *   * *                  
+                         |    *   *     * *              
+                       5 -      *   *       * *          
+                         |      *     *         * *      
+                         |        *     *           * *  
+                         |        *       *             *
+                         |          *       *            
+                      10 -          *         *          
+                         |            *         *        
+                         |            *           *      
+                         |              *           *    
+                         |              *             *  
+                      15 -                *             *
+                         |----------|---------|---------|
+                                    5        10        15
 
 Figure 22.1: Structure of simple sparse matrix.
 
@@ -3261,24 +3261,24 @@ reordering functions “colperm” and “randperm” are also available.
    *Note Figure 22.2: fig:simplematrix, for an example of the structure
 of a simple positive definite matrix.
 
- [image src="spmatrix.png" text="
-            |  * *                          
-            |  * * * *                      
-            |    * *   * *                  
-            |    *   *     * *              
-          5 -      *   *       * *          
-            |      *     *         * *      
-            |        *     *           * *  
-            |        *       *             *
-            |          *       *            
-         10 -          *         *          
-            |            *         *        
-            |            *           *      
-            |              *           *    
-            |              *             *  
-         15 -                *             *
-            |----------|---------|---------|
-                       5        10        15" ]
+             
+                         |  * *                          
+                         |  * * * *                      
+                         |    * *   * *                  
+                         |    *   *     * *              
+                       5 -      *   *       * *          
+                         |      *     *         * *      
+                         |        *     *           * *  
+                         |        *       *             *
+                         |          *       *            
+                      10 -          *         *          
+                         |            *         *        
+                         |            *           *      
+                         |              *           *    
+                         |              *             *  
+                      15 -                *             *
+                         |----------|---------|---------|
+                                    5        10        15
 
 Figure 22.2: Structure of simple sparse matrix.
 
@@ -3302,46 +3302,46 @@ appropriate sparsity preserving reordering of the matrix during the
 factorization, In that case this might be obtained with three return
 arguments as ‘[r, p, q] = chol (A); spy (r)’.
 
- [image src="spchol.png" text="
-            |  * *                          
-            |    * * *                      
-            |      * * * *                  
-            |        * * * * *              
-          5 -          * * * * * *          
-            |            * * * * * * *      
-            |              * * * * * * * *  
-            |                * * * * * * * *
-            |                  * * * * * * *
-         10 -                    * * * * * *
-            |                      * * * * *
-            |                        * * * *
-            |                          * * *
-            |                            * *
-         15 -                              *
-            |----------|---------|---------|
-                       5        10        15" ]
+             
+                         |  * *                          
+                         |    * * *                      
+                         |      * * * *                  
+                         |        * * * * *              
+                       5 -          * * * * * *          
+                         |            * * * * * * *      
+                         |              * * * * * * * *  
+                         |                * * * * * * * *
+                         |                  * * * * * * *
+                      10 -                    * * * * * *
+                         |                      * * * * *
+                         |                        * * * *
+                         |                          * * *
+                         |                            * *
+                      15 -                              *
+                         |----------|---------|---------|
+                                    5        10        15
 
 Figure 22.3: Structure of the unpermuted Cholesky factorization of the
 above matrix.
 
- [image src="spcholperm.png" text="
-            |  * *                          
-            |    *       *                  
-            |      *   *                    
-            |        * *                    
-          5 -          * *                  
-            |            *                 *
-            |              *   *            
-            |                * *            
-            |                  *       *    
-         10 -                    *   *      
-            |                      * *      
-            |                        * *    
-            |                          *   *
-            |                            * *
-         15 -                              *
-            |----------|---------|---------|
-                       5        10        15" ]
+             
+                         |  * *                          
+                         |    *       *                  
+                         |      *   *                    
+                         |        * *                    
+                       5 -          * *                  
+                         |            *                 *
+                         |              *   *            
+                         |                * *            
+                         |                  *       *    
+                      10 -                    *   *      
+                         |                      * *      
+                         |                        * *    
+                         |                          *   *
+                         |                            * *
+                      15 -                              *
+                         |----------|---------|---------|
+                                    5        10        15
 
 Figure 22.4: Structure of the permuted Cholesky factorization of the
 above matrix.
@@ -4240,8 +4240,8 @@ and vectors.
 
      ‘permB’
           The permutation vector of the Cholesky factorization of B if
-          ‘cholB’ is true.  That is ‘chol (B(permB, permB))’.  The
-          default is ‘1:N’.
+          ‘cholB’ is true.  It is obtained by ‘[R, ~, permB] = chol (B,
+          "vector")’.  The default is ‘1:N’.
 
      It is also possible to represent A by a function denoted AF.  AF
      must be followed by a scalar argument N defining the length of the
@@ -5075,8 +5075,7 @@ the algorithms.
      quadv       Medium accuracy with smooth integrands
      quadl       Medium accuracy with smooth integrands.  Slower than
                  quadgk.
-     quadgk      Medium accuracy (1e^{-6}–1e^{-9}) with smooth
-                 integrands.
+     quadgk      Medium accuracy (1e-6 – 1e-9) with smooth integrands.
                  Handles oscillatory functions and infinite bounds
      quadcc      Low to High accuracy with nonsmooth/smooth integrands
                  Handles oscillatory functions, singularities, and
@@ -5150,7 +5149,7 @@ example:
      relative tolerance.  To choose a relative test only, set the
      absolute tolerance to zero.  To choose an absolute test only, set
      the relative tolerance to zero.  Both tolerances default to ‘sqrt
-     (eps)’ or approximately 1.5e^{-8}.
+     (eps)’ or approximately 1.5e-8.
 
      The optional argument SING is a vector of values at which the
      integrand is known to be singular.
@@ -5416,7 +5415,7 @@ example:
      (pi/2*u)’.
 
      The optional argument TOL defines the relative tolerance used to
-     stop the integration procedure.  The default value is 1e^{-6}.
+     stop the integration procedure.  The default value is 1e-6.
 
      The optional argument SING contains a list of points where the
      integrand has known singularities, or discontinuities in any of its
@@ -5650,7 +5649,7 @@ example:
      infinite bounds are accepted.
 
      The optional argument TOL defines the absolute tolerance used to
-     integrate each sub-integral.  The default value is 1e^{-6}.
+     integrate each sub-integral.  The default value is 1e-6.
 
      The optional argument QUADF specifies which underlying integrator
      function to use.  Any choice but ‘quad’ is available and the
@@ -5796,8 +5795,9 @@ using Hindmarsh’s ODE solver LSODE.
                        | ----  ----  ...  ---- |
                        | dx_1  dx_2       dx_N |
 
-     The second and third arguments specify the initial state of the
-     system, x_0, and the initial value of the independent variable t_0.
+     The second argument specifies the initial state of the system x_0.
+     The third argument is a vector, T, specifying the time values for
+     which a solution is sought.
 
      The fourth argument is optional, and may be used to specify a set
      of times that the ODE solver should not integrate past.  It is
@@ -5886,7 +5886,7 @@ using ‘lsode’.  Given the function
 
        xdot = zeros (3,1);
 
-       xdot(1) = 77.27 * (x(2) - x(1)*x(2) + x(1) \
+       xdot(1) = 77.27 * (x(2) - x(1)*x(2) + x(1) ...
                  - 8.375e-06*x(1)^2);
        xdot(2) = (x(3) - x(1)*x(2) - x(2)) / 77.27;
        xdot(3) = 0.161*(x(1) - x(3));
@@ -5904,7 +5904,7 @@ be integrated using the command
 dramatically between T = 0 and 5, and again around T = 305.  A more
 efficient set of output points might be
 
-     t = [0, logspace(-1, log10(303), 150), \
+     t = [0, logspace(-1, log10(303), 150), ...
              logspace(log10(304), log10(500), 150)];
 
    See Alan C. Hindmarsh, ‘ODEPACK, A Systematized Collection of ODE
@@ -6641,10 +6641,10 @@ which can be used to solve DAEs with constraints (stopping conditions).
           Maximum number of integration steps to attempt on a single
           call to the underlying Fortran code.
 
- -- : [X, XDOT, T_OUT, ISTAT, MSG] = dasrt (FCN, [], X_0, XDOT_0, T)
- -- : ... = dasrt (FCN, G, X_0, XDOT_0, T)
- -- : ... = dasrt (FCN, [], X_0, XDOT_0, T, T_CRIT)
+ -- : [X, XDOT, T_OUT, ISTAT, MSG] = dasrt (FCN, G, X_0, XDOT_0, T)
  -- : ... = dasrt (FCN, G, X_0, XDOT_0, T, T_CRIT)
+ -- : ... = dasrt (FCN, X_0, XDOT_0, T)
+ -- : ... = dasrt (FCN, X_0, XDOT_0, T, T_CRIT)
      Solve the set of differential-algebraic equations
 
           0 = f (x, xdot, t)
@@ -7225,122 +7225,4 @@ The ‘glpk’ function also supports variations of this problem.
 
           [xmin, fmin, status, extra] = ...
              glpk (c, A, b, lb, ub, ctype, vartype, s, param);
-
-
-File: octave.info,  Node: Quadratic Programming,  Next: Nonlinear Programming,  Prev: Linear Programming,  Up: Optimization
-
-25.2 Quadratic Programming
-==========================
-
-Octave can also solve Quadratic Programming problems, this is
-
-     min 0.5 x'*H*x + x'*q
-
-   subject to
-
-          A*x = b
-          lb <= x <= ub
-          A_lb <= A_in*x <= A_ub
-
- -- : [X, OBJ, INFO, LAMBDA] = qp (X0, H)
- -- : [X, OBJ, INFO, LAMBDA] = qp (X0, H, Q)
- -- : [X, OBJ, INFO, LAMBDA] = qp (X0, H, Q, A, B)
- -- : [X, OBJ, INFO, LAMBDA] = qp (X0, H, Q, A, B, LB, UB)
- -- : [X, OBJ, INFO, LAMBDA] = qp (X0, H, Q, A, B, LB, UB, A_LB, A_IN,
-          A_UB)
- -- : [X, OBJ, INFO, LAMBDA] = qp (..., OPTIONS)
-     Solve a quadratic program (QP).
-
-     Solve the quadratic program defined by
-
-          min 0.5 x'*H*x + x'*q
-           x
-
-     subject to
-
-          A*x = b
-          lb <= x <= ub
-          A_lb <= A_in*x <= A_ub
-
-     using a null-space active-set method.
-
-     Any bound (A, B, LB, UB, A_LB, A_UB) may be set to the empty matrix
-     (‘[]’) if not present.  If the initial guess is feasible the
-     algorithm is faster.
-
-     OPTIONS
-          An optional structure containing the following parameter(s)
-          used to define the behavior of the solver.  Missing elements
-          in the structure take on default values, so you only need to
-          set the elements that you wish to change from the default.
-
-          ‘MaxIter (default: 200)’
-               Maximum number of iterations.
-
-     INFO
-          Structure containing run-time information about the algorithm.
-          The following fields are defined:
-
-          ‘solveiter’
-               The number of iterations required to find the solution.
-
-          ‘info’
-               An integer indicating the status of the solution.
-
-               0
-                    The problem is feasible and convex.  Global solution
-                    found.
-
-               1
-                    The problem is not convex.  Local solution found.
-
-               2
-                    The problem is not convex and unbounded.
-
-               3
-                    Maximum number of iterations reached.
-
-               6
-                    The problem is infeasible.
-
- -- : X = pqpnonneg (C, D)
- -- : X = pqpnonneg (C, D, X0)
- -- : [X, MINVAL] = pqpnonneg (...)
- -- : [X, MINVAL, EXITFLAG] = pqpnonneg (...)
- -- : [X, MINVAL, EXITFLAG, OUTPUT] = pqpnonneg (...)
- -- : [X, MINVAL, EXITFLAG, OUTPUT, LAMBDA] = pqpnonneg (...)
-     Minimize ‘1/2*x'*c*x + d'*x’ subject to ‘X >= 0’.
-
-     C and D must be real, and C must be symmetric and positive
-     definite.
-
-     X0 is an optional initial guess for X.
-
-     Outputs:
-
-        • minval
-
-          The minimum attained model value, 1/2*xmin’*c*xmin + d’*xmin
-
-        • exitflag
-
-          An indicator of convergence.  0 indicates that the iteration
-          count was exceeded, and therefore convergence was not reached;
-          >0 indicates that the algorithm converged.  (The algorithm is
-          stable and will converge given enough iterations.)
-
-        • output
-
-          A structure with two fields:
-
-             • "algorithm": The algorithm used ("nnls")
-
-             • "iterations": The number of iterations taken.
-
-        • lambda
-
-          Not implemented.
-
-     See also: *note optimset: XREFoptimset, *note lsqnonneg:
-     XREFlsqnonneg, *note qp: XREFqp.
 

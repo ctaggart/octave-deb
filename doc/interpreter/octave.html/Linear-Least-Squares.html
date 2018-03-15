@@ -1,15 +1,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<!-- Created by GNU Texinfo 6.3, http://www.gnu.org/software/texinfo/ -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
-<title>GNU Octave: Linear Least Squares</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Linear Least Squares (GNU Octave)</title>
 
-<meta name="description" content="GNU Octave: Linear Least Squares">
-<meta name="keywords" content="GNU Octave: Linear Least Squares">
+<meta name="description" content="Linear Least Squares (GNU Octave)">
+<meta name="keywords" content="Linear Least Squares (GNU Octave)">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link href="index.html#Top" rel="start" title="Top">
 <link href="Concept-Index.html#Concept-Index" rel="index" title="Concept Index">
 <link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
@@ -69,27 +69,40 @@ the <code>gls</code> is needed.
 </p>
 <a name="XREFols"></a><dl>
 <dt><a name="index-ols"></a>: <em>[<var>beta</var>, <var>sigma</var>, <var>r</var>] =</em> <strong>ols</strong> <em>(<var>y</var>, <var>x</var>)</em></dt>
-<dd><p>Ordinary least squares estimation.
+<dd><p>Ordinary least squares (OLS) estimation.
 </p>
 <p>OLS applies to the multivariate model
-<em>y = x*b + e</em><!-- /@w --> with
-<em>mean (e) = 0</em> and <em>cov (vec (e)) = kron (s, I)</em>.
+<em><var>y</var> = <var>x</var>*<var>b</var> + <var>e</var></em><!-- /@w -->
 where
-<em>y</em> is a <em>t</em> by <em>p</em> matrix, <em>x</em> is a <em>t</em> by <em>k</em>
-matrix, <em>b</em> is a <em>k</em> by <em>p</em> matrix, and <em>e</em> is a
-<em>t</em> by <em>p</em> matrix.
+<em><var>y</var></em> is a <em>t</em>-by-<em>p</em> matrix, <em><var>x</var></em> is a
+<em>t</em>-by-<em>k</em> matrix, <var>b</var> is a <em>k</em>-by-<em>p</em> matrix, and
+<var>e</var> is a <em>t</em>-by-<em>p</em> matrix.
 </p>
-<p>Each row of <var>y</var> and <var>x</var> is an observation and each column a
-variable.
+<p>Each row of <var>y</var> is a <em>p</em>-variate observation in which each column
+represents a variable.  Likewise, the rows of <var>x</var> represent
+<em>k</em>-variate observations or possibly designed values.  Furthermore,
+the collection of observations <var>x</var> must be of adequate rank, <em>k</em>,
+otherwise <var>b</var> cannot be uniquely estimated.
+</p>
+<p>The observation errors, <var>e</var>, are assumed to originate from an
+underlying <em>p</em>-variate distribution with zero mean and
+<em>p</em>-by-<em>p</em> covariance matrix <var>S</var>, both constant conditioned
+on <var>x</var>.  Furthermore, the matrix <var>S</var> is constant with respect to
+each observation such that
+<code>mean (<var>e</var>) = 0</code> and
+<code>cov (vec (<var>e</var>)) = kron (<var>s</var>, <var>I</var>)</code>.
+(For cases
+that don&rsquo;t meet this criteria, such as autocorrelated errors, see
+generalized least squares, gls, for more efficient estimations.)
 </p>
 <p>The return values <var>beta</var>, <var>sigma</var>, and <var>r</var> are defined as
 follows.
 </p>
 <dl compact="compact">
 <dt><var>beta</var></dt>
-<dd><p>The OLS estimator for <em>b</em>.
-<var>beta</var> is calculated directly via <code>inv (x'*x) * x' * y</code> if the
-matrix <code>x'*x</code> is of full rank.
+<dd><p>The OLS estimator for matrix <var>b</var>.
+<var>beta</var> is calculated directly via <code>inv (<var>x</var>'*<var>x</var>) * <var>x</var>' * <var>y</var></code> if the
+matrix <code><var>x</var>'*<var>x</var></code> is of full rank.
 Otherwise, <code><var>beta</var> = pinv (<var>x</var>) * <var>y</var></code> where
 <code>pinv (<var>x</var>)</code> denotes the pseudoinverse of <var>x</var>.
 </p>
@@ -98,9 +111,7 @@ Otherwise, <code><var>beta</var> = pinv (<var>x</var>) * <var>y</var></code> whe
 <dd><p>The OLS estimator for the matrix <var>s</var>,
 </p>
 <div class="example">
-<pre class="example"><var>sigma</var> = (<var>y</var>-<var>x</var>*<var>beta</var>)'
-  * (<var>y</var>-<var>x</var>*<var>beta</var>)
-  / (<var>t</var>-rank(<var>x</var>))
+<pre class="example"><var>sigma</var> = (<var>y</var>-<var>x</var>*<var>beta</var>)' * (<var>y</var>-<var>x</var>*<var>beta</var>) / (<em>t</em>-rank(<var>x</var>))
 </pre></div>
 
 </dd>
@@ -115,32 +126,44 @@ Otherwise, <code><var>beta</var> = pinv (<var>x</var>) * <var>y</var></code> whe
 
 <a name="XREFgls"></a><dl>
 <dt><a name="index-gls"></a>: <em>[<var>beta</var>, <var>v</var>, <var>r</var>] =</em> <strong>gls</strong> <em>(<var>y</var>, <var>x</var>, <var>o</var>)</em></dt>
-<dd><p>Generalized least squares model.
+<dd><p>Generalized least squares (GLS) model.
 </p>
 <p>Perform a generalized least squares estimation for the multivariate model
-<em>y = x*b + e</em><!-- /@w --> with <em>mean (e) = 0</em> and
-<em>cov (vec (e)) = (s^2) o</em>,
+<em><var>y</var> = <var>x</var>*<var>B</var> + <var>E</var></em><!-- /@w -->
 where
-<em>y</em> is a <em>t</em> by <em>p</em> matrix, <em>x</em> is a <em>t</em> by
-<em>k</em> matrix, <em>b</em> is a <em>k</em> by <em>p</em> matrix, <em>e</em>
-is a <em>t</em> by <em>p</em> matrix, and <em>o</em> is a <em>t*p</em> by
-<em>t*p</em> matrix.
+<var>y</var> is a <em>t</em>-by-<em>p</em> matrix, <var>x</var> is a
+<em>t</em>-by-<em>k</em> matrix, <var>b</var> is a <em>k</em>-by-<em>p</em> matrix
+and <var>e</var> is a <em>t</em>-by-<em>p</em> matrix.
 </p>
-<p>Each row of <var>y</var> and <var>x</var> is an observation and each column a
-variable.  The return values <var>beta</var>, <var>v</var>, and <var>r</var> are
+<p>Each row of <var>y</var> is a <em>p</em>-variate observation in which each column
+represents a variable.  Likewise, the rows of <var>x</var> represent
+<em>k</em>-variate observations or possibly designed values.  Furthermore,
+the collection of observations <var>x</var> must be of adequate rank, <em>k</em>,
+otherwise <var>b</var> cannot be uniquely estimated.
+</p>
+<p>The observation errors, <var>e</var>, are assumed to originate from an
+underlying <em>p</em>-variate distribution with zero mean but possibly
+heteroscedastic observations.  That is, in general,
+<code><em>mean (<var>e</var>) = 0</em></code> and
+<code><em>cov (vec (<var>e</var>)) = (<em>s</em>^2)*<var>o</var></em></code>
+in which <em>s</em> is a scalar and <var>o</var> is a
+<em>t*p</em>-by-<em>t*p</em>
+matrix.
+</p>
+<p>The return values <var>beta</var>, <var>v</var>, and <var>r</var> are
 defined as follows.
 </p>
 <dl compact="compact">
 <dt><var>beta</var></dt>
-<dd><p>The GLS estimator for <em>b</em>.
+<dd><p>The GLS estimator for matrix <var>b</var>.
 </p>
 </dd>
 <dt><var>v</var></dt>
-<dd><p>The GLS estimator for <em>s^2</em>.
+<dd><p>The GLS estimator for scalar <em>s^2</em>.
 </p>
 </dd>
 <dt><var>r</var></dt>
-<dd><p>The matrix of GLS residuals, <em>r = y - x*beta</em>.
+<dd><p>The matrix of GLS residuals, <em><var>r</var> = <var>y</var> - <var>x</var>*<var>beta</var></em>.
 </p></dd>
 </dl>
 

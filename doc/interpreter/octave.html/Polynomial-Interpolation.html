@@ -1,15 +1,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<!-- Created by GNU Texinfo 6.3, http://www.gnu.org/software/texinfo/ -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
-<title>GNU Octave: Polynomial Interpolation</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Polynomial Interpolation (GNU Octave)</title>
 
-<meta name="description" content="GNU Octave: Polynomial Interpolation">
-<meta name="keywords" content="GNU Octave: Polynomial Interpolation">
+<meta name="description" content="Polynomial Interpolation (GNU Octave)">
+<meta name="keywords" content="Polynomial Interpolation (GNU Octave)">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link href="index.html#Top" rel="start" title="Top">
 <link href="Concept-Index.html#Concept-Index" rel="index" title="Concept Index">
 <link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
@@ -470,7 +470,7 @@ plot (xi, yi);
 intervals is given by <code><var>ni</var> = length (<var>breaks</var>) - 1</code>.
 </p>
 <p>When <var>m</var> is the polynomial order <var>coefs</var> must be of size:
-<var>ni</var> x <var>m</var> + 1.
+<var>ni</var><span class="nolinebreak">-by-(</span><var>m</var>&nbsp;+&nbsp;1)<!-- /@w -->.
 </p>
 <p>The i-th row of <var>coefs</var>, <code><var>coefs</var> (<var>i</var>,:)</code>, contains the
 coefficients for the polynomial over the <var>i</var>-th interval, ordered from
@@ -478,10 +478,10 @@ highest (<var>m</var>) to lowest (<var>0</var>).
 </p>
 <p><var>coefs</var> may also be a multi-dimensional array, specifying a
 vector-valued or array-valued polynomial.  In that case the polynomial
-order is defined by the length of the last dimension of <var>coefs</var>.  The
-size of first dimension(s) are given by the scalar or vector <var>d</var>.  If
-<var>d</var> is not given it is set to <code>1</code>.  In any case <var>coefs</var> is
-reshaped to a 2-D matrix of size <code>[<var>ni</var>*prod(<var>d</var> <var>m</var>)]</code>.
+order <var>m</var> is defined by the length of the last dimension of <var>coefs</var>.
+The size of first dimension(s) are given by the scalar or vector <var>d</var>.
+If <var>d</var> is not given it is set to <code>1</code>.  In any case <var>coefs</var> is
+reshaped to a 2-D matrix of size <code>[<var>ni</var>*prod(<var>d</var>) <var>m</var>]</code>.
 </p>
 
 <p><strong>See also:</strong> <a href="#XREFunmkpp">unmkpp</a>, <a href="#XREFppval">ppval</a>, <a href="One_002ddimensional-Interpolation.html#XREFspline">spline</a>, <a href="Signal-Processing.html#XREFpchip">pchip</a>, <a href="#XREFppder">ppder</a>, <a href="#XREFppint">ppint</a>, <a href="#XREFppjumps">ppjumps</a>.

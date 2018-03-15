@@ -435,13 +435,13 @@ converted through @code{char} can mostly be converted back with
 @example
 @group
 char ([97, 98, 99], "", @{"98", "99", 100@}, "str1", ["ha", "lf"])
-   @result{} ["abc    "
-       "       "
-       "98     "
-       "99     "
-       "d      "
-       "str1   "
-       "half   "]
+   @result{} ["abc "
+       "    "
+       "98  "
+       "99  "
+       "d   "
+       "str1"
+       "half"]
 @end group
 @end example
 @seealso{@ref{XREFstrvcat,,strvcat}, @ref{XREFcellstr,,cellstr}}
@@ -473,12 +473,12 @@ converted through @code{strvcat} can mostly be converted back with
 @example
 @group
 strvcat ([97, 98, 99], "", @{"98", "99", 100@}, "str1", ["ha", "lf"])
-      @result{} ["abc    "
-          "98     "
-          "99     "
-          "d      "
-          "str1   "
-          "half   "]
+      @result{} ["abc "
+          "98  "
+          "99  "
+          "d   "
+          "str1"
+          "half"]
 @end group
 @end example
 @seealso{@ref{XREFchar,,char}, @ref{XREFstrcat,,strcat}, @ref{XREFcstrcat,,cstrcat}}
@@ -1336,7 +1336,9 @@ The word is parsed as a number and converted to double.
 @itemx %u
 The word is parsed as a number and converted to int32.
 
-@item %*', '%*f', '%*s
+@item  %*
+@itemx %*f
+@itemx %*s
 The word is skipped.
 
 For %s and %d, %f, %n, %u and the associated %*s @dots{} specifiers an
@@ -1739,6 +1741,18 @@ Return zero-length matches.
 are zero or more @qcode{'b'} characters at positions 1 and end-of-string.
 
 @end table
+Stack Limitation Note: Pattern searches are done with a recursive function
+which can overflow the program stack when there are a high number of matches.
+For example,
+
+@example
+@code{regexp (repmat ('a', 1, 1e5), '(a)+')}
+@end example
+
+may lead to a segfault.  As an alternative, consider constructing pattern
+searches that reduce the number of matches (e.g., by creatively using set
+complement), and then further processing the return variables (now reduced in
+size) with successive @code{regexp} searches.
 @seealso{@ref{XREFregexpi,,regexpi}, @ref{XREFstrfind,,strfind}, @ref{XREFregexprep,,regexprep}}
 @end deftypefn
 
@@ -1816,7 +1830,7 @@ wildcards that are appropriate for a regular expression.  For example:
 @example
 @group
 regexptranslate ("wildcard", "*.m")
-     @result{} ".*\.m"
+     @result{} '.*\.m'
 @end group
 @end example
 
@@ -1827,7 +1841,7 @@ expressions are escaped so that they are treated literally.  For example:
 @example
 @group
 regexptranslate ("escape", "12.5")
-     @result{} "12\.5"
+     @result{} '12\.5'
 @end group
 @end example
 

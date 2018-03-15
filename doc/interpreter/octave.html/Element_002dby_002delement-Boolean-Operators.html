@@ -1,15 +1,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<!-- Created by GNU Texinfo 6.3, http://www.gnu.org/software/texinfo/ -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
-<title>GNU Octave: Element-by-element Boolean Operators</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Element-by-element Boolean Operators (GNU Octave)</title>
 
-<meta name="description" content="GNU Octave: Element-by-element Boolean Operators">
-<meta name="keywords" content="GNU Octave: Element-by-element Boolean Operators">
+<meta name="description" content="Element-by-element Boolean Operators (GNU Octave)">
+<meta name="keywords" content="Element-by-element Boolean Operators (GNU Octave)">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link href="index.html#Top" rel="start" title="Top">
 <link href="Concept-Index.html#Concept-Index" rel="index" title="Concept Index">
 <link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
@@ -137,12 +137,12 @@ described for matrix-valued operands.
 <dt><a name="index-and-1"></a>: <em><var>z</var> =</em> <strong>and</strong> <em>(<var>x1</var>, <var>x2</var>, &hellip;)</em></dt>
 <dd><p>Return the logical AND of <var>x</var> and <var>y</var>.
 </p>
-<p>This function is equivalent to the operator syntax <code>x&nbsp;&amp;&nbsp;y</code><!-- /@w -->.  If
-more than two arguments are given, the logical AND is applied cumulatively
-from left to right:
+<p>This function is equivalent to the operator syntax
+<code><var>x</var>&nbsp;&amp;&nbsp;<var>y</var></code><!-- /@w -->.  If more than two arguments are given, the
+logical AND is applied cumulatively from left to right:
 </p>
 <div class="example">
-<pre class="example">(&hellip;((x1 &amp; x2) &amp; x3) &amp; &hellip;)
+<pre class="example">(&hellip;((<var>x1</var> &amp; <var>x2</var>) &amp; <var>x3</var>) &amp; &hellip;)
 </pre></div>
 
 <p>At least one argument is required.
@@ -157,7 +157,7 @@ from left to right:
 <dt><a name="index-not"></a>: <em><var>z</var> =</em> <strong>not</strong> <em>(<var>x</var>)</em></dt>
 <dd><p>Return the logical NOT of <var>x</var>.
 </p>
-<p>This function is equivalent to the operator syntax <code>!&nbsp;x</code><!-- /@w -->.
+<p>This function is equivalent to the operator syntax <code>!&nbsp;<var>x</var></code><!-- /@w -->.
 </p>
 <p><strong>See also:</strong> <a href="#XREFand">and</a>, <a href="#XREFor">or</a>, <a href="Finding-Elements-and-Checking-Conditions.html#XREFxor">xor</a>.
 </p></dd></dl>
@@ -169,12 +169,12 @@ from left to right:
 <dt><a name="index-or-1"></a>: <em><var>z</var> =</em> <strong>or</strong> <em>(<var>x1</var>, <var>x2</var>, &hellip;)</em></dt>
 <dd><p>Return the logical OR of <var>x</var> and <var>y</var>.
 </p>
-<p>This function is equivalent to the operator syntax <code>x&nbsp;|&nbsp;y</code><!-- /@w -->.  If
-more than two arguments are given, the logical OR is applied cumulatively
-from left to right:
+<p>This function is equivalent to the operator syntax
+<code><var>x</var>&nbsp;|&nbsp;<var>y</var></code><!-- /@w -->.  If more than two arguments are given, the
+logical OR is applied cumulatively from left to right:
 </p>
 <div class="example">
-<pre class="example">(&hellip;((x1 | x2) | x3) | &hellip;)
+<pre class="example">(&hellip;((<var>x1</var> | <var>x2</var>) | <var>x3</var>) | &hellip;)
 </pre></div>
 
 <p>At least one argument is required.

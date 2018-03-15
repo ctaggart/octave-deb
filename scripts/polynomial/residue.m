@@ -296,7 +296,6 @@ function [pnum, pden, e] = rresidue (r, p, k, toler, e)
   endif
 
   indx = 1:numel (p);
-
   for n = indx
     pn = [1, -p(n)];
     if (n == 1)
@@ -320,33 +319,24 @@ function [pnum, pden, e] = rresidue (r, p, k, toler, e)
   pnum = zeros (1, N+1);
   for n = indx(abs (r) > 0)
     p1 = [1, -p(n)];
-    for m = 1:e(n)
-      if (m == 1)
-        pm = p1;
-      else
-        pm = conv (pm, p1);
-      endif
-    endfor
-    pn = deconv (pden, pm);
+    pn = 1;
+    for j = 1:n - 1
+      pn = conv (pn, [1, -p(j)]);
+    end
+    for j = n + 1:numel (p)
+      pn = conv (pn, [1, -p(j)]);
+    end
+    for j = 1:e(n) - 1
+      pn = deconv (pn, p1);
+    end
     pn = r(n) * pn;
     pnum += prepad (pn, N+1, 0, 2);
   endfor
 
   ## Add the direct term.
-
   if (numel (k))
     pnum += conv (pden, k);
   endif
-
-  ## Check for leading zeros and trim the polynomial coefficients.
-  if (isa (r, "single") || isa (p, "single") || isa (k, "single"))
-    small = max ([max(abs(pden)), max(abs(pnum)), 1]) * eps ("single");
-  else
-    small = max ([max(abs(pden)), max(abs(pnum)), 1]) * eps;
-  endif
-
-  pnum(abs (pnum) < small) = 0;
-  pden(abs (pden) < small) = 0;
 
   pnum = polyreduce (pnum);
   pden = polyreduce (pden);
@@ -383,7 +373,7 @@ endfunction
 %! assert (isempty (k));
 %! assert (e, [1; 2; 1; 2]);
 %! [br, ar] = residue (r, p, k);
-%! assert (br, b, 1e-12);
+%! assert (br, [0,b], 1e-12);
 %! assert (ar, a, 1e-12);
 
 %!test
@@ -431,5 +421,20 @@ endfunction
 %! b = [1, z1];
 %! a = [1, -(p1 + p2), p1*p2, 0, 0];
 %! [br, ar] = residue (r, p, k, e);
-%! assert (br, b, 1e-8);
+%! assert (br, [0,0,b], 1e-7);
 %! assert (ar, a, 1e-8);
+
+%!test <49291>
+%! rf = [1e3, 2e3, 1e3, 2e3];
+%! cf = [316.2e-9, 50e-9, 31.6e-9, 5e-9];
+%! [num, den] = residue (1./cf,-1./(rf.*cf),0);
+%! assert (numel (num), 4);
+%! assert (numel (den), 5);
+%! assert (den(1), 1);
+
+%!test <51148>
+%! r = [1.0000e+18, 3.5714e+12, 2.2222e+11, 2.1739e+10];
+%! pin = [-1.9231e+15, -1.6234e+09, -4.1152e+07, -1.8116e+06];
+%! k = 0;
+%! [p, q] = residue (r, pin, k);
+%! assert (p(4), 4.6828e+42, -1e-5);

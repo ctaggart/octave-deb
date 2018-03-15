@@ -239,6 +239,13 @@ OpenGL
      because plot data can be rendered directly instead of sending data
      and commands to gnuplot for interpretation and rendering.
 
+PortAudio
+     PortAudio (<http://www.portaudio.com/>) provides a very simple API
+     for recording and/or playing sound using a simple callback function
+     or a blocking read/write interface.  It is required for the audio
+     processing functions 'audioplayer', 'audiorecorder', and
+     'audiodevinfo'.
+
 Qhull
      Computational geometry library (<http://www.qhull.org>).  Qhull is
      required to provide the functions 'convhull', 'convhulln',
@@ -266,6 +273,12 @@ SuiteSparse
      (<http://www.cise.ufl.edu/research/sparse/SuiteSparse>).
      SuiteSparse is required to provide sparse matrix factorizations and
      solution of linear equations for sparse systems.
+
+SUNDIALS
+     The SUite of Nonlinear and DIfferential/ALgebraic Equation Solvers
+     (<http://computation.llnl.gov/projects/sundials>) is required for
+     the Ordinary Differential Equations (ODE) solvers 'ode15i' and
+     'ode15s'.
 
 zlib
      Data compression library (<http://zlib.net>).  The zlib library is

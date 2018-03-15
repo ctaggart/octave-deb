@@ -1,15 +1,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<!-- Created by GNU Texinfo 6.3, http://www.gnu.org/software/texinfo/ -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
-<title>GNU Octave: Two-dimensional Function Plotting</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Two-dimensional Function Plotting (GNU Octave)</title>
 
-<meta name="description" content="GNU Octave: Two-dimensional Function Plotting">
-<meta name="keywords" content="GNU Octave: Two-dimensional Function Plotting">
+<meta name="description" content="Two-dimensional Function Plotting (GNU Octave)">
+<meta name="keywords" content="Two-dimensional Function Plotting (GNU Octave)">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link href="index.html#Top" rel="start" title="Top">
 <link href="Concept-Index.html#Concept-Index" rel="index" title="Concept Index">
 <link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
@@ -94,14 +94,14 @@ given in any order.
 to 2e-3 (.2%).
 </p>
 <p><var>n</var> is the minimum number of points to use.  When <var>n</var> is specified,
-the maximum stepsize will be <code><var>xhi</var> - <var>xlo</var> / <var>n</var></code>.  More
+the maximum stepsize will be <code>(<var>xhi</var> - <var>xlo</var>) / <var>n</var></code>.  More
 than <var>n</var> points may still be used in order to meet the relative
 tolerance requirement.
 </p>
 <p>The <var>fmt</var> argument specifies the linestyle to be used by the plot
 command.
 </p>
-<p>If the first argument <var>hax</var> is an axes handle, then plot into this axis,
+<p>If the first argument <var>hax</var> is an axes handle, then plot into this axes,
 rather than the current axes returned by <code>gca</code>.
 </p>
 <p>With no output arguments the results are immediately plotted.  With two
@@ -178,7 +178,7 @@ values of both <var>x</var> and <var>y</var>, or <var>t</var> for a parametric p
 <p><var>n</var> is a scalar defining the number of points to use in plotting
 the function.
 </p>
-<p>If the first argument <var>hax</var> is an axes handle, then plot into this axis,
+<p>If the first argument <var>hax</var> is an axes handle, then plot into this axes,
 rather than the current axes returned by <code>gca</code>.
 </p>
 <p>The optional return value <var>h</var> is a vector of graphics handles to
@@ -208,7 +208,7 @@ then the minimum and maximum values are <code>[xmin xmax ymin ymax]</code>.
 </p>
 <p><var>n</var> is a scalar defining the number of points to use in each dimension.
 </p>
-<p>If the first argument <var>hax</var> is an axes handle, then plot into this axis,
+<p>If the first argument <var>hax</var> is an axes handle, then plot into this axes,
 rather than the current axes returned by <code>gca</code>.
 </p>
 <p>The optional return value <var>h</var> is a graphics handle to the created plot.
@@ -244,7 +244,7 @@ then the minimum and maximum values are <code>[xmin xmax ymin ymax]</code>.
 </p>
 <p><var>n</var> is a scalar defining the number of points to use in each dimension.
 </p>
-<p>If the first argument <var>hax</var> is an axes handle, then plot into this axis,
+<p>If the first argument <var>hax</var> is an axes handle, then plot into this axes,
 rather than the current axes returned by <code>gca</code>.
 </p>
 <p>The optional return value <var>h</var> is a graphics handle to the created plot.
@@ -282,7 +282,7 @@ values of <var>theta</var>.
 <p><var>n</var> is a scalar defining the number of points to use in plotting
 the function.
 </p>
-<p>If the first argument <var>hax</var> is an axes handle, then plot into this axis,
+<p>If the first argument <var>hax</var> is an axes handle, then plot into this axes,
 rather than the current axes returned by <code>gca</code>.
 </p>
 <p>The optional return value <var>h</var> is a graphics handle to the created plot.

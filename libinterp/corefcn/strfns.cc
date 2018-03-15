@@ -66,13 +66,13 @@ converted through @code{char} can mostly be converted back with
 @example
 @group
 char ([97, 98, 99], "", @{"98", "99", 100@}, "str1", ["ha", "lf"])
-   @result{} ["abc    "
-       "       "
-       "98     "
-       "99     "
-       "d      "
-       "str1   "
-       "half   "]
+   @result{} ["abc "
+       "    "
+       "98  "
+       "99  "
+       "d   "
+       "str1"
+       "half"]
 @end group
 @end example
 @seealso{strvcat, cellstr}
@@ -192,12 +192,12 @@ converted through @code{strvcat} can mostly be converted back with
 @example
 @group
 strvcat ([97, 98, 99], "", @{"98", "99", 100@}, "str1", ["ha", "lf"])
-      @result{} ["abc    "
-          "98     "
-          "99     "
-          "d      "
-          "str1   "
-          "half   "]
+      @result{} ["abc "
+          "98  "
+          "99  "
+          "d   "
+          "str1"
+          "half"]
 @end group
 @end example
 @seealso{char, strcat, cstrcat}
@@ -598,6 +598,7 @@ This is just the opposite of the corresponding C library function.
 %!assert (strcmp (y, {"foo"}), [false; false])
 %!assert (strcmp (y, {"foo"}), [false; false])
 %!assert (strcmp ("foobar", "foobar"), true)
+%!assert (strcmp ("foobar", "fooBar"), false)
 %!assert (strcmp ("fooba", "foobar"), false)
 
 %!error strcmp ()
@@ -651,6 +652,7 @@ This is just the opposite of the corresponding C library function.
 
 /*
 %!assert (strncmp ("abce", "abc", 3), true)
+%!assert (strncmp ("abce", "aBc", 3), false)
 %!assert (strncmp (100, 100, 1), false)
 %!assert (strncmp ("abce", {"abcd", "bca", "abc"}, 3), logical ([1, 0, 1]))
 %!assert (strncmp ("abc",  {"abcd", "bca", "abc"}, 4), logical ([0, 0, 0]))

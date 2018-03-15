@@ -29,6 +29,7 @@ along with Octave; see the file COPYING.  If not, see
 #include <cctype>
 #include <cstring>
 
+#include <algorithm>
 #include <deque>
 #include <fstream>
 #include <iomanip>
@@ -1468,6 +1469,8 @@ namespace octave
         buf_in_file += (idx - buf);
         memmove (buf, idx, old_remaining);
       }
+    else
+      buf_in_file = i_stream.tellg ();    // record for destructor
 
     progress_marker -= idx - buf;         // where original idx would have been
     idx = buf;
@@ -1475,7 +1478,6 @@ namespace octave
     int gcount;   // chars read
     if (! i_stream.eof ())
       {
-        buf_in_file = i_stream.tellg ();   // record for destructor
         i_stream.read (buf + old_remaining, bufsize - old_remaining);
         gcount = i_stream.gcount ();
       }
@@ -3716,6 +3718,24 @@ namespace octave
           error ("%s: unrecognized option '%s'", who.c_str (), param.c_str ());
       }
 
+    // Remove any user-supplied delimiter from whitespace list
+    for (unsigned int j = 0; j < delims.length (); j++)
+      {
+        whitespace.erase (std::remove (whitespace.begin (),
+                                       whitespace.end (),
+                                       delims[j]),
+                          whitespace.end ());
+      }
+    for (int j = 0; j < delim_list.numel (); j++)
+      {
+        std::string delim = delim_list(j).string_value ();
+        if (delim.length () == 1)
+          whitespace.erase (std::remove (whitespace.begin (), 
+                                         whitespace.end (),
+                                         delim[0]),
+                            whitespace.end ());
+      }
+
     whitespace_table = std::string (256, '\0');
     for (unsigned int i = 0; i < whitespace.length (); i++)
       whitespace_table[whitespace[i]] = '1';
@@ -4572,7 +4592,8 @@ do_scanf_conv (std::istream&, const scanf_format_elt&, double*,
                       data = mval.fortran_vec ();                       \
                     }                                                   \
                                                                         \
-                  data[data_index++] = tmp[i++];                        \
+                  data[data_index++] = static_cast<unsigned char>       \
+                                                  (tmp[i++]);           \
                 }                                                       \
             }                                                           \
         }                                                               \
