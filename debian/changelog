@@ -1,3 +1,18 @@
+octave (4.2.2-1) unstable; urgency=medium
+
+  [ Mike Miller ]
+  * Use secure URLs for upstream source and docs.
+  * Add autopkgtest test suite
+
+  [ Sébastien Villemot ]
+  * New upstream version 4.2.2
+    - octave.desktop.in: fixes repetition of Name in Comment field and start
+      I10n (Closes: #889739)
+  * d/copyright: reflect upstream changes.
+  * Drop patches applied upstream: strncmp.patch, qscintilla-rename.patch.
+
+ -- Sébastien Villemot <sebastien@debian.org>  Thu, 15 Mar 2018 11:43:36 +0100
+
 octave (4.2.1-7) unstable; urgency=medium
 
   * Add missing Breaks+Replaces on octave-doc against octave-{info,htmldoc}.
