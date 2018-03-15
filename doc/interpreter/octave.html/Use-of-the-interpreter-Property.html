@@ -1,15 +1,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<!-- Created by GNU Texinfo 6.3, http://www.gnu.org/software/texinfo/ -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
-<title>GNU Octave: Use of the interpreter Property</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Use of the interpreter Property (GNU Octave)</title>
 
-<meta name="description" content="GNU Octave: Use of the interpreter Property">
-<meta name="keywords" content="GNU Octave: Use of the interpreter Property">
+<meta name="description" content="Use of the interpreter Property (GNU Octave)">
+<meta name="keywords" content="Use of the interpreter Property (GNU Octave)">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link href="index.html#Top" rel="start" title="Top">
 <link href="Concept-Index.html#Concept-Index" rel="index" title="Concept Index">
 <link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
@@ -172,6 +172,16 @@ immediately following the <code>'^'</code> or <code>'_'</code> is changed.
 
 <div class="float-caption"><p><strong>Table 15.1: </strong>Available special characters in TeX mode</p></div></div><div class="float">
 </div>
+<a name="Degree-Symbol"></a>
+<h4 class="subsubsection">15.2.8.1 Degree Symbol</h4>
+<a name="index-Degree-Symbol"></a>
+
+<p>Conformance to both TeX and <small>MATLAB</small> with respect to the <code>\circ</code>
+symbol is impossible.  While TeX translates this symbol to Unicode&nbsp;2218<!-- /@w -->
+(U+2218), <small>MATLAB</small> maps this to Unicode&nbsp;00B0<!-- /@w --> (U+00B0) instead.  Octave
+has chosen to follow the TeX specification, but has added the additional
+symbol <code>\deg</code> which maps to the degree symbol (U+00B0).
+</p>
 <hr>
 <div class="header">
 <p>

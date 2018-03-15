@@ -1,15 +1,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<!-- Created by GNU Texinfo 6.3, http://www.gnu.org/software/texinfo/ -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
-<title>GNU Octave: External Packages</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>External Packages (GNU Octave)</title>
 
-<meta name="description" content="GNU Octave: External Packages">
-<meta name="keywords" content="GNU Octave: External Packages">
+<meta name="description" content="External Packages (GNU Octave)">
+<meta name="keywords" content="External Packages (GNU Octave)">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link href="index.html#Top" rel="start" title="Top">
 <link href="Concept-Index.html#Concept-Index" rel="index" title="Concept Index">
 <link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
@@ -177,6 +177,14 @@ rendered directly instead of sending data and commands to gnuplot for
 interpretation and rendering.
 </p>
 </dd>
+<dt>PortAudio</dt>
+<dd><p>PortAudio (<a href="http://www.portaudio.com/">http://www.portaudio.com/</a>) provides a very simple API
+for recording and/or playing sound using a simple callback function or
+a blocking read/write interface.  It is required for the audio processing
+functions <code>audioplayer</code>, <code>audiorecorder</code>, and
+<code>audiodevinfo</code>.
+</p>
+</dd>
 <dt>Qhull</dt>
 <dd><p>Computational geometry library (<a href="http://www.qhull.org">http://www.qhull.org</a>).  Qhull is
 required to provide the functions <code>convhull</code>, <code>convhulln</code>,
@@ -208,6 +216,13 @@ core, and network modules.
 (<a href="http://www.cise.ufl.edu/research/sparse/SuiteSparse">http://www.cise.ufl.edu/research/sparse/SuiteSparse</a>).
 SuiteSparse is required to provide sparse matrix factorizations and
 solution of linear equations for sparse systems.
+</p>
+</dd>
+<dt>SUNDIALS</dt>
+<dd><p>The SUite of Nonlinear and DIfferential/ALgebraic Equation Solvers
+(<a href="http://computation.llnl.gov/projects/sundials">http://computation.llnl.gov/projects/sundials</a>) is required for
+the Ordinary Differential Equations (ODE) solvers <code>ode15i</code> and
+<code>ode15s</code>.
 </p>
 </dd>
 <dt>zlib</dt>

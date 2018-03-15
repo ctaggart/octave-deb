@@ -1,15 +1,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<!-- Created by GNU Texinfo 6.3, http://www.gnu.org/software/texinfo/ -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
-<title>GNU Octave: Multiple Plots on One Page</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Multiple Plots on One Page (GNU Octave)</title>
 
-<meta name="description" content="GNU Octave: Multiple Plots on One Page">
-<meta name="keywords" content="GNU Octave: Multiple Plots on One Page">
+<meta name="description" content="Multiple Plots on One Page (GNU Octave)">
+<meta name="keywords" content="Multiple Plots on One Page (GNU Octave)">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link href="index.html#Top" rel="start" title="Top">
 <link href="Concept-Index.html#Concept-Index" rel="index" title="Concept Index">
 <link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
@@ -109,7 +109,7 @@ and then the next row is filled.
 </pre></div>
 
 
-<p><var>index</var> may also be a vector.  In this case, the new axis will enclose
+<p><var>index</var> may also be a vector.  In this case, the new axes will enclose
 the grid locations specified.  The first demo illustrates this:
 </p>
 <div class="example">
@@ -120,10 +120,10 @@ the grid locations specified.  The first demo illustrates this:
 handle, <var>hax</var>, returned from a previous <code>subplot</code> command.
 </p>
 <p>If the option <code>&quot;align&quot;</code> is given then the plot boxes of the subwindows
-will align, but this may leave no room for axis tick marks or labels.
+will align, but this may leave no room for axes tick marks or labels.
 </p>
-<p>If the option <code>&quot;replace&quot;</code> is given then the subplot axis will be
-reset, rather than just switching the current axis for plotting to the
+<p>If the option <code>&quot;replace&quot;</code> is given then the subplot axes will be
+reset, rather than just switching the current axes for plotting to the
 requested subplot.
 </p>
 <p>The <code>&quot;position&quot;</code> property can be used to exactly position the subplot
@@ -133,7 +133,7 @@ The values in <var>pos</var> are normalized in the range [0,1].
 </p>
 <p>Any property/value pairs are passed directly to the underlying axes object.
 </p>
-<p>If the output <var>hax</var> is requested, subplot returns the axis handle for
+<p>If the output <var>hax</var> is requested, subplot returns the axes handle for
 the subplot.  This is useful for modifying the properties of a subplot
 using <code>set</code>.
 </p>

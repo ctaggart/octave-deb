@@ -1,15 +1,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<!-- Created by GNU Texinfo 6.3, http://www.gnu.org/software/texinfo/ -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
-<title>GNU Octave: Ordinary Differential Equations</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Ordinary Differential Equations (GNU Octave)</title>
 
-<meta name="description" content="GNU Octave: Ordinary Differential Equations">
-<meta name="keywords" content="GNU Octave: Ordinary Differential Equations">
+<meta name="description" content="Ordinary Differential Equations (GNU Octave)">
+<meta name="keywords" content="Ordinary Differential Equations (GNU Octave)">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link href="index.html#Top" rel="start" title="Top">
 <link href="Concept-Index.html#Concept-Index" rel="index" title="Concept Index">
 <link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
@@ -137,8 +137,9 @@ jac = ---- = |                       |
 </pre></div>
 
 
-<p>The second and third arguments specify the initial state of the system,
-<em>x_0</em>, and the initial value of the independent variable <em>t_0</em>.
+<p>The second argument specifies the initial state of the system <em>x_0</em>.  The
+third argument is a vector, <var>t</var>, specifying the time values for which a
+solution is sought.
 </p>
 <p>The fourth argument is optional, and may be used to specify a set of
 times that the ODE solver should not integrate past.  It is useful for
@@ -249,7 +250,7 @@ function xdot = f (x, t)
 
   xdot = zeros (3,1);
 
-  xdot(1) = 77.27 * (x(2) - x(1)*x(2) + x(1) \
+  xdot(1) = 77.27 * (x(2) - x(1)*x(2) + x(1) ...
             - 8.375e-06*x(1)^2);
   xdot(2) = (x(3) - x(1)*x(2) - x(2)) / 77.27;
   xdot(3) = 0.161*(x(1) - x(3));
@@ -271,7 +272,7 @@ dramatically between <var>t</var> = 0 and 5, and again around <var>t</var> = 305
 A more efficient set of output points might be
 </p>
 <div class="example">
-<pre class="example">t = [0, logspace(-1, log10(303), 150), \
+<pre class="example">t = [0, logspace(-1, log10(303), 150), ...
         logspace(log10(304), log10(500), 150)];
 </pre></div>
 

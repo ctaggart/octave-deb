@@ -209,9 +209,9 @@ The following methods are used to control player playback.
 @deftypefnx {} {} play (@var{player}, @var{limits})
 Play audio stored in the audioplayer object @var{player} without blocking.
 
-Given optional argument start, begin playing at @var{start} seconds in the
+Given optional argument start, begin playing at @var{start} samples in the
 recording.  Given a two-element vector @var{limits}, begin and end playing
-at the number of seconds specified by the elements of the vector.
+at the number of samples specified by the elements of the vector.
 @end deftypefn
 
 
@@ -222,9 +222,9 @@ at the number of seconds specified by the elements of the vector.
 @deftypefnx {} {} playblocking (@var{player}, @var{limits})
 Play audio stored in the audioplayer object @var{player} with blocking.
 
-Given optional argument start, begin playing at @var{start} seconds in the
+Given optional argument start, begin playing at @var{start} samples in the
 recording.  Given a two-element vector @var{limits}, begin and end playing
-at the number of seconds specified by the elements of the vector.
+at the number of samples specified by the elements of the vector.
 @end deftypefn
 
 
@@ -484,7 +484,7 @@ files holding data in mu-law encoding end in @file{au}, @file{mu}, or
 
 @c lin2mu scripts/audio/lin2mu.m
 @anchor{XREFlin2mu}
-@deftypefn {} {} lin2mu (@var{x}, @var{n})
+@deftypefn {} {@var{y} =} lin2mu (@var{x}, @var{n})
 Convert audio data from linear to mu-law.
 
 Mu-law values use 8-bit unsigned integers.  Linear values use @var{n}-bit
@@ -499,12 +499,12 @@ the range of values in @var{x}.
 
 @c mu2lin scripts/audio/mu2lin.m
 @anchor{XREFmu2lin}
-@deftypefn {} {} mu2lin (@var{x}, @var{n})
+@deftypefn {} {@var{y} =} mu2lin (@var{x}, @var{n})
 Convert audio data from mu-law to linear.
 
 Mu-law values are 8-bit unsigned integers.  Linear values use @var{n}-bit
-signed integers or floating point values in the range -1@leq{}y@leq{}1 if
-@var{n} is 0.
+signed integers or floating point values in the range -1 @leq{} @var{y}
+@leq{} 1 if @var{n} is 0.
 
 If @var{n} is not specified it defaults to 0.
 @seealso{@ref{XREFlin2mu,,lin2mu}}

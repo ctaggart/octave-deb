@@ -1,15 +1,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<!-- Created by GNU Texinfo 6.3, http://www.gnu.org/software/texinfo/ -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
-<title>GNU Octave: Opening and Closing Files</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Opening and Closing Files (GNU Octave)</title>
 
-<meta name="description" content="GNU Octave: Opening and Closing Files">
-<meta name="keywords" content="GNU Octave: Opening and Closing Files">
+<meta name="description" content="Opening and Closing Files (GNU Octave)">
+<meta name="keywords" content="Opening and Closing Files (GNU Octave)">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link href="index.html#Top" rel="start" title="Top">
 <link href="Concept-Index.html#Concept-Index" rel="index" title="Concept Index">
 <link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
@@ -114,7 +114,7 @@ separate file id.  It is not an error to open a file several times,
 though writing to the same file through several different file ids may
 produce unexpected results.
 </p>
-<p>The possible values &lsquo;<samp>mode</samp>&rsquo; may have are
+<p>The possible values of <var>mode</var> are
 </p>
 <dl compact="compact">
 <dt>&lsquo;<samp>r</samp>&rsquo; (default)</dt>
@@ -145,11 +145,10 @@ file.
 </dl>
 
 <p>Append a <code>&quot;t&quot;</code> to the mode string to open the file in text mode or a
-<code>&quot;b&quot;</code> to open in binary mode.  On Windows and Macintosh systems,
+<code>&quot;b&quot;</code> to open in binary mode.  On Windows systems,
 text mode reading and writing automatically converts linefeeds to the
 appropriate line end character for the system (carriage-return linefeed on
-Windows, carriage-return on Macintosh).  The default when no mode is
-specified is binary mode.
+Windows).  The default when no mode is specified is binary.
 </p>
 <p>Additionally, you may append a <code>&quot;z&quot;</code> to the mode string to open a
 gzipped file for reading or writing.  For this to be successful, you
@@ -177,6 +176,14 @@ for the file.  Valid values for <var>arch</var> are:
 </p>
 <p>When opening a new file that does not yet exist, permissions will be set to
 <code>0666 - <var>umask</var></code>.
+</p>
+<p>Compatibility Note: Octave opens files using buffered I/O.  Small writes are
+accumulated until an internal buffer is filled, and then everything is written
+in a single operation.  This is very efficient and improves performance.
+<small>MATLAB</small>, however, opens files using flushed I/O where every write operation
+is immediately performed.  If the write operation must be performed immediately
+after data has been written then the write should be followed by a call to
+<code>fflush</code> to flush the internal buffer.
 </p>
 <p><strong>See also:</strong> <a href="#XREFfclose">fclose</a>, <a href="Line_002dOriented-Input.html#XREFfgets">fgets</a>, <a href="Line_002dOriented-Input.html#XREFfgetl">fgetl</a>, <a href="Formatted-Input.html#XREFfscanf">fscanf</a>, <a href="Binary-I_002fO.html#XREFfread">fread</a>, <a href="Simple-Output.html#XREFfputs">fputs</a>, <a href="Simple-File-I_002fO.html#XREFfdisp">fdisp</a>, <a href="Formatted-Output.html#XREFfprintf">fprintf</a>, <a href="Binary-I_002fO.html#XREFfwrite">fwrite</a>, <a href="Line_002dOriented-Input.html#XREFfskipl">fskipl</a>, <a href="File-Positioning.html#XREFfseek">fseek</a>, <a href="File-Positioning.html#XREFfrewind">frewind</a>, <a href="File-Positioning.html#XREFftell">ftell</a>, <a href="EOF-and-Errors.html#XREFfeof">feof</a>, <a href="EOF-and-Errors.html#XREFferror">ferror</a>, <a href="EOF-and-Errors.html#XREFfclear">fclear</a>, <a href="Paging-Screen-Output.html#XREFfflush">fflush</a>, <a href="EOF-and-Errors.html#XREFfreport">freport</a>, <a href="Filesystem-Utilities.html#XREFumask">umask</a>.
 </p></dd></dl>

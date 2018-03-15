@@ -1,5 +1,5 @@
-/* C++ code produced by gperf version 3.0.4 */
-/* Command-line: gperf -t -C -D -G -L C++ -Z octave_kw_hash ../libinterp/parse-tree/octave.gperf  */
+/* C++ code produced by gperf version 3.1 */
+/* Command-line: gperf -t -C -D -G -L C++ -Z octave_kw_hash /home/jwe/src/octave-stable/libinterp/parse-tree/octave.gperf  */
 /* Computed positions: -k'1,5' */
 
 #if !((' ' == 32) && ('!' == 33) && ('"' == 34) && ('#' == 35) \
@@ -26,10 +26,10 @@
       && ('w' == 119) && ('x' == 120) && ('y' == 121) && ('z' == 122) \
       && ('{' == 123) && ('|' == 124) && ('}' == 125) && ('~' == 126))
 /* The character set is not based on ISO-646.  */
-#error "gperf generated tables don't work with this execution character set. Please report a bug to <bug-gnu-gperf@gnu.org>."
+#error "gperf generated tables don't work with this execution character set. Please report a bug to <bug-gperf@gnu.org>."
 #endif
 
-#line 1 "../libinterp/parse-tree/octave.gperf"
+#line 1 "/home/jwe/src/octave-stable/libinterp/parse-tree/octave.gperf"
 
 /*
 
@@ -103,7 +103,7 @@ enum octave_kw_id
   unwind_protect_cleanup_kw,
   while_kw
 };
-#line 75 "../libinterp/parse-tree/octave.gperf"
+#line 75 "/home/jwe/src/octave-stable/libinterp/parse-tree/octave.gperf"
 struct octave_kw { const char *name; int tok; octave_kw_id kw_id; };
 
 #define TOTAL_KEYWORDS 44
@@ -116,13 +116,13 @@ struct octave_kw { const char *name; int tok; octave_kw_id kw_id; };
 class octave_kw_hash
 {
 private:
-  static inline unsigned int hash (const char *str, unsigned int len);
+  static inline unsigned int hash (const char *str, size_t len);
 public:
-  static const struct octave_kw *in_word_set (const char *str, unsigned int len);
+  static const struct octave_kw *in_word_set (const char *str, size_t len);
 };
 
 inline unsigned int
-octave_kw_hash::hash (const char *str, unsigned int len)
+octave_kw_hash::hash (const char *str, size_t len)
 {
   static const unsigned char asso_values[] =
     {
@@ -153,18 +153,18 @@ octave_kw_hash::hash (const char *str, unsigned int len)
       69, 69, 69, 69, 69, 69, 69, 69, 69, 69,
       69, 69, 69, 69, 69, 69
     };
-  int hval = len;
+  unsigned int hval = len;
 
   switch (hval)
     {
       default:
-        hval += asso_values[(unsigned char)str[4]];
+        hval += asso_values[static_cast<unsigned char>(str[4])];
       /*FALLTHROUGH*/
       case 4:
       case 3:
       case 2:
       case 1:
-        hval += asso_values[(unsigned char)str[0]];
+        hval += asso_values[static_cast<unsigned char>(str[0])];
         break;
     }
   return hval;
@@ -172,93 +172,93 @@ octave_kw_hash::hash (const char *str, unsigned int len)
 
 static const struct octave_kw wordlist[] =
   {
-#line 82 "../libinterp/parse-tree/octave.gperf"
+#line 82 "/home/jwe/src/octave-stable/libinterp/parse-tree/octave.gperf"
     {"do", DO, do_kw},
-#line 85 "../libinterp/parse-tree/octave.gperf"
+#line 85 "/home/jwe/src/octave-stable/libinterp/parse-tree/octave.gperf"
     {"end", END, end_kw},
-#line 83 "../libinterp/parse-tree/octave.gperf"
+#line 83 "/home/jwe/src/octave-stable/libinterp/parse-tree/octave.gperf"
     {"else", ELSE, else_kw},
-#line 77 "../libinterp/parse-tree/octave.gperf"
+#line 77 "/home/jwe/src/octave-stable/libinterp/parse-tree/octave.gperf"
     {"break", BREAK, break_kw},
-#line 103 "../libinterp/parse-tree/octave.gperf"
+#line 103 "/home/jwe/src/octave-stable/libinterp/parse-tree/octave.gperf"
     {"get", GET, get_kw},
-#line 78 "../libinterp/parse-tree/octave.gperf"
+#line 78 "/home/jwe/src/octave-stable/libinterp/parse-tree/octave.gperf"
     {"case", CASE, case_kw},
-#line 94 "../libinterp/parse-tree/octave.gperf"
+#line 94 "/home/jwe/src/octave-stable/libinterp/parse-tree/octave.gperf"
     {"endmethods", END, endmethods_kw},
-#line 99 "../libinterp/parse-tree/octave.gperf"
+#line 99 "/home/jwe/src/octave-stable/libinterp/parse-tree/octave.gperf"
     {"enumeration", ENUMERATION, enumeration_kw},
-#line 114 "../libinterp/parse-tree/octave.gperf"
+#line 114 "/home/jwe/src/octave-stable/libinterp/parse-tree/octave.gperf"
     {"try", TRY, try_kw},
-#line 89 "../libinterp/parse-tree/octave.gperf"
+#line 89 "/home/jwe/src/octave-stable/libinterp/parse-tree/octave.gperf"
     {"endenumeration", END, endenumeration_kw},
-#line 110 "../libinterp/parse-tree/octave.gperf"
+#line 110 "/home/jwe/src/octave-stable/libinterp/parse-tree/octave.gperf"
     {"properties", PROPERTIES, properties_kw},
-#line 100 "../libinterp/parse-tree/octave.gperf"
+#line 100 "/home/jwe/src/octave-stable/libinterp/parse-tree/octave.gperf"
     {"events", EVENTS, events_kw},
-#line 105 "../libinterp/parse-tree/octave.gperf"
+#line 105 "/home/jwe/src/octave-stable/libinterp/parse-tree/octave.gperf"
     {"if", IF, if_kw},
-#line 120 "../libinterp/parse-tree/octave.gperf"
+#line 120 "/home/jwe/src/octave-stable/libinterp/parse-tree/octave.gperf"
     {"__LINE__", NUM, magic_line_kw},
-#line 90 "../libinterp/parse-tree/octave.gperf"
+#line 90 "/home/jwe/src/octave-stable/libinterp/parse-tree/octave.gperf"
     {"endevents", END, endevents_kw},
-#line 118 "../libinterp/parse-tree/octave.gperf"
+#line 118 "/home/jwe/src/octave-stable/libinterp/parse-tree/octave.gperf"
     {"while", WHILE, while_kw},
-#line 84 "../libinterp/parse-tree/octave.gperf"
+#line 84 "/home/jwe/src/octave-stable/libinterp/parse-tree/octave.gperf"
     {"elseif", ELSEIF, elseif_kw},
-#line 86 "../libinterp/parse-tree/octave.gperf"
+#line 86 "/home/jwe/src/octave-stable/libinterp/parse-tree/octave.gperf"
     {"end_try_catch", END, end_try_catch_kw},
-#line 97 "../libinterp/parse-tree/octave.gperf"
+#line 97 "/home/jwe/src/octave-stable/libinterp/parse-tree/octave.gperf"
     {"endswitch", END, endswitch_kw},
-#line 91 "../libinterp/parse-tree/octave.gperf"
+#line 91 "/home/jwe/src/octave-stable/libinterp/parse-tree/octave.gperf"
     {"endfor", END, endfor_kw},
-#line 106 "../libinterp/parse-tree/octave.gperf"
+#line 106 "/home/jwe/src/octave-stable/libinterp/parse-tree/octave.gperf"
     {"methods", METHODS, methods_kw},
-#line 81 "../libinterp/parse-tree/octave.gperf"
+#line 81 "/home/jwe/src/octave-stable/libinterp/parse-tree/octave.gperf"
     {"continue", CONTINUE, continue_kw},
-#line 109 "../libinterp/parse-tree/octave.gperf"
+#line 109 "/home/jwe/src/octave-stable/libinterp/parse-tree/octave.gperf"
     {"persistent", PERSISTENT, persistent_kw},
-#line 108 "../libinterp/parse-tree/octave.gperf"
+#line 108 "/home/jwe/src/octave-stable/libinterp/parse-tree/octave.gperf"
     {"parfor", PARFOR, parfor_kw},
-#line 112 "../libinterp/parse-tree/octave.gperf"
+#line 112 "/home/jwe/src/octave-stable/libinterp/parse-tree/octave.gperf"
     {"set", SET, set_kw},
-#line 88 "../libinterp/parse-tree/octave.gperf"
+#line 88 "/home/jwe/src/octave-stable/libinterp/parse-tree/octave.gperf"
     {"endclassdef", END, endclassdef_kw},
-#line 96 "../libinterp/parse-tree/octave.gperf"
+#line 96 "/home/jwe/src/octave-stable/libinterp/parse-tree/octave.gperf"
     {"endproperties", END, endproperties_kw},
-#line 113 "../libinterp/parse-tree/octave.gperf"
+#line 113 "/home/jwe/src/octave-stable/libinterp/parse-tree/octave.gperf"
     {"switch", SWITCH, switch_kw},
-#line 80 "../libinterp/parse-tree/octave.gperf"
+#line 80 "/home/jwe/src/octave-stable/libinterp/parse-tree/octave.gperf"
     {"classdef", CLASSDEF, classdef_kw},
-#line 92 "../libinterp/parse-tree/octave.gperf"
+#line 92 "/home/jwe/src/octave-stable/libinterp/parse-tree/octave.gperf"
     {"endfunction", END, endfunction_kw},
-#line 101 "../libinterp/parse-tree/octave.gperf"
+#line 101 "/home/jwe/src/octave-stable/libinterp/parse-tree/octave.gperf"
     {"for", FOR, for_kw},
-#line 116 "../libinterp/parse-tree/octave.gperf"
+#line 116 "/home/jwe/src/octave-stable/libinterp/parse-tree/octave.gperf"
     {"unwind_protect", UNWIND, unwind_protect_kw},
-#line 93 "../libinterp/parse-tree/octave.gperf"
+#line 93 "/home/jwe/src/octave-stable/libinterp/parse-tree/octave.gperf"
     {"endif", END, endif_kw},
-#line 87 "../libinterp/parse-tree/octave.gperf"
+#line 87 "/home/jwe/src/octave-stable/libinterp/parse-tree/octave.gperf"
     {"end_unwind_protect", END, end_unwind_protect_kw},
-#line 107 "../libinterp/parse-tree/octave.gperf"
+#line 107 "/home/jwe/src/octave-stable/libinterp/parse-tree/octave.gperf"
     {"otherwise", OTHERWISE, otherwise_kw},
-#line 111 "../libinterp/parse-tree/octave.gperf"
+#line 111 "/home/jwe/src/octave-stable/libinterp/parse-tree/octave.gperf"
     {"return", FUNC_RET, return_kw},
-#line 117 "../libinterp/parse-tree/octave.gperf"
+#line 117 "/home/jwe/src/octave-stable/libinterp/parse-tree/octave.gperf"
     {"unwind_protect_cleanup", CLEANUP, unwind_protect_cleanup_kw},
-#line 98 "../libinterp/parse-tree/octave.gperf"
+#line 98 "/home/jwe/src/octave-stable/libinterp/parse-tree/octave.gperf"
     {"endwhile", END, endwhile_kw},
-#line 95 "../libinterp/parse-tree/octave.gperf"
+#line 95 "/home/jwe/src/octave-stable/libinterp/parse-tree/octave.gperf"
     {"endparfor", END, endparfor_kw},
-#line 79 "../libinterp/parse-tree/octave.gperf"
+#line 79 "/home/jwe/src/octave-stable/libinterp/parse-tree/octave.gperf"
     {"catch", CATCH, catch_kw},
-#line 104 "../libinterp/parse-tree/octave.gperf"
+#line 104 "/home/jwe/src/octave-stable/libinterp/parse-tree/octave.gperf"
     {"global", GLOBAL, global_kw},
-#line 102 "../libinterp/parse-tree/octave.gperf"
+#line 102 "/home/jwe/src/octave-stable/libinterp/parse-tree/octave.gperf"
     {"function", FCN, function_kw},
-#line 115 "../libinterp/parse-tree/octave.gperf"
+#line 115 "/home/jwe/src/octave-stable/libinterp/parse-tree/octave.gperf"
     {"until", UNTIL, until_kw},
-#line 119 "../libinterp/parse-tree/octave.gperf"
+#line 119 "/home/jwe/src/octave-stable/libinterp/parse-tree/octave.gperf"
     {"__FILE__", DQ_STRING, magic_file_kw}
   };
 
@@ -272,13 +272,13 @@ static const signed char gperf_lookup[] =
   };
 
 const struct octave_kw *
-octave_kw_hash::in_word_set (const char *str, unsigned int len)
+octave_kw_hash::in_word_set (const char *str, size_t len)
 {
   if (len <= MAX_WORD_LENGTH && len >= MIN_WORD_LENGTH)
     {
-      int key = hash (str, len);
+      unsigned int key = hash (str, len);
 
-      if (key <= MAX_HASH_VALUE && key >= 0)
+      if (key <= MAX_HASH_VALUE)
         {
           int index = gperf_lookup[key];
 

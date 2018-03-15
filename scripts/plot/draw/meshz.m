@@ -30,7 +30,7 @@
 ## over a 2-D rectangular region in the x-y plane.  @var{z} determines the
 ## height above the plane of each vertex.  If only a single @var{z} matrix is
 ## given, then it is plotted over the meshgrid
-## @code{@var{x} = 0:columns (@var{z}) - 1, @var{y} = 0:rows (@var{z}) - 1}.
+## @code{@var{x} = 0:(columns (@var{z}) - 1), @var{y} = 0:(rows (@var{z}) - 1}).
 ## Thus, columns of @var{z} correspond to different @var{x} values and rows
 ## of @var{z} correspond to different @var{y} values.
 ##
@@ -44,7 +44,7 @@
 ## Any property/value pairs are passed directly to the underlying surface
 ## object.
 ##
-## If the first argument @var{hax} is an axes handle, then plot into this axis,
+## If the first argument @var{hax} is an axes handle, then plot into this axes,
 ## rather than the current axes returned by @code{gca}.
 ##
 ## The optional return value @var{h} is a graphics handle to the created

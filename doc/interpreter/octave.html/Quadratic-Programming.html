@@ -1,15 +1,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<!-- Created by GNU Texinfo 6.3, http://www.gnu.org/software/texinfo/ -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
-<title>GNU Octave: Quadratic Programming</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Quadratic Programming (GNU Octave)</title>
 
-<meta name="description" content="GNU Octave: Quadratic Programming">
-<meta name="keywords" content="GNU Octave: Quadratic Programming">
+<meta name="description" content="Quadratic Programming (GNU Octave)">
+<meta name="keywords" content="Quadratic Programming (GNU Octave)">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link href="index.html#Top" rel="start" title="Top">
 <link href="Concept-Index.html#Concept-Index" rel="index" title="Concept Index">
 <link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
@@ -99,9 +99,12 @@ A_lb &lt;= A_in*x &lt;= A_ub
 
 <p>using a null-space active-set method.
 </p>
-<p>Any bound (<var>A</var>, <var>b</var>, <var>lb</var>, <var>ub</var>, <var>A_lb</var>, <var>A_ub</var>)
-may be set to the empty matrix (<code>[]</code>) if not present.  If the initial
-guess is feasible the algorithm is faster.
+<p>Any bound (<var>A</var>, <var>b</var>, <var>lb</var>, <var>ub</var>, <var>A_in</var>, <var>A_lb</var>,
+<var>A_ub</var>) may be set to the empty matrix (<code>[]</code>) if not present.  The
+constraints <var>A</var> and <var>A_in</var> are matrices with each row representing
+a single constraint.  The other bounds are scalars or vectors depending on
+the number of constraints.  The algorithm is faster if the initial guess is
+feasible.
 </p>
 <dl compact="compact">
 <dt><var>options</var></dt>

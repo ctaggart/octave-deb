@@ -58,7 +58,7 @@
 ##
 ## The default method is @qcode{"linear"}.
 ##
-## If the first argument @var{hax} is an axes handle, then plot into this axis,
+## If the first argument @var{hax} is an axes handle, then plot into this axes,
 ## rather than the current axes returned by @code{gca}.
 ##
 ## The optional return value @var{h} is a graphics handle to the created
@@ -143,7 +143,7 @@ function h = slice (varargin)
     sidx = 1;
     minv = min (v(:));
     maxv = max (v(:));
-    set (hax, "clim", [minv, maxv]);
+    set (hax, "clim", double ([minv, maxv]));
 
     if (have_sval)
       ns = length (sx) + length (sy) + length (sz);

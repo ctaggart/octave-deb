@@ -136,25 +136,28 @@ a(end:-1:1)       # reversal of a => [4, 3, 2 , 1]
 @node Advanced Indexing
 @subsection Advanced Indexing
 
-An array with @samp{n} dimensions can be indexed using @samp{m}
-indices.  More generally, the set of index tuples determining the
-result is formed by the Cartesian product of the index vectors (or
-ranges or scalars).
+An array with @samp{nd} dimensions can be indexed by a vector @var{idx} which
+has from 1 to @samp{nd} elements.  If any element of @var{idx} is not a
+scalar then the complete set of index tuples will be generated from the
+Cartesian product of the index elements.
 
-For the ordinary and most common case, @w{@code{m == n}}, and each
-index corresponds to its respective dimension.  If @w{@code{m < n}}
-and every index is less than the size of the array in the
-@math{i^{th}} dimension, @code{m(i) < n(i)}, then the index expression
-is padded with trailing singleton dimensions (@code{[ones (m-n, 1)]}).
-If @w{@code{m < n}} but one of the indices @code{m(i)} is outside the
-size of the current array, then the last @w{@code{n-m+1}} dimensions
-are folded into a single dimension with an extent equal to the product
-of extents of the original dimensions.  This is easiest to understand
-with an example.
+For the ordinary and most common case, the number of indices
+(@code{nidx = numel (@var{idx})}) matches the number of dimensions @samp{nd}.
+In this case, each element of @var{idx} corresponds to its respective dimension,
+i.e., @code{@var{idx}(1)} refers to dimension 1, @code{@var{idx}(2)} refers to
+dimension 2, etc.  If @w{@code{nidx < nd}}, and every index is less than the
+size of the array in the @math{i^{th}} dimension
+(@code{@var{idx}(i) < size (@var{array}, i)}), then the index expression is
+padded with @w{@code{nd - nidx}} trailing singleton dimensions.  If
+@w{@code{nidx < nd}} but one of the indices @code{@var{idx}(i)} is outside the
+size of the current array, then the last @w{@code{nd - nidx + 1}} dimensions
+are folded into a single dimension with an extent equal to the product of
+extents of the original dimensions.  This is easiest to understand with an
+example.  
 
 @example
-a = reshape (1:8, 2, 2, 2)  # Create 3-D array
-a =
+A = reshape (1:8, 2, 2, 2)  # Create 3-D array
+A =
 
 ans(:,:,1) =
 
@@ -166,10 +169,10 @@ ans(:,:,2) =
    5   7
    6   8
 
-a(2,1,2);   # Case (m == n): ans = 6
-a(2,1);     # Case (m < n), idx within array:
-            # equivalent to a(2,1,1), ans = 2
-a(2,4);     # Case (m < n), idx outside array:
+A(2,1,2);   # Case (nidx == nd): ans = 6
+A(2,1);     # Case (nidx < nd), idx within array:
+            # equivalent to A(2,1,1), ans = 2
+A(2,4);     # Case (nidx < nd), idx outside array:
             # Dimension 2 & 3 folded into new dimension of size 2x2 = 4
             # Select 2nd row, 4th element of [2, 4, 6, 8], ans = 8
 @end example
@@ -704,8 +707,7 @@ Element-by-element subtraction.  This operator is equivalent to @code{-}.
 @item @var{x} * @var{y}
 @opindex *
 Matrix multiplication.  The number of columns of @var{x} must agree with
-the number of rows of @var{y}, or they must be broadcastable to the same
-shape.
+the number of rows of @var{y}.
 
 @item @var{x} .* @var{y}
 @opindex .*
@@ -834,7 +836,7 @@ useful in this case.
 @deftypefn {} {} ctranspose (@var{x})
 Return the complex conjugate transpose of @var{x}.
 
-This function and @tcode{x'} are equivalent.
+This function and @tcode{@var{x}'} are equivalent.
 @seealso{@ref{XREFtranspose,,transpose}}
 @end deftypefn
 
@@ -845,7 +847,8 @@ This function and @tcode{x'} are equivalent.
 @deftypefn {} {} ldivide (@var{x}, @var{y})
 Return the element-by-element left division of @var{x} and @var{y}.
 
-This function and @w{@tcode{x .@xbackslashchar{} y}} are equivalent.
+This function and @w{@tcode{@var{x} .@xbackslashchar{} @var{y}}} are
+equivalent.
 @seealso{@ref{XREFrdivide,,rdivide}, @ref{XREFmldivide,,mldivide}, @ref{XREFtimes,,times}, @ref{XREFplus,,plus}}
 @end deftypefn
 
@@ -854,7 +857,7 @@ This function and @w{@tcode{x .@xbackslashchar{} y}} are equivalent.
 @c minus libinterp/corefcn/data.cc
 @anchor{XREFminus}
 @deftypefn {} {} minus (@var{x}, @var{y})
-This function and @w{@tcode{x - y}} are equivalent.
+This function and @w{@tcode{@var{x} - @var{y}}} are equivalent.
 @seealso{@ref{XREFplus,,plus}, @ref{XREFuminus,,uminus}}
 @end deftypefn
 
@@ -865,7 +868,7 @@ This function and @w{@tcode{x - y}} are equivalent.
 @deftypefn {} {} mldivide (@var{x}, @var{y})
 Return the matrix left division of @var{x} and @var{y}.
 
-This function and @w{@tcode{x @xbackslashchar{} y}} are equivalent.
+This function and @w{@tcode{@var{x} @xbackslashchar{} @var{y}}} are equivalent.
 @seealso{@ref{XREFmrdivide,,mrdivide}, @ref{XREFldivide,,ldivide}, @ref{XREFrdivide,,rdivide}}
 @end deftypefn
 
@@ -877,7 +880,7 @@ This function and @w{@tcode{x @xbackslashchar{} y}} are equivalent.
 @deftypefn {} {} mpower (@var{x}, @var{y})
 Return the matrix power operation of @var{x} raised to the @var{y} power.
 
-This function and @w{@tcode{x ^ y}} are equivalent.
+This function and @w{@tcode{@var{x} ^ @var{y}}} are equivalent.
 @seealso{@ref{XREFpower,,power}, @ref{XREFmtimes,,mtimes}, @ref{XREFplus,,plus}, @ref{XREFminus,,minus}}
 @end deftypefn
 
@@ -888,7 +891,7 @@ This function and @w{@tcode{x ^ y}} are equivalent.
 @deftypefn {} {} mrdivide (@var{x}, @var{y})
 Return the matrix right division of @var{x} and @var{y}.
 
-This function and @w{@tcode{x / y}} are equivalent.
+This function and @w{@tcode{@var{x} / @var{y}}} are equivalent.
 @seealso{@ref{XREFmldivide,,mldivide}, @ref{XREFrdivide,,rdivide}, @ref{XREFplus,,plus}, @ref{XREFminus,,minus}}
 @end deftypefn
 
@@ -900,12 +903,12 @@ This function and @w{@tcode{x / y}} are equivalent.
 @deftypefnx {} {} mtimes (@var{x1}, @var{x2}, @dots{})
 Return the matrix multiplication product of inputs.
 
-This function and @w{@tcode{x * y}} are equivalent.
+This function and @w{@tcode{@var{x} * @var{y}}} are equivalent.
 If more arguments are given, the multiplication is applied
 cumulatively from left to right:
 
 @example
-(@dots{}((x1 * x2) * x3) * @dots{})
+(@dots{}((@var{x1} * @var{x2}) * @var{x3}) * @dots{})
 @end example
 
 At least one argument is required.
@@ -918,13 +921,13 @@ At least one argument is required.
 @anchor{XREFplus}
 @deftypefn  {} {} plus (@var{x}, @var{y})
 @deftypefnx {} {} plus (@var{x1}, @var{x2}, @dots{})
-This function and @w{@tcode{x + y}} are equivalent.
+This function and @w{@tcode{@var{x} + @var{y}}} are equivalent.
 
 If more arguments are given, the summation is applied
 cumulatively from left to right:
 
 @example
-(@dots{}((x1 + x2) + x3) + @dots{})
+(@dots{}((@var{x1} + @var{x2}) + @var{x3}) + @dots{})
 @end example
 
 At least one argument is required.
@@ -940,7 +943,7 @@ At least one argument is required.
 Return the element-by-element operation of @var{x} raised to the
 @var{y} power.
 
-This function and @w{@tcode{x .^ y}} are equivalent.
+This function and @w{@tcode{@var{x} .^ @var{y}}} are equivalent.
 
 If several complex results are possible, returns the one with smallest
 non-negative argument (angle).  Use @code{realpow}, @code{realsqrt},
@@ -956,7 +959,7 @@ non-negative argument (angle).  Use @code{realpow}, @code{realsqrt},
 @deftypefn {} {} rdivide (@var{x}, @var{y})
 Return the element-by-element right division of @var{x} and @var{y}.
 
-This function and @w{@tcode{x ./ y}} are equivalent.
+This function and @w{@tcode{@var{x} ./ @var{y}}} are equivalent.
 @seealso{@ref{XREFldivide,,ldivide}, @ref{XREFmrdivide,,mrdivide}, @ref{XREFtimes,,times}, @ref{XREFplus,,plus}}
 @end deftypefn
 
@@ -968,12 +971,12 @@ This function and @w{@tcode{x ./ y}} are equivalent.
 @deftypefnx {} {} times (@var{x1}, @var{x2}, @dots{})
 Return the element-by-element multiplication product of inputs.
 
-This function and @w{@tcode{x .* y}} are equivalent.
+This function and @w{@tcode{@var{x} .* @var{y}}} are equivalent.
 If more arguments are given, the multiplication is applied
 cumulatively from left to right:
 
 @example
-(@dots{}((x1 .* x2) .* x3) .* @dots{})
+(@dots{}((@var{x1} .* @var{x2}) .* @var{x3}) .* @dots{})
 @end example
 
 At least one argument is required.
@@ -987,7 +990,7 @@ At least one argument is required.
 @deftypefn {} {} transpose (@var{x})
 Return the transpose of @var{x}.
 
-This function and @tcode{x.'} are equivalent.
+This function and @tcode{@var{x}.'} are equivalent.
 @seealso{@ref{XREFctranspose,,ctranspose}}
 @end deftypefn
 
@@ -996,7 +999,7 @@ This function and @tcode{x.'} are equivalent.
 @c uminus libinterp/corefcn/data.cc
 @anchor{XREFuminus}
 @deftypefn {} {} uminus (@var{x})
-This function and @w{@tcode{- x}} are equivalent.
+This function and @w{@tcode{- @var{x}}} are equivalent.
 @seealso{@ref{XREFuplus,,uplus}, @ref{XREFminus,,minus}}
 @end deftypefn
 
@@ -1005,7 +1008,7 @@ This function and @w{@tcode{- x}} are equivalent.
 @c uplus libinterp/corefcn/data.cc
 @anchor{XREFuplus}
 @deftypefn {} {} uplus (@var{x})
-This function and @w{@tcode{+ x}} are equivalent.
+This function and @w{@tcode{+ @var{x}}} are equivalent.
 @seealso{@ref{XREFuminus,,uminus}, @ref{XREFplus,,plus}, @ref{XREFminus,,minus}}
 @end deftypefn
 
@@ -1096,7 +1099,7 @@ function, not with the comparison operators listed above.
 @deftypefn {} {} eq (@var{x}, @var{y})
 Return true if the two inputs are equal.
 
-This function is equivalent to @w{@code{x == y}}.
+This function is equivalent to @w{@code{@var{x} == @var{y}}}.
 @seealso{@ref{XREFne,,ne}, @ref{XREFisequal,,isequal}, @ref{XREFle,,le}, @ref{XREFge,,ge}, @ref{XREFgt,,gt}, @ref{XREFne,,ne}, @ref{XREFlt,,lt}}
 @end deftypefn
 
@@ -1105,7 +1108,7 @@ This function is equivalent to @w{@code{x == y}}.
 @c ge libinterp/corefcn/data.cc
 @anchor{XREFge}
 @deftypefn {} {} ge (@var{x}, @var{y})
-This function is equivalent to @w{@code{x >= y}}.
+This function is equivalent to @w{@code{@var{x} >= @var{y}}}.
 @seealso{@ref{XREFle,,le}, @ref{XREFeq,,eq}, @ref{XREFgt,,gt}, @ref{XREFne,,ne}, @ref{XREFlt,,lt}}
 @end deftypefn
 
@@ -1114,7 +1117,7 @@ This function is equivalent to @w{@code{x >= y}}.
 @c gt libinterp/corefcn/data.cc
 @anchor{XREFgt}
 @deftypefn {} {} gt (@var{x}, @var{y})
-This function is equivalent to @w{@code{x > y}}.
+This function is equivalent to @w{@code{@var{x} > @var{y}}}.
 @seealso{@ref{XREFle,,le}, @ref{XREFeq,,eq}, @ref{XREFge,,ge}, @ref{XREFne,,ne}, @ref{XREFlt,,lt}}
 @end deftypefn
 
@@ -1141,7 +1144,7 @@ in dataset).
 @c le libinterp/corefcn/data.cc
 @anchor{XREFle}
 @deftypefn {} {} le (@var{x}, @var{y})
-This function is equivalent to @w{@code{x <= y}}.
+This function is equivalent to @w{@code{@var{x} <= @var{y}}}.
 @seealso{@ref{XREFeq,,eq}, @ref{XREFge,,ge}, @ref{XREFgt,,gt}, @ref{XREFne,,ne}, @ref{XREFlt,,lt}}
 @end deftypefn
 
@@ -1150,7 +1153,7 @@ This function is equivalent to @w{@code{x <= y}}.
 @c lt libinterp/corefcn/data.cc
 @anchor{XREFlt}
 @deftypefn {} {} lt (@var{x}, @var{y})
-This function is equivalent to @w{@code{x < y}}.
+This function is equivalent to @w{@code{@var{x} < @var{y}}}.
 @seealso{@ref{XREFle,,le}, @ref{XREFeq,,eq}, @ref{XREFge,,ge}, @ref{XREFgt,,gt}, @ref{XREFne,,ne}}
 @end deftypefn
 
@@ -1162,7 +1165,7 @@ This function is equivalent to @w{@code{x < y}}.
 @deftypefn {} {} ne (@var{x}, @var{y})
 Return true if the two inputs are not equal.
 
-This function is equivalent to @w{@code{x != y}}.
+This function is equivalent to @w{@code{@var{x} != @var{y}}}.
 @seealso{@ref{XREFeq,,eq}, @ref{XREFisequal,,isequal}, @ref{XREFle,,le}, @ref{XREFge,,ge}, @ref{XREFlt,,lt}}
 @end deftypefn
 
@@ -1268,12 +1271,12 @@ described for matrix-valued operands.
 @deftypefnx {} {@var{z} =} and (@var{x1}, @var{x2}, @dots{})
 Return the logical AND of @var{x} and @var{y}.
 
-This function is equivalent to the operator syntax @w{@code{x & y}}.  If
-more than two arguments are given, the logical AND is applied cumulatively
-from left to right:
+This function is equivalent to the operator syntax
+@w{@code{@var{x} & @var{y}}}.  If more than two arguments are given, the
+logical AND is applied cumulatively from left to right:
 
 @example
-(@dots{}((x1 & x2) & x3) & @dots{})
+(@dots{}((@var{x1} & @var{x2}) & @var{x3}) & @dots{})
 @end example
 
 At least one argument is required.
@@ -1288,7 +1291,7 @@ At least one argument is required.
 @deftypefn {} {@var{z} =} not (@var{x})
 Return the logical NOT of @var{x}.
 
-This function is equivalent to the operator syntax @w{@code{! x}}.
+This function is equivalent to the operator syntax @w{@code{! @var{x}}}.
 @seealso{@ref{XREFand,,and}, @ref{XREFor,,or}, @ref{XREFxor,,xor}}
 @end deftypefn
 
@@ -1300,12 +1303,12 @@ This function is equivalent to the operator syntax @w{@code{! x}}.
 @deftypefnx {} {@var{z} =} or (@var{x1}, @var{x2}, @dots{})
 Return the logical OR of @var{x} and @var{y}.
 
-This function is equivalent to the operator syntax @w{@code{x | y}}.  If
-more than two arguments are given, the logical OR is applied cumulatively
-from left to right:
+This function is equivalent to the operator syntax
+@w{@code{@var{x} | @var{y}}}.  If more than two arguments are given, the
+logical OR is applied cumulatively from left to right:
 
 @example
-(@dots{}((x1 | x2) | x3) | @dots{})
+(@dots{}((@var{x1} | @var{x2}) | @var{x3}) | @dots{})
 @end example
 
 At least one argument is required.

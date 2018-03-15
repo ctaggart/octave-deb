@@ -1,15 +1,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<!-- Created by GNU Texinfo 6.3, http://www.gnu.org/software/texinfo/ -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
-<title>GNU Octave: Plot Annotations</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Plot Annotations (GNU Octave)</title>
 
-<meta name="description" content="GNU Octave: Plot Annotations">
-<meta name="keywords" content="GNU Octave: Plot Annotations">
+<meta name="description" content="Plot Annotations (GNU Octave)">
+<meta name="keywords" content="Plot Annotations (GNU Octave)">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link href="index.html#Top" rel="start" title="Top">
 <link href="Concept-Index.html#Concept-Index" rel="index" title="Concept Index">
 <link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
@@ -89,7 +89,7 @@ are drawn in an invisible axes, on top of every other axes.
 <p>An optional list of <var>property</var>/<var>value</var> pairs can be used to change
 the appearance of the created title text object.
 </p>
-<p>If the first argument <var>hax</var> is an axes handle, then plot into this axis,
+<p>If the first argument <var>hax</var> is an axes handle, then plot into this axes,
 rather than the current axes returned by <code>gca</code>.
 </p>
 <p>The optional return value <var>h</var> is a graphics handle to the created text
@@ -116,7 +116,7 @@ object.
 <p>Legend entries may be specified as individual character string arguments,
 a character array, or a cell array of character strings.
 </p>
-<p>If the first argument <var>hax</var> is an axes handle, then plot into this axis,
+<p>If the first argument <var>hax</var> is an axes handle, then plot into this axes,
 rather than the current axes returned by <code>gca</code>.  If the handles,
 <var>hobjs</var>, are not specified then the legend&rsquo;s strings will be associated
 with the axes&rsquo; descendants.  <code>legend</code> works on line graphs,
@@ -246,7 +246,7 @@ created text objects.
 the properties of the created text label.
 </p>
 <p>If the first argument <var>hax</var> is an axes handle, then operate on
-this axis rather than the current axes returned by <code>gca</code>.
+this axes rather than the current axes returned by <code>gca</code>.
 </p>
 <p>The optional return value <var>h</var> is a graphics handle to the created text
 object.
@@ -305,13 +305,13 @@ clabel (c, h, -4:2:6, &quot;fontsize&quot;, 12);
 <dt><a name="index-box-1"></a>: <em></em> <strong>box</strong> <em>on</em></dt>
 <dt><a name="index-box-2"></a>: <em></em> <strong>box</strong> <em>off</em></dt>
 <dt><a name="index-box-3"></a>: <em></em> <strong>box</strong> <em>(<var>hax</var>, &hellip;)</em></dt>
-<dd><p>Control display of the axis border.
+<dd><p>Control display of the axes border.
 </p>
 <p>The argument may be either <code>&quot;on&quot;</code> or <code>&quot;off&quot;</code>.  If it is
 omitted, the current box state is toggled.
 </p>
 <p>If the first argument <var>hax</var> is an axes handle, then operate on this
-axis rather than the current axes returned by <code>gca</code>.
+axes rather than the current axes returned by <code>gca</code>.
 </p>
 <p><strong>See also:</strong> <a href="Axis-Configuration.html#XREFaxis">axis</a>, <a href="#XREFgrid">grid</a>.
 </p></dd></dl>
@@ -334,9 +334,9 @@ If it is omitted, the current grid state is toggled.
 modify the minor grid rather than the major grid.
 </p>
 <p>If the first argument <var>hax</var> is an axes handle, then operate on
-this axis rather than the current axes returned by <code>gca</code>.
+this axes rather than the current axes returned by <code>gca</code>.
 </p>
-<p>To control the grid lines for an individual axis use the <code>set</code>
+<p>To control the grid lines for an individual axes use the <code>set</code>
 function.  For example:
 </p>
 <div class="example">
@@ -405,7 +405,7 @@ the <var>delete_option</var>: <code>&quot;delete&quot;</code>, <code>&quot;hide&
 <p>If the argument <code>&quot;peer&quot;</code> is given, then the following argument is
 treated as the axes handle in which to add the colorbar.  Alternatively,
 If the first argument <var>hax</var> is an axes handle, then the colorbar is
-added to this axis, rather than the current axes returned by <code>gca</code>.
+added to this axes, rather than the current axes returned by <code>gca</code>.
 </p>
 <p>If the first argument <var>hcb</var> is a handle to a colorbar object, then
 operate on this colorbar directly.

@@ -1,11 +1,11 @@
-This is octave.info, produced by makeinfo version 6.3 from octave.texi.
+This is octave.info, produced by makeinfo version 6.5 from octave.texi.
 
 START-INFO-DIR-ENTRY
 * Octave: (octave).           Interactive language for numerical computations.
 
 END-INFO-DIR-ENTRY
 
-   Copyright © 1996-2016 John W. Eaton.
+   Copyright © 1996-2018 John W. Eaton.
 
    Permission is granted to make and distribute verbatim copies of this
 manual provided the copyright notice and this permission notice are
@@ -28,7 +28,7 @@ GNU Octave
 
 This manual documents how to run, install and port GNU Octave, as well
 as its new features and incompatibilities, and how to report bugs.  It
-corresponds to GNU Octave version 4.2.1.
+corresponds to GNU Octave version 4.2.2.
 
 * Menu:
 
@@ -964,45 +964,45 @@ Jim Peterson             Danilo Piazzalunga       Nicholas Piper
 Elias Pipping            Robert Platt             Hans Ekkehard Plesser
 Sergey Plotnikov         Tom Poage                Nathan Podlich
 Orion Poplawski          Ondrej Popp              Jef Poskanzer
-Francesco Potortì        Konstantinos Poulios     Jarno Rajahalme
-Eduardo Ramos            Pooja Rao                James B. Rawlings
-Eric S. Raymond          Balint Reczey            Joshua Redstone
-Lukas Reichlin           Michael Reifenberger     Ernst Reissner
-Jens Restemeier          Anthony Richardson       Jason Riedy
-E. Joshua Rigler         Sander van Rijn          Petter Risholm
-Matthew W. Roberts       Dmitry Roshchin          Peter Rosin
-Andrew Ross              Fabio Rossi              Mark van Rossum
-Joe Rothweiler           David Rörich             Kevin Ruland
-Kristian Rumberg         Ryan Rusaw               Olli Saarela
-Toni Saarela             Juhani Saastamoinen      Radek Salac
-Mike Sander              Ben Sapp                 Aleksej Saushev
-Alois Schlögl            Michel D. Schmid         Julian Schnidder
-Sebastian Schöps         Nicol N. Schraudolph     Sebastian Schubert
-Lasse Schuirmann         Ludwig Schwardt          Thomas L. Scofield
-Daniel J. Sebald         Dmitri A. Sergatskov     Vanya Sergeev
-Marko Seric              Ahsan Ali Shahid         Baylis Shanks
-Andriy Shinkarchuck      Robert T. Short          Joseph P. Skudlarek
-John Smith               Julius Smith             Shan G. Smith
-Peter L. Sondergaard     Joerg Specht             Quentin H. Spencer
-Christoph Spiel          David Spies              Richard Stallman
-Russell Standish         Brett Stewart            Doug Stewart
-Jonathan Stickel         Judd Storrs              Thomas Stuart
-Bernardo Sulzbach        Ivan Sutoris             John Swensen
-Daisuke Takago           Ariel Tankus             Falk Tannhäuser
-Duncan Temple Lang       Matthew Tenny            Kris Thielemans
-Georg Thimm              Corey Thomasson          Andrew Thornton
-Olaf Till                Christophe Tournery      Thomas Treichl
-Karsten Trulsen          David Turner             Frederick Umminger
-Utkarsh Upadhyay         Stefan van der Walt      Peter Van Wieren
-James R. Van Zandt       Risto Vanhanen           Gregory Vanuxem
-Mihas Varantsou          Ivana Varekova           Sébastien Villemot
-Marco Vitetta            Daniel Wagenaar          Thomas Walter
-Andreas Weber            Olaf Weber               Thomas Weber
-Rik Wehbring             Bob Weigel               Andreas Weingessel
-Martin Weiser            Michael Weitzel          David Wells
-Joachim Wiesemann        Fook Fah Yap             Sean Young
-Michele Zaffalon         Johannes Zarl            Michael Zeising
-Federico Zenith          Alex Zvoleff
+Francesco Potortì        Konstantinos Poulios     Tejaswi D. Prakash
+Jarno Rajahalme          Eduardo Ramos            Pooja Rao
+James B. Rawlings        Eric S. Raymond          Balint Reczey
+Joshua Redstone          Lukas Reichlin           Michael Reifenberger
+Ernst Reissner           Jens Restemeier          Anthony Richardson
+Jason Riedy              E. Joshua Rigler         Sander van Rijn
+Petter Risholm           Matthew W. Roberts       Dmitry Roshchin
+Peter Rosin              Andrew Ross              Fabio Rossi
+Mark van Rossum          Joe Rothweiler           David Rörich
+Kevin Ruland             Kristian Rumberg         Ryan Rusaw
+Olli Saarela             Toni Saarela             Juhani Saastamoinen
+Radek Salac              Mike Sander              Ben Sapp
+Aleksej Saushev          Alois Schlögl            Michel D. Schmid
+Julian Schnidder         Sebastian Schöps         Nicol N. Schraudolph
+Sebastian Schubert       Lasse Schuirmann         Ludwig Schwardt
+Thomas L. Scofield       Daniel J. Sebald         Dmitri A. Sergatskov
+Vanya Sergeev            Marko Seric              Ahsan Ali Shahid
+Baylis Shanks            Andriy Shinkarchuck      Robert T. Short
+Joseph P. Skudlarek      John Smith               Julius Smith
+Shan G. Smith            Peter L. Sondergaard     Joerg Specht
+Quentin H. Spencer       Christoph Spiel          David Spies
+Richard Stallman         Russell Standish         Brett Stewart
+Doug Stewart             Jonathan Stickel         Judd Storrs
+Thomas Stuart            Bernardo Sulzbach        Ivan Sutoris
+John Swensen             Daisuke Takago           Ariel Tankus
+Falk Tannhäuser          Duncan Temple Lang       Matthew Tenny
+Kris Thielemans          Georg Thimm              Corey Thomasson
+Andrew Thornton          Olaf Till                Christophe Tournery
+Thomas Treichl           Karsten Trulsen          David Turner
+Frederick Umminger       Utkarsh Upadhyay         Stefan van der Walt
+Peter Van Wieren         James R. Van Zandt       Risto Vanhanen
+Gregory Vanuxem          Mihas Varantsou          Ivana Varekova
+Sébastien Villemot       Marco Vitetta            Daniel Wagenaar
+Thomas Walter            Andreas Weber            Olaf Weber
+Thomas Weber             Rik Wehbring             Bob Weigel
+Andreas Weingessel       Martin Weiser            Michael Weitzel
+David Wells              Joachim Wiesemann        Fook Fah Yap
+Sean Young               Michele Zaffalon         Johannes Zarl
+Michael Zeising          Federico Zenith          Alex Zvoleff
 
    Special thanks to the following people and organizations for
 supporting the development of Octave:
@@ -1166,7 +1166,7 @@ manual, *note Copying::.
 run, use, and extend GNU Octave.  Additional chapters describe how to
 report bugs and help contribute code.
 
-   This document corresponds to Octave version 4.2.1.
+   This document corresponds to Octave version 4.2.2.
 
 * Menu:
 
@@ -2950,7 +2950,7 @@ decoded as follows:
      When executing interactively, Octave displays the primary prompt
      when it is ready to read a command.
 
-     The default value of the primary prompt string is "octave:\#> ".
+     The default value of the primary prompt string is ’octave:\#> ’.
      To change it, use a command like
 
           PS1 ("\\u@\\H> ")
@@ -3968,9 +3968,9 @@ that all represent the same value:
 
      With 1 real argument X, return the complex result ‘X + 0i’.
 
-     With 2 real arguments, return the complex result ‘RE + IM’.
+     With 2 real arguments, return the complex result ‘RE + IMi’.
      ‘complex’ can often be more convenient than expressions such as
-     ‘a + i*b’.  For example:
+     ‘a + b*i’.  For example:
 
           complex ([1, 2], [3, 4])
             ⇒ [ 1 + 3i   2 + 4i ]
@@ -5531,13 +5531,13 @@ horzcat: XREFhorzcat, and *note vertcat: XREFvertcat.
      ‘cellstr’.  For example:
 
           char ([97, 98, 99], "", {"98", "99", 100}, "str1", ["ha", "lf"])
-             ⇒ ["abc    "
-                 "       "
-                 "98     "
-                 "99     "
-                 "d      "
-                 "str1   "
-                 "half   "]
+             ⇒ ["abc "
+                 "    "
+                 "98  "
+                 "99  "
+                 "d   "
+                 "str1"
+                 "half"]
 
      See also: *note strvcat: XREFstrvcat, *note cellstr: XREFcellstr.
 
@@ -5562,12 +5562,12 @@ horzcat: XREFhorzcat, and *note vertcat: XREFvertcat.
      with ‘cellstr’.  For example:
 
           strvcat ([97, 98, 99], "", {"98", "99", 100}, "str1", ["ha", "lf"])
-                ⇒ ["abc    "
-                    "98     "
-                    "99     "
-                    "d      "
-                    "str1   "
-                    "half   "]
+                ⇒ ["abc "
+                    "98  "
+                    "99  "
+                    "d   "
+                    "str1"
+                    "half"]
 
      See also: *note char: XREFchar, *note strcat: XREFstrcat, *note
      cstrcat: XREFcstrcat.
@@ -6272,7 +6272,9 @@ general regular expressions, the following functions come with Octave.
      ‘%u’
           The word is parsed as a number and converted to int32.
 
-     ‘%*', '%*f', '%*s’
+     ‘%*’
+     ‘%*f’
+     ‘%*s’
           The word is skipped.
 
           For %s and %d, %f, %n, %u and the associated %*s ...
@@ -6631,6 +6633,18 @@ general regular expressions, the following functions come with Octave.
           there are zero or more ’b’ characters at positions 1 and
           end-of-string.
 
+     Stack Limitation Note: Pattern searches are done with a recursive
+     function which can overflow the program stack when there are a high
+     number of matches.  For example,
+
+          regexp (repmat ('a', 1, 1e5), '(a)+')
+
+     may lead to a segfault.  As an alternative, consider constructing
+     pattern searches that reduce the number of matches (e.g., by
+     creatively using set complement), and then further processing the
+     return variables (now reduced in size) with successive ‘regexp’
+     searches.
+
      See also: *note regexpi: XREFregexpi, *note strfind: XREFstrfind,
      *note regexprep: XREFregexprep.
 
@@ -6691,7 +6705,7 @@ general regular expressions, the following functions come with Octave.
           example:
 
                regexptranslate ("wildcard", "*.m")
-                    ⇒ ".*\.m"
+                    ⇒ '.*\.m'
 
      "escape"
           The characters ‘$.?[]’, that have special meaning for regular
@@ -6699,7 +6713,7 @@ general regular expressions, the following functions come with Octave.
           For example:
 
                regexptranslate ("escape", "12.5")
-                    ⇒ "12\.5"
+                    ⇒ '12\.5'
 
      See also: *note regexp: XREFregexp, *note regexpi: XREFregexpi,
      *note regexprep: XREFregexprep.
@@ -7501,7 +7515,7 @@ An example of the creation of a structure array is
      x(1).b = 1;
      x(2).b = 2;
 
-which creates a 2-by-1 structure array with two fields.  Another way to
+which creates a 1-by-2 structure array with two fields.  Another way to
 create a structure array is with the ‘struct’ function (*note Creating
 Structures::).  As previously, to print the value of the structure
 array, you can type its name:
@@ -7817,7 +7831,7 @@ below.
      the space character.  Using arbitrary strings for field names is
      incompatible with MATLAB, and this usage will emit a warning if the
      warning ID ‘Octave:language-extension’ is enabled.  *Note
-     XREFwarning_ids::.
+     warning_ids: XREFwarning_ids.
 
      With the second calling form, set a field of a structure array.
      The input SIDX selects an element of the structure array, FIELD

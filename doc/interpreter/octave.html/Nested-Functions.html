@@ -1,15 +1,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<!-- Created by GNU Texinfo 6.3, http://www.gnu.org/software/texinfo/ -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
-<title>GNU Octave: Nested Functions</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Nested Functions (GNU Octave)</title>
 
-<meta name="description" content="GNU Octave: Nested Functions">
-<meta name="keywords" content="GNU Octave: Nested Functions">
+<meta name="description" content="Nested Functions (GNU Octave)">
+<meta name="keywords" content="Nested Functions (GNU Octave)">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link href="index.html#Top" rel="start" title="Top">
 <link href="Concept-Index.html#Concept-Index" rel="index" title="Concept Index">
 <link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
@@ -154,7 +154,7 @@ functions is best avoided.
 from the outside.  Inside a function the rules are more complicated.  In
 general a nested function may call:
 </p>
-<ol>
+<ol start="0">
 <li> Globally visible functions
 
 </li><li> Any function that the nested function&rsquo;s parent can call
@@ -175,7 +175,7 @@ more child functions, <code>ex_aa</code> and <code>ex_ab</code>.  For example:
   ## Can NOT call: ex_aa and ex_ab
 
   function ex_a ()
-    ## Call call everything
+    ## Can call everything
 
     function ex_aa ()
       ## Can call everything

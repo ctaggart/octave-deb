@@ -1,15 +1,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<!-- Created by GNU Texinfo 6.3, http://www.gnu.org/software/texinfo/ -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
-<title>GNU Octave: Searching Properties</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Searching Properties (GNU Octave)</title>
 
-<meta name="description" content="GNU Octave: Searching Properties">
-<meta name="keywords" content="GNU Octave: Searching Properties">
+<meta name="description" content="Searching Properties (GNU Octave)">
+<meta name="keywords" content="Searching Properties (GNU Octave)">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link href="index.html#Top" rel="start" title="Top">
 <link href="Concept-Index.html#Concept-Index" rel="index" title="Concept Index">
 <link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
@@ -67,9 +67,12 @@ Next: <a href="Managing-Default-Properties.html#Managing-Default-Properties" acc
 <dt><a name="index-findobj-5"></a>: <em><var>h</var> =</em> <strong>findobj</strong> <em>(<var>hlist</var>, &hellip;)</em></dt>
 <dt><a name="index-findobj-6"></a>: <em><var>h</var> =</em> <strong>findobj</strong> <em>(<var>hlist</var>, &quot;flat&quot;, &hellip;)</em></dt>
 <dt><a name="index-findobj-7"></a>: <em><var>h</var> =</em> <strong>findobj</strong> <em>(<var>hlist</var>, &quot;-depth&quot;, <var>d</var>, &hellip;)</em></dt>
-<dd><p>Find graphics object with specified property values.
+<dd><p>Find graphics objects with specified properties.
 </p>
-<p>The simplest form is
+<p>When called without arguments, return all graphic objects beginning with the
+root object (0) and including all of its descendants.
+</p>
+<p>The simplest form for narrowing the results is
 </p>
 <div class="example">
 <pre class="example">findobj (<var>prop_name</var>, <var>prop_value</var>)
@@ -78,39 +81,49 @@ Next: <a href="Managing-Default-Properties.html#Managing-Default-Properties" acc
 <p>which returns the handles of all objects which have a property named
 <var>prop_name</var> that has the value <var>prop_value</var>.  If multiple
 property/value pairs are specified then only objects meeting all of the
-conditions are returned.
+conditions (equivalent to <code>-and</code>) are returned.
 </p>
 <p>The search can be limited to a particular set of objects and their
 descendants, by passing a handle or set of handles <var>hlist</var> as the first
 argument.
 </p>
 <p>The depth of the object hierarchy to search can be limited with the
-<code>&quot;-depth&quot;</code> argument.  An example of searching only three generations
-of children is:
+<code>&quot;-depth&quot;</code> argument.  An example of searching through only three
+generations of children is:
 </p>
 <div class="example">
 <pre class="example">findobj (<var>hlist</var>, &quot;-depth&quot;, 3, <var>prop_name</var>, <var>prop_value</var>)
 </pre></div>
 
-<p>Specifying a depth <var>d</var> of 0, limits the search to the set of objects
-passed in <var>hlist</var>.  A depth <var>d</var> of 0 is equivalent to the
-<code>&quot;flat&quot;</code> argument.
+<p>Specifying a depth <var>d</var> of 0 limits the search to the set of objects
+passed in <var>hlist</var>.  A depth of 0 is also equivalent to the
+<code>&quot;flat&quot;</code> argument.  The default depth value is <code>Inf</code> which
+includes all descendants.
 </p>
-<p>A specified logical operator may be applied to the pairs of <var>prop_name</var>
-and <var>prop_value</var>.  The supported logical operators are:
-<code>&quot;-and&quot;</code>, <code>&quot;-or&quot;</code>,
-<code>&quot;-xor&quot;</code>, <code>&quot;-not&quot;</code>.
+<p>A specified logical operator may be used between <var>prop_name</var>,
+<var>prop_value</var> pairs.  The supported logical operators are: <code>&quot;-and&quot;</code>,
+<code>&quot;-or&quot;</code>, <code>&quot;-xor&quot;</code>, <code>&quot;-not&quot;</code>.  Example code to locate all
+figure and axes objects is
 </p>
+<div class="example">
+<pre class="example">findobj (&quot;type&quot;, &quot;figure&quot;, &quot;-or&quot;, &quot;type&quot;, &quot;axes&quot;)
+</pre></div>
+
 <p>Objects may also be matched by comparing a regular expression to the
 property values, where property values that match
 <code>regexp (<var>prop_value</var>, <var>pattern</var>)</code> are returned.
 </p>
-<p>Finally, objects may be matched by property name only by using the
-<code>&quot;-property&quot;</code> option.
+<p>Finally, objects which have a property name can be found with the 
+<code>&quot;-property&quot;</code> option.  For example, code to locate objects with a
+<code>&quot;meshstyle&quot;</code> property is
 </p>
+<div class="example">
+<pre class="example">findobj (&quot;-property&quot;, &quot;meshstyle&quot;)
+</pre></div>
+
 <p>Implementation Note: The search only includes objects with visible
-handles (HandleVisibility = <code>&quot;on&quot;</code>).  See <a href="#XREFfindall">findall</a>, to
-search for all objects including hidden ones.
+handles (HandleVisibility<!-- /@w --> = <code>&quot;on&quot;</code>).  See <a href="#XREFfindall">findall</a>,
+to search for all objects including hidden ones.
 </p>
 <p><strong>See also:</strong> <a href="#XREFfindall">findall</a>, <a href="Graphics-Objects.html#XREFallchild">allchild</a>, <a href="Graphics-Objects.html#XREFget">get</a>, <a href="Graphics-Objects.html#XREFset">set</a>.
 </p></dd></dl>
@@ -125,7 +138,7 @@ search for all objects including hidden ones.
 <dt><a name="index-findall-5"></a>: <em><var>h</var> =</em> <strong>findall</strong> <em>(<var>hlist</var>, &hellip;)</em></dt>
 <dt><a name="index-findall-6"></a>: <em><var>h</var> =</em> <strong>findall</strong> <em>(<var>hlist</var>, &quot;flat&quot;, &hellip;)</em></dt>
 <dt><a name="index-findall-7"></a>: <em><var>h</var> =</em> <strong>findall</strong> <em>(<var>hlist</var>, &quot;-depth&quot;, <var>d</var>, &hellip;)</em></dt>
-<dd><p>Find graphics object, including hidden ones, with specified property values.
+<dd><p>Find graphics object, including hidden ones, with specified properties.
 </p>
 <p>The return value <var>h</var> is a list of handles to the found graphic objects.
 </p>

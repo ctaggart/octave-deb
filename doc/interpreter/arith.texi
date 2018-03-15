@@ -758,7 +758,7 @@ Compute the inverse tangent in degrees for each element of @var{x}.
 @c atan2d scripts/elfun/atan2d.m
 @anchor{XREFatan2d}
 @deftypefn {} {} atan2d (@var{y}, @var{x})
-Compute atan2 (@var{y} / @var{x}) in degrees for corresponding elements
+Compute atan (@var{y} / @var{x}) in degrees for corresponding elements
 from @var{y} and @var{x}.
 @seealso{@ref{XREFtand,,tand}, @ref{XREFatan2,,atan2}}
 @end deftypefn
@@ -864,7 +864,6 @@ in double precision even for single precision inputs.
 @deftypefnx {} {} cumsum (@var{x}, @var{dim})
 @deftypefnx {} {} cumsum (@dots{}, "native")
 @deftypefnx {} {} cumsum (@dots{}, "double")
-@deftypefnx {} {} cumsum (@dots{}, "extra")
 Cumulative sum of elements along dimension @var{dim}.
 
 If @var{dim} is omitted, it defaults to the first non-singleton dimension.
@@ -879,8 +878,8 @@ cumsum ([1, 2; 3, 4; 5, 6])
 @end group
 @end example
 
-See @code{sum} for an explanation of the optional parameters
-@qcode{"native"}, @qcode{"double"}, and @qcode{"extra"}.
+See @code{sum} for an explanation of the optional parameters @qcode{"native"}
+and @qcode{"double"}.
 @seealso{@ref{XREFsum,,sum}, @ref{XREFcumprod,,cumprod}}
 @end deftypefn
 

@@ -1,15 +1,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<!-- Created by GNU Texinfo 6.3, http://www.gnu.org/software/texinfo/ -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
-<title>GNU Octave: Functions of One Variable</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Functions of One Variable (GNU Octave)</title>
 
-<meta name="description" content="GNU Octave: Functions of One Variable">
-<meta name="keywords" content="GNU Octave: Functions of One Variable">
+<meta name="description" content="Functions of One Variable (GNU Octave)">
+<meta name="keywords" content="Functions of One Variable (GNU Octave)">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link href="index.html#Top" rel="start" title="Top">
 <link href="Concept-Index.html#Concept-Index" rel="index" title="Concept Index">
 <link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
@@ -101,7 +101,7 @@ algorithms.
 <tr><td width="5%"></td><td width="15%">quad</td><td width="80%">Low accuracy with nonsmooth integrands</td></tr>
 <tr><td width="5%"></td><td width="15%">quadv</td><td width="80%">Medium accuracy with smooth integrands</td></tr>
 <tr><td width="5%"></td><td width="15%">quadl</td><td width="80%">Medium accuracy with smooth integrands.  Slower than quadgk.</td></tr>
-<tr><td width="5%"></td><td width="15%">quadgk</td><td width="80%">Medium accuracy (<em>1e^{-6}</em>&ndash;<em>1e^{-9}</em>) with smooth integrands.</td></tr>
+<tr><td width="5%"></td><td width="15%">quadgk</td><td width="80%">Medium accuracy (1e-6 &ndash; 1e-9) with smooth integrands.</td></tr>
 <tr><td width="5%"></td><td width="15%"></td><td width="80%">Handles oscillatory functions and infinite bounds</td></tr>
 <tr><td width="5%"></td><td width="15%">quadcc</td><td width="80%">Low to High accuracy with nonsmooth/smooth integrands</td></tr>
 <tr><td width="5%"></td><td width="15%"></td><td width="80%">Handles oscillatory functions, singularities, and infinite bounds</td></tr>
@@ -185,7 +185,7 @@ absolute tolerance, and the second element is the desired relative
 tolerance.  To choose a relative test only, set the absolute
 tolerance to zero.  To choose an absolute test only, set the relative
 tolerance to zero.  Both tolerances default to <code>sqrt (eps)</code> or
-approximately <em>1.5e^{-8}</em>.
+approximately 1.5e-8.
 </p>
 <p>The optional argument <var>sing</var> is a vector of values at which the
 integrand is known to be singular.
@@ -315,7 +315,7 @@ return a vector of output values when given a vector of input values.
 limits must be finite.
 </p>
 <p>The optional argument <var>tol</var> defines the absolute tolerance with which
-to perform the integration.  The default value is <em>1e-6</em>.
+to perform the integration.  The default value is 1e-6.
 </p>
 <p>The algorithm used by <code>quadl</code> involves recursively subdividing the
 integration interval.  If <var>trace</var> is defined then for each subinterval
@@ -473,7 +473,7 @@ or both limits may be infinite.  <code>quadcc</code> handles an inifinite limit
 by substituting the variable of integration with <code>x = tan (pi/2*u)</code>.
 </p>
 <p>The optional argument <var>tol</var> defines the relative tolerance used to stop
-the integration procedure.  The default value is <em>1e^{-6}</em>.
+the integration procedure.  The default value is 1e-6.
 </p>
 <p>The optional argument <var>sing</var> contains a list of points where the
 integrand has known singularities, or discontinuities

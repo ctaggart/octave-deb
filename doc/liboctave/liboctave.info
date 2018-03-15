@@ -1,4 +1,4 @@
-This is liboctave.info, produced by makeinfo version 6.3 from
+This is liboctave.info, produced by makeinfo version 6.5 from
 liboctave.texi.
 
 START-INFO-DIR-ENTRY
@@ -28,7 +28,7 @@ Octave C++ Classes
 
 This manual documents how to use, install and port Octave's C++ class
 library, and how to report bugs.  It corresponds to Octave version
-4.2.1.
+4.2.2.
 
 * Menu:
 

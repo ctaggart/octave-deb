@@ -1,15 +1,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<!-- Created by GNU Texinfo 6.3, http://www.gnu.org/software/texinfo/ -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
-<title>GNU Octave: Identifying Points in Triangulation</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Identifying Points in Triangulation (GNU Octave)</title>
 
-<meta name="description" content="GNU Octave: Identifying Points in Triangulation">
-<meta name="keywords" content="GNU Octave: Identifying Points in Triangulation">
+<meta name="description" content="Identifying Points in Triangulation (GNU Octave)">
+<meta name="keywords" content="Identifying Points in Triangulation (GNU Octave)">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link href="index.html#Top" rel="start" title="Top">
 <link href="Concept-Index.html#Concept-Index" rel="index" title="Concept Index">
 <link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
@@ -71,34 +71,33 @@ falls within one of the simplices of an N-simplex, we can write the
 Cartesian coordinates of the point in a parametric form with respect to
 the N-simplex.  This parametric form is called the Barycentric
 Coordinates of the point.  If the points defining the N-simplex are given
-by <code><var>N</var> + 1</code> vectors <var>t</var>(<var>i</var>,:), then the Barycentric
+by <var>N</var> + 1 vectors <code><var>t</var>(<var>i</var>,:)</code>, then the Barycentric
 coordinates defining the point <var>p</var> are given by
 </p>
 <div class="example">
-<pre class="example"><var>p</var> = sum (<var>beta</var>(1:<var>N</var>+1) * <var>t</var>(1:<var>N</var>+1),:)
+<pre class="example"><var>p</var> = <var>beta</var> * <var>t</var>
 </pre></div>
 
-<p>where there are <code><var>N</var> + 1</code> values <code><var>beta</var>(<var>i</var>)</code>
-that together as a vector represent the Barycentric coordinates of the
-point <var>p</var>.  To ensure a unique solution for the values of
-<code><var>beta</var>(<var>i</var>)</code> an additional criteria of
+<p>where <var>beta</var> contains <var>N</var> + 1 values that together as a vector
+represent the Barycentric coordinates of the point <var>p</var>.  To ensure a unique
+solution for the values of <var>beta</var> an additional criteria of
 </p>
 <div class="example">
-<pre class="example">sum (<var>beta</var>(1:<var>N</var>+1)) == 1
+<pre class="example">sum (<var>beta</var>) == 1
 </pre></div>
 
 <p>is imposed, and we can therefore write the above as
 </p>
 <div class="example">
 <pre class="example"><var>p</var> - <var>t</var>(end, :) = <var>beta</var>(1:end-1) * (<var>t</var>(1:end-1, :)
-      - ones (<var>N</var>, 1) * <var>t</var>(end, :)
+                - ones (<var>N</var>, 1) * <var>t</var>(end, :)
 </pre></div>
 
 <p>Solving for <var>beta</var> we can then write
 </p>
 <div class="example">
-<pre class="example"><var>beta</var>(1:end-1) = (<var>p</var> - <var>t</var>(end, :)) / (<var>t</var>(1:end-1, :)
-      - ones (<var>N</var>, 1) * <var>t</var>(end, :))
+<pre class="example"><var>beta</var>(1:end-1) = (<var>p</var> - <var>t</var>(end, :)) / 
+                (<var>t</var>(1:end-1, :) - ones (<var>N</var>, 1) * <var>t</var>(end, :))
 <var>beta</var>(end) = sum (<var>beta</var>(1:end-1))
 </pre></div>
 
@@ -152,7 +151,7 @@ triangulation
 <div class="example">
 <pre class="example"><var>x</var> = [-1; -1; 1; 1];
 <var>y</var> = [-1; 1; -1; 1];
-<var>tri</var> = [1, 2, 3; 2, 3, 1];
+<var>tri</var> = [1, 2, 3; 2, 3, 4];
 </pre></div>
 
 <p>consisting of two triangles defined by <var>tri</var>.  We can then identify

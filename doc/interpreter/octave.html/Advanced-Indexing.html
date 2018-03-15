@@ -1,15 +1,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<!-- Created by GNU Texinfo 6.3, http://www.gnu.org/software/texinfo/ -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
-<title>GNU Octave: Advanced Indexing</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Advanced Indexing (GNU Octave)</title>
 
-<meta name="description" content="GNU Octave: Advanced Indexing">
-<meta name="keywords" content="GNU Octave: Advanced Indexing">
+<meta name="description" content="Advanced Indexing (GNU Octave)">
+<meta name="keywords" content="Advanced Indexing (GNU Octave)">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link href="index.html#Top" rel="start" title="Top">
 <link href="Concept-Index.html#Concept-Index" rel="index" title="Concept Index">
 <link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
@@ -58,25 +58,28 @@ Up: <a href="Index-Expressions.html#Index-Expressions" accesskey="u" rel="up">In
 <a name="Advanced-Indexing-1"></a>
 <h4 class="subsection">8.1.1 Advanced Indexing</h4>
 
-<p>An array with &lsquo;<samp>n</samp>&rsquo; dimensions can be indexed using &lsquo;<samp>m</samp>&rsquo;
-indices.  More generally, the set of index tuples determining the
-result is formed by the Cartesian product of the index vectors (or
-ranges or scalars).
+<p>An array with &lsquo;<samp>nd</samp>&rsquo; dimensions can be indexed by a vector <var>idx</var> which
+has from 1 to &lsquo;<samp>nd</samp>&rsquo; elements.  If any element of <var>idx</var> is not a
+scalar then the complete set of index tuples will be generated from the
+Cartesian product of the index elements.
 </p>
-<p>For the ordinary and most common case, <code>m&nbsp;==&nbsp;n</code><!-- /@w -->, and each
-index corresponds to its respective dimension.  If <code>m&nbsp;&lt;&nbsp;n</code><!-- /@w -->
-and every index is less than the size of the array in the
-<em>i^{th}</em> dimension, <code>m(i) &lt; n(i)</code>, then the index expression
-is padded with trailing singleton dimensions (<code>[ones (m-n, 1)]</code>).
-If <code>m&nbsp;&lt;&nbsp;n</code><!-- /@w --> but one of the indices <code>m(i)</code> is outside the
-size of the current array, then the last <code><span class="nolinebreak">n-m+1</span></code><!-- /@w --> dimensions
-are folded into a single dimension with an extent equal to the product
-of extents of the original dimensions.  This is easiest to understand
-with an example.
+<p>For the ordinary and most common case, the number of indices
+(<code>nidx = numel (<var>idx</var>)</code>) matches the number of dimensions &lsquo;<samp>nd</samp>&rsquo;.
+In this case, each element of <var>idx</var> corresponds to its respective dimension,
+i.e., <code><var>idx</var>(1)</code> refers to dimension 1, <code><var>idx</var>(2)</code> refers to
+dimension 2, etc.  If <code>nidx&nbsp;&lt;&nbsp;nd</code><!-- /@w -->, and every index is less than the
+size of the array in the <em>i^{th}</em> dimension
+(<code><var>idx</var>(i) &lt; size (<var>array</var>, i)</code>), then the index expression is
+padded with <code>nd&nbsp;<span class="nolinebreak">-</span>&nbsp;nidx</code><!-- /@w --> trailing singleton dimensions.  If
+<code>nidx&nbsp;&lt;&nbsp;nd</code><!-- /@w --> but one of the indices <code><var>idx</var>(i)</code> is outside the
+size of the current array, then the last <code>nd&nbsp;<span class="nolinebreak">-</span>&nbsp;nidx&nbsp;+&nbsp;1</code><!-- /@w --> dimensions
+are folded into a single dimension with an extent equal to the product of
+extents of the original dimensions.  This is easiest to understand with an
+example.  
 </p>
 <div class="example">
-<pre class="example">a = reshape (1:8, 2, 2, 2)  # Create 3-D array
-a =
+<pre class="example">A = reshape (1:8, 2, 2, 2)  # Create 3-D array
+A =
 
 ans(:,:,1) =
 
@@ -88,10 +91,10 @@ ans(:,:,2) =
    5   7
    6   8
 
-a(2,1,2);   # Case (m == n): ans = 6
-a(2,1);     # Case (m &lt; n), idx within array:
-            # equivalent to a(2,1,1), ans = 2
-a(2,4);     # Case (m &lt; n), idx outside array:
+A(2,1,2);   # Case (nidx == nd): ans = 6
+A(2,1);     # Case (nidx &lt; nd), idx within array:
+            # equivalent to A(2,1,1), ans = 2
+A(2,4);     # Case (nidx &lt; nd), idx outside array:
             # Dimension 2 &amp; 3 folded into new dimension of size 2x2 = 4
             # Select 2nd row, 4th element of [2, 4, 6, 8], ans = 8
 </pre></div>

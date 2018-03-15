@@ -104,7 +104,7 @@ Background area is not yet implemented for text objects.  @code{edgecolor} is un
 
 @anchor{XREFtextextent}
 @cindex text extent
-@item @code{extent} (read-only): four-element vector, def. @code{[0.000000  -0.005843   0.000000   0.032136]}
+@item @code{extent} (read-only): four-element vector, def. @code{[0.000000  -0.008764   0.000000   0.037978]}
 Vector @code{[x0 y0 width height]} indicating the size and location of the text string.
 
 

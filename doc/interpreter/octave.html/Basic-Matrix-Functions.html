@@ -1,15 +1,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<!-- Created by GNU Texinfo 6.3, http://www.gnu.org/software/texinfo/ -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
-<title>GNU Octave: Basic Matrix Functions</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Basic Matrix Functions (GNU Octave)</title>
 
-<meta name="description" content="GNU Octave: Basic Matrix Functions">
-<meta name="keywords" content="GNU Octave: Basic Matrix Functions">
+<meta name="description" content="Basic Matrix Functions (GNU Octave)">
+<meta name="keywords" content="Basic Matrix Functions (GNU Octave)">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link href="index.html#Top" rel="start" title="Top">
 <link href="Concept-Index.html#Concept-Index" rel="index" title="Concept Index">
 <link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
@@ -213,8 +213,9 @@ For that, use any of the condition number functions: <code>cond</code>,
 <dt><a name="index-eig-6"></a>: <em>[&hellip;] =</em> <strong>eig</strong> <em>(<var>A</var>, <var>balanceOption</var>)</em></dt>
 <dt><a name="index-eig-7"></a>: <em>[&hellip;] =</em> <strong>eig</strong> <em>(<var>A</var>, <var>B</var>, <var>algorithm</var>)</em></dt>
 <dt><a name="index-eig-8"></a>: <em>[&hellip;] =</em> <strong>eig</strong> <em>(&hellip;, <var>eigvalOption</var>)</em></dt>
-<dd><p>Compute the right eigenvalues(V) and optionally the eigenvectors(lambda) and
-the left eigenvalues(W) of a matrix or a pair of matrices.
+<dd><p>Compute the eigenvalues (<var>lambda</var>) and optionally the right eigenvectors
+(<var>V</var>) and the left eigenvectors (<var>W</var>) of a matrix or a pair of
+matrices.
 </p>
 <p>The flag <var>balanceOption</var> can be one of:
 </p>
@@ -328,7 +329,7 @@ equations (<var>A</var>*<em>x</em> = <em>b</em>) with
 matrix requiring significantly more storage.  Avoid forming the inverse of a
 sparse matrix if possible.
 </p>
-<p><strong>See also:</strong> <a href="Arithmetic-Ops.html#XREFldivide">ldivide</a>, <a href="Arithmetic-Ops.html#XREFrdivide">rdivide</a>.
+<p><strong>See also:</strong> <a href="Arithmetic-Ops.html#XREFldivide">ldivide</a>, <a href="Arithmetic-Ops.html#XREFrdivide">rdivide</a>, <a href="#XREFpinv">pinv</a>.
 </p></dd></dl>
 
 
@@ -611,17 +612,18 @@ Gram-Schmidt method.
 <a name="XREFpinv"></a><dl>
 <dt><a name="index-pinv"></a>: <em></em> <strong>pinv</strong> <em>(<var>x</var>)</em></dt>
 <dt><a name="index-pinv-1"></a>: <em></em> <strong>pinv</strong> <em>(<var>x</var>, <var>tol</var>)</em></dt>
-<dd><p>Return the pseudoinverse of <var>x</var>.
+<dd><p>Return the Moore-Penrose pseudoinverse of <var>x</var>.
 </p>
 <p>Singular values less than <var>tol</var> are ignored.
 </p>
 <p>If the second argument is omitted, it is taken to be
 </p>
 <div class="example">
-<pre class="example">tol = max (size (<var>x</var>)) * sigma_max (<var>x</var>) * eps,
+<pre class="example">tol = max ([rows(<var>x</var>), columns(<var>x</var>)]) * norm (<var>x</var>) * eps
 </pre></div>
 
-<p>where <code>sigma_max (<var>x</var>)</code> is the maximal singular value of <var>x</var>.
+
+<p><strong>See also:</strong> <a href="#XREFinv">inv</a>, <a href="Arithmetic-Ops.html#XREFldivide">ldivide</a>.
 </p></dd></dl>
 
 <a name="index-pseudoinverse"></a>

@@ -1,15 +1,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<!-- Created by GNU Texinfo 6.3, http://www.gnu.org/software/texinfo/ -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
-<title>GNU Octave: Manipulation of Plot Windows</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Manipulation of Plot Windows (GNU Octave)</title>
 
-<meta name="description" content="GNU Octave: Manipulation of Plot Windows">
-<meta name="keywords" content="GNU Octave: Manipulation of Plot Windows">
+<meta name="description" content="Manipulation of Plot Windows (GNU Octave)">
+<meta name="keywords" content="Manipulation of Plot Windows (GNU Octave)">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link href="index.html#Top" rel="start" title="Top">
 <link href="Concept-Index.html#Concept-Index" rel="index" title="Concept Index">
 <link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
@@ -124,7 +124,7 @@ plot.
 </p>
 <p>This function is called at the beginning of all high-level plotting
 functions.  It is not normally required in user programs.  <code>newplot</code>
-queries the <code>&quot;NextPlot&quot;</code> field of the current figure and axis to
+queries the <code>&quot;NextPlot&quot;</code> field of the current figure and axes to
 determine what to do.
 </p>
 <table>
@@ -143,15 +143,15 @@ This is equivalent to <code>clf reset</code>.</td></tr>
 </table>
 
 <table>
-<thead><tr><th width="25%">Axis NextPlot</th><th width="75%">Action</th></tr></thead>
+<thead><tr><th width="25%">Axes NextPlot</th><th width="75%">Action</th></tr></thead>
 <tr><td width="25%"><code>&quot;add&quot;</code></td><td width="75%">Add new graphic objects to the current axes.  This
 is equivalent to <code>hold on</code>.</td></tr>
 <tr><td width="25%"><code>&quot;replacechildren&quot;</code></td><td width="75%">Delete child objects whose
-HandleVisibility is set to <code>&quot;on&quot;</code>, but leave axis properties
+HandleVisibility is set to <code>&quot;on&quot;</code>, but leave axes properties
 unmodified.  This typically clears a plot, but preserves special settings
 such as log scaling for axes.  This is equivalent to <code>cla</code>.</td></tr>
 <tr><td width="25%"><code>&quot;replace&quot;</code> (default)</td><td width="75%">Delete all child objects of the
-axis and reset all axis properties to their defaults.  However, the
+axes and reset all axes properties to their defaults.  However, the
 following properties are not reset: Position, Units.  This is equivalent
 to <code>cla reset</code>.</td></tr>
 </table>
@@ -163,7 +163,7 @@ specified figure or axes rather than the current figure and axes.
 axes object (not figure).
 </p>
 <p><strong>Caution:</strong> Calling <code>newplot</code> may change the current figure and
-current axis.
+current axes.
 </p></dd></dl>
 
 
@@ -188,7 +188,7 @@ added.
 </p>
 </dd>
 <dt><code>hold off</code></dt>
-<dd><p>Restore default graphics settings which clear the graph and reset axis
+<dd><p>Restore default graphics settings which clear the graph and reset axes
 properties before each new plot command.  (default).
 </p>
 </dd>
@@ -198,7 +198,7 @@ properties before each new plot command.  (default).
 </dl>
 
 <p>When given the additional argument <var>hax</var>, the hold state is modified
-for this axis rather than the current axes returned by <code>gca</code>.
+for this axes rather than the current axes returned by <code>gca</code>.
 </p>
 <p>To query the current hold state use the <code>ishold</code> function.
 </p>
@@ -262,12 +262,12 @@ window that was cleared.
 handles (HandleVisibility = <code>&quot;on&quot;</code>).
 </p>
 <p>If the optional argument <code>&quot;reset&quot;</code> is specified, delete all child
-objects including those with hidden handles and reset all axis properties
+objects including those with hidden handles and reset all axes properties
 to their defaults.  However, the following properties are not reset:
 Position, Units.
 </p>
 <p>If the first argument <var>hax</var> is an axes handle, then operate on
-this axis rather than the current axes returned by <code>gca</code>.
+this axes rather than the current axes returned by <code>gca</code>.
 </p>
 <p><strong>See also:</strong> <a href="#XREFclf">clf</a>, <a href="#XREFdelete">delete</a>, <a href="Managing-Default-Properties.html#XREFreset">reset</a>.
 </p></dd></dl>

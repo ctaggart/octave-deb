@@ -468,9 +468,7 @@ octregexp (const octave_value_list &args, int nargout,
       octave_value_list new_retval;
       new_retval.resize (nargout);
 
-      OCTAVE_LOCAL_BUFFER (int, arg_used, 6);
-      for (int j = 0; j < 6; j++)
-        arg_used[j] = false;
+      OCTAVE_LOCAL_BUFFER_INIT (int, arg_used, 7, false);
 
       for (int j = 2; j < nargin; j++)
         {
@@ -515,7 +513,7 @@ octregexp (const octave_value_list &args, int nargout,
       // Fill in the rest of the arguments
       if (n < nargout)
         {
-          for (int j = 0; j < 6; j++)
+          for (int j = 0; j < 7; j++)
             {
               if (! arg_used[j])
                 new_retval(n++) = retval(j);
@@ -852,6 +850,18 @@ Return zero-length matches.
 are zero or more @qcode{'b'} characters at positions 1 and end-of-string.
 
 @end table
+Stack Limitation Note: Pattern searches are done with a recursive function
+which can overflow the program stack when there are a high number of matches.
+For example,
+
+@example
+@code{regexp (repmat ('a', 1, 1e5), '(a)+')}
+@end example
+
+may lead to a segfault.  As an alternative, consider constructing pattern
+searches that reduce the number of matches (e.g., by creatively using set
+complement), and then further processing the return variables (now reduced in
+size) with successive @code{regexp} searches.
 @seealso{regexpi, strfind, regexprep}
 @end deftypefn */)
 {
@@ -1506,4 +1516,8 @@ function.
 
 %!assert (regexprep ("\n", '\n', "X"), "X")
 %!assert (regexprep ("\n", "\n", "X"), "X")
+
+## Empty matches were broken on ARM architecture
+%!test <*52810>
+%! assert (strcmp (regexprep ("\nabc", "^(\t*)(abc)$", "$1$2", "lineanchors"), "\nabc"))
 */

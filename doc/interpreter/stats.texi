@@ -77,12 +77,16 @@ The mean is defined as
 
 @tex
 $$ {\rm mean}(x) = \bar{x} = {1\over N} \sum_{i=1}^N x_i $$
+where $N$ is the number of elements of @var{x}.
+
 @end tex
 @ifnottex
 
 @example
-mean (x) = SUM_i x(i) / N
+mean (@var{x}) = SUM_i @var{x}(i) / N
 @end example
+
+where @math{N} is the length of the @var{x} vector.
 
 @end ifnottex
 If @var{x} is a matrix, compute the mean for each column and return them
@@ -116,27 +120,30 @@ may appear first.
 @deftypefnx {} {} median (@var{x}, @var{dim})
 Compute the median value of the elements of the vector @var{x}.
 
-When the elements of @var{x} are sorted, the median is defined as
+When the elements of @var{x} are sorted, say @code{@var{s} = sort (@var{x})},
+the median is defined as
 @tex
 $$
 {\rm median} (x) =
-  \cases{x(\lceil N/2\rceil), & $N$ odd;\cr
-          (x(N/2)+x(N/2+1))/2, & $N$ even.}
+  \cases{s(\lceil N/2\rceil), & $N$ odd;\cr
+          (s(N/2)+s(N/2+1))/2, & $N$ even.}
 $$
+where $N$ is the number of elements of @var{x}.
+
 @end tex
 @ifnottex
 
 @example
 @group
-              x(ceil(N/2))             N odd
-median (x) =
-             (x(N/2) + x((N/2)+1))/2   N even
+             |  @var{s}(ceil(N/2))           N odd
+median (@var{x}) = |
+             | (@var{s}(N/2) + @var{s}(N/2+1))/2   N even
 @end group
 @end example
 
 @end ifnottex
 If @var{x} is of a discrete type such as integer or logical, then
-the case of even N rounds up (or toward @code{true}).
+the case of even @math{N} rounds up (or toward @code{true}).
 
 If @var{x} is a matrix, compute the median value for each column and
 return them in a row vector.
@@ -221,18 +228,21 @@ The mean square is defined as
 $$
 {\rm meansq} (x) = {\sum_{i=1}^N {x_i}^2 \over N}
 $$
-where $\bar{x}$ is the mean value of $x$.
+where $N$ is the number of elements of @var{x}.
+
 @end tex
 @ifnottex
 
 @example
 @group
-meansq (x) = 1/N SUM_i x(i)^2
+meansq (@var{x}) = 1/N SUM_i @var{x}(i)^2
 @end group
 @end example
 
+where @math{N} is the length of the @var{x} vector.
+
 @end ifnottex
-For matrix arguments, return a row vector containing the mean square
+If @var{x} is a matrix, return a row vector containing the mean square
 of each column.
 
 If the optional argument @var{dim} is given, operate along this dimension.
@@ -252,18 +262,18 @@ The standard deviation is defined as
 $$
 {\rm std} (x) = \sigma = \sqrt{{\sum_{i=1}^N (x_i - \bar{x})^2 \over N - 1}}
 $$
-where $\bar{x}$ is the mean value of $x$ and $N$ is the number of elements.
+where $\bar{x}$ is the mean value of @var{x} and $N$ is the number of elements of @var{x}.
 @end tex
 @ifnottex
 
 @example
 @group
-std (x) = sqrt ( 1/(N-1) SUM_i (x(i) - mean(x))^2 )
+std (@var{x}) = sqrt ( 1/(N-1) SUM_i (@var{x}(i) - mean(@var{x}))^2 )
 @end group
 @end example
 
 @noindent
-where @math{N} is the number of elements.
+where @math{N} is the number of elements of the @var{x} vector.
 @end ifnottex
 
 If @var{x} is a matrix, compute the standard deviation for each column and
@@ -305,15 +315,19 @@ The variance is defined as
 $$
 {\rm var} (x) = \sigma^2 = {\sum_{i=1}^N (x_i - \bar{x})^2 \over N - 1}
 $$
-where $\bar{x}$ is the mean value of $x$.
+where $\bar{x}$ is the mean value of @var{x} and $N$ is the number of
+elements of @var{x}.
+
 @end tex
 @ifnottex
 
 @example
 @group
-var (x) = 1/(N-1) SUM_i (x(i) - mean(x))^2
+var (@var{x}) = 1/(N-1) SUM_i (@var{x}(i) - mean(@var{x}))^2
 @end group
 @end example
+
+where @math{N} is the length of the @var{x} vector.
 
 @end ifnottex
 If @var{x} is a matrix, compute the variance for each column and return
@@ -331,8 +345,8 @@ variance [default]
   normalizes with @math{N}, this provides the second moment around the mean
 @end table
 
-If @math{N==1} the value of @var{opt} is ignored and normalization by
-@math{N} is used.
+If @math{N} is equal to 1 the value of @var{opt} is ignored and
+normalization by @math{N} is used.
 
 If the optional argument @var{dim} is given, operate along this dimension.
 @seealso{@ref{XREFcov,,cov}, @ref{XREFstd,,std}, @ref{XREFskewness,,skewness}, @ref{XREFkurtosis,,kurtosis}, @ref{XREFmoment,,moment}}
@@ -350,9 +364,9 @@ The sample skewness is defined as
 @tex
 $$
 {\rm skewness} (@var{x}) = {{{1\over N}\,
-         \sum_{i=1}^N (@var{x}_i - \bar{@var{x}})^3} \over \sigma^3},
+         \sum_{i=1}^N (x_i - \bar{x})^3} \over \sigma^3},
 $$
-where $N$ is the length of @var{x}, $\bar{@var{x}}$ its mean and $\sigma$
+where $N$ is the length of @var{x}, $\bar{x}$ its mean and $\sigma$
 its (uncorrected) standard deviation.
 @end tex
 @ifnottex
@@ -375,7 +389,7 @@ equal to 0, return the adjusted skewness coefficient instead:
 @tex
 $$
 {\rm skewness} (@var{x}) = {\sqrt{N (N - 1)} \over N - 2} \times \,
-  {{{1 \over N} \sum_{i=1}^N (@var{x}_i - \bar{@var{x}})^3} \over \sigma^3}
+  {{{1 \over N} \sum_{i=1}^N (x_i - \bar{x})^3} \over \sigma^3}
 $$
 @end tex
 @ifnottex
@@ -387,6 +401,8 @@ skewness (@var{X}, 0) = -------------- * ------------------------.
                       (N - 2)             std (@var{x}).^3
 @end group
 @end example
+
+where @math{N} is the length of the @var{x} vector.
 
 @end ifnottex
 The adjusted skewness coefficient is obtained by replacing the sample second
@@ -411,9 +427,9 @@ The sample kurtosis is defined as
 @tex
 $$
 \kappa_1 = {{{1\over N}\,
-         \sum_{i=1}^N (@var{x}_i - \bar{@var{x}})^4} \over \sigma^4},
+         \sum_{i=1}^N (x_i - \bar{x})^4} \over \sigma^4},
 $$
-where $N$ is the length of @var{x}, $\bar{@var{x}}$ its mean, and $\sigma$
+where $N$ is the length of @var{x}, $\bar{x}$ its mean, and $\sigma$
 its (uncorrected) standard deviation.
 @end tex
 @ifnottex
@@ -449,6 +465,8 @@ k0 = 3 + -------------- * ((N + 1) * k1 - 3 * (N - 1))
 @end group
 @end example
 
+where @math{N} is the length of the @var{x} vector.
+
 @end ifnottex
 The bias-corrected kurtosis coefficient is obtained by replacing the sample
 second and fourth central moments by their unbiased versions.  It is an
@@ -469,20 +487,25 @@ the kurtosis along the first non-singleton dimension.  If the optional
 @deftypefnx {} {} moment (@var{x}, @var{p}, @var{dim})
 @deftypefnx {} {} moment (@var{x}, @var{p}, @var{type}, @var{dim})
 @deftypefnx {} {} moment (@var{x}, @var{p}, @var{dim}, @var{type})
-Compute the @var{p}-th central moment of the vector @var{x}.
+Compute the @var{p}-th central moment of the vector @var{x}:
 
 @tex
 $$
 {\sum_{i=1}^N (x_i - \bar{x})^p \over N}
 $$
+where $\bar{x}$ is the mean value of @var{x} and $N$ is the number of elements of @var{x}.
+
+
 @end tex
 @ifnottex
 
 @example
 @group
-1/N SUM_i (x(i) - mean(x))^p
+1/N SUM_i (@var{x}(i) - mean(@var{x}))^@var{p}
 @end group
 @end example
+
+where @math{N} is the length of the @var{x} vector.
 
 @end ifnottex
 
@@ -511,7 +534,7 @@ $$
 
 @example
 @group
-1/N SUM_i (abs (x(i) - mean(x)))^p
+1/N SUM_i (abs (@var{x}(i) - mean(@var{x})))^@var{p}
 @end group
 @end example
 
@@ -529,7 +552,7 @@ $$
 
 @example
 @group
-moment (x) = 1/N SUM_i x(i)^p
+moment (@var{x}) = 1/N SUM_i @var{x}(i)^@var{p}
 @end group
 @end example
 
@@ -546,7 +569,7 @@ $$
 
 @example
 @group
-1/N SUM_i ( abs (x(i)) )^p
+1/N SUM_i ( abs (@var{x}(i)) )^@var{p}
 @end group
 @end example
 
@@ -580,7 +603,7 @@ the first non-singleton dimension.
 
 The methods available to calculate sample quantiles are the nine methods
 used by R (@url{http://www.r-project.org/}).  The default value is
-@w{METHOD = 5}.
+@w{@var{method} = 5}.
 
 Discontinuous sample quantile methods 1, 2, and 3
 
@@ -592,28 +615,72 @@ Discontinuous sample quantile methods 1, 2, and 3
 @item Method 3: SAS definition: nearest even order statistic.
 @end enumerate
 
-Continuous sample quantile methods 4 through 9, where p(k) is the linear
-interpolation function respecting each methods' representative cdf.
+Continuous sample quantile methods 4 through 9, where
+@tex
+$p(k)$
+@end tex
+@ifnottex
+@var{p}(k)
+@end ifnottex
+is the linear
+interpolation function respecting each method's representative cdf.
 
 @enumerate 4
-@item Method 4: p(k) = k / n.  That is, linear interpolation of the
-empirical cdf.
+@item Method 4:
+@tex
+$p(k) = k / N$.
+@end tex
+@ifnottex
+@var{p}(k) = k / N.
+@end ifnottex
+That is, linear interpolation of the empirical cdf, where @math{N} is the
+length of @var{P}.
 
-@item Method 5: p(k) = (k - 0.5) / n.  That is a piecewise linear function
-where the knots are the values midway through the steps of the empirical
-cdf.
+@item Method 5:
+@tex
+$p(k) = (k - 0.5) / N$.
+@end tex
+@ifnottex
+@var{p}(k) = (k - 0.5) / N.
+@end ifnottex
+That is, a piecewise linear function where the knots are the values midway
+through the steps of the empirical cdf.
 
-@item Method 6: p(k) = k / (n + 1).
+@item Method 6:
+@tex
+$p(k) = k / (N + 1)$.
+@end tex
+@ifnottex
+@var{p}(k) = k / (N + 1).
+@end ifnottex
 
-@item Method 7: p(k) = (k - 1) / (n - 1).
+@item Method 7:
+@tex
+$p(k) = (k - 1) / (N - 1)$.
+@end tex
+@ifnottex
+@var{p}(k) = (k - 1) / (N - 1).
+@end ifnottex
 
-@item Method 8: p(k) = (k - 1/3) / (n + 1/3).  The resulting quantile
-estimates are approximately median-unbiased regardless of the distribution
-of @var{x}.
+@item Method 8:
+@tex
+$p(k) = (k - 1/3) / (N + 1/3)$.
+@end tex
+@ifnottex
+@var{p}(k) = (k - 1/3) / (N + 1/3).
+@end ifnottex
+The resulting quantile estimates are approximately median-unbiased
+regardless of the distribution of @var{x}.
 
-@item Method 9: p(k) = (k - 3/8) / (n + 1/4).  The resulting quantile
-estimates are approximately unbiased for the expected order statistics if
-@var{x} is normally distributed.
+@item Method 9:
+@tex
+$p(k) = (k - 3/8) / (N + 1/4)$.
+@end tex
+@ifnottex
+@var{p}(k) = (k - 3/8) / (N + 1/4).
+@end ifnottex
+The resulting quantile estimates are approximately unbiased for the
+expected order statistics if @var{x} is normally distributed.
 @end enumerate
 
 @nospell{Hyndman and Fan} (1996) recommend method 8.  Maxima, S, and R
@@ -656,7 +723,7 @@ For a sample @var{x}, compute the quantiles, @var{q}, corresponding
 to the cumulative probability values, @var{p}, in percent.
 
 If @var{x} is a matrix, compute the percentiles for each column and return
-them in a matrix, such that the i-th row of @var{y} contains the
+them in a matrix, such that the i-th row of @var{q} contains the
 @var{p}(i)th percentiles of each column of @var{x}.
 
 If @var{p} is unspecified, return the quantiles for @code{[0 25 50 75 100]}.
@@ -753,8 +820,20 @@ Compute histogram counts.
 When @var{x} is a vector, the function counts the number of elements of
 @var{x} that fall in the histogram bins defined by @var{edges}.  This
 must be a vector of monotonically increasing values that define the edges
-of the histogram bins.  @code{@var{n}(k)} contains the number of elements
-in @var{x} for which @code{@var{edges}(k) <= @var{x} < @var{edges}(k+1)}.
+of the histogram bins.
+@tex
+$n(k)$
+@end tex
+@ifnottex
+@code{@var{n}(k)}
+@end ifnottex
+contains the number of elements in @var{x} for which
+@tex
+$@var{edges}(k) <= @var{x} < @var{edges}(k+1)$.
+@end tex
+@ifnottex
+@code{@var{edges}(k) <= @var{x} < @var{edges}(k+1)}.
+@end ifnottex
 The final element of @var{n} contains the number of elements of @var{x}
 exactly equal to the last element of @var{edges}.
 
@@ -1087,13 +1166,15 @@ variable in @var{x} and the @var{j}-th variable in @var{y}.
 $$
 \sigma_{ij} = {1 \over N-1} \sum_{i=1}^N (x_i - \bar{x})(y_i - \bar{y})
 $$
-where $\bar{x}$ and $\bar{y}$ are the mean values of $x$ and $y$.
+where $\bar{x}$ and $\bar{y}$ are the mean values of @var{x} and @var{y}.
 @end tex
 @ifnottex
 
 @example
-cov (x) = 1/N-1 * SUM_i (x(i) - mean(x)) * (y(i) - mean(y))
+cov (@var{x}) = 1/(N-1) * SUM_i (@var{x}(i) - mean(@var{x})) * (@var{y}(i) - mean(@var{y}))
 @end example
+
+where @math{N} is the length of the @var{x} and @var{y} vectors.
 
 @end ifnottex
 
@@ -1136,13 +1217,13 @@ a variable, then the @w{(@var{i}, @var{j})-th} entry of
 @var{i}-th variable in @var{x} and the @var{j}-th variable in @var{y}.
 @tex
 $$
-{\rm corr}(x,y) = {{\rm cov}(x,y) \over {\rm std}(x) {\rm std}(y)}
+{\rm corr}(x,y) = {{\rm cov}(x,y) \over {\rm std}(x) \, {\rm std}(y)}
 $$
 @end tex
 @ifnottex
 
 @example
-corr (x,y) = cov (x,y) / (std (x) * std (y))
+corr (@var{x},@var{y}) = cov (@var{x},@var{y}) / (std (@var{x}) * std (@var{y}))
 @end example
 
 @end ifnottex
@@ -1157,14 +1238,39 @@ the correlation between the columns of @var{x}.
 @deftypefn  {} {} spearman (@var{x})
 @deftypefnx {} {} spearman (@var{x}, @var{y})
 @cindex Spearman's Rho
-Compute Spearman's rank correlation coefficient @var{rho}.
+Compute Spearman's rank correlation coefficient
+@tex
+$\rho$.
+@end tex
+@ifnottex
+@var{rho}.
+@end ifnottex
 
-For two data vectors @var{x} and @var{y}, Spearman's @var{rho} is the
-correlation coefficient of the ranks of @var{x} and @var{y}.
+For two data vectors @var{x} and @var{y}, Spearman's
+@tex
+$\rho$
+@end tex
+@ifnottex
+@var{rho}
+@end ifnottex
+is the correlation coefficient of the ranks of @var{x} and @var{y}.
 
-If @var{x} and @var{y} are drawn from independent distributions, @var{rho}
-has zero mean and variance @code{1 / (n - 1)}, and is asymptotically
-normally distributed.
+If @var{x} and @var{y} are drawn from independent distributions,
+@tex
+$\rho$
+@end tex
+@ifnottex
+@var{rho}
+@end ifnottex
+has zero mean and variance
+@tex
+$1 / (N - 1)$,
+@end tex
+@ifnottex
+@code{1 / (N - 1)},
+@end ifnottex
+where @math{N} is the length of the @var{x} and @var{y} vectors, and is
+asymptotically normally distributed.
 
 @code{spearman (@var{x})} is equivalent to
 @code{spearman (@var{x}, @var{x})}.
@@ -1177,23 +1283,35 @@ normally distributed.
 @deftypefn  {} {} kendall (@var{x})
 @deftypefnx {} {} kendall (@var{x}, @var{y})
 @cindex Kendall's Tau
-Compute Kendall's @var{tau}.
+Compute Kendall's
+@tex
+$\tau$.
+@end tex
+@ifnottex
+@var{tau}.
+@end ifnottex
 
-For two data vectors @var{x}, @var{y} of common length @var{n}, Kendall's
-@var{tau} is the correlation of the signs of all rank differences of
+For two data vectors @var{x}, @var{y} of common length @math{N}, Kendall's
+@tex
+$\tau$
+@end tex
+@ifnottex
+@var{tau}
+@end ifnottex
+is the correlation of the signs of all rank differences of
 @var{x} and @var{y}; i.e., if both @var{x} and @var{y} have distinct
 entries, then
 
 @tex
-$$ \tau = {1 \over n(n-1)} \sum_{i,j} {\rm sign}(q_i-q_j) {\rm sign}(r_i-r_j) $$
+$$ \tau = {1 \over N(N-1)} \sum_{i,j} {\rm sign}(q_i-q_j) \, {\rm sign}(r_i-r_j) $$
 @end tex
 @ifnottex
 
 @example
 @group
          1
-tau = -------   SUM sign (q(i) - q(j)) * sign (r(i) - r(j))
-      n (n-1)   i,j
+@var{tau} = -------   SUM sign (@var{q}(i) - @var{q}(j)) * sign (@var{r}(i) - @var{r}(j))
+      N (N-1)   i,j
 @end group
 @end example
 
@@ -1204,17 +1322,24 @@ in which the
 $q_i$ and $r_i$
 @end tex
 @ifnottex
-@var{q}(@var{i}) and @var{r}(@var{i})
+@var{q}(i) and @var{r}(i)
 @end ifnottex
 are the ranks of @var{x} and @var{y}, respectively.
 
 If @var{x} and @var{y} are drawn from independent distributions,
-Kendall's @var{tau} is asymptotically normal with mean 0 and variance
+Kendall's
 @tex
-${2 (2n+5) \over 9n(n-1)}$.
+$\tau$
 @end tex
 @ifnottex
-@code{(2 * (2@var{n}+5)) / (9 * @var{n} * (@var{n}-1))}.
+@var{tau}
+@end ifnottex
+is asymptotically normal with mean 0 and variance
+@tex
+${2 (2N+5) \over 9N(N-1)}$.
+@end tex
+@ifnottex
+@code{(2 * (2N+5)) / (9 * N * (N-1))}.
 @end ifnottex
 
 @code{kendall (@var{x})} is equivalent to @code{kendall (@var{x},

@@ -1,11 +1,11 @@
-This is octave.info, produced by makeinfo version 6.3 from octave.texi.
+This is octave.info, produced by makeinfo version 6.5 from octave.texi.
 
 START-INFO-DIR-ENTRY
 * Octave: (octave).           Interactive language for numerical computations.
 
 END-INFO-DIR-ENTRY
 
-   Copyright © 1996-2016 John W. Eaton.
+   Copyright © 1996-2018 John W. Eaton.
 
    Permission is granted to make and distribute verbatim copies of this
 manual provided the copyright notice and this permission notice are
@@ -19,6 +19,127 @@ permission notice identical to this one.
    Permission is granted to copy and distribute translations of this
 manual into another language, under the above conditions for modified
 versions.
+
+
+File: octave.info,  Node: Quadratic Programming,  Next: Nonlinear Programming,  Prev: Linear Programming,  Up: Optimization
+
+25.2 Quadratic Programming
+==========================
+
+Octave can also solve Quadratic Programming problems, this is
+
+     min 0.5 x'*H*x + x'*q
+
+   subject to
+
+          A*x = b
+          lb <= x <= ub
+          A_lb <= A_in*x <= A_ub
+
+ -- : [X, OBJ, INFO, LAMBDA] = qp (X0, H)
+ -- : [X, OBJ, INFO, LAMBDA] = qp (X0, H, Q)
+ -- : [X, OBJ, INFO, LAMBDA] = qp (X0, H, Q, A, B)
+ -- : [X, OBJ, INFO, LAMBDA] = qp (X0, H, Q, A, B, LB, UB)
+ -- : [X, OBJ, INFO, LAMBDA] = qp (X0, H, Q, A, B, LB, UB, A_LB, A_IN,
+          A_UB)
+ -- : [X, OBJ, INFO, LAMBDA] = qp (..., OPTIONS)
+     Solve a quadratic program (QP).
+
+     Solve the quadratic program defined by
+
+          min 0.5 x'*H*x + x'*q
+           x
+
+     subject to
+
+          A*x = b
+          lb <= x <= ub
+          A_lb <= A_in*x <= A_ub
+
+     using a null-space active-set method.
+
+     Any bound (A, B, LB, UB, A_IN, A_LB, A_UB) may be set to the empty
+     matrix (‘[]’) if not present.  The constraints A and A_IN are
+     matrices with each row representing a single constraint.  The other
+     bounds are scalars or vectors depending on the number of
+     constraints.  The algorithm is faster if the initial guess is
+     feasible.
+
+     OPTIONS
+          An optional structure containing the following parameter(s)
+          used to define the behavior of the solver.  Missing elements
+          in the structure take on default values, so you only need to
+          set the elements that you wish to change from the default.
+
+          ‘MaxIter (default: 200)’
+               Maximum number of iterations.
+
+     INFO
+          Structure containing run-time information about the algorithm.
+          The following fields are defined:
+
+          ‘solveiter’
+               The number of iterations required to find the solution.
+
+          ‘info’
+               An integer indicating the status of the solution.
+
+               0
+                    The problem is feasible and convex.  Global solution
+                    found.
+
+               1
+                    The problem is not convex.  Local solution found.
+
+               2
+                    The problem is not convex and unbounded.
+
+               3
+                    Maximum number of iterations reached.
+
+               6
+                    The problem is infeasible.
+
+ -- : X = pqpnonneg (C, D)
+ -- : X = pqpnonneg (C, D, X0)
+ -- : [X, MINVAL] = pqpnonneg (...)
+ -- : [X, MINVAL, EXITFLAG] = pqpnonneg (...)
+ -- : [X, MINVAL, EXITFLAG, OUTPUT] = pqpnonneg (...)
+ -- : [X, MINVAL, EXITFLAG, OUTPUT, LAMBDA] = pqpnonneg (...)
+     Minimize ‘1/2*x'*c*x + d'*x’ subject to ‘X >= 0’.
+
+     C and D must be real, and C must be symmetric and positive
+     definite.
+
+     X0 is an optional initial guess for X.
+
+     Outputs:
+
+        • minval
+
+          The minimum attained model value, 1/2*xmin’*c*xmin + d’*xmin
+
+        • exitflag
+
+          An indicator of convergence.  0 indicates that the iteration
+          count was exceeded, and therefore convergence was not reached;
+          >0 indicates that the algorithm converged.  (The algorithm is
+          stable and will converge given enough iterations.)
+
+        • output
+
+          A structure with two fields:
+
+             • "algorithm": The algorithm used ("nnls")
+
+             • "iterations": The number of iterations taken.
+
+        • lambda
+
+          Not implemented.
+
+     See also: *note optimset: XREFoptimset, *note lsqnonneg:
+     XREFlsqnonneg, *note qp: XREFqp.
 
 
 File: octave.info,  Node: Nonlinear Programming,  Next: Linear Least Squares,  Prev: Quadratic Programming,  Up: Optimization
@@ -168,28 +289,38 @@ operators, or the ‘ols’ function.  In the general case where the noise
 is assumed to be anisotropic the ‘gls’ is needed.
 
  -- : [BETA, SIGMA, R] = ols (Y, X)
-     Ordinary least squares estimation.
+     Ordinary least squares (OLS) estimation.
 
-     OLS applies to the multivariate model y = x*b + e with mean (e) = 0
-     and cov (vec (e)) = kron (s, I). where y is a t by p matrix, x is a
-     t by k matrix, b is a k by p matrix, and e is a t by p matrix.
+     OLS applies to the multivariate model Y = X*B + E where Y is a
+     t-by-p matrix, X is a t-by-k matrix, B is a k-by-p matrix, and E is
+     a t-by-p matrix.
 
-     Each row of Y and X is an observation and each column a variable.
+     Each row of Y is a p-variate observation in which each column
+     represents a variable.  Likewise, the rows of X represent k-variate
+     observations or possibly designed values.  Furthermore, the
+     collection of observations X must be of adequate rank, k, otherwise
+     B cannot be uniquely estimated.
+
+     The observation errors, E, are assumed to originate from an
+     underlying p-variate distribution with zero mean and p-by-p
+     covariance matrix S, both constant conditioned on X.  Furthermore,
+     the matrix S is constant with respect to each observation such that
+     ‘mean (E) = 0’ and ‘cov (vec (E)) = kron (S, I)’.  (For cases that
+     don’t meet this criteria, such as autocorrelated errors, see
+     generalized least squares, gls, for more efficient estimations.)
 
      The return values BETA, SIGMA, and R are defined as follows.
 
      BETA
-          The OLS estimator for b.  BETA is calculated directly via ‘inv
-          (x'*x) * x' * y’ if the matrix ‘x'*x’ is of full rank.
-          Otherwise, ‘BETA = pinv (X) * Y’ where ‘pinv (X)’ denotes the
-          pseudoinverse of X.
+          The OLS estimator for matrix B.  BETA is calculated directly
+          via ‘inv (X'*X) * X' * Y’ if the matrix ‘X'*X’ is of full
+          rank.  Otherwise, ‘BETA = pinv (X) * Y’ where ‘pinv (X)’
+          denotes the pseudoinverse of X.
 
      SIGMA
           The OLS estimator for the matrix S,
 
-               SIGMA = (Y-X*BETA)'
-                 * (Y-X*BETA)
-                 / (T-rank(X))
+               SIGMA = (Y-X*BETA)' * (Y-X*BETA) / (t-rank(X))
 
      R
           The matrix of OLS residuals, ‘R = Y - X*BETA’.
@@ -197,24 +328,34 @@ is assumed to be anisotropic the ‘gls’ is needed.
      See also: *note gls: XREFgls, *note pinv: XREFpinv.
 
  -- : [BETA, V, R] = gls (Y, X, O)
-     Generalized least squares model.
+     Generalized least squares (GLS) model.
 
      Perform a generalized least squares estimation for the multivariate
-     model y = x*b + e with mean (e) = 0 and cov (vec (e)) = (s^2) o,
-     where y is a t by p matrix, x is a t by k matrix, b is a k by p
-     matrix, e is a t by p matrix, and o is a t*p by t*p matrix.
+     model Y = X*B + E where Y is a t-by-p matrix, X is a t-by-k matrix,
+     B is a k-by-p matrix and E is a t-by-p matrix.
 
-     Each row of Y and X is an observation and each column a variable.
+     Each row of Y is a p-variate observation in which each column
+     represents a variable.  Likewise, the rows of X represent k-variate
+     observations or possibly designed values.  Furthermore, the
+     collection of observations X must be of adequate rank, k, otherwise
+     B cannot be uniquely estimated.
+
+     The observation errors, E, are assumed to originate from an
+     underlying p-variate distribution with zero mean but possibly
+     heteroscedastic observations.  That is, in general, ‘mean (E) = 0’
+     and ‘cov (vec (E)) = (s^2)*O’ in which s is a scalar and O is a
+     t*p-by-t*p matrix.
+
      The return values BETA, V, and R are defined as follows.
 
      BETA
-          The GLS estimator for b.
+          The GLS estimator for matrix B.
 
      V
-          The GLS estimator for s^2.
+          The GLS estimator for scalar s^2.
 
      R
-          The matrix of GLS residuals, r = y - x*beta.
+          The matrix of GLS residuals, R = Y - X*BETA.
 
      See also: *note ols: XREFols.
 
@@ -461,7 +602,9 @@ corresponding to the central tendency of the data.
 
      The mean is defined as
 
-          mean (x) = SUM_i x(i) / N
+          mean (X) = SUM_i X(i) / N
+
+     where N is the length of the X vector.
 
      If X is a matrix, compute the mean for each column and return them
      in a row vector.
@@ -490,11 +633,12 @@ corresponding to the central tendency of the data.
  -- : median (X, DIM)
      Compute the median value of the elements of the vector X.
 
-     When the elements of X are sorted, the median is defined as
+     When the elements of X are sorted, say ‘S = sort (X)’, the median
+     is defined as
 
-                        x(ceil(N/2))             N odd
-          median (x) =
-                       (x(N/2) + x((N/2)+1))/2   N even
+                       |  S(ceil(N/2))           N odd
+          median (X) = |
+                       | (S(N/2) + S(N/2+1))/2   N even
 
      If X is of a discrete type such as integer or logical, then the
      case of even N rounds up (or toward ‘true’).
@@ -572,10 +716,12 @@ provides several functions for measuring dispersion.
 
      The mean square is defined as
 
-          meansq (x) = 1/N SUM_i x(i)^2
+          meansq (X) = 1/N SUM_i X(i)^2
 
-     For matrix arguments, return a row vector containing the mean
-     square of each column.
+     where N is the length of the X vector.
+
+     If X is a matrix, return a row vector containing the mean square of
+     each column.
 
      If the optional argument DIM is given, operate along this
      dimension.
@@ -590,9 +736,9 @@ provides several functions for measuring dispersion.
 
      The standard deviation is defined as
 
-          std (x) = sqrt ( 1/(N-1) SUM_i (x(i) - mean(x))^2 )
+          std (X) = sqrt ( 1/(N-1) SUM_i (X(i) - mean(X))^2 )
 
-     where N is the number of elements.
+     where N is the number of elements of the X vector.
 
      If X is a matrix, compute the standard deviation for each column
      and return them in a row vector.
@@ -627,7 +773,9 @@ allowing arbitrary shape measures to be developed.
 
      The variance is defined as
 
-          var (x) = 1/(N-1) SUM_i (x(i) - mean(x))^2
+          var (X) = 1/(N-1) SUM_i (X(i) - mean(X))^2
+
+     where N is the length of the X vector.
 
      If X is a matrix, compute the variance for each column and return
      them in a row vector.
@@ -643,7 +791,8 @@ allowing arbitrary shape measures to be developed.
           normalizes with N, this provides the second moment around the
           mean
 
-     If N==1 the value of OPT is ignored and normalization by N is used.
+     If N is equal to 1 the value of OPT is ignored and normalization by
+     N is used.
 
      If the optional argument DIM is given, operate along this
      dimension.
@@ -671,6 +820,8 @@ allowing arbitrary shape measures to be developed.
                             sqrt (N*(N-1))   mean ((X - mean (X)).^3)
           skewness (X, 0) = -------------- * ------------------------.
                                 (N - 2)             std (X).^3
+
+     where N is the length of the X vector.
 
      The adjusted skewness coefficient is obtained by replacing the
      sample second and third central moments by their bias-corrected
@@ -704,6 +855,8 @@ allowing arbitrary shape measures to be developed.
           k0 = 3 + -------------- * ((N + 1) * k1 - 3 * (N - 1))
                    (N - 2)(N - 3)
 
+     where N is the length of the X vector.
+
      The bias-corrected kurtosis coefficient is obtained by replacing
      the sample second and fourth central moments by their unbiased
      versions.  It is an unbiased estimate of the population kurtosis
@@ -721,9 +874,11 @@ allowing arbitrary shape measures to be developed.
  -- : moment (X, P, DIM)
  -- : moment (X, P, TYPE, DIM)
  -- : moment (X, P, DIM, TYPE)
-     Compute the P-th central moment of the vector X.
+     Compute the P-th central moment of the vector X:
 
-          1/N SUM_i (x(i) - mean(x))^p
+          1/N SUM_i (X(i) - mean(X))^P
+
+     where N is the length of the X vector.
 
      If X is a matrix, return the row vector containing the P-th central
      moment of each column.
@@ -742,18 +897,18 @@ allowing arbitrary shape measures to be developed.
           Absolute Central Moment.  The moment about the mean ignoring
           sign defined as
 
-               1/N SUM_i (abs (x(i) - mean(x)))^p
+               1/N SUM_i (abs (X(i) - mean(X)))^P
 
      "r"
           Raw Moment.  The moment about zero defined as
 
-               moment (x) = 1/N SUM_i x(i)^p
+               moment (X) = 1/N SUM_i X(i)^P
 
      "ar"
           Absolute Raw Moment.  The moment about zero ignoring sign
           defined as
 
-               1/N SUM_i ( abs (x(i)) )^p
+               1/N SUM_i ( abs (X(i)) )^P
 
      If both TYPE and DIM are given they may appear in any order.
 
@@ -790,26 +945,26 @@ allowing arbitrary shape measures to be developed.
 
        3. Method 3: SAS definition: nearest even order statistic.
 
-     Continuous sample quantile methods 4 through 9, where p(k) is the
-     linear interpolation function respecting each methods’
+     Continuous sample quantile methods 4 through 9, where P(k) is the
+     linear interpolation function respecting each method’s
      representative cdf.
 
-       4. Method 4: p(k) = k / n.  That is, linear interpolation of the
-          empirical cdf.
+       4. Method 4: P(k) = k / N. That is, linear interpolation of the
+          empirical cdf, where N is the length of P.
 
-       5. Method 5: p(k) = (k - 0.5) / n.  That is a piecewise linear
+       5. Method 5: P(k) = (k - 0.5) / N. That is, a piecewise linear
           function where the knots are the values midway through the
           steps of the empirical cdf.
 
-       6. Method 6: p(k) = k / (n + 1).
+       6. Method 6: P(k) = k / (N + 1).
 
-       7. Method 7: p(k) = (k - 1) / (n - 1).
+       7. Method 7: P(k) = (k - 1) / (N - 1).
 
-       8. Method 8: p(k) = (k - 1/3) / (n + 1/3).  The resulting
+       8. Method 8: P(k) = (k - 1/3) / (N + 1/3).  The resulting
           quantile estimates are approximately median-unbiased
           regardless of the distribution of X.
 
-       9. Method 9: p(k) = (k - 3/8) / (n + 1/4).  The resulting
+       9. Method 9: P(k) = (k - 3/8) / (N + 1/4).  The resulting
           quantile estimates are approximately unbiased for the expected
           order statistics if X is normally distributed.
 
@@ -843,7 +998,7 @@ allowing arbitrary shape measures to be developed.
      cumulative probability values, P, in percent.
 
      If X is a matrix, compute the percentiles for each column and
-     return them in a matrix, such that the i-th row of Y contains the
+     return them in a matrix, such that the i-th row of Q contains the
      P(i)th percentiles of each column of X.
 
      If P is unspecified, return the quantiles for ‘[0 25 50 75 100]’.
@@ -1171,7 +1326,9 @@ File: octave.info,  Node: Correlation and Regression Analysis,  Next: Distributi
      covariance between the I-th variable in X and the J-th variable in
      Y.
 
-          cov (x) = 1/N-1 * SUM_i (x(i) - mean(x)) * (y(i) - mean(y))
+          cov (X) = 1/(N-1) * SUM_i (X(i) - mean(X)) * (Y(i) - mean(Y))
+
+     where N is the length of the X and Y vectors.
 
      If called with one argument, compute ‘cov (X, X)’, the covariance
      between the columns of X.
@@ -1206,7 +1363,7 @@ File: octave.info,  Node: Correlation and Regression Analysis,  Next: Distributi
      correlation between the I-th variable in X and the J-th variable in
      Y.
 
-          corr (x,y) = cov (x,y) / (std (x) * std (y))
+          corr (X,Y) = cov (X,Y) / (std (X) * std (Y))
 
      If called with one argument, compute ‘corr (X, X)’, the correlation
      between the columns of X.
@@ -1221,8 +1378,8 @@ File: octave.info,  Node: Correlation and Regression Analysis,  Next: Distributi
      coefficient of the ranks of X and Y.
 
      If X and Y are drawn from independent distributions, RHO has zero
-     mean and variance ‘1 / (n - 1)’, and is asymptotically normally
-     distributed.
+     mean and variance ‘1 / (N - 1)’, where N is the length of the X and
+     Y vectors, and is asymptotically normally distributed.
 
      ‘spearman (X)’ is equivalent to ‘spearman (X, X)’.
 
@@ -1237,10 +1394,10 @@ File: octave.info,  Node: Correlation and Regression Analysis,  Next: Distributi
      if both X and Y have distinct entries, then
 
                    1
-          tau = -------   SUM sign (q(i) - q(j)) * sign (r(i) - r(j))
-                n (n-1)   i,j
+          TAU = -------   SUM sign (Q(i) - Q(j)) * sign (R(i) - R(j))
+                N (N-1)   i,j
 
-     in which the Q(I) and R(I) are the ranks of X and Y, respectively.
+     in which the Q(i) and R(i) are the ranks of X and Y, respectively.
 
      If X and Y are drawn from independent distributions, Kendall’s TAU
      is asymptotically normal with mean 0 and variance ‘(2 * (2N+5)) /
@@ -3718,7 +3875,8 @@ adjoined intervals.
      BREAKS must be a vector of strictly increasing values.  The number
      of intervals is given by ‘NI = length (BREAKS) - 1’.
 
-     When M is the polynomial order COEFS must be of size: NI x M + 1.
+     When M is the polynomial order COEFS must be of size:
+     NI-by-(M + 1).
 
      The i-th row of COEFS, ‘COEFS (I,:)’, contains the coefficients for
      the polynomial over the I-th interval, ordered from highest (M) to
@@ -3726,10 +3884,10 @@ adjoined intervals.
 
      COEFS may also be a multi-dimensional array, specifying a
      vector-valued or array-valued polynomial.  In that case the
-     polynomial order is defined by the length of the last dimension of
-     COEFS.  The size of first dimension(s) are given by the scalar or
-     vector D.  If D is not given it is set to ‘1’.  In any case COEFS
-     is reshaped to a 2-D matrix of size ‘[NI*prod(D M)]’.
+     polynomial order M is defined by the length of the last dimension
+     of COEFS.  The size of first dimension(s) are given by the scalar
+     or vector D.  If D is not given it is set to ‘1’.  In any case
+     COEFS is reshaped to a 2-D matrix of size ‘[NI*prod(D) M]’.
 
      See also: *note unmkpp: XREFunmkpp, *note ppval: XREFppval, *note
      spline: XREFspline, *note pchip: XREFpchip, *note ppder: XREFppder,
@@ -4122,10 +4280,10 @@ described in *note Interpolation on Scattered Data::.
           throughout the curve.
 
      EXTRAP is a scalar number.  It replaces values beyond the endpoints
-     with EXTRAP.  Note that if EXTRAPVAL is used, METHOD must be
-     specified as well.  If EXTRAP is omitted and the METHOD is
-     "spline", then the extrapolated values of the "spline" are used.
-     Otherwise the default EXTRAP value for any other METHOD is "NA".
+     with EXTRAP.  Note that if EXTRAP is used, METHOD must be specified
+     as well.  If EXTRAP is omitted and the METHOD is "spline", then the
+     extrapolated values of the "spline" are used.  Otherwise the
+     default EXTRAP value for any other METHOD is "NA".
 
      See also: *note interp1: XREFinterp1, *note interp3: XREFinterp3,
      *note interpn: XREFinterpn, *note meshgrid: XREFmeshgrid.
@@ -4311,21 +4469,21 @@ In this case the Delaunay triangulation is not unique.
      Compute the Delaunay triangulation for a 2-D or 3-D set of points.
 
      For 2-D sets, the return value TRI is a set of triangles which
-     satisfies the Delaunay circum-circle criterion, i.e., only a single
-     data point from [X, Y] is within the circum-circle of the defining
-     triangle.  The set of triangles TRI is a matrix of size [n, 3].
-     Each row defines a triangle and the three columns are the three
-     vertices of the triangle.  The value of ‘TRI(i,j)’ is an index into
-     X and Y for the location of the j-th vertex of the i-th triangle.
+     satisfies the Delaunay circum-circle criterion, i.e., no data point
+     from [X, Y] is within the circum-circle of the defining triangle.
+     The set of triangles TRI is a matrix of size [n, 3].  Each row
+     defines a triangle and the three columns are the three vertices of
+     the triangle.  The value of ‘TRI(i,j)’ is an index into X and Y for
+     the location of the j-th vertex of the i-th triangle.
 
      For 3-D sets, the return value TETR is a set of tetrahedrons which
-     satisfies the Delaunay circum-circle criterion, i.e., only a single
-     data point from [X, Y, Z] is within the circum-circle of the
-     defining tetrahedron.  The set of tetrahedrons is a matrix of size
-     [n, 4].  Each row defines a tetrahedron and the four columns are
-     the four vertices of the tetrahedron.  The value of ‘TETR(i,j)’ is
-     an index into X, Y, Z for the location of the j-th vertex of the
-     i-th tetrahedron.
+     satisfies the Delaunay circum-circle criterion, i.e., no data point
+     from [X, Y, Z] is within the circum-circle of the defining
+     tetrahedron.  The set of tetrahedrons is a matrix of size [n, 4].
+     Each row defines a tetrahedron and the four columns are the four
+     vertices of the tetrahedron.  The value of ‘TETR(i,j)’ is an index
+     into X, Y, Z for the location of the j-th vertex of the i-th
+     tetrahedron.
 
      The input X may also be a matrix with two or three columns where
      the first column contains x-data, the second y-data, and the
@@ -4464,9 +4622,10 @@ will plot the triangulation of a 3-dimensional set of points.
      and/or change the colormap to control the appearance.
 
      Optionally, the color of the mesh can be specified independently of
-     Z by supplying a color matrix, C.  If Z has N elements, then C
-     should be an Nx1 vector for colormap data or an Nx3 matrix for RGB
-     data.
+     Z by supplying C, which is a vector for colormap data, or a matrix
+     with three columns for RGB data.  The number of colors specified in
+     C must either equal the number of vertices in Z or the number of
+     triangles in TRI.
 
      Any property/value pairs are passed directly to the underlying
      patch object.
@@ -4494,14 +4653,18 @@ will plot the triangulation of a 3-dimensional set of points.
      triangles in the x-y plane.  Z determines the height above the
      plane of each vertex.
 
-     The color of the trimesh is computed by linearly scaling the Z
+     The color of the trisurf is computed by linearly scaling the Z
      values to fit the range of the current colormap.  Use ‘caxis’
      and/or change the colormap to control the appearance.
 
      Optionally, the color of the mesh can be specified independently of
-     Z by supplying a color matrix, C.  If Z has N elements, then C
-     should be an Nx1 vector for colormap data or an Nx3 matrix for RGB
-     data.
+     Z by supplying C, which is a vector for colormap data, or a matrix
+     with three columns for RGB data.  The number of colors specified in
+     C must either equal the number of vertices in Z or the number of
+     triangles in TRI.  When specifying the color at each vertex the
+     triangle will be colored according to the color of the first vertex
+     only (see patch documentation and the "FaceColor" property when set
+     to "flat").
 
      Any property/value pairs are passed directly to the underlying
      patch object.
@@ -4545,7 +4708,7 @@ will plot the triangulation of a 3-dimensional set of points.
      See also: *note trimesh: XREFtrimesh, *note delaunay: XREFdelaunay,
      *note delaunayn: XREFdelaunayn, *note patch: XREFpatch.
 
-   The difference between ‘triplot’, and ‘trimesh’ or ‘triplot’, is that
+   The difference between ‘triplot’, and ‘trimesh’ or ‘trisurf’, is that
 the former only plots the 2-dimensional triangulation itself, whereas
 the second two plot the value of a function ‘f (X, Y)’.  An example of
 the use of the ‘triplot’ function is
@@ -4578,26 +4741,26 @@ falls within one of the simplices of an N-simplex, we can write the
 Cartesian coordinates of the point in a parametric form with respect to
 the N-simplex.  This parametric form is called the Barycentric
 Coordinates of the point.  If the points defining the N-simplex are
-given by ‘N + 1’ vectors T(I,:), then the Barycentric coordinates
+given by N + 1 vectors ‘T(I,:)’, then the Barycentric coordinates
 defining the point P are given by
 
-     P = sum (BETA(1:N+1) * T(1:N+1),:)
+     P = BETA * T
 
-where there are ‘N + 1’ values ‘BETA(I)’ that together as a vector
-represent the Barycentric coordinates of the point P.  To ensure a
-unique solution for the values of ‘BETA(I)’ an additional criteria of
+where BETA contains N + 1 values that together as a vector represent the
+Barycentric coordinates of the point P.  To ensure a unique solution for
+the values of BETA an additional criteria of
 
-     sum (BETA(1:N+1)) == 1
+     sum (BETA) == 1
 
 is imposed, and we can therefore write the above as
 
      P - T(end, :) = BETA(1:end-1) * (T(1:end-1, :)
-           - ones (N, 1) * T(end, :)
+                     - ones (N, 1) * T(end, :)
 
 Solving for BETA we can then write
 
-     BETA(1:end-1) = (P - T(end, :)) / (T(1:end-1, :)
-           - ones (N, 1) * T(end, :))
+     BETA(1:end-1) = (P - T(end, :)) /
+                     (T(1:end-1, :) - ones (N, 1) * T(end, :))
      BETA(end) = sum (BETA(1:end-1))
 
 which gives the formula for the conversion of the Cartesian coordinates
@@ -4641,7 +4804,7 @@ triangulation
 
      X = [-1; -1; 1; 1];
      Y = [-1; 1; -1; 1];
-     TRI = [1, 2, 3; 2, 3, 1];
+     TRI = [1, 2, 3; 2, 3, 4];
 
 consisting of two triangles defined by TRI.  We can then identify which
 triangle a point falls in like
@@ -4732,8 +4895,8 @@ circum-circles of the simplices of the Delaunay tessellation.
      If "linespec" is given it is used to set the color and line style
      of the plot.
 
-     If an axis graphics handle HAX is supplied then the Voronoi diagram
-     is drawn on the specified axis rather than in a new figure.
+     If an axes graphics handle HAX is supplied then the Voronoi diagram
+     is drawn on the specified axes rather than in a new figure.
 
      If a single output argument is requested then the Voronoi diagram
      will be plotted and a graphics handle H to the plot is returned.
@@ -5040,7 +5203,7 @@ with the FFTW or FFTPACK libraries depending on how Octave is built.
  -- : fft (X)
  -- : fft (X, N)
  -- : fft (X, N, DIM)
-     Compute the discrete Fourier transform of A using a Fast Fourier
+     Compute the discrete Fourier transform of X using a Fast Fourier
      Transform (FFT) algorithm.
 
      The FFT is calculated along the first non-singleton dimension of
@@ -5055,7 +5218,7 @@ with the FFTW or FFTPACK libraries depending on how Octave is built.
      dimension along which the FFT is calculated, then X is truncated.
 
      If called with three arguments, DIM is an integer specifying the
-     dimension of the matrix along which the FFT is performed
+     dimension of the matrix along which the FFT is performed.
 
      See also: *note ifft: XREFifft, *note fft2: XREFfft2, *note fftn:
      XREFfftn, *note fftw: XREFfftw.
@@ -5063,7 +5226,7 @@ with the FFTW or FFTPACK libraries depending on how Octave is built.
  -- : ifft (X)
  -- : ifft (X, N)
  -- : ifft (X, N, DIM)
-     Compute the inverse discrete Fourier transform of A using a Fast
+     Compute the inverse discrete Fourier transform of X using a Fast
      Fourier Transform (FFT) algorithm.
 
      The inverse FFT is calculated along the first non-singleton
@@ -5079,7 +5242,7 @@ with the FFTW or FFTPACK libraries depending on how Octave is built.
      truncated.
 
      If called with three arguments, DIM is an integer specifying the
-     dimension of the matrix along which the inverse FFT is performed
+     dimension of the matrix along which the inverse FFT is performed.
 
      See also: *note fft: XREFfft, *note ifft2: XREFifft2, *note ifftn:
      XREFifftn, *note fftw: XREFfftw.
@@ -5109,7 +5272,7 @@ with the FFTW or FFTPACK libraries depending on how Octave is built.
      the size of A, A is resized and padded with zeros.
 
      If A is a multi-dimensional matrix, each two-dimensional sub-matrix
-     of A is treated separately
+     of A is treated separately.
 
      See also: *note fft2: XREFfft2, *note ifft: XREFifft, *note ifftn:
      XREFifftn, *note fftw: XREFfftw.
@@ -5697,7 +5860,7 @@ system-wide wisdom file.
 
      RANGE
           range of spectrum.  "onesided" computes spectrum from
-          [0..nfft/2+1].  "twosided" computes spectrum from [0..nfft-1].
+          [0:nfft/2+1].  "twosided" computes spectrum from [0:nfft-1].
 
      The optional second output W are the normalized angular
      frequencies.  For a one-sided calculation W is in the range [0, pi]
@@ -6449,7 +6612,7 @@ color map must be of class ‘double’ with values between 0 and 1.
      Convert a color indexed image to a grayscale intensity image.
 
      The image X must be an indexed image which will be converted using
-     the colormap CMAP.  If CMAP does not contain enough colors for the
+     the colormap MAP.  If MAP does not contain enough colors for the
      image, pixels in X outside the range are mapped to the last color
      in the map before conversion to grayscale.
 
@@ -6478,7 +6641,7 @@ color map must be of class ‘double’ with values between 0 and 1.
      color quantization is performed.  The output class of the indexed
      image X can be uint8, uint16 or double, whichever is required to
      specify the number of unique colors in the image (which will be
-     equal to the number of rows in MAP) in order
+     equal to the number of rows in MAP) in order.
 
      Multi-dimensional indexed images (of size MxNx3xK) are also
      supported, both via a single input (RGB) or its three color
@@ -7277,9 +7440,9 @@ The following methods are used to control player playback.
      Play audio stored in the audioplayer object PLAYER without
      blocking.
 
-     Given optional argument start, begin playing at START seconds in
+     Given optional argument start, begin playing at START samples in
      the recording.  Given a two-element vector LIMITS, begin and end
-     playing at the number of seconds specified by the elements of the
+     playing at the number of samples specified by the elements of the
      vector.
 
  -- : playblocking (PLAYER)
@@ -7287,9 +7450,9 @@ The following methods are used to control player playback.
  -- : playblocking (PLAYER, LIMITS)
      Play audio stored in the audioplayer object PLAYER with blocking.
 
-     Given optional argument start, begin playing at START seconds in
+     Given optional argument start, begin playing at START samples in
      the recording.  Given a two-element vector LIMITS, begin and end
-     playing at the number of seconds specified by the elements of the
+     playing at the number of samples specified by the elements of the
      vector.
 
  -- : pause (PLAYER)
@@ -7491,7 +7654,7 @@ are not supported yet).  It is assumed that audio files using linear
 encoding have one of the extensions ‘lin’ or ‘raw’, and that files
 holding data in mu-law encoding end in ‘au’, ‘mu’, or ‘snd’.
 
- -- : lin2mu (X, N)
+ -- : Y = lin2mu (X, N)
      Convert audio data from linear to mu-law.
 
      Mu-law values use 8-bit unsigned integers.  Linear values use N-bit
@@ -7503,12 +7666,12 @@ holding data in mu-law encoding end in ‘au’, ‘mu’, or ‘snd’.
 
      See also: *note mu2lin: XREFmu2lin.
 
- -- : mu2lin (X, N)
+ -- : Y = mu2lin (X, N)
      Convert audio data from mu-law to linear.
 
      Mu-law values are 8-bit unsigned integers.  Linear values use N-bit
-     signed integers or floating point values in the range -1≤y≤1 if N
-     is 0.
+     signed integers or floating point values in the range -1 ≤ Y ≤ 1 if
+     N is 0.
 
      If N is not specified it defaults to 0.
 
@@ -7594,6 +7757,7 @@ using a class designed for polynomials.
 * Indexing Objects::
 * Overloading Objects::
 * Inheritance and Aggregation::
+* classdef Classes::
 
 
 File: octave.info,  Node: Creating a Class,  Next: Class Methods,  Up: Object Oriented Programming
@@ -7642,13 +7806,13 @@ for the polynomial class might look like
      ## @noindent
      ## from a vector of coefficients [a0 a1 a2 @dots{} an].
      ## @end deftypefn
-
+     
      function p = polynomial (a)
-
+     
        if (nargin > 1)
          print_usage ();
        endif
-
+     
        if (nargin == 0)
          p.poly = [0];
          p = class (p, "polynomial");
@@ -7662,7 +7826,7 @@ for the polynomial class might look like
            error ("@polynomial: A must be a real vector");
          endif
        endif
-
+     
      endfunction
 
    Note that the return value of the constructor must be the output of
@@ -7775,9 +7939,9 @@ anything when displaying the contents of a class which can be confusing.
 An example of a display method for the polynomial class might be
 
      function display (p)
-
+     
        printf ("%s =", inputname (1));
-
+     
        a = p.poly;
        first = true;
        for i = 1 : length (a);
@@ -7803,12 +7967,12 @@ An example of a display method for the polynomial class might be
            endif
          endif
        endfor
-
+     
        if (first)
          printf (" 0");
        endif
        printf ("\n");
-
+     
      endfunction
 
 Note that in the display method it makes sense to start the method with
@@ -7825,18 +7989,18 @@ optional second argument is given it should be a property name and the
 specified property should be retrieved.
 
      function val = get (p, prop)
-
+     
        if (nargin < 1 || nargin > 2)
          print_usage ();
        endif
-
+     
        if (nargin == 1)
          val.poly = p.poly;
        else
          if (! ischar (prop))
            error ("@polynomial/get: PROPERTY must be a string");
          endif
-
+     
          switch (prop)
            case "poly"
              val = p.poly;
@@ -7844,18 +8008,18 @@ specified property should be retrieved.
              error ('@polynomial/get: invalid PROPERTY "%s"', prop);
          endswitch
        endif
-
+     
      endfunction
 
 Similarly, the first argument to the ‘set’ method should be an object
 and any additional arguments should be property/value pairs.
 
      function pout = set (p, varargin)
-
+     
        if (numel (varargin) < 2 || rem (numel (varargin), 2) != 0)
          error ("@polynomial/set: expecting PROPERTY/VALUE pairs");
        endif
-
+     
        pout = p;
        while (numel (varargin) > 1)
          prop = varargin{1};
@@ -7866,10 +8030,10 @@ and any additional arguments should be property/value pairs.
          elseif (! (isreal (val) && isvector (val)))
            error ("@polynomial/set: VALUE must be a real vector");
          endif
-
+     
          pout.poly = val(:).';  # force row vector
        endwhile
-
+     
      endfunction
 
 Note that Octave does not implement pass by reference; Therefore, to
@@ -7937,226 +8101,4 @@ reinserted into the user object.
           endfunction
 
      See also: *note saveobj: XREFsaveobj, *note class: XREFclass.
-
-
-File: octave.info,  Node: Indexing Objects,  Next: Overloading Objects,  Prev: Class Methods,  Up: Object Oriented Programming
-
-34.3 Indexing Objects
-=====================
-
-* Menu:
-
-* Defining Indexing And Indexed Assignment::
-* Indexed Assignment Optimization::
-
-
-File: octave.info,  Node: Defining Indexing And Indexed Assignment,  Next: Indexed Assignment Optimization,  Up: Indexing Objects
-
-34.3.1 Defining Indexing And Indexed Assignment
------------------------------------------------
-
-Objects can be indexed with parentheses or braces, either like
-‘OBJ(IDX)’ or like ‘OBJ{IDX}’, or even like ‘OBJ(IDX).FIELD’.  However,
-it is up to the programmer to decide what this indexing actually means.
-In the case of the polynomial class ‘P(N)’ might mean either the
-coefficient of the N-th power of the polynomial, or it might be the
-evaluation of the polynomial at N.  The meaning of this subscripted
-referencing is determined by the ‘subsref’ method.
-
- -- : subsref (VAL, IDX)
-     Perform the subscripted element selection operation on VAL
-     according to the subscript specified by IDX.
-
-     The subscript IDX must be a structure array with fields ‘type’ and
-     ‘subs’.  Valid values for ‘type’ are "()", "{}", and ".".  The
-     ‘subs’ field may be either ":" or a cell array of index values.
-
-     The following example shows how to extract the first two columns of
-     a matrix
-
-          val = magic (3)
-              ⇒ val = [ 8   1   6
-                         3   5   7
-                         4   9   2 ]
-          idx.type = "()";
-          idx.subs = {":", 1:2};
-          subsref (val, idx)
-               ⇒ [ 8   1
-                    3   5
-                    4   9 ]
-
-     Note that this is the same as writing ‘val(:, 1:2)’.
-
-     If IDX is an empty structure array with fields ‘type’ and ‘subs’,
-     return VAL.
-
-     See also: *note subsasgn: XREFsubsasgn, *note substruct:
-     XREFsubstruct.
-
-   For example, this class uses the convention that indexing with "()"
-evaluates the polynomial and indexing with "{}" returns the N-th
-coefficient (of the N-th power).  The code for the ‘subsref’ method
-looks like
-
-     function r = subsref (p, s)
-
-       if (isempty (s))
-         error ("@polynomial/subsref: missing index");
-       endif
-
-       switch (s(1).type)
-
-         case "()"
-           idx = s(1).subs;
-           if (numel (idx) != 1)
-             error ("@polynomial/subsref: need exactly one index");
-           endif
-           r = polyval (fliplr (p.poly), idx{1});
-
-         case "{}"
-           idx = s(1).subs;
-           if (numel (idx) != 1)
-             error ("@polynomial/subsref: need exactly one index");
-           endif
-
-           if (isnumeric (idx{1}))
-             r = p.poly(idx{1}+1);
-           else
-             r = p.poly(idx{1});
-           endif
-
-         case "."
-           fld = s.subs;
-           if (! strcmp (fld, "poly"))
-             error ('@polynomial/subsref: invalid property "%s"', fld);
-           endif
-           r = p.poly;
-
-         otherwise
-           error ("@polynomial/subsref: invalid subscript type");
-
-       endswitch
-
-       if (numel (s) > 1)
-         r = subsref (r, s(2:end));
-       endif
-
-     endfunction
-
-   The equivalent functionality for subscripted assignments uses the
-‘subsasgn’ method.
-
- -- : subsasgn (VAL, IDX, RHS)
-     Perform the subscripted assignment operation according to the
-     subscript specified by IDX.
-
-     The subscript IDX must be a structure array with fields ‘type’ and
-     ‘subs’.  Valid values for ‘type’ are "()", "{}", and ".".  The
-     ‘subs’ field may be either ":" or a cell array of index values.
-
-     The following example shows how to set the two first columns of a
-     3-by-3 matrix to zero.
-
-          val = magic (3);
-          idx.type = "()";
-          idx.subs = {":", 1:2};
-          subsasgn (val, idx, 0)
-               ⇒  [ 0   0   6
-                     0   0   7
-                     0   0   2 ]
-
-     Note that this is the same as writing ‘val(:, 1:2) = 0’.
-
-     If IDX is an empty structure array with fields ‘type’ and ‘subs’,
-     return RHS.
-
-     See also: *note subsref: XREFsubsref, *note substruct:
-     XREFsubstruct, *note optimize_subsasgn_calls:
-     XREFoptimize_subsasgn_calls.
-
- -- : VAL = optimize_subsasgn_calls ()
- -- : OLD_VAL = optimize_subsasgn_calls (NEW_VAL)
- -- : optimize_subsasgn_calls (NEW_VAL, "local")
-     Query or set the internal flag for ‘subsasgn’ method call
-     optimizations.
-
-     If true, Octave will attempt to eliminate the redundant copying
-     when calling the ‘subsasgn’ method of a user-defined class.
-
-     When called from inside a function with the "local" option, the
-     variable is changed locally for the function and any subroutines it
-     calls.  The original variable value is restored when exiting the
-     function.
-
-     See also: *note subsasgn: XREFsubsasgn.
-
-   Note that the ‘subsref’ and ‘subsasgn’ methods always receive the
-whole index chain, while they usually handle only the first element.  It
-is the responsibility of these methods to handle the rest of the chain
-(if needed), usually by forwarding it again to ‘subsref’ or ‘subsasgn’.
-
-   If you wish to use the ‘end’ keyword in subscripted expressions of an
-object, then there must be an ‘end’ method defined.  For example, the
-‘end’ method for the polynomial class might look like
-
-     function r = end (obj, index_pos, num_indices)
-
-       if (num_indices != 1)
-         error ("polynomial object may only have one index");
-       endif
-
-       r = length (obj.poly) - 1;
-
-     endfunction
-
-which is a fairly generic ‘end’ method that has a behavior similar to
-the ‘end’ keyword for Octave Array classes.  An example using the
-polynomial class is then
-
-     p = polynomial ([1,2,3,4]);
-     p{end-1}
-       ⇒ 3
-
-   Objects can also be used themselves as the index in a subscripted
-expression and this is controlled by the ‘subsindex’ function.
-
- -- : IDX = subsindex (OBJ)
-     Convert an object to an index vector.
-
-     When OBJ is a class object defined with a class constructor, then
-     ‘subsindex’ is the overloading method that allows the conversion of
-     this class object to a valid indexing vector.  It is important to
-     note that ‘subsindex’ must return a zero-based real integer vector
-     of the class "double".  For example, if the class constructor were
-
-          function obj = myclass (a)
-            obj = class (struct ("a", a), "myclass");
-          endfunction
-
-     then the ‘subsindex’ function
-
-          function idx = subsindex (obj)
-            idx = double (obj.a) - 1.0;
-          endfunction
-
-     could be used as follows
-
-          a = myclass (1:4);
-          b = 1:10;
-          b(a)
-          ⇒ 1  2  3  4
-
-     See also: *note class: XREFclass, *note subsref: XREFsubsref, *note
-     subsasgn: XREFsubsasgn.
-
-   Finally, objects can be used like ranges by providing a ‘colon’
-method.
-
- -- : R = colon (BASE, LIMIT)
- -- : R = colon (BASE, INCREMENT, LIMIT)
-     Return the result of the colon expression corresponding to BASE,
-     LIMIT, and optionally, INCREMENT.
-
-     This function is equivalent to the operator syntax ‘base : limit’
-     or ‘base : increment : limit’.
 

@@ -18,12 +18,13 @@
 
 ## -*- texinfo -*-
 ## @deftypefn  {} {} datetick ()
+## @deftypefnx {} {} datetick (@var{axis_str})
 ## @deftypefnx {} {} datetick (@var{date_format})
 ## @deftypefnx {} {} datetick (@var{axis_str}, @var{date_format})
 ## @deftypefnx {} {} datetick (@dots{}, "keeplimits")
 ## @deftypefnx {} {} datetick (@dots{}, "keepticks")
 ## @deftypefnx {} {} datetick (@var{hax}, @dots{})
-## Add date formatted tick labels to an axis.
+## Add date-formatted tick labels to an axis.
 ##
 ## The axis to apply the ticks to is determined by @var{axis_str} which can
 ## take the values @qcode{"x"}, @qcode{"y"}, or @qcode{"z"}.  The default
@@ -32,6 +33,9 @@
 ## The formatting of the labels is determined by the variable
 ## @var{date_format}, which can either be a string or positive integer that
 ## @code{datestr} accepts.
+##
+## If the first argument @var{hax} is an axes handle, then plot into this axes,
+## rather than the current axes returned by @code{gca}.
 ##
 ## @seealso{datenum, datestr}
 ## @end deftypefn
@@ -210,15 +214,19 @@ function __datetick__ (varargin)
         minmonth = ifelse (minmonth == 0, 1, minmonth);
         maxmonth = sep * ceil (maxmonth / sep);
         rangemonth = (minmonth:sep:maxmonth)';
+        tickdays = round (1 + 28*mod (rangemonth, 1));
         ticks = datenum ([repmat(minyear, size(rangemonth)), ...
-                          rangemonth, ...
-                          ones(size (rangemonth))]);
+                          floor(rangemonth), ...
+                          tickdays]);
       else
         sep = __calc_tick_sep__ (minyear, maxyear);
         minyear = sep * floor (minyear / sep);
         maxyear = sep * ceil (maxyear / sep);
         rangeyear = (minyear:sep:maxyear)';
-        ticks = datenum ([rangeyear, ones(rows(rangeyear),2)]);
+        tickmonth = round (1 + 12*mod (rangeyear, 1));
+        ticks = datenum ([floor(rangeyear), ...
+                          tickmonth, ...
+                          ones(rows (rangeyear), 1)]);
       endif
     endif
   endif

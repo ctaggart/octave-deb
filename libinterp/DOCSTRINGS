@@ -2813,10 +2813,10 @@ parameters for @code{daspk}.
 dasrt
 @c dasrt libinterp/corefcn/dasrt.cc
 -*- texinfo -*-
-@deftypefn  {} {[@var{x}, @var{xdot}, @var{t_out}, @var{istat}, @var{msg}] =} dasrt (@var{fcn}, [], @var{x_0}, @var{xdot_0}, @var{t})
-@deftypefnx {} {@dots{} =} dasrt (@var{fcn}, @var{g}, @var{x_0}, @var{xdot_0}, @var{t})
-@deftypefnx {} {@dots{} =} dasrt (@var{fcn}, [], @var{x_0}, @var{xdot_0}, @var{t}, @var{t_crit})
+@deftypefn  {} {[@var{x}, @var{xdot}, @var{t_out}, @var{istat}, @var{msg}] =} dasrt (@var{fcn}, @var{g}, @var{x_0}, @var{xdot_0}, @var{t})
 @deftypefnx {} {@dots{} =} dasrt (@var{fcn}, @var{g}, @var{x_0}, @var{xdot_0}, @var{t}, @var{t_crit})
+@deftypefnx {} {@dots{} =} dasrt (@var{fcn}, @var{x_0}, @var{xdot_0}, @var{t})
+@deftypefnx {} {@dots{} =} dasrt (@var{fcn}, @var{x_0}, @var{xdot_0}, @var{t}, @var{t_crit})
 Solve the set of differential-algebraic equations
 @tex
 $$ 0 = f (x, \dot{x}, t) $$
@@ -3266,7 +3266,6 @@ cumprod ([1, 2; 3, 4; 5, 6])
 @deftypefnx {} {} cumsum (@var{x}, @var{dim})
 @deftypefnx {} {} cumsum (@dots{}, "native")
 @deftypefnx {} {} cumsum (@dots{}, "double")
-@deftypefnx {} {} cumsum (@dots{}, "extra")
 Cumulative sum of elements along dimension @var{dim}.
 
 If @var{dim} is omitted, it defaults to the first non-singleton dimension.
@@ -3281,8 +3280,8 @@ cumsum ([1, 2; 3, 4; 5, 6])
 @end group
 @end example
 
-See @code{sum} for an explanation of the optional parameters
-@qcode{"native"}, @qcode{"double"}, and @qcode{"extra"}.
+See @code{sum} for an explanation of the optional parameters @qcode{"native"}
+and @qcode{"double"}.
 @seealso{sum, cumprod}
 @end deftypefn
 diag
@@ -3746,9 +3745,9 @@ With 1 real argument @var{x}, return the complex result
 @w{@code{@var{x} + 0i}}.
 
 With 2 real arguments, return the complex result
-@w{@code{@var{re} + @var{im}}}.
+@w{@code{@var{re} + @var{im}i}}.
 @code{complex} can often be more convenient than expressions such as
-@w{@code{a + i*b}}.
+@w{@code{a + b*i}}.
 For example:
 
 @example
@@ -4290,25 +4289,25 @@ definitions are for compatibility with @sc{matlab}.
 linspace
 @c linspace libinterp/corefcn/data.cc
 -*- texinfo -*-
-@deftypefn  {} {} linspace (@var{base}, @var{limit})
-@deftypefnx {} {} linspace (@var{base}, @var{limit}, @var{n})
-Return a row vector with @var{n} linearly spaced elements between
-@var{base} and @var{limit}.
+@deftypefn  {} {} linspace (@var{start}, @var{end})
+@deftypefnx {} {} linspace (@var{start}, @var{end}, @var{n})
+Return a row vector with @var{n} linearly spaced elements between @var{start}
+and @var{end}.
 
-If the number of elements is greater than one, then the endpoints @var{base}
-and @var{limit} are always included in the range.  If @var{base} is greater
-than @var{limit}, the elements are stored in decreasing order.  If the
-number of points is not specified, a value of 100 is used.
+If the number of elements is greater than one, then the endpoints @var{start}
+and @var{end} are always included in the range.  If @var{start} is greater than
+@var{end}, the elements are stored in decreasing order.  If the number of
+points is not specified, a value of 100 is used.
 
-The @code{linspace} function returns a row vector when both @var{base}
-and @var{limit} are scalars.  If one, or both, inputs are vectors, then
+The @code{linspace} function returns a row vector when both @var{start} and
+@var{end} are scalars.  If one, or both, inputs are vectors, then
 @code{linspace} transforms them to column vectors and returns a matrix where
 each row is an independent sequence between
-@w{@code{@var{base}(@var{row_n}), @var{limit}(@var{row_n})}}.
+@w{@code{@var{start}(@var{row_n}), @var{end}(@var{row_n})}}.
 
-For compatibility with @sc{matlab}, return the second argument (@var{limit})
-if fewer than two values are requested.
-@seealso{logspace}
+For compatibility with @sc{matlab}, return the second argument (@var{end}) when
+only a single value (@var{n} = 1) is requested.
+@seealso{colon, logspace}
 @end deftypefn
 resize
 @c resize libinterp/corefcn/data.cc
@@ -4490,21 +4489,21 @@ compute the norms of each column and return a row vector.
 @deftypefn {} {@var{z} =} not (@var{x})
 Return the logical NOT of @var{x}.
 
-This function is equivalent to the operator syntax @w{@code{! x}}.
+This function is equivalent to the operator syntax @w{@code{! @var{x}}}.
 @seealso{and, or, xor}
 @end deftypefn
 uplus
 @c uplus libinterp/corefcn/data.cc
 -*- texinfo -*-
 @deftypefn {} {} uplus (@var{x})
-This function and @w{@tcode{+ x}} are equivalent.
+This function and @w{@tcode{+ @var{x}}} are equivalent.
 @seealso{uminus, plus, minus}
 @end deftypefn
 uminus
 @c uminus libinterp/corefcn/data.cc
 -*- texinfo -*-
 @deftypefn {} {} uminus (@var{x})
-This function and @w{@tcode{- x}} are equivalent.
+This function and @w{@tcode{- @var{x}}} are equivalent.
 @seealso{uplus, minus}
 @end deftypefn
 transpose
@@ -4513,7 +4512,7 @@ This function and @w{@tcode{- x}} are equivalent.
 @deftypefn {} {} transpose (@var{x})
 Return the transpose of @var{x}.
 
-This function and @tcode{x.'} are equivalent.
+This function and @tcode{@var{x}.'} are equivalent.
 @seealso{ctranspose}
 @end deftypefn
 ctranspose
@@ -4522,7 +4521,7 @@ This function and @tcode{x.'} are equivalent.
 @deftypefn {} {} ctranspose (@var{x})
 Return the complex conjugate transpose of @var{x}.
 
-This function and @tcode{x'} are equivalent.
+This function and @tcode{@var{x}'} are equivalent.
 @seealso{transpose}
 @end deftypefn
 plus
@@ -4530,13 +4529,13 @@ This function and @tcode{x'} are equivalent.
 -*- texinfo -*-
 @deftypefn  {} {} plus (@var{x}, @var{y})
 @deftypefnx {} {} plus (@var{x1}, @var{x2}, @dots{})
-This function and @w{@tcode{x + y}} are equivalent.
+This function and @w{@tcode{@var{x} + @var{y}}} are equivalent.
 
 If more arguments are given, the summation is applied
 cumulatively from left to right:
 
 @example
-(@dots{}((x1 + x2) + x3) + @dots{})
+(@dots{}((@var{x1} + @var{x2}) + @var{x3}) + @dots{})
 @end example
 
 At least one argument is required.
@@ -4546,7 +4545,7 @@ At least one argument is required.
 @c minus libinterp/corefcn/data.cc
 -*- texinfo -*-
 @deftypefn {} {} minus (@var{x}, @var{y})
-This function and @w{@tcode{x - y}} are equivalent.
+This function and @w{@tcode{@var{x} - @var{y}}} are equivalent.
 @seealso{plus, uminus}
 @end deftypefn
 mtimes
@@ -4556,12 +4555,12 @@ This function and @w{@tcode{x - y}} are equivalent.
 @deftypefnx {} {} mtimes (@var{x1}, @var{x2}, @dots{})
 Return the matrix multiplication product of inputs.
 
-This function and @w{@tcode{x * y}} are equivalent.
+This function and @w{@tcode{@var{x} * @var{y}}} are equivalent.
 If more arguments are given, the multiplication is applied
 cumulatively from left to right:
 
 @example
-(@dots{}((x1 * x2) * x3) * @dots{})
+(@dots{}((@var{x1} * @var{x2}) * @var{x3}) * @dots{})
 @end example
 
 At least one argument is required.
@@ -4573,7 +4572,7 @@ At least one argument is required.
 @deftypefn {} {} mrdivide (@var{x}, @var{y})
 Return the matrix right division of @var{x} and @var{y}.
 
-This function and @w{@tcode{x / y}} are equivalent.
+This function and @w{@tcode{@var{x} / @var{y}}} are equivalent.
 @seealso{mldivide, rdivide, plus, minus}
 @end deftypefn
 mpower
@@ -4582,7 +4581,7 @@ This function and @w{@tcode{x / y}} are equivalent.
 @deftypefn {} {} mpower (@var{x}, @var{y})
 Return the matrix power operation of @var{x} raised to the @var{y} power.
 
-This function and @w{@tcode{x ^ y}} are equivalent.
+This function and @w{@tcode{@var{x} ^ @var{y}}} are equivalent.
 @seealso{power, mtimes, plus, minus}
 @end deftypefn
 mldivide
@@ -4591,21 +4590,21 @@ This function and @w{@tcode{x ^ y}} are equivalent.
 @deftypefn {} {} mldivide (@var{x}, @var{y})
 Return the matrix left division of @var{x} and @var{y}.
 
-This function and @w{@tcode{x @xbackslashchar{} y}} are equivalent.
+This function and @w{@tcode{@var{x} @xbackslashchar{} @var{y}}} are equivalent.
 @seealso{mrdivide, ldivide, rdivide}
 @end deftypefn
 lt
 @c lt libinterp/corefcn/data.cc
 -*- texinfo -*-
 @deftypefn {} {} lt (@var{x}, @var{y})
-This function is equivalent to @w{@code{x < y}}.
+This function is equivalent to @w{@code{@var{x} < @var{y}}}.
 @seealso{le, eq, ge, gt, ne}
 @end deftypefn
 le
 @c le libinterp/corefcn/data.cc
 -*- texinfo -*-
 @deftypefn {} {} le (@var{x}, @var{y})
-This function is equivalent to @w{@code{x <= y}}.
+This function is equivalent to @w{@code{@var{x} <= @var{y}}}.
 @seealso{eq, ge, gt, ne, lt}
 @end deftypefn
 eq
@@ -4614,21 +4613,21 @@ This function is equivalent to @w{@code{x <= y}}.
 @deftypefn {} {} eq (@var{x}, @var{y})
 Return true if the two inputs are equal.
 
-This function is equivalent to @w{@code{x == y}}.
+This function is equivalent to @w{@code{@var{x} == @var{y}}}.
 @seealso{ne, isequal, le, ge, gt, ne, lt}
 @end deftypefn
 ge
 @c ge libinterp/corefcn/data.cc
 -*- texinfo -*-
 @deftypefn {} {} ge (@var{x}, @var{y})
-This function is equivalent to @w{@code{x >= y}}.
+This function is equivalent to @w{@code{@var{x} >= @var{y}}}.
 @seealso{le, eq, gt, ne, lt}
 @end deftypefn
 gt
 @c gt libinterp/corefcn/data.cc
 -*- texinfo -*-
 @deftypefn {} {} gt (@var{x}, @var{y})
-This function is equivalent to @w{@code{x > y}}.
+This function is equivalent to @w{@code{@var{x} > @var{y}}}.
 @seealso{le, eq, ge, ne, lt}
 @end deftypefn
 ne
@@ -4637,7 +4636,7 @@ This function is equivalent to @w{@code{x > y}}.
 @deftypefn {} {} ne (@var{x}, @var{y})
 Return true if the two inputs are not equal.
 
-This function is equivalent to @w{@code{x != y}}.
+This function is equivalent to @w{@code{@var{x} != @var{y}}}.
 @seealso{eq, isequal, le, ge, lt}
 @end deftypefn
 times
@@ -4647,12 +4646,12 @@ This function is equivalent to @w{@code{x != y}}.
 @deftypefnx {} {} times (@var{x1}, @var{x2}, @dots{})
 Return the element-by-element multiplication product of inputs.
 
-This function and @w{@tcode{x .* y}} are equivalent.
+This function and @w{@tcode{@var{x} .* @var{y}}} are equivalent.
 If more arguments are given, the multiplication is applied
 cumulatively from left to right:
 
 @example
-(@dots{}((x1 .* x2) .* x3) .* @dots{})
+(@dots{}((@var{x1} .* @var{x2}) .* @var{x3}) .* @dots{})
 @end example
 
 At least one argument is required.
@@ -4664,7 +4663,7 @@ At least one argument is required.
 @deftypefn {} {} rdivide (@var{x}, @var{y})
 Return the element-by-element right division of @var{x} and @var{y}.
 
-This function and @w{@tcode{x ./ y}} are equivalent.
+This function and @w{@tcode{@var{x} ./ @var{y}}} are equivalent.
 @seealso{ldivide, mrdivide, times, plus}
 @end deftypefn
 power
@@ -4674,7 +4673,7 @@ This function and @w{@tcode{x ./ y}} are equivalent.
 Return the element-by-element operation of @var{x} raised to the
 @var{y} power.
 
-This function and @w{@tcode{x .^ y}} are equivalent.
+This function and @w{@tcode{@var{x} .^ @var{y}}} are equivalent.
 
 If several complex results are possible, returns the one with smallest
 non-negative argument (angle).  Use @code{realpow}, @code{realsqrt},
@@ -4688,7 +4687,8 @@ non-negative argument (angle).  Use @code{realpow}, @code{realsqrt},
 @deftypefn {} {} ldivide (@var{x}, @var{y})
 Return the element-by-element left division of @var{x} and @var{y}.
 
-This function and @w{@tcode{x .@xbackslashchar{} y}} are equivalent.
+This function and @w{@tcode{@var{x} .@xbackslashchar{} @var{y}}} are
+equivalent.
 @seealso{rdivide, mldivide, times, plus}
 @end deftypefn
 and
@@ -4698,12 +4698,12 @@ This function and @w{@tcode{x .@xbackslashchar{} y}} are equivalent.
 @deftypefnx {} {@var{z} =} and (@var{x1}, @var{x2}, @dots{})
 Return the logical AND of @var{x} and @var{y}.
 
-This function is equivalent to the operator syntax @w{@code{x & y}}.  If
-more than two arguments are given, the logical AND is applied cumulatively
-from left to right:
+This function is equivalent to the operator syntax
+@w{@code{@var{x} & @var{y}}}.  If more than two arguments are given, the
+logical AND is applied cumulatively from left to right:
 
 @example
-(@dots{}((x1 & x2) & x3) & @dots{})
+(@dots{}((@var{x1} & @var{x2}) & @var{x3}) & @dots{})
 @end example
 
 At least one argument is required.
@@ -4716,12 +4716,12 @@ At least one argument is required.
 @deftypefnx {} {@var{z} =} or (@var{x1}, @var{x2}, @dots{})
 Return the logical OR of @var{x} and @var{y}.
 
-This function is equivalent to the operator syntax @w{@code{x | y}}.  If
-more than two arguments are given, the logical OR is applied cumulatively
-from left to right:
+This function is equivalent to the operator syntax
+@w{@code{@var{x} | @var{y}}}.  If more than two arguments are given, the
+logical OR is applied cumulatively from left to right:
 
 @example
-(@dots{}((x1 | x2) | x3) | @dots{})
+(@dots{}((@var{x1} | @var{x2}) | @var{x3}) | @dots{})
 @end example
 
 At least one argument is required.
@@ -4735,8 +4735,10 @@ At least one argument is required.
 Return the result of the colon expression corresponding to @var{base},
 @var{limit}, and optionally, @var{increment}.
 
-This function is equivalent to the operator syntax @w{@code{base : limit}}
-or @w{@code{base : increment : limit}}.
+This function is equivalent to the operator syntax
+@w{@code{@var{base} : @var{limit}}} or
+@w{@code{@var{base} : @var{increment} : @var{limit}}}.
+@seealso{linspace}
 @end deftypefn
 tic
 @c tic libinterp/corefcn/data.cc
@@ -5857,8 +5859,9 @@ endfor
 @deftypefnx {} {[@dots{}] =} eig (@var{A}, @var{balanceOption})
 @deftypefnx {} {[@dots{}] =} eig (@var{A}, @var{B}, @var{algorithm})
 @deftypefnx {} {[@dots{}] =} eig (@dots{}, @var{eigvalOption})
-Compute the right eigenvalues(V) and optionally the eigenvectors(lambda) and
-the left eigenvalues(W) of a matrix or a pair of matrices.
+Compute the eigenvalues (@var{lambda}) and optionally the right eigenvectors
+(@var{V}) and the left eigenvectors (@var{W}) of a matrix or a pair of
+matrices.
 
 The flag @var{balanceOption} can be one of:
 
@@ -6075,7 +6078,7 @@ to go on.
 The optional message identifier allows users to enable or disable
 warnings tagged by @var{id}.  A message identifier is of the form
 "NAMESPACE:WARNING-NAME".  Octave's own warnings use the
-@qcode{"Octave"} namespace (@pxref{XREFwarning_ids}).  The special
+@qcode{"Octave"} namespace (@pxref{XREFwarning_ids,,warning_ids}).  The special
 identifier @qcode{"all"} may be used to set the state of all warnings.
 
 If the first argument is @qcode{"on"} or @qcode{"off"},
@@ -6273,7 +6276,7 @@ The original variable value is restored when exiting the function.
 @deftypefn  {} {} fft (@var{x})
 @deftypefnx {} {} fft (@var{x}, @var{n})
 @deftypefnx {} {} fft (@var{x}, @var{n}, @var{dim})
-Compute the discrete Fourier transform of @var{A} using
+Compute the discrete Fourier transform of @var{x} using
 a Fast Fourier Transform (FFT) algorithm.
 
 The FFT is calculated along the first non-singleton dimension of the
@@ -6289,7 +6292,7 @@ smaller than the dimension along which the FFT is calculated, then
 @var{x} is truncated.
 
 If called with three arguments, @var{dim} is an integer specifying the
-dimension of the matrix along which the FFT is performed
+dimension of the matrix along which the FFT is performed.
 @seealso{ifft, fft2, fftn, fftw}
 @end deftypefn
 ifft
@@ -6298,7 +6301,7 @@ dimension of the matrix along which the FFT is performed
 @deftypefn  {} {} ifft (@var{x})
 @deftypefnx {} {} ifft (@var{x}, @var{n})
 @deftypefnx {} {} ifft (@var{x}, @var{n}, @var{dim})
-Compute the inverse discrete Fourier transform of @var{A}
+Compute the inverse discrete Fourier transform of @var{x}
 using a Fast Fourier Transform (FFT) algorithm.
 
 The inverse FFT is calculated along the first non-singleton dimension
@@ -6314,7 +6317,7 @@ smaller than the dimension along which the inverse FFT is calculated,
 then @var{x} is truncated.
 
 If called with three arguments, @var{dim} is an integer specifying the
-dimension of the matrix along which the inverse FFT is performed
+dimension of the matrix along which the inverse FFT is performed.
 @seealso{fft, ifft2, ifftn, fftw}
 @end deftypefn
 fft2
@@ -6346,7 +6349,7 @@ rows and columns of @var{A} to use.  If either of these is larger than the
 size of @var{A}, @var{A} is resized and padded with zeros.
 
 If @var{A} is a multi-dimensional matrix, each two-dimensional sub-matrix
-of @var{A} is treated separately
+of @var{A} is treated separately.
 @seealso{fft2, ifft, ifftn, fftw}
 @end deftypefn
 fftn
@@ -6519,7 +6522,7 @@ separate file id.  It is not an error to open a file several times,
 though writing to the same file through several different file ids may
 produce unexpected results.
 
-The possible values @samp{mode} may have are
+The possible values of @var{mode} are
 
 @table @asis
 @item @samp{r} (default)
@@ -6544,11 +6547,10 @@ file.
 @end table
 
 Append a @qcode{"t"} to the mode string to open the file in text mode or a
-@qcode{"b"} to open in binary mode.  On Windows and Macintosh systems,
+@qcode{"b"} to open in binary mode.  On Windows systems,
 text mode reading and writing automatically converts linefeeds to the
 appropriate line end character for the system (carriage-return linefeed on
-Windows, carriage-return on Macintosh).  The default when no mode is
-specified is binary mode.
+Windows).  The default when no mode is specified is binary.
 
 Additionally, you may append a @qcode{"z"} to the mode string to open a
 gzipped file for reading or writing.  For this to be successful, you
@@ -6574,6 +6576,14 @@ However, conversions are currently only supported for @samp{native},
 
 When opening a new file that does not yet exist, permissions will be set to
 @code{0666 - @var{umask}}.
+
+Compatibility Note: Octave opens files using buffered I/O.  Small writes are
+accumulated until an internal buffer is filled, and then everything is written
+in a single operation.  This is very efficient and improves performance.
+@sc{matlab}, however, opens files using flushed I/O where every write operation
+is immediately performed.  If the write operation must be performed immediately
+after data has been written then the write should be followed by a call to
+@code{fflush} to flush the internal buffer.
 @seealso{fclose, fgets, fgetl, fscanf, fread, fputs, fdisp, fprintf, fwrite, fskipl, fseek, frewind, ftell, feof, ferror, fclear, fflush, freport, umask}
 @end deftypefn
 freport
@@ -6785,7 +6795,7 @@ character to be read is returned in @var{pos}.
 @c scanf libinterp/corefcn/file-io.cc
 -*- texinfo -*-
 @deftypefn  {} {[@var{val}, @var{count}, @var{errmsg}] =} scanf (@var{template}, @var{size})
-@deftypefnx {} {[@var{v1}, @var{v2}, @dots{}, @var{count}, @var{errmsg}]] =} scanf (@var{template}, "C")
+@deftypefnx {} {[@var{v1}, @var{v2}, @dots{}, @var{count}, @var{errmsg}] =} scanf (@var{template}, "C")
 This is equivalent to calling @code{fscanf} with @var{fid} = @code{stdin}.
 
 It is currently not useful to call @code{scanf} in interactive programs.
@@ -8275,7 +8285,7 @@ addlistener (gcf, "position", @{@@my_listener, "my string"@})
 @end group
 @end example
 
-@seealso{addproperty, hggroup}
+@seealso{dellistener, addproperty, hggroup}
 @end deftypefn
 dellistener
 @c dellistener libinterp/corefcn/graphics.cc
@@ -8304,6 +8314,7 @@ dellistener (gcf, "position", c);
 @end group
 @end example
 
+@seealso{addlistener}
 @end deftypefn
 addproperty
 @c addproperty libinterp/corefcn/graphics.cc
@@ -8987,7 +8998,7 @@ Query or set the primary prompt string.
 When executing interactively, Octave displays the primary prompt when it is
 ready to read a command.
 
-The default value of the primary prompt string is @qcode{"octave:\#> "}.
+The default value of the primary prompt string is @qcode{'octave:\#> '}.
 To change it, use a command like
 
 @example
@@ -9168,7 +9179,7 @@ equations (@var{A}*@math{x} = @math{b}) with
 If called with a sparse matrix, then in general @var{x} will be a full
 matrix requiring significantly more storage.  Avoid forming the inverse of a
 sparse matrix if possible.
-@seealso{ldivide, rdivide}
+@seealso{ldivide, rdivide, pinv}
 @end deftypefn
 inverse
 @c inverse libinterp/corefcn/inv.cc
@@ -9762,7 +9773,7 @@ additional options.
 
 @table @code
 @item m
-@code{table(idx(i)) == val(i)} if @code{val(i)}
+@code{table(idx(i)) == y(i)} if @code{y(i)}
 occurs in table; otherwise, @code{idx(i)} is zero.
 
 @item b
@@ -9893,8 +9904,9 @@ jac = ---- = |                       |
 
 @end ifnottex
 
-The second and third arguments specify the initial state of the system,
-@math{x_0}, and the initial value of the independent variable @math{t_0}.
+The second argument specifies the initial state of the system @math{x_0}.  The
+third argument is a vector, @var{t}, specifying the time values for which a
+solution is sought.
 
 The fourth argument is optional, and may be used to specify a set of
 times that the ODE solver should not integrate past.  It is useful for
@@ -11588,18 +11600,17 @@ The original variable value is restored when exiting the function.
 -*- texinfo -*-
 @deftypefn  {} {} pinv (@var{x})
 @deftypefnx {} {} pinv (@var{x}, @var{tol})
-Return the pseudoinverse of @var{x}.
+Return the Moore-Penrose pseudoinverse of @var{x}.
 
 Singular values less than @var{tol} are ignored.
 
 If the second argument is omitted, it is taken to be
 
 @example
-tol = max (size (@var{x})) * sigma_max (@var{x}) * eps,
+tol = max ([rows(@var{x}), columns(@var{x})]) * norm (@var{x}) * eps
 @end example
 
-@noindent
-where @code{sigma_max (@var{x})} is the maximal singular value of @var{x}.
+@seealso{inv, ldivide}
 @end deftypefn
 rats
 @c rats libinterp/corefcn/pr-output.cc
@@ -11626,7 +11637,8 @@ If the length of the smallest possible rational approximation exceeds
 disp
 @c disp libinterp/corefcn/pr-output.cc
 -*- texinfo -*-
-@deftypefn {} {} disp (@var{x})
+@deftypefn  {} {} disp (@var{x})
+@deftypefnx {} {@var{str} =} disp (@var{x})
 Display the value of @var{x}.
 
 For example:
@@ -12059,7 +12071,7 @@ absolute tolerance, and the second element is the desired relative
 tolerance.  To choose a relative test only, set the absolute
 tolerance to zero.  To choose an absolute test only, set the relative
 tolerance to zero.  Both tolerances default to @code{sqrt (eps)} or
-approximately @math{1.5e^{-8}}.
+approximately 1.5e-8.
 
 The optional argument @var{sing} is a vector of values at which the
 integrand is known to be singular.
@@ -12109,7 +12121,7 @@ or both limits may be infinite.  @code{quadcc} handles an inifinite limit
 by substituting the variable of integration with @code{x = tan (pi/2*u)}.
 
 The optional argument @var{tol} defines the relative tolerance used to stop
-the integration procedure.  The default value is @math{1e^{-6}}.
+the integration procedure.  The default value is 1e-6.
 
 The optional argument @var{sing} contains a list of points where the
 integrand has known singularities, or discontinuities
@@ -12157,27 +12169,36 @@ Mathematical Software, Vol. 37, Issue 3, Article No. 3, 2010.
 @c qz libinterp/corefcn/qz.cc
 -*- texinfo -*-
 @deftypefn  {} {@var{lambda} =} qz (@var{A}, @var{B})
-@deftypefnx {} {@var{lambda} =} qz (@var{A}, @var{B}, @var{opt})
+@deftypefnx {} {[@var{AA}, @var{BB}, @var{Q}, @var{Z}, @var{V}, @var{W}, @var{lambda}] =} qz (@var{A}, @var{B})
+@deftypefnx {} {[@var{AA}, @var{BB}, @var{Z}] =} qz (@var{A}, @var{B}, @var{opt})
+@deftypefnx {} {[@var{AA}, @var{BB}, @var{Z}, @var{lambda}] =} qz (@var{A}, @var{B}, @var{opt})
 QZ@tie{}decomposition of the generalized eigenvalue problem
-(@math{A x = s B x}).
+@tex
+$$A x = \lambda B x$$
+@end tex
+@ifnottex
 
-There are three ways to call this function:
+@math{A x = @var{lambda} B x}
+
+@end ifnottex
+
+There are three calling forms of the function:
+
 @enumerate
 @item @code{@var{lambda} = qz (@var{A}, @var{B})}
 
-Computes the generalized eigenvalues
+Compute the generalized eigenvalues
 @tex
-$\lambda$
+$\lambda.$
 @end tex
 @ifnottex
-@var{lambda}
+@var{lambda}.
 @end ifnottex
-of @math{(A - s B)}.
 
-@item @code{[AA, BB, Q, Z, V, W, @var{lambda}] = qz (@var{A}, @var{B})}
+@item @code{[@var{AA}, @var{BB}, @var{Q}, @var{Z}, @var{V}, @var{W}, @var{lambda}] = qz (@var{A}, @var{B})}
 
-Computes QZ@tie{}decomposition, generalized eigenvectors, and generalized
-eigenvalues of @math{(A - s B)}
+Compute QZ@tie{}decomposition, generalized eigenvectors, and generalized
+eigenvalues.
 @tex
 $$ AV = BV{ \rm diag }(\lambda) $$
 $$ W^T A = { \rm diag }(\lambda)W^T B $$
@@ -12188,22 +12209,22 @@ $$ AA = Q^T AZ, BB = Q^T BZ $$
 @example
 @group
 
-A * V = B * V * diag (@var{lambda})
-W' * A = diag (@var{lambda}) * W' * B
-AA = Q * A * Z, BB = Q * B * Z
+@var{A} * @var{V} = @var{B} * @var{V} * diag (@var{lambda})
+@var{W}' * @var{A} = diag (@var{lambda}) * @var{W}' * @var{B}
+@var{AA} = @var{Q} * @var{A} * @var{Z}, @var{BB} = @var{Q} * @var{B} * @var{Z}
 
 @end group
 @end example
 
 @end ifnottex
-with @var{Q} and @var{Z} orthogonal (unitary)= @var{I}
+with @var{Q} and @var{Z} orthogonal (unitary for complex case).
 
-@item @code{[AA,BB,Z@{, @var{lambda}@}] = qz (@var{A}, @var{B}, @var{opt})}
+@item @code{[@var{AA}, @var{BB}, @var{Z} @{, @var{lambda}@}] = qz (@var{A}, @var{B}, @var{opt})}
 
-As in form [2], but allows ordering of generalized eigenpairs for, e.g.,
-solution of discrete time algebraic Riccati equations.  Form 3 is not
-available for complex matrices, and does not compute the generalized
-eigenvectors @var{V}, @var{W}, nor the orthogonal matrix @var{Q}.
+As in form 2 above, but allows ordering of generalized eigenpairs for, e.g.,
+solution of discrete time algebraic Riccati equations.  Form 3 is not available
+for complex matrices, and does not compute the generalized eigenvectors
+@var{V}, @var{W}, nor the orthogonal matrix @var{Q}.
 
 @table @var
 @item opt
@@ -12212,28 +12233,41 @@ the revised pencil contains all eigenvalues that satisfy:
 
 @table @asis
 @item @qcode{"N"}
-= unordered (default)
+unordered (default)
 
 @item @qcode{"S"}
-= small: leading block has all |lambda| @leq{} 1
+small: leading block has all
+@tex
+$|\lambda| < 1$
+@end tex
+@ifnottex
+|@var{lambda}| < 1
+@end ifnottex
 
 @item @qcode{"B"}
-= big: leading block has all |lambda| @geq{} 1
+big: leading block has all
+@tex
+$|\lambda| \geq 1$
+@end tex
+@ifnottex
+|@var{lambda}| @geq{} 1
+@end ifnottex
 
 @item @qcode{"-"}
-= negative real part: leading block has all eigenvalues
-in the open left half-plane
+negative real part: leading block has all eigenvalues in the open left
+half-plane
 
 @item @qcode{"+"}
-= non-negative real part: leading block has all eigenvalues
-in the closed right half-plane
+non-negative real part: leading block has all eigenvalues in the closed right
+half-plane
 @end table
 @end table
 @end enumerate
 
 Note: @code{qz} performs permutation balancing, but not scaling
-(@pxref{XREFbalance}).  The order of output arguments was selected for
-compatibility with @sc{matlab}.
+(@pxref{XREFbalance,,balance}), which may be lead to less accurate results than
+@code{eig}.  The order of output arguments was selected for compatibility with
+@sc{matlab}.
 @seealso{eig, balance, lu, chol, hess, qr, qzhess, schur, svd}
 @end deftypefn
 rand
@@ -12394,9 +12428,9 @@ J. Statistical Software, vol 5, 2000,
 randg
 @c randg libinterp/corefcn/rand.cc
 -*- texinfo -*-
-@deftypefn  {} {} randg (@var{n})
-@deftypefnx {} {} randg (@var{m}, @var{n}, @dots{})
-@deftypefnx {} {} randg ([@var{m} @var{n} @dots{}])
+@deftypefn  {} {} randg (@var{a}, @var{n})
+@deftypefnx {} {} randg (@var{a}, @var{m}, @var{n}, @dots{})
+@deftypefnx {} {} randg (@var{a}, [@var{m} @var{n} @dots{}])
 @deftypefnx {} {@var{v} =} randg ("state")
 @deftypefnx {} {} randg ("state", @var{v})
 @deftypefnx {} {} randg ("state", "reset")
@@ -12405,6 +12439,7 @@ J. Statistical Software, vol 5, 2000,
 @deftypefnx {} {} randg ("seed", "reset")
 @deftypefnx {} {} randg (@dots{}, "single")
 @deftypefnx {} {} randg (@dots{}, "double")
+
 Return a matrix with @code{gamma (@var{a},1)} distributed random elements.
 
 The arguments are handled the same as the arguments for @code{rand}, except
@@ -12778,6 +12813,18 @@ Return zero-length matches.
 are zero or more @qcode{'b'} characters at positions 1 and end-of-string.
 
 @end table
+Stack Limitation Note: Pattern searches are done with a recursive function
+which can overflow the program stack when there are a high number of matches.
+For example,
+
+@example
+@code{regexp (repmat ('a', 1, 1e5), '(a)+')}
+@end example
+
+may lead to a segfault.  As an alternative, consider constructing pattern
+searches that reduce the number of matches (e.g., by creatively using set
+complement), and then further processing the return variables (now reduced in
+size) with successive @code{regexp} searches.
 @seealso{regexpi, strfind, regexprep}
 @end deftypefn
 regexpi
@@ -13317,13 +13364,13 @@ converted through @code{char} can mostly be converted back with
 @example
 @group
 char ([97, 98, 99], "", @{"98", "99", 100@}, "str1", ["ha", "lf"])
-   @result{} ["abc    "
-       "       "
-       "98     "
-       "99     "
-       "d      "
-       "str1   "
-       "half   "]
+   @result{} ["abc "
+       "    "
+       "98  "
+       "99  "
+       "d   "
+       "str1"
+       "half"]
 @end group
 @end example
 @seealso{strvcat, cellstr}
@@ -13354,12 +13401,12 @@ converted through @code{strvcat} can mostly be converted back with
 @example
 @group
 strvcat ([97, 98, 99], "", @{"98", "99", 100@}, "str1", ["ha", "lf"])
-      @result{} ["abc    "
-          "98     "
-          "99     "
-          "d      "
-          "str1   "
-          "half   "]
+      @result{} ["abc "
+          "98  "
+          "99  "
+          "d   "
+          "str1"
+          "half"]
 @end group
 @end example
 @seealso{char, strcat, cstrcat}
@@ -17844,6 +17891,13 @@ Logical 'not' operator.
 -*- texinfo -*-
 @deftypefn {} {} ~
 Logical 'not' operator.
+
+The symbol may also be used to discard outputs of a function that are unwanted
+without using a temporary variable.
+
+@example
+[~, @var{idx_of_max}] = max (@var{x})
+@end example
 @seealso{!, not}
 @end deftypefn
 !=
@@ -17865,6 +17919,11 @@ Logical 'not equals' operator.
 -*- texinfo -*-
 @deftypefn {} {} "
 String delimiter.
+
+Escape sequences within double-quoted strings are expanded.  I.e., "\n" is a
+1-character string representing a newline.  See the single quote delimiter (')
+to create strings without escape sequence processing.
+@seealso{'}
 @end deftypefn
 #
 @c libinterp/parse-tree/oct-parse.in.yy
@@ -17884,43 +17943,49 @@ Begin comment character.
 @c libinterp/parse-tree/oct-parse.in.yy
 -*- texinfo -*-
 @deftypefn {} {} #@{
-Begin block comment.  There must be nothing else, other than
-whitespace, in the line both before and after @code{#@{}.
-It is possible to nest block comments.
+Begin block comment.
+
+There must be no other characters, other than whitespace, on the line before
+and after @code{#@{}.  It is possible to nest block comments.
 @seealso{%@\{, #@\}, #}
 @end deftypefn
 %{
 @c libinterp/parse-tree/oct-parse.in.yy
 -*- texinfo -*-
 @deftypefn {} {} %@{
-Begin block comment.  There must be nothing else, other than
-whitespace, in the line both before and after @code{%@{}.
-It is possible to nest block comments.
+Begin block comment.
+
+There must be no other characters, other than whitespace, on the line before
+and after @code{%@{}.  It is possible to nest block comments.
 @seealso{#@\{, %@\}, %}
 @end deftypefn
 #}
 @c libinterp/parse-tree/oct-parse.in.yy
 -*- texinfo -*-
 @deftypefn {} {} #@}
-Close block comment.  There must be nothing else, other than
-whitespace, in the line both before and after @code{#@}}.
-It is possible to nest block comments.
+Close block comment.
+
+There must be no other characters, other than whitespace, on the line before
+and after @code{#@}}.  It is possible to nest block comments.
 @seealso{%@\}, #@\{, #}
 @end deftypefn
 %}
 @c libinterp/parse-tree/oct-parse.in.yy
 -*- texinfo -*-
 @deftypefn {} {} %@}
-Close block comment.  There must be nothing else, other than
-whitespace, in the line both before and after @code{%@}}.
-It is possible to nest block comments.
+Close block comment.
+
+There must be no other characters, other than whitespace, on the line before
+and after @code{%@}}.  It is possible to nest block comments.
 @seealso{#@\}, %@\{, %}
 @end deftypefn
 ...
 @c libinterp/parse-tree/oct-parse.in.yy
 -*- texinfo -*-
 @deftypefn {} {} ...
-Continuation marker.  Joins current line with following line.
+Continuation marker.
+
+Joins current line with following line.
 @end deftypefn
 &
 @c libinterp/parse-tree/oct-parse.in.yy
@@ -17940,13 +18005,15 @@ Logical 'and' operator (with short-circuit evaluation).
 @c libinterp/parse-tree/oct-parse.in.yy
 -*- texinfo -*-
 @deftypefn {} {} '
-Matrix transpose operator.  For complex matrices, computes the
-complex conjugate (Hermitian) transpose.
+Matrix transpose operator or string delimiter.
 
-The single quote character may also be used to delimit strings, but
-it is better to use the double quote character, since that is never
-ambiguous.
-@seealso{.', transpose}
+For complex matrices, computes the complex conjugate (Hermitian) transpose.
+
+The single quote character may also be used to delimit strings.  Escape
+sequences within single-quoted strings are not expanded.  I.e., '\n' is a
+2-character string '\' and 'n' rather than "\n" which is a single character
+representing a newline.
+@seealso{.', transpose, "}
 @end deftypefn
 (
 @c libinterp/parse-tree/oct-parse.in.yy
@@ -17971,18 +18038,22 @@ Multiplication operator.
 @c libinterp/parse-tree/oct-parse.in.yy
 -*- texinfo -*-
 @deftypefn {} {} **
-Power operator.  This may return complex results for real inputs.  Use
-@code{realsqrt}, @code{cbrt}, @code{nthroot}, or @code{realroot} to obtain
-real results when possible.
+Power operator.
+
+This may return complex results for real inputs.  Use @code{realsqrt},
+@code{cbrt}, @code{nthroot}, or @code{realroot} to obtain real results when
+possible.
 @seealso{power, ^, .**, .^, realpow, realsqrt, cbrt, nthroot}
 @end deftypefn
 ^
 @c libinterp/parse-tree/oct-parse.in.yy
 -*- texinfo -*-
 @deftypefn {} {} ^
-Power operator.  This may return complex results for real inputs.  Use
-@code{realsqrt}, @code{cbrt}, @code{nthroot}, or @code{realroot} to obtain
-real results when possible.
+Power operator.
+
+This may return complex results for real inputs.  Use @code{realsqrt},
+@code{cbrt}, @code{nthroot}, or @code{realroot} to obtain real results when
+possible.
 @seealso{power, **, .^, .**, realpow, realsqrt, cbrt, nthroot}
 @end deftypefn
 +
@@ -17996,8 +18067,9 @@ Addition operator.
 @c libinterp/parse-tree/oct-parse.in.yy
 -*- texinfo -*-
 @deftypefn {} {} ++
-Increment operator.  As in C, may be applied as a prefix or postfix
-operator.
+Increment operator.
+
+As in C, may be applied as a prefix or postfix operator.
 @seealso{--}
 @end deftypefn
 ,
@@ -18017,16 +18089,19 @@ Subtraction or unary negation operator.
 @c libinterp/parse-tree/oct-parse.in.yy
 -*- texinfo -*-
 @deftypefn {} {} --
-Decrement operator.  As in C, may be applied as a prefix or postfix
-operator.
+Decrement operator.
+
+As in C, may be applied as a prefix or postfix operator.
 @seealso{++}
 @end deftypefn
 .'
 @c libinterp/parse-tree/oct-parse.in.yy
 -*- texinfo -*-
 @deftypefn {} {} .'
-Matrix transpose operator.  For complex matrices, computes the
-transpose, @emph{not} the complex conjugate transpose.
+Matrix transpose operator.
+
+For complex matrices, computes the transpose, @emph{not} the complex conjugate
+(Hermitian) transpose.
 @seealso{', transpose}
 @end deftypefn
 .*
@@ -18040,20 +18115,22 @@ Element by element multiplication operator.
 @c libinterp/parse-tree/oct-parse.in.yy
 -*- texinfo -*-
 @deftypefn {} {} .**
-Element by element power operator.  If several complex results are possible,
-returns the one with smallest non-negative argument (angle).  Use
-@code{realpow}, @code{realsqrt}, @code{cbrt}, or @code{nthroot} if a
-real result is preferred.
+Element by element power operator.
+
+If several complex results are possible, returns the one with smallest
+non-negative argument (angle).  Use @code{realpow}, @code{realsqrt},
+@code{cbrt}, or @code{nthroot} if a real result is preferred.
 @seealso{**, ^, .^, power, realpow, realsqrt, cbrt, nthroot}
 @end deftypefn
 .^
 @c libinterp/parse-tree/oct-parse.in.yy
 -*- texinfo -*-
 @deftypefn {} {} .^
-Element by element power operator.  If several complex results are possible,
-returns the one with smallest non-negative argument (angle).  Use
-@code{realpow}, @code{realsqrt}, @code{cbrt}, or @code{nthroot} if a
-real result is preferred.
+Element by element power operator.
+
+If several complex results are possible, returns the one with smallest
+non-negative argument (angle).  Use @code{realpow}, @code{realsqrt},
+@code{cbrt}, or @code{nthroot} if a real result is preferred.
 @seealso{.**, ^, **, power, realpow, realsqrt, cbrt, nthroot}
 @end deftypefn
 ./
@@ -18170,7 +18247,7 @@ Logical 'or' (with short-circuit evaluation) operator.
 @c libinterp/parse-tree/oct-parse.in.yy
 -*- texinfo -*-
 @deftypefn {} {} break
-Exit the innermost enclosing do, while or for loop.
+Exit the innermost enclosing do, while, or for loop.
 @seealso{do, while, for, parfor, continue}
 @end deftypefn
 case
@@ -18178,9 +18255,11 @@ Exit the innermost enclosing do, while or for loop.
 -*- texinfo -*-
 @deftypefn  {} {} case @var{value}
 @deftypefnx {} {} case @{@var{value}, @dots{}@}
-A case statement in a switch.  Octave cases are exclusive and do not
-fall-through as do C-language cases.  A switch statement must have at least
-one case.  See @code{switch} for an example.
+A case statement in a switch block.
+
+Octave cases are exclusive and do not fall-through as do C-language cases.  A
+switch statement must have at least one case.  See @code{switch} for an
+example.
 @seealso{switch}
 @end deftypefn
 catch
@@ -18191,19 +18270,28 @@ one case.  See @code{switch} for an example.
 Begin the cleanup part of a try-catch block.
 @seealso{try}
 @end deftypefn
+classdef
+@c libinterp/parse-tree/oct-parse.in.yy
+-*- texinfo -*-
+@deftypefn {} {} classdef
+Begin a classdef block.
+@seealso{properties, methods, events, enumeration}
+@end deftypefn
 continue
 @c libinterp/parse-tree/oct-parse.in.yy
 -*- texinfo -*-
 @deftypefn {} {} continue
-Jump to the end of the innermost enclosing do, while or for loop.
-@seealso{do, while, for, parfor, break}
+Jump to the end of the innermost enclosing do, while, or for loop.
+@seealso{break, do, while, for, parfor}
 @end deftypefn
 do
 @c libinterp/parse-tree/oct-parse.in.yy
 -*- texinfo -*-
 @deftypefn {} {} do
-Begin a do-until loop.  This differs from a do-while loop in that the
-body of the loop is executed at least once.
+Begin a do-until loop.
+
+This differs from a while loop in that the body of the loop is executed at
+least once.
 
 @example
 @group
@@ -18219,7 +18307,7 @@ until (i == 10)
 @c libinterp/parse-tree/oct-parse.in.yy
 -*- texinfo -*-
 @deftypefn {} {} else
-Alternate action for an if block.  See @code{if} for an example.
+Alternate action for an if block.  See @code{if} for  an example.
 @seealso{if}
 @end deftypefn
 elseif
@@ -18233,7 +18321,7 @@ Alternate conditional test for an if block.  See @code{if} for an example.
 @c libinterp/parse-tree/oct-parse.in.yy
 -*- texinfo -*-
 @deftypefn {} {} end_try_catch
-Mark the end of an @code{try-catch} block.
+Mark the end of a @code{try-catch} block.
 @seealso{try, catch}
 @end deftypefn
 end_unwind_protect
@@ -18242,6 +18330,27 @@ Mark the end of an @code{try-catch} block.
 @deftypefn {} {} end_unwind_protect
 Mark the end of an unwind_protect block.
 @seealso{unwind_protect}
+@end deftypefn
+endclassdef
+@c libinterp/parse-tree/oct-parse.in.yy
+-*- texinfo -*-
+@deftypefn {} {} endclassdef
+Mark the end of a classdef definition.
+@seealso{classdef}
+@end deftypefn
+endenumeration
+@c libinterp/parse-tree/oct-parse.in.yy
+-*- texinfo -*-
+@deftypefn {} {} endenumeration
+Mark the end of an enumeration block in a classdef definition.
+@seealso{enumeration}
+@end deftypefn
+endevents
+@c libinterp/parse-tree/oct-parse.in.yy
+-*- texinfo -*-
+@deftypefn {} {} endevents
+Mark the end of an events block in a classdef definition.
+@seealso{events}
 @end deftypefn
 endfor
 @c libinterp/parse-tree/oct-parse.in.yy
@@ -18264,12 +18373,26 @@ Mark the end of a function.
 Mark the end of an if block.  See @code{if} for an example.
 @seealso{if}
 @end deftypefn
+endmethods
+@c libinterp/parse-tree/oct-parse.in.yy
+-*- texinfo -*-
+@deftypefn {} {} endmethods
+Mark the end of a methods block in a classdef definition.
+@seealso{methods}
+@end deftypefn
 endparfor
 @c libinterp/parse-tree/oct-parse.in.yy
 -*- texinfo -*-
 @deftypefn {} {} endparfor
 Mark the end of a parfor loop.  See @code{parfor} for an example.
 @seealso{parfor}
+@end deftypefn
+endproperties
+@c libinterp/parse-tree/oct-parse.in.yy
+-*- texinfo -*-
+@deftypefn {} {} endproperties
+Mark the end of a properties block in a classdef definition.
+@seealso{properties}
 @end deftypefn
 endswitch
 @c libinterp/parse-tree/oct-parse.in.yy
@@ -18285,6 +18408,18 @@ Mark the end of a switch block.  See @code{switch} for an example.
 Mark the end of a while loop.  See @code{while} for an example.
 @seealso{do, while}
 @end deftypefn
+enumeration
+@c libinterp/parse-tree/oct-parse.in.yy
+-*- texinfo -*-
+@deftypefn {} {} enumeration
+Begin an enumeration block in a classdef definition.
+@end deftypefn
+events
+@c libinterp/parse-tree/oct-parse.in.yy
+-*- texinfo -*-
+@deftypefn {} {} events
+Begin an events block in a classdef definition.
+@end deftypefn
 for
 @c libinterp/parse-tree/oct-parse.in.yy
 -*- texinfo -*-
@@ -18298,7 +18433,7 @@ for i = 1:10
 endfor
 @end group
 @end example
-@seealso{do, parfor, while}
+@seealso{parfor, do, while}
 @end deftypefn
 function
 @c libinterp/parse-tree/oct-parse.in.yy
@@ -18349,12 +18484,21 @@ endif
 @end example
 @seealso{switch}
 @end deftypefn
+## FIXME: Can't have duplicate DOCSTRING entries.  The function methods
+##        already has a docstring which overrides this keyword definition.
+#methods
+#@c libinterp/parse-tree/oct-parse.in.yy
+#-*- texinfo -*-
+#@deftypefn {} {} methods
+#Begin a methods block in a classdef definition.
+#@end deftypefn
 otherwise
 @c libinterp/parse-tree/oct-parse.in.yy
 -*- texinfo -*-
 @deftypefn {} {} otherwise
-The default statement in a switch block (similar to else in an if block).
-@seealso{switch}
+The default statement in a switch block which is executed when no other
+case statements match the input.
+@seealso{switch, case}
 @end deftypefn
 parfor
 @c libinterp/parse-tree/oct-parse.in.yy
@@ -18376,12 +18520,20 @@ endparfor
 @c libinterp/parse-tree/oct-parse.in.yy
 -*- texinfo -*-
 @deftypefn {} {} persistent @var{var}
-Declare variables as persistent.  A variable that has been declared
-persistent within a function will retain its contents in memory between
-subsequent calls to the same function.  The difference between persistent
-variables and global variables is that persistent variables are local in
-scope to a particular function and are not visible elsewhere.
+Declare variables as persistent.
+
+A variable that has been declared persistent within a function will retain its
+contents in memory between subsequent calls to the same function.  The
+difference between persistent variables and global variables is that persistent
+variables are local in scope to a particular function and are not visible
+elsewhere.
 @seealso{global}
+@end deftypefn
+properties
+@c libinterp/parse-tree/oct-parse.in.yy
+-*- texinfo -*-
+@deftypefn {} {} properties
+Begin a properties block in a classdef definition.
 @end deftypefn
 return
 @c libinterp/parse-tree/oct-parse.in.yy
@@ -18405,9 +18557,9 @@ Begin a switch block.
 
 @example
 @group
-yesno = "yes"
+yesno = "yes";
 
-switch yesno
+switch (yesno)
   case @{"Yes" "yes" "YES" "y" "Y"@}
     value = 1;
   case @{"No" "no" "NO" "n" "N"@}
@@ -18426,9 +18578,8 @@ endswitch
 Begin a try-catch block.
 
 If an error occurs within a try block, then the catch code will be run and
-execution will proceed after the catch block (though it is often
-recommended to use the lasterr function to re-throw the error after cleanup
-is completed).
+execution will proceed after the catch block (though it is often recommended to
+use the lasterr function to re-throw the error after cleanup is completed).
 @seealso{catch, unwind_protect}
 @end deftypefn
 until
@@ -18444,12 +18595,11 @@ End a do-until loop.  See @code{do} for an example.
 @deftypefn {} {} unwind_protect
 Begin an unwind_protect block.
 
-If an error occurs within the first part of an unwind_protect block
-the commands within the unwind_protect_cleanup block are executed before
-the error is thrown.  If an error is not thrown, then the
-unwind_protect_cleanup block is still executed (in other words, the
-unwind_protect_cleanup will be run with or without an error in the
-unwind_protect block).
+If an error occurs within the first part of an unwind_protect block the
+commands within the unwind_protect_cleanup block are executed before the error
+is thrown.  If an error is not thrown, then the unwind_protect_cleanup block is
+still executed.  In other words, the unwind_protect_cleanup code is guaranteed
+to execute regardless of success or failure in the unwind_protect block. 
 @seealso{unwind_protect_cleanup, try}
 @end deftypefn
 unwind_protect_cleanup

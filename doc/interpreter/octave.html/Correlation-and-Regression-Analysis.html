@@ -1,15 +1,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<!-- Created by GNU Texinfo 6.3, http://www.gnu.org/software/texinfo/ -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
-<title>GNU Octave: Correlation and Regression Analysis</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Correlation and Regression Analysis (GNU Octave)</title>
 
-<meta name="description" content="GNU Octave: Correlation and Regression Analysis">
-<meta name="keywords" content="GNU Octave: Correlation and Regression Analysis">
+<meta name="description" content="Correlation and Regression Analysis (GNU Octave)">
+<meta name="keywords" content="Correlation and Regression Analysis (GNU Octave)">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link href="index.html#Top" rel="start" title="Top">
 <link href="Concept-Index.html#Concept-Index" rel="index" title="Concept Index">
 <link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
@@ -72,9 +72,11 @@ a variable, then the (<var>i</var>,&nbsp;<var>j</var><span class="nolinebreak">)
 variable in <var>x</var> and the <var>j</var>-th variable in <var>y</var>.
 </p>
 <div class="example">
-<pre class="example">cov (x) = 1/N-1 * SUM_i (x(i) - mean(x)) * (y(i) - mean(y))
+<pre class="example">cov (<var>x</var>) = 1/(N-1) * SUM_i (<var>x</var>(i) - mean(<var>x</var>)) * (<var>y</var>(i) - mean(<var>y</var>))
 </pre></div>
 
+<p>where <em>N</em> is the length of the <var>x</var> and <var>y</var> vectors.
+</p>
 
 <p>If called with one argument, compute <code>cov (<var>x</var>, <var>x</var>)</code>, the
 covariance between the columns of <var>x</var>.
@@ -117,7 +119,7 @@ a variable, then the (<var>i</var>,&nbsp;<var>j</var><span class="nolinebreak">)
 <var>i</var>-th variable in <var>x</var> and the <var>j</var>-th variable in <var>y</var>.
 </p>
 <div class="example">
-<pre class="example">corr (x,y) = cov (x,y) / (std (x) * std (y))
+<pre class="example">corr (<var>x</var>,<var>y</var>) = cov (<var>x</var>,<var>y</var>) / (std (<var>x</var>) * std (<var>y</var>))
 </pre></div>
 
 <p>If called with one argument, compute <code>corr (<var>x</var>, <var>x</var>)</code>,
@@ -131,14 +133,19 @@ the correlation between the columns of <var>x</var>.
 <dt><a name="index-spearman"></a>: <em></em> <strong>spearman</strong> <em>(<var>x</var>)</em></dt>
 <dt><a name="index-spearman-1"></a>: <em></em> <strong>spearman</strong> <em>(<var>x</var>, <var>y</var>)</em></dt>
 <dd><a name="index-Spearman_0027s-Rho"></a>
-<p>Compute Spearman&rsquo;s rank correlation coefficient <var>rho</var>.
+<p>Compute Spearman&rsquo;s rank correlation coefficient
+<var>rho</var>.
 </p>
-<p>For two data vectors <var>x</var> and <var>y</var>, Spearman&rsquo;s <var>rho</var> is the
-correlation coefficient of the ranks of <var>x</var> and <var>y</var>.
+<p>For two data vectors <var>x</var> and <var>y</var>, Spearman&rsquo;s
+<var>rho</var>
+is the correlation coefficient of the ranks of <var>x</var> and <var>y</var>.
 </p>
-<p>If <var>x</var> and <var>y</var> are drawn from independent distributions, <var>rho</var>
-has zero mean and variance <code>1 / (n - 1)</code>, and is asymptotically
-normally distributed.
+<p>If <var>x</var> and <var>y</var> are drawn from independent distributions,
+<var>rho</var>
+has zero mean and variance
+<code>1 / (N - 1)</code>,
+where <em>N</em> is the length of the <var>x</var> and <var>y</var> vectors, and is
+asymptotically normally distributed.
 </p>
 <p><code>spearman (<var>x</var>)</code> is equivalent to
 <code>spearman (<var>x</var>, <var>x</var>)</code>.
@@ -151,27 +158,31 @@ normally distributed.
 <dt><a name="index-kendall"></a>: <em></em> <strong>kendall</strong> <em>(<var>x</var>)</em></dt>
 <dt><a name="index-kendall-1"></a>: <em></em> <strong>kendall</strong> <em>(<var>x</var>, <var>y</var>)</em></dt>
 <dd><a name="index-Kendall_0027s-Tau"></a>
-<p>Compute Kendall&rsquo;s <var>tau</var>.
+<p>Compute Kendall&rsquo;s
+<var>tau</var>.
 </p>
-<p>For two data vectors <var>x</var>, <var>y</var> of common length <var>n</var>, Kendall&rsquo;s
-<var>tau</var> is the correlation of the signs of all rank differences of
+<p>For two data vectors <var>x</var>, <var>y</var> of common length <em>N</em>, Kendall&rsquo;s
+<var>tau</var>
+is the correlation of the signs of all rank differences of
 <var>x</var> and <var>y</var>; i.e., if both <var>x</var> and <var>y</var> have distinct
 entries, then
 </p>
 
 <div class="example">
 <pre class="example">         1
-tau = -------   SUM sign (q(i) - q(j)) * sign (r(i) - r(j))
-      n (n-1)   i,j
+<var>tau</var> = -------   SUM sign (<var>q</var>(i) - <var>q</var>(j)) * sign (<var>r</var>(i) - <var>r</var>(j))
+      N (N-1)   i,j
 </pre></div>
 
 <p>in which the
-<var>q</var>(<var>i</var>) and <var>r</var>(<var>i</var>)
+<var>q</var>(i) and <var>r</var>(i)
 are the ranks of <var>x</var> and <var>y</var>, respectively.
 </p>
 <p>If <var>x</var> and <var>y</var> are drawn from independent distributions,
-Kendall&rsquo;s <var>tau</var> is asymptotically normal with mean 0 and variance
-<code>(2 * (2<var>n</var>+5)) / (9 * <var>n</var> * (<var>n</var>-1))</code>.
+Kendall&rsquo;s
+<var>tau</var>
+is asymptotically normal with mean 0 and variance
+<code>(2 * (2N+5)) / (9 * N * (N-1))</code>.
 </p>
 <p><code>kendall (<var>x</var>)</code> is equivalent to <code>kendall (<var>x</var>,
 <var>x</var>)</code>.

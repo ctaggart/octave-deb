@@ -193,13 +193,13 @@ function [q, err] = quadgk (f, a, b, varargin)
   if (isempty (abstol))
     abstol = ifelse (issingle, 1e-5, 1e-10);
   elseif (! isscalar (abstol) || abstol < 0)
-    error ("quadv: ABSTOL must be a scalar >=0");
+    error ("quadgk: ABSTOL must be a scalar >=0");
   endif
 
   if (isempty (reltol))
     reltol = ifelse (issingle, 1e-4, 1e-6);
   elseif (! isscalar (reltol) || reltol < 0)
-    error ("quadv: RELTOL must be a scalar >=0");
+    error ("quadgk: RELTOL must be a scalar >=0");
   endif
 
   ## Convert function given as a string to a function handle
@@ -434,10 +434,11 @@ function [q, err, too_close] = __quadgk_eval__ (f, subs, eps1, trans)
   t = (halfwidth * abscissa) + center;
   x = trans ([t(:,1), t(:,end)]);
 
-  ## Shampine suggests 100 * eps1.
-  ## FIXME: reference for suggestion?
+  ## Shampine suggests 100 * eps1, beginning of section 6.
   if (any (abs (diff (x, [], 2) ./ max (abs (x), [], 2))) < 100 * eps1)
     too_close = true;
+    q = 0;
+    err = 0;
     return;
   endif
 
@@ -463,6 +464,7 @@ endfunction
 %!assert (quadgk ("sin",-pi,pi), 0, 1e-6)
 %!assert (quadgk (@sin,-pi,pi, "waypoints", 0, "MaxIntervalCount", 100, "reltol", 1e-3, "abstol", 1e-6, "trace", false), 0, 1e-6)
 %!assert (quadgk (@sin,-pi,pi, 1e-6,false), 0, 1e-6)
+%!assert <51867> (quadgk (@(x) x, 0, 0), 0, 0)
 
 %!assert (quadgk (@sin,-pi,0), -2, 1e-6)
 %!assert (quadgk (@sin,0,pi), 2, 1e-6)

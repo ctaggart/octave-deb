@@ -1,15 +1,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<!-- Created by GNU Texinfo 6.3, http://www.gnu.org/software/texinfo/ -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
-<title>GNU Octave: Axis Configuration</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Axis Configuration (GNU Octave)</title>
 
-<meta name="description" content="GNU Octave: Axis Configuration">
-<meta name="keywords" content="GNU Octave: Axis Configuration">
+<meta name="description" content="Axis Configuration (GNU Octave)">
+<meta name="keywords" content="Axis Configuration (GNU Octave)">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link href="index.html#Top" rel="start" title="Top">
 <link href="Concept-Index.html#Concept-Index" rel="index" title="Concept Index">
 <link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
@@ -80,7 +80,7 @@ x-axis.  The third and fourth specify the limits for the y-axis, the fifth
 and sixth specify the limits for the z-axis, and the seventh and eighth
 specify the limits for the color axis.  The special values -Inf and Inf may
 be used to indicate that the limit should be automatically computed based
-on the data in the axis.
+on the data in the axes.
 </p>
 <p>Without any arguments, <code>axis</code> turns autoscaling on.
 </p>
@@ -146,7 +146,7 @@ and off for the remainder.
 </p></dd>
 </dl>
 
-<p>Note: If there are no tick marks for an axis then there can be no labels.
+<p>Note: If there are no tick marks for an axes then there can be no labels.
 </p>
 <p>The following options affect the direction of increasing values on the axes.
 </p>
@@ -216,7 +216,7 @@ then the <code>&quot;climmode&quot;</code> property is set to <code>&quot;manual
 numeric values in the <code>&quot;clim&quot;</code> property are used for limits.
 </p>
 <p>If the first argument <var>hax</var> is an axes handle, then operate on
-this axis rather than the current axes returned by <code>gca</code>.
+this axes rather than the current axes returned by <code>gca</code>.
 </p>
 <p>Called without arguments the current color axis limits are returned.
 </p>
@@ -259,7 +259,7 @@ the lower axis limit or upper axis limit should be automatically calculated.
 or <code>&quot;manual&quot;</code> as the argument.
 </p>
 <p>If the first argument <var>hax</var> is an axes handle, then operate on
-this axis rather than the current axes returned by <code>gca</code>.
+this axes rather than the current axes returned by <code>gca</code>.
 </p>
 <p>Programming Note: The <code>xlim</code> function operates by modifying the
 <code>&quot;xlim&quot;</code> and <code>&quot;xlimmode&quot;</code> properties of an axes object.  These

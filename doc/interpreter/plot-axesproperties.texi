@@ -465,7 +465,7 @@ Two-element vector @code{[2Dlen 3Dlen]} specifying the length of the tickmarks r
 
 @anchor{XREFaxestightinset}
 @cindex axes tightinset
-@item @code{tightinset} (read-only): four-element vector, def. @code{[0.042857   0.038106   0.000000   0.023810]}
+@item @code{tightinset} (read-only): four-element vector, def. @code{[0.042857   0.042868   0.000000   0.023810]}
 Size of the @code{[left bottom right top]} margins around the axes that enclose labels and title annotations.
 
 

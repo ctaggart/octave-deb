@@ -32,12 +32,12 @@
 ## (@var{x}(j), @var{y}(i), @var{z}(i,j)).  Thus, columns of @var{z} correspond
 ## to different @var{x} values and rows of @var{z} correspond to different
 ## @var{y} values.  If only a single input @var{z} is given then @var{x} is
-## taken to be @code{1:rows (@var{z})} and @var{y} is
-## @code{1:columns (@var{z})}.
+## taken to be @code{1:columns (@var{z})} and @var{y} is
+## @code{1:rows (@var{z})}.
 ##
 ## Any property/value input pairs are assigned to the surface object.
 ##
-## If the first argument @var{hax} is an axes handle, then plot into this axis,
+## If the first argument @var{hax} is an axes handle, then plot into this axes,
 ## rather than the current axes returned by @code{gca}.
 ##
 ## The optional return value @var{h} is a graphics handle to the created

@@ -1,15 +1,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<!-- Created by GNU Texinfo 6.3, http://www.gnu.org/software/texinfo/ -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
-<title>GNU Octave: Audio Data Processing</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Audio Data Processing (GNU Octave)</title>
 
-<meta name="description" content="GNU Octave: Audio Data Processing">
-<meta name="keywords" content="GNU Octave: Audio Data Processing">
+<meta name="description" content="Audio Data Processing (GNU Octave)">
+<meta name="keywords" content="Audio Data Processing (GNU Octave)">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link href="index.html#Top" rel="start" title="Top">
 <link href="Concept-Index.html#Concept-Index" rel="index" title="Concept Index">
 <link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
@@ -81,7 +81,7 @@ files holding data in mu-law encoding end in <samp>au</samp>, <samp>mu</samp>, o
 <samp>snd</samp>.
 </p>
 <a name="XREFlin2mu"></a><dl>
-<dt><a name="index-lin2mu"></a>: <em></em> <strong>lin2mu</strong> <em>(<var>x</var>, <var>n</var>)</em></dt>
+<dt><a name="index-lin2mu"></a>: <em><var>y</var> =</em> <strong>lin2mu</strong> <em>(<var>x</var>, <var>n</var>)</em></dt>
 <dd><p>Convert audio data from linear to mu-law.
 </p>
 <p>Mu-law values use 8-bit unsigned integers.  Linear values use <var>n</var>-bit
@@ -96,12 +96,12 @@ the range of values in <var>x</var>.
 
 
 <a name="XREFmu2lin"></a><dl>
-<dt><a name="index-mu2lin"></a>: <em></em> <strong>mu2lin</strong> <em>(<var>x</var>, <var>n</var>)</em></dt>
+<dt><a name="index-mu2lin"></a>: <em><var>y</var> =</em> <strong>mu2lin</strong> <em>(<var>x</var>, <var>n</var>)</em></dt>
 <dd><p>Convert audio data from mu-law to linear.
 </p>
 <p>Mu-law values are 8-bit unsigned integers.  Linear values use <var>n</var>-bit
-signed integers or floating point values in the range -1&le;y&le;1 if
-<var>n</var> is 0.
+signed integers or floating point values in the range -1 &le; <var>y</var>
+&le; 1 if <var>n</var> is 0.
 </p>
 <p>If <var>n</var> is not specified it defaults to 0.
 </p>

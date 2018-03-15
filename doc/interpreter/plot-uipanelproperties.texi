@@ -28,7 +28,7 @@
 
 @anchor{XREFuipanelbackgroundcolor}
 @cindex uipanel backgroundcolor
-@item @code{backgroundcolor}: def. @code{[0.90980   0.90980   0.90588]}
+@item @code{backgroundcolor}: def. @code{[0.93725   0.92157   0.90588]}
 
 
 
@@ -122,7 +122,7 @@ For information on how to write graphics listener functions see @ref{Callbacks, 
 
 @anchor{XREFuipanelforegroundcolor}
 @cindex uipanel foregroundcolor
-@item @code{foregroundcolor}: def. @code{[0.18039   0.20392   0.21176]}
+@item @code{foregroundcolor}: def. @code{[0   0   0]}
 
 
 
@@ -182,7 +182,7 @@ Handle of the parent graphics object.
 
 @anchor{XREFuipanelshadowcolor}
 @cindex uipanel shadowcolor
-@item @code{shadowcolor}: def. @code{[0.75816   0.75816   0.75489]}
+@item @code{shadowcolor}: def. @code{[0.62483   0.61437   0.60391]}
 
 
 

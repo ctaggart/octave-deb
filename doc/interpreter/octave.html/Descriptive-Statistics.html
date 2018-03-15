@@ -1,15 +1,15 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<!-- Created by GNU Texinfo 6.3, http://www.gnu.org/software/texinfo/ -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
-<title>GNU Octave: Descriptive Statistics</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Descriptive Statistics (GNU Octave)</title>
 
-<meta name="description" content="GNU Octave: Descriptive Statistics">
-<meta name="keywords" content="GNU Octave: Descriptive Statistics">
+<meta name="description" content="Descriptive Statistics (GNU Octave)">
+<meta name="keywords" content="Descriptive Statistics (GNU Octave)">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link href="index.html#Top" rel="start" title="Top">
 <link href="Concept-Index.html#Concept-Index" rel="index" title="Concept Index">
 <link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
@@ -74,9 +74,11 @@ the central tendency of the data.
 </p>
 
 <div class="example">
-<pre class="example">mean (x) = SUM_i x(i) / N
+<pre class="example">mean (<var>x</var>) = SUM_i <var>x</var>(i) / N
 </pre></div>
 
+<p>where <em>N</em> is the length of the <var>x</var> vector.
+</p>
 <p>If <var>x</var> is a matrix, compute the mean for each column and return them
 in a row vector.
 </p>
@@ -111,16 +113,17 @@ may appear first.
 <dt><a name="index-median-1"></a>: <em></em> <strong>median</strong> <em>(<var>x</var>, <var>dim</var>)</em></dt>
 <dd><p>Compute the median value of the elements of the vector <var>x</var>.
 </p>
-<p>When the elements of <var>x</var> are sorted, the median is defined as
+<p>When the elements of <var>x</var> are sorted, say <code><var>s</var> = sort (<var>x</var>)</code>,
+the median is defined as
 </p>
 <div class="example">
-<pre class="example">              x(ceil(N/2))             N odd
-median (x) =
-             (x(N/2) + x((N/2)+1))/2   N even
+<pre class="example">             |  <var>s</var>(ceil(N/2))           N odd
+median (<var>x</var>) = |
+             | (<var>s</var>(N/2) + <var>s</var>(N/2+1))/2   N even
 </pre></div>
 
 <p>If <var>x</var> is of a discrete type such as integer or logical, then
-the case of even N rounds up (or toward <code>true</code>).
+the case of even <em>N</em> rounds up (or toward <code>true</code>).
 </p>
 <p>If <var>x</var> is a matrix, compute the median value for each column and
 return them in a row vector.
@@ -203,10 +206,12 @@ outliers than either <code>range</code> or <code>std</code>.
 <p>The mean square is defined as
 </p>
 <div class="example">
-<pre class="example">meansq (x) = 1/N SUM_i x(i)^2
+<pre class="example">meansq (<var>x</var>) = 1/N SUM_i <var>x</var>(i)^2
 </pre></div>
 
-<p>For matrix arguments, return a row vector containing the mean square
+<p>where <em>N</em> is the length of the <var>x</var> vector.
+</p>
+<p>If <var>x</var> is a matrix, return a row vector containing the mean square
 of each column.
 </p>
 <p>If the optional argument <var>dim</var> is given, operate along this dimension.
@@ -224,10 +229,10 @@ of each column.
 <p>The standard deviation is defined as
 </p>
 <div class="example">
-<pre class="example">std (x) = sqrt ( 1/(N-1) SUM_i (x(i) - mean(x))^2 )
+<pre class="example">std (<var>x</var>) = sqrt ( 1/(N-1) SUM_i (<var>x</var>(i) - mean(<var>x</var>))^2 )
 </pre></div>
 
-<p>where <em>N</em> is the number of elements.
+<p>where <em>N</em> is the number of elements of the <var>x</var> vector.
 </p>
 <p>If <var>x</var> is a matrix, compute the standard deviation for each column and
 return them in a row vector.
@@ -268,9 +273,11 @@ measures to be developed.
 <p>The variance is defined as
 </p>
 <div class="example">
-<pre class="example">var (x) = 1/(N-1) SUM_i (x(i) - mean(x))^2
+<pre class="example">var (<var>x</var>) = 1/(N-1) SUM_i (<var>x</var>(i) - mean(<var>x</var>))^2
 </pre></div>
 
+<p>where <em>N</em> is the length of the <var>x</var> vector.
+</p>
 <p>If <var>x</var> is a matrix, compute the variance for each column and return
 them in a row vector.
 </p>
@@ -288,8 +295,8 @@ variance [default]
 </p></dd>
 </dl>
 
-<p>If <em>N==1</em> the value of <var>opt</var> is ignored and normalization by
-<em>N</em> is used.
+<p>If <em>N</em> is equal to 1 the value of <var>opt</var> is ignored and
+normalization by <em>N</em> is used.
 </p>
 <p>If the optional argument <var>dim</var> is given, operate along this dimension.
 </p>
@@ -323,6 +330,8 @@ skewness (<var>X</var>, 0) = -------------- * ------------------------.
                       (N - 2)             std (<var>x</var>).^3
 </pre></div>
 
+<p>where <em>N</em> is the length of the <var>x</var> vector.
+</p>
 <p>The adjusted skewness coefficient is obtained by replacing the sample second
 and third central moments by their bias-corrected versions.
 </p>
@@ -361,6 +370,8 @@ k0 = 3 + -------------- * ((N + 1) * k1 - 3 * (N - 1))
          (N - 2)(N - 3)
 </pre></div>
 
+<p>where <em>N</em> is the length of the <var>x</var> vector.
+</p>
 <p>The bias-corrected kurtosis coefficient is obtained by replacing the sample
 second and fourth central moments by their unbiased versions.  It is an
 unbiased estimate of the population kurtosis for normal populations.
@@ -380,13 +391,15 @@ the kurtosis along the first non-singleton dimension.  If the optional
 <dt><a name="index-moment-2"></a>: <em></em> <strong>moment</strong> <em>(<var>x</var>, <var>p</var>, <var>dim</var>)</em></dt>
 <dt><a name="index-moment-3"></a>: <em></em> <strong>moment</strong> <em>(<var>x</var>, <var>p</var>, <var>type</var>, <var>dim</var>)</em></dt>
 <dt><a name="index-moment-4"></a>: <em></em> <strong>moment</strong> <em>(<var>x</var>, <var>p</var>, <var>dim</var>, <var>type</var>)</em></dt>
-<dd><p>Compute the <var>p</var>-th central moment of the vector <var>x</var>.
+<dd><p>Compute the <var>p</var>-th central moment of the vector <var>x</var>:
 </p>
 
 <div class="example">
-<pre class="example">1/N SUM_i (x(i) - mean(x))^p
+<pre class="example">1/N SUM_i (<var>x</var>(i) - mean(<var>x</var>))^<var>p</var>
 </pre></div>
 
+<p>where <em>N</em> is the length of the <var>x</var> vector.
+</p>
 
 <p>If <var>x</var> is a matrix, return the row vector containing the <var>p</var>-th
 central moment of each column.
@@ -407,7 +420,7 @@ Valid options are:
 defined as
 </p>
 <div class="example">
-<pre class="example">1/N SUM_i (abs (x(i) - mean(x)))^p
+<pre class="example">1/N SUM_i (abs (<var>x</var>(i) - mean(<var>x</var>)))^<var>p</var>
 </pre></div>
 
 
@@ -417,7 +430,7 @@ defined as
 </p>
 
 <div class="example">
-<pre class="example">moment (x) = 1/N SUM_i x(i)^p
+<pre class="example">moment (<var>x</var>) = 1/N SUM_i <var>x</var>(i)^<var>p</var>
 </pre></div>
 
 
@@ -426,7 +439,7 @@ defined as
 <dd><p>Absolute Raw Moment.  The moment about zero ignoring sign defined as
 </p>
 <div class="example">
-<pre class="example">1/N SUM_i ( abs (x(i)) )^p
+<pre class="example">1/N SUM_i ( abs (<var>x</var>(i)) )^<var>p</var>
 </pre></div>
 
 </dd>
@@ -459,7 +472,7 @@ the first non-singleton dimension.
 </p>
 <p>The methods available to calculate sample quantiles are the nine methods
 used by R (<a href="http://www.r-project.org/">http://www.r-project.org/</a>).  The default value is
-METHOD&nbsp;=&nbsp;5<!-- /@w -->.
+<var>method</var>&nbsp;=&nbsp;5<!-- /@w -->.
 </p>
 <p>Discontinuous sample quantile methods 1, 2, and 3
 </p>
@@ -471,28 +484,37 @@ METHOD&nbsp;=&nbsp;5<!-- /@w -->.
 </li><li> Method 3: SAS definition: nearest even order statistic.
 </li></ol>
 
-<p>Continuous sample quantile methods 4 through 9, where p(k) is the linear
-interpolation function respecting each methods&rsquo; representative cdf.
+<p>Continuous sample quantile methods 4 through 9, where
+<var>p</var>(k)
+is the linear
+interpolation function respecting each method&rsquo;s representative cdf.
 </p>
 <ol start="4">
-<li> Method 4: p(k) = k / n.  That is, linear interpolation of the
-empirical cdf.
+<li> Method 4:
+<var>p</var>(k) = k / N.
+That is, linear interpolation of the empirical cdf, where <em>N</em> is the
+length of <var>P</var>.
 
-</li><li> Method 5: p(k) = (k - 0.5) / n.  That is a piecewise linear function
-where the knots are the values midway through the steps of the empirical
-cdf.
+</li><li> Method 5:
+<var>p</var>(k) = (k - 0.5) / N.
+That is, a piecewise linear function where the knots are the values midway
+through the steps of the empirical cdf.
 
-</li><li> Method 6: p(k) = k / (n + 1).
+</li><li> Method 6:
+<var>p</var>(k) = k / (N + 1).
 
-</li><li> Method 7: p(k) = (k - 1) / (n - 1).
+</li><li> Method 7:
+<var>p</var>(k) = (k - 1) / (N - 1).
 
-</li><li> Method 8: p(k) = (k - 1/3) / (n + 1/3).  The resulting quantile
-estimates are approximately median-unbiased regardless of the distribution
-of <var>x</var>.
+</li><li> Method 8:
+<var>p</var>(k) = (k - 1/3) / (N + 1/3).
+The resulting quantile estimates are approximately median-unbiased
+regardless of the distribution of <var>x</var>.
 
-</li><li> Method 9: p(k) = (k - 3/8) / (n + 1/4).  The resulting quantile
-estimates are approximately unbiased for the expected order statistics if
-<var>x</var> is normally distributed.
+</li><li> Method 9:
+<var>p</var>(k) = (k - 3/8) / (N + 1/4).
+The resulting quantile estimates are approximately unbiased for the
+expected order statistics if <var>x</var> is normally distributed.
 </li></ol>
 
 <p>Hyndman and Fan (1996) recommend method 8.  Maxima, S, and R
@@ -532,7 +554,7 @@ q = quantile (x, [0.25 0.5 0.75]); # Return quartiles of distribution
 to the cumulative probability values, <var>p</var>, in percent.
 </p>
 <p>If <var>x</var> is a matrix, compute the percentiles for each column and return
-them in a matrix, such that the i-th row of <var>y</var> contains the
+them in a matrix, such that the i-th row of <var>q</var> contains the
 <var>p</var>(i)th percentiles of each column of <var>x</var>.
 </p>
 <p>If <var>p</var> is unspecified, return the quantiles for <code>[0 25 50 75 100]</code>.

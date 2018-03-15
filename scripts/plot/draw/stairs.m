@@ -28,7 +28,8 @@
 ##
 ## The arguments @var{x} and @var{y} may be vectors or matrices.
 ## If only one argument is given, it is taken as a vector of Y values
-## and the X coordinates are taken to be the indices of the elements.
+## and the X coordinates are taken to be the indices of the elements
+## (@code{@var{x} = 1:numel (@var{y})}).
 ##
 ## The style to use for the plot can be defined with a line style @var{style}
 ## of the same format as the @code{plot} command.
@@ -36,8 +37,8 @@
 ## Multiple property/value pairs may be specified, but they must appear in
 ## pairs.
 ##
-## If the first argument @var{hax} is an axis handle, then plot into this axis,
-## rather than the current axis handle returned by @code{gca}.
+## If the first argument @var{hax} is an axes handle, then plot into this axes,
+## rather than the current axes returned by @code{gca}.
 ##
 ## If one output argument is requested, return a graphics handle to the
 ## created plot.  If two output arguments are specified, the data are generated

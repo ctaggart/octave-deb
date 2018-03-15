@@ -1,11 +1,11 @@
-This is octave.info, produced by makeinfo version 6.3 from octave.texi.
+This is octave.info, produced by makeinfo version 6.5 from octave.texi.
 
 START-INFO-DIR-ENTRY
 * Octave: (octave).           Interactive language for numerical computations.
 
 END-INFO-DIR-ENTRY
 
-   Copyright © 1996-2016 John W. Eaton.
+   Copyright © 1996-2018 John W. Eaton.
 
    Permission is granted to make and distribute verbatim copies of this
 manual provided the copyright notice and this permission notice are
@@ -725,7 +725,7 @@ The ‘axes’ properties are:
      Two-element vector ‘[2Dlen 3Dlen]’ specifying the length of the
      tickmarks relative to the longest visible axis.
 
-‘tightinset’ (read-only): four-element vector, def. ‘[0.042857 0.038106 0.000000 0.023810]’
+‘tightinset’ (read-only): four-element vector, def. ‘[0.042857 0.042868 0.000000 0.023810]’
      Size of the ‘[left bottom right top]’ margins around the axes that
      enclose labels and title annotations.
 
@@ -1069,7 +1069,7 @@ The ‘text’ properties are:
 ‘editing’: {"off"} | "on"
      ‘editing’ is unused.
 
-‘extent’ (read-only): four-element vector, def. ‘[0.000000 -0.005843 0.000000 0.032136]’
+‘extent’ (read-only): four-element vector, def. ‘[0.000000 -0.008764 0.000000 0.037978]’
      Vector ‘[x0 y0 width height]’ indicating the size and location of
      the text string.
 
@@ -1797,7 +1797,7 @@ The ‘uibuttongroup’ properties are:
 
 ‘__modified__’: "off" | {"on"}
 
-‘backgroundcolor’: def. ‘[0.90980 0.90980 0.90588]’
+‘backgroundcolor’: def. ‘[0.93725 0.92157 0.90588]’
 
 ‘beingdeleted’: {"off"} | "on"
 
@@ -1844,7 +1844,7 @@ The ‘uibuttongroup’ properties are:
 
 ‘fontweight’: "bold" | "demi" | "light" | {"normal"}
 
-‘foregroundcolor’: def. ‘[0.18039 0.20392 0.21176]’
+‘foregroundcolor’: def. ‘[0 0 0]’
 
 ‘handlevisibility’: "callback" | "off" | {"on"}
      If ‘handlevisibility’ is "off", the uibuttongroup’s handle is not
@@ -1871,7 +1871,7 @@ The ‘uibuttongroup’ properties are:
 
 ‘selectionhighlight’: "off" | {"on"}
 
-‘shadowcolor’: def. ‘[0.75816 0.75816 0.75489]’
+‘shadowcolor’: def. ‘[0.62483 0.61437 0.60391]’
 
 ‘sizechangedfcn’: def. ‘[](0x0)’
 
@@ -1984,7 +1984,7 @@ The ‘uipanel’ properties are:
 
 ‘__modified__’: "off" | {"on"}
 
-‘backgroundcolor’: def. ‘[0.90980 0.90980 0.90588]’
+‘backgroundcolor’: def. ‘[0.93725 0.92157 0.90588]’
 
 ‘beingdeleted’: {"off"} | "on"
 
@@ -2030,7 +2030,7 @@ The ‘uipanel’ properties are:
 
 ‘fontweight’: "bold" | "demi" | "light" | {"normal"}
 
-‘foregroundcolor’: def. ‘[0.18039 0.20392 0.21176]’
+‘foregroundcolor’: def. ‘[0 0 0]’
 
 ‘handlevisibility’: "callback" | "off" | {"on"}
      If ‘handlevisibility’ is "off", the uipanel’s handle is not visible
@@ -2053,7 +2053,7 @@ The ‘uipanel’ properties are:
 
 ‘selectionhighlight’: "off" | {"on"}
 
-‘shadowcolor’: def. ‘[0.75816 0.75816 0.75489]’
+‘shadowcolor’: def. ‘[0.62483 0.61437 0.60391]’
 
 ‘tag’: string, def. ""
      A user-defined string to label the graphics object.
@@ -2087,7 +2087,7 @@ The ‘uicontrol’ properties are:
 
 ‘__modified__’: "off" | {"on"}
 
-‘backgroundcolor’: def. ‘[0.90980 0.90980 0.90588]’
+‘backgroundcolor’: def. ‘[0.93725 0.92157 0.90588]’
 
 ‘beingdeleted’: {"off"} | "on"
 
@@ -2137,7 +2137,7 @@ The ‘uicontrol’ properties are:
 
 ‘fontweight’: "bold" | "demi" | "light" | {"normal"}
 
-‘foregroundcolor’: def. ‘[0.18039 0.20392 0.21176]’
+‘foregroundcolor’: def. ‘[0 0 0]’
 
 ‘handlevisibility’: "callback" | "off" | {"on"}
      If ‘handlevisibility’ is "off", the uicontrol’s handle is not
@@ -2449,41 +2449,51 @@ File: octave.info,  Node: Searching Properties,  Next: Managing Default Properti
  -- : H = findobj (HLIST, ...)
  -- : H = findobj (HLIST, "flat", ...)
  -- : H = findobj (HLIST, "-depth", D, ...)
-     Find graphics object with specified property values.
+     Find graphics objects with specified properties.
 
-     The simplest form is
+     When called without arguments, return all graphic objects beginning
+     with the root object (0) and including all of its descendants.
+
+     The simplest form for narrowing the results is
 
           findobj (PROP_NAME, PROP_VALUE)
 
      which returns the handles of all objects which have a property
      named PROP_NAME that has the value PROP_VALUE.  If multiple
      property/value pairs are specified then only objects meeting all of
-     the conditions are returned.
+     the conditions (equivalent to ‘-and’) are returned.
 
      The search can be limited to a particular set of objects and their
      descendants, by passing a handle or set of handles HLIST as the
      first argument.
 
      The depth of the object hierarchy to search can be limited with the
-     "-depth" argument.  An example of searching only three generations
-     of children is:
+     "-depth" argument.  An example of searching through only three
+     generations of children is:
 
           findobj (HLIST, "-depth", 3, PROP_NAME, PROP_VALUE)
 
-     Specifying a depth D of 0, limits the search to the set of objects
-     passed in HLIST.  A depth D of 0 is equivalent to the "flat"
-     argument.
+     Specifying a depth D of 0 limits the search to the set of objects
+     passed in HLIST.  A depth of 0 is also equivalent to the "flat"
+     argument.  The default depth value is ‘Inf’ which includes all
+     descendants.
 
-     A specified logical operator may be applied to the pairs of
-     PROP_NAME and PROP_VALUE.  The supported logical operators are:
-     "-and", "-or", "-xor", "-not".
+     A specified logical operator may be used between PROP_NAME,
+     PROP_VALUE pairs.  The supported logical operators are: "-and",
+     "-or", "-xor", "-not".  Example code to locate all figure and axes
+     objects is
+
+          findobj ("type", "figure", "-or", "type", "axes")
 
      Objects may also be matched by comparing a regular expression to
      the property values, where property values that match ‘regexp
      (PROP_VALUE, PATTERN)’ are returned.
 
-     Finally, objects may be matched by property name only by using the
-     "-property" option.
+     Finally, objects which have a property name can be found with the
+     "-property" option.  For example, code to locate objects with a
+     "meshstyle" property is
+
+          findobj ("-property", "meshstyle")
 
      Implementation Note: The search only includes objects with visible
      handles (HandleVisibility = "on").  *Note findall: XREFfindall, to
@@ -2502,7 +2512,7 @@ File: octave.info,  Node: Searching Properties,  Next: Managing Default Properti
  -- : H = findall (HLIST, "flat", ...)
  -- : H = findall (HLIST, "-depth", D, ...)
      Find graphics object, including hidden ones, with specified
-     property values.
+     properties.
 
      The return value H is a list of handles to the found graphic
      objects.
@@ -3003,8 +3013,8 @@ callback function that is executed when the property is altered.
 
           addlistener (gcf, "position", {@my_listener, "my string"})
 
-     See also: *note addproperty: XREFaddproperty, *note hggroup:
-     XREFhggroup.
+     See also: *note dellistener: XREFdellistener, *note addproperty:
+     XREFaddproperty, *note hggroup: XREFhggroup.
 
  -- : dellistener (H, PROP, FCN)
      Remove the registration of FCN as a listener for the property PROP
@@ -3025,6 +3035,8 @@ callback function that is executed when the property is altered.
           c = {@my_listener, "my string"};
           addlistener (gcf, "position", c);
           dellistener (gcf, "position", c);
+
+     See also: *note addlistener: XREFaddlistener.
 
    An example of the use of these two functions might be
 
@@ -3304,10 +3316,9 @@ File: octave.info,  Node: Contour Groups,  Next: Error Bar Series,  Prev: Bar Se
 15.4.6.4 Contour Groups
 .......................
 
-Contour group objects are created by the ‘contour’, ‘contourf’ and
-‘contour3’ functions.  The are equally one of the handles returned by
-the ‘surfc’ and ‘meshc’ functions.  The properties of the contour group
-are
+Contour group objects are created by the ‘contour’, ‘contourf’, and
+‘contour3’ functions.  The are also one of the handles returned by the
+‘surfc’ and ‘meshc’ functions.  The properties of the contour group are
 
 ‘contourmatrix’
      A read only property that contains the data return by ‘contourc’
@@ -4003,8 +4014,8 @@ tests a random 5 by 5 matrix to see if all of its elements are less than
      additional options.
 
      ‘m’
-          ‘table(idx(i)) == val(i)’ if ‘val(i)’ occurs in table;
-          otherwise, ‘idx(i)’ is zero.
+          ‘table(idx(i)) == y(i)’ if ‘y(i)’ occurs in table; otherwise,
+          ‘idx(i)’ is zero.
 
      ‘b’
           ‘idx(i)’ is a logical 1 or 0, indicating whether ‘val(i)’ is
@@ -4763,26 +4774,26 @@ File: octave.info,  Node: Special Utility Matrices,  Next: Famous Matrices,  Pre
    The functions ‘linspace’ and ‘logspace’ make it very easy to create
 vectors with evenly or logarithmically spaced elements.  *Note Ranges::.
 
- -- : linspace (BASE, LIMIT)
- -- : linspace (BASE, LIMIT, N)
-     Return a row vector with N linearly spaced elements between BASE
-     and LIMIT.
+ -- : linspace (START, END)
+ -- : linspace (START, END, N)
+     Return a row vector with N linearly spaced elements between START
+     and END.
 
      If the number of elements is greater than one, then the endpoints
-     BASE and LIMIT are always included in the range.  If BASE is
-     greater than LIMIT, the elements are stored in decreasing order.
-     If the number of points is not specified, a value of 100 is used.
+     START and END are always included in the range.  If START is
+     greater than END, the elements are stored in decreasing order.  If
+     the number of points is not specified, a value of 100 is used.
 
-     The ‘linspace’ function returns a row vector when both BASE and
-     LIMIT are scalars.  If one, or both, inputs are vectors, then
+     The ‘linspace’ function returns a row vector when both START and
+     END are scalars.  If one, or both, inputs are vectors, then
      ‘linspace’ transforms them to column vectors and returns a matrix
      where each row is an independent sequence between
-     ‘BASE(ROW_N), LIMIT(ROW_N)’.
+     ‘START(ROW_N), END(ROW_N)’.
 
-     For compatibility with MATLAB, return the second argument (LIMIT)
-     if fewer than two values are requested.
+     For compatibility with MATLAB, return the second argument (END)
+     when only a single value (N = 1) is requested.
 
-     See also: *note logspace: XREFlogspace.
+     See also: *note colon: XREFcolon, *note logspace: XREFlogspace.
 
  -- : logspace (A, B)
  -- : logspace (A, B, N)
@@ -4796,8 +4807,8 @@ vectors with evenly or logarithmically spaced elements.  *Note Ranges::.
      and 10^pi, in order to be compatible with the corresponding MATLAB
      function.
 
-     Also for compatibility with MATLAB, return the second argument B if
-     fewer than two values are requested.
+     Also for compatibility with MATLAB, return the right-hand side of
+     the range (10^B) when just a single value is requested.
 
      See also: *note linspace: XREFlinspace.
 
@@ -5015,9 +5026,9 @@ vectors with evenly or logarithmically spaced elements.  *Note Ranges::.
      See also: *note rand: XREFrand, *note randn: XREFrandn, *note
      rande: XREFrande, *note randg: XREFrandg.
 
- -- : randg (N)
- -- : randg (M, N, ...)
- -- : randg ([M N ...])
+ -- : randg (A, N)
+ -- : randg (A, M, N, ...)
+ -- : randg (A, [M N ...])
  -- : V = randg ("state")
  -- : randg ("state", V)
  -- : randg ("state", "reset")
@@ -5026,6 +5037,7 @@ vectors with evenly or logarithmically spaced elements.  *Note Ranges::.
  -- : randg ("seed", "reset")
  -- : randg (..., "single")
  -- : randg (..., "double")
+
      Return a matrix with ‘gamma (A,1)’ distributed random elements.
 
      The arguments are handled the same as the arguments for ‘rand’,
@@ -6113,7 +6125,7 @@ when using radians.  For example:
      See also: *note tand: XREFtand, *note atan: XREFatan.
 
  -- : atan2d (Y, X)
-     Compute atan2 (Y / X) in degrees for corresponding elements from Y
+     Compute atan (Y / X) in degrees for corresponding elements from Y
      and X.
 
      See also: *note tand: XREFtand, *note atan2: XREFatan2.
@@ -6202,7 +6214,6 @@ File: octave.info,  Node: Sums and Products,  Next: Utility Functions,  Prev: Tr
  -- : cumsum (X, DIM)
  -- : cumsum (..., "native")
  -- : cumsum (..., "double")
- -- : cumsum (..., "extra")
      Cumulative sum of elements along dimension DIM.
 
      If DIM is omitted, it defaults to the first non-singleton
@@ -6213,8 +6224,8 @@ File: octave.info,  Node: Sums and Products,  Next: Utility Functions,  Prev: Tr
                  4   6
                  9  12
 
-     See ‘sum’ for an explanation of the optional parameters "native",
-     "double", and "extra".
+     See ‘sum’ for an explanation of the optional parameters "native"
+     and "double".
 
      See also: *note sum: XREFsum, *note cumprod: XREFcumprod.
 
@@ -7883,8 +7894,8 @@ File: octave.info,  Node: Basic Matrix Functions,  Next: Matrix Factorizations, 
  -- : [...] = eig (A, BALANCEOPTION)
  -- : [...] = eig (A, B, ALGORITHM)
  -- : [...] = eig (..., EIGVALOPTION)
-     Compute the right eigenvalues(V) and optionally the
-     eigenvectors(lambda) and the left eigenvalues(W) of a matrix or a
+     Compute the eigenvalues (LAMBDA) and optionally the right
+     eigenvectors (V) and the left eigenvectors (W) of a matrix or a
      pair of matrices.
 
      The flag BALANCEOPTION can be one of:
@@ -7974,7 +7985,8 @@ File: octave.info,  Node: Basic Matrix Functions,  Next: Matrix Factorizations, 
      matrix requiring significantly more storage.  Avoid forming the
      inverse of a sparse matrix if possible.
 
-     See also: *note ldivide: XREFldivide, *note rdivide: XREFrdivide.
+     See also: *note ldivide: XREFldivide, *note rdivide: XREFrdivide,
+     *note pinv: XREFpinv.
 
  -- : X = linsolve (A, B)
  -- : X = linsolve (A, B, OPTS)
@@ -8199,15 +8211,15 @@ File: octave.info,  Node: Basic Matrix Functions,  Next: Matrix Factorizations, 
 
  -- : pinv (X)
  -- : pinv (X, TOL)
-     Return the pseudoinverse of X.
+     Return the Moore-Penrose pseudoinverse of X.
 
      Singular values less than TOL are ignored.
 
      If the second argument is omitted, it is taken to be
 
-          tol = max (size (X)) * sigma_max (X) * eps,
+          tol = max ([rows(X), columns(X)]) * norm (X) * eps
 
-     where ‘sigma_max (X)’ is the maximal singular value of X.
+     See also: *note inv: XREFinv, *note ldivide: XREFldivide.
 
  -- : rank (A)
  -- : rank (A, TOL)
@@ -8710,19 +8722,23 @@ File: octave.info,  Node: Matrix Factorizations,  Next: Functions of a Matrix,  
      qrinsert: XREFqrinsert, *note qrdelete: XREFqrdelete.
 
  -- : LAMBDA = qz (A, B)
- -- : LAMBDA = qz (A, B, OPT)
-     QZ decomposition of the generalized eigenvalue problem (A x = s B
-     x).
+ -- : [AA, BB, Q, Z, V, W, LAMBDA] = qz (A, B)
+ -- : [AA, BB, Z] = qz (A, B, OPT)
+ -- : [AA, BB, Z, LAMBDA] = qz (A, B, OPT)
+     QZ decomposition of the generalized eigenvalue problem
 
-     There are three ways to call this function:
+     A x = LAMBDA B x
+
+     There are three calling forms of the function:
+
        1. ‘LAMBDA = qz (A, B)’
 
-          Computes the generalized eigenvalues LAMBDA of (A - s B).
+          Compute the generalized eigenvalues LAMBDA.
 
        2. ‘[AA, BB, Q, Z, V, W, LAMBDA] = qz (A, B)’
 
-          Computes QZ decomposition, generalized eigenvectors, and
-          generalized eigenvalues of (A - s B)
+          Compute QZ decomposition, generalized eigenvectors, and
+          generalized eigenvalues.
 
 
                A * V = B * V * diag (LAMBDA)
@@ -8730,15 +8746,15 @@ File: octave.info,  Node: Matrix Factorizations,  Next: Functions of a Matrix,  
                AA = Q * A * Z, BB = Q * B * Z
 
 
-          with Q and Z orthogonal (unitary)= I
+          with Q and Z orthogonal (unitary for complex case).
 
-       3. ‘[AA,BB,Z{, LAMBDA}] = qz (A, B, OPT)’
+       3. ‘[AA, BB, Z {, LAMBDA}] = qz (A, B, OPT)’
 
-          As in form [2], but allows ordering of generalized eigenpairs
-          for, e.g., solution of discrete time algebraic Riccati
-          equations.  Form 3 is not available for complex matrices, and
-          does not compute the generalized eigenvectors V, W, nor the
-          orthogonal matrix Q.
+          As in form 2 above, but allows ordering of generalized
+          eigenpairs for, e.g., solution of discrete time algebraic
+          Riccati equations.  Form 3 is not available for complex
+          matrices, and does not compute the generalized eigenvectors V,
+          W, nor the orthogonal matrix Q.
 
           OPT
                for ordering eigenvalues of the GEP pencil.  The leading
@@ -8746,24 +8762,25 @@ File: octave.info,  Node: Matrix Factorizations,  Next: Functions of a Matrix,  
                satisfy:
 
                "N"
-                    = unordered (default)
+                    unordered (default)
 
                "S"
-                    = small: leading block has all |lambda| ≤ 1
+                    small: leading block has all |LAMBDA| < 1
 
                "B"
-                    = big: leading block has all |lambda| ≥ 1
+                    big: leading block has all |LAMBDA| ≥ 1
 
                "-"
-                    = negative real part: leading block has all
+                    negative real part: leading block has all
                     eigenvalues in the open left half-plane
 
                "+"
-                    = non-negative real part: leading block has all
+                    non-negative real part: leading block has all
                     eigenvalues in the closed right half-plane
 
      Note: ‘qz’ performs permutation balancing, but not scaling (*note
-     XREFbalance::).  The order of output arguments was selected for
+     balance: XREFbalance.), which may be lead to less accurate results
+     than ‘eig’.  The order of output arguments was selected for
      compatibility with MATLAB.
 
      See also: *note eig: XREFeig, *note balance: XREFbalance, *note lu:
