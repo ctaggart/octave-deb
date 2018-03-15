@@ -7,7 +7,5 @@ always-build-octave-jar.patch
 hdf5-flags.patch
 hdf5-mkoctfile.patch
 appstream-upgrade-spec.patch
-strncmp.patch
 add-corrcoef-function.patch
 java9.patch
-qscintilla-rename.patch
