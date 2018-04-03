@@ -1,3 +1,13 @@
+octave (4.2.2-2) unstable; urgency=medium
+
+  * Rebuild against java 9 (Closes: #894349)
+  * Drop patches no longer needed:
+    + hdf5-flags.patch
+    + hdf5-mkoctfile.patch
+    + mkoctfile-mpi.diff
+
+ -- Sébastien Villemot <sebastien@debian.org>  Tue, 03 Apr 2018 22:05:56 +0200
+
 octave (4.2.2-1) unstable; urgency=medium
 
   [ Mike Miller ]
