@@ -2,10 +2,7 @@ octave-pkgbuilddir.patch
 drop_versioned_binaries.diff
 install_libraries_publically
 add_info_dir_categories
-mkoctfile-mpi.diff
 always-build-octave-jar.patch
-hdf5-flags.patch
-hdf5-mkoctfile.patch
 appstream-upgrade-spec.patch
 add-corrcoef-function.patch
 java9.patch
