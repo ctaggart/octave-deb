@@ -89,7 +89,3 @@ override_dh_shlibdeps:
 override_dh_makeshlibs:
 	dh_makeshlibs --package=octave --noscripts
 	dh_makeshlibs --no-package=octave
-
-get-orig-source:
-	uscan --force-download --rename --destdir .
-.PHONY: get-orig-source
