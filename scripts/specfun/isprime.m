@@ -1,21 +1,21 @@
-## Copyright (C) 2000-2017 Paul Kienzle
+## Copyright (C) 2000-2018 Paul Kienzle
 ## Copyright (C) 2010 VZLU Prague
 ##
 ## This file is part of Octave.
 ##
-## Octave is free software; you can redistribute it and/or modify it
+## Octave is free software: you can redistribute it and/or modify it
 ## under the terms of the GNU General Public License as published by
-## the Free Software Foundation; either version 3 of the License, or (at
-## your option) any later version.
+## the Free Software Foundation, either version 3 of the License, or
+## (at your option) any later version.
 ##
 ## Octave is distributed in the hope that it will be useful, but
 ## WITHOUT ANY WARRANTY; without even the implied warranty of
-## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-## General Public License for more details.
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU General Public License for more details.
 ##
 ## You should have received a copy of the GNU General Public License
 ## along with Octave; see the file COPYING.  If not, see
-## <http://www.gnu.org/licenses/>.
+## <https://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
 ## @deftypefn {} {} isprime (@var{x})
@@ -29,7 +29,7 @@
 ## This is equivalent to @code{isprime (abs (x))}.
 ##
 ## If @code{class (@var{x})} is complex, then primality is tested in the domain
-## of Gaussian integers (@url{http://en.wikipedia.org/wiki/Gaussian_integer}).
+## of Gaussian integers (@url{https://en.wikipedia.org/wiki/Gaussian_integer}).
 ## Some non-complex integers are prime in the ordinary sense, but not in the
 ## domain of Gaussian integers.  For example, @math{5 = (1+2i)*(1-2i)} shows
 ## that 5 is not prime because it has a factor other than itself and 1.

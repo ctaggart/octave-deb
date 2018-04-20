@@ -68,9 +68,9 @@ is necessary to fit the polynomial in a least-squares sense, which just
 is what the <code>polyfit</code> function does.
 </p>
 <a name="XREFpolyfit"></a><dl>
-<dt><a name="index-polyfit"></a>: <em><var>p</var> =</em> <strong>polyfit</strong> <em>(<var>x</var>, <var>y</var>, <var>n</var>)</em></dt>
-<dt><a name="index-polyfit-1"></a>: <em>[<var>p</var>, <var>s</var>] =</em> <strong>polyfit</strong> <em>(<var>x</var>, <var>y</var>, <var>n</var>)</em></dt>
-<dt><a name="index-polyfit-2"></a>: <em>[<var>p</var>, <var>s</var>, <var>mu</var>] =</em> <strong>polyfit</strong> <em>(<var>x</var>, <var>y</var>, <var>n</var>)</em></dt>
+<dt><a name="index-polyfit"></a><em><var>p</var> =</em> <strong>polyfit</strong> <em>(<var>x</var>, <var>y</var>, <var>n</var>)</em></dt>
+<dt><a name="index-polyfit-1"></a><em>[<var>p</var>, <var>s</var>] =</em> <strong>polyfit</strong> <em>(<var>x</var>, <var>y</var>, <var>n</var>)</em></dt>
+<dt><a name="index-polyfit-2"></a><em>[<var>p</var>, <var>s</var>, <var>mu</var>] =</em> <strong>polyfit</strong> <em>(<var>x</var>, <var>y</var>, <var>n</var>)</em></dt>
 <dd><p>Return the coefficients of a polynomial <var>p</var>(<var>x</var>) of degree
 <var>n</var> that minimizes the least-squares-error of the fit to the points
 <code>[<var>x</var>, <var>y</var>]</code>.
@@ -88,7 +88,8 @@ the corresponding polynomial coefficients to be used or ignored.
 </p>
 </dd>
 <dt>&lsquo;<samp>X</samp>&rsquo;</dt>
-<dd><p>The Vandermonde matrix used to compute the polynomial coefficients.
+<dd><p>The Vandermonde matrix used to compute the polynomial
+coefficients.
 </p>
 </dd>
 <dt>&lsquo;<samp>C</samp>&rsquo;</dt>
@@ -135,13 +136,13 @@ is to use several polynomials pieced together.  The function
 data.
 </p>
 <a name="XREFsplinefit"></a><dl>
-<dt><a name="index-splinefit"></a>: <em><var>pp</var> =</em> <strong>splinefit</strong> <em>(<var>x</var>, <var>y</var>, <var>breaks</var>)</em></dt>
-<dt><a name="index-splinefit-1"></a>: <em><var>pp</var> =</em> <strong>splinefit</strong> <em>(<var>x</var>, <var>y</var>, <var>p</var>)</em></dt>
-<dt><a name="index-splinefit-2"></a>: <em><var>pp</var> =</em> <strong>splinefit</strong> <em>(&hellip;, &quot;periodic&quot;, <var>periodic</var>)</em></dt>
-<dt><a name="index-splinefit-3"></a>: <em><var>pp</var> =</em> <strong>splinefit</strong> <em>(&hellip;, &quot;robust&quot;, <var>robust</var>)</em></dt>
-<dt><a name="index-splinefit-4"></a>: <em><var>pp</var> =</em> <strong>splinefit</strong> <em>(&hellip;, &quot;beta&quot;, <var>beta</var>)</em></dt>
-<dt><a name="index-splinefit-5"></a>: <em><var>pp</var> =</em> <strong>splinefit</strong> <em>(&hellip;, &quot;order&quot;, <var>order</var>)</em></dt>
-<dt><a name="index-splinefit-6"></a>: <em><var>pp</var> =</em> <strong>splinefit</strong> <em>(&hellip;, &quot;constraints&quot;, <var>constraints</var>)</em></dt>
+<dt><a name="index-splinefit"></a><em><var>pp</var> =</em> <strong>splinefit</strong> <em>(<var>x</var>, <var>y</var>, <var>breaks</var>)</em></dt>
+<dt><a name="index-splinefit-1"></a><em><var>pp</var> =</em> <strong>splinefit</strong> <em>(<var>x</var>, <var>y</var>, <var>p</var>)</em></dt>
+<dt><a name="index-splinefit-2"></a><em><var>pp</var> =</em> <strong>splinefit</strong> <em>(&hellip;, &quot;periodic&quot;, <var>periodic</var>)</em></dt>
+<dt><a name="index-splinefit-3"></a><em><var>pp</var> =</em> <strong>splinefit</strong> <em>(&hellip;, &quot;robust&quot;, <var>robust</var>)</em></dt>
+<dt><a name="index-splinefit-4"></a><em><var>pp</var> =</em> <strong>splinefit</strong> <em>(&hellip;, &quot;beta&quot;, <var>beta</var>)</em></dt>
+<dt><a name="index-splinefit-5"></a><em><var>pp</var> =</em> <strong>splinefit</strong> <em>(&hellip;, &quot;order&quot;, <var>order</var>)</em></dt>
+<dt><a name="index-splinefit-6"></a><em><var>pp</var> =</em> <strong>splinefit</strong> <em>(&hellip;, &quot;constraints&quot;, <var>constraints</var>)</em></dt>
 <dd>
 <p>Fit a piecewise cubic spline with breaks (knots) <var>breaks</var> to the
 noisy data, <var>x</var> and <var>y</var>.
@@ -390,8 +391,8 @@ For control systems, a continuous-time delay can be modeled very simply with
 the approximant.
 </p>
 <a name="XREFpadecoef"></a><dl>
-<dt><a name="index-padecoef"></a>: <em>[<var>num</var>, <var>den</var>] =</em> <strong>padecoef</strong> <em>(<var>T</var>)</em></dt>
-<dt><a name="index-padecoef-1"></a>: <em>[<var>num</var>, <var>den</var>] =</em> <strong>padecoef</strong> <em>(<var>T</var>, <var>N</var>)</em></dt>
+<dt><a name="index-padecoef"></a><em>[<var>num</var>, <var>den</var>] =</em> <strong>padecoef</strong> <em>(<var>T</var>)</em></dt>
+<dt><a name="index-padecoef-1"></a><em>[<var>num</var>, <var>den</var>] =</em> <strong>padecoef</strong> <em>(<var>T</var>, <var>N</var>)</em></dt>
 <dd><p>Compute the <var>N</var>th-order Pad&eacute; approximant of the continuous-time
 delay <var>T</var> in transfer function form.
 </p>
@@ -460,8 +461,8 @@ plot (xi, yi);
 </pre></div>
 
 <a name="XREFmkpp"></a><dl>
-<dt><a name="index-mkpp"></a>: <em><var>pp</var> =</em> <strong>mkpp</strong> <em>(<var>breaks</var>, <var>coefs</var>)</em></dt>
-<dt><a name="index-mkpp-1"></a>: <em><var>pp</var> =</em> <strong>mkpp</strong> <em>(<var>breaks</var>, <var>coefs</var>, <var>d</var>)</em></dt>
+<dt><a name="index-mkpp"></a><em><var>pp</var> =</em> <strong>mkpp</strong> <em>(<var>breaks</var>, <var>coefs</var>)</em></dt>
+<dt><a name="index-mkpp-1"></a><em><var>pp</var> =</em> <strong>mkpp</strong> <em>(<var>breaks</var>, <var>coefs</var>, <var>d</var>)</em></dt>
 <dd>
 <p>Construct a piecewise polynomial (pp) structure from sample points
 <var>breaks</var> and coefficients <var>coefs</var>.
@@ -489,7 +490,7 @@ reshaped to a 2-D matrix of size <code>[<var>ni</var>*prod(<var>d</var>) <var>m<
 
 
 <a name="XREFunmkpp"></a><dl>
-<dt><a name="index-unmkpp"></a>: <em>[<var>x</var>, <var>p</var>, <var>n</var>, <var>k</var>, <var>d</var>] =</em> <strong>unmkpp</strong> <em>(<var>pp</var>)</em></dt>
+<dt><a name="index-unmkpp"></a><em>[<var>x</var>, <var>p</var>, <var>n</var>, <var>k</var>, <var>d</var>] =</em> <strong>unmkpp</strong> <em>(<var>pp</var>)</em></dt>
 <dd>
 <p>Extract the components of a piecewise polynomial structure <var>pp</var>.
 </p>
@@ -527,7 +528,7 @@ coefficients for the r-th polynomial defined on interval <var>i</var>.
 
 
 <a name="XREFppval"></a><dl>
-<dt><a name="index-ppval"></a>: <em><var>yi</var> =</em> <strong>ppval</strong> <em>(<var>pp</var>, <var>xi</var>)</em></dt>
+<dt><a name="index-ppval"></a><em><var>yi</var> =</em> <strong>ppval</strong> <em>(<var>pp</var>, <var>xi</var>)</em></dt>
 <dd><p>Evaluate the piecewise polynomial structure <var>pp</var> at the points <var>xi</var>.
 </p>
 <p>If <var>pp</var> describes a scalar polynomial function, the result is an array
@@ -540,8 +541,8 @@ of the same shape as <var>xi</var>.  Otherwise, the size of the result is
 
 
 <a name="XREFppder"></a><dl>
-<dt><a name="index-ppder"></a>: <em>ppd =</em> <strong>ppder</strong> <em>(pp)</em></dt>
-<dt><a name="index-ppder-1"></a>: <em>ppd =</em> <strong>ppder</strong> <em>(pp, m)</em></dt>
+<dt><a name="index-ppder"></a><em>ppd =</em> <strong>ppder</strong> <em>(pp)</em></dt>
+<dt><a name="index-ppder-1"></a><em>ppd =</em> <strong>ppder</strong> <em>(pp, m)</em></dt>
 <dd><p>Compute the piecewise <var>m</var>-th derivative of a piecewise polynomial
 struct <var>pp</var>.
 </p>
@@ -552,8 +553,8 @@ struct <var>pp</var>.
 
 
 <a name="XREFppint"></a><dl>
-<dt><a name="index-ppint"></a>: <em><var>ppi</var> =</em> <strong>ppint</strong> <em>(<var>pp</var>)</em></dt>
-<dt><a name="index-ppint-1"></a>: <em><var>ppi</var> =</em> <strong>ppint</strong> <em>(<var>pp</var>, <var>c</var>)</em></dt>
+<dt><a name="index-ppint"></a><em><var>ppi</var> =</em> <strong>ppint</strong> <em>(<var>pp</var>)</em></dt>
+<dt><a name="index-ppint-1"></a><em><var>ppi</var> =</em> <strong>ppint</strong> <em>(<var>pp</var>, <var>c</var>)</em></dt>
 <dd><p>Compute the integral of the piecewise polynomial struct <var>pp</var>.
 </p>
 <p><var>c</var>, if given, is the constant of integration.
@@ -563,7 +564,7 @@ struct <var>pp</var>.
 
 
 <a name="XREFppjumps"></a><dl>
-<dt><a name="index-ppjumps"></a>: <em><var>jumps</var> =</em> <strong>ppjumps</strong> <em>(<var>pp</var>)</em></dt>
+<dt><a name="index-ppjumps"></a><em><var>jumps</var> =</em> <strong>ppjumps</strong> <em>(<var>pp</var>)</em></dt>
 <dd><p>Evaluate the boundary jumps of a piecewise polynomial.
 </p>
 <p>If there are <em>n</em> intervals, and the dimensionality of <var>pp</var> is

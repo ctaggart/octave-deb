@@ -57,7 +57,7 @@ Next: <a href="Uicontrol-Properties.html#Uicontrol-Properties" accesskey="n" rel
 <hr>
 <a name="Uipanel-Properties-1"></a>
 <h4 class="subsubsection">15.3.3.13 Uipanel Properties</h4>
-<a name="index-uipanel-properties"></a>
+<a name="index--Uipanel-PropertiesUipanel-Properties"></a>
 
 <p>The <code>uipanel</code> properties are:
 </p>
@@ -65,12 +65,6 @@ Next: <a href="Uicontrol-Properties.html#Uicontrol-Properties" accesskey="n" rel
 
 <dl compact="compact">
 <dd>
-<a name="XREFuipanel_005f_005fmodified_005f_005f"></a><a name="index-uipanel-_005f_005fmodified_005f_005f"></a>
-</dd>
-<dt><code>__modified__</code>: <code>&quot;off&quot;</code> | {<code>&quot;on&quot;</code>}</dt>
-<dd>
-
-
 <a name="XREFuipanelbackgroundcolor"></a><a name="index-uipanel-backgroundcolor"></a>
 </dd>
 <dt><code>backgroundcolor</code>: def. <code>[0.93725   0.92157   0.90588]</code></dt>
@@ -98,8 +92,9 @@ Next: <a href="Uicontrol-Properties.html#Uicontrol-Properties" accesskey="n" rel
 <a name="XREFuipanelbusyaction"></a><a name="index-uipanel-busyaction"></a>
 </dd>
 <dt><code>busyaction</code>: <code>&quot;cancel&quot;</code> | {<code>&quot;queue&quot;</code>}</dt>
-<dd>
-
+<dd><p>Define how Octave handles the execution of this object&rsquo;s callback properties when it is unable to interrupt another object&rsquo;s executing callback.  This is only relevant when the currently executing callback object has its <code>interruptible</code> property set to <code>&quot;off&quot;</code>.  The <code>busyaction</code> property of the interrupting callback object indicates whether the interrupting callback is queued (<code>&quot;queue&quot;</code> (default)) or discarded (<code>&quot;cancel&quot;</code>).
+See <a href="Callbacks.html#Callbacks">Callbacks&nbsp;section<!-- /@w --></a>.
+</p>
 
 <a name="XREFuipanelbuttondownfcn"></a><a name="index-uipanel-buttondownfcn"></a>
 </dd>
@@ -122,7 +117,7 @@ Next: <a href="Uicontrol-Properties.html#Uicontrol-Properties" accesskey="n" rel
 <a name="XREFuipanelcreatefcn"></a><a name="index-uipanel-createfcn"></a>
 </dd>
 <dt><code>createfcn</code>: string | function handle, def. <code>[](0x0)</code></dt>
-<dd><p>Callback function executed immediately after uipanel has been created.  Function is set by using default property on root object, e.g., <code>set (0, &quot;defaultuipanelcreatefcn&quot;, 'disp (&quot;uipanel created!&quot;)')</code>.
+<dd><p>Callback function executed immediately after uipanel has been created.  Function is set by using default property on root object, e.g., <code>set (groot, &quot;defaultuipanelcreatefcn&quot;, 'disp (&quot;uipanel created!&quot;)')</code>.
 </p>
 <p>For information on how to write graphics listener functions see <a href="Callbacks.html#Callbacks">Callbacks&nbsp;section<!-- /@w --></a>.
 </p>
@@ -138,32 +133,32 @@ Next: <a href="Uicontrol-Properties.html#Uicontrol-Properties" accesskey="n" rel
 <a name="XREFuipanelfontangle"></a><a name="index-uipanel-fontangle"></a>
 </dd>
 <dt><code>fontangle</code>: <code>&quot;italic&quot;</code> | {<code>&quot;normal&quot;</code>} | <code>&quot;oblique&quot;</code></dt>
-<dd>
-
+<dd><p>Control whether the font is italic or normal.
+</p>
 
 <a name="XREFuipanelfontname"></a><a name="index-uipanel-fontname"></a>
 </dd>
-<dt><code>fontname</code>: def. <code>&quot;*&quot;</code></dt>
-<dd>
-
+<dt><code>fontname</code>: string, def. <code>&quot;*&quot;</code></dt>
+<dd><p>Name of font used for text rendering.  When setting this property, the text rendering engine will search for a matching font in your system.  If none is found then text is rendered using a default sans serif font (same as the default <code>&quot;*&quot;</code> value).
+</p>
 
 <a name="XREFuipanelfontsize"></a><a name="index-uipanel-fontsize"></a>
 </dd>
-<dt><code>fontsize</code>: def. <code>10</code></dt>
-<dd>
-
+<dt><code>fontsize</code>: scalar, def. <code>10</code></dt>
+<dd><p>Size of the font used for text rendering.  See <a href="#XREFuipanelfontunits">fontunits property</a>.
+</p>
 
 <a name="XREFuipanelfontunits"></a><a name="index-uipanel-fontunits"></a>
 </dd>
 <dt><code>fontunits</code>: <code>&quot;centimeters&quot;</code> | <code>&quot;inches&quot;</code> | <code>&quot;normalized&quot;</code> | <code>&quot;pixels&quot;</code> | {<code>&quot;points&quot;</code>}</dt>
-<dd>
-
+<dd><p>Units used to interpret the <code>&quot;fontsize&quot;</code> property.
+</p>
 
 <a name="XREFuipanelfontweight"></a><a name="index-uipanel-fontweight"></a>
 </dd>
 <dt><code>fontweight</code>: <code>&quot;bold&quot;</code> | <code>&quot;demi&quot;</code> | <code>&quot;light&quot;</code> | {<code>&quot;normal&quot;</code>}</dt>
-<dd>
-
+<dd><p>Control the variant of the base font used for text rendering.
+</p>
 
 <a name="XREFuipanelforegroundcolor"></a><a name="index-uipanel-foregroundcolor"></a>
 </dd>
@@ -186,19 +181,26 @@ Next: <a href="Uicontrol-Properties.html#Uicontrol-Properties" accesskey="n" rel
 <a name="XREFuipanelhittest"></a><a name="index-uipanel-hittest"></a>
 </dd>
 <dt><code>hittest</code>: <code>&quot;off&quot;</code> | {<code>&quot;on&quot;</code>}</dt>
-<dd>
-
+<dd><p>Specify whether uipanel processes mouse events or passes them to ancestors of the object.  When enabled, the object may respond to mouse clicks by evaluating the <code>&quot;buttondownfcn&quot;</code>, showing the uicontextmenu, and eventually becoming the root <code>&quot;currentobject&quot;</code>.  This property is only relevant when the object can accept mouse clicks which is determined by the <code>&quot;pickableparts&quot;</code> property.  See <a href="#XREFuipanelpickableparts">pickableparts&nbsp;property<!-- /@w --></a>.
+</p>
 
 <a name="XREFuipanelinterruptible"></a><a name="index-uipanel-interruptible"></a>
 </dd>
 <dt><code>interruptible</code>: <code>&quot;off&quot;</code> | {<code>&quot;on&quot;</code>}</dt>
-<dd>
-
+<dd><p>Specify whether this object&rsquo;s callback functions may be interrupted by other callbacks.  By default <code>interruptible</code> is <code>&quot;on&quot;</code> and callbacks that make use of <code>drawnow</code>, <code>figure</code>, <code>waitfor</code>, <code>getframe</code> or <code>pause</code> functions are eventually interrupted.
+See <a href="Callbacks.html#Callbacks">Callbacks&nbsp;section<!-- /@w --></a>.
+</p>
 
 <a name="XREFuipanelparent"></a><a name="index-uipanel-parent"></a>
 </dd>
 <dt><code>parent</code>: graphics handle</dt>
 <dd><p>Handle of the parent graphics object.
+</p>
+
+<a name="XREFuipanelpickableparts"></a><a name="index-uipanel-pickableparts"></a>
+</dd>
+<dt><code>pickableparts</code>: <code>&quot;all&quot;</code> | <code>&quot;none&quot;</code> | {<code>&quot;visible&quot;</code>}</dt>
+<dd><p>Specify whether uipanel will accept mouse clicks.  By default, <code>pickableparts</code> is <code>&quot;visible&quot;</code> and only visible parts of the uipanel or its children may react to mouse clicks.  When <code>pickableparts</code> is <code>&quot;all&quot;</code> both visible and invisible parts (or children) may react to mouse clicks.  When <code>pickableparts</code> is <code>&quot;none&quot;</code> mouse clicks on the object are ignored and transmitted to any objects underneath this one.  When an object is configured to accept mouse clicks the <code>&quot;hittest&quot;</code> property will determine how they are processed.  See <a href="#XREFuipanelhittest">hittest&nbsp;property<!-- /@w --></a>.
 </p>
 
 <a name="XREFuipanelposition"></a><a name="index-uipanel-position"></a>

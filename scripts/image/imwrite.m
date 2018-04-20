@@ -1,21 +1,21 @@
-## Copyright (C) 2008-2017 John W. Eaton
-## Copyright (C) 2013-2016 Carnë Draug
+## Copyright (C) 2008-2018 John W. Eaton
+## Copyright (C) 2013-2018 Carnë Draug
 ##
 ## This file is part of Octave.
 ##
-## Octave is free software; you can redistribute it and/or modify it
+## Octave is free software: you can redistribute it and/or modify it
 ## under the terms of the GNU General Public License as published by
-## the Free Software Foundation; either version 3 of the License, or (at
-## your option) any later version.
+## the Free Software Foundation, either version 3 of the License, or
+## (at your option) any later version.
 ##
 ## Octave is distributed in the hope that it will be useful, but
 ## WITHOUT ANY WARRANTY; without even the implied warranty of
-## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-## General Public License for more details.
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU General Public License for more details.
 ##
 ## You should have received a copy of the GNU General Public License
 ## along with Octave; see the file COPYING.  If not, see
-## <http://www.gnu.org/licenses/>.
+## <https://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
 ## @deftypefn  {} {} imwrite (@var{img}, @var{filename})
@@ -209,7 +209,7 @@ endfunction
 %! [g] = write_and_read (".jpeg", gray, "quality", 100);
 %! assert (g, gray);
 
-%!function [compression] = get_bmp_compression (ext, cmap = [], varargin)
+%!function compression = get_bmp_compression (ext, cmap = [], varargin)
 %!  gray = repmat (uint8 (0:255), 100, 1);
 %!  filename = [tempname() ext];
 %!  unwind_protect
@@ -230,7 +230,7 @@ endfunction
 %!endfunction
 
 ## BMP images must be saved uncompressed by default
-%!testif HAVE_MAGICK <45565>
+%!testif HAVE_MAGICK <*45565>
 %! assert (get_bmp_compression ("", [], "BMP"), 0);
 %! assert (get_bmp_compression ("", [], "bmp"), 0);
 %! assert (get_bmp_compression (".BMP"), 0);

@@ -1,20 +1,20 @@
-## Copyright (C) 2005-2017 Søren Hauberg
+## Copyright (C) 2005-2018 Søren Hauberg
 ##
 ## This file is part of Octave.
 ##
-## Octave is free software; you can redistribute it and/or modify it
+## Octave is free software: you can redistribute it and/or modify it
 ## under the terms of the GNU General Public License as published by
-## the Free Software Foundation; either version 3 of the License, or (at
-## your option) any later version.
+## the Free Software Foundation, either version 3 of the License, or
+## (at your option) any later version.
 ##
 ## Octave is distributed in the hope that it will be useful, but
 ## WITHOUT ANY WARRANTY; without even the implied warranty of
-## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-## General Public License for more details.
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU General Public License for more details.
 ##
 ## You should have received a copy of the GNU General Public License
 ## along with Octave; see the file COPYING.  If not, see
-## <http://www.gnu.org/licenses/>.
+## <https://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
 ## @deftypefn  {} {@var{filelist} =} tar (@var{tarfile}, @var{files})
@@ -63,7 +63,16 @@ function filelist = tar (tarfile, files, rootdir = ".")
   cmd = sprintf ("tar cvf %s -C %s %s",
                           tarfile, rootdir, sprintf (" %s", files{:}));
 
-  [status, output] = system (cmd);
+  ## Save and restore the TAR_OPTIONS environment variable used by GNU tar.
+  tar_options_env = getenv ("TAR_OPTIONS");
+  unwind_protect
+    unsetenv ("TAR_OPTIONS");
+    [status, output] = system (cmd);
+  unwind_protect_cleanup
+    if (! isempty (tar_options_env))
+      setenv ("TAR_OPTIONS", tar_options_env);
+    endif
+  end_unwind_protect
 
   if (status)
     error ("tar: tar exited with status = %d", status);
@@ -77,7 +86,10 @@ function filelist = tar (tarfile, files, rootdir = ".")
 endfunction
 
 
-%!xtest
+## FIXME: This test may fail if the tar command is not installed.  If this
+##        test fails, it might be better to change it into a testif with a
+##        runtime condition on the tar program.
+%!test
 %! ## test tar together with untar
 %! orig_dir = pwd ();
 %! unwind_protect

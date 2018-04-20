@@ -1,22 +1,22 @@
 @c DO NOT EDIT!  Generated automatically by munge-texi.pl.
 
-@c Copyright (C) 1996-2017 John W. Eaton
+@c Copyright (C) 1996-2018 John W. Eaton
 @c
 @c This file is part of Octave.
 @c
-@c Octave is free software; you can redistribute it and/or modify it
-@c under the terms of the GNU General Public License as published by the
-@c Free Software Foundation; either version 3 of the License, or (at
-@c your option) any later version.
+@c Octave is free software: you can redistribute it and/or modify it
+@c under the terms of the GNU General Public License as published by
+@c the Free Software Foundation, either version 3 of the License, or
+@c (at your option) any later version.
 @c
-@c Octave is distributed in the hope that it will be useful, but WITHOUT
-@c ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-@c FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-@c for more details.
+@c Octave is distributed in the hope that it will be useful, but
+@c WITHOUT ANY WARRANTY; without even the implied warranty of
+@c MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+@c GNU General Public License for more details.
 @c
 @c You should have received a copy of the GNU General Public License
 @c along with Octave; see the file COPYING.  If not, see
-@c <http://www.gnu.org/licenses/>.
+@c <https://www.gnu.org/licenses/>.
 
 @node Numeric Data Types
 @chapter Numeric Data Types
@@ -332,22 +332,15 @@ screen, Octave splits the matrix and displays a header before each
 section to indicate which columns are being displayed.  You can use the
 following variables to control the format of the output.
 
-@c output_max_field_width libinterp/corefcn/pr-output.cc
+@c output_max_field_width libinterp/corefcn/pr-flt-fmt.cc
 @anchor{XREFoutput_max_field_width}
-@deftypefn  {} {@var{val} =} output_max_field_width ()
-@deftypefnx {} {@var{old_val} =} output_max_field_width (@var{new_val})
-@deftypefnx {} {} output_max_field_width (@var{new_val}, "local")
-Query or set the internal variable that specifies the maximum width
-of a numeric output field.
-
-When called from inside a function with the @qcode{"local"} option, the
-variable is changed locally for the function and any subroutines it calls.
-The original variable value is restored when exiting the function.
-@seealso{@ref{XREFformat,,format}, @ref{XREFfixed_point_format,,fixed_point_format}, @ref{XREFoutput_precision,,output_precision}}
+@deftypefn {} {} output_max_field_width
+This function is obsolete and will be removed from a future version
+of Octave.
 @end deftypefn
 
 
-@c output_precision libinterp/corefcn/pr-output.cc
+@c output_precision libinterp/corefcn/pr-flt-fmt.cc
 @anchor{XREFoutput_precision}
 @deftypefn  {} {@var{val} =} output_precision ()
 @deftypefnx {} {@var{old_val} =} output_precision (@var{new_val})
@@ -355,10 +348,15 @@ The original variable value is restored when exiting the function.
 Query or set the internal variable that specifies the minimum number of
 significant figures to display for numeric output.
 
+Note that regardless of the value set for @code{output_precision}, the
+number of digits of precision displayed is limited to 16 for double
+precision values and 7 for single precision values.
+
 When called from inside a function with the @qcode{"local"} option, the
 variable is changed locally for the function and any subroutines it calls.
 The original variable value is restored when exiting the function.
-@seealso{@ref{XREFformat,,format}, @ref{XREFfixed_point_format,,fixed_point_format}, @ref{XREFoutput_max_field_width,,output_max_field_width}}
+
+@seealso{@ref{XREFformat,,format}, @ref{XREFfixed_point_format,,fixed_point_format}}
 @end deftypefn
 
 
@@ -447,7 +445,7 @@ of the possibility for confusion you should be careful about enabling
 When called from inside a function with the @qcode{"local"} option, the
 variable is changed locally for the function and any subroutines it calls.
 The original variable value is restored when exiting the function.
-@seealso{@ref{XREFformat,,format}, @ref{XREFoutput_max_field_width,,output_max_field_width}, @ref{XREFoutput_precision,,output_precision}}
+@seealso{@ref{XREFformat,,format}, @ref{XREFoutput_precision,,output_precision}}
 @end deftypefn
 
 
@@ -732,7 +730,7 @@ Return true if @var{x} is an integer object (int8, uint8, int16, etc.).
 
 Note that @w{@code{isinteger (14)}} is false because numeric constants in
 Octave are double precision floating point values.
-@seealso{@ref{XREFisfloat,,isfloat}, @ref{XREFischar,,ischar}, @ref{XREFislogical,,islogical}, @ref{XREFisnumeric,,isnumeric}, @ref{XREFisa,,isa}}
+@seealso{@ref{XREFisfloat,,isfloat}, @ref{XREFischar,,ischar}, @ref{XREFislogical,,islogical}, @ref{XREFisstring,,isstring}, @ref{XREFisnumeric,,isnumeric}, @ref{XREFisa,,isa}}
 @end deftypefn
 
 
@@ -1353,7 +1351,7 @@ Return true if @var{x} is a numeric object, i.e., an integer, real, or
 complex array.
 
 Logical and character arrays are not considered to be numeric.
-@seealso{@ref{XREFisinteger,,isinteger}, @ref{XREFisfloat,,isfloat}, @ref{XREFisreal,,isreal}, @ref{XREFiscomplex,,iscomplex}, @ref{XREFislogical,,islogical}, @ref{XREFischar,,ischar}, @ref{XREFiscell,,iscell}, @ref{XREFisstruct,,isstruct}, @ref{XREFisa,,isa}}
+@seealso{@ref{XREFisinteger,,isinteger}, @ref{XREFisfloat,,isfloat}, @ref{XREFisreal,,isreal}, @ref{XREFiscomplex,,iscomplex}, @ref{XREFischar,,ischar}, @ref{XREFislogical,,islogical}, @ref{XREFisstring,,isstring}, @ref{XREFiscell,,iscell}, @ref{XREFisstruct,,isstruct}, @ref{XREFisa,,isa}}
 @end deftypefn
 
 
@@ -1362,7 +1360,7 @@ Logical and character arrays are not considered to be numeric.
 @deftypefn  {} {} islogical (@var{x})
 @deftypefnx {} {} isbool (@var{x})
 Return true if @var{x} is a logical object.
-@seealso{@ref{XREFisfloat,,isfloat}, @ref{XREFisinteger,,isinteger}, @ref{XREFischar,,ischar}, @ref{XREFisnumeric,,isnumeric}, @ref{XREFisa,,isa}}
+@seealso{@ref{XREFischar,,ischar}, @ref{XREFisfloat,,isfloat}, @ref{XREFisinteger,,isinteger}, @ref{XREFisstring,,isstring}, @ref{XREFisnumeric,,isnumeric}, @ref{XREFisa,,isa}}
 @end deftypefn
 
 
@@ -1372,7 +1370,7 @@ Return true if @var{x} is a logical object.
 Return true if @var{x} is a floating-point numeric object.
 
 Objects of class double or single are floating-point objects.
-@seealso{@ref{XREFisinteger,,isinteger}, @ref{XREFischar,,ischar}, @ref{XREFislogical,,islogical}, @ref{XREFisnumeric,,isnumeric}, @ref{XREFisa,,isa}}
+@seealso{@ref{XREFisinteger,,isinteger}, @ref{XREFischar,,ischar}, @ref{XREFislogical,,islogical}, @ref{XREFisnumeric,,isnumeric}, @ref{XREFisstring,,isstring}, @ref{XREFisa,,isa}}
 @end deftypefn
 
 
@@ -1391,7 +1389,7 @@ matrices.
 @anchor{XREFiscomplex}
 @deftypefn {} {} iscomplex (@var{x})
 Return true if @var{x} is a complex-valued numeric object.
-@seealso{@ref{XREFisreal,,isreal}, @ref{XREFisnumeric,,isnumeric}, @ref{XREFislogical,,islogical}, @ref{XREFischar,,ischar}, @ref{XREFisfloat,,isfloat}, @ref{XREFisa,,isa}}
+@seealso{@ref{XREFisreal,,isreal}, @ref{XREFisnumeric,,isnumeric}, @ref{XREFischar,,ischar}, @ref{XREFisfloat,,isfloat}, @ref{XREFislogical,,islogical}, @ref{XREFisstring,,isstring}, @ref{XREFisa,,isa}}
 @end deftypefn
 
 
@@ -1482,7 +1480,7 @@ Matrix @var{A} is considered symmetric if
 @deftypefnx {} {} isdefinite (@var{A}, @var{tol})
 Return 1 if @var{A} is symmetric positive definite within the
 tolerance specified by @var{tol} or 0 if @var{A} is symmetric
-positive semidefinite.  Otherwise, return -1.
+positive semi-definite.  Otherwise, return -1.
 
 If @var{tol} is omitted, use a tolerance of
 @code{100 * eps * norm (@var{A}, "fro")}
@@ -1545,7 +1543,7 @@ values.  A negative integer is prime if its positive counterpart is prime.
 This is equivalent to @code{isprime (abs (x))}.
 
 If @code{class (@var{x})} is complex, then primality is tested in the domain
-of Gaussian integers (@url{http://en.wikipedia.org/wiki/Gaussian_integer}).
+of Gaussian integers (@url{https://en.wikipedia.org/wiki/Gaussian_integer}).
 Some non-complex integers are prime in the ordinary sense, but not in the
 domain of Gaussian integers.  For example, @math{5 = (1+2i)*(1-2i)} shows
 that 5 is not prime because it has a factor other than itself and 1.

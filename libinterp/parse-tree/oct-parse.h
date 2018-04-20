@@ -218,63 +218,63 @@ extern int octave_debug;
 
 union OCTAVE_STYPE
 {
-#line 141 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1909  */
+#line 136 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1909  */
 
   int dummy_type;
 
   // The type of the basic tokens returned by the lexer.
-  token *tok_val;
+  octave::token *tok_val;
 
   // Comment strings that we need to deal with mid-rule.
-  octave_comment_list *comment_type;
+  octave::comment_list *comment_type;
 
   // Types for the nonterminals we generate.
   char punct_type;
-  tree *tree_type;
-  tree_matrix *tree_matrix_type;
-  tree_cell *tree_cell_type;
-  tree_expression *tree_expression_type;
-  tree_constant *tree_constant_type;
-  tree_fcn_handle *tree_fcn_handle_type;
-  tree_funcall *tree_funcall_type;
-  tree_function_def *tree_function_def_type;
-  tree_anon_fcn_handle *tree_anon_fcn_handle_type;
-  tree_identifier *tree_identifier_type;
-  tree_index_expression *tree_index_expression_type;
-  tree_colon_expression *tree_colon_expression_type;
-  tree_argument_list *tree_argument_list_type;
-  tree_parameter_list *tree_parameter_list_type;
-  tree_command *tree_command_type;
-  tree_if_command *tree_if_command_type;
-  tree_if_clause *tree_if_clause_type;
-  tree_if_command_list *tree_if_command_list_type;
-  tree_switch_command *tree_switch_command_type;
-  tree_switch_case *tree_switch_case_type;
-  tree_switch_case_list *tree_switch_case_list_type;
-  tree_decl_elt *tree_decl_elt_type;
-  tree_decl_init_list *tree_decl_init_list_type;
-  tree_decl_command *tree_decl_command_type;
-  tree_statement *tree_statement_type;
-  tree_statement_list *tree_statement_list_type;
+  octave::tree *tree_type;
+  octave::tree_matrix *tree_matrix_type;
+  octave::tree_cell *tree_cell_type;
+  octave::tree_expression *tree_expression_type;
+  octave::tree_constant *tree_constant_type;
+  octave::tree_fcn_handle *tree_fcn_handle_type;
+  octave::tree_funcall *tree_funcall_type;
+  octave::tree_function_def *tree_function_def_type;
+  octave::tree_anon_fcn_handle *tree_anon_fcn_handle_type;
+  octave::tree_identifier *tree_identifier_type;
+  octave::tree_index_expression *tree_index_expression_type;
+  octave::tree_colon_expression *tree_colon_expression_type;
+  octave::tree_argument_list *tree_argument_list_type;
+  octave::tree_parameter_list *tree_parameter_list_type;
+  octave::tree_command *tree_command_type;
+  octave::tree_if_command *tree_if_command_type;
+  octave::tree_if_clause *tree_if_clause_type;
+  octave::tree_if_command_list *tree_if_command_list_type;
+  octave::tree_switch_command *tree_switch_command_type;
+  octave::tree_switch_case *tree_switch_case_type;
+  octave::tree_switch_case_list *tree_switch_case_list_type;
+  octave::tree_decl_elt *tree_decl_elt_type;
+  octave::tree_decl_init_list *tree_decl_init_list_type;
+  octave::tree_decl_command *tree_decl_command_type;
+  octave::tree_statement *tree_statement_type;
+  octave::tree_statement_list *tree_statement_list_type;
   octave_user_function *octave_user_function_type;
 
-  tree_classdef *tree_classdef_type;
-  tree_classdef_attribute* tree_classdef_attribute_type;
-  tree_classdef_attribute_list* tree_classdef_attribute_list_type;
-  tree_classdef_superclass* tree_classdef_superclass_type;
-  tree_classdef_superclass_list* tree_classdef_superclass_list_type;
-  tree_classdef_body* tree_classdef_body_type;
-  tree_classdef_property* tree_classdef_property_type;
-  tree_classdef_property_list* tree_classdef_property_list_type;
-  tree_classdef_properties_block* tree_classdef_properties_block_type;
-  tree_classdef_methods_list* tree_classdef_methods_list_type;
-  tree_classdef_methods_block* tree_classdef_methods_block_type;
-  tree_classdef_event* tree_classdef_event_type;
-  tree_classdef_events_list* tree_classdef_events_list_type;
-  tree_classdef_events_block* tree_classdef_events_block_type;
-  tree_classdef_enum* tree_classdef_enum_type;
-  tree_classdef_enum_list* tree_classdef_enum_list_type;
-  tree_classdef_enum_block* tree_classdef_enum_block_type;
+  octave::tree_classdef *tree_classdef_type;
+  octave::tree_classdef_attribute* tree_classdef_attribute_type;
+  octave::tree_classdef_attribute_list* tree_classdef_attribute_list_type;
+  octave::tree_classdef_superclass* tree_classdef_superclass_type;
+  octave::tree_classdef_superclass_list* tree_classdef_superclass_list_type;
+  octave::tree_classdef_body* tree_classdef_body_type;
+  octave::tree_classdef_property* tree_classdef_property_type;
+  octave::tree_classdef_property_list* tree_classdef_property_list_type;
+  octave::tree_classdef_properties_block* tree_classdef_properties_block_type;
+  octave::tree_classdef_methods_list* tree_classdef_methods_list_type;
+  octave::tree_classdef_methods_block* tree_classdef_methods_block_type;
+  octave::tree_classdef_event* tree_classdef_event_type;
+  octave::tree_classdef_events_list* tree_classdef_events_list_type;
+  octave::tree_classdef_events_block* tree_classdef_events_block_type;
+  octave::tree_classdef_enum* tree_classdef_enum_type;
+  octave::tree_classdef_enum_list* tree_classdef_enum_list_type;
+  octave::tree_classdef_enum_block* tree_classdef_enum_block_type;
 
 #line 280 "libinterp/parse-tree/oct-parse.h" /* yacc.c:1909  */
 };

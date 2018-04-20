@@ -1,24 +1,24 @@
-## Copyright (C) 2009-2017 Søren Hauberg
+## Copyright (C) 2009-2018 Søren Hauberg
 ##
 ## This file is part of Octave.
 ##
-## Octave is free software; you can redistribute it and/or modify it
+## Octave is free software: you can redistribute it and/or modify it
 ## under the terms of the GNU General Public License as published by
-## the Free Software Foundation; either version 3 of the License, or (at
-## your option) any later version.
+## the Free Software Foundation, either version 3 of the License, or
+## (at your option) any later version.
 ##
 ## Octave is distributed in the hope that it will be useful, but
 ## WITHOUT ANY WARRANTY; without even the implied warranty of
-## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-## General Public License for more details.
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU General Public License for more details.
 ##
 ## You should have received a copy of the GNU General Public License
 ## along with Octave; see the file COPYING.  If not, see
-## <http://www.gnu.org/licenses/>.
+## <https://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
 ## @deftypefn  {} {[@var{retval}, @var{status}] =} __makeinfo__ (@var{text}, @var{output_type})
-## @deftypefnx {} {[@var{retval}, @var{status}] =} __makeinfo__ (@var{text}, @var{output_type}, @var{see_also})
+## @deftypefnx {} {[@var{retval}, @var{status}] =} __makeinfo__ (@var{text}, @var{output_type}, @var{fsee_also})
 ## Undocumented internal function.
 ## @end deftypefn
 
@@ -34,11 +34,11 @@
 ## macro is expanded, but otherwise the text is unaltered.
 ##
 ## If the optional argument @var{see_also} is present, it is used to expand the
-## Octave specific @t{@@seealso} macro.  This argument must be a function handle,
-## that accepts a cell array of strings as input argument (each elements of the
-## array corresponds to the arguments to the @t{@@seealso} macro), and return
-## the expanded string.  If this argument is not given, the @t{@@seealso} macro
-## will be expanded to the text
+## Octave specific @t{@@seealso} macro.  This argument must be a function
+## handle, that accepts a cell array of strings as input argument (each
+## elements of the array corresponds to the arguments to the @t{@@seealso}
+## macro), and return the expanded string.  If this argument is not given, the
+## @t{@@seealso} macro will be expanded to the text
 ##
 ## @example
 ## See also: arg1, arg2, ...

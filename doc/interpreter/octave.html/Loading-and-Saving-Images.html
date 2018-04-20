@@ -72,11 +72,11 @@ imwrite (J, &quot;my_output_image.img&quot;);
 </pre></div>
 
 <a name="XREFimread"></a><dl>
-<dt><a name="index-imread"></a>: <em>[<var>img</var>, <var>map</var>, <var>alpha</var>] =</em> <strong>imread</strong> <em>(<var>filename</var>)</em></dt>
-<dt><a name="index-imread-1"></a>: <em>[&hellip;] =</em> <strong>imread</strong> <em>(<var>url</var>)</em></dt>
-<dt><a name="index-imread-2"></a>: <em>[&hellip;] =</em> <strong>imread</strong> <em>(&hellip;, <var>ext</var>)</em></dt>
-<dt><a name="index-imread-3"></a>: <em>[&hellip;] =</em> <strong>imread</strong> <em>(&hellip;, <var>idx</var>)</em></dt>
-<dt><a name="index-imread-4"></a>: <em>[&hellip;] =</em> <strong>imread</strong> <em>(&hellip;, <var>param1</var>, <var>value1</var>, &hellip;)</em></dt>
+<dt><a name="index-imread"></a><em>[<var>img</var>, <var>map</var>, <var>alpha</var>] =</em> <strong>imread</strong> <em>(<var>filename</var>)</em></dt>
+<dt><a name="index-imread-1"></a><em>[&hellip;] =</em> <strong>imread</strong> <em>(<var>url</var>)</em></dt>
+<dt><a name="index-imread-2"></a><em>[&hellip;] =</em> <strong>imread</strong> <em>(&hellip;, <var>ext</var>)</em></dt>
+<dt><a name="index-imread-3"></a><em>[&hellip;] =</em> <strong>imread</strong> <em>(&hellip;, <var>idx</var>)</em></dt>
+<dt><a name="index-imread-4"></a><em>[&hellip;] =</em> <strong>imread</strong> <em>(&hellip;, <var>param1</var>, <var>value1</var>, &hellip;)</em></dt>
 <dd><p>Read images from various file formats.
 </p>
 <p>Read an image as a matrix from the file <var>filename</var> or from the online
@@ -142,10 +142,10 @@ imread (filename)(200:600, 300:700);
 
 
 <a name="XREFimwrite"></a><dl>
-<dt><a name="index-imwrite"></a>: <em></em> <strong>imwrite</strong> <em>(<var>img</var>, <var>filename</var>)</em></dt>
-<dt><a name="index-imwrite-1"></a>: <em></em> <strong>imwrite</strong> <em>(<var>img</var>, <var>filename</var>, <var>ext</var>)</em></dt>
-<dt><a name="index-imwrite-2"></a>: <em></em> <strong>imwrite</strong> <em>(<var>img</var>, <var>map</var>, <var>filename</var>)</em></dt>
-<dt><a name="index-imwrite-3"></a>: <em></em> <strong>imwrite</strong> <em>(&hellip;, <var>param1</var>, <var>val1</var>, &hellip;)</em></dt>
+<dt><a name="index-imwrite"></a><em></em> <strong>imwrite</strong> <em>(<var>img</var>, <var>filename</var>)</em></dt>
+<dt><a name="index-imwrite-1"></a><em></em> <strong>imwrite</strong> <em>(<var>img</var>, <var>filename</var>, <var>ext</var>)</em></dt>
+<dt><a name="index-imwrite-2"></a><em></em> <strong>imwrite</strong> <em>(<var>img</var>, <var>map</var>, <var>filename</var>)</em></dt>
+<dt><a name="index-imwrite-3"></a><em></em> <strong>imwrite</strong> <em>(&hellip;, <var>param1</var>, <var>val1</var>, &hellip;)</em></dt>
 <dd><p>Write images in various file formats.
 </p>
 <p>The image <var>img</var> can be a binary, grayscale, RGB, or multi-dimensional
@@ -230,9 +230,9 @@ matrix that could be expected when using <code>imread</code> with the option
 
 
 <a name="XREFIMAGE_005fPATH"></a><dl>
-<dt><a name="index-IMAGE_005fPATH"></a>: <em><var>val</var> =</em> <strong>IMAGE_PATH</strong> <em>()</em></dt>
-<dt><a name="index-IMAGE_005fPATH-1"></a>: <em><var>old_val</var> =</em> <strong>IMAGE_PATH</strong> <em>(<var>new_val</var>)</em></dt>
-<dt><a name="index-IMAGE_005fPATH-2"></a>: <em></em> <strong>IMAGE_PATH</strong> <em>(<var>new_val</var>, &quot;local&quot;)</em></dt>
+<dt><a name="index-IMAGE_005fPATH"></a><em><var>val</var> =</em> <strong>IMAGE_PATH</strong> <em>()</em></dt>
+<dt><a name="index-IMAGE_005fPATH-1"></a><em><var>old_val</var> =</em> <strong>IMAGE_PATH</strong> <em>(<var>new_val</var>)</em></dt>
+<dt><a name="index-IMAGE_005fPATH-2"></a><em></em> <strong>IMAGE_PATH</strong> <em>(<var>new_val</var>, &quot;local&quot;)</em></dt>
 <dd><p>Query or set the internal variable that specifies a colon separated
 list of directories in which to search for image files.
 </p>
@@ -241,7 +241,7 @@ variable is changed locally for the function and any subroutines it calls.
 The original variable value is restored when exiting the function.
 </p>
 
-<p><strong>See also:</strong> <a href="Controlling-Subprocesses.html#XREFEXEC_005fPATH">EXEC_PATH</a>, <a href="System-Information.html#XREFOCTAVE_005fHOME">OCTAVE_HOME</a>.
+<p><strong>See also:</strong> <a href="Controlling-Subprocesses.html#XREFEXEC_005fPATH">EXEC_PATH</a>, <a href="System-Information.html#XREFOCTAVE_005fHOME">OCTAVE_HOME</a>, <a href="System-Information.html#XREFOCTAVE_005fEXEC_005fHOME">OCTAVE_EXEC_HOME</a>.
 </p></dd></dl>
 
 
@@ -251,9 +251,9 @@ provides read access to many of the parameters stored in the header of the
 image file.
 </p>
 <a name="XREFimfinfo"></a><dl>
-<dt><a name="index-imfinfo"></a>: <em><var>info</var> =</em> <strong>imfinfo</strong> <em>(<var>filename</var>)</em></dt>
-<dt><a name="index-imfinfo-1"></a>: <em><var>info</var> =</em> <strong>imfinfo</strong> <em>(<var>url</var>)</em></dt>
-<dt><a name="index-imfinfo-2"></a>: <em><var>info</var> =</em> <strong>imfinfo</strong> <em>(&hellip;, <var>ext</var>)</em></dt>
+<dt><a name="index-imfinfo"></a><em><var>info</var> =</em> <strong>imfinfo</strong> <em>(<var>filename</var>)</em></dt>
+<dt><a name="index-imfinfo-1"></a><em><var>info</var> =</em> <strong>imfinfo</strong> <em>(<var>url</var>)</em></dt>
+<dt><a name="index-imfinfo-2"></a><em><var>info</var> =</em> <strong>imfinfo</strong> <em>(&hellip;, <var>ext</var>)</em></dt>
 <dd><p>Read image information from a file.
 </p>
 <p><code>imfinfo</code> returns a structure containing information about the image
@@ -436,13 +436,13 @@ still be read correctly, and that even unlisted formats are not necessarily
 unsupported.
 </p>
 <a name="XREFimformats"></a><dl>
-<dt><a name="index-imformats"></a>: <em></em> <strong>imformats</strong> <em>()</em></dt>
-<dt><a name="index-imformats-1"></a>: <em><var>formats</var> =</em> <strong>imformats</strong> <em>(<var>ext</var>)</em></dt>
-<dt><a name="index-imformats-2"></a>: <em><var>formats</var> =</em> <strong>imformats</strong> <em>(<var>format</var>)</em></dt>
-<dt><a name="index-imformats-3"></a>: <em><var>formats</var> =</em> <strong>imformats</strong> <em>(&quot;add&quot;, <var>format</var>)</em></dt>
-<dt><a name="index-imformats-4"></a>: <em><var>formats</var> =</em> <strong>imformats</strong> <em>(&quot;remove&quot;, <var>ext</var>)</em></dt>
-<dt><a name="index-imformats-5"></a>: <em><var>formats</var> =</em> <strong>imformats</strong> <em>(&quot;update&quot;, <var>ext</var>, <var>format</var>)</em></dt>
-<dt><a name="index-imformats-6"></a>: <em><var>formats</var> =</em> <strong>imformats</strong> <em>(&quot;factory&quot;)</em></dt>
+<dt><a name="index-imformats"></a><em></em> <strong>imformats</strong> <em>()</em></dt>
+<dt><a name="index-imformats-1"></a><em><var>formats</var> =</em> <strong>imformats</strong> <em>(<var>ext</var>)</em></dt>
+<dt><a name="index-imformats-2"></a><em><var>formats</var> =</em> <strong>imformats</strong> <em>(<var>format</var>)</em></dt>
+<dt><a name="index-imformats-3"></a><em><var>formats</var> =</em> <strong>imformats</strong> <em>(&quot;add&quot;, <var>format</var>)</em></dt>
+<dt><a name="index-imformats-4"></a><em><var>formats</var> =</em> <strong>imformats</strong> <em>(&quot;remove&quot;, <var>ext</var>)</em></dt>
+<dt><a name="index-imformats-5"></a><em><var>formats</var> =</em> <strong>imformats</strong> <em>(&quot;update&quot;, <var>ext</var>, <var>format</var>)</em></dt>
+<dt><a name="index-imformats-6"></a><em><var>formats</var> =</em> <strong>imformats</strong> <em>(&quot;factory&quot;)</em></dt>
 <dd><p>Manage supported image formats.
 </p>
 <p><var>formats</var> is a structure with information about each supported file

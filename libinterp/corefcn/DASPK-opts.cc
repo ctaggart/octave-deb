@@ -34,55 +34,55 @@ struct DASPK_options_struct
 static DASPK_options_struct DASPK_options_table [] =
 {
   { "absolute tolerance",
-    { "absolute", "tolerance", 0, 0, 0, 0, 0, },
+    { "absolute", "tolerance", nullptr, nullptr, nullptr, nullptr, nullptr, },
     { 2, 0, 0, 0, 0, 0, 0, }, 1, },
 
   { "relative tolerance",
-    { "relative", "tolerance", 0, 0, 0, 0, 0, },
+    { "relative", "tolerance", nullptr, nullptr, nullptr, nullptr, nullptr, },
     { 1, 0, 0, 0, 0, 0, 0, }, 1, },
 
   { "compute consistent initial condition",
-    { "compute", "consistent", "initial", "condition", 0, 0, 0, },
+    { "compute", "consistent", "initial", "condition", nullptr, nullptr, nullptr, },
     { 1, 0, 0, 0, 0, 0, 0, }, 1, },
 
   { "use initial condition heuristics",
-    { "use", "initial", "condition", "heuristics", 0, 0, 0, },
+    { "use", "initial", "condition", "heuristics", nullptr, nullptr, nullptr, },
     { 1, 0, 0, 0, 0, 0, 0, }, 1, },
 
   { "initial condition heuristics",
-    { "initial", "condition", "heuristics", 0, 0, 0, 0, },
+    { "initial", "condition", "heuristics", nullptr, nullptr, nullptr, nullptr, },
     { 3, 1, 0, 0, 0, 0, 0, }, 2, },
 
   { "print initial condition info",
-    { "print", "initial", "condition", "info", 0, 0, 0, },
+    { "print", "initial", "condition", "info", nullptr, nullptr, nullptr, },
     { 1, 0, 0, 0, 0, 0, 0, }, 1, },
 
   { "exclude algebraic variables from error test",
-    { "exclude", "algebraic", "variables", "from", "error", "test", 0, },
+    { "exclude", "algebraic", "variables", "from", "error", "test", nullptr, },
     { 2, 0, 0, 0, 0, 0, 0, }, 1, },
 
   { "algebraic variables",
-    { "algebraic", "variables", 0, 0, 0, 0, 0, },
+    { "algebraic", "variables", nullptr, nullptr, nullptr, nullptr, nullptr, },
     { 2, 0, 0, 0, 0, 0, 0, }, 1, },
 
   { "enforce inequality constraints",
-    { "enforce", "inequality", "constraints", 0, 0, 0, 0, },
+    { "enforce", "inequality", "constraints", nullptr, nullptr, nullptr, nullptr, },
     { 2, 0, 0, 0, 0, 0, 0, }, 1, },
 
   { "inequality constraint types",
-    { "inequality", "constraint", "types", 0, 0, 0, 0, },
+    { "inequality", "constraint", "types", nullptr, nullptr, nullptr, nullptr, },
     { 3, 0, 0, 0, 0, 0, 0, }, 1, },
 
   { "initial step size",
-    { "initial", "step", "size", 0, 0, 0, 0, },
+    { "initial", "step", "size", nullptr, nullptr, nullptr, nullptr, },
     { 3, 1, 0, 0, 0, 0, 0, }, 2, },
 
   { "maximum order",
-    { "maximum", "order", 0, 0, 0, 0, 0, },
+    { "maximum", "order", nullptr, nullptr, nullptr, nullptr, nullptr, },
     { 1, 1, 0, 0, 0, 0, 0, }, 2, },
 
   { "maximum step size",
-    { "maximum", "step", "size", 0, 0, 0, 0, },
+    { "maximum", "step", "size", nullptr, nullptr, nullptr, nullptr, },
     { 1, 1, 0, 0, 0, 0, 0, }, 2, },
 };
 

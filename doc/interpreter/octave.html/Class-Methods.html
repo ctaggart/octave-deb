@@ -60,44 +60,16 @@ Next: <a href="Indexing-Objects.html#Indexing-Objects" accesskey="n" rel="next">
 
 <p>There are a number of basic class methods that can (and should) be defined to
 allow the contents of the classes to be queried and set.  The most basic of
-these is the <code>display</code> method.  The <code>display</code> method is used by
-Octave whenever a class should be displayed on the screen.  Usually this is the
-result of an Octave expression that doesn&rsquo;t end with a semicolon.  If this
-method is not defined, then Octave won&rsquo;t print anything when displaying the
-contents of a class which can be confusing.
+these is the <code>disp</code> method.  The <code>disp</code> method is used by Octave
+whenever a class should be displayed on the screen.  Usually this is the result
+of an Octave expression that doesn&rsquo;t end with a semicolon.  If this method is
+not defined, then Octave won&rsquo;t print anything when displaying the contents of a
+class which can be confusing.
 </p>
-<a name="XREFdisplay"></a><dl>
-<dt><a name="index-display"></a>: <em></em> <strong>display</strong> <em>(<var>obj</var>)</em></dt>
-<dd><p>Display the contents of the object <var>obj</var>.
-</p>
-<p>The Octave interpreter calls the <code>display</code> function whenever it needs
-to present a class on-screen.  Typically, this would be a statement which
-does not end in a semicolon to suppress output.  For example:
+<p>An example of a <code>disp</code> method for the polynomial class might be
 </p>
 <div class="example">
-<pre class="example">myobj = myclass (&hellip;)
-</pre></div>
-
-<p>User-defined classes should overload the <code>display</code> method so that
-something useful is printed for a class object.  Otherwise, Octave will
-report only that the object is an instance of its class.
-</p>
-<div class="example">
-<pre class="example">myobj = myclass (&hellip;)
-  &rArr; myobj = &lt;class myclass&gt;
-</pre></div>
-
-
-<p><strong>See also:</strong> <a href="Built_002din-Data-Types.html#XREFclass">class</a>, <a href="Defining-Indexing-And-Indexed-Assignment.html#XREFsubsref">subsref</a>, <a href="Defining-Indexing-And-Indexed-Assignment.html#XREFsubsasgn">subsasgn</a>.
-</p></dd></dl>
-
-
-<p>An example of a display method for the polynomial class might be
-</p>
-<div class="example">
-<pre class="verbatim">function display (p)
-
-  printf (&quot;%s =&quot;, inputname (1));
+<pre class="verbatim">function disp (p)
 
   a = p.poly;
   first = true;
@@ -133,10 +105,6 @@ report only that the object is an instance of its class.
 endfunction
 </pre></div>
 
-<p>Note that in the display method it makes sense to start the method with the
-line <code>printf&nbsp;(&quot;%s&nbsp;=&quot;,&nbsp;inputname&nbsp;(1))</code><!-- /@w --> to be consistent with the rest
-of Octave which prints the variable name to be displayed followed by the value.
-</p>
 <p>To be consistent with the Octave graphic handle classes, a class should also
 define the <code>get</code> and <code>set</code> methods.  The <code>get</code> method accepts
 one or two arguments.  The first argument is an object of the appropriate
@@ -226,7 +194,7 @@ make sense to save, or a field that needs to be initialized before it is saved.
 This can be done with the <code>saveobj</code> method of the class.
 </p>
 <a name="XREFsaveobj"></a><dl>
-<dt><a name="index-saveobj"></a>: <em><var>b</var> =</em> <strong>saveobj</strong> <em>(<var>a</var>)</em></dt>
+<dt><a name="index-saveobj"></a><em><var>b</var> =</em> <strong>saveobj</strong> <em>(<var>a</var>)</em></dt>
 <dd><p>Method of a class to manipulate an object prior to saving it to a file.
 </p>
 <p>The function <code>saveobj</code> is called when the object <var>a</var> is saved
@@ -255,7 +223,7 @@ and can be used to ensure that any removed fields are reinserted into the user
 object.
 </p>
 <a name="XREFloadobj"></a><dl>
-<dt><a name="index-loadobj"></a>: <em><var>b</var> =</em> <strong>loadobj</strong> <em>(<var>a</var>)</em></dt>
+<dt><a name="index-loadobj"></a><em><var>b</var> =</em> <strong>loadobj</strong> <em>(<var>a</var>)</em></dt>
 <dd><p>Method of a class to manipulate an object after loading it from a file.
 </p>
 <p>The function <code>loadobj</code> is called when the object <var>a</var> is loaded

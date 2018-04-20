@@ -15,7 +15,7 @@
 <link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
 <link href="Statistics.html#Statistics" rel="up" title="Statistics">
 <link href="Distributions.html#Distributions" rel="next" title="Distributions">
-<link href="Statistical-Plots.html#Statistical-Plots" rel="prev" title="Statistical Plots">
+<link href="Basic-Statistical-Functions.html#Basic-Statistical-Functions" rel="prev" title="Basic Statistical Functions">
 <style type="text/css">
 <!--
 a.summary-letter {text-decoration: none}
@@ -52,18 +52,18 @@ ul.no-bullet {list-style: none}
 <a name="Correlation-and-Regression-Analysis"></a>
 <div class="header">
 <p>
-Next: <a href="Distributions.html#Distributions" accesskey="n" rel="next">Distributions</a>, Previous: <a href="Statistical-Plots.html#Statistical-Plots" accesskey="p" rel="prev">Statistical Plots</a>, Up: <a href="Statistics.html#Statistics" accesskey="u" rel="up">Statistics</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Concept-Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="Distributions.html#Distributions" accesskey="n" rel="next">Distributions</a>, Previous: <a href="Basic-Statistical-Functions.html#Basic-Statistical-Functions" accesskey="p" rel="prev">Basic Statistical Functions</a>, Up: <a href="Statistics.html#Statistics" accesskey="u" rel="up">Statistics</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Concept-Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
 </div>
 <hr>
 <a name="Correlation-and-Regression-Analysis-1"></a>
-<h3 class="section">26.4 Correlation and Regression Analysis</h3>
+<h3 class="section">26.3 Correlation and Regression Analysis</h3>
 
 
 <a name="XREFcov"></a><dl>
-<dt><a name="index-cov"></a>: <em></em> <strong>cov</strong> <em>(<var>x</var>)</em></dt>
-<dt><a name="index-cov-1"></a>: <em></em> <strong>cov</strong> <em>(<var>x</var>, <var>opt</var>)</em></dt>
-<dt><a name="index-cov-2"></a>: <em></em> <strong>cov</strong> <em>(<var>x</var>, <var>y</var>)</em></dt>
-<dt><a name="index-cov-3"></a>: <em></em> <strong>cov</strong> <em>(<var>x</var>, <var>y</var>, <var>opt</var>)</em></dt>
+<dt><a name="index-cov"></a><em></em> <strong>cov</strong> <em>(<var>x</var>)</em></dt>
+<dt><a name="index-cov-1"></a><em></em> <strong>cov</strong> <em>(<var>x</var>, <var>opt</var>)</em></dt>
+<dt><a name="index-cov-2"></a><em></em> <strong>cov</strong> <em>(<var>x</var>, <var>y</var>)</em></dt>
+<dt><a name="index-cov-3"></a><em></em> <strong>cov</strong> <em>(<var>x</var>, <var>y</var>, <var>opt</var>)</em></dt>
 <dd><p>Compute the covariance matrix.
 </p>
 <p>If each row of <var>x</var> and <var>y</var> is an observation, and each column is
@@ -109,8 +109,8 @@ running in Octave.
 
 
 <a name="XREFcorr"></a><dl>
-<dt><a name="index-corr"></a>: <em></em> <strong>corr</strong> <em>(<var>x</var>)</em></dt>
-<dt><a name="index-corr-1"></a>: <em></em> <strong>corr</strong> <em>(<var>x</var>, <var>y</var>)</em></dt>
+<dt><a name="index-corr"></a><em></em> <strong>corr</strong> <em>(<var>x</var>)</em></dt>
+<dt><a name="index-corr-1"></a><em></em> <strong>corr</strong> <em>(<var>x</var>, <var>y</var>)</em></dt>
 <dd><p>Compute matrix of correlation coefficients.
 </p>
 <p>If each row of <var>x</var> and <var>y</var> is an observation and each column is
@@ -129,9 +129,58 @@ the correlation between the columns of <var>x</var>.
 </p></dd></dl>
 
 
+<a name="XREFcorrcoef"></a><dl>
+<dt><a name="index-corrcoef"></a><em><var>r</var> =</em> <strong>corrcoef</strong> <em>(<var>x</var>)</em></dt>
+<dt><a name="index-corrcoef-1"></a><em><var>r</var> =</em> <strong>corrcoef</strong> <em>(<var>x</var>, <var>y</var>)</em></dt>
+<dt><a name="index-corrcoef-2"></a><em>[<var>r</var>, <var>p</var>] =</em> <strong>corrcoef</strong> <em>(&hellip;)</em></dt>
+<dt><a name="index-corrcoef-3"></a><em>[<var>r</var>, <var>p</var>, <var>lci</var>, <var>hci</var>] =</em> <strong>corrcoef</strong> <em>(&hellip;)</em></dt>
+<dt><a name="index-corrcoef-4"></a><em>[&hellip;] =</em> <strong>corrcoef</strong> <em>(&hellip;, <var>param</var>, <var>value</var>, &hellip;)</em></dt>
+<dd><p>Compute a matrix of correlation coefficients.
+</p>
+<p><var>x</var> is an array where each column contains a variable and each row is
+an observation.
+</p>
+<p>If a second input <var>y</var> (of the same size as <var>x</var>) is given then
+calculate the correlation coefficients between <var>x</var> and <var>y</var>.
+</p>
+<p><var>r</var> is a matrix of Pearson&rsquo;s product moment correlation coefficients for
+each pair of variables.
+</p>
+<p><var>p</var> is a matrix of pair-wise p-values testing for the null hypothesis of
+a correlation coefficient of zero.
+</p>
+<p><var>lci</var> and <var>hci</var> are matrices containing, respectively, the lower and
+higher bounds of the 95% confidence interval of each correlation
+coefficient.
+</p>
+<p><var>param</var>, <var>value</var> are pairs of optional parameters and values.
+Valid options are:
+</p>
+<dl compact="compact">
+<dt><code>&quot;alpha&quot;</code></dt>
+<dd><p>Confidence level used for the definition of the bounds of the confidence
+interval, <var>lci</var> and <var>hci</var>.  Default is 0.05, i.e., 95% confidence
+interval.
+</p>
+</dd>
+<dt><code>&quot;rows&quot;</code></dt>
+<dd><p>Determine processing of NaN values.  Acceptable values are <code>&quot;all&quot;</code>,
+<code>&quot;complete&quot;</code>, and <code>&quot;pairwise&quot;</code>.  Default is <code>&quot;all&quot;</code>.
+With <code>&quot;complete&quot;</code>, only the rows without NaN values are considered.
+With <code>&quot;pairwise&quot;</code>, the selection of NaN-free rows is made for each
+pair of variables.
+</p>
+</dd>
+</dl>
+
+
+<p><strong>See also:</strong> <a href="#XREFcorr">corr</a>, <a href="#XREFcov">cov</a>.
+</p></dd></dl>
+
+
 <a name="XREFspearman"></a><dl>
-<dt><a name="index-spearman"></a>: <em></em> <strong>spearman</strong> <em>(<var>x</var>)</em></dt>
-<dt><a name="index-spearman-1"></a>: <em></em> <strong>spearman</strong> <em>(<var>x</var>, <var>y</var>)</em></dt>
+<dt><a name="index-spearman"></a><em></em> <strong>spearman</strong> <em>(<var>x</var>)</em></dt>
+<dt><a name="index-spearman-1"></a><em></em> <strong>spearman</strong> <em>(<var>x</var>, <var>y</var>)</em></dt>
 <dd><a name="index-Spearman_0027s-Rho"></a>
 <p>Compute Spearman&rsquo;s rank correlation coefficient
 <var>rho</var>.
@@ -155,8 +204,8 @@ asymptotically normally distributed.
 
 
 <a name="XREFkendall"></a><dl>
-<dt><a name="index-kendall"></a>: <em></em> <strong>kendall</strong> <em>(<var>x</var>)</em></dt>
-<dt><a name="index-kendall-1"></a>: <em></em> <strong>kendall</strong> <em>(<var>x</var>, <var>y</var>)</em></dt>
+<dt><a name="index-kendall"></a><em></em> <strong>kendall</strong> <em>(<var>x</var>)</em></dt>
+<dt><a name="index-kendall-1"></a><em></em> <strong>kendall</strong> <em>(<var>x</var>, <var>y</var>)</em></dt>
 <dd><a name="index-Kendall_0027s-Tau"></a>
 <p>Compute Kendall&rsquo;s
 <var>tau</var>.
@@ -191,66 +240,10 @@ is asymptotically normal with mean 0 and variance
 </p></dd></dl>
 
 
-
-
-<a name="XREFlogistic_005fregression"></a><dl>
-<dt><a name="index-logistic_005fregression"></a>: <em>[<var>theta</var>, <var>beta</var>, <var>dev</var>, <var>dl</var>, <var>d2l</var>, <var>p</var>] =</em> <strong>logistic_regression</strong> <em>(<var>y</var>, <var>x</var>, <var>print</var>, <var>theta</var>, <var>beta</var>)</em></dt>
-<dd><p>Perform ordinal logistic regression.
-</p>
-<p>Suppose <var>y</var> takes values in <var>k</var> ordered categories, and let
-<code>gamma_i (<var>x</var>)</code> be the cumulative probability that <var>y</var>
-falls in one of the first <var>i</var> categories given the covariate
-<var>x</var>.  Then
-</p>
-<div class="example">
-<pre class="example">[theta, beta] = logistic_regression (y, x)
-</pre></div>
-
-<p>fits the model
-</p>
-<div class="example">
-<pre class="example">logit (gamma_i (x)) = theta_i - beta' * x,   i = 1 &hellip; k-1
-</pre></div>
-
-<p>The number of ordinal categories, <var>k</var>, is taken to be the number
-of distinct values of <code>round (<var>y</var>)</code>.  If <var>k</var> equals 2,
-<var>y</var> is binary and the model is ordinary logistic regression.  The
-matrix <var>x</var> is assumed to have full column rank.
-</p>
-<p>Given <var>y</var> only, <code>theta = logistic_regression (y)</code>
-fits the model with baseline logit odds only.
-</p>
-<p>The full form is
-</p>
-<div class="example">
-<pre class="example">[theta, beta, dev, dl, d2l, gamma]
-   = logistic_regression (y, x, print, theta, beta)
-</pre></div>
-
-<p>in which all output arguments and all input arguments except <var>y</var>
-are optional.
-</p>
-<p>Setting <var>print</var> to 1 requests summary information about the fitted
-model to be displayed.  Setting <var>print</var> to 2 requests information
-about convergence at each iteration.  Other values request no
-information to be displayed.  The input arguments <var>theta</var> and
-<var>beta</var> give initial estimates for <var>theta</var> and <var>beta</var>.
-</p>
-<p>The returned value <var>dev</var> holds minus twice the log-likelihood.
-</p>
-<p>The returned values <var>dl</var> and <var>d2l</var> are the vector of first
-and the matrix of second derivatives of the log-likelihood with
-respect to <var>theta</var> and <var>beta</var>.
-</p>
-<p><var>p</var> holds estimates for the conditional distribution of <var>y</var>
-given <var>x</var>.
-</p></dd></dl>
-
-
 <hr>
 <div class="header">
 <p>
-Next: <a href="Distributions.html#Distributions" accesskey="n" rel="next">Distributions</a>, Previous: <a href="Statistical-Plots.html#Statistical-Plots" accesskey="p" rel="prev">Statistical Plots</a>, Up: <a href="Statistics.html#Statistics" accesskey="u" rel="up">Statistics</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Concept-Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="Distributions.html#Distributions" accesskey="n" rel="next">Distributions</a>, Previous: <a href="Basic-Statistical-Functions.html#Basic-Statistical-Functions" accesskey="p" rel="prev">Basic Statistical Functions</a>, Up: <a href="Statistics.html#Statistics" accesskey="u" rel="up">Statistics</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Concept-Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
 </div>
 
 

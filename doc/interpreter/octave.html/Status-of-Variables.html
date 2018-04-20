@@ -72,10 +72,10 @@ who
 </pre></div>
 
 <a name="XREFwho"></a><dl>
-<dt><a name="index-who"></a>: <em></em> <strong>who</strong></dt>
-<dt><a name="index-who-1"></a>: <em></em> <strong>who</strong> <em>pattern &hellip;</em></dt>
-<dt><a name="index-who-2"></a>: <em></em> <strong>who</strong> <em>option pattern &hellip;</em></dt>
-<dt><a name="index-who-3"></a>: <em>C =</em> <strong>who</strong> <em>(&quot;pattern&quot;, &hellip;)</em></dt>
+<dt><a name="index-who"></a><em></em> <strong>who</strong></dt>
+<dt><a name="index-who-1"></a><em></em> <strong>who</strong> <em>pattern &hellip;</em></dt>
+<dt><a name="index-who-2"></a><em></em> <strong>who</strong> <em>option pattern &hellip;</em></dt>
+<dt><a name="index-who-3"></a><em>C =</em> <strong>who</strong> <em>(&quot;pattern&quot;, &hellip;)</em></dt>
 <dd><p>List currently defined variables matching the given patterns.
 </p>
 <p>Valid pattern syntax is the same as described for the <code>clear</code> command.
@@ -111,10 +111,10 @@ matching the given patterns.
 
 
 <a name="XREFwhos"></a><dl>
-<dt><a name="index-whos"></a>: <em></em> <strong>whos</strong></dt>
-<dt><a name="index-whos-1"></a>: <em></em> <strong>whos</strong> <em>pattern &hellip;</em></dt>
-<dt><a name="index-whos-2"></a>: <em></em> <strong>whos</strong> <em>option pattern &hellip;</em></dt>
-<dt><a name="index-whos-3"></a>: <em>S =</em> <strong>whos</strong> <em>(&quot;pattern&quot;, &hellip;)</em></dt>
+<dt><a name="index-whos"></a><em></em> <strong>whos</strong></dt>
+<dt><a name="index-whos-1"></a><em></em> <strong>whos</strong> <em>pattern &hellip;</em></dt>
+<dt><a name="index-whos-2"></a><em></em> <strong>whos</strong> <em>option pattern &hellip;</em></dt>
+<dt><a name="index-whos-3"></a><em>S =</em> <strong>whos</strong> <em>(&quot;pattern&quot;, &hellip;)</em></dt>
 <dd><p>Provide detailed information on currently defined variables matching the
 given patterns.
 </p>
@@ -187,9 +187,9 @@ complex, nesting, persistent.
 
 
 <a name="XREFwhos_005fline_005fformat"></a><dl>
-<dt><a name="index-whos_005fline_005fformat"></a>: <em><var>val</var> =</em> <strong>whos_line_format</strong> <em>()</em></dt>
-<dt><a name="index-whos_005fline_005fformat-1"></a>: <em><var>old_val</var> =</em> <strong>whos_line_format</strong> <em>(<var>new_val</var>)</em></dt>
-<dt><a name="index-whos_005fline_005fformat-2"></a>: <em></em> <strong>whos_line_format</strong> <em>(<var>new_val</var>, &quot;local&quot;)</em></dt>
+<dt><a name="index-whos_005fline_005fformat"></a><em><var>val</var> =</em> <strong>whos_line_format</strong> <em>()</em></dt>
+<dt><a name="index-whos_005fline_005fformat-1"></a><em><var>old_val</var> =</em> <strong>whos_line_format</strong> <em>(<var>new_val</var>)</em></dt>
+<dt><a name="index-whos_005fline_005fformat-2"></a><em></em> <strong>whos_line_format</strong> <em>(<var>new_val</var>, &quot;local&quot;)</em></dt>
 <dd><p>Query or set the format string used by the command <code>whos</code>.
 </p>
 <p>A full format string is:
@@ -282,10 +282,10 @@ endif
 </pre></div>
 
 <a name="XREFexist"></a><dl>
-<dt><a name="index-exist"></a>: <em><var>c</var> =</em> <strong>exist</strong> <em>(<var>name</var>)</em></dt>
-<dt><a name="index-exist-1"></a>: <em><var>c</var> =</em> <strong>exist</strong> <em>(<var>name</var>, <var>type</var>)</em></dt>
-<dd><p>Check for the existence of <var>name</var> as a variable, function, file,
-directory, or class.
+<dt><a name="index-exist"></a><em><var>c</var> =</em> <strong>exist</strong> <em>(<var>name</var>)</em></dt>
+<dt><a name="index-exist-1"></a><em><var>c</var> =</em> <strong>exist</strong> <em>(<var>name</var>, <var>type</var>)</em></dt>
+<dd><p>Check for the existence of <var>name</var> as a variable, function, file, directory,
+or class.
 </p>
 <p>The return code <var>c</var> is one of
 </p>
@@ -295,9 +295,8 @@ directory, or class.
 </p>
 </dd>
 <dt>2</dt>
-<dd><p><var>name</var> is an absolute filename, an ordinary file in Octave&rsquo;s
-<code>path</code>, or (after appending &lsquo;<samp>.m</samp>&rsquo;) a function file in Octave&rsquo;s
-<code>path</code>.
+<dd><p><var>name</var> is an absolute filename, an ordinary file in Octave&rsquo;s <code>path</code>,
+or (after appending &lsquo;<samp>.m</samp>&rsquo;) a function file in Octave&rsquo;s <code>path</code>.
 </p>
 </dd>
 <dt>3</dt>
@@ -312,6 +311,10 @@ directory, or class.
 <dd><p><var>name</var> is a directory.
 </p>
 </dd>
+<dt>8</dt>
+<dd><p><var>name</var> is a class.  (Note: not currently implemented)
+</p>
+</dd>
 <dt>103</dt>
 <dd><p><var>name</var> is a function not associated with a file (entered on the command
 line).
@@ -322,8 +325,8 @@ line).
 </p></dd>
 </dl>
 
-<p>If the optional argument <var>type</var> is supplied, check only for symbols of
-the specified type.  Valid types are
+<p>If the optional argument <var>type</var> is supplied, check only for symbols of the
+specified type.  Valid types are
 </p>
 <dl compact="compact">
 <dt><code>&quot;var&quot;</code></dt>
@@ -353,14 +356,13 @@ implemented)
 variable, built-in function, oct-file, directory, file, class.
 </p>
 <p><code>exist</code> returns 2 if a regular file called <var>name</var> is present in
-Octave&rsquo;s search path.  If you want information about other types of files
-not on the search path you should use some combination of the functions
-<code>file_in_path</code> and <code>stat</code> instead.
+Octave&rsquo;s search path.  For information about other types of files not on the
+search path use some combination of the functions <code>file_in_path</code> and
+<code>stat</code> instead.
 </p>
 <p>Programming Note: If <var>name</var> is implemented by a buggy .oct/.mex file,
-calling <var>exist</var> may cause Octave to crash.  To maintain high
-performance, Octave trusts .oct/.mex files instead of sandboxing
-them.
+calling <var>exist</var> may cause Octave to crash.  To maintain high performance,
+Octave trusts .oct/.mex files instead of sandboxing them.
 </p>
 
 <p><strong>See also:</strong> <a href="Manipulating-the-Load-Path.html#XREFfile_005fin_005floadpath">file_in_loadpath</a>, <a href="Filesystem-Utilities.html#XREFfile_005fin_005fpath">file_in_path</a>, <a href="Manipulating-the-Load-Path.html#XREFdir_005fin_005floadpath">dir_in_loadpath</a>, <a href="Filesystem-Utilities.html#XREFstat">stat</a>.
@@ -382,7 +384,7 @@ it can be necessary to remove it manually from memory.  The <code>clear</code>
 function allows this.
 </p>
 <a name="XREFclear"></a><dl>
-<dt><a name="index-clear"></a>: <em></em> <strong>clear</strong> <em>[options] pattern &hellip;</em></dt>
+<dt><a name="index-clear"></a><em></em> <strong>clear</strong> <em>[options] pattern &hellip;</em></dt>
 <dd><p>Delete the names matching the given patterns from the symbol table.
 </p>
 <p>The pattern may contain the following special characters:
@@ -466,7 +468,7 @@ without the dash as well.
 
 
 <a name="XREFpack"></a><dl>
-<dt><a name="index-pack"></a>: <em></em> <strong>pack</strong> <em>()</em></dt>
+<dt><a name="index-pack"></a><em></em> <strong>pack</strong> <em>()</em></dt>
 <dd><p>Consolidate workspace memory in <small>MATLAB</small>.
 </p>
 <p>This function is provided for compatibility, but does nothing in Octave.
@@ -480,9 +482,9 @@ file system can also be acquired from within Octave.  This is usually
 only useful during development of programs, and not within a program.
 </p>
 <a name="XREFtype"></a><dl>
-<dt><a name="index-type"></a>: <em></em> <strong>type</strong> <em><var>name</var> &hellip;</em></dt>
-<dt><a name="index-type-1"></a>: <em></em> <strong>type</strong> <em>-q <var>name</var> &hellip;</em></dt>
-<dt><a name="index-type-2"></a>: <em>text =</em> <strong>type</strong> <em>(&quot;<var>name</var>&quot;, &hellip;)</em></dt>
+<dt><a name="index-type"></a><em></em> <strong>type</strong> <em><var>name</var> &hellip;</em></dt>
+<dt><a name="index-type-1"></a><em></em> <strong>type</strong> <em>-q <var>name</var> &hellip;</em></dt>
+<dt><a name="index-type-2"></a><em>text =</em> <strong>type</strong> <em>(&quot;<var>name</var>&quot;, &hellip;)</em></dt>
 <dd><p>Display the contents of <var>name</var> which may be a file, function (m-file),
 variable, operator, or keyword.
 </p>
@@ -497,7 +499,7 @@ corresponds to the contents of each requested function.
 
 
 <a name="XREFwhich"></a><dl>
-<dt><a name="index-which"></a>: <em></em> <strong>which</strong> <em>name &hellip;</em></dt>
+<dt><a name="index-which"></a><em></em> <strong>which</strong> <em>name &hellip;</em></dt>
 <dd><p>Display the type of each <var>name</var>.
 </p>
 <p>If <var>name</var> is defined from a function file, the full name of the file is
@@ -508,9 +510,9 @@ also displayed.
 
 
 <a name="XREFwhat"></a><dl>
-<dt><a name="index-what"></a>: <em></em> <strong>what</strong></dt>
-<dt><a name="index-what-1"></a>: <em></em> <strong>what</strong> <em><var>dir</var></em></dt>
-<dt><a name="index-what-2"></a>: <em>w =</em> <strong>what</strong> <em>(<var>dir</var>)</em></dt>
+<dt><a name="index-what"></a><em></em> <strong>what</strong></dt>
+<dt><a name="index-what-1"></a><em></em> <strong>what</strong> <em><var>dir</var></em></dt>
+<dt><a name="index-what-2"></a><em>w =</em> <strong>what</strong> <em>(<var>dir</var>)</em></dt>
 <dd><p>List the Octave specific files in directory <var>dir</var>.
 </p>
 <p>If <var>dir</var> is not specified then the current directory is used.

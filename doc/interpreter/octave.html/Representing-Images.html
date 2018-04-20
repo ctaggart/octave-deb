@@ -83,8 +83,8 @@ an RGB color.  The color map must be of class <code>double</code> with values
 between 0 and 1.
 </p>
 <a name="XREFim2double"></a><dl>
-<dt><a name="index-im2double"></a>: <em></em> <strong>im2double</strong> <em>(<var>img</var>)</em></dt>
-<dt><a name="index-im2double-1"></a>: <em></em> <strong>im2double</strong> <em>(<var>img</var>, &quot;indexed&quot;)</em></dt>
+<dt><a name="index-im2double"></a><em></em> <strong>im2double</strong> <em>(<var>img</var>)</em></dt>
+<dt><a name="index-im2double-1"></a><em></em> <strong>im2double</strong> <em>(<var>img</var>, &quot;indexed&quot;)</em></dt>
 <dd><p>Convert image to double precision.
 </p>
 <p>The conversion of <var>img</var> to double precision, is dependent
@@ -121,7 +121,7 @@ be cast to double.  If it is an integer class, a +1 offset is applied.
 
 
 <a name="XREFiscolormap"></a><dl>
-<dt><a name="index-iscolormap"></a>: <em></em> <strong>iscolormap</strong> <em>(<var>cmap</var>)</em></dt>
+<dt><a name="index-iscolormap"></a><em></em> <strong>iscolormap</strong> <em>(<var>cmap</var>)</em></dt>
 <dd><p>Return true if <var>cmap</var> is a colormap.
 </p>
 <p>A colormap is a real matrix, of class single or double, with 3 columns.
@@ -138,11 +138,11 @@ range.
 
 
 <a name="XREFgray2ind"></a><dl>
-<dt><a name="index-gray2ind"></a>: <em><var>img</var> =</em> <strong>gray2ind</strong> <em>(<var>I</var>)</em></dt>
-<dt><a name="index-gray2ind-1"></a>: <em><var>img</var> =</em> <strong>gray2ind</strong> <em>(<var>I</var>, <var>n</var>)</em></dt>
-<dt><a name="index-gray2ind-2"></a>: <em><var>img</var> =</em> <strong>gray2ind</strong> <em>(<var>BW</var>)</em></dt>
-<dt><a name="index-gray2ind-3"></a>: <em><var>img</var> =</em> <strong>gray2ind</strong> <em>(<var>BW</var>, <var>n</var>)</em></dt>
-<dt><a name="index-gray2ind-4"></a>: <em>[<var>img</var>, <var>map</var>] =</em> <strong>gray2ind</strong> <em>(&hellip;)</em></dt>
+<dt><a name="index-gray2ind"></a><em><var>img</var> =</em> <strong>gray2ind</strong> <em>(<var>I</var>)</em></dt>
+<dt><a name="index-gray2ind-1"></a><em><var>img</var> =</em> <strong>gray2ind</strong> <em>(<var>I</var>, <var>n</var>)</em></dt>
+<dt><a name="index-gray2ind-2"></a><em><var>img</var> =</em> <strong>gray2ind</strong> <em>(<var>BW</var>)</em></dt>
+<dt><a name="index-gray2ind-3"></a><em><var>img</var> =</em> <strong>gray2ind</strong> <em>(<var>BW</var>, <var>n</var>)</em></dt>
+<dt><a name="index-gray2ind-4"></a><em>[<var>img</var>, <var>map</var>] =</em> <strong>gray2ind</strong> <em>(&hellip;)</em></dt>
 <dd><p>Convert a grayscale or binary intensity image to an indexed image.
 </p>
 <p>The indexed image will consist of <var>n</var> different intensity values.
@@ -157,7 +157,7 @@ black and white images.
 
 
 <a name="XREFind2gray"></a><dl>
-<dt><a name="index-ind2gray"></a>: <em><var>I</var> =</em> <strong>ind2gray</strong> <em>(<var>x</var>, <var>map</var>)</em></dt>
+<dt><a name="index-ind2gray"></a><em><var>I</var> =</em> <strong>ind2gray</strong> <em>(<var>x</var>, <var>map</var>)</em></dt>
 <dd><p>Convert a color indexed image to a grayscale intensity image.
 </p>
 <p>The image <var>x</var> must be an indexed image which will be converted using the
@@ -170,7 +170,7 @@ one of <code>uint8</code>, <code>uint16</code>, <code>single</code>, or <code>do
 </p>
 <p>Implementation Note: There are several ways of converting colors to
 grayscale intensities.  This functions uses the luminance value obtained
-from <code>rgb2ntsc</code> which is <code>I = 0.299*R + 0.587*G + 0.114*B</code>.
+from <code>rgb2gray</code> which is <code>I = 0.299*R + 0.587*G + 0.114*B</code>.
 Other possibilities include the value component from <code>rgb2hsv</code> or
 using a single color channel from <code>ind2rgb</code>.
 </p>
@@ -179,8 +179,8 @@ using a single color channel from <code>ind2rgb</code>.
 
 
 <a name="XREFrgb2ind"></a><dl>
-<dt><a name="index-rgb2ind"></a>: <em>[<var>x</var>, <var>map</var>] =</em> <strong>rgb2ind</strong> <em>(<var>rgb</var>)</em></dt>
-<dt><a name="index-rgb2ind-1"></a>: <em>[<var>x</var>, <var>map</var>] =</em> <strong>rgb2ind</strong> <em>(<var>R</var>, <var>G</var>, <var>B</var>)</em></dt>
+<dt><a name="index-rgb2ind"></a><em>[<var>x</var>, <var>map</var>] =</em> <strong>rgb2ind</strong> <em>(<var>rgb</var>)</em></dt>
+<dt><a name="index-rgb2ind-1"></a><em>[<var>x</var>, <var>map</var>] =</em> <strong>rgb2ind</strong> <em>(<var>R</var>, <var>G</var>, <var>B</var>)</em></dt>
 <dd><p>Convert an image in red-green-blue (RGB) color space to an indexed image.
 </p>
 <p>The input image <var>rgb</var> can be specified as a single matrix of size
@@ -199,13 +199,13 @@ supported, both via a single input (<var>rgb</var>) or its three color channels
 as separate variables.
 </p>
 
-<p><strong>See also:</strong> <a href="#XREFind2rgb">ind2rgb</a>, <a href="Color-Conversion.html#XREFrgb2hsv">rgb2hsv</a>, <a href="Color-Conversion.html#XREFrgb2ntsc">rgb2ntsc</a>.
+<p><strong>See also:</strong> <a href="#XREFind2rgb">ind2rgb</a>, <a href="Color-Conversion.html#XREFrgb2hsv">rgb2hsv</a>, <a href="Color-Conversion.html#XREFrgb2gray">rgb2gray</a>.
 </p></dd></dl>
 
 
 <a name="XREFind2rgb"></a><dl>
-<dt><a name="index-ind2rgb"></a>: <em><var>rgb</var> =</em> <strong>ind2rgb</strong> <em>(<var>x</var>, <var>map</var>)</em></dt>
-<dt><a name="index-ind2rgb-1"></a>: <em>[<var>R</var>, <var>G</var>, <var>B</var>] =</em> <strong>ind2rgb</strong> <em>(<var>x</var>, <var>map</var>)</em></dt>
+<dt><a name="index-ind2rgb"></a><em><var>rgb</var> =</em> <strong>ind2rgb</strong> <em>(<var>x</var>, <var>map</var>)</em></dt>
+<dt><a name="index-ind2rgb-1"></a><em>[<var>R</var>, <var>G</var>, <var>B</var>] =</em> <strong>ind2rgb</strong> <em>(<var>x</var>, <var>map</var>)</em></dt>
 <dd><p>Convert an indexed image to red, green, and blue color components.
 </p>
 <p>The image <var>x</var> must be an indexed image which will be converted using the
@@ -222,30 +222,60 @@ color matrices of size MxN may be returned.
 supported.
 </p>
 
-<p><strong>See also:</strong> <a href="#XREFrgb2ind">rgb2ind</a>, <a href="#XREFind2gray">ind2gray</a>, <a href="Color-Conversion.html#XREFhsv2rgb">hsv2rgb</a>, <a href="Color-Conversion.html#XREFntsc2rgb">ntsc2rgb</a>.
+<p><strong>See also:</strong> <a href="#XREFrgb2ind">rgb2ind</a>, <a href="#XREFind2gray">ind2gray</a>, <a href="Color-Conversion.html#XREFhsv2rgb">hsv2rgb</a>.
+</p></dd></dl>
+
+
+<a name="XREFgetframe"></a><dl>
+<dt><a name="index-getframe"></a><em><var>frame</var> =</em> <strong>getframe</strong> <em>()</em></dt>
+<dt><a name="index-getframe-1"></a><em><var>frame</var> =</em> <strong>getframe</strong> <em>(<var>hax</var>)</em></dt>
+<dt><a name="index-getframe-2"></a><em><var>frame</var> =</em> <strong>getframe</strong> <em>(<var>hfig</var>)</em></dt>
+<dt><a name="index-getframe-3"></a><em><var>frame</var> =</em> <strong>getframe</strong> <em>(&hellip;, <var>rect</var>)</em></dt>
+<dd>
+<p>Capture a figure or axes as a movie frame structure.
+</p>
+<p>Without an argument, capture the current axes excluding ticklabels, title,
+and x/y/zlabels.  The returned structure <var>frame</var> has a field
+<code>cdata</code>, which contains the actual image data in the form of an
+NxMx3 (RGB) uint8 matrix, and a field <code>colormap</code> which is
+provided for <small>MATLAB</small> compatibility but is always empty.
+</p>
+<p>If the first argument <var>hax</var> is an axes handle, then capture this axes,
+rather than the current axes returned by <code>gca</code>.
+</p>
+<p>If the first argument <var>hfig</var> is a figure handle then the entire
+corresponding figure canvas is captured.
+</p>
+<p>Finally, if a second argument <var>rect</var> is provided it must be a
+four-element vector ([left bottom width height]) defining the region inside
+the figure to be captured.  Regardless of the figure <code>&quot;units&quot;</code>
+property, <var>rect</var> must be defined in <strong>pixels</strong>.
+</p>
+
+<p><strong>See also:</strong> <a href="#XREFim2frame">im2frame</a>, <a href="#XREFframe2im">frame2im</a>.
 </p></dd></dl>
 
 
 <a name="XREFframe2im"></a><dl>
-<dt><a name="index-frame2im"></a>: <em>[<var>x</var>, <var>map</var>] =</em> <strong>frame2im</strong> <em>(<var>f</var>)</em></dt>
+<dt><a name="index-frame2im"></a><em>[<var>x</var>, <var>map</var>] =</em> <strong>frame2im</strong> <em>(<var>frame</var>)</em></dt>
 <dd><p>Convert movie frame to indexed image.
 </p>
 <p>A movie frame is simply a struct with the fields <code>&quot;cdata&quot;</code> and
 <code>&quot;colormap&quot;</code>.
 </p>
-<p>Support for N-dimensional images or movies is given when <var>f</var> is a
+<p>Support for N-dimensional images or movies is given when <var>frame</var> is a
 struct array.  In such cases, <var>x</var> will be a MxNx1xK or MxNx3xK
 for indexed and RGB movies respectively, with each frame concatenated
 along the 4th dimension.
 </p>
 
-<p><strong>See also:</strong> <a href="#XREFim2frame">im2frame</a>.
+<p><strong>See also:</strong> <a href="#XREFim2frame">im2frame</a>, <a href="#XREFgetframe">getframe</a>.
 </p></dd></dl>
 
 
 <a name="XREFim2frame"></a><dl>
-<dt><a name="index-im2frame"></a>: <em></em> <strong>im2frame</strong> <em>(<var>rgb</var>)</em></dt>
-<dt><a name="index-im2frame-1"></a>: <em></em> <strong>im2frame</strong> <em>(<var>x</var>, <var>map</var>)</em></dt>
+<dt><a name="index-im2frame"></a><em></em> <strong>im2frame</strong> <em>(<var>rgb</var>)</em></dt>
+<dt><a name="index-im2frame-1"></a><em></em> <strong>im2frame</strong> <em>(<var>x</var>, <var>map</var>)</em></dt>
 <dd><p>Convert image to movie frame.
 </p>
 <p>A movie frame is simply a struct with the fields <code>&quot;cdata&quot;</code> and
@@ -262,12 +292,12 @@ array.
 
 
 <a name="XREFcolormap"></a><dl>
-<dt><a name="index-colormap"></a>: <em><var>cmap</var> =</em> <strong>colormap</strong> <em>()</em></dt>
-<dt><a name="index-colormap-1"></a>: <em><var>cmap</var> =</em> <strong>colormap</strong> <em>(<var>map</var>)</em></dt>
-<dt><a name="index-colormap-2"></a>: <em><var>cmap</var> =</em> <strong>colormap</strong> <em>(<code>&quot;default&quot;</code>)</em></dt>
-<dt><a name="index-colormap-3"></a>: <em><var>cmap</var> =</em> <strong>colormap</strong> <em>(<var>map_name</var>)</em></dt>
-<dt><a name="index-colormap-4"></a>: <em><var>cmap</var> =</em> <strong>colormap</strong> <em>(<var>hax</var>, &hellip;)</em></dt>
-<dt><a name="index-colormap-5"></a>: <em></em> <strong>colormap</strong> <em><var>map_name</var></em></dt>
+<dt><a name="index-colormap"></a><em><var>cmap</var> =</em> <strong>colormap</strong> <em>()</em></dt>
+<dt><a name="index-colormap-1"></a><em><var>cmap</var> =</em> <strong>colormap</strong> <em>(<var>map</var>)</em></dt>
+<dt><a name="index-colormap-2"></a><em><var>cmap</var> =</em> <strong>colormap</strong> <em>(<code>&quot;default&quot;</code>)</em></dt>
+<dt><a name="index-colormap-3"></a><em><var>cmap</var> =</em> <strong>colormap</strong> <em>(<var>map_name</var>)</em></dt>
+<dt><a name="index-colormap-4"></a><em><var>cmap</var> =</em> <strong>colormap</strong> <em>(<var>hax</var>, &hellip;)</em></dt>
+<dt><a name="index-colormap-5"></a><em></em> <strong>colormap</strong> <em><var>map_name</var></em></dt>
 <dd><p>Query or set the current colormap.
 </p>
 <p>With no input arguments, <code>colormap</code> returns the current color map.
@@ -284,7 +314,7 @@ must be between 0 and 1 inclusive.  The new colormap is returned.
 is the name of a function that returns a colormap.
 </p>
 <p>If the first argument <var>hax</var> is an axes handle, then the colormap for
-the parent figure of <var>hax</var> is queried or set.
+those axes is queried or set.
 </p>
 <p>For convenience, it is also possible to use this function with the
 command form, <code>colormap <var>map_name</var></code>.
@@ -325,9 +355,9 @@ command form, <code>colormap <var>map_name</var></code>.
 
 
 <a name="XREFrgbplot"></a><dl>
-<dt><a name="index-rgbplot"></a>: <em></em> <strong>rgbplot</strong> <em>(<var>cmap</var>)</em></dt>
-<dt><a name="index-rgbplot-1"></a>: <em></em> <strong>rgbplot</strong> <em>(<var>cmap</var>, <var>style</var>)</em></dt>
-<dt><a name="index-rgbplot-2"></a>: <em><var>h</var> =</em> <strong>rgbplot</strong> <em>(&hellip;)</em></dt>
+<dt><a name="index-rgbplot"></a><em></em> <strong>rgbplot</strong> <em>(<var>cmap</var>)</em></dt>
+<dt><a name="index-rgbplot-1"></a><em></em> <strong>rgbplot</strong> <em>(<var>cmap</var>, <var>style</var>)</em></dt>
+<dt><a name="index-rgbplot-2"></a><em><var>h</var> =</em> <strong>rgbplot</strong> <em>(&hellip;)</em></dt>
 <dd><p>Plot the components of a colormap.
 </p>
 <p>Two different <var>style</var>s are available for displaying the <var>cmap</var>:
@@ -356,8 +386,8 @@ option.
 
 
 <a name="XREFautumn"></a><dl>
-<dt><a name="index-autumn"></a>: <em><var>map</var> =</em> <strong>autumn</strong> <em>()</em></dt>
-<dt><a name="index-autumn-1"></a>: <em><var>map</var> =</em> <strong>autumn</strong> <em>(<var>n</var>)</em></dt>
+<dt><a name="index-autumn"></a><em><var>map</var> =</em> <strong>autumn</strong> <em>()</em></dt>
+<dt><a name="index-autumn-1"></a><em><var>map</var> =</em> <strong>autumn</strong> <em>(<var>n</var>)</em></dt>
 <dd><p>Create color colormap.
 This colormap ranges from red through orange to yellow.
 </p>
@@ -369,8 +399,8 @@ If unspecified, the length of the current colormap, or 64, is used.
 
 
 <a name="XREFbone"></a><dl>
-<dt><a name="index-bone"></a>: <em><var>map</var> =</em> <strong>bone</strong> <em>()</em></dt>
-<dt><a name="index-bone-1"></a>: <em><var>map</var> =</em> <strong>bone</strong> <em>(<var>n</var>)</em></dt>
+<dt><a name="index-bone"></a><em><var>map</var> =</em> <strong>bone</strong> <em>()</em></dt>
+<dt><a name="index-bone-1"></a><em><var>map</var> =</em> <strong>bone</strong> <em>(<var>n</var>)</em></dt>
 <dd><p>Create color colormap.  This colormap varies from black to white with
 gray-blue shades.
 </p>
@@ -382,8 +412,8 @@ If unspecified, the length of the current colormap, or 64, is used.
 
 
 <a name="XREFcolorcube"></a><dl>
-<dt><a name="index-colorcube"></a>: <em><var>map</var> =</em> <strong>colorcube</strong> <em>()</em></dt>
-<dt><a name="index-colorcube-1"></a>: <em><var>map</var> =</em> <strong>colorcube</strong> <em>(<var>n</var>)</em></dt>
+<dt><a name="index-colorcube"></a><em><var>map</var> =</em> <strong>colorcube</strong> <em>()</em></dt>
+<dt><a name="index-colorcube-1"></a><em><var>map</var> =</em> <strong>colorcube</strong> <em>(<var>n</var>)</em></dt>
 <dd><p>Create color colormap.  This colormap is composed of as many equally
 spaced colors (not grays) in the RGB color space as possible.
 </p>
@@ -399,8 +429,8 @@ If unspecified, the length of the current colormap, or 64, is used.
 
 
 <a name="XREFcool"></a><dl>
-<dt><a name="index-cool"></a>: <em><var>map</var> =</em> <strong>cool</strong> <em>()</em></dt>
-<dt><a name="index-cool-1"></a>: <em><var>map</var> =</em> <strong>cool</strong> <em>(<var>n</var>)</em></dt>
+<dt><a name="index-cool"></a><em><var>map</var> =</em> <strong>cool</strong> <em>()</em></dt>
+<dt><a name="index-cool-1"></a><em><var>map</var> =</em> <strong>cool</strong> <em>(<var>n</var>)</em></dt>
 <dd><p>Create color colormap.  The colormap varies from cyan to magenta.
 </p>
 <p>The argument <var>n</var> must be a scalar.
@@ -411,8 +441,8 @@ If unspecified, the length of the current colormap, or 64, is used.
 
 
 <a name="XREFcopper"></a><dl>
-<dt><a name="index-copper"></a>: <em><var>map</var> =</em> <strong>copper</strong> <em>()</em></dt>
-<dt><a name="index-copper-1"></a>: <em><var>map</var> =</em> <strong>copper</strong> <em>(<var>n</var>)</em></dt>
+<dt><a name="index-copper"></a><em><var>map</var> =</em> <strong>copper</strong> <em>()</em></dt>
+<dt><a name="index-copper-1"></a><em><var>map</var> =</em> <strong>copper</strong> <em>(<var>n</var>)</em></dt>
 <dd><p>Create color colormap.  This colormap varies from black to a light copper
 tone.
 </p>
@@ -424,8 +454,8 @@ If unspecified, the length of the current colormap, or 64, is used.
 
 
 <a name="XREFcubehelix"></a><dl>
-<dt><a name="index-cubehelix"></a>: <em><var>map</var> =</em> <strong>cubehelix</strong> <em>()</em></dt>
-<dt><a name="index-cubehelix-1"></a>: <em><var>map</var> =</em> <strong>cubehelix</strong> <em>(<var>n</var>)</em></dt>
+<dt><a name="index-cubehelix"></a><em><var>map</var> =</em> <strong>cubehelix</strong> <em>()</em></dt>
+<dt><a name="index-cubehelix-1"></a><em><var>map</var> =</em> <strong>cubehelix</strong> <em>(<var>n</var>)</em></dt>
 <dd><p>Create cubehelix colormap.
 </p>
 <p>This colormap varies from black to white going though blue, green, and red
@@ -451,8 +481,8 @@ images&quot;</cite>, Bulletin of the Astronomical Society of India, 39, 289.
 
 
 <a name="XREFflag"></a><dl>
-<dt><a name="index-flag"></a>: <em><var>map</var> =</em> <strong>flag</strong> <em>()</em></dt>
-<dt><a name="index-flag-1"></a>: <em><var>map</var> =</em> <strong>flag</strong> <em>(<var>n</var>)</em></dt>
+<dt><a name="index-flag"></a><em><var>map</var> =</em> <strong>flag</strong> <em>()</em></dt>
+<dt><a name="index-flag-1"></a><em><var>map</var> =</em> <strong>flag</strong> <em>(<var>n</var>)</em></dt>
 <dd><p>Create color colormap.  This colormap cycles through red, white, blue, and
 black with each index change.
 </p>
@@ -464,8 +494,8 @@ If unspecified, the length of the current colormap, or 64, is used.
 
 
 <a name="XREFgray"></a><dl>
-<dt><a name="index-gray"></a>: <em><var>map</var> =</em> <strong>gray</strong> <em>()</em></dt>
-<dt><a name="index-gray-1"></a>: <em><var>map</var> =</em> <strong>gray</strong> <em>(<var>n</var>)</em></dt>
+<dt><a name="index-gray"></a><em><var>map</var> =</em> <strong>gray</strong> <em>()</em></dt>
+<dt><a name="index-gray-1"></a><em><var>map</var> =</em> <strong>gray</strong> <em>(<var>n</var>)</em></dt>
 <dd><p>Create gray colormap.  This colormap varies from black to white with shades
 of gray.
 </p>
@@ -477,8 +507,8 @@ If unspecified, the length of the current colormap, or 64, is used.
 
 
 <a name="XREFhot"></a><dl>
-<dt><a name="index-hot"></a>: <em><var>map</var> =</em> <strong>hot</strong> <em>()</em></dt>
-<dt><a name="index-hot-1"></a>: <em><var>map</var> =</em> <strong>hot</strong> <em>(<var>n</var>)</em></dt>
+<dt><a name="index-hot"></a><em><var>map</var> =</em> <strong>hot</strong> <em>()</em></dt>
+<dt><a name="index-hot-1"></a><em><var>map</var> =</em> <strong>hot</strong> <em>(<var>n</var>)</em></dt>
 <dd><p>Create color colormap.  This colormap ranges from black through dark red,
 red, orange, yellow, to white.
 </p>
@@ -490,7 +520,7 @@ If unspecified, the length of the current colormap, or 64, is used.
 
 
 <a name="XREFhsv"></a><dl>
-<dt><a name="index-hsv"></a>: <em></em> <strong>hsv</strong> <em>(<var>n</var>)</em></dt>
+<dt><a name="index-hsv"></a><em></em> <strong>hsv</strong> <em>(<var>n</var>)</em></dt>
 <dd><p>Create color colormap.  This colormap begins with red, changes through
 yellow, green, cyan, blue, and magenta, before returning to red.
 </p>
@@ -507,8 +537,8 @@ If unspecified, the length of the current colormap, or 64, is used.
 
 
 <a name="XREFjet"></a><dl>
-<dt><a name="index-jet"></a>: <em><var>map</var> =</em> <strong>jet</strong> <em>()</em></dt>
-<dt><a name="index-jet-1"></a>: <em><var>map</var> =</em> <strong>jet</strong> <em>(<var>n</var>)</em></dt>
+<dt><a name="index-jet"></a><em><var>map</var> =</em> <strong>jet</strong> <em>()</em></dt>
+<dt><a name="index-jet-1"></a><em><var>map</var> =</em> <strong>jet</strong> <em>(<var>n</var>)</em></dt>
 <dd><p>Create color colormap.  This colormap ranges from dark blue through blue,
 cyan, green, yellow, red, to dark red.
 </p>
@@ -520,8 +550,8 @@ If unspecified, the length of the current colormap, or 64, is used.
 
 
 <a name="XREFlines"></a><dl>
-<dt><a name="index-lines"></a>: <em><var>map</var> =</em> <strong>lines</strong> <em>()</em></dt>
-<dt><a name="index-lines-1"></a>: <em><var>map</var> =</em> <strong>lines</strong> <em>(<var>n</var>)</em></dt>
+<dt><a name="index-lines"></a><em><var>map</var> =</em> <strong>lines</strong> <em>()</em></dt>
+<dt><a name="index-lines-1"></a><em><var>map</var> =</em> <strong>lines</strong> <em>(<var>n</var>)</em></dt>
 <dd><p>Create color colormap.  This colormap is composed of the list of colors
 in the current axes <code>&quot;ColorOrder&quot;</code> property.  The default is blue,
 orange, yellow, purple, green, light blue, and dark red.
@@ -534,8 +564,8 @@ If unspecified, the length of the current colormap, or 64, is used.
 
 
 <a name="XREFocean"></a><dl>
-<dt><a name="index-ocean"></a>: <em><var>map</var> =</em> <strong>ocean</strong> <em>()</em></dt>
-<dt><a name="index-ocean-1"></a>: <em><var>map</var> =</em> <strong>ocean</strong> <em>(<var>n</var>)</em></dt>
+<dt><a name="index-ocean"></a><em><var>map</var> =</em> <strong>ocean</strong> <em>()</em></dt>
+<dt><a name="index-ocean-1"></a><em><var>map</var> =</em> <strong>ocean</strong> <em>(<var>n</var>)</em></dt>
 <dd><p>Create color colormap.  This colormap varies from black to white with shades
 of blue.
 </p>
@@ -547,8 +577,8 @@ If unspecified, the length of the current colormap, or 64, is used.
 
 
 <a name="XREFpink"></a><dl>
-<dt><a name="index-pink"></a>: <em><var>map</var> =</em> <strong>pink</strong> <em>()</em></dt>
-<dt><a name="index-pink-1"></a>: <em><var>map</var> =</em> <strong>pink</strong> <em>(<var>n</var>)</em></dt>
+<dt><a name="index-pink"></a><em><var>map</var> =</em> <strong>pink</strong> <em>()</em></dt>
+<dt><a name="index-pink-1"></a><em><var>map</var> =</em> <strong>pink</strong> <em>(<var>n</var>)</em></dt>
 <dd><p>Create color colormap.  This colormap varies from black to white with
 shades of gray-pink.
 </p>
@@ -562,8 +592,8 @@ If unspecified, the length of the current colormap, or 64, is used.
 
 
 <a name="XREFprism"></a><dl>
-<dt><a name="index-prism"></a>: <em><var>map</var> =</em> <strong>prism</strong> <em>()</em></dt>
-<dt><a name="index-prism-1"></a>: <em><var>map</var> =</em> <strong>prism</strong> <em>(<var>n</var>)</em></dt>
+<dt><a name="index-prism"></a><em><var>map</var> =</em> <strong>prism</strong> <em>()</em></dt>
+<dt><a name="index-prism-1"></a><em><var>map</var> =</em> <strong>prism</strong> <em>(<var>n</var>)</em></dt>
 <dd><p>Create color colormap.  This colormap cycles through red, orange, yellow,
 green, blue and violet with each index change.
 </p>
@@ -575,8 +605,8 @@ If unspecified, the length of the current colormap, or 64, is used.
 
 
 <a name="XREFrainbow"></a><dl>
-<dt><a name="index-rainbow"></a>: <em><var>map</var> =</em> <strong>rainbow</strong> <em>()</em></dt>
-<dt><a name="index-rainbow-1"></a>: <em><var>map</var> =</em> <strong>rainbow</strong> <em>(<var>n</var>)</em></dt>
+<dt><a name="index-rainbow"></a><em><var>map</var> =</em> <strong>rainbow</strong> <em>()</em></dt>
+<dt><a name="index-rainbow-1"></a><em><var>map</var> =</em> <strong>rainbow</strong> <em>(<var>n</var>)</em></dt>
 <dd><p>Create color colormap.  This colormap ranges from red through orange,
 yellow, green, blue, to violet.
 </p>
@@ -588,8 +618,8 @@ If unspecified, the length of the current colormap, or 64, is used.
 
 
 <a name="XREFspring"></a><dl>
-<dt><a name="index-spring"></a>: <em><var>map</var> =</em> <strong>spring</strong> <em>()</em></dt>
-<dt><a name="index-spring-1"></a>: <em><var>map</var> =</em> <strong>spring</strong> <em>(<var>n</var>)</em></dt>
+<dt><a name="index-spring"></a><em><var>map</var> =</em> <strong>spring</strong> <em>()</em></dt>
+<dt><a name="index-spring-1"></a><em><var>map</var> =</em> <strong>spring</strong> <em>(<var>n</var>)</em></dt>
 <dd><p>Create color colormap.  This colormap varies from magenta to yellow.
 </p>
 <p>The argument <var>n</var> must be a scalar.
@@ -600,8 +630,8 @@ If unspecified, the length of the current colormap, or 64, is used.
 
 
 <a name="XREFsummer"></a><dl>
-<dt><a name="index-summer"></a>: <em><var>map</var> =</em> <strong>summer</strong> <em>()</em></dt>
-<dt><a name="index-summer-1"></a>: <em><var>map</var> =</em> <strong>summer</strong> <em>(<var>n</var>)</em></dt>
+<dt><a name="index-summer"></a><em><var>map</var> =</em> <strong>summer</strong> <em>()</em></dt>
+<dt><a name="index-summer-1"></a><em><var>map</var> =</em> <strong>summer</strong> <em>(<var>n</var>)</em></dt>
 <dd><p>Create color colormap.  This colormap varies from green to yellow.
 </p>
 <p>The argument <var>n</var> must be a scalar.
@@ -612,8 +642,8 @@ If unspecified, the length of the current colormap, or 64, is used.
 
 
 <a name="XREFviridis"></a><dl>
-<dt><a name="index-viridis"></a>: <em><var>map</var> =</em> <strong>viridis</strong> <em>()</em></dt>
-<dt><a name="index-viridis-1"></a>: <em><var>map</var> =</em> <strong>viridis</strong> <em>(<var>n</var>)</em></dt>
+<dt><a name="index-viridis"></a><em><var>map</var> =</em> <strong>viridis</strong> <em>()</em></dt>
+<dt><a name="index-viridis-1"></a><em><var>map</var> =</em> <strong>viridis</strong> <em>(<var>n</var>)</em></dt>
 <dd><p>Create color colormap.  This colormap ranges from dark purplish-blue through
 blue, green, to yellow.
 </p>
@@ -625,8 +655,8 @@ If unspecified, the length of the current colormap, or 64, is used.
 
 
 <a name="XREFwhite"></a><dl>
-<dt><a name="index-white"></a>: <em><var>map</var> =</em> <strong>white</strong> <em>()</em></dt>
-<dt><a name="index-white-1"></a>: <em><var>map</var> =</em> <strong>white</strong> <em>(<var>n</var>)</em></dt>
+<dt><a name="index-white"></a><em><var>map</var> =</em> <strong>white</strong> <em>()</em></dt>
+<dt><a name="index-white-1"></a><em><var>map</var> =</em> <strong>white</strong> <em>(<var>n</var>)</em></dt>
 <dd><p>Create color colormap.  This colormap is completely white.
 </p>
 <p>The argument <var>n</var> must be a scalar.
@@ -637,8 +667,8 @@ If unspecified, the length of the current colormap, or 64, is used.
 
 
 <a name="XREFwinter"></a><dl>
-<dt><a name="index-winter"></a>: <em><var>map</var> =</em> <strong>winter</strong> <em>()</em></dt>
-<dt><a name="index-winter-1"></a>: <em><var>map</var> =</em> <strong>winter</strong> <em>(<var>n</var>)</em></dt>
+<dt><a name="index-winter"></a><em><var>map</var> =</em> <strong>winter</strong> <em>()</em></dt>
+<dt><a name="index-winter-1"></a><em><var>map</var> =</em> <strong>winter</strong> <em>(<var>n</var>)</em></dt>
 <dd><p>Create color colormap.  This colormap varies from blue to green.
 </p>
 <p>The argument <var>n</var> must be a scalar.
@@ -649,8 +679,8 @@ If unspecified, the length of the current colormap, or 64, is used.
 
 
 <a name="XREFcontrast"></a><dl>
-<dt><a name="index-contrast"></a>: <em><var>cmap</var> =</em> <strong>contrast</strong> <em>(<var>x</var>)</em></dt>
-<dt><a name="index-contrast-1"></a>: <em><var>cmap</var> =</em> <strong>contrast</strong> <em>(<var>x</var>, <var>n</var>)</em></dt>
+<dt><a name="index-contrast"></a><em><var>cmap</var> =</em> <strong>contrast</strong> <em>(<var>x</var>)</em></dt>
+<dt><a name="index-contrast-1"></a><em><var>cmap</var> =</em> <strong>contrast</strong> <em>(<var>x</var>, <var>n</var>)</em></dt>
 <dd><p>Return a gray colormap that maximizes the contrast in an image.
 </p>
 <p>The returned colormap will have <var>n</var> rows.  If <var>n</var> is not defined
@@ -664,10 +694,10 @@ then the size of the current colormap is used.
 replace it.
 </p>
 <a name="XREFbrighten"></a><dl>
-<dt><a name="index-brighten"></a>: <em><var>map_out</var> =</em> <strong>brighten</strong> <em>(<var>beta</var>)</em></dt>
-<dt><a name="index-brighten-1"></a>: <em><var>map_out</var> =</em> <strong>brighten</strong> <em>(<var>map</var>, <var>beta</var>)</em></dt>
-<dt><a name="index-brighten-2"></a>: <em><var>map_out</var> =</em> <strong>brighten</strong> <em>(<var>h</var>, <var>beta</var>)</em></dt>
-<dt><a name="index-brighten-3"></a>: <em></em> <strong>brighten</strong> <em>(&hellip;)</em></dt>
+<dt><a name="index-brighten"></a><em><var>map_out</var> =</em> <strong>brighten</strong> <em>(<var>beta</var>)</em></dt>
+<dt><a name="index-brighten-1"></a><em><var>map_out</var> =</em> <strong>brighten</strong> <em>(<var>map</var>, <var>beta</var>)</em></dt>
+<dt><a name="index-brighten-2"></a><em><var>map_out</var> =</em> <strong>brighten</strong> <em>(<var>h</var>, <var>beta</var>)</em></dt>
+<dt><a name="index-brighten-3"></a><em></em> <strong>brighten</strong> <em>(&hellip;)</em></dt>
 <dd><p>Brighten or darken a colormap.
 </p>
 <p>The argument <var>beta</var> must be a scalar between -1 and 1, where a negative
@@ -687,10 +717,10 @@ colormap.
 
 
 <a name="XREFspinmap"></a><dl>
-<dt><a name="index-spinmap"></a>: <em></em> <strong>spinmap</strong> <em>()</em></dt>
-<dt><a name="index-spinmap-1"></a>: <em></em> <strong>spinmap</strong> <em>(<var>t</var>)</em></dt>
-<dt><a name="index-spinmap-2"></a>: <em></em> <strong>spinmap</strong> <em>(<var>t</var>, <var>inc</var>)</em></dt>
-<dt><a name="index-spinmap-3"></a>: <em></em> <strong>spinmap</strong> <em>(&quot;inf&quot;)</em></dt>
+<dt><a name="index-spinmap"></a><em></em> <strong>spinmap</strong> <em>()</em></dt>
+<dt><a name="index-spinmap-1"></a><em></em> <strong>spinmap</strong> <em>(<var>t</var>)</em></dt>
+<dt><a name="index-spinmap-2"></a><em></em> <strong>spinmap</strong> <em>(<var>t</var>, <var>inc</var>)</em></dt>
+<dt><a name="index-spinmap-3"></a><em></em> <strong>spinmap</strong> <em>(&quot;inf&quot;)</em></dt>
 <dd><p>Cycle the colormap for <var>t</var> seconds with a color increment of <var>inc</var>.
 </p>
 <p>Both parameters are optional.  The default cycle time is 5 seconds and the
@@ -706,23 +736,37 @@ value of <var>inc</var> will cause faster cycling through the colormap.
 
 
 <a name="XREFwhitebg"></a><dl>
-<dt><a name="index-whitebg"></a>: <em></em> <strong>whitebg</strong> <em>()</em></dt>
-<dt><a name="index-whitebg-1"></a>: <em></em> <strong>whitebg</strong> <em>(<var>color</var>)</em></dt>
-<dt><a name="index-whitebg-2"></a>: <em></em> <strong>whitebg</strong> <em>(&quot;none&quot;)</em></dt>
-<dt><a name="index-whitebg-3"></a>: <em></em> <strong>whitebg</strong> <em>(<var>hfig</var>, &hellip;)</em></dt>
+<dt><a name="index-whitebg"></a><em></em> <strong>whitebg</strong> <em>()</em></dt>
+<dt><a name="index-whitebg-1"></a><em></em> <strong>whitebg</strong> <em>(<var>color</var>)</em></dt>
+<dt><a name="index-whitebg-2"></a><em></em> <strong>whitebg</strong> <em>(&quot;none&quot;)</em></dt>
+<dt><a name="index-whitebg-3"></a><em></em> <strong>whitebg</strong> <em>(<var>hfig</var>)</em></dt>
+<dt><a name="index-whitebg-4"></a><em></em> <strong>whitebg</strong> <em>(<var>hfig</var>, <var>color</var>)</em></dt>
+<dt><a name="index-whitebg-5"></a><em></em> <strong>whitebg</strong> <em>(<var>hfig</var>, &quot;none&quot;)</em></dt>
 <dd><p>Invert the colors in the current color scheme.
 </p>
-<p>The root properties are also inverted such that all subsequent plot use the
-new color scheme.
+<p>The root properties are also inverted such that all subsequent plots will
+use the new color scheme.
 </p>
 <p>If the optional argument <var>color</var> is present then the background color
 is set to <var>color</var> rather than inverted.  <var>color</var> may be a string
 representing one of the eight known colors or an RGB triplet.  The special
-string argument <code>&quot;none&quot;</code> restores the plot to the default colors.
+string argument <code>&quot;none&quot;</code> restores the plot to the factory default
+colors.
 </p>
-<p>If the first argument <var>hfig</var> is a figure handle, then operate on
-this figure rather than the current figure returned by <code>gcf</code>.  The
-root properties will not be changed.
+<p>If the first argument <var>hfig</var> is a figure handle or list of figure
+handles, then operate on these figures rather than the current figure
+returned by <code>gcf</code>.  The root properties will not be changed unless 0
+is in the list of figures.
+</p>
+<p>Programming Note: <code>whitebg</code> operates by changing the color properties
+of the children of the specified figures.  Only objects with a single color
+are affected.  For example, a patch with a single <code>&quot;FaceColor&quot;</code> will
+be changed, but a patch with shading (<code>&quot;interp&quot;</code>) will not be
+modified.  For inversion, the new color is simply the inversion in RGB
+space: <code><var>cnew</var> = [1-<var>R</var> 1-<var>G</var> 1-<var>B</var>]</code>.  When a color
+is specified, the axes and figure are set to the new color, and the color
+of child objects are then adjusted to have some contrast (visibility)
+against the new background.
 </p>
 <p><strong>See also:</strong> <a href="Managing-Default-Properties.html#XREFreset">reset</a>, <a href="Graphics-Objects.html#XREFget">get</a>, <a href="Graphics-Objects.html#XREFset">set</a>.
 </p></dd></dl>
@@ -731,9 +775,9 @@ root properties will not be changed.
 <p>The following functions can be used to manipulate colormaps.
 </p>
 <a name="XREFcmunique"></a><dl>
-<dt><a name="index-cmunique"></a>: <em>[<var>Y</var>, <var>newmap</var>] =</em> <strong>cmunique</strong> <em>(<var>X</var>, <var>map</var>)</em></dt>
-<dt><a name="index-cmunique-1"></a>: <em>[<var>Y</var>, <var>newmap</var>] =</em> <strong>cmunique</strong> <em>(<var>RGB</var>)</em></dt>
-<dt><a name="index-cmunique-2"></a>: <em>[<var>Y</var>, <var>newmap</var>] =</em> <strong>cmunique</strong> <em>(<var>I</var>)</em></dt>
+<dt><a name="index-cmunique"></a><em>[<var>Y</var>, <var>newmap</var>] =</em> <strong>cmunique</strong> <em>(<var>X</var>, <var>map</var>)</em></dt>
+<dt><a name="index-cmunique-1"></a><em>[<var>Y</var>, <var>newmap</var>] =</em> <strong>cmunique</strong> <em>(<var>RGB</var>)</em></dt>
+<dt><a name="index-cmunique-2"></a><em>[<var>Y</var>, <var>newmap</var>] =</em> <strong>cmunique</strong> <em>(<var>I</var>)</em></dt>
 <dd><p>Convert an input image <var>X</var> to an ouput indexed image <var>Y</var> which uses
 the smallest colormap possible <var>newmap</var>.
 </p>
@@ -767,8 +811,8 @@ less than or equal to 256.  Otherwise, the output image is of class double.
 
 
 <a name="XREFcmpermute"></a><dl>
-<dt><a name="index-cmpermute"></a>: <em>[<var>Y</var>, <var>newmap</var>] =</em> <strong>cmpermute</strong> <em>(<var>X</var>, <var>map</var>)</em></dt>
-<dt><a name="index-cmpermute-1"></a>: <em>[<var>Y</var>, <var>newmap</var>] =</em> <strong>cmpermute</strong> <em>(<var>X</var>, <var>map</var>, <var>index</var>)</em></dt>
+<dt><a name="index-cmpermute"></a><em>[<var>Y</var>, <var>newmap</var>] =</em> <strong>cmpermute</strong> <em>(<var>X</var>, <var>map</var>)</em></dt>
+<dt><a name="index-cmpermute-1"></a><em>[<var>Y</var>, <var>newmap</var>] =</em> <strong>cmpermute</strong> <em>(<var>X</var>, <var>map</var>, <var>index</var>)</em></dt>
 <dd><p>Reorder colors in a colormap.
 </p>
 <p>When called with only two arguments, <code>cmpermute</code> randomly rearranges

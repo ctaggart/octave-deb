@@ -1,22 +1,22 @@
 @c DO NOT EDIT!  Generated automatically by munge-texi.pl.
 
-@c Copyright (C) 1996-2017 John W. Eaton
+@c Copyright (C) 1996-2018 John W. Eaton
 @c
 @c This file is part of Octave.
 @c
-@c Octave is free software; you can redistribute it and/or modify it
-@c under the terms of the GNU General Public License as published by the
-@c Free Software Foundation; either version 3 of the License, or (at
-@c your option) any later version.
+@c Octave is free software: you can redistribute it and/or modify it
+@c under the terms of the GNU General Public License as published by
+@c the Free Software Foundation, either version 3 of the License, or
+@c (at your option) any later version.
 @c
-@c Octave is distributed in the hope that it will be useful, but WITHOUT
-@c ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-@c FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-@c for more details.
+@c Octave is distributed in the hope that it will be useful, but
+@c WITHOUT ANY WARRANTY; without even the implied warranty of
+@c MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+@c GNU General Public License for more details.
 @c
 @c You should have received a copy of the GNU General Public License
 @c along with Octave; see the file COPYING.  If not, see
-@c <http://www.gnu.org/licenses/>.
+@c <https://www.gnu.org/licenses/>.
 
 @node Signal Processing
 @chapter Signal Processing
@@ -691,14 +691,15 @@ For a definition of the Bartlett window see, e.g.,
 @deftypefn  {} {} blackman (@var{m})
 @deftypefnx {} {} blackman (@var{m}, "periodic")
 @deftypefnx {} {} blackman (@var{m}, "symmetric")
-Return the filter coefficients of a Blackman window of length @var{m}.
+Return the filter coefficients of a @nospell{Blackman} window of length
+@var{m}.
 
 If the optional argument @qcode{"periodic"} is given, the periodic form
 of the window is returned.  This is equivalent to the window of length
 @var{m}+1 with the last coefficient removed.  The optional argument
 @qcode{"symmetric"} is equivalent to not specifying a second argument.
 
-For a definition of the Blackman window, see, e.g.,
+For a definition of the @nospell{Blackman} window, see, e.g.,
 @nospell{A.V. Oppenheim & R. W. Schafer},
 @cite{Discrete-Time Signal Processing}.
 @end deftypefn

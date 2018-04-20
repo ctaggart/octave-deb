@@ -61,8 +61,7 @@ Previous: <a href="Keywords.html#Keywords" accesskey="p" rel="prev">Keywords</a>
 
 <p>The parser has a number of variables that affect its internal operation.
 These variables are generally documented in the manual alongside the code that
-they affect.  For example, <code>allow_noninteger_range_as_index</code> is discussed
-in the section on index expressions.
+they affect.
 </p>
 <p>In addition, there are three non-specific parser customization functions.
 <code>add_input_event_hook</code> can be used to schedule a user function for
@@ -70,8 +69,8 @@ periodic evaluation.  <code>remove_input_event_hook</code> will stop a user func
 from being evaluated periodically.
 </p>
 <a name="XREFadd_005finput_005fevent_005fhook"></a><dl>
-<dt><a name="index-add_005finput_005fevent_005fhook"></a>: <em><var>id</var> =</em> <strong>add_input_event_hook</strong> <em>(<var>fcn</var>)</em></dt>
-<dt><a name="index-add_005finput_005fevent_005fhook-1"></a>: <em><var>id</var> =</em> <strong>add_input_event_hook</strong> <em>(<var>fcn</var>, <var>data</var>)</em></dt>
+<dt><a name="index-add_005finput_005fevent_005fhook"></a><em><var>id</var> =</em> <strong>add_input_event_hook</strong> <em>(<var>fcn</var>)</em></dt>
+<dt><a name="index-add_005finput_005fevent_005fhook-1"></a><em><var>id</var> =</em> <strong>add_input_event_hook</strong> <em>(<var>fcn</var>, <var>data</var>)</em></dt>
 <dd><p>Add the named function or function handle <var>fcn</var> to the list of functions
 to call periodically when Octave is waiting for input.
 </p>
@@ -91,8 +90,8 @@ list of input hook functions.
 
 
 <a name="XREFremove_005finput_005fevent_005fhook"></a><dl>
-<dt><a name="index-remove_005finput_005fevent_005fhook"></a>: <em></em> <strong>remove_input_event_hook</strong> <em>(<var>name</var>)</em></dt>
-<dt><a name="index-remove_005finput_005fevent_005fhook-1"></a>: <em></em> <strong>remove_input_event_hook</strong> <em>(<var>fcn_id</var>)</em></dt>
+<dt><a name="index-remove_005finput_005fevent_005fhook"></a><em></em> <strong>remove_input_event_hook</strong> <em>(<var>name</var>)</em></dt>
+<dt><a name="index-remove_005finput_005fevent_005fhook-1"></a><em></em> <strong>remove_input_event_hook</strong> <em>(<var>fcn_id</var>)</em></dt>
 <dd><p>Remove the named function or function handle with the given identifier
 from the list of functions to call periodically when Octave is waiting
 for input.
@@ -107,9 +106,9 @@ function to handle this.  By default, this is the internal function
 substitutes for <small>MATLAB</small> functions.
 </p>
 <a name="XREFmissing_005ffunction_005fhook"></a><dl>
-<dt><a name="index-missing_005ffunction_005fhook"></a>: <em><var>val</var> =</em> <strong>missing_function_hook</strong> <em>()</em></dt>
-<dt><a name="index-missing_005ffunction_005fhook-1"></a>: <em><var>old_val</var> =</em> <strong>missing_function_hook</strong> <em>(<var>new_val</var>)</em></dt>
-<dt><a name="index-missing_005ffunction_005fhook-2"></a>: <em></em> <strong>missing_function_hook</strong> <em>(<var>new_val</var>, &quot;local&quot;)</em></dt>
+<dt><a name="index-missing_005ffunction_005fhook"></a><em><var>val</var> =</em> <strong>missing_function_hook</strong> <em>()</em></dt>
+<dt><a name="index-missing_005ffunction_005fhook-1"></a><em><var>old_val</var> =</em> <strong>missing_function_hook</strong> <em>(<var>new_val</var>)</em></dt>
+<dt><a name="index-missing_005ffunction_005fhook-2"></a><em></em> <strong>missing_function_hook</strong> <em>(<var>new_val</var>, &quot;local&quot;)</em></dt>
 <dd><p>Query or set the internal variable that specifies the function to call when
 an unknown identifier is requested.
 </p>
@@ -119,6 +118,7 @@ The original variable value is restored when exiting the function.
 </p>
 <p><strong>See also:</strong> <a href="Missing-Components.html#XREFmissing_005fcomponent_005fhook">missing_component_hook</a>.
 </p></dd></dl>
+
 
 
 <hr>

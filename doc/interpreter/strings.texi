@@ -1,29 +1,29 @@
 @c DO NOT EDIT!  Generated automatically by munge-texi.pl.
 
-@c Copyright (C) 1996-2017 John W. Eaton
+@c Copyright (C) 1996-2018 John W. Eaton
 @c
 @c This file is part of Octave.
 @c
-@c Octave is free software; you can redistribute it and/or modify it
-@c under the terms of the GNU General Public License as published by the
-@c Free Software Foundation; either version 3 of the License, or (at
-@c your option) any later version.
+@c Octave is free software: you can redistribute it and/or modify it
+@c under the terms of the GNU General Public License as published by
+@c the Free Software Foundation, either version 3 of the License, or
+@c (at your option) any later version.
 @c
-@c Octave is distributed in the hope that it will be useful, but WITHOUT
-@c ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-@c FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-@c for more details.
+@c Octave is distributed in the hope that it will be useful, but
+@c WITHOUT ANY WARRANTY; without even the implied warranty of
+@c MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+@c GNU General Public License for more details.
 @c
 @c You should have received a copy of the GNU General Public License
 @c along with Octave; see the file COPYING.  If not, see
-@c <http://www.gnu.org/licenses/>.
+@c <https://www.gnu.org/licenses/>.
 
 @node Strings
 @chapter Strings
 @cindex strings
 @cindex character strings
 @opindex "
-@opindex '
+@opindex @code{'}
 
 A @dfn{string constant} consists of a sequence of characters enclosed in
 either double-quote or single-quote marks.  For example, both of the
@@ -76,9 +76,9 @@ is not a special character.  Here is an example showing the difference:
 
 @example
 @group
-toascii ("\n")
+double ("\n")
     @result{} 10
-toascii ('\n')
+double ('\n')
     @result{} [ 92 110 ]
 @end group
 @end example
@@ -193,23 +193,42 @@ matrix.
 @anchor{XREFischar}
 @deftypefn {} {} ischar (@var{x})
 Return true if @var{x} is a character array.
-@seealso{@ref{XREFisfloat,,isfloat}, @ref{XREFisinteger,,isinteger}, @ref{XREFislogical,,islogical}, @ref{XREFisnumeric,,isnumeric}, @ref{XREFiscellstr,,iscellstr}, @ref{XREFisa,,isa}}
+@seealso{@ref{XREFisfloat,,isfloat}, @ref{XREFisinteger,,isinteger}, @ref{XREFislogical,,islogical}, @ref{XREFisnumeric,,isnumeric}, @ref{XREFisstring,,isstring}, @ref{XREFiscellstr,,iscellstr}, @ref{XREFisa,,isa}}
 @end deftypefn
 
 
-To test if an object is a string (i.e., a character vector and not a character
-matrix) you can use the @code{ischar} function in combination with the
-@code{isvector} function as in the following example:
+@c isstring scripts/strings/isstring.m
+@anchor{XREFisstring}
+@deftypefn {} {} isstring (@var{s})
+Return true if @var{s} is a string array.
+
+A string array is a data type that stores strings (row vectors of
+characters) at each element in the array.  It is distinct from character
+arrays which are N-dimensional arrays where each element is a single 1x1
+character.  It is also distinct from cell arrays of strings which store
+strings at each element, but use cell indexing @samp{@{@}} to access
+elements rather than string arrays which use ordinary array indexing
+@samp{()}.
+
+Programming Note: Octave does not yet implement string arrays so this
+function will always return false.
+@seealso{@ref{XREFischar,,ischar}, @ref{XREFiscellstr,,iscellstr}, @ref{XREFisfloat,,isfloat}, @ref{XREFisinteger,,isinteger}, @ref{XREFislogical,,islogical}, @ref{XREFisnumeric,,isnumeric}, @ref{XREFisa,,isa}}
+@end deftypefn
+
+
+To test if an object is a string (i.e., a @nospell{1xN} row vector of
+characters and not a character matrix) you can use the @code{ischar} function
+in combination with the @code{isrow} function as in the following example:
 
 @example
 @group
 ischar (collection)
      @result{} 1
 
-ischar (collection) && isvector (collection)
+ischar (collection) && isrow (collection)
      @result{} 0
 
-ischar ("my string") && isvector ("my string")
+ischar ("my string") && isrow ("my string")
      @result{} 1
 @end group
 @end example
@@ -220,7 +239,7 @@ puts blank characters at the end of strings shorter than the longest
 string.  It is possible to use a different character than the
 blank character using the @code{string_fill_char} function.
 
-@c string_fill_char libinterp/parse-tree/pt-mat.cc
+@c string_fill_char libinterp/parse-tree/pt-eval.cc
 @anchor{XREFstring_fill_char}
 @deftypefn  {} {@var{val} =} string_fill_char ()
 @deftypefnx {} {@var{old_val} =} string_fill_char (@var{new_val})
@@ -1466,7 +1485,7 @@ the last character of @var{str}:
 
 @table @asis
 @item last character = @qcode{"@xbackslashchar{}n"}
-Data columns are padded with empty fields or Nan so that all columns have
+Data columns are padded with empty fields or NaN so that all columns have
 equal length
 
 @item last character is not @qcode{"@xbackslashchar{}n"}
@@ -1503,6 +1522,52 @@ strrep ("This is a test string", "is", "&%$")
 @end example
 
 @seealso{@ref{XREFregexprep,,regexprep}, @ref{XREFstrfind,,strfind}, @ref{XREFfindstr,,findstr}}
+@end deftypefn
+
+
+@c erase scripts/strings/erase.m
+@anchor{XREFerase}
+@deftypefn {} {@var{newstr} =} erase (@var{str}, @var{ptn})
+Delete all occurrences of @var{ptn} within @var{str}.
+
+@var{str} and @var{ptn} can be ordinary strings, cell array of strings, or
+character arrays.
+
+Examples
+
+@example
+@group
+## string, single pattern
+erase ("Hello World!", " World")
+    @result{} "Hello!"
+
+## cellstr, single pattern
+erase (@{"Hello", "World!"@}, "World")
+    @result{} @{"Hello", "!"@}
+
+## string, multiple patterns
+erase ("The Octave interpreter is fabulous", @{"interpreter ", "The "@})
+    @result{} "Octave is fabulous"
+
+## cellstr, multiple patterns
+erase (@{"The ", "Octave interpreter ", "is fabulous"@}, @{"interpreter ", "The "@})
+    @result{} @{"", "Octave ", "is fabulous"@}
+@end group
+@end example
+
+Programming Note: @code{erase} deletes the first instance of a pattern in a
+string when there are overlapping occurrences.  For example:
+
+@example
+@group
+erase ("abababa", "aba")
+    @result{} "b"
+@end group
+@end example
+
+See @code{strrep} for processing overlaps.
+
+@seealso{@ref{XREFstrrep,,strrep}, @ref{XREFregexprep,,regexprep}}
 @end deftypefn
 
 
@@ -1741,6 +1806,7 @@ Return zero-length matches.
 are zero or more @qcode{'b'} characters at positions 1 and end-of-string.
 
 @end table
+
 Stack Limitation Note: Pattern searches are done with a recursive function
 which can overflow the program stack when there are a high number of matches.
 For example,
@@ -1749,6 +1815,7 @@ For example,
 @code{regexp (repmat ('a', 1, 1e5), '(a)+')}
 @end example
 
+@noindent
 may lead to a segfault.  As an alternative, consider constructing pattern
 searches that reduce the number of matches (e.g., by creatively using set
 complement), and then further processing the return variables (now reduced in
@@ -2079,9 +2146,9 @@ base2dec ("yyyzx", "xyz")
 
 @c num2hex libinterp/corefcn/hex2num.cc
 @anchor{XREFnum2hex}
-@deftypefn {} {@var{s} =} num2hex (@var{n})
-Typecast a double or single precision number or vector to a 8 or 16
-character hexadecimal string of the IEEE 754 representation of the number.
+@deftypefn  {} {@var{s} =} num2hex (@var{n})
+@deftypefnx {} {@var{s} =} num2hex (@var{n}, "cell")
+Convert a numeric array to an array of hexadecimal strings.
 
 For example:
 
@@ -2107,6 +2174,9 @@ num2hex (single ([-1, 1, e, Inf]))
     7f800000"
 @end group
 @end example
+
+With the optional second argument @qcode{"cell}, return a cell array of
+strings instead of a character array.
 @seealso{@ref{XREFhex2num,,hex2num}, @ref{XREFhex2dec,,hex2dec}, @ref{XREFdec2hex,,dec2hex}}
 @end deftypefn
 
@@ -2115,11 +2185,12 @@ num2hex (single ([-1, 1, e, Inf]))
 @anchor{XREFhex2num}
 @deftypefn  {} {@var{n} =} hex2num (@var{s})
 @deftypefnx {} {@var{n} =} hex2num (@var{s}, @var{class})
-Typecast the 16 character hexadecimal character string to an IEEE 754
-double precision number.
+Typecast a hexadecimal character array or cell array of strings to an
+array of numbers.
 
-If fewer than 16 characters are given the strings are right padded with
-@qcode{'0'} characters.
+By default, the input array is interpreted as a hexadecimal number
+representing a double precision value.  If fewer than 16 characters are
+given the strings are right padded with @qcode{'0'} characters.
 
 Given a string matrix, @code{hex2num} treats each row as a separate number.
 
@@ -2130,10 +2201,25 @@ hex2num (["4005bf0a8b145769"; "4024000000000000"])
 @end group
 @end example
 
-The optional argument @var{class} can be passed as the string
-@qcode{"single"} to specify that the given string should be interpreted as
-a single precision number.  In this case, @var{s} should be an 8 character
-hexadecimal string.  For example:
+The optional second argument @var{class} may be used to cause the input
+array to be interpreted as a different value type.  Possible values are
+
+@multitable {Option} {Characters}
+@headitem Option @tab Characters
+@item @qcode{"int8"} @tab 2
+@item @qcode{"uint8"} @tab 2
+@item @qcode{"int16"} @tab 4
+@item @qcode{"uint16"} @tab 4
+@item @qcode{"int32"} @tab 8
+@item @qcode{"uint32"} @tab 8
+@item @qcode{"int64"} @tab 16
+@item @qcode{"uint64"} @tab 16
+@item @qcode{"char"} @tab 2
+@item @qcode{"single"} @tab 8
+@item @qcode{"double"} @tab 16
+@end multitable
+
+For example:
 
 @example
 @group
@@ -2253,24 +2339,6 @@ For cell array of strings use @code{str2double}.
 @end deftypefn
 
 
-@c toascii libinterp/corefcn/mappers.cc
-@anchor{XREFtoascii}
-@deftypefn {} {} toascii (@var{s})
-Return ASCII representation of @var{s} in a matrix.
-
-For example:
-
-@example
-@group
-toascii ("ASCII")
-     @result{} [ 65, 83, 67, 73, 73 ]
-@end group
-
-@end example
-@seealso{@ref{XREFchar,,char}}
-@end deftypefn
-
-
 @c tolower libinterp/corefcn/mappers.cc
 @anchor{XREFtolower}
 @deftypefn  {} {} tolower (@var{s})
@@ -2308,6 +2376,50 @@ toupper ("MiXeD cAsE 123")
 @end group
 @end example
 @seealso{@ref{XREFtolower,,tolower}}
+@end deftypefn
+
+
+@c unicode2native scripts/strings/unicode2native.m
+@anchor{XREFunicode2native}
+@deftypefn  {} {@var{native_bytes} =} unicode2native (@var{utf8_str}, @var{codepage})
+@deftypefnx {} {@var{native_bytes} =} unicode2native (@var{utf8_str})
+Convert UTF-8 string @var{utf8_str} to byte stream using @var{codepage}.
+
+The character vector @var{utf8_str} is converted to a byte stream
+@var{native_bytes} using the code page given by @var{codepage}.  The
+string @var{codepage} must be an identifier of a valid code page.
+Examples for valid code pages are @qcode{"ISO-8859-1"},
+@qcode{"Shift-JIS"}, or @qcode{"UTF-16"}.  For a list of supported code
+pages, see @url{https://www.gnu.org/software/libiconv}.  If @var{codepage}
+is omitted or empty, the system default codepage is used.
+
+If any of the characters cannot be mapped into the codepage @var{codepage},
+they are replaced with the appropriate substitution sequence for that
+codepage.
+
+@seealso{@ref{XREFnative2unicode,,native2unicode}}
+@end deftypefn
+
+
+@c native2unicode scripts/strings/native2unicode.m
+@anchor{XREFnative2unicode}
+@deftypefn  {} {@var{utf8_str} =} native2unicode (@var{native_bytes}, @var{codepage})
+@deftypefnx {} {@var{utf8_str} =} native2unicode (@var{native_bytes})
+Convert byte stream @var{native_bytes} to UTF-8 using @var{codepage}.
+
+The numbers in the vector @var{native_bytes} are rounded and clipped to
+integers between 0 and 255.  This byte stream is then mapped into the
+code page given by the string @var{codepage} and returned in the string
+@var{utf8_str}.  Octave uses UTF-8 as its internal encoding.  The string
+@var{codepage} must be an identifier of a valid code page.  Examples for
+valid code pages are @qcode{"ISO-8859-1"}, @qcode{"Shift-JIS"}, or
+@qcode{"UTF-16"}.  For a list of supported code pages, see
+@url{https://www.gnu.org/software/libiconv}.  If @var{codepage} is omitted
+or empty, the system default codepage is used.
+
+If @var{native_bytes} is a string vector, it is returned as is.
+
+@seealso{@ref{XREFunicode2native,,unicode2native}}
 @end deftypefn
 
 
@@ -2522,8 +2634,8 @@ The second argument @var{prop} must be one of
 @item @qcode{"alpha"}
 True for characters that are alphabetic (letters).
 
-@item  @qcode{"alnum"}
-@itemx @qcode{"alphanum"}
+@item  @nospell{@qcode{"alnum"}}
+@itemx @nospell{@qcode{"alphanum"}}
 True for characters that are alphabetic or digits.
 
 @item @qcode{"lower"}
@@ -2535,19 +2647,19 @@ True for uppercase letters.
 @item @qcode{"digit"}
 True for decimal digits (0-9).
 
-@item @qcode{"xdigit"}
+@item @nospell{@qcode{"xdigit"}}
 True for hexadecimal digits (@nospell{a-fA-F0-9}).
 
 @item  @qcode{"space"}
-@itemx @qcode{"wspace"}
+@itemx @nospell{@qcode{"wspace"}}
 True for whitespace characters (space, formfeed, newline, carriage return,
 tab, vertical tab).
 
-@item @qcode{"punct"}
+@item @nospell{@qcode{"punct"}}
 True for punctuation characters (printing characters except space or
 letter or digit).
 
-@item @qcode{"cntrl"}
+@item @nospell{@qcode{"cntrl"}}
 True for control characters.
 
 @item  @qcode{"graph"}

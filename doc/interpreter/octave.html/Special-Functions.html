@@ -59,7 +59,7 @@ Next: <a href="Rational-Approximations.html#Rational-Approximations" accesskey="
 <h3 class="section">17.6 Special Functions</h3>
 
 <a name="XREFairy"></a><dl>
-<dt><a name="index-airy"></a>: <em>[<var>a</var>, <var>ierr</var>] =</em> <strong>airy</strong> <em>(<var>k</var>, <var>z</var>, <var>opt</var>)</em></dt>
+<dt><a name="index-airy"></a><em>[<var>a</var>, <var>ierr</var>] =</em> <strong>airy</strong> <em>(<var>k</var>, <var>z</var>, <var>opt</var>)</em></dt>
 <dd><p>Compute Airy functions of the first and second kind, and their derivatives.
 </p>
 <div class="example">
@@ -89,7 +89,7 @@ is the same size as the result.
 </li><li> Loss of significance by argument reduction results in less than half
  of machine accuracy.
 
-</li><li> Complete loss of significance by argument reduction, return <code>NaN</code>.
+</li><li> Loss of significance by argument reduction, output may be inaccurate.
 
 </li><li> Error&mdash;no computation, algorithm termination condition not met,
 return <code>NaN</code>.
@@ -98,56 +98,26 @@ return <code>NaN</code>.
 
 
 <a name="XREFbesselj"></a><dl>
-<dt><a name="index-besselj"></a>: <em>[<var>j</var>, <var>ierr</var>] =</em> <strong>besselj</strong> <em>(<var>alpha</var>, <var>x</var>, <var>opt</var>)</em></dt>
-<dt><a name="index-bessely"></a>: <em>[<var>y</var>, <var>ierr</var>] =</em> <strong>bessely</strong> <em>(<var>alpha</var>, <var>x</var>, <var>opt</var>)</em></dt>
-<dt><a name="index-besseli"></a>: <em>[<var>i</var>, <var>ierr</var>] =</em> <strong>besseli</strong> <em>(<var>alpha</var>, <var>x</var>, <var>opt</var>)</em></dt>
-<dt><a name="index-besselk"></a>: <em>[<var>k</var>, <var>ierr</var>] =</em> <strong>besselk</strong> <em>(<var>alpha</var>, <var>x</var>, <var>opt</var>)</em></dt>
-<dt><a name="index-besselh"></a>: <em>[<var>h</var>, <var>ierr</var>] =</em> <strong>besselh</strong> <em>(<var>alpha</var>, <var>k</var>, <var>x</var>, <var>opt</var>)</em></dt>
-<dd><p>Compute Bessel or Hankel functions of various kinds:
+<dt><a name="index-besselj"></a><em><var>J</var> =</em> <strong>besselj</strong> <em>(<var>alpha</var>, <var>x</var>)</em></dt>
+<dt><a name="index-besselj-1"></a><em><var>J</var> =</em> <strong>besselj</strong> <em>(<var>alpha</var>, <var>x</var>, <var>opt</var>)</em></dt>
+<dt><a name="index-besselj-2"></a><em>[<var>J</var>, <var>ierr</var>] =</em> <strong>besselj</strong> <em>(&hellip;)</em></dt>
+<dd><p>Compute Bessel functions of the first kind.
 </p>
-<dl compact="compact">
-<dt><code>besselj</code></dt>
-<dd><p>Bessel functions of the first kind.  If the argument <var>opt</var> is 1 or true,
-the result is multiplied by <code>exp&nbsp;<span class="nolinebreak">(-abs</span>&nbsp;(imag&nbsp;(<var>x</var>)))</code><!-- /@w -->.
+<p>The order of the Bessel function <var>alpha</var> must be real.  The points for
+evaluation <var>x</var> may be complex.
 </p>
-</dd>
-<dt><code>bessely</code></dt>
-<dd><p>Bessel functions of the second kind.  If the argument <var>opt</var> is 1 or
-true, the result is multiplied by <code>exp (-abs (imag (<var>x</var>)))</code>.
+<p>If the optional argument <var>opt</var> is 1 or true, the result <var>J</var> is
+multiplied by <code>exp&nbsp;<span class="nolinebreak">(-abs</span>&nbsp;(imag&nbsp;(<var>x</var>)))</code><!-- /@w -->.
 </p>
-</dd>
-<dt><code>besseli</code></dt>
-<dd>
-<p>Modified Bessel functions of the first kind.  If the argument <var>opt</var> is 1
-or true, the result is multiplied by <code>exp (-abs (real (<var>x</var>)))</code>.
+<p>If <var>alpha</var> is a scalar, the result is the same size as <var>x</var>.  If <var>x</var>
+is a scalar, the result is the same size as <var>alpha</var>.  If <var>alpha</var> is a
+row vector and <var>x</var> is a column vector, the result is a matrix with
+<code>length (<var>x</var>)</code> rows and <code>length (<var>alpha</var>)</code> columns.
+Otherwise, <var>alpha</var> and <var>x</var> must conform and the result will be the same
+size.
 </p>
-</dd>
-<dt><code>besselk</code></dt>
-<dd>
-<p>Modified Bessel functions of the second kind.  If the argument <var>opt</var> is
-1 or true, the result is multiplied by <code>exp (<var>x</var>)</code>.
-</p>
-</dd>
-<dt><code>besselh</code></dt>
-<dd><p>Compute Hankel functions of the first (<var>k</var> = 1) or second (<var>k</var>
-= 2) kind.  If the argument <var>opt</var> is 1 or true, the result is multiplied
-by <code>exp (-I*<var>x</var>)</code> for <var>k</var> = 1 or <code>exp (I*<var>x</var>)</code> for
-<var>k</var> = 2.
-</p></dd>
-</dl>
-
-<p>If <var>alpha</var> is a scalar, the result is the same size as <var>x</var>.
-If <var>x</var> is a scalar, the result is the same size as <var>alpha</var>.
-If <var>alpha</var> is a row vector and <var>x</var> is a column vector, the
-result is a matrix with <code>length (<var>x</var>)</code> rows and
-<code>length (<var>alpha</var>)</code> columns.  Otherwise, <var>alpha</var> and
-<var>x</var> must conform and the result will be the same size.
-</p>
-<p>The value of <var>alpha</var> must be real.  The value of <var>x</var> may be
-complex.
-</p>
-<p>If requested, <var>ierr</var> contains the following status information
-and is the same size as the result.
+<p>If requested, <var>ierr</var> contains the following status information and is the
+same size as the result.
 </p>
 <ol start="0">
 <li> Normal return.
@@ -156,19 +126,199 @@ and is the same size as the result.
 
 </li><li> Overflow, return <code>Inf</code>.
 
-</li><li> Loss of significance by argument reduction results in less than
-half of machine accuracy.
+</li><li> Loss of significance by argument reduction results in less than half of machine
+accuracy.
+
+</li><li> Loss of significance by argument reduction, output may be inaccurate.
+
+</li><li> Error&mdash;no computation, algorithm termination condition not met, return
+<code>NaN</code>.
+</li></ol>
+
+
+<p><strong>See also:</strong> <a href="#XREFbessely">bessely</a>, <a href="#XREFbesseli">besseli</a>, <a href="#XREFbesselk">besselk</a>, <a href="#XREFbesselh">besselh</a>.
+</p></dd></dl>
+
+
+<a name="XREFbessely"></a><dl>
+<dt><a name="index-bessely"></a><em><var>Y</var> =</em> <strong>bessely</strong> <em>(<var>alpha</var>, <var>x</var>)</em></dt>
+<dt><a name="index-bessely-1"></a><em><var>Y</var> =</em> <strong>bessely</strong> <em>(<var>alpha</var>, <var>x</var>, <var>opt</var>)</em></dt>
+<dt><a name="index-bessely-2"></a><em>[<var>Y</var>, <var>ierr</var>] =</em> <strong>bessely</strong> <em>(&hellip;)</em></dt>
+<dd><p>Compute Bessel functions of the second kind.
+</p>
+<p>The order of the Bessel function <var>alpha</var> must be real.  The points for
+evaluation <var>x</var> may be complex.
+</p>
+<p>If the optional argument <var>opt</var> is 1 or true, the result <var>Y</var> is
+multiplied by <code>exp&nbsp;<span class="nolinebreak">(-abs</span>&nbsp;(imag&nbsp;(<var>x</var>)))</code><!-- /@w -->.
+</p>
+<p>If <var>alpha</var> is a scalar, the result is the same size as <var>x</var>.  If <var>x</var>
+is a scalar, the result is the same size as <var>alpha</var>.  If <var>alpha</var> is a
+row vector and <var>x</var> is a column vector, the result is a matrix with
+<code>length (<var>x</var>)</code> rows and <code>length (<var>alpha</var>)</code> columns.
+Otherwise, <var>alpha</var> and <var>x</var> must conform and the result will be the same
+size.
+</p>
+<p>If requested, <var>ierr</var> contains the following status information and is the
+same size as the result.
+</p>
+<ol start="0">
+<li> Normal return.
+
+</li><li> Input error, return <code>NaN</code>.
+
+</li><li> Overflow, return <code>Inf</code>.
+
+</li><li> Loss of significance by argument reduction results in less than half of machine
+accuracy.
 
 </li><li> Complete loss of significance by argument reduction, return <code>NaN</code>.
 
-</li><li> Error&mdash;no computation, algorithm termination condition not met,
-return <code>NaN</code>.
+</li><li> Error&mdash;no computation, algorithm termination condition not met, return
+<code>NaN</code>.
 </li></ol>
-</dd></dl>
+
+
+<p><strong>See also:</strong> <a href="#XREFbesselj">besselj</a>, <a href="#XREFbesseli">besseli</a>, <a href="#XREFbesselk">besselk</a>, <a href="#XREFbesselh">besselh</a>.
+</p></dd></dl>
+
+
+<a name="XREFbesseli"></a><dl>
+<dt><a name="index-besseli"></a><em><var>I</var> =</em> <strong>besseli</strong> <em>(<var>alpha</var>, <var>x</var>)</em></dt>
+<dt><a name="index-besseli-1"></a><em><var>I</var> =</em> <strong>besseli</strong> <em>(<var>alpha</var>, <var>x</var>, <var>opt</var>)</em></dt>
+<dt><a name="index-besseli-2"></a><em>[<var>I</var>, <var>ierr</var>] =</em> <strong>besseli</strong> <em>(&hellip;)</em></dt>
+<dd><p>Compute modified Bessel functions of the first kind.
+</p>
+<p>The order of the Bessel function <var>alpha</var> must be real.  The points for
+evaluation <var>x</var> may be complex.
+</p>
+<p>If the optional argument <var>opt</var> is 1 or true, the result <var>I</var> is
+multiplied by <code>exp&nbsp;<span class="nolinebreak">(-abs</span>&nbsp;(real&nbsp;(<var>x</var>)))</code><!-- /@w -->.
+</p>
+<p>If <var>alpha</var> is a scalar, the result is the same size as <var>x</var>.  If <var>x</var>
+is a scalar, the result is the same size as <var>alpha</var>.  If <var>alpha</var> is a
+row vector and <var>x</var> is a column vector, the result is a matrix with
+<code>length (<var>x</var>)</code> rows and <code>length (<var>alpha</var>)</code> columns.
+Otherwise, <var>alpha</var> and <var>x</var> must conform and the result will be the same
+size.
+</p>
+<p>If requested, <var>ierr</var> contains the following status information and is the
+same size as the result.
+</p>
+<ol start="0">
+<li> Normal return.
+
+</li><li> Input error, return <code>NaN</code>.
+
+</li><li> Overflow, return <code>Inf</code>.
+
+</li><li> Loss of significance by argument reduction results in less than half of machine
+accuracy.
+
+</li><li> Complete loss of significance by argument reduction, return <code>NaN</code>.
+
+</li><li> Error&mdash;no computation, algorithm termination condition not met, return
+<code>NaN</code>.
+</li></ol>
+
+
+<p><strong>See also:</strong> <a href="#XREFbesselk">besselk</a>, <a href="#XREFbesselj">besselj</a>, <a href="#XREFbessely">bessely</a>, <a href="#XREFbesselh">besselh</a>.
+</p></dd></dl>
+
+
+<a name="XREFbesselk"></a><dl>
+<dt><a name="index-besselk"></a><em><var>K</var> =</em> <strong>besselk</strong> <em>(<var>alpha</var>, <var>x</var>)</em></dt>
+<dt><a name="index-besselk-1"></a><em><var>K</var> =</em> <strong>besselk</strong> <em>(<var>alpha</var>, <var>x</var>, <var>opt</var>)</em></dt>
+<dt><a name="index-besselk-2"></a><em>[<var>K</var>, <var>ierr</var>] =</em> <strong>besselk</strong> <em>(&hellip;)</em></dt>
+<dd>
+<p>Compute modified Bessel functions of the second kind.
+</p>
+<p>The order of the Bessel function <var>alpha</var> must be real.  The points for
+evaluation <var>x</var> may be complex.
+</p>
+<p>If the optional argument <var>opt</var> is 1 or true, the result <var>K</var> is
+multiplied by <code>exp&nbsp;(<var>x</var>)</code><!-- /@w -->.
+</p>
+<p>If <var>alpha</var> is a scalar, the result is the same size as <var>x</var>.  If <var>x</var>
+is a scalar, the result is the same size as <var>alpha</var>.  If <var>alpha</var> is a
+row vector and <var>x</var> is a column vector, the result is a matrix with
+<code>length (<var>x</var>)</code> rows and <code>length (<var>alpha</var>)</code> columns.
+Otherwise, <var>alpha</var> and <var>x</var> must conform and the result will be the same
+size.
+</p>
+<p>If requested, <var>ierr</var> contains the following status information and is the
+same size as the result.
+</p>
+<ol start="0">
+<li> Normal return.
+
+</li><li> Input error, return <code>NaN</code>.
+
+</li><li> Overflow, return <code>Inf</code>.
+
+</li><li> Loss of significance by argument reduction results in less than half of machine
+accuracy.
+
+</li><li> Complete loss of significance by argument reduction, return <code>NaN</code>.
+
+</li><li> Error&mdash;no computation, algorithm termination condition not met, return
+<code>NaN</code>.
+</li></ol>
+
+
+<p><strong>See also:</strong> <a href="#XREFbesseli">besseli</a>, <a href="#XREFbesselj">besselj</a>, <a href="#XREFbessely">bessely</a>, <a href="#XREFbesselh">besselh</a>.
+</p></dd></dl>
+
+
+<a name="XREFbesselh"></a><dl>
+<dt><a name="index-besselh"></a><em><var>H</var> =</em> <strong>besselh</strong> <em>(<var>alpha</var>, <var>x</var>)</em></dt>
+<dt><a name="index-besselh-1"></a><em><var>H</var> =</em> <strong>besselh</strong> <em>(<var>alpha</var>, <var>k</var>, <var>x</var>)</em></dt>
+<dt><a name="index-besselh-2"></a><em><var>H</var> =</em> <strong>besselh</strong> <em>(<var>alpha</var>, <var>k</var>, <var>x</var>, <var>opt</var>)</em></dt>
+<dt><a name="index-besselh-3"></a><em>[<var>H</var>, <var>ierr</var>] =</em> <strong>besselh</strong> <em>(&hellip;)</em></dt>
+<dd><p>Compute Bessel functions of the third kind (Hankel functions).
+</p>
+<p>The order of the Bessel function <var>alpha</var> must be real.  The kind of Hankel
+function is specified by <var>k</var> and may be either first (<var>k</var> = 1) or
+second (<var>k</var> = 2).  The default is Hankel functions of the first kind.  The
+points for evaluation <var>x</var> may be complex.
+</p>
+<p>If the optional argument <var>opt</var> is 1 or true, the result is multiplied
+by <code>exp (-I*<var>x</var>)</code> for <var>k</var> = 1 or <code>exp (I*<var>x</var>)</code> for
+<var>k</var> = 2.
+</p>
+<p>If <var>alpha</var> is a scalar, the result is the same size as <var>x</var>.  If <var>x</var>
+is a scalar, the result is the same size as <var>alpha</var>.  If <var>alpha</var> is a
+row vector and <var>x</var> is a column vector, the result is a matrix with
+<code>length (<var>x</var>)</code> rows and <code>length (<var>alpha</var>)</code> columns.
+Otherwise, <var>alpha</var> and <var>x</var> must conform and the result will be the same
+size.
+</p>
+<p>If requested, <var>ierr</var> contains the following status information and is the
+same size as the result.
+</p>
+<ol start="0">
+<li> Normal return.
+
+</li><li> Input error, return <code>NaN</code>.
+
+</li><li> Overflow, return <code>Inf</code>.
+
+</li><li> Loss of significance by argument reduction results in less than half of machine
+accuracy.
+
+</li><li> Complete loss of significance by argument reduction, return <code>NaN</code>.
+
+</li><li> Error&mdash;no computation, algorithm termination condition not met, return
+<code>NaN</code>.
+</li></ol>
+
+
+<p><strong>See also:</strong> <a href="#XREFbesselj">besselj</a>, <a href="#XREFbessely">bessely</a>, <a href="#XREFbesseli">besseli</a>, <a href="#XREFbesselk">besselk</a>.
+</p></dd></dl>
 
 
 <a name="XREFbeta"></a><dl>
-<dt><a name="index-beta"></a>: <em></em> <strong>beta</strong> <em>(<var>a</var>, <var>b</var>)</em></dt>
+<dt><a name="index-beta"></a><em></em> <strong>beta</strong> <em>(<var>a</var>, <var>b</var>)</em></dt>
 <dd><p>Compute the Beta function for real inputs <var>a</var> and <var>b</var>.
 </p>
 <p>The Beta function definition is
@@ -188,44 +338,94 @@ in an efficient manner.
 
 
 <a name="XREFbetainc"></a><dl>
-<dt><a name="index-betainc"></a>: <em></em> <strong>betainc</strong> <em>(<var>x</var>, <var>a</var>, <var>b</var>)</em></dt>
-<dd><p>Compute the regularized incomplete Beta function.
+<dt><a name="index-betainc"></a><em></em> <strong>betainc</strong> <em>(<var>x</var>, <var>a</var>, <var>b</var>)</em></dt>
+<dt><a name="index-betainc-1"></a><em></em> <strong>betainc</strong> <em>(<var>x</var>, <var>a</var>, <var>b</var>, <var>tail</var>)</em></dt>
+<dd><p>Compute the incomplete beta function.
 </p>
-<p>The regularized incomplete Beta function is defined by
+<p>This is defined as
 </p>
-<div class="smallexample">
-<pre class="smallexample">                                   x
-                          1       /
-betainc (x, a, b) = -----------   | t^(a-1) (1-t)^(b-1) dt.
-                    beta (a, b)   /
-                               t=0
+<div class="example">
+<pre class="example">               x
+              /
+             |
+I_x (a, b) = | t^(a-1) (1-t)^(b-1) dt
+             |
+             /
+            0
 </pre></div>
 
 
-<p>If <var>x</var> has more than one component, both <var>a</var> and <var>b</var> must be
-scalars.  If <var>x</var> is a scalar, <var>a</var> and <var>b</var> must be of
-compatible dimensions.
+<p>with real <var>x</var> in the range [0,1].  The inputs <var>a</var> and <var>b</var> must
+be real and strictly positive (&gt; 0).  If one of the inputs is not a scalar
+then the other inputs must be scalar or of compatible dimensions.
 </p>
-<p><strong>See also:</strong> <a href="#XREFbetaincinv">betaincinv</a>, <a href="#XREFbeta">beta</a>, <a href="#XREFbetaln">betaln</a>.
+<p>By default, <var>tail</var> is <code>&quot;lower&quot;</code> and the incomplete beta function
+integrated from 0 to <var>x</var> is computed.  If <var>tail</var> is <code>&quot;upper&quot;</code>
+then the complementary function integrated from <var>x</var> to 1 is calculated.
+The two choices are related by
+</p>
+<p>betainc (<var>x</var>, <var>a</var>, <var>b</var>, <code>&quot;upper&quot;</code>) =
+1 - betainc (<var>x</var>, <var>a</var>, <var>b</var>, <code>&quot;lower&quot;</code>).
+</p>
+<p><code>betainc</code> uses a more sophisticated algorithm than subtraction to
+get numerically accurate results when the <code>&quot;lower&quot;</code> value is small.
+</p>
+<p>Reference: A. Cuyt, V. Brevik Petersen, B. Verdonk, H. Waadeland,
+W.B. Jones, <cite>Handbook of Continued Fractions for Special Functions</cite>,
+ch. 18.
+</p>
+
+<p><strong>See also:</strong> <a href="#XREFbeta">beta</a>, <a href="#XREFbetaincinv">betaincinv</a>, <a href="#XREFbetaln">betaln</a>.
 </p></dd></dl>
 
 
 <a name="XREFbetaincinv"></a><dl>
-<dt><a name="index-betaincinv"></a>: <em></em> <strong>betaincinv</strong> <em>(<var>y</var>, <var>a</var>, <var>b</var>)</em></dt>
-<dd><p>Compute the inverse of the incomplete Beta function.
+<dt><a name="index-betaincinv"></a><em></em> <strong>betaincinv</strong> <em>(<var>y</var>, <var>a</var>, <var>b</var>)</em></dt>
+<dt><a name="index-betaincinv-1"></a><em></em> <strong>betaincinv</strong> <em>(<var>y</var>, <var>a</var>, <var>b</var>, &quot;lower&quot;)</em></dt>
+<dt><a name="index-betaincinv-2"></a><em></em> <strong>betaincinv</strong> <em>(<var>y</var>, <var>a</var>, <var>b</var>, &quot;upper&quot;)</em></dt>
+<dd><p>Compute the inverse of the normalized incomplete beta function.
 </p>
-<p>The inverse is the value <var>x</var> such that
+<p>The normalized incomplete beta function is defined as
 </p>
 <div class="example">
-<pre class="example"><var>y</var> == betainc (<var>x</var>, <var>a</var>, <var>b</var>)
+<pre class="example">               x
+              /
+             |
+I_x (a, b) = | t^(a-1) (1-t)^(b-1) dt
+             |
+             /
+            0
 </pre></div>
+
+
+<p>If two inputs are scalar, then <code>betaincinv (<var>y</var>, <var>a</var>, <var>b</var>)</code>
+is returned for each of the other inputs.
+</p>
+<p>If two or more inputs are not scalar, the sizes of them must agree, and
+<code>betaincinv</code> is applied element-by-element.
+</p>
+<p>The variable <var>y</var> must be in the interval [0,1], while <var>a</var> and
+<var>b</var> must be real and strictly positive.
+</p>
+<p>By default, <var>tail</var> is <code>&quot;lower&quot;)</code> and the inverse of the incomplete
+beta function integrated from 0 to <var>x</var> is computed.  If <var>tail</var> is
+<code>&quot;upper&quot;</code> then the complementary function integrated from <var>x</var> to 1
+is inverted.
+</p>
+<p>The function is computed by standard Newton&rsquo;s method, by solving
+</p>
+<div class="example">
+<pre class="example"><var>y</var> - betainc (<var>x</var>, <var>a</var>, <var>b</var>) = 0
+</pre></div>
+
+
 
 <p><strong>See also:</strong> <a href="#XREFbetainc">betainc</a>, <a href="#XREFbeta">beta</a>, <a href="#XREFbetaln">betaln</a>.
 </p></dd></dl>
 
 
 <a name="XREFbetaln"></a><dl>
-<dt><a name="index-betaln"></a>: <em></em> <strong>betaln</strong> <em>(<var>a</var>, <var>b</var>)</em></dt>
+<dt><a name="index-betaln"></a><em></em> <strong>betaln</strong> <em>(<var>a</var>, <var>b</var>)</em></dt>
 <dd><p>Compute the natural logarithm of the Beta function for real inputs <var>a</var>
 and <var>b</var>.
 </p>
@@ -245,8 +445,10 @@ with the logarithm of the output rather than the function directly.
 
 
 <a name="XREFbincoeff"></a><dl>
-<dt><a name="index-bincoeff"></a>: <em></em> <strong>bincoeff</strong> <em>(<var>n</var>, <var>k</var>)</em></dt>
-<dd><p>Return the binomial coefficient of <var>n</var> and <var>k</var>, defined as
+<dt><a name="index-bincoeff"></a><em></em> <strong>bincoeff</strong> <em>(<var>n</var>, <var>k</var>)</em></dt>
+<dd><p>Return the binomial coefficient of <var>n</var> and <var>k</var>.
+</p>
+<p>The binomial coefficient is defined as
 </p>
 <div class="example">
 <pre class="example"> /   \
@@ -273,7 +475,7 @@ big arguments.
 
 
 <a name="XREFcommutation_005fmatrix"></a><dl>
-<dt><a name="index-commutation_005fmatrix"></a>: <em></em> <strong>commutation_matrix</strong> <em>(<var>m</var>, <var>n</var>)</em></dt>
+<dt><a name="index-commutation_005fmatrix"></a><em></em> <strong>commutation_matrix</strong> <em>(<var>m</var>, <var>n</var>)</em></dt>
 <dd><p>Return the commutation matrix
 K(m,n)
 which is the unique
@@ -294,8 +496,44 @@ Calculus with Applications in Statistics and Econometrics.</cite>
 </p></dd></dl>
 
 
+<a name="XREFcosint"></a><dl>
+<dt><a name="index-cosint"></a><em></em> <strong>cosint</strong> <em>(<var>x</var>)</em></dt>
+<dd><p>Compute the cosine integral function:
+</p>
+<div class="example">
+<pre class="example">            +oo
+           /
+Ci (x) = - | (cos (t)) / t dt
+           /
+          x
+</pre></div>
+
+<p>An equivalent definition is
+</p>
+<div class="example">
+<pre class="example">                             x
+                            /
+                            |  cos (t) - 1
+Ci (x) = gamma + log (x) +  | -------------  dt
+                            |        t
+                            /
+                           0
+</pre></div>
+
+<p>Reference:
+</p>
+<p>M. Abramowitz and I.A. Stegun,
+<cite>Handbook of Mathematical Functions</cite>
+1964.
+</p>
+
+<p><strong>See also:</strong> <a href="#XREFsinint">sinint</a>, <a href="#XREFexpint">expint</a>, <a href="Trigonometry.html#XREFcos">cos</a>.
+</p>
+</dd></dl>
+
+
 <a name="XREFduplication_005fmatrix"></a><dl>
-<dt><a name="index-duplication_005fmatrix"></a>: <em></em> <strong>duplication_matrix</strong> <em>(<var>n</var>)</em></dt>
+<dt><a name="index-duplication_005fmatrix"></a><em></em> <strong>duplication_matrix</strong> <em>(<var>n</var>)</em></dt>
 <dd><p>Return the duplication matrix
 <em>Dn</em>
 which is the unique
@@ -313,7 +551,7 @@ Calculus with Applications in Statistics and Econometrics.</cite>
 
 
 <a name="XREFdawson"></a><dl>
-<dt><a name="index-dawson"></a>: <em></em> <strong>dawson</strong> <em>(<var>z</var>)</em></dt>
+<dt><a name="index-dawson"></a><em></em> <strong>dawson</strong> <em>(<var>z</var>)</em></dt>
 <dd><p>Compute the Dawson (scaled imaginary error) function.
 </p>
 <p>The Dawson function is defined as
@@ -328,8 +566,8 @@ Calculus with Applications in Statistics and Econometrics.</cite>
 
 
 <a name="XREFellipj"></a><dl>
-<dt><a name="index-ellipj"></a>: <em>[<var>sn</var>, <var>cn</var>, <var>dn</var>, <var>err</var>] =</em> <strong>ellipj</strong> <em>(<var>u</var>, <var>m</var>)</em></dt>
-<dt><a name="index-ellipj-1"></a>: <em>[<var>sn</var>, <var>cn</var>, <var>dn</var>, <var>err</var>] =</em> <strong>ellipj</strong> <em>(<var>u</var>, <var>m</var>, <var>tol</var>)</em></dt>
+<dt><a name="index-ellipj"></a><em>[<var>sn</var>, <var>cn</var>, <var>dn</var>, <var>err</var>] =</em> <strong>ellipj</strong> <em>(<var>u</var>, <var>m</var>)</em></dt>
+<dt><a name="index-ellipj-1"></a><em>[<var>sn</var>, <var>cn</var>, <var>dn</var>, <var>err</var>] =</em> <strong>ellipj</strong> <em>(<var>u</var>, <var>m</var>, <var>tol</var>)</em></dt>
 <dd><p>Compute the Jacobi elliptic functions <var>sn</var>, <var>cn</var>, and <var>dn</var>
 of complex argument <var>u</var> and real parameter <var>m</var>.
 </p>
@@ -367,9 +605,9 @@ and 16.15), Dover, 1965.
 
 
 <a name="XREFellipke"></a><dl>
-<dt><a name="index-ellipke"></a>: <em><var>k</var> =</em> <strong>ellipke</strong> <em>(<var>m</var>)</em></dt>
-<dt><a name="index-ellipke-1"></a>: <em><var>k</var> =</em> <strong>ellipke</strong> <em>(<var>m</var>, <var>tol</var>)</em></dt>
-<dt><a name="index-ellipke-2"></a>: <em>[<var>k</var>, <var>e</var>] =</em> <strong>ellipke</strong> <em>(&hellip;)</em></dt>
+<dt><a name="index-ellipke"></a><em><var>k</var> =</em> <strong>ellipke</strong> <em>(<var>m</var>)</em></dt>
+<dt><a name="index-ellipke-1"></a><em><var>k</var> =</em> <strong>ellipke</strong> <em>(<var>m</var>, <var>tol</var>)</em></dt>
+<dt><a name="index-ellipke-2"></a><em>[<var>k</var>, <var>e</var>] =</em> <strong>ellipke</strong> <em>(&hellip;)</em></dt>
 <dd><p>Compute complete elliptic integrals of the first K(<var>m</var>) and second
 E(<var>m</var>) kind.
 </p>
@@ -416,7 +654,7 @@ E (m) = |  ------------------ dt
 
 
 <a name="XREFerf"></a><dl>
-<dt><a name="index-erf"></a>: <em></em> <strong>erf</strong> <em>(<var>z</var>)</em></dt>
+<dt><a name="index-erf"></a><em></em> <strong>erf</strong> <em>(<var>z</var>)</em></dt>
 <dd><p>Compute the error function.
 </p>
 <p>The error function is defined as
@@ -435,7 +673,7 @@ erf (z) = --------- *  | e^(-t^2) dt
 
 
 <a name="XREFerfc"></a><dl>
-<dt><a name="index-erfc"></a>: <em></em> <strong>erfc</strong> <em>(<var>z</var>)</em></dt>
+<dt><a name="index-erfc"></a><em></em> <strong>erfc</strong> <em>(<var>z</var>)</em></dt>
 <dd><p>Compute the complementary error function.
 </p>
 <p>The complementary error function is defined as
@@ -446,7 +684,7 @@ erf (z) = --------- *  | e^(-t^2) dt
 
 
 <a name="XREFerfcx"></a><dl>
-<dt><a name="index-erfcx"></a>: <em></em> <strong>erfcx</strong> <em>(<var>z</var>)</em></dt>
+<dt><a name="index-erfcx"></a><em></em> <strong>erfcx</strong> <em>(<var>z</var>)</em></dt>
 <dd><p>Compute the scaled complementary error function.
 </p>
 <p>The scaled complementary error function is defined as
@@ -461,7 +699,7 @@ erf (z) = --------- *  | e^(-t^2) dt
 
 
 <a name="XREFerfi"></a><dl>
-<dt><a name="index-erfi"></a>: <em></em> <strong>erfi</strong> <em>(<var>z</var>)</em></dt>
+<dt><a name="index-erfi"></a><em></em> <strong>erfi</strong> <em>(<var>z</var>)</em></dt>
 <dd><p>Compute the imaginary error function.
 </p>
 <p>The imaginary error function is defined as
@@ -476,7 +714,7 @@ erf (z) = --------- *  | e^(-t^2) dt
 
 
 <a name="XREFerfinv"></a><dl>
-<dt><a name="index-erfinv"></a>: <em></em> <strong>erfinv</strong> <em>(<var>x</var>)</em></dt>
+<dt><a name="index-erfinv"></a><em></em> <strong>erfinv</strong> <em>(<var>x</var>)</em></dt>
 <dd><p>Compute the inverse error function.
 </p>
 <p>The inverse error function is defined such that
@@ -490,7 +728,7 @@ erf (z) = --------- *  | e^(-t^2) dt
 
 
 <a name="XREFerfcinv"></a><dl>
-<dt><a name="index-erfcinv"></a>: <em></em> <strong>erfcinv</strong> <em>(<var>x</var>)</em></dt>
+<dt><a name="index-erfcinv"></a><em></em> <strong>erfcinv</strong> <em>(<var>x</var>)</em></dt>
 <dd><p>Compute the inverse complementary error function.
 </p>
 <p>The inverse complementary error function is defined such that
@@ -504,36 +742,55 @@ erf (z) = --------- *  | e^(-t^2) dt
 
 
 <a name="XREFexpint"></a><dl>
-<dt><a name="index-expint"></a>: <em></em> <strong>expint</strong> <em>(<var>x</var>)</em></dt>
-<dd><p>Compute the exponential integral:
+<dt><a name="index-expint"></a><em></em> <strong>expint</strong> <em>(<var>x</var>)</em></dt>
+<dd><p>Compute the exponential integral.
 </p>
+<p>The exponential integral is defined as:
+</p>
+
 <div class="example">
-<pre class="example">           infinity
+<pre class="example">           +oo
           /
-E_1 (x) = | exp (-t)/t dt
+          | exp (-t)
+E_1 (x) = | -------- dt
+          |    t
           /
          x
 </pre></div>
 
-<p>Note: For compatibility, this functions uses the <small>MATLAB</small> definition
+
+<p>Note: For compatibility, this function uses the <small>MATLAB</small> definition
 of the exponential integral.  Most other sources refer to this particular
 value as <em>E_1 (x)</em>, and the exponential integral as
 </p>
 <div class="example">
-<pre class="example">            infinity
+<pre class="example">            +oo
            /
-Ei (x) = - | exp (-t)/t dt
+           | exp (-t)
+Ei (x) = - | -------- dt
+           |    t
            /
          -x
 </pre></div>
 
 <p>The two definitions are related, for positive real values of <var>x</var>, by
 <code><span class="nolinebreak">E_1</span>&nbsp;<span class="nolinebreak">(-x)</span>&nbsp;=&nbsp;<span class="nolinebreak">-Ei</span>&nbsp;(x)&nbsp;<span class="nolinebreak">-</span>&nbsp;i*pi</code><!-- /@w -->.
+</p>
+<p>References:
+</p>
+<p>M. Abramowitz and I.A. Stegun,
+<cite>Handbook of Mathematical Functions</cite>, 1964.
+</p>
+<p>N. Bleistein and R.A. Handelsman,
+<cite>Asymptotic expansions of integrals</cite>, 1986.
+</p>
+
+<p><strong>See also:</strong> <a href="#XREFcosint">cosint</a>, <a href="#XREFsinint">sinint</a>, <a href="Exponents-and-Logarithms.html#XREFexp">exp</a>.
 </p></dd></dl>
 
 
 <a name="XREFgamma"></a><dl>
-<dt><a name="index-gamma"></a>: <em></em> <strong>gamma</strong> <em>(<var>z</var>)</em></dt>
+<dt><a name="index-gamma"></a><em></em> <strong>gamma</strong> <em>(<var>z</var>)</em></dt>
 <dd><p>Compute the Gamma function.
 </p>
 <p>The Gamma function is defined as
@@ -558,9 +815,8 @@ loss of precision.  The final result is then
 
 
 <a name="XREFgammainc"></a><dl>
-<dt><a name="index-gammainc"></a>: <em></em> <strong>gammainc</strong> <em>(<var>x</var>, <var>a</var>)</em></dt>
-<dt><a name="index-gammainc-1"></a>: <em></em> <strong>gammainc</strong> <em>(<var>x</var>, <var>a</var>, &quot;lower&quot;)</em></dt>
-<dt><a name="index-gammainc-2"></a>: <em></em> <strong>gammainc</strong> <em>(<var>x</var>, <var>a</var>, &quot;upper&quot;)</em></dt>
+<dt><a name="index-gammainc"></a><em></em> <strong>gammainc</strong> <em>(<var>x</var>, <var>a</var>)</em></dt>
+<dt><a name="index-gammainc-1"></a><em></em> <strong>gammainc</strong> <em>(<var>x</var>, <var>a</var>, <var>tail</var>)</em></dt>
 <dd><p>Compute the normalized incomplete gamma function.
 </p>
 <p>This is defined as
@@ -580,24 +836,90 @@ Stegun (6.5.1).
 <p>If <var>a</var> is scalar, then <code>gammainc (<var>x</var>, <var>a</var>)</code> is returned
 for each element of <var>x</var> and vice versa.
 </p>
-<p>If neither <var>x</var> nor <var>a</var> is scalar, the sizes of <var>x</var> and
+<p>If neither <var>x</var> nor <var>a</var> is scalar then the sizes of <var>x</var> and
 <var>a</var> must agree, and <code>gammainc</code> is applied element-by-element.
+The elements of <var>a</var> must be non-negative.
 </p>
-<p>By default the incomplete gamma function integrated from 0 to <var>x</var> is
-computed.  If <code>&quot;upper&quot;</code> is given then the complementary function
-integrated from <var>x</var> to infinity is calculated.  It should be noted that
+<p>By default, <var>tail</var> is <code>&quot;lower&quot;</code> and the incomplete gamma function
+integrated from 0 to <var>x</var> is computed.  If <var>tail</var> is <code>&quot;upper&quot;</code>
+then the complementary function integrated from <var>x</var> to infinity is
+calculated.
+</p>
+<p>If <var>tail</var> is <code>&quot;scaledlower&quot;</code>, then the lower incomplete gamma
+function is multiplied by
+<em>gamma(a+1)*exp(x)/(x^a)</em>.
+If <var>tail</var> is <code>&quot;scaledupper&quot;</code>, then the upper incomplete gamma
+function is multiplied by the same quantity.
+</p>
+<p>References:
+</p>
+<p>M. Abramowitz and I.A. Stegun,
+<cite>Handbook of mathematical functions</cite>,
+Dover publications, Inc., 1972.
+</p>
+<p>W. Gautschi,
+<cite>A computational procedure for incomplete gamma functions</cite>,
+ACM Trans. Math Software, pp. 466&ndash;481, Vol 5, No. 4, 2012.
+</p>
+<p>W. H. Press, S. A. Teukolsky, W. T. Vetterling, and B. P. Flannery,
+<cite>Numerical Recipes in Fortran 77</cite>, ch. 6.2, Vol 1, 1992.
+</p>
+
+<p><strong>See also:</strong> <a href="#XREFgamma">gamma</a>, <a href="#XREFgammaincinv">gammaincinv</a>, <a href="#XREFgammaln">gammaln</a>.
+</p></dd></dl>
+
+
+<a name="XREFgammaincinv"></a><dl>
+<dt><a name="index-gammaincinv"></a><em></em> <strong>gammaincinv</strong> <em>(<var>y</var>, <var>a</var>)</em></dt>
+<dt><a name="index-gammaincinv-1"></a><em></em> <strong>gammaincinv</strong> <em>(<var>y</var>, <var>a</var>, <var>tail</var>)</em></dt>
+<dd><p>Compute the inverse of the normalized incomplete gamma function.
+</p>
+<p>The normalized incomplete gamma function is defined as
 </p>
 <div class="example">
-<pre class="example">gammainc (<var>x</var>, <var>a</var>) &equiv; 1 - gammainc (<var>x</var>, <var>a</var>, &quot;upper&quot;)
+<pre class="example">                                x
+                       1       /
+gammainc (x, a) = ---------    | exp (-t) t^(a-1) dt
+                  gamma (a)    /
+                            t=0
 </pre></div>
 
-<p><strong>See also:</strong> <a href="#XREFgamma">gamma</a>, <a href="#XREFgammaln">gammaln</a>.
+
+<p>and <code>gammaincinv (gammainc (<var>x</var>, <var>a</var>), <var>a</var>) = <var>x</var></code>
+for each non-negative value of <var>x</var>.  If <var>a</var> is scalar then
+<code>gammaincinv (<var>y</var>, <var>a</var>)</code> is returned for each element of
+<var>y</var> and vice versa.
+</p>
+<p>If neither <var>y</var> nor <var>a</var> is scalar then the sizes of <var>y</var> and
+<var>a</var> must agree, and <code>gammaincinv</code> is applied element-by-element.
+The variable <var>y</var> must be in the interval <em>[0,1]</em> while <var>a</var> must
+be real and positive.
+</p>
+<p>By default, <var>tail</var> is <code>&quot;lower&quot;</code> and the inverse of the incomplete
+gamma function integrated from 0 to <var>x</var> is computed.  If <var>tail</var> is
+<code>&quot;upper&quot;</code>, then the complementary function integrated from <var>x</var> to
+infinity is inverted.
+</p>
+<p>The function is computed with Newton&rsquo;s method by solving
+</p>
+<div class="example">
+<pre class="example"><var>y</var> - gammainc (<var>x</var>, <var>a</var>) = 0
+</pre></div>
+
+
+<p>Reference: A. Gil, J. Segura, and N. M. Temme, <cite>Efficient and
+accurate algorithms for the computation and inversion of the incomplete
+gamma function ratios</cite>, SIAM J. Sci. Computing, pp. A2965&ndash;A2981,
+Vol 34, 2012.
+</p>
+
+<p><strong>See also:</strong> <a href="#XREFgammainc">gammainc</a>, <a href="#XREFgamma">gamma</a>, <a href="#XREFgammaln">gammaln</a>.
 </p></dd></dl>
 
 
 <a name="XREFlegendre"></a><dl>
-<dt><a name="index-legendre"></a>: <em><var>l</var> =</em> <strong>legendre</strong> <em>(<var>n</var>, <var>x</var>)</em></dt>
-<dt><a name="index-legendre-1"></a>: <em><var>l</var> =</em> <strong>legendre</strong> <em>(<var>n</var>, <var>x</var>, <var>normalization</var>)</em></dt>
+<dt><a name="index-legendre"></a><em><var>l</var> =</em> <strong>legendre</strong> <em>(<var>n</var>, <var>x</var>)</em></dt>
+<dt><a name="index-legendre-1"></a><em><var>l</var> =</em> <strong>legendre</strong> <em>(<var>n</var>, <var>x</var>, <var>normalization</var>)</em></dt>
 <dd><p>Compute the associated Legendre function of degree <var>n</var> and order
 <var>m</var> = 0 &hellip; <var>n</var>.
 </p>
@@ -688,8 +1010,8 @@ NP(x) = P(x) * (-1)  * [-------------]
 
 
 <a name="XREFgammaln"></a><a name="XREFlgamma"></a><dl>
-<dt><a name="index-gammaln"></a>: <em></em> <strong>gammaln</strong> <em>(<var>x</var>)</em></dt>
-<dt><a name="index-lgamma"></a>: <em></em> <strong>lgamma</strong> <em>(<var>x</var>)</em></dt>
+<dt><a name="index-gammaln"></a><em></em> <strong>gammaln</strong> <em>(<var>x</var>)</em></dt>
+<dt><a name="index-lgamma"></a><em></em> <strong>lgamma</strong> <em>(<var>x</var>)</em></dt>
 <dd><p>Return the natural logarithm of the gamma function of <var>x</var>.
 </p>
 <p><strong>See also:</strong> <a href="#XREFgamma">gamma</a>, <a href="#XREFgammainc">gammainc</a>.
@@ -697,8 +1019,8 @@ NP(x) = P(x) * (-1)  * [-------------]
 
 
 <a name="XREFpsi"></a><dl>
-<dt><a name="index-psi"></a>: <em></em> <strong>psi</strong> <em>(<var>z</var>)</em></dt>
-<dt><a name="index-psi-1"></a>: <em></em> <strong>psi</strong> <em>(<var>k</var>, <var>z</var>)</em></dt>
+<dt><a name="index-psi"></a><em></em> <strong>psi</strong> <em>(<var>z</var>)</em></dt>
+<dt><a name="index-psi-1"></a><em></em> <strong>psi</strong> <em>(<var>k</var>, <var>z</var>)</em></dt>
 <dd><p>Compute the psi (polygamma) function.
 </p>
 <p>The polygamma functions are the <var>k</var>th derivative of the logarithm
@@ -720,6 +1042,28 @@ can have any value real or complex value.  However, for polygamma functions
 </p>
 
 <p><strong>See also:</strong> <a href="#XREFgamma">gamma</a>, <a href="#XREFgammainc">gammainc</a>, <a href="#XREFgammaln">gammaln</a>.
+</p></dd></dl>
+
+
+<a name="XREFsinint"></a><dl>
+<dt><a name="index-sinint"></a><em></em> <strong>sinint</strong> <em>(<var>x</var>)</em></dt>
+<dd><p>Compute the sine integral function:
+</p>
+<div class="example">
+<pre class="example">           x
+          /
+Si (x) =  | sin (t) / t dt
+          /
+         0
+</pre></div>
+
+
+<p>Reference:
+M. Abramowitz and I.A. Stegun,
+<cite>Handbook of Mathematical Functions</cite>, 1964.
+</p>
+
+<p><strong>See also:</strong> <a href="#XREFcosint">cosint</a>, <a href="#XREFexpint">expint</a>, <a href="Trigonometry.html#XREFsin">sin</a>.
 </p></dd></dl>
 
 

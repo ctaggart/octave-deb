@@ -1,23 +1,23 @@
 /*
 
-Copyright (C) 2004-2017 David Bateman
+Copyright (C) 2004-2018 David Bateman
 Copyright (C) 1998-2004 Andy Adler
 
 This file is part of Octave.
 
-Octave is free software; you can redistribute it and/or modify it
-under the terms of the GNU General Public License as published by the
-Free Software Foundation; either version 3 of the License, or (at your
-option) any later version.
+Octave is free software: you can redistribute it and/or modify it
+under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-Octave is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-for more details.
+Octave is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with Octave; see the file COPYING.  If not, see
-<http://www.gnu.org/licenses/>.
+<https://www.gnu.org/licenses/>.
 
 */
 
@@ -129,17 +129,8 @@ longer running time.
           for (int i = 0; i < len; i++)
             str[i] = tolower (str[i]);
 
-          if (str == "defaults" || str == "default")
-            {
-              // FIXME: deprecated in 4.0, remove "defaults" for 4.4 release
-              static bool warned = false;
-              if (! warned && str == "defaults")
-                {
-                  warning ("spparms: use \"default\" instead of \"defaults\"");
-                  warned = true;
-                }
-              octave_sparse_params::defaults ();
-            }
+          if (str == "default")
+            octave_sparse_params::defaults ();
           else if (str == "tight")
             octave_sparse_params::tight ();
           else
@@ -194,7 +185,7 @@ longer running time.
 %! assert (spparms ("exact_d"), 5);
 %! spparms (old_vals);     # restore state
 
-%% Test input validation
+## Test input validation
 %!error <too many input arguments> spparms (1, 2, 3)
 %!error <too many output arguments> [x, y, z] = spparms ()
 %!error <KEY not recognized> spparms ("UNKNOWN_KEY")

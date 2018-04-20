@@ -1,22 +1,22 @@
 @c DO NOT EDIT!  Generated automatically by munge-texi.pl.
 
-@c Copyright (C) 1996-2017 John W. Eaton
+@c Copyright (C) 1996-2018 John W. Eaton
 @c
 @c This file is part of Octave.
 @c
-@c Octave is free software; you can redistribute it and/or modify it
-@c under the terms of the GNU General Public License as published by the
-@c Free Software Foundation; either version 3 of the License, or (at
-@c your option) any later version.
+@c Octave is free software: you can redistribute it and/or modify it
+@c under the terms of the GNU General Public License as published by
+@c the Free Software Foundation, either version 3 of the License, or
+@c (at your option) any later version.
 @c
-@c Octave is distributed in the hope that it will be useful, but WITHOUT
-@c ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-@c FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-@c for more details.
+@c Octave is distributed in the hope that it will be useful, but
+@c WITHOUT ANY WARRANTY; without even the implied warranty of
+@c MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+@c GNU General Public License for more details.
 @c
 @c You should have received a copy of the GNU General Public License
 @c along with Octave; see the file COPYING.  If not, see
-@c <http://www.gnu.org/licenses/>.
+@c <https://www.gnu.org/licenses/>.
 
 @c The text of this file appears in the file BUGS in the Octave
 @c distribution, as well as in the Octave manual.
@@ -27,11 +27,12 @@
 @end ifclear
 
 @ifset BUGSONLY
+@include macros.texi
 
 This file documents known bugs in Octave and describes where and how to
 report any bugs that you may find.
 
-Copyright (C) 1996, 1997, 2007 John W. Eaton.  You may copy, distribute, and
+Copyright (C) 1996-2018 John W. Eaton.  You may copy, distribute, and
 modify it freely as long as you preserve this copyright notice and
 permission notice.
 
@@ -45,8 +46,8 @@ permission notice.
 @cindex troubleshooting
 
 This section describes known problems that affect users of Octave.  Most
-of these are not Octave bugs per se---if they were, we would fix them.
-But the result for a user may be like the result of a bug.
+of these are not Octave bugs per @nospell{se}---if they were, we would fix
+them.  But the result for a user may be like the result of a bug.
 
 Some of these problems are due to bugs in other software, some are
 missing features that are too much work to add, and some are places
@@ -173,7 +174,7 @@ for improvement are welcome in any case.
 @cindex bugs, reporting
 
 To report a bug in Octave, submit a bug report to the Octave bug tracker
-@url{http://bugs.octave.org}.
+@url{https://bugs.octave.org}.
 
 @strong{Do not send bug reports to @samp{help-octave}}.  Most users of
 Octave do not want to receive bug reports.
@@ -183,7 +184,7 @@ Octave do not want to receive bug reports.
 @cindex bugs, reporting
 
 Submit bug reports for Octave to the Octave bug tracker
-@url{http://bugs.octave.org}.
+@url{https://bugs.octave.org}.
 
 The fundamental principle of reporting bugs usefully is this:
 @strong{report all the facts}.  If you are not sure whether to state a
@@ -398,9 +399,9 @@ mailing list, or other administrative trivia to the list itself.
 
 If you think you have found a bug in Octave or in the installation
 procedure, however, you should submit a complete bug report to
-the Octave bug tracker at @url{http://bugs.octave.org}.
+the Octave bug tracker at @url{https://bugs.octave.org}.
 But before you submit a bug report, please read
-@url{http://www.octave.org/bugs.html} to learn how to submit a useful
+@url{https://www.octave.org/bugs.html} to learn how to submit a useful
 bug report.
 
 @node How to Distinguish Between Octave and Matlab

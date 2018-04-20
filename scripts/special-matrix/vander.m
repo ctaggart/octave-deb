@@ -1,31 +1,32 @@
-## Copyright (C) 1993-2017 John W. Eaton
+## Copyright (C) 1993-2018 John W. Eaton
 ## Copyright (C) 2009 VZLU Prague
 ##
 ## This file is part of Octave.
 ##
-## Octave is free software; you can redistribute it and/or modify it
+## Octave is free software: you can redistribute it and/or modify it
 ## under the terms of the GNU General Public License as published by
-## the Free Software Foundation; either version 3 of the License, or (at
-## your option) any later version.
+## the Free Software Foundation, either version 3 of the License, or
+## (at your option) any later version.
 ##
 ## Octave is distributed in the hope that it will be useful, but
 ## WITHOUT ANY WARRANTY; without even the implied warranty of
-## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-## General Public License for more details.
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU General Public License for more details.
 ##
 ## You should have received a copy of the GNU General Public License
 ## along with Octave; see the file COPYING.  If not, see
-## <http://www.gnu.org/licenses/>.
+## <https://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
 ## @deftypefn  {} {} vander (@var{c})
 ## @deftypefnx {} {} vander (@var{c}, @var{n})
-## Return the Vandermonde matrix whose next to last column is @var{c}.
+## Return the @nospell{Vandermonde} matrix whose next to last column is
+## @var{c}.
 ##
 ## If @var{n} is specified, it determines the number of columns; otherwise,
 ## @var{n} is taken to be equal to the length of @var{c}.
 ##
-## A Vandermonde matrix has the form:
+## A @nospell{Vandermonde} matrix has the form:
 ## @tex
 ## $$
 ## \left[\matrix{c_1^{n-1}  & \cdots & c_1^2  & c_1    & 1      \cr

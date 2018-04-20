@@ -83,22 +83,25 @@ to a complex data structure as documented in
 </p>
 <p>The graphics objects are arranged in a hierarchy:
 </p>
-<p>1. The root is at 0.  In other words, <code>get (0)</code> returns the properties of
+<p>1. The root object is returned by <code>groot</code> (historically, equivalent to
+the handle 0).  In other words, <code>get (groot)</code> returns the properties of
 the root object.
 </p>
 <p>2. Below the root are <code>figure</code> objects.
 </p>
-<p>3. Below the <code>figure</code> objects are <code>axes</code> objects.
+<p>3. Below the <code>figure</code> objects are <code>axes</code> or <code>hggroup</code> objects.
 </p>
 <p>4. Below the <code>axes</code> objects are <code>line</code>, <code>text</code>, <code>patch</code>,
 <code>surface</code>, <code>image</code>, and <code>light</code> objects.
 </p>
 <p>Graphics handles may be distinguished from function handles
-(see <a href="Function-Handles.html#Function-Handles">Function Handles</a>) by means of the function <code>ishandle</code>.
-<code>ishandle</code> returns true if its argument is a handle of a graphics object.
-In addition, a figure or axes object may be tested using <code>isfigure</code> or
-<code>isaxes</code> respectively.  The test functions return true only if the
-argument is both a handle and of the correct type (figure or axes).
+(see <a href="Function-Handles.html#Function-Handles">Function Handles</a>) by means of the function <code>ishghandle</code>.
+<code>ishghandle</code> returns true if its argument is a handle of a graphics
+object.  In addition, a figure or axes object may be tested using
+<code>isfigure</code> or <code>isaxes</code> respectively.  To test for a specific type of
+graphics handle, such as a patch or line object, use <code>isgraphics</code>.  The
+more specific test functions return true only if the argument is both a
+graphics handle and of the correct type (figure, axes, specified object type).
 </p>
 <p>The <code>whos</code> function can be used to show the object type of each currently
 defined graphics handle.  (Note: this is not true today, but it is, I hope,
@@ -132,41 +135,44 @@ ans = figure
 get (h, &quot;&quot;);
 error: get: ambiguous figure property name ; possible matches:
 
-__enhanced__           hittest                resize
-__graphics_toolkit__   integerhandle          resizefcn
-__guidata__            interruptible          selected
-__modified__           inverthardcopy         selectionhighlight
-__myhandle__           keypressfcn            selectiontype
-__plot_stream__        keyreleasefcn          tag
-alphamap               menubar                toolbar
-beingdeleted           mincolormap            type
-busyaction             name                   uicontextmenu
-buttondownfcn          nextplot               units
-children               numbertitle            userdata
-clipping               outerposition          visible
-closerequestfcn        paperorientation       windowbuttondownfcn
-color                  paperposition          windowbuttonmotionfcn
-colormap               paperpositionmode      windowbuttonupfcn
-createfcn              papersize              windowkeypressfcn
-currentaxes            papertype              windowkeyreleasefcn
-currentcharacter       paperunits             windowscrollwheelfcn
-currentobject          parent                 windowstyle
-currentpoint           pointer                wvisual
-deletefcn              pointershapecdata      wvisualmode
-dockcontrols           pointershapehotspot    xdisplay
-doublebuffer           position               xvisual
-filename               renderer               xvisualmode
-handlevisibility       renderermode
+__gl_extensions__      dockcontrols           renderer
+__gl_renderer__        doublebuffer           renderermode
+__gl_vendor__          filename               resize
+__gl_version__         graphicssmoothing      resizefcn
+__graphics_toolkit__   handlevisibility       selected
+__guidata__            hittest                selectionhighlight
+__modified__           integerhandle          selectiontype
+__mouse_mode__         interruptible          sizechangedfcn
+__myhandle__           inverthardcopy         tag
+__pan_mode__           keypressfcn            toolbar
+__plot_stream__        keyreleasefcn          type
+__rotate_mode__        menubar                uicontextmenu
+__zoom_mode__          mincolormap            units
+alphamap               name                   userdata
+beingdeleted           nextplot               visible
+busyaction             numbertitle            windowbuttondownfcn
+buttondownfcn          outerposition          windowbuttonmotionfcn
+children               paperorientation       windowbuttonupfcn
+clipping               paperposition          windowkeypressfcn
+closerequestfcn        paperpositionmode      windowkeyreleasefcn
+color                  papersize              windowscrollwheelfcn
+colormap               papertype              windowstyle
+createfcn              paperunits             wvisual
+currentaxes            parent                 wvisualmode
+currentcharacter       pointer                xdisplay
+currentobject          pointershapecdata      xvisual
+currentpoint           pointershapehotspot    xvisualmode
+deletefcn              position
 </pre></div>
 
-<p>The root figure has index 0.  Its properties may be displayed by:
-<code>get (0, &quot;&quot;)</code>.
+<p>The properties of the root figure may be displayed by:
+<code>get (groot, &quot;&quot;)</code>.
 </p>
 <p>The uses of <code>get</code> and <code>set</code> are further explained in
 <a href="Graphics-Objects.html#XREFget">get</a>, <a href="Graphics-Objects.html#XREFset">set</a>.
 </p>
 <a name="XREFisprop"></a><dl>
-<dt><a name="index-isprop"></a>: <em><var>res</var> =</em> <strong>isprop</strong> <em>(<var>obj</var>, &quot;<var>prop</var>&quot;)</em></dt>
+<dt><a name="index-isprop"></a><em><var>res</var> =</em> <strong>isprop</strong> <em>(<var>obj</var>, &quot;<var>prop</var>&quot;)</em></dt>
 <dd><p>Return true if <var>prop</var> is a property of the object <var>obj</var>.
 </p>
 <p><var>obj</var> may also be an array of objects in which case <var>res</var> will be a

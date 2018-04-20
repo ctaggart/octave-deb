@@ -115,7 +115,7 @@ variable.
 
 
 <a name="XREFisvarname"></a><dl>
-<dt><a name="index-isvarname"></a>: <em></em> <strong>isvarname</strong> <em>(<var>name</var>)</em></dt>
+<dt><a name="index-isvarname"></a><em></em> <strong>isvarname</strong> <em>(<var>name</var>)</em></dt>
 <dd><p>Return true if <var>name</var> is a valid variable name.
 </p>
 <p><strong>See also:</strong> <a href="Keywords.html#XREFiskeyword">iskeyword</a>, <a href="Status-of-Variables.html#XREFexist">exist</a>, <a href="Status-of-Variables.html#XREFwho">who</a>.
@@ -123,8 +123,8 @@ variable.
 
 
 <a name="XREFgenvarname"></a><dl>
-<dt><a name="index-genvarname"></a>: <em><var>varname</var> =</em> <strong>genvarname</strong> <em>(<var>str</var>)</em></dt>
-<dt><a name="index-genvarname-1"></a>: <em><var>varname</var> =</em> <strong>genvarname</strong> <em>(<var>str</var>, <var>exclusions</var>)</em></dt>
+<dt><a name="index-genvarname"></a><em><var>varname</var> =</em> <strong>genvarname</strong> <em>(<var>str</var>)</em></dt>
+<dt><a name="index-genvarname-1"></a><em><var>varname</var> =</em> <strong>genvarname</strong> <em>(<var>str</var>, <var>exclusions</var>)</em></dt>
 <dd><p>Create valid unique variable name(s) from <var>str</var>.
 </p>
 <p>If <var>str</var> is a cellstr, then a unique variable is created for each cell
@@ -151,7 +151,7 @@ genvarname (&quot;x&quot;, who ())
 
 <p>Note that the result is a char array or cell array of strings, not the
 variables themselves.  To define a variable, <code>eval()</code> can be used.
-The following trivial example sets <code>x</code> to <code>42</code>.
+The following trivial example sets <code>x</code> to 42.
 </p>
 <div class="example">
 <pre class="example">name = genvarname (&quot;x&quot;);
@@ -194,7 +194,7 @@ function names such as <code>&quot;sin&quot;</code>.  Such names should be inclu
 
 
 <a name="XREFnamelengthmax"></a><dl>
-<dt><a name="index-namelengthmax"></a>: <em></em> <strong>namelengthmax</strong> <em>()</em></dt>
+<dt><a name="index-namelengthmax"></a><em></em> <strong>namelengthmax</strong> <em>()</em></dt>
 <dd><p>Return the <small>MATLAB</small> compatible maximum variable name length.
 </p>
 <p>Octave is capable of storing strings up to <em>2^{31} - 1</em> in length.

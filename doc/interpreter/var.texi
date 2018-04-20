@@ -1,22 +1,22 @@
 @c DO NOT EDIT!  Generated automatically by munge-texi.pl.
 
-@c Copyright (C) 1996-2017 John W. Eaton
+@c Copyright (C) 1996-2018 John W. Eaton
 @c
 @c This file is part of Octave.
 @c
-@c Octave is free software; you can redistribute it and/or modify it
-@c under the terms of the GNU General Public License as published by the
-@c Free Software Foundation; either version 3 of the License, or (at
-@c your option) any later version.
+@c Octave is free software: you can redistribute it and/or modify it
+@c under the terms of the GNU General Public License as published by
+@c the Free Software Foundation, either version 3 of the License, or
+@c (at your option) any later version.
 @c
-@c Octave is distributed in the hope that it will be useful, but WITHOUT
-@c ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-@c FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-@c for more details.
+@c Octave is distributed in the hope that it will be useful, but
+@c WITHOUT ANY WARRANTY; without even the implied warranty of
+@c MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+@c GNU General Public License for more details.
 @c
 @c You should have received a copy of the GNU General Public License
 @c along with Octave; see the file COPYING.  If not, see
-@c <http://www.gnu.org/licenses/>.
+@c <https://www.gnu.org/licenses/>.
 
 @node Variables
 @chapter Variables
@@ -124,7 +124,7 @@ genvarname ("x", who ())
 
 Note that the result is a char array or cell array of strings, not the
 variables themselves.  To define a variable, @code{eval()} can be used.
-The following trivial example sets @code{x} to @code{42}.
+The following trivial example sets @code{x} to 42.
 
 @example
 @group
@@ -349,6 +349,20 @@ persistent d = 3 e f = 5
 
 The behavior of persistent variables is equivalent to the behavior of
 static variables in C@.
+
+One restriction for persistent variables is, that neither input nor
+output arguments of a function can be persistent:
+
+@example
+@group
+function y = foo ()
+  persistent y = 0;  # Not allowed!
+endfunction
+
+foo ()
+@print{} error: can't make function parameter y persistent
+@end group
+@end example
 
 Like global variables, a persistent variable may only be initialized once.
 For example, after executing the following code
@@ -639,8 +653,8 @@ endif
 @anchor{XREFexist}
 @deftypefn  {} {@var{c} =} exist (@var{name})
 @deftypefnx {} {@var{c} =} exist (@var{name}, @var{type})
-Check for the existence of @var{name} as a variable, function, file,
-directory, or class.
+Check for the existence of @var{name} as a variable, function, file, directory,
+or class.
 
 The return code @var{c} is one of
 
@@ -649,9 +663,8 @@ The return code @var{c} is one of
 @var{name} is a variable.
 
 @item 2
-@var{name} is an absolute filename, an ordinary file in Octave's
-@code{path}, or (after appending @samp{.m}) a function file in Octave's
-@code{path}.
+@var{name} is an absolute filename, an ordinary file in Octave's @code{path},
+or (after appending @samp{.m}) a function file in Octave's @code{path}.
 
 @item 3
 @var{name} is a @samp{.oct} or @samp{.mex} file in Octave's @code{path}.
@@ -662,6 +675,9 @@ The return code @var{c} is one of
 @item 7
 @var{name} is a directory.
 
+@item 8
+@var{name} is a class.  (Note: not currently implemented)
+
 @item 103
 @var{name} is a function not associated with a file (entered on the command
 line).
@@ -670,8 +686,8 @@ line).
 @var{name} does not exist.
 @end table
 
-If the optional argument @var{type} is supplied, check only for symbols of
-the specified type.  Valid types are
+If the optional argument @var{type} is supplied, check only for symbols of the
+specified type.  Valid types are
 
 @table @asis
 @item @qcode{"var"}
@@ -696,14 +712,13 @@ If no type is given, and there are multiple possible matches for name,
 variable, built-in function, oct-file, directory, file, class.
 
 @code{exist} returns 2 if a regular file called @var{name} is present in
-Octave's search path.  If you want information about other types of files
-not on the search path you should use some combination of the functions
-@code{file_in_path} and @code{stat} instead.
+Octave's search path.  For information about other types of files not on the
+search path use some combination of the functions @code{file_in_path} and
+@code{stat} instead.
 
 Programming Note: If @var{name} is implemented by a buggy .oct/.mex file,
-calling @var{exist} may cause Octave to crash.  To maintain high
-performance, Octave trusts .oct/.mex files instead of @nospell{sandboxing}
-them.
+calling @var{exist} may cause Octave to crash.  To maintain high performance,
+Octave trusts .oct/.mex files instead of @nospell{sandboxing} them.
 
 @seealso{@ref{XREFfile_in_loadpath,,file_in_loadpath}, @ref{XREFfile_in_path,,file_in_path}, @ref{XREFdir_in_loadpath,,dir_in_loadpath}, @ref{XREFstat,,stat}}
 @end deftypefn

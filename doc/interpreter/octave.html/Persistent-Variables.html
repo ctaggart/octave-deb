@@ -100,6 +100,18 @@ persistent d = 3 e f = 5
 <p>The behavior of persistent variables is equivalent to the behavior of
 static variables in C.
 </p>
+<p>One restriction for persistent variables is, that neither input nor
+output arguments of a function can be persistent:
+</p>
+<div class="example">
+<pre class="example">function y = foo ()
+  persistent y = 0;  # Not allowed!
+endfunction
+
+foo ()
+-| error: can't make function parameter y persistent
+</pre></div>
+
 <p>Like global variables, a persistent variable may only be initialized once.
 For example, after executing the following code
 </p>

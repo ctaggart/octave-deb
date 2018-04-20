@@ -77,15 +77,14 @@ to save plots in a variety of formats.  For example,
 <p>saves the current figure to an encapsulated PostScript file called
 <samp>foo.eps</samp>.
 </p>
-<p>The current graphic toolkits produce very similar graphic displays but differ
-in their capability to display text and in print capabilities.  In particular,
-the OpenGL based toolkits such as <code>fltk</code> and <code>qt</code> do not support the
-<code>&quot;interpreter&quot;</code> property of text objects.  This means that when using
-OpenGL toolkits special symbols drawn with the <code>&quot;tex&quot;</code> interpreter will
-appear correctly on-screen but will be rendered with interpreter <code>&quot;none&quot;</code>
-when printing unless one of the <code>standalone</code> (see below) modes is used.
-These modes provide access to the pdflatex processor and therefore allow full
-use of LaTeX commands.
+<p>The current graphic toolkits produce very similar graphic displays, but differ
+in their capability to display unusual text and in their ability to print
+such text.  In general, the <code>&quot;tex&quot;</code> interpreter (default) is the best
+all-around performer for both on-screen display and printing.  However, for the
+reproduction of complicated text formulas the <code>&quot;latex&quot;</code> interpreter is
+preferred.  The <code>&quot;latex&quot;</code> interpreter will not display symbols on-screen,
+but the printed output will be correct.  When printing, use one of the
+<code>standalone</code> options which provide full access to LaTeX commands.
 </p>
 <p>A complete example showing the capabilities of text printing using the
 <samp>-dpdflatexstandalone</samp> option is:
@@ -97,16 +96,15 @@ plot (x, erf (x));
 hold on;
 plot (x, x, &quot;r&quot;);
 axis ([0, 3, 0, 1]);
-text (0.65, 0.6175, ['$\displaystyle\leftarrow x = {2\over\sqrt{\pi}}'...
-                     '\int_{0}^{x}e^{-t^2} dt = 0.6175$']);
+text (0.65, 0.6175, ['$\displaystyle\leftarrow x = {2 \over \sqrt{\pi}}'...
+                     '\int_{0}^{x} e^{-t^2} dt = 0.6175$'],
+      &quot;interpreter&quot;, &quot;latex&quot;);
 xlabel (&quot;x&quot;);
 ylabel (&quot;erf (x)&quot;);
 title (&quot;erf (x) with text annotation&quot;);
-set (hf, &quot;visible&quot;, &quot;off&quot;);
 print (hf, &quot;plot15_7.pdf&quot;, &quot;-dpdflatexstandalone&quot;);
-set (hf, &quot;visible&quot;, &quot;on&quot;);
 system (&quot;pdflatex plot15_7&quot;);
-open (&quot;plot15_7.pdf&quot;);
+open plot15_7.pdf
 </pre></div>
 
 <p>The result of this example can be seen in <a href="#fig_003aextendedtext">Figure 15.7</a>
@@ -116,10 +114,10 @@ open (&quot;plot15_7.pdf&quot;);
 </div>
 <div class="float-caption"><p><strong>Figure 15.7: </strong>Example of inclusion of text with use of <samp>-dpdflatexstandalone</samp></p></div></div>
 <a name="XREFprint"></a><dl>
-<dt><a name="index-print"></a>: <em></em> <strong>print</strong> <em>()</em></dt>
-<dt><a name="index-print-1"></a>: <em></em> <strong>print</strong> <em>(<var>options</var>)</em></dt>
-<dt><a name="index-print-2"></a>: <em></em> <strong>print</strong> <em>(<var>filename</var>, <var>options</var>)</em></dt>
-<dt><a name="index-print-3"></a>: <em></em> <strong>print</strong> <em>(<var>h</var>, <var>filename</var>, <var>options</var>)</em></dt>
+<dt><a name="index-print"></a><em></em> <strong>print</strong> <em>()</em></dt>
+<dt><a name="index-print-1"></a><em></em> <strong>print</strong> <em>(<var>options</var>)</em></dt>
+<dt><a name="index-print-2"></a><em></em> <strong>print</strong> <em>(<var>filename</var>, <var>options</var>)</em></dt>
+<dt><a name="index-print-3"></a><em></em> <strong>print</strong> <em>(<var>h</var>, <var>filename</var>, <var>options</var>)</em></dt>
 <dd><p>Print a plot, or save it to a file.
 </p>
 <p>Both output formatted for printing (PDF and PostScript), and many bitmapped
@@ -312,9 +310,7 @@ toolkit).
 </dd>
 <dt><code>pdf</code></dt>
 <dd><p>Portable document format
-</p></dd>
-</dl>
-
+</p>
 </dd>
 <dt><code>svg</code></dt>
 <dd><p>Scalable vector graphics
@@ -327,7 +323,9 @@ toolkits create a PGF file while Gnuplot creates a TikZ file.  The
 &lsquo;<samp>tikzstandalone</samp>&rsquo; device produces a LaTeX document which includes the
 TikZ file (&lsquo;<samp>tikzstandalone</samp>&rsquo; and is only available for the Gnuplot
 graphics toolkit).
-</p>
+</p></dd>
+</dl>
+
 <p>If the device is omitted, it is inferred from the file extension,
 or if there is no filename it is sent to the printer as PostScript.
 </p>
@@ -450,12 +448,13 @@ print -dpswrite -PPS_printer
 
 
 <a name="XREFsaveas"></a><dl>
-<dt><a name="index-saveas"></a>: <em></em> <strong>saveas</strong> <em>(<var>h</var>, <var>filename</var>)</em></dt>
-<dt><a name="index-saveas-1"></a>: <em></em> <strong>saveas</strong> <em>(<var>h</var>, <var>filename</var>, <var>fmt</var>)</em></dt>
+<dt><a name="index-saveas"></a><em></em> <strong>saveas</strong> <em>(<var>h</var>, <var>filename</var>)</em></dt>
+<dt><a name="index-saveas-1"></a><em></em> <strong>saveas</strong> <em>(<var>h</var>, <var>filename</var>, <var>fmt</var>)</em></dt>
 <dd><p>Save graphic object <var>h</var> to the file <var>filename</var> in graphic format
 <var>fmt</var>.
 </p>
-<p><var>fmt</var> should be one of the following formats:
+<p>All device formats accepted by <code>print</code> may be used.  Common formats
+are:
 </p>
 <dl compact="compact">
 <dt><code>ps</code></dt>
@@ -464,6 +463,10 @@ print -dpswrite -PPS_printer
 </dd>
 <dt><code>eps</code></dt>
 <dd><p>Encapsulated PostScript
+</p>
+</dd>
+<dt><code>pdf</code></dt>
+<dd><p>Portable Document Format
 </p>
 </dd>
 <dt><code>jpg</code></dt>
@@ -478,14 +481,11 @@ print -dpswrite -PPS_printer
 <dd><p>Enhanced Meta File
 </p>
 </dd>
-<dt><code>pdf</code></dt>
-<dd><p>Portable Document Format
-</p></dd>
 </dl>
 
-<p>All device formats specified in <code>print</code> may also be used.  If
-<var>fmt</var> is omitted it is extracted from the extension of <var>filename</var>.
-The default format is <code>&quot;pdf&quot;</code>.
+<p>If <var>fmt</var> is omitted it is extracted from the extension of
+<var>filename</var>.  The default format when there is no extension is
+<code>&quot;pdf&quot;</code>.
 </p>
 <div class="example">
 <pre class="example">clf ();
@@ -499,10 +499,10 @@ saveas (1, &quot;figure1.png&quot;);
 
 
 <a name="XREForient"></a><dl>
-<dt><a name="index-orient"></a>: <em></em> <strong>orient</strong> <em>(<var>orientation</var>)</em></dt>
-<dt><a name="index-orient-1"></a>: <em></em> <strong>orient</strong> <em>(<var>hfig</var>, <var>orientation</var>)</em></dt>
-<dt><a name="index-orient-2"></a>: <em><var>orientation</var> =</em> <strong>orient</strong> <em>()</em></dt>
-<dt><a name="index-orient-3"></a>: <em><var>orientation</var> =</em> <strong>orient</strong> <em>(<var>hfig</var>)</em></dt>
+<dt><a name="index-orient"></a><em></em> <strong>orient</strong> <em>(<var>orientation</var>)</em></dt>
+<dt><a name="index-orient-1"></a><em></em> <strong>orient</strong> <em>(<var>hfig</var>, <var>orientation</var>)</em></dt>
+<dt><a name="index-orient-2"></a><em><var>orientation</var> =</em> <strong>orient</strong> <em>()</em></dt>
+<dt><a name="index-orient-3"></a><em><var>orientation</var> =</em> <strong>orient</strong> <em>(<var>hfig</var>)</em></dt>
 <dd><p>Query or set the print orientation for figure <var>hfig</var>.
 </p>
 <p>Valid values for <var>orientation</var> are <code>&quot;portrait&quot;</code>,
@@ -536,9 +536,9 @@ etc.&mdash;can be made easily from within Octave.  The <code>hgsave</code>/<code
 commands can be used to save and re-create a graphics object.
 </p>
 <a name="XREFhgsave"></a><dl>
-<dt><a name="index-hgsave"></a>: <em></em> <strong>hgsave</strong> <em>(<var>filename</var>)</em></dt>
-<dt><a name="index-hgsave-1"></a>: <em></em> <strong>hgsave</strong> <em>(<var>h</var>, <var>filename</var>)</em></dt>
-<dt><a name="index-hgsave-2"></a>: <em></em> <strong>hgsave</strong> <em>(<var>h</var>, <var>filename</var>, <var>fmt</var>)</em></dt>
+<dt><a name="index-hgsave"></a><em></em> <strong>hgsave</strong> <em>(<var>filename</var>)</em></dt>
+<dt><a name="index-hgsave-1"></a><em></em> <strong>hgsave</strong> <em>(<var>h</var>, <var>filename</var>)</em></dt>
+<dt><a name="index-hgsave-2"></a><em></em> <strong>hgsave</strong> <em>(<var>h</var>, <var>filename</var>, <var>fmt</var>)</em></dt>
 <dd><p>Save the graphics handle <var>h</var> to the file <var>filename</var> in the format
 <var>fmt</var>.
 </p>
@@ -554,9 +554,9 @@ extension <samp>.ofig</samp> will be appended.
 
 </li><li> <samp>-hdf5</samp>, <samp>-float-hdf5</samp>
 
-</li><li> <samp>-V7</samp>, <samp>-v7</samp>, <code>-7</code>, <samp>-mat7-binary</samp>
+</li><li> <samp>-V7</samp>, <samp>-v7</samp>, <samp>-7</samp>, <samp>-mat7-binary</samp>
 
-</li><li> <samp>-V6</samp>, <samp>-v6</samp>, <code>-6</code>, <samp>-mat6-binary</samp>
+</li><li> <samp>-V6</samp>, <samp>-v6</samp>, <samp>-6</samp>, <samp>-mat6-binary</samp>
 
 </li><li> <samp>-text</samp>
 
@@ -572,7 +572,7 @@ figure as an Octave object, use <code>hgsave</code>/<code>hgload</code>.
 
 
 <a name="XREFhgload"></a><dl>
-<dt><a name="index-hgload"></a>: <em><var>h</var> =</em> <strong>hgload</strong> <em>(<var>filename</var>)</em></dt>
+<dt><a name="index-hgload"></a><em><var>h</var> =</em> <strong>hgload</strong> <em>(<var>filename</var>)</em></dt>
 <dd><p>Load the graphics object in <var>filename</var> into the graphics handle <var>h</var>.
 </p>
 <p>If <var>filename</var> has no extension, Octave will try to find the file with

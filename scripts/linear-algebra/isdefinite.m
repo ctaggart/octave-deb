@@ -1,27 +1,27 @@
-## Copyright (C) 2003-2017 Gabriele Pannocchia
+## Copyright (C) 2003-2018 Gabriele Pannocchia
 ##
 ## This file is part of Octave.
 ##
-## Octave is free software; you can redistribute it and/or modify it
+## Octave is free software: you can redistribute it and/or modify it
 ## under the terms of the GNU General Public License as published by
-## the Free Software Foundation; either version 3 of the License, or (at
-## your option) any later version.
+## the Free Software Foundation, either version 3 of the License, or
+## (at your option) any later version.
 ##
 ## Octave is distributed in the hope that it will be useful, but
 ## WITHOUT ANY WARRANTY; without even the implied warranty of
-## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-## General Public License for more details.
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU General Public License for more details.
 ##
 ## You should have received a copy of the GNU General Public License
 ## along with Octave; see the file COPYING.  If not, see
-## <http://www.gnu.org/licenses/>.
+## <https://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
 ## @deftypefn  {} {} isdefinite (@var{A})
 ## @deftypefnx {} {} isdefinite (@var{A}, @var{tol})
 ## Return 1 if @var{A} is symmetric positive definite within the
 ## tolerance specified by @var{tol} or 0 if @var{A} is symmetric
-## positive semidefinite.  Otherwise, return -1.
+## positive semi-definite.  Otherwise, return -1.
 ##
 ## If @var{tol} is omitted, use a tolerance of
 ## @code{100 * eps * norm (@var{A}, "fro")}

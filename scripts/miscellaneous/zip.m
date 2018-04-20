@@ -1,20 +1,20 @@
-## Copyright (C) 2006-2017 Sylvain Pelissier
+## Copyright (C) 2006-2018 Sylvain Pelissier
 ##
 ## This file is part of Octave.
 ##
-## Octave is free software; you can redistribute it and/or modify it
+## Octave is free software: you can redistribute it and/or modify it
 ## under the terms of the GNU General Public License as published by
-## the Free Software Foundation; either version 3 of the License, or (at
-## your option) any later version.
+## the Free Software Foundation, either version 3 of the License, or
+## (at your option) any later version.
 ##
 ## Octave is distributed in the hope that it will be useful, but
 ## WITHOUT ANY WARRANTY; without even the implied warranty of
-## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-## General Public License for more details.
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU General Public License for more details.
 ##
 ## You should have received a copy of the GNU General Public License
 ## along with Octave; see the file COPYING.  If not, see
-## <http://www.gnu.org/licenses/>.
+## <https://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
 ## @deftypefn  {} {@var{filelist} =} zip (@var{zipfile}, @var{files})
@@ -63,7 +63,7 @@ function filelist = zip (zipfile, files, rootdir = ".")
   zipfile = regexprep (zipfile, "'", "\\'");  # escape single quotes
   cmd = sprintf ("zip -r '%s' %s", zipfile, files);
   if (ispc () && ! isunix ())
-    cmd = strrep (cmd, "\\", "/");
+    cmd = strrep (cmd, '\', '/');
   endif
 
   origdir = pwd ();
@@ -87,7 +87,10 @@ function filelist = zip (zipfile, files, rootdir = ".")
 endfunction
 
 
-%!xtest
+## FIXME: This test may fail if the zip or unzip command is not installed.
+##        If this test fails, it might be better to change it into a testif
+##        with a runtime condition on the zip and unzip programs.
+%!test
 %! ## test zip together with unzip
 %! unwind_protect
 %!   filename = tempname ();

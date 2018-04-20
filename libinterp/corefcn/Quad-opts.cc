@@ -34,19 +34,19 @@ struct Quad_options_struct
 static Quad_options_struct Quad_options_table [] =
 {
   { "absolute tolerance",
-    { "absolute", "tolerance", 0, 0, 0, },
+    { "absolute", "tolerance", nullptr, nullptr, nullptr, },
     { 1, 0, 0, 0, 0, }, 1, },
 
   { "relative tolerance",
-    { "relative", "tolerance", 0, 0, 0, },
+    { "relative", "tolerance", nullptr, nullptr, nullptr, },
     { 1, 0, 0, 0, 0, }, 1, },
 
   { "single precision absolute tolerance",
-    { "single", "precision", "absolute", "tolerance", 0, },
+    { "single", "precision", "absolute", "tolerance", nullptr, },
     { 1, 1, 1, 0, 0, }, 3, },
 
   { "single precision relative tolerance",
-    { "single", "precision", "relative", "tolerance", 0, },
+    { "single", "precision", "relative", "tolerance", nullptr, },
     { 1, 1, 1, 0, 0, }, 3, },
 };
 

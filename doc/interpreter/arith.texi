@@ -1,22 +1,22 @@
 @c DO NOT EDIT!  Generated automatically by munge-texi.pl.
 
-@c Copyright (C) 1996-2017 John W. Eaton
+@c Copyright (C) 1996-2018 John W. Eaton
 @c
 @c This file is part of Octave.
 @c
-@c Octave is free software; you can redistribute it and/or modify it
-@c under the terms of the GNU General Public License as published by the
-@c Free Software Foundation; either version 3 of the License, or (at
-@c your option) any later version.
+@c Octave is free software: you can redistribute it and/or modify it
+@c under the terms of the GNU General Public License as published by
+@c the Free Software Foundation, either version 3 of the License, or
+@c (at your option) any later version.
 @c
-@c Octave is distributed in the hope that it will be useful, but WITHOUT
-@c ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-@c FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-@c for more details.
+@c Octave is distributed in the hope that it will be useful, but
+@c WITHOUT ANY WARRANTY; without even the implied warranty of
+@c MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+@c GNU General Public License for more details.
 @c
 @c You should have received a copy of the GNU General Public License
 @c along with Octave; see the file COPYING.  If not, see
-@c <http://www.gnu.org/licenses/>.
+@c <https://www.gnu.org/licenses/>.
 
 @node Arithmetic
 @chapter Arithmetic
@@ -359,12 +359,13 @@ real part.
 
 The negative imaginary complex numbers are placed first within each pair.
 All real numbers (those with
-@code{abs (imag (@var{z}) / @var{z}) < @var{tol}}) are placed after the
-complex pairs.
+@code{abs (imag (@var{z})) / abs (@var{z}) < @var{tol}}) are placed after
+the complex pairs.
 
-@var{tol} is a weighting factor which determines the tolerance of matching.
-The default value is 100 and the resulting tolerance for a given complex
-pair is @code{100 * eps (abs (@var{z}(i)))}.
+@var{tol} is a weighting factor in the range [0, 1) which determines the
+tolerance of the matching.  The default value is @code{100 * eps} and the
+resulting tolerance for a given complex pair is
+@code{@var{tol} * abs (@var{z}(i)))}.
 
 By default the complex pairs are sorted along the first non-singleton
 dimension of @var{z}.  If @var{dim} is specified, then the complex pairs are
@@ -800,9 +801,11 @@ Sum of elements along dimension @var{dim}.
 If @var{dim} is omitted, it defaults to the first non-singleton dimension.
 
 The optional @qcode{"type"} input determines the class of the variable
-used for calculations.  If the argument @qcode{"native"} is given, then
-the operation is performed in the same type as the original argument, rather
-than the default double type.
+used for calculations.  By default, operations on floating point inputs (double
+or single) are performed in their native data type, while operations on
+integer, logical, and character data types are performed using doubles.  If the
+argument @qcode{"native"} is given, then the operation is performed in the same
+type as the original argument.
 
 For example:
 
@@ -815,13 +818,13 @@ sum ([true, true], "native")
 @end group
 @end example
 
-On the contrary, if @qcode{"double"} is given, the sum is performed in
-double precision even for single precision inputs.
+If @qcode{"double"} is given the sum is performed in double precision even for
+single precision inputs.
 
 For double precision inputs, the @qcode{"extra"} option will use a more
 accurate algorithm than straightforward summation.  For single precision
-inputs, @qcode{"extra"} is the same as @qcode{"double"}.  Otherwise,
-@qcode{"extra"} has no effect.
+inputs, @qcode{"extra"} is the same as @qcode{"double"}.  For all other data
+type @qcode{"extra"} has no effect.
 @seealso{@ref{XREFcumsum,,cumsum}, @ref{XREFsumsq,,sumsq}, @ref{XREFprod,,prod}}
 @end deftypefn
 
@@ -1399,9 +1402,9 @@ at that point.
 
 @c del2 scripts/general/del2.m
 @anchor{XREFdel2}
-@deftypefn  {} {@var{d} =} del2 (@var{M})
-@deftypefnx {} {@var{d} =} del2 (@var{M}, @var{h})
-@deftypefnx {} {@var{d} =} del2 (@var{M}, @var{dx}, @var{dy}, @dots{})
+@deftypefn  {} {@var{L} =} del2 (@var{M})
+@deftypefnx {} {@var{L} =} del2 (@var{M}, @var{h})
+@deftypefnx {} {@var{L} =} del2 (@var{M}, @var{dx}, @var{dy}, @dots{})
 
 Calculate the discrete Laplace
 @tex
@@ -1413,14 +1416,14 @@ operator.
 
 For a 2-dimensional matrix @var{M} this is defined as
 @tex
-$$d = {1 \over 4} \left( {d^2 \over dx^2} M(x,y) + {d^2 \over dy^2} M(x,y) \right)$$
+$$L = {1 \over 4} \left( {d^2 \over dx^2} M(x,y) + {d^2 \over dy^2} M(x,y) \right)$$
 @end tex
 @ifnottex
 
 @example
 @group
       1    / d^2            d^2         \
-D  = --- * | ---  M(x,y) +  ---  M(x,y) |
+L  = --- * | ---  M(x,y) +  ---  M(x,y) |
       4    \ dx^2           dy^2        /
 @end group
 @end example
@@ -1437,8 +1440,20 @@ whereas a vector argument can be used to specify variable spacing.  The
 length of the spacing vectors must match the respective dimension of
 @var{M}.  The default spacing value is 1.
 
-At least 3 data points are needed for each dimension.  Boundary points are
+Dimensions with fewer than 3 data points are skipped.  Boundary points are
 calculated from the linear extrapolation of interior points.
+
+Example: Second derivative of 2*x^3
+
+@example
+@group
+f = @@(x) 2*x.^3;
+dd = @@(x) 12*x;
+x = 1:6;
+L = 4*del2 (f(x));
+assert (L, dd (x));
+@end group
+@end example
 
 @seealso{@ref{XREFgradient,,gradient}, @ref{XREFdiff,,diff}}
 @end deftypefn
@@ -1534,26 +1549,6 @@ All elements must be numeric and of the same size or scalar.
 @end deftypefn
 
 
-@c chop scripts/general/chop.m
-@anchor{XREFchop}
-@deftypefn {} {} chop (@var{x}, @var{ndigits}, @var{base})
-Truncate elements of @var{x} to a length of @var{ndigits} such that the
-resulting numbers are exactly divisible by @var{base}.
-
-If @var{base} is not specified it defaults to 10.
-
-@example
-@group
-format long
-chop (-pi, 5, 10)
-   @result{} -3.14200000000000
-chop (-pi, 5, 5)
-   @result{} -3.14150000000000
-@end group
-@end example
-@end deftypefn
-
-
 @c rem libinterp/corefcn/data.cc
 @anchor{XREFrem}
 @deftypefn {} {} rem (@var{x}, @var{y})
@@ -1631,13 +1626,13 @@ negative numbers or when the values are periodic.
 
 @c primes scripts/specfun/primes.m
 @anchor{XREFprimes}
-@deftypefn {} {} primes (@var{n})
+@deftypefn {} {@var{p} =} primes (@var{n})
 Return all primes up to @var{n}.
 
-The output data class (double, single, uint32, etc.) is the same as the
+The output data class (double, single, uint32, etc.@:) is the same as the
 input class of @var{n}.  The algorithm used is the Sieve of Eratosthenes.
 
-Notes: If you need a specific number of primes you can use the fact that the
+Note: If you need a specific number of primes you can use the fact that the
 distance from one prime to the next is, on average, proportional to the
 logarithm of the prime.  Integrating, one finds that there are about
 @math{k} primes less than
@@ -1755,7 +1750,7 @@ Loss of significance by argument reduction results in less than half
  of machine accuracy.
 
 @item
-Complete loss of significance by argument reduction, return @code{NaN}.
+Loss of significance by argument reduction, output may be inaccurate.
 
 @item
 Error---no computation, algorithm termination condition not met,
@@ -1766,51 +1761,26 @@ return @code{NaN}.
 
 @c besselj libinterp/corefcn/besselj.cc
 @anchor{XREFbesselj}
-@deftypefn  {} {[@var{j}, @var{ierr}] =} besselj (@var{alpha}, @var{x}, @var{opt})
-@deftypefnx {} {[@var{y}, @var{ierr}] =} bessely (@var{alpha}, @var{x}, @var{opt})
-@deftypefnx {} {[@var{i}, @var{ierr}] =} besseli (@var{alpha}, @var{x}, @var{opt})
-@deftypefnx {} {[@var{k}, @var{ierr}] =} besselk (@var{alpha}, @var{x}, @var{opt})
-@deftypefnx {} {[@var{h}, @var{ierr}] =} besselh (@var{alpha}, @var{k}, @var{x}, @var{opt})
-Compute Bessel or Hankel functions of various kinds:
+@deftypefn  {} {@var{J} =} besselj (@var{alpha}, @var{x})
+@deftypefnx {} {@var{J} =} besselj (@var{alpha}, @var{x}, @var{opt})
+@deftypefnx {} {[@var{J}, @var{ierr}] =} besselj (@dots{})
+Compute Bessel functions of the first kind.
 
-@table @code
-@item besselj
-Bessel functions of the first kind.  If the argument @var{opt} is 1 or true,
-the result is multiplied by @w{@code{exp (-abs (imag (@var{x})))}}.
+The order of the Bessel function @var{alpha} must be real.  The points for
+evaluation @var{x} may be complex.
 
-@item bessely
-Bessel functions of the second kind.  If the argument @var{opt} is 1 or
-true, the result is multiplied by @code{exp (-abs (imag (@var{x})))}.
+If the optional argument @var{opt} is 1 or true, the result @var{J} is
+multiplied by @w{@code{exp (-abs (imag (@var{x})))}}.
 
-@item besseli
+If @var{alpha} is a scalar, the result is the same size as @var{x}.  If @var{x}
+is a scalar, the result is the same size as @var{alpha}.  If @var{alpha} is a
+row vector and @var{x} is a column vector, the result is a matrix with
+@code{length (@var{x})} rows and @code{length (@var{alpha})} columns.
+Otherwise, @var{alpha} and @var{x} must conform and the result will be the same
+size.
 
-Modified Bessel functions of the first kind.  If the argument @var{opt} is 1
-or true, the result is multiplied by @code{exp (-abs (real (@var{x})))}.
-
-@item besselk
-
-Modified Bessel functions of the second kind.  If the argument @var{opt} is
-1 or true, the result is multiplied by @code{exp (@var{x})}.
-
-@item besselh
-Compute Hankel functions of the first (@var{k} = 1) or second (@var{k}
-= 2) kind.  If the argument @var{opt} is 1 or true, the result is multiplied
-by @code{exp (-I*@var{x})} for @var{k} = 1 or @code{exp (I*@var{x})} for
-@var{k} = 2.
-@end table
-
-If @var{alpha} is a scalar, the result is the same size as @var{x}.
-If @var{x} is a scalar, the result is the same size as @var{alpha}.
-If @var{alpha} is a row vector and @var{x} is a column vector, the
-result is a matrix with @code{length (@var{x})} rows and
-@code{length (@var{alpha})} columns.  Otherwise, @var{alpha} and
-@var{x} must conform and the result will be the same size.
-
-The value of @var{alpha} must be real.  The value of @var{x} may be
-complex.
-
-If requested, @var{ierr} contains the following status information
-and is the same size as the result.
+If requested, @var{ierr} contains the following status information and is the
+same size as the result.
 
 @enumerate 0
 @item
@@ -1823,16 +1793,219 @@ Input error, return @code{NaN}.
 Overflow, return @code{Inf}.
 
 @item
-Loss of significance by argument reduction results in less than
-half of machine accuracy.
+Loss of significance by argument reduction results in less than half of machine
+accuracy.
+
+@item
+Loss of significance by argument reduction, output may be inaccurate.
+
+@item
+Error---no computation, algorithm termination condition not met, return
+@code{NaN}.
+@end enumerate
+
+@seealso{@ref{XREFbessely,,bessely}, @ref{XREFbesseli,,besseli}, @ref{XREFbesselk,,besselk}, @ref{XREFbesselh,,besselh}}
+@end deftypefn
+
+
+@c bessely libinterp/corefcn/besselj.cc
+@anchor{XREFbessely}
+@deftypefn  {} {@var{Y} =} bessely (@var{alpha}, @var{x})
+@deftypefnx {} {@var{Y} =} bessely (@var{alpha}, @var{x}, @var{opt})
+@deftypefnx {} {[@var{Y}, @var{ierr}] =} bessely (@dots{})
+Compute Bessel functions of the second kind.
+
+The order of the Bessel function @var{alpha} must be real.  The points for
+evaluation @var{x} may be complex.
+
+If the optional argument @var{opt} is 1 or true, the result @var{Y} is
+multiplied by @w{@code{exp (-abs (imag (@var{x})))}}.
+
+If @var{alpha} is a scalar, the result is the same size as @var{x}.  If @var{x}
+is a scalar, the result is the same size as @var{alpha}.  If @var{alpha} is a
+row vector and @var{x} is a column vector, the result is a matrix with
+@code{length (@var{x})} rows and @code{length (@var{alpha})} columns.
+Otherwise, @var{alpha} and @var{x} must conform and the result will be the same
+size.
+
+If requested, @var{ierr} contains the following status information and is the
+same size as the result.
+
+@enumerate 0
+@item
+Normal return.
+
+@item
+Input error, return @code{NaN}.
+
+@item
+Overflow, return @code{Inf}.
+
+@item
+Loss of significance by argument reduction results in less than half of machine
+accuracy.
 
 @item
 Complete loss of significance by argument reduction, return @code{NaN}.
 
 @item
-Error---no computation, algorithm termination condition not met,
-return @code{NaN}.
+Error---no computation, algorithm termination condition not met, return
+@code{NaN}.
 @end enumerate
+
+@seealso{@ref{XREFbesselj,,besselj}, @ref{XREFbesseli,,besseli}, @ref{XREFbesselk,,besselk}, @ref{XREFbesselh,,besselh}}
+@end deftypefn
+
+
+@c besseli libinterp/corefcn/besselj.cc
+@anchor{XREFbesseli}
+@deftypefn  {} {@var{I} =} besseli (@var{alpha}, @var{x})
+@deftypefnx {} {@var{I} =} besseli (@var{alpha}, @var{x}, @var{opt})
+@deftypefnx {} {[@var{I}, @var{ierr}] =} besseli (@dots{})
+Compute modified Bessel functions of the first kind.
+
+The order of the Bessel function @var{alpha} must be real.  The points for
+evaluation @var{x} may be complex.
+
+If the optional argument @var{opt} is 1 or true, the result @var{I} is
+multiplied by @w{@code{exp (-abs (real (@var{x})))}}.
+
+If @var{alpha} is a scalar, the result is the same size as @var{x}.  If @var{x}
+is a scalar, the result is the same size as @var{alpha}.  If @var{alpha} is a
+row vector and @var{x} is a column vector, the result is a matrix with
+@code{length (@var{x})} rows and @code{length (@var{alpha})} columns.
+Otherwise, @var{alpha} and @var{x} must conform and the result will be the same
+size.
+
+If requested, @var{ierr} contains the following status information and is the
+same size as the result.
+
+@enumerate 0
+@item
+Normal return.
+
+@item
+Input error, return @code{NaN}.
+
+@item
+Overflow, return @code{Inf}.
+
+@item
+Loss of significance by argument reduction results in less than half of machine
+accuracy.
+
+@item
+Complete loss of significance by argument reduction, return @code{NaN}.
+
+@item
+Error---no computation, algorithm termination condition not met, return
+@code{NaN}.
+@end enumerate
+
+@seealso{@ref{XREFbesselk,,besselk}, @ref{XREFbesselj,,besselj}, @ref{XREFbessely,,bessely}, @ref{XREFbesselh,,besselh}}
+@end deftypefn
+
+
+@c besselk libinterp/corefcn/besselj.cc
+@anchor{XREFbesselk}
+@deftypefn  {} {@var{K} =} besselk (@var{alpha}, @var{x})
+@deftypefnx {} {@var{K} =} besselk (@var{alpha}, @var{x}, @var{opt})
+@deftypefnx {} {[@var{K}, @var{ierr}] =} besselk (@dots{})
+
+Compute modified Bessel functions of the second kind.
+
+The order of the Bessel function @var{alpha} must be real.  The points for
+evaluation @var{x} may be complex.
+
+If the optional argument @var{opt} is 1 or true, the result @var{K} is
+multiplied by @w{@code{exp (@var{x})}}.
+
+If @var{alpha} is a scalar, the result is the same size as @var{x}.  If @var{x}
+is a scalar, the result is the same size as @var{alpha}.  If @var{alpha} is a
+row vector and @var{x} is a column vector, the result is a matrix with
+@code{length (@var{x})} rows and @code{length (@var{alpha})} columns.
+Otherwise, @var{alpha} and @var{x} must conform and the result will be the same
+size.
+
+If requested, @var{ierr} contains the following status information and is the
+same size as the result.
+
+@enumerate 0
+@item
+Normal return.
+
+@item
+Input error, return @code{NaN}.
+
+@item
+Overflow, return @code{Inf}.
+
+@item
+Loss of significance by argument reduction results in less than half of machine
+accuracy.
+
+@item
+Complete loss of significance by argument reduction, return @code{NaN}.
+
+@item
+Error---no computation, algorithm termination condition not met, return
+@code{NaN}.
+@end enumerate
+
+@seealso{@ref{XREFbesseli,,besseli}, @ref{XREFbesselj,,besselj}, @ref{XREFbessely,,bessely}, @ref{XREFbesselh,,besselh}}
+@end deftypefn
+
+
+@c besselh libinterp/corefcn/besselj.cc
+@anchor{XREFbesselh}
+@deftypefn  {} {@var{H} =} besselh (@var{alpha}, @var{x})
+@deftypefnx {} {@var{H} =} besselh (@var{alpha}, @var{k}, @var{x})
+@deftypefnx {} {@var{H} =} besselh (@var{alpha}, @var{k}, @var{x}, @var{opt})
+@deftypefnx {} {[@var{H}, @var{ierr}] =} besselh (@dots{})
+Compute Bessel functions of the third kind (Hankel functions).
+
+The order of the Bessel function @var{alpha} must be real.  The kind of Hankel
+function is specified by @var{k} and may be either first (@var{k} = 1) or
+second (@var{k} = 2).  The default is Hankel functions of the first kind.  The
+points for evaluation @var{x} may be complex.
+
+If the optional argument @var{opt} is 1 or true, the result is multiplied
+by @code{exp (-I*@var{x})} for @var{k} = 1 or @code{exp (I*@var{x})} for
+@var{k} = 2.
+
+If @var{alpha} is a scalar, the result is the same size as @var{x}.  If @var{x}
+is a scalar, the result is the same size as @var{alpha}.  If @var{alpha} is a
+row vector and @var{x} is a column vector, the result is a matrix with
+@code{length (@var{x})} rows and @code{length (@var{alpha})} columns.
+Otherwise, @var{alpha} and @var{x} must conform and the result will be the same
+size.
+
+If requested, @var{ierr} contains the following status information and is the
+same size as the result.
+
+@enumerate 0
+@item
+Normal return.
+
+@item
+Input error, return @code{NaN}.
+
+@item
+Overflow, return @code{Inf}.
+
+@item
+Loss of significance by argument reduction results in less than half of machine
+accuracy.
+
+@item
+Complete loss of significance by argument reduction, return @code{NaN}.
+
+@item
+Error---no computation, algorithm termination condition not met, return
+@code{NaN}.
+@end enumerate
+
+@seealso{@ref{XREFbesselj,,besselj}, @ref{XREFbessely,,bessely}, @ref{XREFbesseli,,besseli}, @ref{XREFbesselk,,besselk}}
 @end deftypefn
 
 
@@ -1863,49 +2036,114 @@ in an efficient manner.
 @end deftypefn
 
 
-@c betainc libinterp/corefcn/betainc.cc
+@c betainc scripts/specfun/betainc.m
 @anchor{XREFbetainc}
-@deftypefn {} {} betainc (@var{x}, @var{a}, @var{b})
-Compute the regularized incomplete Beta function.
+@deftypefn  {} {} betainc (@var{x}, @var{a}, @var{b})
+@deftypefnx {} {} betainc (@var{x}, @var{a}, @var{b}, @var{tail})
+Compute the incomplete beta function.
 
-The regularized incomplete Beta function is defined by
+This is defined as
 @tex
 $$
- I (x, a, b) = {1 \over {B (a, b)}} \int_0^x t^{(a-z)} (1-t)^{(b-1)} dt.
+I_x (a, b) = {1 \over {B(a,b)}} \displaystyle{\int_0^x t^{a-1} (1-t)^{b-1} dt}
 $$
 @end tex
 @ifnottex
-@c Set example in small font to prevent overfull line
 
-@smallexample
+@example
 @group
-                                   x
-                          1       /
-betainc (x, a, b) = -----------   | t^(a-1) (1-t)^(b-1) dt.
-                    beta (a, b)   /
-                               t=0
+               x
+              /
+             |
+I_x (a, b) = | t^(a-1) (1-t)^(b-1) dt
+             |
+             /
+            0
 @end group
-@end smallexample
+@end example
 
 @end ifnottex
 
-If @var{x} has more than one component, both @var{a} and @var{b} must be
-scalars.  If @var{x} is a scalar, @var{a} and @var{b} must be of
-compatible dimensions.
-@seealso{@ref{XREFbetaincinv,,betaincinv}, @ref{XREFbeta,,beta}, @ref{XREFbetaln,,betaln}}
+with real @var{x} in the range [0,1].  The inputs @var{a} and @var{b} must
+be real and strictly positive (> 0).  If one of the inputs is not a scalar
+then the other inputs must be scalar or of compatible dimensions.
+
+By default, @var{tail} is @qcode{"lower"} and the incomplete beta function
+integrated from 0 to @var{x} is computed.  If @var{tail} is @qcode{"upper"}
+then the complementary function integrated from @var{x} to 1 is calculated.
+The two choices are related by
+
+betainc (@var{x}, @var{a}, @var{b}, @qcode{"upper"}) =
+1 - betainc (@var{x}, @var{a}, @var{b}, @qcode{"lower"}).
+
+@code{betainc} uses a more sophisticated algorithm than subtraction to
+get numerically accurate results when the @qcode{"lower"} value is small.
+
+Reference: @nospell{A. Cuyt, V. Brevik Petersen, B. Verdonk, H. Waadeland,
+W.B. Jones}, @cite{Handbook of Continued Fractions for Special Functions},
+ch.@: 18.
+
+@seealso{@ref{XREFbeta,,beta}, @ref{XREFbetaincinv,,betaincinv}, @ref{XREFbetaln,,betaln}}
 @end deftypefn
 
 
-@c betaincinv libinterp/corefcn/betainc.cc
+@c betaincinv scripts/specfun/betaincinv.m
 @anchor{XREFbetaincinv}
-@deftypefn {} {} betaincinv (@var{y}, @var{a}, @var{b})
-Compute the inverse of the incomplete Beta function.
+@deftypefn  {} {} betaincinv (@var{y}, @var{a}, @var{b})
+@deftypefnx {} {} betaincinv (@var{y}, @var{a}, @var{b}, "lower")
+@deftypefnx {} {} betaincinv (@var{y}, @var{a}, @var{b}, "upper")
+Compute the inverse of the normalized incomplete beta function.
 
-The inverse is the value @var{x} such that
+The normalized incomplete beta function is defined as
+@tex
+$$
+ I_x (a, b) = {1 \over {B(a,b)}} \displaystyle{\int_0^x t^{a-1} (1-t)^{b-1} dt}
+$$
+@end tex
+@ifnottex
 
 @example
-@var{y} == betainc (@var{x}, @var{a}, @var{b})
+@group
+               x
+              /
+             |
+I_x (a, b) = | t^(a-1) (1-t)^(b-1) dt
+             |
+             /
+            0
+@end group
 @end example
+
+@end ifnottex
+
+If two inputs are scalar, then @code{betaincinv (@var{y}, @var{a}, @var{b})}
+is returned for each of the other inputs.
+
+If two or more inputs are not scalar, the sizes of them must agree, and
+@code{betaincinv} is applied element-by-element.
+
+The variable @var{y} must be in the interval [0,1], while @var{a} and
+@var{b} must be real and strictly positive.
+
+By default, @var{tail} is @qcode{"lower")} and the inverse of the incomplete
+beta function integrated from 0 to @var{x} is computed.  If @var{tail} is
+@qcode{"upper"} then the complementary function integrated from @var{x} to 1
+is inverted.
+
+The function is computed by standard Newton's method, by solving
+@tex
+$$
+ y - I_x (a, b) = 0
+$$
+@end tex
+@ifnottex
+
+@example
+@var{y} - betainc (@var{x}, @var{a}, @var{b}) = 0
+@end example
+
+@end ifnottex
+
 @seealso{@ref{XREFbetainc,,betainc}, @ref{XREFbeta,,beta}, @ref{XREFbetaln,,betaln}}
 @end deftypefn
 
@@ -1940,7 +2178,9 @@ with the logarithm of the output rather than the function directly.
 @c bincoeff scripts/general/bincoeff.m
 @anchor{XREFbincoeff}
 @deftypefn {} {} bincoeff (@var{n}, @var{k})
-Return the binomial coefficient of @var{n} and @var{k}, defined as
+Return the binomial coefficient of @var{n} and @var{k}.
+
+The binomial coefficient is defined as
 @tex
 $$
  {n \choose k} = {n (n-1) (n-2) \cdots (n-k+1) \over k!}
@@ -2026,6 +2266,60 @@ is returned.
 
 See @nospell{Magnus and Neudecker} (1988), @cite{Matrix Differential
 Calculus with Applications in Statistics and Econometrics.}
+@end deftypefn
+
+
+@c cosint scripts/specfun/cosint.m
+@anchor{XREFcosint}
+@deftypefn {} {} cosint (@var{x})
+Compute the cosine integral function:
+@tex
+$$
+{\rm Ci} (x) = - \int_x^\infty {{\cos (t)} \over t} dt
+$$
+@end tex
+@ifnottex
+
+@example
+@group
+            +oo
+           /
+Ci (x) = - | (cos (t)) / t dt
+           /
+          x
+@end group
+@end example
+
+@end ifnottex
+An equivalent definition is
+@tex
+$$
+{\rm Ci} (x) = \gamma + \log (x) + \int_0^x {{\cos (t) - 1} \over t} dt
+$$
+@end tex
+@ifnottex
+
+@example
+@group
+                             x
+                            /
+                            |  cos (t) - 1
+Ci (x) = gamma + log (x) +  | -------------  dt
+                            |        t
+                            /
+                           0
+@end group
+@end example
+
+@end ifnottex
+Reference:
+
+@nospell{M. Abramowitz and I.A. Stegun},
+@cite{Handbook of Mathematical Functions}
+1964.
+
+@seealso{@ref{XREFsinint,,sinint}, @ref{XREFexpint,,expint}, @ref{XREFcos,,cos}}
+
 @end deftypefn
 
 
@@ -2322,7 +2616,10 @@ erfc (@var{y}) == @var{x}
 @c expint scripts/specfun/expint.m
 @anchor{XREFexpint}
 @deftypefn {} {} expint (@var{x})
-Compute the exponential integral:
+Compute the exponential integral.
+
+The exponential integral is defined as:
+
 @tex
 $$
 {\rm E_1} (x) = \int_x^\infty {e^{-t} \over t} dt
@@ -2332,16 +2629,19 @@ $$
 
 @example
 @group
-           infinity
+           +oo
           /
-E_1 (x) = | exp (-t)/t dt
+          | exp (-t)
+E_1 (x) = | -------- dt
+          |    t
           /
          x
 @end group
 @end example
 
 @end ifnottex
-Note: For compatibility, this functions uses the @sc{matlab} definition
+
+Note: For compatibility, this function uses the @sc{matlab} definition
 of the exponential integral.  Most other sources refer to this particular
 value as @math{E_1 (x)}, and the exponential integral as
 @tex
@@ -2353,9 +2653,11 @@ $$
 
 @example
 @group
-            infinity
+            +oo
            /
-Ei (x) = - | exp (-t)/t dt
+           | exp (-t)
+Ei (x) = - | -------- dt
+           |    t
            /
          -x
 @end group
@@ -2371,6 +2673,16 @@ $
 @ifnottex
 @w{@code{E_1 (-x) = -Ei (x) - i*pi}}.
 @end ifnottex
+
+References:
+
+@nospell{M. Abramowitz and I.A. Stegun},
+@cite{Handbook of Mathematical Functions}, 1964.
+
+@nospell{N. Bleistein and R.A. Handelsman},
+@cite{Asymptotic expansions of integrals}, 1986.
+
+@seealso{@ref{XREFcosint,,cosint}, @ref{XREFsinint,,sinint}, @ref{XREFexp,,exp}}
 @end deftypefn
 
 
@@ -2408,11 +2720,10 @@ loss of precision.  The final result is then
 @end deftypefn
 
 
-@c gammainc libinterp/corefcn/gammainc.cc
+@c gammainc scripts/specfun/gammainc.m
 @anchor{XREFgammainc}
 @deftypefn  {} {} gammainc (@var{x}, @var{a})
-@deftypefnx {} {} gammainc (@var{x}, @var{a}, "lower")
-@deftypefnx {} {} gammainc (@var{x}, @var{a}, "upper")
+@deftypefnx {} {} gammainc (@var{x}, @var{a}, @var{tail})
 Compute the normalized incomplete gamma function.
 
 This is defined as
@@ -2441,17 +2752,104 @@ The standard notation is @math{P(a,x)}, e.g., @nospell{Abramowitz} and
 If @var{a} is scalar, then @code{gammainc (@var{x}, @var{a})} is returned
 for each element of @var{x} and vice versa.
 
-If neither @var{x} nor @var{a} is scalar, the sizes of @var{x} and
+If neither @var{x} nor @var{a} is scalar then the sizes of @var{x} and
 @var{a} must agree, and @code{gammainc} is applied element-by-element.
+The elements of @var{a} must be non-negative.
 
-By default the incomplete gamma function integrated from 0 to @var{x} is
-computed.  If @qcode{"upper"} is given then the complementary function
-integrated from @var{x} to infinity is calculated.  It should be noted that
+By default, @var{tail} is @qcode{"lower"} and the incomplete gamma function
+integrated from 0 to @var{x} is computed.  If @var{tail} is @qcode{"upper"}
+then the complementary function integrated from @var{x} to infinity is
+calculated.
+
+If @var{tail} is @qcode{"scaledlower"}, then the lower incomplete gamma
+function is multiplied by
+@tex
+$\Gamma(a+1)\exp(x)x^{-a}$.
+@end tex
+@ifnottex
+@math{gamma(a+1)*exp(x)/(x^a)}.
+@end ifnottex
+If @var{tail} is @qcode{"scaledupper"}, then the upper incomplete gamma
+function is multiplied by the same quantity.
+
+References:
+
+@nospell{M. Abramowitz and I.A. Stegun},
+@cite{Handbook of mathematical functions},
+@nospell{Dover publications, Inc.}, 1972.
+
+@nospell{W. Gautschi},
+@cite{A computational procedure for incomplete gamma functions},
+@nospell{ACM Trans. Math Software}, pp. 466--481, Vol 5, No. 4, 2012.
+
+@nospell{W. H. Press, S. A. Teukolsky, W. T. Vetterling, and B. P. Flannery},
+@cite{Numerical Recipes in Fortran 77}, ch.@: 6.2, Vol 1, 1992.
+
+@seealso{@ref{XREFgamma,,gamma}, @ref{XREFgammaincinv,,gammaincinv}, @ref{XREFgammaln,,gammaln}}
+@end deftypefn
+
+
+@c gammaincinv scripts/specfun/gammaincinv.m
+@anchor{XREFgammaincinv}
+@deftypefn  {} {} gammaincinv (@var{y}, @var{a})
+@deftypefnx {} {} gammaincinv (@var{y}, @var{a}, @var{tail})
+Compute the inverse of the normalized incomplete gamma function.
+
+The normalized incomplete gamma function is defined as
+@tex
+$$
+ \gamma (x, a) = {1 \over {\Gamma (a)}}\displaystyle{\int_0^x t^{a-1} e^{-t} dt}
+$$
+@end tex
+@ifnottex
 
 @example
-gammainc (@var{x}, @var{a}) @equiv{} 1 - gammainc (@var{x}, @var{a}, "upper")
+@group
+                                x
+                       1       /
+gammainc (x, a) = ---------    | exp (-t) t^(a-1) dt
+                  gamma (a)    /
+                            t=0
+@end group
 @end example
-@seealso{@ref{XREFgamma,,gamma}, @ref{XREFgammaln,,gammaln}}
+
+@end ifnottex
+
+and @code{gammaincinv (gammainc (@var{x}, @var{a}), @var{a}) = @var{x}}
+for each non-negative value of @var{x}.  If @var{a} is scalar then
+@code{gammaincinv (@var{y}, @var{a})} is returned for each element of
+@var{y} and vice versa.
+
+If neither @var{y} nor @var{a} is scalar then the sizes of @var{y} and
+@var{a} must agree, and @code{gammaincinv} is applied element-by-element.
+The variable @var{y} must be in the interval @math{[0,1]} while @var{a} must
+be real and positive.
+
+By default, @var{tail} is @qcode{"lower"} and the inverse of the incomplete
+gamma function integrated from 0 to @var{x} is computed.  If @var{tail} is
+@qcode{"upper"}, then the complementary function integrated from @var{x} to
+infinity is inverted.
+
+The function is computed with Newton's method by solving
+@tex
+$$
+ y - \gamma (x, a) = 0
+$$
+@end tex
+@ifnottex
+
+@example
+@var{y} - gammainc (@var{x}, @var{a}) = 0
+@end example
+
+@end ifnottex
+
+Reference: @nospell{A. Gil, J. Segura, and N. M. Temme}, @cite{Efficient and
+accurate algorithms for the computation and inversion of the incomplete
+gamma function ratios}, @nospell{SIAM J. Sci. Computing}, pp. A2965--A2981,
+Vol 34, 2012.
+
+@seealso{@ref{XREFgammainc,,gammainc}, @ref{XREFgamma,,gamma}, @ref{XREFgammaln,,gammaln}}
 @end deftypefn
 
 
@@ -2640,6 +3038,37 @@ can have any value real or complex value.  However, for polygamma functions
 (@var{k} higher than 0), @var{z} must be real and non-negative.
 
 @seealso{@ref{XREFgamma,,gamma}, @ref{XREFgammainc,,gammainc}, @ref{XREFgammaln,,gammaln}}
+@end deftypefn
+
+
+@c sinint scripts/specfun/sinint.m
+@anchor{XREFsinint}
+@deftypefn {} {} sinint (@var{x})
+Compute the sine integral function:
+@tex
+$$
+{\rm Si} (x) = \int_0^x {\sin (t) \over t} dt
+$$
+@end tex
+@ifnottex
+
+@example
+@group
+           x
+          /
+Si (x) =  | sin (t) / t dt
+          /
+         0
+@end group
+@end example
+
+@end ifnottex
+
+Reference:
+@nospell{M. Abramowitz and I.A. Stegun},
+@cite{Handbook of Mathematical Functions}, 1964.
+
+@seealso{@ref{XREFcosint,,cosint}, @ref{XREFexpint,,expint}, @ref{XREFsin,,sin}}
 @end deftypefn
 
 

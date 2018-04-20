@@ -63,16 +63,67 @@ information about audio files.  Various formats are supported including
 wav, flac and ogg vorbis.
 </p>
 <a name="XREFaudioinfo"></a><dl>
-<dt><a name="index-audioinfo"></a>: <em><var>info</var> =</em> <strong>audioinfo</strong> <em>(<var>filename</var>)</em></dt>
+<dt><a name="index-audioinfo"></a><em><var>info</var> =</em> <strong>audioinfo</strong> <em>(<var>filename</var>)</em></dt>
 <dd><p>Return information about an audio file specified by <var>filename</var>.
+</p>
+<p>The output <var>info</var> is a structure containing the following fields:
+</p>
+<dl compact="compact">
+<dt>&lsquo;<samp>Filename</samp>&rsquo;</dt>
+<dd><p>Name of the audio file.
+</p>
+</dd>
+<dt>&lsquo;<samp>CompressionMethod</samp>&rsquo;</dt>
+<dd><p>Audio compression method.  Unused, only present for compatibility with
+<small>MATLAB</small>.
+</p>
+</dd>
+<dt>&lsquo;<samp>NumChannels</samp>&rsquo;</dt>
+<dd><p>Number of audio channels.
+</p>
+</dd>
+<dt>&lsquo;<samp>SampleRate</samp>&rsquo;</dt>
+<dd><p>Sample rate of the audio, in Hertz.
+</p>
+</dd>
+<dt>&lsquo;<samp>TotalSamples</samp>&rsquo;</dt>
+<dd><p>Number of samples in the file.
+</p>
+</dd>
+<dt>&lsquo;<samp>Duration</samp>&rsquo;</dt>
+<dd><p>Duration of the audio, in seconds.
+</p>
+</dd>
+<dt>&lsquo;<samp>BitsPerSample</samp>&rsquo;</dt>
+<dd><p>Number of bits per sample.
+</p>
+</dd>
+<dt>&lsquo;<samp>BitRate</samp>&rsquo;</dt>
+<dd><p>Audio bit rate.  Unused, only present for compatibility with <small>MATLAB</small>.
+</p>
+</dd>
+<dt>&lsquo;<samp>Title</samp>&rsquo;</dt>
+<dd><p><code>&quot;Title&quot;</code> audio metadata value as a string, or empty if not present.
+</p>
+</dd>
+<dt>&lsquo;<samp>Artist</samp>&rsquo;</dt>
+<dd><p><code>&quot;Artist&quot;</code> audio metadata value as a string, or empty if not present.
+</p>
+</dd>
+<dt>&lsquo;<samp>Comment</samp>&rsquo;</dt>
+<dd><p><code>&quot;Comment&quot;</code> audio metadata value as a string, or empty if not present.
+</p></dd>
+</dl>
+
+<p><strong>See also:</strong> <a href="#XREFaudioread">audioread</a>, <a href="#XREFaudiowrite">audiowrite</a>.
 </p></dd></dl>
 
 
 <a name="XREFaudioread"></a><dl>
-<dt><a name="index-audioread"></a>: <em>[<var>y</var>, <var>fs</var>] =</em> <strong>audioread</strong> <em>(<var>filename</var>)</em></dt>
-<dt><a name="index-audioread-1"></a>: <em>[<var>y</var>, <var>fs</var>] =</em> <strong>audioread</strong> <em>(<var>filename</var>, <var>samples</var>)</em></dt>
-<dt><a name="index-audioread-2"></a>: <em>[<var>y</var>, <var>fs</var>] =</em> <strong>audioread</strong> <em>(<var>filename</var>, <var>datatype</var>)</em></dt>
-<dt><a name="index-audioread-3"></a>: <em>[<var>y</var>, <var>fs</var>] =</em> <strong>audioread</strong> <em>(<var>filename</var>, <var>samples</var>, <var>datatype</var>)</em></dt>
+<dt><a name="index-audioread"></a><em>[<var>y</var>, <var>fs</var>] =</em> <strong>audioread</strong> <em>(<var>filename</var>)</em></dt>
+<dt><a name="index-audioread-1"></a><em>[<var>y</var>, <var>fs</var>] =</em> <strong>audioread</strong> <em>(<var>filename</var>, <var>samples</var>)</em></dt>
+<dt><a name="index-audioread-2"></a><em>[<var>y</var>, <var>fs</var>] =</em> <strong>audioread</strong> <em>(<var>filename</var>, <var>datatype</var>)</em></dt>
+<dt><a name="index-audioread-3"></a><em>[<var>y</var>, <var>fs</var>] =</em> <strong>audioread</strong> <em>(<var>filename</var>, <var>samples</var>, <var>datatype</var>)</em></dt>
 <dd><p>Read the audio file <var>filename</var> and return the audio data <var>y</var> and
 sampling rate <var>fs</var>.
 </p>
@@ -85,12 +136,14 @@ and ending frames.
 <p>The optional argument <var>datatype</var> specifies the datatype to return.
 If it is <code>&quot;native&quot;</code>, then the type of data depends on how the data
 is stored in the audio file.
+</p>
+<p><strong>See also:</strong> <a href="#XREFaudiowrite">audiowrite</a>, <a href="#XREFaudioformats">audioformats</a>, <a href="#XREFaudioinfo">audioinfo</a>.
 </p></dd></dl>
 
 
 <a name="XREFaudiowrite"></a><dl>
-<dt><a name="index-audiowrite"></a>: <em></em> <strong>audiowrite</strong> <em>(<var>filename</var>, <var>y</var>, <var>fs</var>)</em></dt>
-<dt><a name="index-audiowrite-1"></a>: <em></em> <strong>audiowrite</strong> <em>(<var>filename</var>, <var>y</var>, <var>fs</var>, <var>name</var>, <var>value</var>, &hellip;)</em></dt>
+<dt><a name="index-audiowrite"></a><em></em> <strong>audiowrite</strong> <em>(<var>filename</var>, <var>y</var>, <var>fs</var>)</em></dt>
+<dt><a name="index-audiowrite-1"></a><em></em> <strong>audiowrite</strong> <em>(<var>filename</var>, <var>y</var>, <var>fs</var>, <var>name</var>, <var>value</var>, &hellip;)</em></dt>
 <dd>
 <p>Write audio data from the matrix <var>y</var> to <var>filename</var> at sampling rate
 <var>fs</var> with the file format determined by the file extension.
@@ -125,16 +178,20 @@ and 100 with 100 being the highest quality setting.  Default is 75.
 <dd><p>Comment.
 </p></dd>
 </dl>
-</dd></dl>
+
+<p><strong>See also:</strong> <a href="#XREFaudioread">audioread</a>, <a href="#XREFaudioformats">audioformats</a>, <a href="#XREFaudioinfo">audioinfo</a>.
+</p></dd></dl>
 
 
 <a name="XREFaudioformats"></a><dl>
-<dt><a name="index-audioformats"></a>: <em></em> <strong>audioformats</strong> <em>()</em></dt>
-<dt><a name="index-audioformats-1"></a>: <em></em> <strong>audioformats</strong> <em>(<var>format</var>)</em></dt>
+<dt><a name="index-audioformats"></a><em></em> <strong>audioformats</strong> <em>()</em></dt>
+<dt><a name="index-audioformats-1"></a><em></em> <strong>audioformats</strong> <em>(<var>format</var>)</em></dt>
 <dd><p>Display information about all supported audio formats.
 </p>
 <p>If the optional argument <var>format</var> is given, then display only formats
 with names that start with <var>format</var>.
+</p>
+<p><strong>See also:</strong> <a href="#XREFaudioread">audioread</a>, <a href="#XREFaudiowrite">audiowrite</a>.
 </p></dd></dl>
 
 

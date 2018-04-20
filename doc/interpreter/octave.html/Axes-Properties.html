@@ -57,7 +57,7 @@ Next: <a href="Line-Properties.html#Line-Properties" accesskey="n" rel="next">Li
 <hr>
 <a name="Axes-Properties-1"></a>
 <h4 class="subsubsection">15.3.3.3 Axes Properties</h4>
-<a name="index-axes-properties"></a>
+<a name="index--Axes-PropertiesAxes-Properties"></a>
 
 <p>The <code>axes</code> properties are:
 </p>
@@ -65,12 +65,6 @@ Next: <a href="Line-Properties.html#Line-Properties" accesskey="n" rel="next">Li
 
 <dl compact="compact">
 <dd>
-<a name="XREFaxes_005f_005fmodified_005f_005f"></a><a name="index-axes-_005f_005fmodified_005f_005f"></a>
-</dd>
-<dt><code>__modified__</code>: <code>&quot;off&quot;</code> | {<code>&quot;on&quot;</code>}</dt>
-<dd>
-
-
 <a name="XREFaxesactivepositionproperty"></a><a name="index-axes-activepositionproperty"></a>
 </dd>
 <dt><code>activepositionproperty</code>: {<code>&quot;outerposition&quot;</code>} | <code>&quot;position&quot;</code></dt>
@@ -116,8 +110,9 @@ Next: <a href="Line-Properties.html#Line-Properties" accesskey="n" rel="next">Li
 <a name="XREFaxesbusyaction"></a><a name="index-axes-busyaction"></a>
 </dd>
 <dt><code>busyaction</code>: <code>&quot;cancel&quot;</code> | {<code>&quot;queue&quot;</code>}</dt>
-<dd>
-
+<dd><p>Define how Octave handles the execution of this object&rsquo;s callback properties when it is unable to interrupt another object&rsquo;s executing callback.  This is only relevant when the currently executing callback object has its <code>interruptible</code> property set to <code>&quot;off&quot;</code>.  The <code>busyaction</code> property of the interrupting callback object indicates whether the interrupting callback is queued (<code>&quot;queue&quot;</code> (default)) or discarded (<code>&quot;cancel&quot;</code>).
+See <a href="Callbacks.html#Callbacks">Callbacks&nbsp;section<!-- /@w --></a>.
+</p>
 
 <a name="XREFaxesbuttondownfcn"></a><a name="index-axes-buttondownfcn"></a>
 </dd>
@@ -209,6 +204,12 @@ Next: <a href="Line-Properties.html#Line-Properties" accesskey="n" rel="next">Li
 <dd><p>Color of the axes background.  See <a href="Colors.html#Colors">colorspec</a>.
 </p>
 
+<a name="XREFaxescolormap"></a><a name="index-axes-colormap"></a>
+</dd>
+<dt><code>colormap</code>: def. 64-by-3 double</dt>
+<dd>
+
+
 <a name="XREFaxescolororder"></a><a name="index-axes-colororder"></a>
 </dd>
 <dt><code>colororder</code>: N-by-3 RGB matrix, def. 7-by-3 double</dt>
@@ -224,7 +225,7 @@ Next: <a href="Line-Properties.html#Line-Properties" accesskey="n" rel="next">Li
 <a name="XREFaxescreatefcn"></a><a name="index-axes-createfcn"></a>
 </dd>
 <dt><code>createfcn</code>: string | function handle, def. <code>[](0x0)</code></dt>
-<dd><p>Callback function executed immediately after axes has been created.  Function is set by using default property on root object, e.g., <code>set (0, &quot;defaultaxescreatefcn&quot;, 'disp (&quot;axes created!&quot;)')</code>.
+<dd><p>Callback function executed immediately after axes has been created.  Function is set by using default property on root object, e.g., <code>set (groot, &quot;defaultaxescreatefcn&quot;, 'disp (&quot;axes created!&quot;)')</code>.
 </p>
 <p>For information on how to write graphics listener functions see <a href="Callbacks.html#Callbacks">Callbacks&nbsp;section<!-- /@w --></a>.
 </p>
@@ -255,12 +256,6 @@ Next: <a href="Line-Properties.html#Line-Properties" accesskey="n" rel="next">Li
 <p>For information on how to write graphics listener functions see <a href="Callbacks.html#Callbacks">Callbacks&nbsp;section<!-- /@w --></a>.
 </p>
 
-<a name="XREFaxesdrawmode"></a><a name="index-axes-drawmode"></a>
-</dd>
-<dt><code>drawmode</code>: <code>&quot;fast&quot;</code> | {<code>&quot;normal&quot;</code>}</dt>
-<dd>
-
-
 <a name="XREFaxesfontangle"></a><a name="index-axes-fontangle"></a>
 </dd>
 <dt><code>fontangle</code>: <code>&quot;italic&quot;</code> | {<code>&quot;normal&quot;</code>}</dt>
@@ -270,13 +265,13 @@ Next: <a href="Line-Properties.html#Line-Properties" accesskey="n" rel="next">Li
 <a name="XREFaxesfontname"></a><a name="index-axes-fontname"></a>
 </dd>
 <dt><code>fontname</code>: string, def. <code>&quot;*&quot;</code></dt>
-<dd><p>Name of the font used for axes annotations.
+<dd><p>Name of font used for text rendering.  When setting this property, the text rendering engine will search for a matching font in your system.  If none is found then text is rendered using a default sans serif font (same as the default <code>&quot;*&quot;</code> value).
 </p>
 
 <a name="XREFaxesfontsize"></a><a name="index-axes-fontsize"></a>
 </dd>
 <dt><code>fontsize</code>: scalar, def. <code>10</code></dt>
-<dd><p>Size of the font used for axes annotations.  See <a href="#XREFaxesfontunits">fontunits&nbsp;property<!-- /@w --></a>.
+<dd><p>Size of the font used for text rendering.  See <a href="#XREFaxesfontunits">fontunits property</a>.
 </p>
 
 <a name="XREFaxesfontsmoothing"></a><a name="index-axes-fontsmoothing"></a>
@@ -288,13 +283,13 @@ Next: <a href="Line-Properties.html#Line-Properties" accesskey="n" rel="next">Li
 <a name="XREFaxesfontunits"></a><a name="index-axes-fontunits"></a>
 </dd>
 <dt><code>fontunits</code>: <code>&quot;centimeters&quot;</code> | <code>&quot;inches&quot;</code> | <code>&quot;normalized&quot;</code> | <code>&quot;pixels&quot;</code> | {<code>&quot;points&quot;</code>}</dt>
-<dd><p>Unit used to interpret <code>fontsize</code> property.
+<dd><p>Units used to interpret the <code>&quot;fontsize&quot;</code> property.
 </p>
 
 <a name="XREFaxesfontweight"></a><a name="index-axes-fontweight"></a>
 </dd>
 <dt><code>fontweight</code>: <code>&quot;bold&quot;</code> | {<code>&quot;normal&quot;</code>}</dt>
-<dd><p>Control variant of base font used: bold, demi, light, normal.
+<dd><p>Control the variant of the base font used for text rendering.
 </p>
 
 <a name="XREFaxesgridalpha"></a><a name="index-axes-gridalpha"></a>
@@ -336,14 +331,15 @@ Next: <a href="Line-Properties.html#Line-Properties" accesskey="n" rel="next">Li
 <a name="XREFaxeshittest"></a><a name="index-axes-hittest"></a>
 </dd>
 <dt><code>hittest</code>: <code>&quot;off&quot;</code> | {<code>&quot;on&quot;</code>}</dt>
-<dd>
-
+<dd><p>Specify whether axes processes mouse events or passes them to ancestors of the object.  When enabled, the object may respond to mouse clicks by evaluating the <code>&quot;buttondownfcn&quot;</code>, showing the uicontextmenu, and eventually becoming the root <code>&quot;currentobject&quot;</code>.  This property is only relevant when the object can accept mouse clicks which is determined by the <code>&quot;pickableparts&quot;</code> property.  See <a href="#XREFaxespickableparts">pickableparts&nbsp;property<!-- /@w --></a>.
+</p>
 
 <a name="XREFaxesinterruptible"></a><a name="index-axes-interruptible"></a>
 </dd>
 <dt><code>interruptible</code>: <code>&quot;off&quot;</code> | {<code>&quot;on&quot;</code>}</dt>
-<dd>
-
+<dd><p>Specify whether this object&rsquo;s callback functions may be interrupted by other callbacks.  By default <code>interruptible</code> is <code>&quot;on&quot;</code> and callbacks that make use of <code>drawnow</code>, <code>figure</code>, <code>waitfor</code>, <code>getframe</code> or <code>pause</code> functions are eventually interrupted.
+See <a href="Callbacks.html#Callbacks">Callbacks&nbsp;section<!-- /@w --></a>.
+</p>
 
 <a name="XREFaxeslabelfontsizemultiplier"></a><a name="index-axes-labelfontsizemultiplier"></a>
 </dd>
@@ -432,7 +428,7 @@ Next: <a href="Line-Properties.html#Line-Properties" accesskey="n" rel="next">Li
 <a name="XREFaxespickableparts"></a><a name="index-axes-pickableparts"></a>
 </dd>
 <dt><code>pickableparts</code>: <code>&quot;all&quot;</code> | <code>&quot;none&quot;</code> | {<code>&quot;visible&quot;</code>}</dt>
-<dd><p><code>pickableparts</code> is unused.
+<dd><p>Specify whether axes will accept mouse clicks.  By default, <code>pickableparts</code> is <code>&quot;visible&quot;</code> and only visible parts of the axes or its children may react to mouse clicks.  When <code>pickableparts</code> is <code>&quot;all&quot;</code> both visible and invisible parts (or children) may react to mouse clicks.  When <code>pickableparts</code> is <code>&quot;none&quot;</code> mouse clicks on the object are ignored and transmitted to any objects underneath this one.  When an object is configured to accept mouse clicks the <code>&quot;hittest&quot;</code> property will determine how they are processed.  See <a href="#XREFaxeshittest">hittest&nbsp;property<!-- /@w --></a>.
 </p>
 
 <a name="XREFaxesplotboxaspectratio"></a><a name="index-axes-plotboxaspectratio"></a>
@@ -510,7 +506,7 @@ See <a href="Use-of-the-interpreter-Property.html#XREFinterpreterusage">Use&nbsp
 
 <a name="XREFaxestightinset"></a><a name="index-axes-tightinset"></a>
 </dd>
-<dt><code>tightinset</code> (read-only): four-element vector, def. <code>[0.042857   0.042868   0.000000   0.023810]</code></dt>
+<dt><code>tightinset</code> (read-only): four-element vector, def. <code>[0.042857   0.038106   0.000000   0.023810]</code></dt>
 <dd><p>Size of the <code>[left bottom right top]</code> margins around the axes that enclose labels and title annotations.
 </p>
 

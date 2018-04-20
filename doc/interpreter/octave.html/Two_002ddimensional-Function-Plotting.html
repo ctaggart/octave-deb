@@ -74,11 +74,11 @@ example,
 legend displaying the name of the plotted function.
 </p>
 <a name="XREFfplot"></a><dl>
-<dt><a name="index-fplot"></a>: <em></em> <strong>fplot</strong> <em>(<var>fn</var>, <var>limits</var>)</em></dt>
-<dt><a name="index-fplot-1"></a>: <em></em> <strong>fplot</strong> <em>(&hellip;, <var>tol</var>)</em></dt>
-<dt><a name="index-fplot-2"></a>: <em></em> <strong>fplot</strong> <em>(&hellip;, <var>n</var>)</em></dt>
-<dt><a name="index-fplot-3"></a>: <em></em> <strong>fplot</strong> <em>(&hellip;, <var>fmt</var>)</em></dt>
-<dt><a name="index-fplot-4"></a>: <em>[<var>x</var>, <var>y</var>] =</em> <strong>fplot</strong> <em>(&hellip;)</em></dt>
+<dt><a name="index-fplot"></a><em></em> <strong>fplot</strong> <em>(<var>fn</var>, <var>limits</var>)</em></dt>
+<dt><a name="index-fplot-1"></a><em></em> <strong>fplot</strong> <em>(&hellip;, <var>tol</var>)</em></dt>
+<dt><a name="index-fplot-2"></a><em></em> <strong>fplot</strong> <em>(&hellip;, <var>n</var>)</em></dt>
+<dt><a name="index-fplot-3"></a><em></em> <strong>fplot</strong> <em>(&hellip;, <var>fmt</var>)</em></dt>
+<dt><a name="index-fplot-4"></a><em>[<var>x</var>, <var>y</var>] =</em> <strong>fplot</strong> <em>(&hellip;)</em></dt>
 <dd><p>Plot a function <var>fn</var> within the range defined by <var>limits</var>.
 </p>
 <p><var>fn</var> is a function handle, inline function, or string containing the
@@ -121,10 +121,11 @@ fplot (&quot;[cos(x), sin(x)]&quot;, [0, 2*pi])
 discontinuities are unlikely to plot well.  This restriction may be removed
 in the future.
 </p>
-<p><code>fplot</code> requires that the function accept and return a vector argument.
-Consider this when writing user-defined functions and use <code>.*</code>,
-<code>./</code>, etc.  See the function <code>vectorize</code> for potentially
-converting inline or anonymous functions to vectorized versions.
+<p><code>fplot</code> performance is better when the function accepts and returns a
+vector argument.  Consider this when writing user-defined functions and use
+element-by-element operators such as <code>.*</code>, <code>./</code>, etc.  See the
+function <code>vectorize</code> for potentially converting inline or anonymous
+functions to vectorized versions.
 </p>
 
 <p><strong>See also:</strong> <a href="#XREFezplot">ezplot</a>, <a href="Two_002dDimensional-Plots.html#XREFplot">plot</a>, <a href="Basic-Vectorization.html#XREFvectorize">vectorize</a>.
@@ -136,13 +137,13 @@ function include <code>ezplot</code>, <code>ezcontour</code>, <code>ezcontourf</
 <code>ezpolar</code>.
 </p>
 <a name="XREFezplot"></a><dl>
-<dt><a name="index-ezplot"></a>: <em></em> <strong>ezplot</strong> <em>(<var>f</var>)</em></dt>
-<dt><a name="index-ezplot-1"></a>: <em></em> <strong>ezplot</strong> <em>(<var>f2v</var>)</em></dt>
-<dt><a name="index-ezplot-2"></a>: <em></em> <strong>ezplot</strong> <em>(<var>fx</var>, <var>fy</var>)</em></dt>
-<dt><a name="index-ezplot-3"></a>: <em></em> <strong>ezplot</strong> <em>(&hellip;, <var>dom</var>)</em></dt>
-<dt><a name="index-ezplot-4"></a>: <em></em> <strong>ezplot</strong> <em>(&hellip;, <var>n</var>)</em></dt>
-<dt><a name="index-ezplot-5"></a>: <em></em> <strong>ezplot</strong> <em>(<var>hax</var>, &hellip;)</em></dt>
-<dt><a name="index-ezplot-6"></a>: <em><var>h</var> =</em> <strong>ezplot</strong> <em>(&hellip;)</em></dt>
+<dt><a name="index-ezplot"></a><em></em> <strong>ezplot</strong> <em>(<var>f</var>)</em></dt>
+<dt><a name="index-ezplot-1"></a><em></em> <strong>ezplot</strong> <em>(<var>f2v</var>)</em></dt>
+<dt><a name="index-ezplot-2"></a><em></em> <strong>ezplot</strong> <em>(<var>fx</var>, <var>fy</var>)</em></dt>
+<dt><a name="index-ezplot-3"></a><em></em> <strong>ezplot</strong> <em>(&hellip;, <var>dom</var>)</em></dt>
+<dt><a name="index-ezplot-4"></a><em></em> <strong>ezplot</strong> <em>(&hellip;, <var>n</var>)</em></dt>
+<dt><a name="index-ezplot-5"></a><em></em> <strong>ezplot</strong> <em>(<var>hax</var>, &hellip;)</em></dt>
+<dt><a name="index-ezplot-6"></a><em><var>h</var> =</em> <strong>ezplot</strong> <em>(&hellip;)</em></dt>
 <dd>
 <p>Plot the 2-D curve defined by the function <var>f</var>.
 </p>
@@ -190,11 +191,11 @@ the created line objects.
 
 
 <a name="XREFezcontour"></a><dl>
-<dt><a name="index-ezcontour"></a>: <em></em> <strong>ezcontour</strong> <em>(<var>f</var>)</em></dt>
-<dt><a name="index-ezcontour-1"></a>: <em></em> <strong>ezcontour</strong> <em>(&hellip;, <var>dom</var>)</em></dt>
-<dt><a name="index-ezcontour-2"></a>: <em></em> <strong>ezcontour</strong> <em>(&hellip;, <var>n</var>)</em></dt>
-<dt><a name="index-ezcontour-3"></a>: <em></em> <strong>ezcontour</strong> <em>(<var>hax</var>, &hellip;)</em></dt>
-<dt><a name="index-ezcontour-4"></a>: <em><var>h</var> =</em> <strong>ezcontour</strong> <em>(&hellip;)</em></dt>
+<dt><a name="index-ezcontour"></a><em></em> <strong>ezcontour</strong> <em>(<var>f</var>)</em></dt>
+<dt><a name="index-ezcontour-1"></a><em></em> <strong>ezcontour</strong> <em>(&hellip;, <var>dom</var>)</em></dt>
+<dt><a name="index-ezcontour-2"></a><em></em> <strong>ezcontour</strong> <em>(&hellip;, <var>n</var>)</em></dt>
+<dt><a name="index-ezcontour-3"></a><em></em> <strong>ezcontour</strong> <em>(<var>hax</var>, &hellip;)</em></dt>
+<dt><a name="index-ezcontour-4"></a><em><var>h</var> =</em> <strong>ezcontour</strong> <em>(&hellip;)</em></dt>
 <dd>
 <p>Plot the contour lines of a function.
 </p>
@@ -226,11 +227,11 @@ ezcontour (f, [-3, 3]);
 
 
 <a name="XREFezcontourf"></a><dl>
-<dt><a name="index-ezcontourf"></a>: <em></em> <strong>ezcontourf</strong> <em>(<var>f</var>)</em></dt>
-<dt><a name="index-ezcontourf-1"></a>: <em></em> <strong>ezcontourf</strong> <em>(&hellip;, <var>dom</var>)</em></dt>
-<dt><a name="index-ezcontourf-2"></a>: <em></em> <strong>ezcontourf</strong> <em>(&hellip;, <var>n</var>)</em></dt>
-<dt><a name="index-ezcontourf-3"></a>: <em></em> <strong>ezcontourf</strong> <em>(<var>hax</var>, &hellip;)</em></dt>
-<dt><a name="index-ezcontourf-4"></a>: <em><var>h</var> =</em> <strong>ezcontourf</strong> <em>(&hellip;)</em></dt>
+<dt><a name="index-ezcontourf"></a><em></em> <strong>ezcontourf</strong> <em>(<var>f</var>)</em></dt>
+<dt><a name="index-ezcontourf-1"></a><em></em> <strong>ezcontourf</strong> <em>(&hellip;, <var>dom</var>)</em></dt>
+<dt><a name="index-ezcontourf-2"></a><em></em> <strong>ezcontourf</strong> <em>(&hellip;, <var>n</var>)</em></dt>
+<dt><a name="index-ezcontourf-3"></a><em></em> <strong>ezcontourf</strong> <em>(<var>hax</var>, &hellip;)</em></dt>
+<dt><a name="index-ezcontourf-4"></a><em><var>h</var> =</em> <strong>ezcontourf</strong> <em>(&hellip;)</em></dt>
 <dd>
 <p>Plot the filled contour lines of a function.
 </p>
@@ -262,11 +263,11 @@ ezcontourf (f, [-3, 3]);
 
 
 <a name="XREFezpolar"></a><dl>
-<dt><a name="index-ezpolar"></a>: <em></em> <strong>ezpolar</strong> <em>(<var>f</var>)</em></dt>
-<dt><a name="index-ezpolar-1"></a>: <em></em> <strong>ezpolar</strong> <em>(&hellip;, <var>dom</var>)</em></dt>
-<dt><a name="index-ezpolar-2"></a>: <em></em> <strong>ezpolar</strong> <em>(&hellip;, <var>n</var>)</em></dt>
-<dt><a name="index-ezpolar-3"></a>: <em></em> <strong>ezpolar</strong> <em>(<var>hax</var>, &hellip;)</em></dt>
-<dt><a name="index-ezpolar-4"></a>: <em><var>h</var> =</em> <strong>ezpolar</strong> <em>(&hellip;)</em></dt>
+<dt><a name="index-ezpolar"></a><em></em> <strong>ezpolar</strong> <em>(<var>f</var>)</em></dt>
+<dt><a name="index-ezpolar-1"></a><em></em> <strong>ezpolar</strong> <em>(&hellip;, <var>dom</var>)</em></dt>
+<dt><a name="index-ezpolar-2"></a><em></em> <strong>ezpolar</strong> <em>(&hellip;, <var>n</var>)</em></dt>
+<dt><a name="index-ezpolar-3"></a><em></em> <strong>ezpolar</strong> <em>(<var>hax</var>, &hellip;)</em></dt>
+<dt><a name="index-ezpolar-4"></a><em><var>h</var> =</em> <strong>ezpolar</strong> <em>(&hellip;)</em></dt>
 <dd>
 <p>Plot a 2-D function in polar coordinates.
 </p>

@@ -63,15 +63,15 @@ plot and various other axis properties, such as the aspect ratio and the
 appearance of tic marks.
 </p>
 <a name="XREFaxis"></a><dl>
-<dt><a name="index-axis"></a>: <em></em> <strong>axis</strong> <em>()</em></dt>
-<dt><a name="index-axis-1"></a>: <em></em> <strong>axis</strong> <em>([<var>x_lo</var> <var>x_hi</var>])</em></dt>
-<dt><a name="index-axis-2"></a>: <em></em> <strong>axis</strong> <em>([<var>x_lo</var> <var>x_hi</var> <var>y_lo</var> <var>y_hi</var>])</em></dt>
-<dt><a name="index-axis-3"></a>: <em></em> <strong>axis</strong> <em>([<var>x_lo</var> <var>x_hi</var> <var>y_lo</var> <var>y_hi</var> <var>z_lo</var> <var>z_hi</var>])</em></dt>
-<dt><a name="index-axis-4"></a>: <em></em> <strong>axis</strong> <em>([<var>x_lo</var> <var>x_hi</var> <var>y_lo</var> <var>y_hi</var> <var>z_lo</var> <var>z_hi</var> <var>c_lo</var> <var>c_hi</var>])</em></dt>
-<dt><a name="index-axis-5"></a>: <em></em> <strong>axis</strong> <em>(<var>option</var>)</em></dt>
-<dt><a name="index-axis-6"></a>: <em></em> <strong>axis</strong> <em>(<var>option1</var>, <var>option2</var>, &hellip;)</em></dt>
-<dt><a name="index-axis-7"></a>: <em></em> <strong>axis</strong> <em>(<var>hax</var>, &hellip;)</em></dt>
-<dt><a name="index-axis-8"></a>: <em><var>limits</var> =</em> <strong>axis</strong> <em>()</em></dt>
+<dt><a name="index-axis"></a><em></em> <strong>axis</strong> <em>()</em></dt>
+<dt><a name="index-axis-1"></a><em></em> <strong>axis</strong> <em>([<var>x_lo</var> <var>x_hi</var>])</em></dt>
+<dt><a name="index-axis-2"></a><em></em> <strong>axis</strong> <em>([<var>x_lo</var> <var>x_hi</var> <var>y_lo</var> <var>y_hi</var>])</em></dt>
+<dt><a name="index-axis-3"></a><em></em> <strong>axis</strong> <em>([<var>x_lo</var> <var>x_hi</var> <var>y_lo</var> <var>y_hi</var> <var>z_lo</var> <var>z_hi</var>])</em></dt>
+<dt><a name="index-axis-4"></a><em></em> <strong>axis</strong> <em>([<var>x_lo</var> <var>x_hi</var> <var>y_lo</var> <var>y_hi</var> <var>z_lo</var> <var>z_hi</var> <var>c_lo</var> <var>c_hi</var>])</em></dt>
+<dt><a name="index-axis-5"></a><em></em> <strong>axis</strong> <em>(<var>option</var>)</em></dt>
+<dt><a name="index-axis-6"></a><em></em> <strong>axis</strong> <em>(<var>option1</var>, <var>option2</var>, &hellip;)</em></dt>
+<dt><a name="index-axis-7"></a><em></em> <strong>axis</strong> <em>(<var>hax</var>, &hellip;)</em></dt>
+<dt><a name="index-axis-8"></a><em><var>limits</var> =</em> <strong>axis</strong> <em>()</em></dt>
 <dd><p>Set axis limits and appearance.
 </p>
 <p>The argument <var>limits</var> should be a 2-, 4-, 6-, or 8-element vector.  The
@@ -125,6 +125,10 @@ axes are specified.
 </dd>
 <dt><code>&quot;image&quot;</code></dt>
 <dd><p>Equivalent to <code>&quot;tight&quot;</code> and <code>&quot;equal&quot;</code>.
+</p>
+</dd>
+<dt><code>&quot;vis3d&quot;</code></dt>
+<dd><p>Set aspect ratio modes to <code>&quot;manual&quot;</code> for rotation without stretching.
 </p></dd>
 </dl>
 
@@ -197,11 +201,11 @@ axes rather than the current axes returned by <code>gca</code>.
 function.
 </p>
 <a name="XREFcaxis"></a><dl>
-<dt><a name="index-caxis"></a>: <em></em> <strong>caxis</strong> <em>([cmin cmax])</em></dt>
-<dt><a name="index-caxis-1"></a>: <em></em> <strong>caxis</strong> <em>(&quot;auto&quot;)</em></dt>
-<dt><a name="index-caxis-2"></a>: <em></em> <strong>caxis</strong> <em>(&quot;manual&quot;)</em></dt>
-<dt><a name="index-caxis-3"></a>: <em></em> <strong>caxis</strong> <em>(<var>hax</var>, &hellip;)</em></dt>
-<dt><a name="index-caxis-4"></a>: <em><var>limits</var> =</em> <strong>caxis</strong> <em>()</em></dt>
+<dt><a name="index-caxis"></a><em></em> <strong>caxis</strong> <em>([cmin cmax])</em></dt>
+<dt><a name="index-caxis-1"></a><em></em> <strong>caxis</strong> <em>(&quot;auto&quot;)</em></dt>
+<dt><a name="index-caxis-2"></a><em></em> <strong>caxis</strong> <em>(&quot;manual&quot;)</em></dt>
+<dt><a name="index-caxis-3"></a><em></em> <strong>caxis</strong> <em>(<var>hax</var>, &hellip;)</em></dt>
+<dt><a name="index-caxis-4"></a><em><var>limits</var> =</em> <strong>caxis</strong> <em>()</em></dt>
 <dd><p>Query or set color axis limits for plots.
 </p>
 <p>The limits argument should be a 2-element vector specifying the lower and
@@ -236,19 +240,19 @@ get or set individual axis limits.  Each has the same form.
 <a name="XREFylim"></a><a name="XREFzlim"></a><a name="index-ylim"></a>
 <a name="index-zlim"></a>
 <a name="XREFxlim"></a><dl>
-<dt><a name="index-xlim"></a>: <em><var>xlimits</var> =</em> <strong>xlim</strong> <em>()</em></dt>
-<dt><a name="index-xlim-1"></a>: <em><var>xmode</var> =</em> <strong>xlim</strong> <em>(&quot;mode&quot;)</em></dt>
-<dt><a name="index-xlim-2"></a>: <em></em> <strong>xlim</strong> <em>([<var>x_lo</var> <var>x_hi</var>])</em></dt>
-<dt><a name="index-xlim-3"></a>: <em></em> <strong>xlim</strong> <em>(&quot;auto&quot;)</em></dt>
-<dt><a name="index-xlim-4"></a>: <em></em> <strong>xlim</strong> <em>(&quot;manual&quot;)</em></dt>
-<dt><a name="index-xlim-5"></a>: <em></em> <strong>xlim</strong> <em>(<var>hax</var>, &hellip;)</em></dt>
+<dt><a name="index-xlim"></a><em><var>xlimits</var> =</em> <strong>xlim</strong> <em>()</em></dt>
+<dt><a name="index-xlim-1"></a><em><var>xmode</var> =</em> <strong>xlim</strong> <em>(&quot;mode&quot;)</em></dt>
+<dt><a name="index-xlim-2"></a><em></em> <strong>xlim</strong> <em>([<var>x_lo</var> <var>x_hi</var>])</em></dt>
+<dt><a name="index-xlim-3"></a><em></em> <strong>xlim</strong> <em>(&quot;auto&quot;)</em></dt>
+<dt><a name="index-xlim-4"></a><em></em> <strong>xlim</strong> <em>(&quot;manual&quot;)</em></dt>
+<dt><a name="index-xlim-5"></a><em></em> <strong>xlim</strong> <em>(<var>hax</var>, &hellip;)</em></dt>
 <dd><p>Query or set the limits of the x-axis for the current plot.
 </p>
 <p>Called without arguments <code>xlim</code> returns the x-axis limits of the
 current plot.
 </p>
-<p>With the input query <code>&quot;mode&quot;</code>, return the current x-limit
-calculation mode which is either <code>&quot;auto&quot;</code> or <code>&quot;manual&quot;</code>.
+<p>With the input query <code>&quot;mode&quot;</code>, return the current x-limit calculation
+mode which is either <code>&quot;auto&quot;</code> or <code>&quot;manual&quot;</code>.
 </p>
 <p>If passed a 2-element vector [<var>x_lo</var> <var>x_hi</var>], the limits of the
 x-axis are set to these values and the mode is set to <code>&quot;manual&quot;</code>.
@@ -263,10 +267,91 @@ this axes rather than the current axes returned by <code>gca</code>.
 </p>
 <p>Programming Note: The <code>xlim</code> function operates by modifying the
 <code>&quot;xlim&quot;</code> and <code>&quot;xlimmode&quot;</code> properties of an axes object.  These
-properties can be be directly inspected and altered with
-<code>get</code>/<code>set</code>.
+properties can be directly inspected and altered with <code>get</code>/<code>set</code>.
 </p>
 <p><strong>See also:</strong> <a href="#XREFylim">ylim</a>, <a href="#XREFzlim">zlim</a>, <a href="#XREFaxis">axis</a>, <a href="Graphics-Objects.html#XREFset">set</a>, <a href="Graphics-Objects.html#XREFget">get</a>, <a href="Graphics-Objects.html#XREFgca">gca</a>.
+</p></dd></dl>
+
+
+<p>The <code>xticks</code>, <code>yticks</code>, <code>zticks</code>, <code>rticks</code>, and
+<code>thetaticks</code> functions may be used to get or set the tick mark locations
+and modes on the respective axis.  Each has the same form, although mode
+options are not currently available for <code>rticks</code>, and <code>thetaticks</code>.
+</p>
+<a name="XREFyticks"></a><a name="XREFzticks"></a><a name="XREFrticks"></a><a name="XREFthetaticks"></a><a name="index-yticks"></a>
+<a name="index-zticks"></a>
+<a name="index-rticks"></a>
+<a name="index-thetaticks"></a>
+<a name="XREFxticks"></a><dl>
+<dt><a name="index-xticks"></a><em><var>tickval</var> =</em> <strong>xticks</strong></dt>
+<dt><a name="index-xticks-1"></a><em><var>mode</var> =</em> <strong>xticks</strong> <em>(&quot;mode&quot;)</em></dt>
+<dt><a name="index-xticks-2"></a><em></em> <strong>xticks</strong> <em>(<var>tickval</var>)</em></dt>
+<dt><a name="index-xticks-3"></a><em></em> <strong>xticks</strong> <em>(&quot;auto&quot;)</em></dt>
+<dt><a name="index-xticks-4"></a><em></em> <strong>xticks</strong> <em>(&quot;manual&quot;)</em></dt>
+<dt><a name="index-xticks-5"></a><em>&hellip; =</em> <strong>xticks</strong> <em>(<var>hax</var>, &hellip;)</em></dt>
+<dd><p>Query or set the tick values on the x-axis of the current axis.
+</p>
+<p>When called without an argument, return the current tick locations as
+specified in the <code>&quot;xtick&quot;</code> axes property.  These locations can be
+changed by calling <code>xticks</code> with a vector of tick values.  Note:
+ascending order is not required.
+</p>
+<p>When called with argument <code>&quot;mode&quot;</code>, <code>xticks</code> returns the current
+value of the axes property <code>&quot;xtickmode&quot;</code>.  This property can be
+changed by calling <code>xticks</code> with either <code>&quot;auto&quot;</code> (algorithm
+determines tick positions) or <code>&quot;manual&quot;</code> (tick values remain fixed
+regardless of axes resizing or rotation).  Note: Specifying xtick values
+will also set the property <code>&quot;xtickmode&quot;</code> to <code>&quot;manual&quot;</code>.
+</p>
+<p>If the first argument <var>hax</var> is an axes handle, then operate on
+this axis rather than the current axes returned by <code>gca</code>.
+</p>
+<p>Requesting a return value when calling <code>xticks</code> to set a property value
+will result in an error.
+</p>
+
+<p><strong>See also:</strong> <a href="#XREFxticklabels">xticklabels</a>, <a href="#XREFyticks">yticks</a>, <a href="#XREFzticks">zticks</a>, <a href="#XREFrticks">rticks</a>, <a href="#XREFthetaticks">thetaticks</a>, <a href="Graphics-Objects.html#XREFget">get</a>, <a href="Graphics-Objects.html#XREFset">set</a>.
+</p></dd></dl>
+
+
+<p>The <code>xticklabels</code>, <code>yticklabels</code>, and <code>zticklabels</code> functions
+may be used to get or set the label assigned to each tick location and the
+labeling mode on the respective axis.  Each has the same form.
+</p>
+<a name="XREFyticklabels"></a><a name="XREFzticklabels"></a><a name="index-yticklabels"></a>
+<a name="index-zticklabels"></a>
+<a name="XREFxticklabels"></a><dl>
+<dt><a name="index-xticklabels"></a><em><var>tickval</var> =</em> <strong>xticklabels</strong></dt>
+<dt><a name="index-xticklabels-1"></a><em><var>mode</var> =</em> <strong>xticklabels</strong> <em>(&quot;mode&quot;)</em></dt>
+<dt><a name="index-xticklabels-2"></a><em></em> <strong>xticklabels</strong> <em>(<var>tickval</var>)</em></dt>
+<dt><a name="index-xticklabels-3"></a><em></em> <strong>xticklabels</strong> <em>(&quot;auto&quot;)</em></dt>
+<dt><a name="index-xticklabels-4"></a><em></em> <strong>xticklabels</strong> <em>(&quot;manual&quot;)</em></dt>
+<dt><a name="index-xticklabels-5"></a><em>&hellip; =</em> <strong>xticklabels</strong> <em>(<var>hax</var>, &hellip;)</em></dt>
+<dd><p>Query or set the tick labels on the x-axis of the current axis.
+</p>
+<p>When called without an argument, return a cell array of strings of the
+current tick labels as specified in the <code>&quot;xticklabel&quot;</code> axes property.
+These labels can be changed by calling <code>xticklabels</code> with a cell array
+of strings.  Note: a vector of numbers will be mapped to a cell array of
+strings.  If fewer labels are specified than the current number of ticks,
+blank labels will be appended to the array.
+</p>
+<p>When called with argument <code>&quot;mode&quot;</code>, <code>xticklabels</code> returns the
+current value of the axes property <code>&quot;xticklabelmode&quot;</code>.  This property
+can be changed by calling <code>xticklabels</code> with either <code>&quot;auto&quot;</code>
+(algorithm determines tick labels) or <code>&quot;manual&quot;</code> (tick labels remain
+fixed).  Note: Specifying xticklabel values will also set the
+<code>&quot;xticklabelmode&quot;</code> and <code>&quot;xticks&quot;</code> properties to
+<code>&quot;manual&quot;</code>.
+</p>
+<p>If the first argument <var>hax</var> is an axes handle, then operate on
+this axis rather than the current axes returned by <code>gca</code>.
+</p>
+<p>Requesting a return value when calling <code>xticklabels</code> to set a property
+value will result in an error.
+</p>
+
+<p><strong>See also:</strong> <a href="#XREFxticks">xticks</a>, <a href="#XREFyticklabels">yticklabels</a>, <a href="#XREFzticklabels">zticklabels</a>, <a href="Graphics-Objects.html#XREFget">get</a>, <a href="Graphics-Objects.html#XREFset">set</a>.
 </p></dd></dl>
 
 

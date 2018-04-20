@@ -1,11 +1,11 @@
 /*
 
-Copyright (C) 2012-2017 Michael Goffioul.
-Copyright (C) 2012-2016 Jacob Dawid.
+Copyright (C) 2012-2018 Michael Goffioul.
+Copyright (C) 2012-2018 Jacob Dawid.
 
 This file is part of QTerminal.
 
-This program is free software; you can redistribute it and/or modify
+This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
@@ -17,7 +17,7 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not,
-see <http://www.gnu.org/licenses/>.
+see <https://www.gnu.org/licenses/>.
 
 */
 
@@ -43,13 +43,13 @@ class QTerminal : public QWidget
 
 public:
 
-  static QTerminal *create (QWidget *xparent = 0);
+  static QTerminal *create (QWidget *xparent = nullptr);
 
   static QList<QColor> default_colors (void);
 
   static QStringList color_names (void);
 
-  virtual ~QTerminal (void) { }
+  virtual ~QTerminal (void) = default;
 
   virtual void setTerminalFont (const QFont& font) = 0;
 
@@ -60,6 +60,9 @@ public:
   virtual QString selectedText () = 0;
 
   virtual void has_extra_interrupt (bool extra) = 0;
+
+  virtual QList<QAction*> get_hotspot_actions (const QPoint&)
+  { return QList<QAction*> (); }
 
   enum CursorType
   {
@@ -116,9 +119,11 @@ public slots:
 
   void edit_file (void);
 
+  virtual void handle_visibility_changed (bool) { };
+
 protected:
 
-  QTerminal (QWidget *xparent = 0) : QWidget (xparent)
+  QTerminal (QWidget *xparent = nullptr) : QWidget (xparent)
   {
     // context menu
     setContextMenuPolicy (Qt::CustomContextMenu);
@@ -130,16 +135,16 @@ protected:
                      tr ("Copy"), this, SLOT (copyClipboard ()));
 
     _paste_action = _contextMenu->addAction (
-                     resource_manager::icon ("edit-paste"),
+                      resource_manager::icon ("edit-paste"),
                       tr ("Paste"), this, SLOT (pasteClipboard ()));
 
     _contextMenu->addSeparator ();
 
     _selectall_action = _contextMenu->addAction (
-                      tr ("Select All"), this, SLOT (selectAll ()));
+                          tr ("Select All"), this, SLOT (selectAll ()));
 
     _edit_action = _contextMenu->addAction (
-                      tr (""), this, SLOT (edit_file ()));
+                     tr (""), this, SLOT (edit_file ()));
 
     _contextMenu->addSeparator ();
 
@@ -175,17 +180,17 @@ protected:
     addAction (_interrupt_action);
 
     _interrupt_action->setShortcut (
-            QKeySequence (Qt::ControlModifier + Qt::Key_C));
+      QKeySequence (Qt::ControlModifier + Qt::Key_C));
 
     connect (_interrupt_action, SIGNAL (triggered ()),
-            this, SLOT (terminal_interrupt ()));
+             this, SLOT (terminal_interrupt ()));
 
     // dummy (nop) action catching Ctrl-D in terminal, no connection
     _nop_action = new QAction (this);
     addAction (_nop_action);
 
     _nop_action->setShortcut (
-            QKeySequence (Qt::ControlModifier + Qt::Key_D));
+      QKeySequence (Qt::ControlModifier + Qt::Key_D));
   }
 
 private:

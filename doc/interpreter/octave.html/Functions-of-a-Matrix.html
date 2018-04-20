@@ -60,7 +60,7 @@ Next: <a href="Specialized-Solvers.html#Specialized-Solvers" accesskey="n" rel="
 <a name="index-matrix_002c-functions-of"></a>
 
 <a name="XREFexpm"></a><dl>
-<dt><a name="index-expm"></a>: <em></em> <strong>expm</strong> <em>(<var>A</var>)</em></dt>
+<dt><a name="index-expm"></a><em></em> <strong>expm</strong> <em>(<var>A</var>)</em></dt>
 <dd><p>Return the exponential of a matrix.
 </p>
 <p>The matrix exponential is defined as the infinite Taylor series
@@ -94,9 +94,9 @@ is ill-conditioned.
 
 
 <a name="XREFlogm"></a><dl>
-<dt><a name="index-logm"></a>: <em><var>s</var> =</em> <strong>logm</strong> <em>(<var>A</var>)</em></dt>
-<dt><a name="index-logm-1"></a>: <em><var>s</var> =</em> <strong>logm</strong> <em>(<var>A</var>, <var>opt_iters</var>)</em></dt>
-<dt><a name="index-logm-2"></a>: <em>[<var>s</var>, <var>iters</var>] =</em> <strong>logm</strong> <em>(&hellip;)</em></dt>
+<dt><a name="index-logm"></a><em><var>s</var> =</em> <strong>logm</strong> <em>(<var>A</var>)</em></dt>
+<dt><a name="index-logm-1"></a><em><var>s</var> =</em> <strong>logm</strong> <em>(<var>A</var>, <var>opt_iters</var>)</em></dt>
+<dt><a name="index-logm-2"></a><em>[<var>s</var>, <var>iters</var>] =</em> <strong>logm</strong> <em>(&hellip;)</em></dt>
 <dd><p>Compute the matrix logarithm of the square matrix <var>A</var>.
 </p>
 <p>The implementation utilizes a Pad&eacute; approximant and the identity
@@ -116,8 +116,8 @@ computed.
 
 
 <a name="XREFsqrtm"></a><dl>
-<dt><a name="index-sqrtm"></a>: <em><var>s</var> =</em> <strong>sqrtm</strong> <em>(<var>A</var>)</em></dt>
-<dt><a name="index-sqrtm-1"></a>: <em>[<var>s</var>, <var>error_estimate</var>] =</em> <strong>sqrtm</strong> <em>(<var>A</var>)</em></dt>
+<dt><a name="index-sqrtm"></a><em><var>s</var> =</em> <strong>sqrtm</strong> <em>(<var>A</var>)</em></dt>
+<dt><a name="index-sqrtm-1"></a><em>[<var>s</var>, <var>error_estimate</var>] =</em> <strong>sqrtm</strong> <em>(<var>A</var>)</em></dt>
 <dd><p>Compute the matrix square root of the square matrix <var>A</var>.
 </p>
 <p>Ref: N.J. Higham.  <cite>A New sqrtm for <small>MATLAB</small></cite>.  Numerical
@@ -129,8 +129,8 @@ Mathematics, Manchester, England, January 1999.
 
 
 <a name="XREFkron"></a><dl>
-<dt><a name="index-kron"></a>: <em></em> <strong>kron</strong> <em>(<var>A</var>, <var>B</var>)</em></dt>
-<dt><a name="index-kron-1"></a>: <em></em> <strong>kron</strong> <em>(<var>A1</var>, <var>A2</var>, &hellip;)</em></dt>
+<dt><a name="index-kron"></a><em></em> <strong>kron</strong> <em>(<var>A</var>, <var>B</var>)</em></dt>
+<dt><a name="index-kron-1"></a><em></em> <strong>kron</strong> <em>(<var>A1</var>, <var>A2</var>, &hellip;)</em></dt>
 <dd><p>Form the Kronecker product of two or more matrices.
 </p>
 <p>This is defined block by block as
@@ -160,7 +160,7 @@ Mathematics, Manchester, England, January 1999.
 
 
 <a name="XREFblkmm"></a><dl>
-<dt><a name="index-blkmm"></a>: <em></em> <strong>blkmm</strong> <em>(<var>A</var>, <var>B</var>)</em></dt>
+<dt><a name="index-blkmm"></a><em></em> <strong>blkmm</strong> <em>(<var>A</var>, <var>B</var>)</em></dt>
 <dd><p>Compute products of matrix blocks.
 </p>
 <p>The blocks are given as 2-dimensional subarrays of the arrays <var>A</var>,
@@ -177,14 +177,16 @@ endfor
 
 
 <a name="XREFsylvester"></a><dl>
-<dt><a name="index-sylvester"></a>: <em><var>X</var> =</em> <strong>sylvester</strong> <em>(<var>A</var>, <var>B</var>, <var>C</var>)</em></dt>
-<dd><p>Solve the Sylvester equation
+<dt><a name="index-sylvester"></a><em><var>X</var> =</em> <strong>sylvester</strong> <em>(<var>A</var>, <var>B</var>, <var>C</var>)</em></dt>
+<dd><p>Solve the Sylvester equation.
+</p>
+<p>The Sylvester equation is defined as:
 </p>
 <div class="example">
 <pre class="example">A X + X B = C
 </pre></div>
 
-<p>using standard <small>LAPACK</small> subroutines.
+<p>The solution is computed using standard <small>LAPACK</small> subroutines.
 </p>
 <p>For example:
 </p>

@@ -1,22 +1,22 @@
 @c DO NOT EDIT!  Generated automatically by munge-texi.pl.
 
-@c Copyright (C) 1996-2017 John W. Eaton
+@c Copyright (C) 1996-2018 John W. Eaton
 @c
 @c This file is part of Octave.
 @c
-@c Octave is free software; you can redistribute it and/or modify it
-@c under the terms of the GNU General Public License as published by the
-@c Free Software Foundation; either version 3 of the License, or (at
-@c your option) any later version.
+@c Octave is free software: you can redistribute it and/or modify it
+@c under the terms of the GNU General Public License as published by
+@c the Free Software Foundation, either version 3 of the License, or
+@c (at your option) any later version.
 @c
-@c Octave is distributed in the hope that it will be useful, but WITHOUT
-@c ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-@c FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-@c for more details.
+@c Octave is distributed in the hope that it will be useful, but
+@c WITHOUT ANY WARRANTY; without even the implied warranty of
+@c MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+@c GNU General Public License for more details.
 @c
 @c You should have received a copy of the GNU General Public License
 @c along with Octave; see the file COPYING.  If not, see
-@c <http://www.gnu.org/licenses/>.
+@c <https://www.gnu.org/licenses/>.
 
 @node Errors and Warnings
 @chapter Errors and Warnings
@@ -217,7 +217,7 @@ f ()
 @print{}  'doc <topic>' to search the manual index.
 @print{}
 @print{}  Help and information about Octave is also available on the WWW
-@print{}  at http://www.octave.org and via the help@@octave.org
+@print{}  at https://www.octave.org and via the help@@octave.org
 @print{}  mailing list.
 @end group
 @end example
@@ -484,10 +484,17 @@ error.  Typically @var{err} is returned from @code{lasterror}.
 @deftypefn  {} {@var{err} =} errno ()
 @deftypefnx {} {@var{err} =} errno (@var{val})
 @deftypefnx {} {@var{err} =} errno (@var{name})
-Return the current value of the system-dependent variable errno,
-set its value to @var{val} and return the previous value, or return
-the named error code given @var{name} as a character string, or -1
-if @var{name} is not found.
+Query or set the system-dependent variable errno.
+
+When called with no inputs, return the current value of errno.
+
+When called with a numeric input @var{val}, set the current value of errno
+to the specified value.  The previous value of errno is returned as @var{err}.
+
+When called with a character string @var{name}, return the numeric value of
+errno which corresponds to the specified error code.  If @var{name} is not
+a recognized error code then -1 is returned.
+
 @seealso{@ref{XREFerrno_list,,errno_list}}
 @end deftypefn
 
@@ -605,62 +612,113 @@ is available as a namespace for user's own warnings.
 @deftypefnx {} {} warning (@var{id}, @var{template}, @dots{})
 @deftypefnx {} {} warning ("on", @var{id})
 @deftypefnx {} {} warning ("off", @var{id})
-@deftypefnx {} {} warning ("query", @var{id})
 @deftypefnx {} {} warning ("error", @var{id})
-@deftypefnx {} {} warning (@var{state}, "backtrace")
+@deftypefnx {} {} warning ("query", @var{id})
 @deftypefnx {} {} warning (@var{state}, @var{id}, "local")
-Display a warning message or control the behavior of Octave's warning
-system.
+@deftypefnx {} {} warning (@var{warning_struct})
+@deftypefnx {} {@var{warning_struct} =} warning (@dots{})
+@deftypefnx {} {@var{mode_struct} =} warning (@var{state}, @var{mode})
+@deftypefnx {} {} warning (@var{mode_st})
 
-Format the optional arguments under the control of the template string
-@var{template} using the same rules as the @code{printf} family of
-functions (@pxref{Formatted Output}) and print the resulting message
-on the @code{stderr} stream.  The message is prefixed by the character
-string @samp{warning: }.
-You should use this function when you want to notify the user
-of an unusual condition, but only when it makes sense for your program
-to go on.
+Display a warning message or control the behavior of Octave's warning system.
 
-The optional message identifier allows users to enable or disable
-warnings tagged by @var{id}.  A message identifier is of the form
-"NAMESPACE:WARNING-NAME".  Octave's own warnings use the
-@qcode{"Octave"} namespace (@pxref{XREFwarning_ids,,warning_ids}).  The special
-identifier @qcode{"all"} may be used to set the state of all warnings.
-
-If the first argument is @qcode{"on"} or @qcode{"off"},
-set the state of a particular warning using the identifier @var{id}.  If the
-first argument is @qcode{"query"}, query the state of this warning
-instead.  If the identifier is omitted, a value of @qcode{"all"} is
-assumed.  If you set the state of a warning to @qcode{"error"}, the
-warning named by @var{id} is handled as if it were an error instead.  So,
-for example, the following handles all warnings as errors:
+The first call form uses a template @var{template} and optional additional
+arguments to display a message on the @code{stderr} stream.  The message is
+formatted using the same rules as the @code{printf} family of functions
+(@pxref{Formatted Output}) and prefixed by the character string
+@w{@samp{warning: }}.  You should use this function when you want to notify the
+user of an unusual condition, but only when it makes sense for your program to
+go on.  For example:
 
 @example
 @group
-warning ("error");
+warning ("foo: maybe something wrong here");
 @end group
 @end example
 
-If the state is @qcode{"on"} or @qcode{"off"} and the third argument
-is @qcode{"backtrace"}, then a stack trace is printed along with the
-warning message when warnings occur inside function calls.  This option
-is enabled by default.
+The optional warning identifier @var{id} allows users to enable or disable
+warnings tagged by this identifier.  A message identifier is a string of the
+form @qcode{"NAMESPACE:WARNING-NAME"}.  Octave's own warnings use the
+@qcode{"Octave"} namespace (@pxref{XREFwarning_ids,,warning_ids}).  For
+example:
 
-If the state is @qcode{"on"}, @qcode{"off"}, or @qcode{"error"}
-and the third argument is @qcode{"local"}, then the warning state
-will be set temporarily, until the end of the current function.
-Changes to warning states that are set locally affect the current
-function and all functions called from the current scope.  The
-previous warning state is restored on return from the current
-function.  The @qcode{"local"} option is ignored if used in the top-level
-workspace.
+@example
+@group
+warning ("MyNameSpace:check-something",
+         "foo: maybe something wrong here");
+@end group
+@end example
 
-Implementation Note: For compatibility with @sc{matlab}, escape
-sequences in @var{template} (e.g., @qcode{"@xbackslashchar{}n"} =>
-newline) are processed regardless of whether @var{template} has been defined
-with single quotes, as long as there are two or more input arguments.  To
-disable escape sequence expansion use a second backslash before the sequence
-(e.g., @qcode{"@xbackslashchar{}@xbackslashchar{}n"}) or use the
+The second call form is meant to change and/or query the state of warnings.
+The first input argument must be a string @var{state} (@qcode{"on"},
+@qcode{"off"}, @qcode{"error"}, or @qcode{"query"}) followed by an optional
+warning identifier @var{id} or @qcode{"all"} (default).
+
+The optional output argument @var{warning_struct} is a structure or structure
+array with fields @qcode{"state"} and @qcode{"identifier"}.  The @var{state}
+argument may have the following values:
+
+@table @asis
+@item @qcode{"on"}|@qcode{"off"}:
+Enable or disable the display of warnings identified by @var{id} and optionally
+return their previous state @var{stout}.
+
+@item @qcode{"error"}:
+Turn warnings identified by @var{id} into errors and optionally return their
+previous state @var{stout}.
+
+@item @qcode{"query"}:
+Return the current state of warnings identified by @var{id}.
+@end table
+
+A structure or structure array @var{warning_struct}, with fields
+@qcode{"state"} and @qcode{"identifier"}, may be given as an input to achieve
+equivalent results.  The following example shows how to temporarily disable a
+warning and then restore its original state:
+
+@example
+@group
+loglog (-1:10);
+## Disable the previous warning and save its original state
+[~, id] = lastwarn ();
+warnstate = warning ("off", id);
+loglog (-1:10);
+## Restore its original state
+warning (warnstate);
+@end group
+@end example
+
+If a final argument @qcode{"local"} is provided then the warning state will be
+set temporarily until the end of the current function.  Changes to warning
+states that are set locally affect the current function and all functions
+called from the current scope.  The previous warning state is restored on
+return from the current function.  The @qcode{"local"} option is ignored if
+used in the top-level workspace.
+
+With no input argument @code{warning ()} is equivalent to
+@code{warning ("query", "all")} except that in the absence of an output
+argument, the state of warnings is displayed on @code{stderr}.
+
+The level of verbosity of the warning system may also be controlled by two
+modes @var{mode}:
+
+@table @asis
+@item @qcode{"backtrace"}:
+enable/disable the display of the stack trace after the warning message
+
+@item @qcode{"verbose"}:
+enable/disable the display of additional information after the warning message
+@end table
+
+In this case the @var{state} argument may only be @qcode{"on"} or
+@qcode{"off"}.
+
+Implementation Note: For compatibility with @sc{matlab}, escape sequences in
+@var{template} (e.g., @qcode{"@xbackslashchar{}n"} => newline) are processed
+regardless of whether @var{template} has been defined with single quotes, as
+long as there are two or more input arguments.  To disable escape sequence
+expansion use a second backslash before the sequence (e.g.,
+@qcode{"@xbackslashchar{}@xbackslashchar{}n"}) or use the
 @code{regexptranslate} function.
 @seealso{@ref{XREFwarning_ids,,warning_ids}, @ref{XREFlastwarn,,lastwarn}, @ref{XREFerror,,error}}
 @end deftypefn
@@ -693,6 +751,13 @@ warnings.
 @table @code
 @item Octave:abbreviated-property-match
 By default, the @code{Octave:abbreviated-property-match} warning is enabled.
+
+@item Octave:addpath-pkg
+If the @code{Octave:addpath-pkg} warning is enabled,
+Octave will warn when a package directory (i.e., +package_name) is added
+to the @code{path}.  Typically, only the parent directory which contains the
+package directory should be added to the load path.
+By default, the @code{Octave:addpath-pkg} warning is enabled.
 
 @item Octave:array-as-logical
 If the @code{Octave:array-as-logical} warning is enabled,
@@ -827,8 +892,27 @@ If the @code{Octave:divide-by-zero} warning is enabled, a
 warning is issued when Octave encounters a division by zero.
 By default, the @code{Octave:divide-by-zero} warning is enabled.
 
-@item Octave:fopen-file-in-path
-By default, the @code{Octave:fopen-file-in-path} warning is enabled.
+@item Octave:eigs:UnconvergedEigenvalues
+If the @code{Octave:eigs:UnconvergedEigenvalues} warning is enabled then
+the eigs function will issue a warning if the number of calculated
+eigenvalues is less than the number of requested eigenvalues.
+By default, the @code{Octave:eigs:UnconvergedEigenvalues} warning is
+enabled.
+
+@item Octave:erase:chararray
+If the @code{Octave:erase:chararray} warning is enabled then the erase
+function will issue a warning if the input pattern is a character array
+rather than a string or cell array of strings.
+By default, the @code{Octave:eigs:UnconvergedEigenvalues} warning is
+enabled.
+
+@item Octave:data-file-in-path
+If the @code{Octave:data-file-in-path} warning is enabled, a warning is
+issued when Octave does not find the target of a file operation such as
+@code{load} or @code{fopen} directly, but is able to locate the file in
+Octave's search @code{path} for files.  The warning could indicate that a
+different file target than the programmer intended is being used.
+By default, the @code{Octave:data-file-in-path} warning is enabled.
 
 @item Octave:function-name-clash
 If the @code{Octave:function-name-clash} warning is enabled, a
@@ -858,11 +942,15 @@ By default, the @code{Octave:language-extension} warning is disabled.
 The @option{--traditional} or @option{--braindead} startup options for
 Octave may also be of use, @pxref{Command Line Options}.
 
-@item Octave:load-file-in-path
-By default, the @code{Octave:load-file-in-path} warning is enabled.
-
 @item Octave:logical-conversion
 By default, the @code{Octave:logical-conversion} warning is enabled.
+
+@item Octave:lu:sparse_input
+If the @code{Octave:lu:sparse_input} warning is enabled, Octave
+will warn when the lu function is called with a sparse input and less than
+four output arguments.  In this case, sparsity-preserving column
+permutations are not performed and the result may be inaccurate.
+By default, the @code{Octave:lu:sparse_input} warning is enabled.
 
 @item Octave:missing-glyph
 By default, the @code{Octave:missing-glyph} warning is enabled.
@@ -877,6 +965,11 @@ By default the @code{Octave:missing-semicolon} warning is disabled.
 If the @code{Octave:mixed-string-concat} warning is enabled, print a
 warning when concatenating a mixture of double and single quoted strings.
 By default, the @code{Octave:mixed-string-concat} warning is disabled.
+
+@item  Octave:nearly-singular-matrix
+@itemx Octave:singular-matrix
+By default, the @code{Octave:nearly-singular-matrix} and
+@code{Octave:singular-matrix} warnings are enabled.
 
 @item Octave:neg-dim-as-zero
 If the @code{Octave:neg-dim-as-zero} warning is enabled, print a warning
@@ -916,22 +1009,8 @@ enabled.  By default, the @code{Octave:num-to-str} warning is enabled.
 If the @code{Octave:possible-matlab-short-circuit-operator} warning
 is enabled, Octave will warn about using the not short circuiting
 operators @code{&} and @code{|} inside @code{if} or @code{while}
-conditions.  They normally never short circuit, but @sc{matlab} always
-short circuits if any logical operators are used in a condition.  You
-can turn on the option
-
-@example
-@group
-do_braindead_shortcircuit_evaluation (1)
-@end group
-@end example
-
-@noindent
-if you would like to enable this short-circuit evaluation in
-Octave.  Note that the @code{&&} and @code{||} operators always short
-circuit in both Octave and @sc{matlab}, so it's only necessary to
-enable @sc{matlab}-style short-circuiting if it's too arduous to modify
-existing code that relies on this behavior.
+conditions.  They normally never short circuit, but they do short
+circuit when used in a condition.
 By default, the @code{Octave:possible-matlab-short-circuit-operator} warning
 is enabled.
 
@@ -981,11 +1060,6 @@ Print warning if a single quote character is used to introduce a
 string constant.
 By default, the @code{Octave:single-quote-string} warning is disabled.
 
-@item  Octave:nearly-singular-matrix
-@itemx Octave:singular-matrix
-By default, the @code{Octave:nearly-singular-matrix} and
-@code{Octave:singular-matrix} warnings are enabled.
-
 @item Octave:sqrtm:SingularMatrix
 By default, the @code{Octave:sqrtm:SingularMatrix} warning is enabled.
 
@@ -1004,12 +1078,6 @@ For example,
 @noindent
 elicits a warning if the @code{Octave:str-to-num} warning is enabled.
 By default, the @code{Octave:str-to-num} warning is disabled.
-
-@item Octave:undefined-return-values
-If the @code{Octave:undefined-return-values} warning is disabled,
-print a warning if a function does not define all the values in
-the return list which are expected.
-By default, the @code{Octave:undefined-return-values} warning is enabled.
 
 @item Octave:variable-switch-label
 If the @code{Octave:variable-switch-label} warning is enabled, Octave

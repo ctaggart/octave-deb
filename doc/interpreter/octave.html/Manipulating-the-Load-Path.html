@@ -76,8 +76,8 @@ code adds &lsquo;<samp>~/Octave</samp>&rsquo; to the load path.
 <p>After this the directory &lsquo;<samp>~/Octave</samp>&rsquo; will be searched for functions.
 </p>
 <a name="XREFaddpath"></a><dl>
-<dt><a name="index-addpath"></a>: <em></em> <strong>addpath</strong> <em>(<var>dir1</var>, &hellip;)</em></dt>
-<dt><a name="index-addpath-1"></a>: <em></em> <strong>addpath</strong> <em>(<var>dir1</var>, &hellip;, <var>option</var>)</em></dt>
+<dt><a name="index-addpath"></a><em></em> <strong>addpath</strong> <em>(<var>dir1</var>, &hellip;)</em></dt>
+<dt><a name="index-addpath-1"></a><em></em> <strong>addpath</strong> <em>(<var>dir1</var>, &hellip;, <var>option</var>)</em></dt>
 <dd><p>Add named directories to the function search path.
 </p>
 <p>If <var>option</var> is <code>&quot;-begin&quot;</code> or 0 (the default), prepend the
@@ -102,17 +102,23 @@ directory names separated by <code>pathsep</code> are also accepted.  For exampl
 
 
 <a name="XREFgenpath"></a><dl>
-<dt><a name="index-genpath"></a>: <em></em> <strong>genpath</strong> <em>(<var>dir</var>)</em></dt>
-<dt><a name="index-genpath-1"></a>: <em></em> <strong>genpath</strong> <em>(<var>dir</var>, <var>skip</var>, &hellip;)</em></dt>
+<dt><a name="index-genpath"></a><em></em> <strong>genpath</strong> <em>(<var>dir</var>)</em></dt>
+<dt><a name="index-genpath-1"></a><em></em> <strong>genpath</strong> <em>(<var>dir</var>, <var>skip</var>, &hellip;)</em></dt>
 <dd><p>Return a path constructed from <var>dir</var> and all its subdirectories.
+</p>
+<p>The path does not include package directories (beginning with &lsquo;<samp>+</samp>&rsquo;),
+old-style class directories (beginning with &lsquo;<samp>@</samp>&rsquo;), <samp>private</samp>
+directories, or any subdirectories of these types.
 </p>
 <p>If additional string parameters are given, the resulting path will exclude
 directories with those names.
+</p>
+<p><strong>See also:</strong> <a href="#XREFpath">path</a>, <a href="#XREFaddpath">addpath</a>.
 </p></dd></dl>
 
 
 <a name="XREFrmpath"></a><dl>
-<dt><a name="index-rmpath"></a>: <em></em> <strong>rmpath</strong> <em>(<var>dir1</var>, &hellip;)</em></dt>
+<dt><a name="index-rmpath"></a><em></em> <strong>rmpath</strong> <em>(<var>dir1</var>, &hellip;)</em></dt>
 <dd><p>Remove <var>dir1</var>, &hellip; from the current function search path.
 </p>
 <p>In addition to accepting individual directory arguments, lists of
@@ -132,9 +138,9 @@ and runs it if it exists.
 
 
 <a name="XREFsavepath"></a><dl>
-<dt><a name="index-savepath"></a>: <em></em> <strong>savepath</strong> <em>()</em></dt>
-<dt><a name="index-savepath-1"></a>: <em></em> <strong>savepath</strong> <em>(<var>file</var>)</em></dt>
-<dt><a name="index-savepath-2"></a>: <em><var>status</var> =</em> <strong>savepath</strong> <em>(&hellip;)</em></dt>
+<dt><a name="index-savepath"></a><em></em> <strong>savepath</strong> <em>()</em></dt>
+<dt><a name="index-savepath-1"></a><em></em> <strong>savepath</strong> <em>(<var>file</var>)</em></dt>
+<dt><a name="index-savepath-2"></a><em><var>status</var> =</em> <strong>savepath</strong> <em>(&hellip;)</em></dt>
 <dd><p>Save the unique portion of the current function search path that is
 not set during Octave&rsquo;s initialization process to <var>file</var>.
 </p>
@@ -157,9 +163,9 @@ then the paths may be restored manually by calling <code>source <var>file</var><
 
 
 <a name="XREFpath"></a><dl>
-<dt><a name="index-path"></a>: <em></em> <strong>path</strong> <em>()</em></dt>
-<dt><a name="index-path-1"></a>: <em><var>str</var> =</em> <strong>path</strong> <em>()</em></dt>
-<dt><a name="index-path-2"></a>: <em><var>str</var> =</em> <strong>path</strong> <em>(<var>path1</var>, &hellip;)</em></dt>
+<dt><a name="index-path"></a><em></em> <strong>path</strong> <em>()</em></dt>
+<dt><a name="index-path-1"></a><em><var>str</var> =</em> <strong>path</strong> <em>()</em></dt>
+<dt><a name="index-path-2"></a><em><var>str</var> =</em> <strong>path</strong> <em>(<var>path1</var>, &hellip;)</em></dt>
 <dd><p>Modify or display Octave&rsquo;s load path.
 </p>
 <p>If <var>nargin</var> and <var>nargout</var> are zero, display the elements of
@@ -179,7 +185,7 @@ to the result and return it.
 
 
 <a name="XREFpathdef"></a><dl>
-<dt><a name="index-pathdef"></a>: <em><var>val</var> =</em> <strong>pathdef</strong> <em>()</em></dt>
+<dt><a name="index-pathdef"></a><em><var>val</var> =</em> <strong>pathdef</strong> <em>()</em></dt>
 <dd><p>Return the default path for Octave.
 </p>
 <p>The path information is extracted from one of four sources.
@@ -200,28 +206,30 @@ The possible sources, in order of preference, are:
 
 
 <a name="XREFpathsep"></a><dl>
-<dt><a name="index-pathsep"></a>: <em><var>val</var> =</em> <strong>pathsep</strong> <em>()</em></dt>
-<dt><a name="index-pathsep-1"></a>: <em><var>old_val</var> =</em> <strong>pathsep</strong> <em>(<var>new_val</var>)</em></dt>
-<dd><p>Query or set the character used to separate directories in a path.
+<dt><a name="index-pathsep"></a><em><var>val</var> =</em> <strong>pathsep</strong> <em>()</em></dt>
+<dd><p>Query the character used to separate directories in a path.
 </p>
 <p><strong>See also:</strong> <a href="Filesystem-Utilities.html#XREFfilesep">filesep</a>.
 </p></dd></dl>
 
 
 <a name="XREFrehash"></a><dl>
-<dt><a name="index-rehash"></a>: <em></em> <strong>rehash</strong> <em>()</em></dt>
+<dt><a name="index-rehash"></a><em></em> <strong>rehash</strong> <em>()</em></dt>
 <dd><p>Reinitialize Octave&rsquo;s load path directory cache.
 </p></dd></dl>
 
 
 <a name="XREFfile_005fin_005floadpath"></a><dl>
-<dt><a name="index-file_005fin_005floadpath"></a>: <em></em> <strong>file_in_loadpath</strong> <em>(<var>file</var>)</em></dt>
-<dt><a name="index-file_005fin_005floadpath-1"></a>: <em></em> <strong>file_in_loadpath</strong> <em>(<var>file</var>, &quot;all&quot;)</em></dt>
-<dd>
-<p>Return the absolute name of <var>file</var> if it can be found in
-the list of directories specified by <code>path</code>.
+<dt><a name="index-file_005fin_005floadpath"></a><em><var>fname</var> =</em> <strong>file_in_loadpath</strong> <em>(<var>file</var>)</em></dt>
+<dt><a name="index-file_005fin_005floadpath-1"></a><em><var>fname</var> =</em> <strong>file_in_loadpath</strong> <em>(<var>file</var>, &quot;all&quot;)</em></dt>
+<dd><p>Return the absolute name of <var>file</var> if it can be found in the list of
+directories specified by <code>path</code>.
 </p>
 <p>If no file is found, return an empty character string.
+</p>
+<p>When <var>file</var> is already an absolute name, the name is checked against the
+file system instead of Octave&rsquo;s loadpath.  In this case, if <var>file</var> exists
+it will be returned in <var>fname</var>, otherwise an empty string is returned.
 </p>
 <p>If the first argument is a cell array of strings, search each directory of
 the loadpath for element of the cell array and return the first that
@@ -236,7 +244,7 @@ If no files are found, return an empty cell array.
 
 
 <a name="XREFrestoredefaultpath"></a><dl>
-<dt><a name="index-restoredefaultpath"></a>: <em></em> <strong>restoredefaultpath</strong> <em>(&hellip;)</em></dt>
+<dt><a name="index-restoredefaultpath"></a><em></em> <strong>restoredefaultpath</strong> <em>()</em></dt>
 <dd><p>Restore Octave&rsquo;s path to its initial state at startup.
 </p>
 
@@ -245,7 +253,7 @@ If no files are found, return an empty cell array.
 
 
 <a name="XREFcommand_005fline_005fpath"></a><dl>
-<dt><a name="index-command_005fline_005fpath"></a>: <em></em> <strong>command_line_path</strong> <em>(&hellip;)</em></dt>
+<dt><a name="index-command_005fline_005fpath"></a><em></em> <strong>command_line_path</strong> <em>()</em></dt>
 <dd><p>Return the command line path variable.
 </p>
 
@@ -254,15 +262,21 @@ If no files are found, return an empty cell array.
 
 
 <a name="XREFdir_005fin_005floadpath"></a><dl>
-<dt><a name="index-dir_005fin_005floadpath"></a>: <em></em> <strong>dir_in_loadpath</strong> <em>(<var>dir</var>)</em></dt>
-<dt><a name="index-dir_005fin_005floadpath-1"></a>: <em></em> <strong>dir_in_loadpath</strong> <em>(<var>dir</var>, &quot;all&quot;)</em></dt>
-<dd><p>Return the full name of the path element matching <var>dir</var>.
+<dt><a name="index-dir_005fin_005floadpath"></a><em><var>dirname</var> =</em> <strong>dir_in_loadpath</strong> <em>(<var>dir</var>)</em></dt>
+<dt><a name="index-dir_005fin_005floadpath-1"></a><em><var>dirname</var> =</em> <strong>dir_in_loadpath</strong> <em>(<var>dir</var>, &quot;all&quot;)</em></dt>
+<dd><p>Return the absolute name of the loadpath element matching <var>dir</var> if it can
+be found in the list of directories specified by <code>path</code>.
+</p>
+<p>If no match is found, return an empty character string.
 </p>
 <p>The match is performed at the end of each path element.  For example, if
 <var>dir</var> is <code>&quot;foo/bar&quot;</code>, it matches the path element
 <code>&quot;/some/dir/foo/bar&quot;</code>, but not
 <code>&quot;/some/dir/foo/bar/baz&quot;</code>
-<code>&quot;/some/dir/allfoo/bar&quot;</code>.
+<code>&quot;/some/dir/allfoo/bar&quot;</code>.  When <var>dir</var> is an absolute name,
+rather than just a path fragment, it is matched against the file system
+instead of Octave&rsquo;s loadpath.  In this case, if <var>dir</var> exists it will be
+returned in <var>dirname</var>, otherwise an empty string is returned.
 </p>
 <p>If the optional second argument is supplied, return a cell array containing
 all name matches rather than just the first.

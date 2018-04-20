@@ -1,20 +1,20 @@
-## Copyright (C) 2014-2017 Massimiliano Fasi
+## Copyright (C) 2014-2018 Massimiliano Fasi
 ##
 ## This file is part of Octave.
 ##
-## Octave is free software; you can redistribute it and/or modify it
+## Octave is free software: you can redistribute it and/or modify it
 ## under the terms of the GNU General Public License as published by
-## the Free Software Foundation; either version 3 of the License, or (at
-## your option) any later version.
+## the Free Software Foundation, either version 3 of the License, or
+## (at your option) any later version.
 ##
 ## Octave is distributed in the hope that it will be useful, but
 ## WITHOUT ANY WARRANTY; without even the implied warranty of
-## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-## General Public License for more details.
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU General Public License for more details.
 ##
 ## You should have received a copy of the GNU General Public License
 ## along with Octave; see the file COPYING.  If not, see
-## <http://www.gnu.org/licenses/>.
+## <https://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
 ## @deftypefn  {} {} hgsave (@var{filename})
@@ -35,9 +35,9 @@
 ##
 ## @item @option{-hdf5}, @option{-float-hdf5}
 ##
-## @item @option{-V7}, @option{-v7}, @code{-7}, @option{-mat7-binary}
+## @item @option{-V7}, @option{-v7}, @option{-7}, @option{-mat7-binary}
 ##
-## @item @option{-V6}, @option{-v6}, @code{-6}, @option{-mat6-binary}
+## @item @option{-V6}, @option{-v6}, @option{-6}, @option{-mat6-binary}
 ##
 ## @item @option{-text}
 ##
@@ -65,7 +65,7 @@ function hgsave (h, filename, fmt = "-binary")
     if (isempty (h))
       error ("hgsave: No current figure to save");
     endif
-  elseif (! (ishandle (h) && ischar (filename)))
+  elseif (! (ishghandle (h) && ischar (filename)))
     print_usage ();
   endif
 
@@ -81,7 +81,7 @@ function hgsave (h, filename, fmt = "-binary")
 endfunction
 
 
-%!testif HAVE_MAGICK
+%!testif HAVE_MAGICK; any (strcmp ("gnuplot", available_graphics_toolkits ()))
 %! toolkit = graphics_toolkit ();
 %! graphics_toolkit ("gnuplot");
 %! unwind_protect

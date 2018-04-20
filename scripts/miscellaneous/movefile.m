@@ -1,32 +1,38 @@
-## Copyright (C) 2005-2017 John W. Eaton
+## Copyright (C) 2005-2018 John W. Eaton
 ##
 ## This file is part of Octave.
 ##
-## Octave is free software; you can redistribute it and/or modify it
+## Octave is free software: you can redistribute it and/or modify it
 ## under the terms of the GNU General Public License as published by
-## the Free Software Foundation; either version 3 of the License, or (at
-## your option) any later version.
+## the Free Software Foundation, either version 3 of the License, or
+## (at your option) any later version.
 ##
 ## Octave is distributed in the hope that it will be useful, but
 ## WITHOUT ANY WARRANTY; without even the implied warranty of
-## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-## General Public License for more details.
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU General Public License for more details.
 ##
 ## You should have received a copy of the GNU General Public License
 ## along with Octave; see the file COPYING.  If not, see
-## <http://www.gnu.org/licenses/>.
+## <https://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn  {} {} movefile (@var{f1})
+## @deftypefn  {} {} movefile @var{f1}
+## @deftypefnx {} {} movefile @var{f1} @var{f2}
+## @deftypefnx {} {} movefile @var{f1} @var{f2} f
+## @deftypefnx {} {} movefile (@var{f1})
 ## @deftypefnx {} {} movefile (@var{f1}, @var{f2})
 ## @deftypefnx {} {} movefile (@var{f1}, @var{f2}, 'f')
 ## @deftypefnx {} {[@var{status}, @var{msg}, @var{msgid}] =} movefile (@dots{})
-## Move the source files or directories @var{f1} to the destination @var{f2}.
+## Move the source file or directory @var{f1} to the destination @var{f2}.
 ##
-## The name @var{f1} may contain globbing patterns.  If @var{f1} expands to
-## multiple filenames, @var{f2} must be a directory.  If no destination
-## @var{f2} is specified then the destination is the present working directory.
-## If @var{f2} is a filename then @var{f1} is renamed to @var{f2}.
+## The name @var{f1} may contain globbing patterns, or may be a cell array of
+## strings.  If @var{f1} expands to multiple filenames, @var{f2} must be a
+## directory.
+##
+## If no destination @var{f2} is specified then the destination is the present
+## working directory.  If @var{f2} is a filename then @var{f1} is renamed to
+## @var{f2}.
 ##
 ## When the force flag @qcode{'f'} is given any existing files will be
 ## overwritten without prompting.

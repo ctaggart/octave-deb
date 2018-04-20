@@ -80,16 +80,21 @@ subplot activates the second subplot area, but does not re-partition the
 figure.
 </p>
 <a name="XREFsubplot"></a><dl>
-<dt><a name="index-subplot"></a>: <em></em> <strong>subplot</strong> <em>(<var>rows</var>, <var>cols</var>, <var>index</var>)</em></dt>
-<dt><a name="index-subplot-1"></a>: <em></em> <strong>subplot</strong> <em>(<var>rcn</var>)</em></dt>
-<dt><a name="index-subplot-2"></a>: <em></em> <strong>subplot</strong> <em>(<var>hax</var>)</em></dt>
-<dt><a name="index-subplot-3"></a>: <em></em> <strong>subplot</strong> <em>(&hellip;, &quot;align&quot;)</em></dt>
-<dt><a name="index-subplot-4"></a>: <em></em> <strong>subplot</strong> <em>(&hellip;, &quot;replace&quot;)</em></dt>
-<dt><a name="index-subplot-5"></a>: <em></em> <strong>subplot</strong> <em>(&hellip;, &quot;position&quot;, <var>pos</var>)</em></dt>
-<dt><a name="index-subplot-6"></a>: <em></em> <strong>subplot</strong> <em>(&hellip;, <var>prop</var>, <var>val</var>, &hellip;)</em></dt>
-<dt><a name="index-subplot-7"></a>: <em><var>hax</var> =</em> <strong>subplot</strong> <em>(&hellip;)</em></dt>
+<dt><a name="index-subplot"></a><em></em> <strong>subplot</strong> <em>(<var>rows</var>, <var>cols</var>, <var>index</var>)</em></dt>
+<dt><a name="index-subplot-1"></a><em></em> <strong>subplot</strong> <em>(<var>rows</var>, <var>cols</var>, <var>index</var>, <var>hax</var>)</em></dt>
+<dt><a name="index-subplot-2"></a><em></em> <strong>subplot</strong> <em>(<var>rcn</var>)</em></dt>
+<dt><a name="index-subplot-3"></a><em></em> <strong>subplot</strong> <em>(<var>hax</var>)</em></dt>
+<dt><a name="index-subplot-4"></a><em></em> <strong>subplot</strong> <em>(&hellip;, &quot;align&quot;)</em></dt>
+<dt><a name="index-subplot-5"></a><em></em> <strong>subplot</strong> <em>(&hellip;, &quot;replace&quot;)</em></dt>
+<dt><a name="index-subplot-6"></a><em></em> <strong>subplot</strong> <em>(&hellip;, &quot;position&quot;, <var>pos</var>)</em></dt>
+<dt><a name="index-subplot-7"></a><em></em> <strong>subplot</strong> <em>(&hellip;, <var>prop</var>, <var>val</var>, &hellip;)</em></dt>
+<dt><a name="index-subplot-8"></a><em><var>hax</var> =</em> <strong>subplot</strong> <em>(&hellip;)</em></dt>
 <dd><p>Set up a plot grid with <var>rows</var> by <var>cols</var> subwindows and set the
 current axes for plotting (<code>gca</code>) to the location given by <var>index</var>.
+</p>
+<p>If an axes handle <var>hax</var> is provided after the (<var>rows</var>, <var>cols</var>,
+<var>index</var>) arguments, the corresponding axes is turned into a
+subplot.
 </p>
 <p>If only one numeric argument is supplied, then it must be a three digit
 value specifying the number of rows in digit 1, the number of columns in

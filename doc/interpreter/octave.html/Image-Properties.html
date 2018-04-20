@@ -57,7 +57,7 @@ Next: <a href="Patch-Properties.html#Patch-Properties" accesskey="n" rel="next">
 <hr>
 <a name="Image-Properties-1"></a>
 <h4 class="subsubsection">15.3.3.6 Image Properties</h4>
-<a name="index-image-properties"></a>
+<a name="index--Image-PropertiesImage-Properties"></a>
 
 <p>The <code>image</code> properties are:
 </p>
@@ -65,12 +65,6 @@ Next: <a href="Patch-Properties.html#Patch-Properties" accesskey="n" rel="next">
 
 <dl compact="compact">
 <dd>
-<a name="XREFimage_005f_005fmodified_005f_005f"></a><a name="index-image-_005f_005fmodified_005f_005f"></a>
-</dd>
-<dt><code>__modified__</code>: <code>&quot;off&quot;</code> | {<code>&quot;on&quot;</code>}</dt>
-<dd>
-
-
 <a name="XREFimagealphadata"></a><a name="index-image-alphadata"></a>
 </dd>
 <dt><code>alphadata</code>: scalar | matrix, def. <code>1</code></dt>
@@ -92,8 +86,9 @@ Next: <a href="Patch-Properties.html#Patch-Properties" accesskey="n" rel="next">
 <a name="XREFimagebusyaction"></a><a name="index-image-busyaction"></a>
 </dd>
 <dt><code>busyaction</code>: <code>&quot;cancel&quot;</code> | {<code>&quot;queue&quot;</code>}</dt>
-<dd>
-
+<dd><p>Define how Octave handles the execution of this object&rsquo;s callback properties when it is unable to interrupt another object&rsquo;s executing callback.  This is only relevant when the currently executing callback object has its <code>interruptible</code> property set to <code>&quot;off&quot;</code>.  The <code>busyaction</code> property of the interrupting callback object indicates whether the interrupting callback is queued (<code>&quot;queue&quot;</code> (default)) or discarded (<code>&quot;cancel&quot;</code>).
+See <a href="Callbacks.html#Callbacks">Callbacks&nbsp;section<!-- /@w --></a>.
+</p>
 
 <a name="XREFimagebuttondownfcn"></a><a name="index-image-buttondownfcn"></a>
 </dd>
@@ -128,7 +123,7 @@ Next: <a href="Patch-Properties.html#Patch-Properties" accesskey="n" rel="next">
 <a name="XREFimagecreatefcn"></a><a name="index-image-createfcn"></a>
 </dd>
 <dt><code>createfcn</code>: string | function handle, def. <code>[](0x0)</code></dt>
-<dd><p>Callback function executed immediately after image has been created.  Function is set by using default property on root object, e.g., <code>set (0, &quot;defaultimagecreatefcn&quot;, 'disp (&quot;image created!&quot;)')</code>.
+<dd><p>Callback function executed immediately after image has been created.  Function is set by using default property on root object, e.g., <code>set (groot, &quot;defaultimagecreatefcn&quot;, 'disp (&quot;image created!&quot;)')</code>.
 </p>
 <p>For information on how to write graphics listener functions see <a href="Callbacks.html#Callbacks">Callbacks&nbsp;section<!-- /@w --></a>.
 </p>
@@ -141,12 +136,6 @@ Next: <a href="Patch-Properties.html#Patch-Properties" accesskey="n" rel="next">
 <p>For information on how to write graphics listener functions see <a href="Callbacks.html#Callbacks">Callbacks&nbsp;section<!-- /@w --></a>.
 </p>
 
-<a name="XREFimagedisplayname"></a><a name="index-image-displayname"></a>
-</dd>
-<dt><code>displayname</code>: string | cell array of strings, def. <code>&quot;&quot;</code></dt>
-<dd><p>Text for the legend entry corresponding to this image.
-</p>
-
 <a name="XREFimagehandlevisibility"></a><a name="index-image-handlevisibility"></a>
 </dd>
 <dt><code>handlevisibility</code>: <code>&quot;callback&quot;</code> | <code>&quot;off&quot;</code> | {<code>&quot;on&quot;</code>}</dt>
@@ -156,19 +145,26 @@ Next: <a href="Patch-Properties.html#Patch-Properties" accesskey="n" rel="next">
 <a name="XREFimagehittest"></a><a name="index-image-hittest"></a>
 </dd>
 <dt><code>hittest</code>: <code>&quot;off&quot;</code> | {<code>&quot;on&quot;</code>}</dt>
-<dd>
-
+<dd><p>Specify whether image processes mouse events or passes them to ancestors of the object.  When enabled, the object may respond to mouse clicks by evaluating the <code>&quot;buttondownfcn&quot;</code>, showing the uicontextmenu, and eventually becoming the root <code>&quot;currentobject&quot;</code>.  This property is only relevant when the object can accept mouse clicks which is determined by the <code>&quot;pickableparts&quot;</code> property.  See <a href="#XREFimagepickableparts">pickableparts&nbsp;property<!-- /@w --></a>.
+</p>
 
 <a name="XREFimageinterruptible"></a><a name="index-image-interruptible"></a>
 </dd>
 <dt><code>interruptible</code>: <code>&quot;off&quot;</code> | {<code>&quot;on&quot;</code>}</dt>
-<dd>
-
+<dd><p>Specify whether this object&rsquo;s callback functions may be interrupted by other callbacks.  By default <code>interruptible</code> is <code>&quot;on&quot;</code> and callbacks that make use of <code>drawnow</code>, <code>figure</code>, <code>waitfor</code>, <code>getframe</code> or <code>pause</code> functions are eventually interrupted.
+See <a href="Callbacks.html#Callbacks">Callbacks&nbsp;section<!-- /@w --></a>.
+</p>
 
 <a name="XREFimageparent"></a><a name="index-image-parent"></a>
 </dd>
 <dt><code>parent</code>: graphics handle</dt>
 <dd><p>Handle of the parent graphics object.
+</p>
+
+<a name="XREFimagepickableparts"></a><a name="index-image-pickableparts"></a>
+</dd>
+<dt><code>pickableparts</code>: <code>&quot;all&quot;</code> | <code>&quot;none&quot;</code> | {<code>&quot;visible&quot;</code>}</dt>
+<dd><p>Specify whether image will accept mouse clicks.  By default, <code>pickableparts</code> is <code>&quot;visible&quot;</code> and only visible parts of the image or its children may react to mouse clicks.  When <code>pickableparts</code> is <code>&quot;all&quot;</code> both visible and invisible parts (or children) may react to mouse clicks.  When <code>pickableparts</code> is <code>&quot;none&quot;</code> mouse clicks on the object are ignored and transmitted to any objects underneath this one.  When an object is configured to accept mouse clicks the <code>&quot;hittest&quot;</code> property will determine how they are processed.  See <a href="#XREFimagehittest">hittest&nbsp;property<!-- /@w --></a>.
 </p>
 
 <a name="XREFimageselected"></a><a name="index-image-selected"></a>

@@ -80,19 +80,45 @@ of <var>prefix</var> is <samp>/usr/local</samp>.
 <dd><p>Look for Octave sources in the directory <var>dir</var>.
 </p>
 </dd>
-<dt><code>--enable-64</code></dt>
-<dd><p>This is an <strong>experimental</strong> option to enable Octave to use 64-bit
-integers for array dimensions and indexing on 64-bit platforms.  You
-probably don&rsquo;t want to use this option unless you know what you are
-doing.  See <a href="Compiling-Octave-with-64_002dbit-Indexing.html#Compiling-Octave-with-64_002dbit-Indexing">Compiling Octave with 64-bit Indexing</a>, for more details
-about building Octave with this option.
+<dt><code>--disable-64</code></dt>
+<dd><p>Disable using 64-bit integers for indexing arrays and use 32-bit
+integers instead.  On systems with 32-bit pointers, this option is
+always disabled.  If the configure script determines that your <small>BLAS</small>
+library uses 32-bit integers, then operations using the following
+libraries are limited to arrays with dimensions that are smaller than
+<em>2^{31}</em> elements:
+</p>
+<ul>
+<li> <small>BLAS</small>
+
+</li><li> <small>LAPACK</small>
+
+</li><li> QRUPDATE
+
+</li><li> SuiteSparse
+
+</li><li> <small>ARPACK</small>
+</li></ul>
+
+<p>Additionally, the following libraries use <code>int</code> internally, so
+maximum problem sizes are always limited:
+</p>
+<ul>
+<li> <small>GLPK</small>
+
+</li><li> Qhull
+</li></ul>
+
+<p>See <a href="Compiling-Octave-with-64_002dbit-Indexing.html#Compiling-Octave-with-64_002dbit-Indexing">Compiling Octave with 64-bit Indexing</a>, for more details
+about building Octave with more complete support for large arrays.
 </p>
 </dd>
-<dt><code>--enable-bounds-check</code></dt>
-<dd><p>Enable bounds checking for indexing operators in the internal array
-classes.  This option is primarily used for debugging Octave.  Building
-Octave with this option has a negative impact on performance and is not
-recommended for general use.
+<dt><code>--enable-address-sanitizer-flags</code></dt>
+<dd><p>Enable compiler options <samp>-fsanitize=address</samp> and
+<samp>-fomit-frame-pointer</samp> for memory access checking.  This option is
+primarily used for debugging Octave.  Building Octave with this option
+has a negative impact on performance and is not recommended for general
+use.  It may also interfere with proper functioning of the GUI.
 </p>
 </dd>
 <dt><code>--disable-docs</code></dt>

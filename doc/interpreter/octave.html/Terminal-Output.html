@@ -77,8 +77,8 @@ value of a variable without printing its name, use the function
 values with <code>disp</code> and through the normal echoing mechanism.
 </p>
 <a name="XREFdisp"></a><dl>
-<dt><a name="index-disp"></a>: <em></em> <strong>disp</strong> <em>(<var>x</var>)</em></dt>
-<dt><a name="index-disp-1"></a>: <em><var>str</var> =</em> <strong>disp</strong> <em>(<var>x</var>)</em></dt>
+<dt><a name="index-disp"></a><em></em> <strong>disp</strong> <em>(<var>x</var>)</em></dt>
+<dt><a name="index-disp-1"></a><em><var>str</var> =</em> <strong>disp</strong> <em>(<var>x</var>)</em></dt>
 <dd><p>Display the value of <var>x</var>.
 </p>
 <p>For example:
@@ -100,7 +100,7 @@ formatted output in a string.
 
 
 <a name="XREFlist_005fin_005fcolumns"></a><dl>
-<dt><a name="index-list_005fin_005fcolumns"></a>: <em></em> <strong>list_in_columns</strong> <em>(<var>arg</var>, <var>width</var>, <var>prefix</var>)</em></dt>
+<dt><a name="index-list_005fin_005fcolumns"></a><em></em> <strong>list_in_columns</strong> <em>(<var>arg</var>, <var>width</var>, <var>prefix</var>)</em></dt>
 <dd><p>Return a string containing the elements of <var>arg</var> listed in columns with
 an overall maximum width of <var>width</var> and optional prefix <var>prefix</var>.
 </p>
@@ -134,7 +134,7 @@ whos ans
 
 
 <a name="XREFterminal_005fsize"></a><dl>
-<dt><a name="index-terminal_005fsize"></a>: <em></em> <strong>terminal_size</strong> <em>()</em></dt>
+<dt><a name="index-terminal_005fsize"></a><em></em> <strong>terminal_size</strong> <em>()</em></dt>
 <dd><p>Return a two-element row vector containing the current size of the terminal
 window in characters (rows and columns).
 </p>
@@ -143,65 +143,56 @@ window in characters (rows and columns).
 
 
 <a name="XREFformat"></a><dl>
-<dt><a name="index-format"></a>: <em></em> <strong>format</strong></dt>
-<dt><a name="index-format-1"></a>: <em></em> <strong>format</strong> <em>options</em></dt>
-<dd><p>Reset or specify the format of the output produced by <code>disp</code> and
-Octave&rsquo;s normal echoing mechanism.
+<dt><a name="index-format"></a><em></em> <strong>format</strong></dt>
+<dt><a name="index-format-1"></a><em></em> <strong>format</strong> <em>options</em></dt>
+<dt><a name="index-format-2"></a><em>[<var>format</var>, <var>formatspacing</var>] =</em> <strong>format</strong></dt>
+<dd><p>Reset or specify the format of the output produced by <code>disp</code> and Octave&rsquo;s
+normal echoing mechanism.
 </p>
-<p>This command only affects the display of numbers but not how they are stored
-or computed.  To change the internal representation from the default double
-use one of the conversion functions such as <code>single</code>, <code>uint8</code>,
+<p>This command only affects the display of numbers, but not how they are stored
+or computed.  To change the internal representation from the default double use
+one of the conversion functions such as <code>single</code>, <code>uint8</code>,
 <code>int64</code>, etc.
 </p>
 <p>By default, Octave displays 5 significant digits in a human readable form
-(option &lsquo;<samp>short</samp>&rsquo; paired with &lsquo;<samp>loose</samp>&rsquo; format for matrices).
-If <code>format</code> is invoked without any options, this default format
-is restored.
+(option &lsquo;<samp>short</samp>&rsquo; paired with &lsquo;<samp>loose</samp>&rsquo; format for matrices).  If
+<code>format</code> is invoked without any options, this default format is restored.
 </p>
 <p>Valid formats for floating point numbers are listed in the following
 table.
 </p>
 <dl compact="compact">
 <dt><code>short</code></dt>
-<dd><p>Fixed point format with 5 significant figures in a field that is a maximum
-of 10 characters wide.  (default).
-</p>
-<p>If Octave is unable to format a matrix so that columns line up on the
-decimal point and all numbers fit within the maximum field width then
-it switches to an exponential &lsquo;<samp>e</samp>&rsquo; format.
+<dd><p>Fixed point format with 5 significant figures (default).
 </p>
 </dd>
 <dt><code>long</code></dt>
-<dd><p>Fixed point format with 15 significant figures in a field that is a maximum
-of 20 characters wide.
+<dd><p>Fixed point format with 16 significant figures.
 </p>
-<p>As with the &lsquo;<samp>short</samp>&rsquo; format, Octave will switch to an exponential
-&lsquo;<samp>e</samp>&rsquo; format if it is unable to format a matrix properly using the
-current format.
+<p>As with the &lsquo;<samp>short</samp>&rsquo; format, Octave will switch to an exponential &lsquo;<samp>e</samp>&rsquo;
+format if it is unable to format a matrix properly using the current format.
 </p>
 </dd>
 <dt><code>short e</code></dt>
 <dt><code>long e</code></dt>
-<dd><p>Exponential format.  The number to be represented is split between a
-mantissa and an exponent (power of 10).  The mantissa has 5 significant
-digits in the short format and 15 digits in the long format.  For example,
-with the &lsquo;<samp>short e</samp>&rsquo; format, <code>pi</code> is displayed as
-<code>3.1416e+00</code>.
+<dd><p>Exponential format.  The number to be represented is split between a mantissa
+and an exponent (power of 10).  The mantissa has 5 significant digits in the
+short format.  In the long format, double values are displayed with 16
+significant digits and single values are displayed with 8.  For example,
+with the &lsquo;<samp>short e</samp>&rsquo; format, <code>pi</code> is displayed as <code>3.1416e+00</code>.
 </p>
 </dd>
 <dt><code>short E</code></dt>
 <dt><code>long E</code></dt>
-<dd><p>Identical to &lsquo;<samp>short e</samp>&rsquo; or &lsquo;<samp>long e</samp>&rsquo; but displays an uppercase
-&lsquo;<samp>E</samp>&rsquo; to indicate the exponent.
-For example, with the &lsquo;<samp>long E</samp>&rsquo; format, <code>pi</code> is displayed as
-<code>3.14159265358979E+00</code>.
+<dd><p>Identical to &lsquo;<samp>short e</samp>&rsquo; or &lsquo;<samp>long e</samp>&rsquo; but displays an uppercase &lsquo;<samp>E</samp>&rsquo;
+to indicate the exponent.  For example, with the &lsquo;<samp>long E</samp>&rsquo; format,
+<code>pi</code> is displayed as <code>3.141592653589793E+00</code>.
 </p>
 </dd>
 <dt><code>short g</code></dt>
 <dt><code>long g</code></dt>
-<dd><p>Optimally choose between fixed point and exponential format based on
-the magnitude of the number.
-For example, with the &lsquo;<samp>short g</samp>&rsquo; format,
+<dd><p>Optimally choose between fixed point and exponential format based on the
+magnitude of the number.  For example, with the &lsquo;<samp>short g</samp>&rsquo; format,
 <code>pi .^ [2; 4; 8; 16; 32]</code> is displayed as
 </p>
 <div class="example">
@@ -217,43 +208,46 @@ For example, with the &lsquo;<samp>short g</samp>&rsquo; format,
 </dd>
 <dt><code>short eng</code></dt>
 <dt><code>long eng</code></dt>
-<dd><p>Identical to &lsquo;<samp>short e</samp>&rsquo; or &lsquo;<samp>long e</samp>&rsquo; but displays the value
-using an engineering format, where the exponent is divisible by 3.  For
-example, with the &lsquo;<samp>short eng</samp>&rsquo; format, <code>10 * pi</code> is displayed as
-<code>31.4159e+00</code>.
+<dd><p>Identical to &lsquo;<samp>short e</samp>&rsquo; or &lsquo;<samp>long e</samp>&rsquo; but displays the value using an
+engineering format, where the exponent is divisible by 3.  For example, with
+the &lsquo;<samp>short eng</samp>&rsquo; format, <code>10 * pi</code> is displayed as <code>31.416e+00</code>.
 </p>
 </dd>
 <dt><code>long G</code></dt>
 <dt><code>short G</code></dt>
-<dd><p>Identical to &lsquo;<samp>short g</samp>&rsquo; or &lsquo;<samp>long g</samp>&rsquo; but displays an uppercase
-&lsquo;<samp>E</samp>&rsquo; to indicate the exponent.
+<dd><p>Identical to &lsquo;<samp>short g</samp>&rsquo; or &lsquo;<samp>long g</samp>&rsquo; but displays an uppercase &lsquo;<samp>E</samp>&rsquo;
+to indicate the exponent.
 </p>
 </dd>
 <dt><code>free</code></dt>
 <dt><code>none</code></dt>
-<dd><p>Print output in free format, without trying to line up columns of
-matrices on the decimal point.  This also causes complex numbers to be
-formatted as numeric pairs like this &lsquo;<samp>(0.60419, 0.60709)</samp>&rsquo; instead
-of like this &lsquo;<samp>0.60419 + 0.60709i</samp>&rsquo;.
+<dd><p>Print output in free format, without trying to line up columns of matrices on
+the decimal point.  This is a raw format equivalent to the C++ code
+<code>std::cout &lt;&lt; <var>variable</var></code>.  In general, the result is a presentation
+with 6 significant digits where unnecessary precision (such as trailing zeros
+for integers) is suppressed.  Complex numbers are formatted as numeric pairs
+like this &lsquo;<samp>(0.60419, 0.60709)</samp>&rsquo; instead of like this
+&lsquo;<samp>0.60419 + 0.60709i</samp>&rsquo;.
 </p></dd>
 </dl>
 
-<p>The following formats affect all numeric output (floating point and
-integer types).
+<p>The following formats affect all numeric output (floating point and integer
+types).
 </p>
 <dl compact="compact">
 <dt><code>&quot;+&quot;</code></dt>
-<dt><code>&quot;+&quot; <var>chars</var></code></dt>
+<dt><code>&quot;+&quot;</code> <code>&quot;<var>chars</var>&quot;</code></dt>
 <dt><code>plus</code></dt>
 <dt><code>plus <var>chars</var></code></dt>
-<dd><p>Print a &lsquo;<samp>+</samp>&rsquo; symbol for matrix elements greater than zero, a
-&lsquo;<samp>-</samp>&rsquo; symbol for elements less than zero and a space for zero matrix
-elements.  This format can be very useful for examining the structure
-of a large sparse matrix.
+<dd><p>Print a &lsquo;<samp>+</samp>&rsquo; symbol for matrix elements greater than zero, a &lsquo;<samp>-</samp>&rsquo;
+symbol for elements less than zero, and a space for zero matrix elements.  This
+format can be useful for examining the sparsity structure of a large matrix.
+For very large matrices the function <code>spy</code> which plots the sparsity
+pattern will be clearer.
 </p>
-<p>The optional argument <var>chars</var> specifies a list of 3 characters to use
-for printing values greater than zero, less than zero and equal to zero.
-For example, with the &lsquo;<samp>&quot;+&quot; &quot;+-.&quot;</samp>&rsquo; format,
+<p>The optional argument <var>chars</var> specifies a list of 3 characters to use for
+printing values greater than zero, less than zero, and equal to zero.  For
+example, with the format <code>&quot;+&quot; &quot;+-.&quot;</code>, the matrix
 <code>[1, 0, -1; -1, 0, 1]</code> is displayed as
 </p>
 <div class="example">
@@ -264,48 +258,47 @@ For example, with the &lsquo;<samp>&quot;+&quot; &quot;+-.&quot;</samp>&rsquo; f
 </pre></div>
 
 </dd>
-<dt><code>bank</code></dt>
-<dd><p>Print in a fixed format with two digits to the right of the decimal
-point.
+<dt>bank</dt>
+<dd><p>Print variable in a format appropriate for a currency (fixed format with two
+digits to the right of the decimal point).  Only the real part of a variable is
+displayed, as the imaginary part makes no sense for a currency.
 </p>
 </dd>
-<dt><code>native-hex</code></dt>
-<dd><p>Print the hexadecimal representation of numbers as they are stored in
-memory.  For example, on a workstation which stores 8 byte real values
-in IEEE format with the least significant byte first, the value of
-<code>pi</code> when printed in <code>native-hex</code> format is
-<code>400921fb54442d18</code>.
+<dt>native-hex</dt>
+<dd><p>Print the hexadecimal representation of numbers as they are stored in memory.
+For example, on a workstation which stores 8 byte real values in IEEE format
+with the least significant byte first, the value of <code>pi</code> when printed in
+<code>native-hex</code> format is <code>400921fb54442d18</code>.
 </p>
 </dd>
-<dt><code>hex</code></dt>
-<dd><p>The same as <code>native-hex</code>, but always print the most significant
-byte first.
+<dt>hex</dt>
+<dd><p>The same as <code>native-hex</code>, but always print the most significant byte
+first.
 </p>
 </dd>
-<dt><code>native-bit</code></dt>
-<dd><p>Print the bit representation of numbers as stored in memory.
-For example, the value of <code>pi</code> is
+<dt>native-bit</dt>
+<dd><p>Print the bit representation of numbers as stored in memory.  For example, the
+value of <code>pi</code> is
 </p>
 <div class="example">
 <pre class="example">01000000000010010010000111111011
 01010100010001000010110100011000
 </pre></div>
 
-<p>(shown here in two 32 bit sections for typesetting purposes) when
-printed in native-bit format on a workstation which stores 8 byte real
-values in IEEE format with the least significant byte first.
+<p>(shown here in two 32 bit sections for typesetting purposes) when printed in
+native-bit format on a workstation which stores 8 byte real values in IEEE
+format with the least significant byte first.
 </p>
 </dd>
-<dt><code>bit</code></dt>
-<dd><p>The same as <code>native-bit</code>, but always print the most significant
-bits first.
+<dt>bit</dt>
+<dd><p>The same as <code>native-bit</code>, but always print the most significant bits
+first.
 </p>
 </dd>
-<dt><code>rat</code></dt>
-<dd><p>Print a rational approximation, i.e., values are approximated
-as the ratio of small integers.
-For example, with the &lsquo;<samp>rat</samp>&rsquo; format,
-<code>pi</code> is displayed as <code>355/113</code>.
+<dt>rat</dt>
+<dd><p>Print a rational approximation, i.e., values are approximated as the ratio of
+small integers.  For example, with the &lsquo;<samp>rat</samp>&rsquo; format, <code>pi</code> is
+displayed as <code>355/113</code>.
 </p></dd>
 </dl>
 
@@ -313,17 +306,21 @@ For example, with the &lsquo;<samp>rat</samp>&rsquo; format,
 </p>
 <dl compact="compact">
 <dt><code>compact</code></dt>
-<dd><p>Remove blank lines around column number labels and between
-matrices producing more compact output with more data per page.
+<dd><p>Remove blank lines around column number labels and between matrices producing
+more compact output with more data per page.
 </p>
 </dd>
 <dt><code>loose</code></dt>
-<dd><p>Insert blank lines above and below column number labels and between matrices
-to produce a more readable output with less data per page.  (default).
+<dd><p>Insert blank lines above and below column number labels and between matrices to
+produce a more readable output with less data per page.  (default).
 </p></dd>
 </dl>
 
-<p><strong>See also:</strong> <a href="Matrices.html#XREFfixed_005fpoint_005fformat">fixed_point_format</a>, <a href="Matrices.html#XREFoutput_005fmax_005ffield_005fwidth">output_max_field_width</a>, <a href="Matrices.html#XREFoutput_005fprecision">output_precision</a>, <a href="Matrices.html#XREFsplit_005flong_005frows">split_long_rows</a>, <a href="Empty-Matrices.html#XREFprint_005fempty_005fdimensions">print_empty_dimensions</a>, <a href="Rational-Approximations.html#XREFrats">rats</a>.
+<p>If called with one or two output arguments, and no inputs, return the current
+format and format spacing.
+</p>
+
+<p><strong>See also:</strong> <a href="Matrices.html#XREFfixed_005fpoint_005fformat">fixed_point_format</a>, <a href="Matrices.html#XREFoutput_005fprecision">output_precision</a>, <a href="Matrices.html#XREFsplit_005flong_005frows">split_long_rows</a>, <a href="Empty-Matrices.html#XREFprint_005fempty_005fdimensions">print_empty_dimensions</a>, <a href="Rational-Approximations.html#XREFrats">rats</a>.
 </p></dd></dl>
 
 

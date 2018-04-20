@@ -65,7 +65,7 @@ data structure type doesn&rsquo;t have rows or columns, so the <code>rows</code>
 <code>columns</code> functions return -1 for structure arguments.
 </p>
 <a name="XREFndims"></a><dl>
-<dt><a name="index-ndims"></a>: <em></em> <strong>ndims</strong> <em>(<var>a</var>)</em></dt>
+<dt><a name="index-ndims"></a><em></em> <strong>ndims</strong> <em>(<var>a</var>)</em></dt>
 <dd><p>Return the number of dimensions of <var>a</var>.
 </p>
 <p>For any array, the result will always be greater than or equal to 2.
@@ -81,7 +81,7 @@ Trailing singleton dimensions are not counted.
 
 
 <a name="XREFcolumns"></a><dl>
-<dt><a name="index-columns"></a>: <em></em> <strong>columns</strong> <em>(<var>a</var>)</em></dt>
+<dt><a name="index-columns"></a><em></em> <strong>columns</strong> <em>(<var>a</var>)</em></dt>
 <dd><p>Return the number of columns of <var>a</var>.
 </p>
 <p><strong>See also:</strong> <a href="#XREFrows">rows</a>, <a href="#XREFsize">size</a>, <a href="#XREFlength">length</a>, <a href="#XREFnumel">numel</a>, <a href="Predicates-for-Numeric-Objects.html#XREFisscalar">isscalar</a>, <a href="Predicates-for-Numeric-Objects.html#XREFisvector">isvector</a>, <a href="Predicates-for-Numeric-Objects.html#XREFismatrix">ismatrix</a>.
@@ -89,7 +89,7 @@ Trailing singleton dimensions are not counted.
 
 
 <a name="XREFrows"></a><dl>
-<dt><a name="index-rows"></a>: <em></em> <strong>rows</strong> <em>(<var>a</var>)</em></dt>
+<dt><a name="index-rows"></a><em></em> <strong>rows</strong> <em>(<var>a</var>)</em></dt>
 <dd><p>Return the number of rows of <var>a</var>.
 </p>
 <p><strong>See also:</strong> <a href="#XREFcolumns">columns</a>, <a href="#XREFsize">size</a>, <a href="#XREFlength">length</a>, <a href="#XREFnumel">numel</a>, <a href="Predicates-for-Numeric-Objects.html#XREFisscalar">isscalar</a>, <a href="Predicates-for-Numeric-Objects.html#XREFisvector">isvector</a>, <a href="Predicates-for-Numeric-Objects.html#XREFismatrix">ismatrix</a>.
@@ -97,8 +97,8 @@ Trailing singleton dimensions are not counted.
 
 
 <a name="XREFnumel"></a><dl>
-<dt><a name="index-numel"></a>: <em></em> <strong>numel</strong> <em>(<var>a</var>)</em></dt>
-<dt><a name="index-numel-1"></a>: <em></em> <strong>numel</strong> <em>(<var>a</var>, <var>idx1</var>, <var>idx2</var>, &hellip;)</em></dt>
+<dt><a name="index-numel"></a><em></em> <strong>numel</strong> <em>(<var>a</var>)</em></dt>
+<dt><a name="index-numel-1"></a><em></em> <strong>numel</strong> <em>(<var>a</var>, <var>idx1</var>, <var>idx2</var>, &hellip;)</em></dt>
 <dd><p>Return the number of elements in the object <var>a</var>.
 </p>
 <p>Optionally, if indices <var>idx1</var>, <var>idx2</var>, &hellip; are supplied,
@@ -135,7 +135,7 @@ indexing, i.e., <code>object{&hellip;}</code> or <code>object(&hellip;).field</c
 
 
 <a name="XREFlength"></a><dl>
-<dt><a name="index-length"></a>: <em></em> <strong>length</strong> <em>(<var>a</var>)</em></dt>
+<dt><a name="index-length"></a><em></em> <strong>length</strong> <em>(<var>a</var>)</em></dt>
 <dd><p>Return the length of the object <var>a</var>.
 </p>
 <p>The length is 0 for empty objects, 1 for scalars, and the number of elements
@@ -148,9 +148,9 @@ of elements along the largest dimension
 
 
 <a name="XREFsize"></a><dl>
-<dt><a name="index-size"></a>: <em><var>sz</var> =</em> <strong>size</strong> <em>(<var>a</var>)</em></dt>
-<dt><a name="index-size-1"></a>: <em><var>dim_sz</var> =</em> <strong>size</strong> <em>(<var>a</var>, <var>dim</var>)</em></dt>
-<dt><a name="index-size-2"></a>: <em>[<var>rows</var>, <var>cols</var>, &hellip;, <var>dim_N_sz</var>] =</em> <strong>size</strong> <em>(&hellip;)</em></dt>
+<dt><a name="index-size"></a><em><var>sz</var> =</em> <strong>size</strong> <em>(<var>a</var>)</em></dt>
+<dt><a name="index-size-1"></a><em><var>dim_sz</var> =</em> <strong>size</strong> <em>(<var>a</var>, <var>dim</var>)</em></dt>
+<dt><a name="index-size-2"></a><em>[<var>rows</var>, <var>cols</var>, &hellip;, <var>dim_N_sz</var>] =</em> <strong>size</strong> <em>(&hellip;)</em></dt>
 <dd><p>Return a row vector with the size (number of elements) of each dimension for
 the object <var>a</var>.
 </p>
@@ -201,7 +201,7 @@ remaining dimensions in the final output argument.
 
 
 <a name="XREFisempty"></a><dl>
-<dt><a name="index-isempty"></a>: <em></em> <strong>isempty</strong> <em>(<var>a</var>)</em></dt>
+<dt><a name="index-isempty"></a><em></em> <strong>isempty</strong> <em>(<var>a</var>)</em></dt>
 <dd><p>Return true if <var>a</var> is an empty matrix (any one of its dimensions is
 zero).
 </p>
@@ -210,31 +210,47 @@ zero).
 
 
 <a name="XREFisnull"></a><dl>
-<dt><a name="index-isnull"></a>: <em></em> <strong>isnull</strong> <em>(<var>x</var>)</em></dt>
+<dt><a name="index-isnull"></a><em></em> <strong>isnull</strong> <em>(<var>x</var>)</em></dt>
 <dd><p>Return true if <var>x</var> is a special null matrix, string, or single quoted
 string.
 </p>
-<p>Indexed assignment with such a value on the right-hand side should delete
-array elements.  This function should be used when overloading indexed
-assignment for user-defined classes instead of <code>isempty</code>, to
-distinguish the cases:
+<p>Indexed assignment with such a null value on the right-hand side should delete
+array elements.  This function is used in place of <code>isempty</code> when
+overloading the indexed assignment method (<code>subsasgn</code>) for user-defined
+classes.  <code>isnull</code> is used to distinguish between these two cases:
 </p>
-<dl compact="compact">
-<dt><code>A(I) = []</code></dt>
-<dd><p>This should delete elements if <code>I</code> is nonempty.
+<p><code><var>A</var>(<var>I</var>) = []</code>
 </p>
-</dd>
-<dt><code>X = []; A(I) = X</code></dt>
-<dd><p>This should give an error if <code>I</code> is nonempty.
-</p></dd>
-</dl>
+<p>and
+</p>
+<p><code><var>X</var> = []; <var>A</var>(<var>I</var>) = <var>X</var></code>
+</p>
+<p>In the first assignment, the right-hand side is <code>[]</code> which is a special
+null value.  As long as the index <var>I</var> is not empty, this code should
+delete elements from <var>A</var> rather than perform assignment.
+</p>
+<p>In the second assignment, the right-hand side is empty (because <var>X</var> is
+<code>[]</code>), but it is <strong>not</strong> null.  This code should assign the empty
+value to elements in <var>A</var>.
+</p>
+<p>An example from Octave&rsquo;s built-in char class demonstrates the interpreter
+behavior when <code>isnull</code> is used correctly.
+</p>
+<div class="example">
+<pre class="example">str = &quot;Hello World&quot;;
+nm = &quot;Wally&quot;;
+str(7:end) = nm                # indexed assignment
+  &rArr; str = Hello Wally
+str(7:end) = &quot;&quot;                # indexed deletion
+  &rArr; str = Hello
+</pre></div>
 
 <p><strong>See also:</strong> <a href="#XREFisempty">isempty</a>, <a href="Advanced-Indexing.html#XREFisindex">isindex</a>.
 </p></dd></dl>
 
 
 <a name="XREFsizeof"></a><dl>
-<dt><a name="index-sizeof"></a>: <em></em> <strong>sizeof</strong> <em>(<var>val</var>)</em></dt>
+<dt><a name="index-sizeof"></a><em></em> <strong>sizeof</strong> <em>(<var>val</var>)</em></dt>
 <dd><p>Return the size of <var>val</var> in bytes.
 </p>
 <p><strong>See also:</strong> <a href="Status-of-Variables.html#XREFwhos">whos</a>.
@@ -242,7 +258,7 @@ distinguish the cases:
 
 
 <a name="XREFsize_005fequal"></a><dl>
-<dt><a name="index-size_005fequal"></a>: <em></em> <strong>size_equal</strong> <em>(<var>a</var>, <var>b</var>, &hellip;)</em></dt>
+<dt><a name="index-size_005fequal"></a><em></em> <strong>size_equal</strong> <em>(<var>a</var>, <var>b</var>, &hellip;)</em></dt>
 <dd><p>Return true if the dimensions of all arguments agree.
 </p>
 <p>Trailing singleton dimensions are ignored.  When called with a single argument,
@@ -253,7 +269,7 @@ or no argument, <code>size_equal</code> returns true.
 
 
 <a name="XREFsqueeze"></a><dl>
-<dt><a name="index-squeeze"></a>: <em></em> <strong>squeeze</strong> <em>(<var>x</var>)</em></dt>
+<dt><a name="index-squeeze"></a><em></em> <strong>squeeze</strong> <em>(<var>x</var>)</em></dt>
 <dd><p>Remove singleton dimensions from <var>x</var> and return the result.
 </p>
 <p>Note that for compatibility with <small>MATLAB</small>, all objects have

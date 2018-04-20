@@ -1,22 +1,22 @@
 @c DO NOT EDIT!  Generated automatically by munge-texi.pl.
 
-@c Copyright (C) 2012-2017 Jordi Gutiérrez Hermoso
+@c Copyright (C) 2012-2018 Jordi Gutiérrez Hermoso
 @c
 @c This file is part of Octave.
 @c
-@c Octave is free software; you can redistribute it and/or modify it
-@c under the terms of the GNU General Public License as published by the
-@c Free Software Foundation; either version 3 of the License, or (at
-@c your option) any later version.
+@c Octave is free software: you can redistribute it and/or modify it
+@c under the terms of the GNU General Public License as published by
+@c the Free Software Foundation, either version 3 of the License, or
+@c (at your option) any later version.
 @c
-@c Octave is distributed in the hope that it will be useful, but WITHOUT
-@c ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-@c FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-@c for more details.
+@c Octave is distributed in the hope that it will be useful, but
+@c WITHOUT ANY WARRANTY; without even the implied warranty of
+@c MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+@c GNU General Public License for more details.
 @c
 @c You should have received a copy of the GNU General Public License
-@c along with Octave; see the file COPYING. If not, see
-@c <http://www.gnu.org/licenses/>.
+@c along with Octave; see the file COPYING.  If not, see
+@c <https://www.gnu.org/licenses/>.
 
 @node Vectorization and Faster Code Execution
 @chapter Vectorization and Faster Code Execution
@@ -280,7 +280,7 @@ deal
 @section Broadcasting
 @cindex broadcast
 @cindex broadcasting
-@cindex BSX
+@cindex @nospell{BSX}
 @cindex recycling
 @cindex SIMD
 
@@ -389,19 +389,18 @@ For functions that are not written with broadcasting semantics,
 @c bsxfun libinterp/corefcn/bsxfun.cc
 @anchor{XREFbsxfun}
 @deftypefn {} {} bsxfun (@var{f}, @var{A}, @var{B})
-The binary singleton expansion function performs broadcasting,
-that is, it applies a binary function @var{f} element-by-element to two
-array arguments @var{A} and @var{B}, and expands as necessary
-singleton dimensions in either input argument.
+Apply a binary function @var{f} element-by-element to two array arguments
+@var{A} and @var{B}, expanding singleton dimensions in either input argument as
+necessary.
 
 @var{f} is a function handle, inline function, or string containing the name
-of the function to evaluate.  The function @var{f} must be capable of
-accepting two column-vector arguments of equal length, or one column vector
-argument and a scalar.
+of the function to evaluate.  The function @var{f} must be capable of accepting
+two column-vector arguments of equal length, or one column vector argument and
+a scalar.
 
 The dimensions of @var{A} and @var{B} must be equal or singleton.  The
-singleton dimensions of the arrays will be expanded to the same
-dimensionality as the other array.
+singleton dimensions of the arrays will be expanded to the same dimensionality
+as the other array.
 @seealso{@ref{XREFarrayfun,,arrayfun}, @ref{XREFcellfun,,cellfun}}
 @end deftypefn
 
@@ -470,7 +469,7 @@ faster ordinary matrix multiplication, @code{@var{c} = @var{a}*@var{b};}.
 A note on terminology: ``broadcasting'' is the term popularized by the
 Numpy numerical environment in the Python programming language.  In other
 programming languages and environments, broadcasting may also be known
-as @emph{binary singleton expansion} (BSX, in @sc{matlab}, and the
+as @emph{binary singleton expansion} (@nospell{BSX}, in @sc{matlab}, and the
 origin of the name of the @code{bsxfun} function), @emph{recycling} (R
 programming language), @emph{single-instruction multiple data} (SIMD),
 or @emph{replication}.
@@ -1042,7 +1041,7 @@ with iteration counts above @code{jit_startcnt} will be accelerated.  The
 functions @code{jit_failcnt} and @code{debug_jit} are not likely to be of use
 to anyone not working directly on the implementation of the JIT compiler.
 
-@c jit_enable libinterp/corefcn/pt-jit.cc
+@c jit_enable libinterp/parse-tree/pt-jit.cc
 @anchor{XREFjit_enable}
 @deftypefn  {} {@var{val} =} jit_enable ()
 @deftypefnx {} {@var{old_val} =} jit_enable (@var{new_val})
@@ -1056,7 +1055,7 @@ The original variable value is restored when exiting the function.
 @end deftypefn
 
 
-@c jit_startcnt libinterp/corefcn/pt-jit.cc
+@c jit_startcnt libinterp/parse-tree/pt-jit.cc
 @anchor{XREFjit_startcnt}
 @deftypefn  {} {@var{val} =} jit_startcnt ()
 @deftypefnx {} {@var{old_val} =} jit_startcnt (@var{new_val})
@@ -1075,7 +1074,7 @@ The original variable value is restored when exiting the function.
 @end deftypefn
 
 
-@c jit_failcnt libinterp/corefcn/pt-jit.cc
+@c jit_failcnt libinterp/parse-tree/pt-jit.cc
 @anchor{XREFjit_failcnt}
 @deftypefn  {} {@var{val} =} jit_failcnt ()
 @deftypefnx {} {@var{old_val} =} jit_failcnt (@var{new_val})
@@ -1090,7 +1089,7 @@ The original variable value is restored when exiting the function.
 @end deftypefn
 
 
-@c debug_jit libinterp/corefcn/pt-jit.cc
+@c debug_jit libinterp/parse-tree/pt-jit.cc
 @anchor{XREFdebug_jit}
 @deftypefn  {} {@var{val} =} debug_jit ()
 @deftypefnx {} {@var{old_val} =} debug_jit (@var{new_val})

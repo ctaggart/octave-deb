@@ -1,22 +1,22 @@
 /*
 
-Copyright (C) 1996-2017 John W. Eaton
+Copyright (C) 1996-2018 John W. Eaton
 
 This file is part of Octave.
 
-Octave is free software; you can redistribute it and/or modify it
-under the terms of the GNU General Public License as published by the
-Free Software Foundation; either version 3 of the License, or (at your
-option) any later version.
+Octave is free software: you can redistribute it and/or modify it
+under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-Octave is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-for more details.
+Octave is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with Octave; see the file COPYING.  If not, see
-<http://www.gnu.org/licenses/>.
+<https://www.gnu.org/licenses/>.
 
 */
 
@@ -39,7 +39,7 @@ static octave_value
 get_lu_l (const octave::math::lu<MT>& fact)
 {
   MT L = fact.L ();
-  if (L.is_square ())
+  if (L.issquare ())
     return octave_value (L, MatrixType (MatrixType::Lower));
   else
     return L;
@@ -50,7 +50,7 @@ static octave_value
 get_lu_u (const octave::math::lu<MT>& fact)
 {
   MT U = fact.U ();
-  if (U.is_square () && fact.regular ())
+  if (U.issquare () && fact.regular ())
     return octave_value (U, MatrixType (MatrixType::Upper));
   else
     return U;
@@ -103,14 +103,14 @@ p =
 The matrix is not required to be square.
 
 When called with two or three output arguments and a sparse input matrix,
-@code{lu} does not attempt to perform sparsity preserving column
-permutations.  Called with a fourth output argument, the sparsity
-preserving column transformation @var{Q} is returned, such that
-@code{@var{P} * @var{A} * @var{Q} = @var{L} * @var{U}}.
+@code{lu} does not attempt to perform sparsity preserving column permutations.
+Called with a fourth output argument, the sparsity preserving column
+transformation @var{Q} is returned, such that
+@code{@var{P} * @var{A} * @var{Q} = @var{L} * @var{U}}.  This is the
+@strong{preferred} way to call @code{lu} with sparse input matrices.
 
-Called with a fifth output argument and a sparse input matrix,
-@code{lu} attempts to use a scaling factor @var{R} on the input matrix
-such that
+Called with a fifth output argument and a sparse input matrix, @code{lu}
+attempts to use a scaling factor @var{R} on the input matrix such that
 @code{@var{P} * (@var{R} \ @var{A}) * @var{Q} = @var{L} * @var{U}}.
 This typically leads to a sparser and more stable factorization.
 
@@ -138,7 +138,7 @@ permutation information.
 @end deftypefn */)
 {
   int nargin = args.length ();
-  bool issparse = (nargin > 0 && args(0).is_sparse_type ());
+  bool issparse = (nargin > 0 && args(0).issparse ());
 
   if (nargin < 1 || (issparse && nargin > 3) || (! issparse && nargin > 2))
     print_usage ();
@@ -187,19 +187,23 @@ permutation information.
 
   if (issparse)
     {
-      if (arg.is_empty ())
+      if (arg.isempty ())
         return octave_value_list (5, SparseMatrix ());
 
-      if (arg.is_real_type ())
+      if (arg.isreal ())
         {
           SparseMatrix m = arg.sparse_matrix_value ();
 
           if (nargout < 4)
             {
+              warning_with_id ("Octave:lu:sparse_input",
+                               "lu: function may fail when called with less than 4 output arguments and a sparse input");
+
               ColumnVector Qinit (nc);
               for (octave_idx_type i = 0; i < nc; i++)
                 Qinit(i) = i;
-              octave::math::sparse_lu<SparseMatrix> fact (m, Qinit, thres, false, true);
+              octave::math::sparse_lu<SparseMatrix> fact (m, Qinit, thres,
+                                                          false, true);
 
               if (nargout < 2)
                 retval(0) = fact.Y ();
@@ -255,12 +259,15 @@ permutation information.
                 retval(4) = fact.R ();
             }
         }
-      else if (arg.is_complex_type ())
+      else if (arg.iscomplex ())
         {
           SparseComplexMatrix m = arg.sparse_complex_matrix_value ();
 
           if (nargout < 4)
             {
+              warning_with_id ("Octave:lu:sparse_input",
+                               "lu: function may fail when called with less than 4 output arguments and a sparse input");
+
               ColumnVector Qinit (nc);
               for (octave_idx_type i = 0; i < nc; i++)
                 Qinit(i) = i;
@@ -299,7 +306,8 @@ permutation information.
           else
             {
               retval.resize (scale ? 5 : 4);
-              octave::math::sparse_lu<SparseComplexMatrix> fact (m, thres, scale);
+              octave::math::sparse_lu<SparseComplexMatrix> fact (m, thres,
+                                                                 scale);
 
               retval(0) = octave_value (fact.L (),
                                         MatrixType (MatrixType::Lower));
@@ -327,10 +335,10 @@ permutation information.
     }
   else
     {
-      if (arg.is_empty ())
+      if (arg.isempty ())
         return octave_value_list (3, Matrix ());
 
-      if (arg.is_real_type ())
+      if (arg.isreal ())
         {
           if (arg.is_single_type ())
             {
@@ -401,7 +409,7 @@ permutation information.
                 }
             }
         }
-      else if (arg.is_complex_type ())
+      else if (arg.iscomplex ())
         {
           if (arg.is_single_type ())
             {
@@ -530,20 +538,23 @@ permutation information.
 %! assert (u, single ([5, 6; 0, 4/5]), sqrt (eps ("single")));
 %! assert (p(:,:), single ([0, 0, 1; 1, 0, 0; 0 1 0]), sqrt (eps ("single")));
 
-%!error lu ()
-%!error <can not define pivoting threshold> lu ([1, 2; 3, 4], 2)
-
 %!testif HAVE_UMFPACK
 %! Bi = [1 2 3 4 5 2 3 6 7 8 4 5 7 8 9];
 %! Bj = [1 3 4 5 6 7 8 9 11 12 13 14 15 16 17];
 %! Bv = [1 1 1 1 1 1 -1 1 1 1 1 -1 1 -1 1];
 %! B = sparse (Bi, Bj, Bv);
+%! warning ("off", "Octave:lu:sparse_input", "local");
 %! [L, U] = lu (B);
 %! assert (L*U, B);
 %! [L, U, P] = lu(B);
 %! assert (P'*L*U, B);
 %! [L, U, P, Q] = lu (B);
 %! assert (P'*L*U*Q', B);
+
+%!error lu ()
+%!testif HAVE_UMFPACK
+%! fail ("[l,u] = lu (sparse (magic (3)))", "warning", "function may fail");
+%!error <can not define pivoting threshold> lu ([1, 2; 3, 4], 2)
 
 */
 
@@ -614,12 +625,12 @@ factorization from scratch.
 
   octave_value argl = args(0);
   octave_value argu = args(1);
-  octave_value argp = pivoted ? args(2) : octave_value ();
+  octave_value argp = (pivoted ? args(2) : octave_value ());
   octave_value argx = args(2 + pivoted);
   octave_value argy = args(3 + pivoted);
 
-  if (! (argl.is_numeric_type () && argu.is_numeric_type ()
-         && argx.is_numeric_type () && argy.is_numeric_type ()
+  if (! (argl.isnumeric () && argu.isnumeric ()
+         && argx.isnumeric () && argy.isnumeric ()
          && (! pivoted || argp.is_perm_matrix ())))
     error ("luupdate: L, U, X, and Y must be numeric");
 
@@ -630,8 +641,8 @@ factorization from scratch.
                   ? argp.perm_matrix_value ()
                   : PermMatrix::eye (argl.rows ()));
 
-  if (argl.is_real_type () && argu.is_real_type ()
-      && argx.is_real_type () && argy.is_real_type ())
+  if (argl.isreal () && argu.isreal ()
+      && argx.isreal () && argy.isreal ())
     {
       // all real case
       if (argl.is_single_type () || argu.is_single_type ()

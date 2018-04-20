@@ -56,7 +56,7 @@ Next: <a href="Indexing-Cell-Arrays.html#Indexing-Cell-Arrays" accesskey="n" rel
 </div>
 <hr>
 <a name="Creating-Cell-Arrays-1"></a>
-<h4 class="subsection">6.2.2 Creating Cell Arrays</h4>
+<h4 class="subsection">6.3.2 Creating Cell Arrays</h4>
 
 <p>The introductory example (see <a href="Basic-Usage-of-Cell-Arrays.html#Basic-Usage-of-Cell-Arrays">Basic Usage of Cell Arrays</a>) showed
 how to create a cell array containing currently available variables.
@@ -101,10 +101,10 @@ object, such as <a href="Object-Sizes.html#XREFlength">length</a>, <a href="Obje
 <a href="Object-Sizes.html#XREFrows">rows</a>, and <a href="Object-Sizes.html#XREFcolumns">columns</a>.
 </p>
 <a name="XREFcell"></a><dl>
-<dt><a name="index-cell"></a>: <em></em> <strong>cell</strong> <em>(<var>n</var>)</em></dt>
-<dt><a name="index-cell-1"></a>: <em></em> <strong>cell</strong> <em>(<var>m</var>, <var>n</var>)</em></dt>
-<dt><a name="index-cell-2"></a>: <em></em> <strong>cell</strong> <em>(<var>m</var>, <var>n</var>, <var>k</var>, &hellip;)</em></dt>
-<dt><a name="index-cell-3"></a>: <em></em> <strong>cell</strong> <em>([<var>m</var> <var>n</var> &hellip;])</em></dt>
+<dt><a name="index-cell"></a><em></em> <strong>cell</strong> <em>(<var>n</var>)</em></dt>
+<dt><a name="index-cell-1"></a><em></em> <strong>cell</strong> <em>(<var>m</var>, <var>n</var>)</em></dt>
+<dt><a name="index-cell-2"></a><em></em> <strong>cell</strong> <em>(<var>m</var>, <var>n</var>, <var>k</var>, &hellip;)</em></dt>
+<dt><a name="index-cell-3"></a><em></em> <strong>cell</strong> <em>([<var>m</var> <var>n</var> &hellip;])</em></dt>
 <dd><p>Create a new cell array object.
 </p>
 <p>If invoked with a single scalar integer argument, return a square
@@ -121,8 +121,8 @@ is possible to convert numerical arrays into cell arrays using the
 <code>num2cell</code>, <code>mat2cell</code> and <code>cellslices</code> functions.
 </p>
 <a name="XREFnum2cell"></a><dl>
-<dt><a name="index-num2cell"></a>: <em><var>C</var> =</em> <strong>num2cell</strong> <em>(<var>A</var>)</em></dt>
-<dt><a name="index-num2cell-1"></a>: <em><var>C</var> =</em> <strong>num2cell</strong> <em>(<var>A</var>, <var>dim</var>)</em></dt>
+<dt><a name="index-num2cell"></a><em><var>C</var> =</em> <strong>num2cell</strong> <em>(<var>A</var>)</em></dt>
+<dt><a name="index-num2cell-1"></a><em><var>C</var> =</em> <strong>num2cell</strong> <em>(<var>A</var>, <var>dim</var>)</em></dt>
 <dd><p>Convert the numeric matrix <var>A</var> to a cell array.
 </p>
 <p>If <var>dim</var> is defined, the value <var>C</var> is of dimension 1 in this
@@ -156,9 +156,9 @@ num2cell ([1,2;3,4],1)
 
 
 <a name="XREFmat2cell"></a><dl>
-<dt><a name="index-mat2cell"></a>: <em><var>C</var> =</em> <strong>mat2cell</strong> <em>(<var>A</var>, <var>m</var>, <var>n</var>)</em></dt>
-<dt><a name="index-mat2cell-1"></a>: <em><var>C</var> =</em> <strong>mat2cell</strong> <em>(<var>A</var>, <var>d1</var>, <var>d2</var>, &hellip;)</em></dt>
-<dt><a name="index-mat2cell-2"></a>: <em><var>C</var> =</em> <strong>mat2cell</strong> <em>(<var>A</var>, <var>r</var>)</em></dt>
+<dt><a name="index-mat2cell"></a><em><var>C</var> =</em> <strong>mat2cell</strong> <em>(<var>A</var>, <var>m</var>, <var>n</var>)</em></dt>
+<dt><a name="index-mat2cell-1"></a><em><var>C</var> =</em> <strong>mat2cell</strong> <em>(<var>A</var>, <var>d1</var>, <var>d2</var>, &hellip;)</em></dt>
+<dt><a name="index-mat2cell-2"></a><em><var>C</var> =</em> <strong>mat2cell</strong> <em>(<var>A</var>, <var>r</var>)</em></dt>
 <dd><p>Convert the matrix <var>A</var> to a cell array.
 </p>
 <p>If <var>A</var> is 2-D, then it is required that
@@ -202,7 +202,7 @@ arguments are assumed to equal <code>size (<var>A</var>,<var>i</var>)</code>.
 
 
 <a name="XREFcellslices"></a><dl>
-<dt><a name="index-cellslices"></a>: <em><var>sl</var> =</em> <strong>cellslices</strong> <em>(<var>x</var>, <var>lb</var>, <var>ub</var>, <var>dim</var>)</em></dt>
+<dt><a name="index-cellslices"></a><em><var>sl</var> =</em> <strong>cellslices</strong> <em>(<var>x</var>, <var>lb</var>, <var>ub</var>, <var>dim</var>)</em></dt>
 <dd><p>Given an array <var>x</var>, this function produces a cell array of slices from
 the array determined by the index vectors <var>lb</var>, <var>ub</var>, for lower and
 upper bounds, respectively.

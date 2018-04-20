@@ -28,7 +28,7 @@ GNU Octave
 
 This manual documents how to run, install and port GNU Octave, as well
 as its new features and incompatibilities, and how to report bugs.  It
-corresponds to GNU Octave version 4.2.2.
+corresponds to GNU Octave version 4.3.91.
 
 * Menu:
 
@@ -80,6 +80,7 @@ corresponds to GNU Octave version 4.2.2.
 * Concept Index::               An item for each concept.
 * Function Index::              An item for each documented function.
 * Operator Index::              An item for each documented operator.
+* Graphics Properties Index::   An item for each graphics object property.
 
  — The Detailed Node Listing —
 
@@ -192,6 +193,7 @@ Creating Strings
 Data Containers
 
 * Structures::
+* containers.Map::
 * Cell Arrays::
 * Comma Separated Lists::
 
@@ -241,6 +243,7 @@ Calling Functions
 
 * Call by Value::
 * Recursion::
+* Access via Handle::
 
 Boolean Expressions
 
@@ -462,6 +465,7 @@ Advanced Plotting
 * Callbacks::
 * Application-defined Data::
 * Object Groups::
+* Transform Groups::
 * Graphics Toolkits::
 
 Object Groups
@@ -594,10 +598,8 @@ Statistics
 
 * Descriptive Statistics::
 * Basic Statistical Functions::
-* Statistical Plots::
 * Correlation and Regression Analysis::
 * Distributions::
-* Tests::
 * Random Number Generation::
 
 Sets
@@ -864,56 +866,62 @@ Many people have contributed to Octave’s development.  The following
 people have helped code parts of Octave or aided in various other ways
 (listed alphabetically).
 
-Ben Abbott               Drew Abbot               Andy Adler
-Adam H. Aitkenhead       Joakim Andén             Giles Anderson
-Joel Andersson           Lachlan Andrew           Pedro Angelo
-Damjan Angelovski        Muthiah Annamalai        Markus Appel
-Branden Archer           Willem Atsma             Marco Atzeri
-Ander Aurrekoetxea       Shai Ayal                Roger Banks
+Ben Abbott               Drew Abbot               NVS Abhilash
+Andy Adler               Adam H. Aitkenhead       Joakim Andén
+Giles Anderson           Joel Andersson           Lachlan Andrew
+Pedro Angelo             Damjan Angelovski        Muthiah Annamalai
+Markus Appel             Branden Archer           Willem Atsma
+Marco Atzeri             Ander Aurrekoetxea       Shai Ayal
+Sahil Badyal             Jeff Bai                 Roger Banks
 Ben Barrowes             Alexander Barth          David Bateman
-Heinz Bauschke           Julien Bect              Stefan Beller
-Roman Belov              Markus Bergholz          Karl Berry
-Atri Bhattacharya        Ethan Biery              David Billinghurst
-Don Bindner              Jakub Bogusz             Moritz Borgmann
-Paul Boven               Richard Bovey            John Bradshaw
-Marcus Brinkmann         Max Brister              Remy Bruno
-Clemens Buchacher        Ansgar Burchard          Marco Caliari
-Daniel Calvelo           John C. Campbell         Juan Pablo Carbajal
-Jean-Francois Cardoso    Joao Cardoso             Larrie Carr
-David Castelow           Vincent Cautaerts        Clinton Chee
-Albert Chin-A-Young      Carsten Clark            Catalin Codreanu
-J. D. Cole               Jacopo Corno             Martin Costabel
-Michael Creel            Richard Crozier          Jeff Cunningham
-Martin Dalecki           Jacob Dawid              Jorge Barros de Abreu
-Carlo de Falco           Thomas D. Dean           Philippe Defert
-Bill Denney              Fabian Deutsch           Christos Dimitrakakis
-Pantxo Diribarne         Vivek Dogra              John Donoghue
-David M. Doolin          Carnë Draug              Pascal A. Dupuis
+Heinz Bauschke           Miguel Bazdresch         Julien Bect
+Stefan Beller            Roman Belov              Markus Bergholz
+Karl Berry               Atri Bhattacharya        Ethan Biery
+David Billinghurst       Don Bindner              Jakub Bogusz
+Moritz Borgmann          Paul Boven               Richard Bovey
+John Bradshaw            Marcus Brinkmann         Max Brister
+Remy Bruno               Clemens Buchacher        Ansgar Burchard
+Marco Caliari            Daniel Calvelo           John C. Campbell
+Juan Pablo Carbajal      Jean-Francois Cardoso    Joao Cardoso
+Larrie Carr              David Castelow           Vincent Cautaerts
+Marco Cecchetti          Corbin Champion          Clinton Chee
+Albert Chin-A-Young      Sunghyun Cho             Carsten Clark
+Catalin Codreanu         J. D. Cole               Jacopo Corno
+Andre da Costa Barros    Martin Costabel          Michael Creel
+Richard Crozier          Jeff Cunningham          Martin Dalecki
+Jacob Dawid              Jorge Barros de Abreu    Carlo de Falco
+Thomas D. Dean           Philippe Defert          Bill Denney
+Fabian Deutsch           Christos Dimitrakakis    Pantxo Diribarne
+Vivek Dogra              John Donoghue            David M. Doolin
+Carnë Draug              Sergey Dudoladov         Pascal A. Dupuis
 John W. Eaton            Dirk Eddelbuettel        Pieter Eendebak
 Paul Eggert              Stephen Eglen            Peter Ekberg
 Garrett Euler            Edmund Grimley Evans     Rolf Fabian
-Gunnar Farnebäck         Massimiliano Fasi        Stephen Fegan
-Ramon Garcia Fernandez   Torsten Finke            Colin Foster
+Francesco Faccio         Gunnar Farnebäck         Massimiliano Fasi
+Stephen Fegan            Ramon Garcia Fernandez   Torsten Finke
+David Finkel             Guillaume Flandin        Colin Foster
 Jose Daniel Munoz        Brad Froehle             Castor Fu
 Frias
 Eduardo Gallestey        Walter Gautschi          Klaus Gebhardt
 Driss Ghaddab            Eugenio Gianniti         Hartmut Gimpel
-Nicolo Giorgetti         Arun Giridhar            Michael D. Godfrey
-Michael Goffioul         Glenn Golden             Tomislav Goles
-Keith Goodman            Brian Gough              Michael C. Grant
-Steffen Groot            Etienne Grossmann        David Grundberg
-Kyle Guinn               Vaibhav Gupta            Peter Gustafson
-Kai Habel                Patrick Häcker           William P. Y.
-                                                  Hadisoeseno
-Jaroslav Hajek           Benjamin Hall            Kim Hansen
+Michele Ginesi           Nicolo Giorgetti         Arun Giridhar
+Michael D. Godfrey       Michael Goffioul         Glenn Golden
+Tomislav Goles           Keith Goodman            Brian Gough
+Alexander Graf           Michael C. Grant         Steffen Groot
+Etienne Grossmann        David Grundberg          Kyle Guinn
+Vaibhav Gupta            Peter Gustafson          Kai Habel
+Patrick Häcker           William P. Y.            Jaroslav Hajek
+                         Hadisoeseno
+Benjamin Hall            Alexander Hansen         Kim Hansen
 Søren Hauberg            Dave Hawthorne           Oliver Heimlich
 Daniel Heiserer          Piotr Held               Martin Helm
 Stefan Hepp              Martin Hepperle          Jordi Gutiérrez
                                                   Hermoso
-Yozo Hida                Ryan Hinton              Roman Hodek
-A. Scottedward Hodel     Richard Allan Holcombe   Tom Holroyd
-David Hoover             Kurt Hornik              Christopher Hulbert
-Cyril Humbert            John Hunt                Teemu Ikonen
+Israel Herraiz           Yozo Hida                Ryan Hinton
+Roman Hodek              A. Scottedward Hodel     Richard Allan Holcombe
+Tom Holroyd              David Hoover             Kurt Hornik
+Craig Hudson             Christopher Hulbert      Cyril Humbert
+John Hunt                Stefan Husmann           Teemu Ikonen
 Alan W. Irwin            Allan Jacobs             Geoff Jacobsen
 Vytautas Jančauskas      Nicholas R. Jankowski    Mats Jansson
 Robert Jenssen           Cai Jianming             Steven G. Johnson
@@ -922,36 +930,40 @@ Jarkko Kaleva            Avinoam Kalma            Mohamed Kamoun
 Lute Kamstra             Fotios Kasolis           Thomas Kasper
 Joel Keay                Mumit Khan               Paul Kienzle
 Lars Kindermann          Aaron A. King            Erik Kjellson
-Arno J. Klaassen         Alexander Klein          Geoffrey Knauth
-Heine Kolltveit          Ken Kouno                Kacper Kowalik
-Daniel Kraft             Nir Krakauer             Aravindh
-                                                  Krishnamoorthy
-Oyvind Kristiansen       Artem Krosheninnikov     Piotr Krzyzanowski
-Volker Kuhlmann          Ilya Kurdyukov           Tetsuro Kurita
+Arno J. Klaassen         Alexander Klein          Lasse Kliemann
+Geoffrey Knauth          Heine Kolltveit          Ken Kouno
+Kacper Kowalik           Endre Kozma              Daniel Kraft
+Nir Krakauer             Aravindh                 Oyvind Kristiansen
+                         Krishnamoorthy
+Artem Krosheninnikov     Piotr Krzyzanowski       Volker Kuhlmann
+Ilya Kurdyukov           Tetsuro Kurita           Ben Kurtz
 Philipp Kutin            Miroslaw Kwasniak        Rafael Laboissiere
 Kai Labusch              Claude Lacoursiere       Walter Landry
 Bill Lash                Dirk Laurie              Maurice LeBrun
-Friedrich Leisch         Johannes Leuschner       Thorsten Liebig
-Jyh-miin Lin             Timo Lindfors            Benjamin Lindner
-Ross Lippert             Yu Liu                   David Livings
-Barbara Locsi            Sebastien Loisel         Erik de Castro Lopo
-Massimo Lorenzin         Emil Lucretiu            Yi-Hong Lyu
-Hoxide Ma                Colin Macdonald          James Macnicol
-Jens-Uwe Mager           Stefan Mahr              Rob Mahurin
-Alexander Mamonov        Ricardo Marranita        Orestes Mas
-Axel Mathéi              Makoto Matsumoto         Tatsuro Matsuoka
-Christoph Mayer          Laurent Mazet            G. D. McBain
-Ronald van der Meer      Júlio Hoffimann Mendes   Ed Meyer
-Thorsten Meyer           Stefan Miereis           Petr Mikulik
-Mike Miller              Serviscope Minor         Stefan Monnier
-Rafael Monteiro          Antoine Moreau           Kai P. Mueller
-Armin Müller             Hannes Müller            Victor Munoz
-PrasannaKumar            Iain Murray              Markus Mützel
-Muralidharan
-Carmen Navarrete         Todd Neal                Philip Nienhuis
-Al Niessner              Felipe G. Nievinski      Rick Niles
-Takuji Nishimura         Akira Noda               Kai Noda
-Patrick Noffke           Eric Norum               Krzesimir Nowak
+Friedrich Leisch         Michael Leitner          Johannes Leuschner
+Thorsten Liebig          Torsten Lilge            Jyh-miin Lin
+Timo Lindfors            Benjamin Lindner         Ross Lippert
+Yu Liu                   David Livings            Barbara Locsi
+Sebastien Loisel         Erik de Castro Lopo      Massimo Lorenzin
+Emil Lucretiu            Yi-Hong Lyu              Hoxide Ma
+Colin Macdonald          James Macnicol           Jens-Uwe Mager
+Stefan Mahr              Rob Mahurin              Alexander Mamonov
+Ricardo Marranita        Orestes Mas              Axel Mathéi
+Makoto Matsumoto         Tatsuro Matsuoka         Christoph Mayer
+Laurent Mazet            G. D. McBain             Ronald van der Meer
+Júlio Hoffimann Mendes   Ed Meyer                 Thorsten Meyer
+Stefan Miereis           Petr Mikulik             Mike Miller
+Serviscope Minor         Stefan Monnier           Rafael Monteiro
+Stephen                  Antoine Moreau           Kai P. Mueller
+Montgomery-Smith
+Amod Mulay               Armin Müller             Hannes Müller
+Victor Munoz             PrasannaKumar            Iain Murray
+                         Muralidharan
+Nicholas Musolino        Markus Mützel            Carmen Navarrete
+Todd Neal                Philip Nienhuis          Al Niessner
+Felipe G. Nievinski      Rick Niles               Takuji Nishimura
+Akira Noda               Kai Noda                 Patrick Noffke
+Victor Norton            Eric Norum               Krzesimir Nowak
 Michael O’Brien          Cillian O’Driscoll       Peter O’Gorman
 Thorsten Ohl             Kai T. Ohlhus            Arno Onken
 Valentin                 Luis F. Ortiz            Carl Osterwisch
@@ -967,42 +979,47 @@ Orion Poplawski          Ondrej Popp              Jef Poskanzer
 Francesco Potortì        Konstantinos Poulios     Tejaswi D. Prakash
 Jarno Rajahalme          Eduardo Ramos            Pooja Rao
 James B. Rawlings        Eric S. Raymond          Balint Reczey
-Joshua Redstone          Lukas Reichlin           Michael Reifenberger
-Ernst Reissner           Jens Restemeier          Anthony Richardson
-Jason Riedy              E. Joshua Rigler         Sander van Rijn
-Petter Risholm           Matthew W. Roberts       Dmitry Roshchin
-Peter Rosin              Andrew Ross              Fabio Rossi
-Mark van Rossum          Joe Rothweiler           David Rörich
-Kevin Ruland             Kristian Rumberg         Ryan Rusaw
-Olli Saarela             Toni Saarela             Juhani Saastamoinen
-Radek Salac              Mike Sander              Ben Sapp
-Aleksej Saushev          Alois Schlögl            Michel D. Schmid
-Julian Schnidder         Sebastian Schöps         Nicol N. Schraudolph
-Sebastian Schubert       Lasse Schuirmann         Ludwig Schwardt
-Thomas L. Scofield       Daniel J. Sebald         Dmitri A. Sergatskov
-Vanya Sergeev            Marko Seric              Ahsan Ali Shahid
-Baylis Shanks            Andriy Shinkarchuck      Robert T. Short
-Joseph P. Skudlarek      John Smith               Julius Smith
-Shan G. Smith            Peter L. Sondergaard     Joerg Specht
+Joshua Redstone          Andy Register            Lukas Reichlin
+Michael Reifenberger     Ernst Reissner           Jens Restemeier
+Anthony Richardson       Jason Riedy              E. Joshua Rigler
+Sander van Rijn          Petter Risholm           Matthew W. Roberts
+Melvin Robinson          Dmitry Roshchin          Peter Rosin
+Andrew Ross              Fabio Rossi              Mark van Rossum
+Joe Rothweiler           David Rörich             Kevin Ruland
+Kristian Rumberg         Ryan Rusaw               Olli Saarela
+Toni Saarela             Juhani Saastamoinen      Radek Salac
+Mike Sander              Ben Sapp                 Aleksej Saushev
+Alois Schlögl            Michel D. Schmid         Julian Schnidder
+Sebastian Schöps         Nicol N. Schraudolph     Sebastian Schubert
+Lasse Schuirmann         Ludwig Schwardt          Thomas L. Scofield
+Daniel J. Sebald         Dmitri A. Sergatskov     Vanya Sergeev
+Marko Seric              Ahsan Ali Shahid         Baylis Shanks
+Andriy Shinkarchuck      Robert T. Short          Joseph P. Skudlarek
+John Smith               Julius Smith             Shan G. Smith
+Peter L. Sondergaard     Rüdiger Sonderfeld       Joerg Specht
 Quentin H. Spencer       Christoph Spiel          David Spies
-Richard Stallman         Russell Standish         Brett Stewart
-Doug Stewart             Jonathan Stickel         Judd Storrs
+Andreas Stahel           Richard Stallman         Russell Standish
+Ryan Starret             Brett Stewart            Doug Stewart
+Jen Stewart              Jonathan Stickel         Judd Storrs
 Thomas Stuart            Bernardo Sulzbach        Ivan Sutoris
 John Swensen             Daisuke Takago           Ariel Tankus
 Falk Tannhäuser          Duncan Temple Lang       Matthew Tenny
 Kris Thielemans          Georg Thimm              Corey Thomasson
 Andrew Thornton          Olaf Till                Christophe Tournery
-Thomas Treichl           Karsten Trulsen          David Turner
-Frederick Umminger       Utkarsh Upadhyay         Stefan van der Walt
-Peter Van Wieren         James R. Van Zandt       Risto Vanhanen
-Gregory Vanuxem          Mihas Varantsou          Ivana Varekova
-Sébastien Villemot       Marco Vitetta            Daniel Wagenaar
-Thomas Walter            Andreas Weber            Olaf Weber
-Thomas Weber             Rik Wehbring             Bob Weigel
-Andreas Weingessel       Martin Weiser            Michael Weitzel
-David Wells              Joachim Wiesemann        Fook Fah Yap
-Sean Young               Michele Zaffalon         Johannes Zarl
-Michael Zeising          Federico Zenith          Alex Zvoleff
+Thomas Treichl           Abhinav Tripathi         Karsten Trulsen
+David Turner             Frederick Umminger       Utkarsh Upadhyay
+José Vallet              Stefan van der Walt      Peter Van Wieren
+James R. Van Zandt       Risto Vanhanen           Gregory Vanuxem
+Mihas Varantsou          Ivana Varekova           Sébastien Villemot
+Marco Vitetta            Daniel Wagenaar          Thomas Walter
+Andreas Weber            Olaf Weber               Thomas Weber
+Rik Wehbring             Bob Weigel               Andreas Weingessel
+Martin Weiser            Michael Weitzel          David Wells
+Joachim Wiesemann        Alexander Wilms          Joe Winegarden
+Georg Wiora              Sahil Yadav              Fook Fah Yap
+Sean Young               Michele Zaffalon         Serhiy Zahoriya
+Johannes Zarl            Michael Zeising          Federico Zenith
+Claudius Zingerli        Alex Zvoleff             Richard Zweig
 
    Special thanks to the following people and organizations for
 supporting the development of Octave:
@@ -1017,7 +1034,7 @@ supporting the development of Octave:
      CTS-9708497, CTS-9311420, CTS-8957123, and CNS-0540147.
 
    • The industrial members of the Texas-Wisconsin Modeling and Control
-     Consortium (TWMCC (http://www.che.utexas.edu/twmcc)).
+     Consortium (TWMCC).
 
    • The Paul A. Elfers Endowed Chair in Chemical Engineering at the
      University of Wisconsin-Madison.
@@ -1094,7 +1111,7 @@ There are a number of ways that you can contribute to help make Octave a
 better system.  Perhaps the most important way to contribute is to write
 high-quality code for solving new problems, and to make your code freely
 available for others to use.  See
-<http://www.octave.org/get-involved.html> for detailed information.
+<https://www.octave.org/get-involved.html> for detailed information.
 
    If you find Octave useful, consider providing additional funding to
 continue its development.  Even a modest amount of additional funding
@@ -1137,7 +1154,7 @@ General Public License that comes with Octave and that also appears in
 *note Copying::.
 
    To download a copy of Octave, please visit
-<http://www.octave.org/download.html>.
+<https://www.octave.org/download.html>.
 
 
 File: octave.info,  Node: Introduction,  Next: Getting Started,  Prev: Preface,  Up: Top
@@ -1166,7 +1183,7 @@ manual, *note Copying::.
 run, use, and extend GNU Octave.  Additional chapters describe how to
 report bugs and help contribute code.
 
-   This document corresponds to Octave version 4.2.2.
+   This document corresponds to Octave version 4.3.91.
 
 * Menu:
 
@@ -1417,10 +1434,6 @@ help.  For example,
 
 will display the help text for the ‘plot’ function.
 
-   Octave sends output that is too long to fit on one screen through a
-pager like ‘less’ or ‘more’.  Type a <RET> to advance one line, a <SPC>
-to advance one page, and <q> to quit the pager.
-
    The part of Octave’s help facility that allows you to read the
 complete text of the printed manual from within Octave normally uses a
 separate program called Info.  When you invoke Info you will be put into
@@ -1624,6 +1637,7 @@ Octave’s ‘diary’ command:
  -- : diary on
  -- : diary off
  -- : diary FILENAME
+ -- : [STATUS, DIARYFILE] = diary
      Record a list of all commands _and_ the output they produce, mixed
      together just as they appear on the terminal.
 
@@ -1639,7 +1653,13 @@ Octave’s ‘diary’ command:
      FILENAME
           Record the session in the file named FILENAME.
 
-     With no arguments, ‘diary’ toggles the current diary state.
+     With no input or output arguments, ‘diary’ toggles the current
+     diary state.
+
+     If output arguments are requested, ‘diary’ ignores inputs and
+     returns the current status.  The boolean STATUS indicates whether
+     recording is on or off, and DIARYFILE is the name of the file where
+     the session is stored.
 
      See also: history, evalc.
 
@@ -1734,12 +1754,11 @@ Here is a complete list of the command line options that Octave accepts.
      in the system or user startup files that set the built-in variable
      ‘EXEC_PATH’.
 
-‘--force-gui’
-     Force the graphical user interface (GUI) to start.
+‘--gui’
+     Start the graphical user interface (GUI).
 
 ‘--help’
 ‘-h’
-‘-?’
      Print short help message and exit.
 
 ‘--image-path PATH’
@@ -1776,7 +1795,8 @@ Here is a complete list of the command line options that Octave accepts.
 
 ‘--no-gui’
      Disable the graphical user interface (GUI) and use the command line
-     interface (CLI) instead.
+     interface (CLI) instead.  This is the default behavior, but this
+     option may be useful to override a previous ‘--gui’.
 
 ‘--no-history’
 ‘-H’
@@ -1842,7 +1862,6 @@ Here is a complete list of the command line options that Octave accepts.
           disable_range                   = true
           fixed_point_format              = true
           history_timestamp_format_string = "%%-- %D %I:%M %p --%%"
-          page_screen_output              = false
           print_empty_dimensions          = false
           save_default_options            = "-mat-binary"
           struct_levels_to_print          = 0
@@ -1850,9 +1869,8 @@ Here is a complete list of the command line options that Octave accepts.
      and disable the following warnings
 
           Octave:abbreviated-property-match
-          Octave:fopen-file-in-path
+          Octave:data-file-in-path
           Octave:function-name-clash
-          Octave:load-file-in-path
           Octave:possible-matlab-short-circuit-operator
 
      Note that this does not enable the ‘Octave:language-extension’
@@ -3006,8 +3024,7 @@ decoded as follows:
      calls.  The original variable value is restored when exiting the
      function.
 
-     See also: *note echo: XREFecho, *note echo_executing_commands:
-     XREFecho_executing_commands, *note PS1: XREFPS1, *note PS2:
+     See also: *note echo: XREFecho, *note PS1: XREFPS1, *note PS2:
      XREFPS2.
 
 
@@ -3024,6 +3041,7 @@ Octave produces in a separate file.
  -- : diary on
  -- : diary off
  -- : diary FILENAME
+ -- : [STATUS, DIARYFILE] = diary
      Record a list of all commands _and_ the output they produce, mixed
      together just as they appear on the terminal.
 
@@ -3039,7 +3057,13 @@ Octave produces in a separate file.
      FILENAME
           Record the session in the file named FILENAME.
 
-     With no arguments, ‘diary’ toggles the current diary state.
+     With no input or output arguments, ‘diary’ toggles the current
+     diary state.
+
+     If output arguments are requested, ‘diary’ ignores inputs and
+     returns the current status.  The boolean STATUS indicates whether
+     recording is on or off, and DIARYFILE is the name of the file where
+     the session is stored.
 
      See also: *note history: XREFhistory, *note evalc: XREFevalc.
 
@@ -3052,6 +3076,8 @@ some kinds of problems.
  -- : echo off
  -- : echo on all
  -- : echo off all
+ -- : echo FUNCTION on
+ -- : echo FUNCTION off
      Control whether commands are displayed as they are executed.
 
      Valid options are:
@@ -3072,39 +3098,17 @@ some kinds of problems.
           Disable echoing of commands as they are executed in script
           files and functions.
 
+     ‘FUNCTION on’
+          Enable echoing of commands as they are executed in the named
+          function.
+
+     ‘FUNCTION off’
+          Disable echoing of commands as they are executed in the named
+          function.
+
      With no arguments, ‘echo’ toggles the current echo state.
 
-     See also: *note echo_executing_commands:
-     XREFecho_executing_commands.
-
- -- : VAL = echo_executing_commands ()
- -- : OLD_VAL = echo_executing_commands (NEW_VAL)
- -- : echo_executing_commands (NEW_VAL, "local")
-     Query or set the internal variable that controls the echo state.
-
-     It may be the sum of the following values:
-
-     1
-          Echo commands read from script files.
-
-     2
-          Echo commands from functions.
-
-     4
-          Echo commands read from command line.
-
-     More than one state can be active at once.  For example, a value of
-     3 is equivalent to the command ‘echo on all’.
-
-     The value of ‘echo_executing_commands’ may be set by the ‘echo’
-     command or the command line option ‘--echo-commands’.
-
-     When called from inside a function with the "local" option, the
-     variable is changed locally for the function and any subroutines it
-     calls.  The original variable value is restored when exiting the
-     function.
-
-     See also: *note echo: XREFecho.
+     See also: *note PS4: XREFPS4.
 
 
 File: octave.info,  Node: Errors,  Next: Executable Octave Programs,  Prev: Command Line Editing,  Up: Getting Started
@@ -3863,16 +3867,35 @@ functions return −1 for structure arguments.
      Return true if X is a special null matrix, string, or single quoted
      string.
 
-     Indexed assignment with such a value on the right-hand side should
-     delete array elements.  This function should be used when
-     overloading indexed assignment for user-defined classes instead of
-     ‘isempty’, to distinguish the cases:
+     Indexed assignment with such a null value on the right-hand side
+     should delete array elements.  This function is used in place of
+     ‘isempty’ when overloading the indexed assignment method
+     (‘subsasgn’) for user-defined classes.  ‘isnull’ is used to
+     distinguish between these two cases:
 
      ‘A(I) = []’
-          This should delete elements if ‘I’ is nonempty.
+
+     and
 
      ‘X = []; A(I) = X’
-          This should give an error if ‘I’ is nonempty.
+
+     In the first assignment, the right-hand side is ‘[]’ which is a
+     special null value.  As long as the index I is not empty, this code
+     should delete elements from A rather than perform assignment.
+
+     In the second assignment, the right-hand side is empty (because X
+     is ‘[]’), but it is *not* null.  This code should assign the empty
+     value to elements in A.
+
+     An example from Octave’s built-in char class demonstrates the
+     interpreter behavior when ‘isnull’ is used correctly.
+
+          str = "Hello World";
+          nm = "Wally";
+          str(7:end) = nm                # indexed assignment
+            ⇒ str = Hello Wally
+          str(7:end) = ""                # indexed deletion
+            ⇒ str = Hello
 
      See also: *note isempty: XREFisempty, *note isindex: XREFisindex.
 
@@ -4120,20 +4143,9 @@ screen, Octave splits the matrix and displays a header before each
 section to indicate which columns are being displayed.  You can use the
 following variables to control the format of the output.
 
- -- : VAL = output_max_field_width ()
- -- : OLD_VAL = output_max_field_width (NEW_VAL)
- -- : output_max_field_width (NEW_VAL, "local")
-     Query or set the internal variable that specifies the maximum width
-     of a numeric output field.
-
-     When called from inside a function with the "local" option, the
-     variable is changed locally for the function and any subroutines it
-     calls.  The original variable value is restored when exiting the
-     function.
-
-     See also: *note format: XREFformat, *note fixed_point_format:
-     XREFfixed_point_format, *note output_precision:
-     XREFoutput_precision.
+ -- : output_max_field_width
+     This function is obsolete and will be removed from a future version
+     of Octave.
 
  -- : VAL = output_precision ()
  -- : OLD_VAL = output_precision (NEW_VAL)
@@ -4141,14 +4153,17 @@ following variables to control the format of the output.
      Query or set the internal variable that specifies the minimum
      number of significant figures to display for numeric output.
 
+     Note that regardless of the value set for ‘output_precision’, the
+     number of digits of precision displayed is limited to 16 for double
+     precision values and 7 for single precision values.
+
      When called from inside a function with the "local" option, the
      variable is changed locally for the function and any subroutines it
      calls.  The original variable value is restored when exiting the
      function.
 
      See also: *note format: XREFformat, *note fixed_point_format:
-     XREFfixed_point_format, *note output_max_field_width:
-     XREFoutput_max_field_width.
+     XREFfixed_point_format.
 
    It is possible to achieve a wide range of output styles by using
 different values of ‘output_precision’ and ‘output_max_field_width’.
@@ -4225,8 +4240,7 @@ that can easily be misinterpreted.
      calls.  The original variable value is restored when exiting the
      function.
 
-     See also: *note format: XREFformat, *note output_max_field_width:
-     XREFoutput_max_field_width, *note output_precision:
+     See also: *note format: XREFformat, *note output_precision:
      XREFoutput_precision.
 
 * Menu:
@@ -4458,8 +4472,8 @@ when converted.
      Octave are double precision floating point values.
 
      See also: *note isfloat: XREFisfloat, *note ischar: XREFischar,
-     *note islogical: XREFislogical, *note isnumeric: XREFisnumeric,
-     *note isa: XREFisa.
+     *note islogical: XREFislogical, *note isstring: XREFisstring, *note
+     isnumeric: XREFisnumeric, *note isa: XREFisa.
 
  -- : int8 (X)
      Convert X to 8-bit integer type.
@@ -4989,17 +5003,17 @@ variable.
 
      See also: *note isinteger: XREFisinteger, *note isfloat:
      XREFisfloat, *note isreal: XREFisreal, *note iscomplex:
-     XREFiscomplex, *note islogical: XREFislogical, *note ischar:
-     XREFischar, *note iscell: XREFiscell, *note isstruct: XREFisstruct,
-     *note isa: XREFisa.
+     XREFiscomplex, *note ischar: XREFischar, *note islogical:
+     XREFislogical, *note isstring: XREFisstring, *note iscell:
+     XREFiscell, *note isstruct: XREFisstruct, *note isa: XREFisa.
 
  -- : islogical (X)
  -- : isbool (X)
      Return true if X is a logical object.
 
-     See also: *note isfloat: XREFisfloat, *note isinteger:
-     XREFisinteger, *note ischar: XREFischar, *note isnumeric:
-     XREFisnumeric, *note isa: XREFisa.
+     See also: *note ischar: XREFischar, *note isfloat: XREFisfloat,
+     *note isinteger: XREFisinteger, *note isstring: XREFisstring, *note
+     isnumeric: XREFisnumeric, *note isa: XREFisa.
 
  -- : isfloat (X)
      Return true if X is a floating-point numeric object.
@@ -5008,7 +5022,7 @@ variable.
 
      See also: *note isinteger: XREFisinteger, *note ischar: XREFischar,
      *note islogical: XREFislogical, *note isnumeric: XREFisnumeric,
-     *note isa: XREFisa.
+     *note isstring: XREFisstring, *note isa: XREFisa.
 
  -- : isreal (X)
      Return true if X is a non-complex matrix or scalar.
@@ -5023,8 +5037,9 @@ variable.
      Return true if X is a complex-valued numeric object.
 
      See also: *note isreal: XREFisreal, *note isnumeric: XREFisnumeric,
-     *note islogical: XREFislogical, *note ischar: XREFischar, *note
-     isfloat: XREFisfloat, *note isa: XREFisa.
+     *note ischar: XREFischar, *note isfloat: XREFisfloat, *note
+     islogical: XREFislogical, *note isstring: XREFisstring, *note isa:
+     XREFisa.
 
  -- : ismatrix (A)
      Return true if A is a 2-D array.
@@ -5097,7 +5112,7 @@ variable.
  -- : isdefinite (A)
  -- : isdefinite (A, TOL)
      Return 1 if A is symmetric positive definite within the tolerance
-     specified by TOL or 0 if A is symmetric positive semidefinite.
+     specified by TOL or 0 if A is symmetric positive semi-definite.
      Otherwise, return -1.
 
      If TOL is omitted, use a tolerance of ‘100 * eps * norm (A, "fro")’
@@ -5155,7 +5170,7 @@ variable.
 
      If ‘class (X)’ is complex, then primality is tested in the domain
      of Gaussian integers
-     (<http://en.wikipedia.org/wiki/Gaussian_integer>).  Some
+     (<https://en.wikipedia.org/wiki/Gaussian_integer>).  Some
      non-complex integers are prime in the ordinary sense, but not in
      the domain of Gaussian integers.  For example, 5 = (1+2i)*(1-2i)
      shows that 5 is not prime because it has a factor other than itself
@@ -5235,9 +5250,9 @@ embeds a newline character in a double-quoted string and ‘\"’ embeds a
 double quote character.  In single-quoted strings, backslash is not a
 special character.  Here is an example showing the difference:
 
-     toascii ("\n")
+     double ("\n")
          ⇒ 10
-     toascii ('\n')
+     double ('\n')
          ⇒ [ 92 110 ]
 
    Here is a table of all the escape sequences used in Octave (within
@@ -5341,19 +5356,39 @@ matrix.
 
      See also: *note isfloat: XREFisfloat, *note isinteger:
      XREFisinteger, *note islogical: XREFislogical, *note isnumeric:
-     XREFisnumeric, *note iscellstr: XREFiscellstr, *note isa: XREFisa.
+     XREFisnumeric, *note isstring: XREFisstring, *note iscellstr:
+     XREFiscellstr, *note isa: XREFisa.
 
-   To test if an object is a string (i.e., a character vector and not a
-character matrix) you can use the ‘ischar’ function in combination with
-the ‘isvector’ function as in the following example:
+ -- : isstring (S)
+     Return true if S is a string array.
+
+     A string array is a data type that stores strings (row vectors of
+     characters) at each element in the array.  It is distinct from
+     character arrays which are N-dimensional arrays where each element
+     is a single 1x1 character.  It is also distinct from cell arrays of
+     strings which store strings at each element, but use cell indexing
+     ‘{}’ to access elements rather than string arrays which use
+     ordinary array indexing ‘()’.
+
+     Programming Note: Octave does not yet implement string arrays so
+     this function will always return false.
+
+     See also: *note ischar: XREFischar, *note iscellstr: XREFiscellstr,
+     *note isfloat: XREFisfloat, *note isinteger: XREFisinteger, *note
+     islogical: XREFislogical, *note isnumeric: XREFisnumeric, *note
+     isa: XREFisa.
+
+   To test if an object is a string (i.e., a 1xN row vector of
+characters and not a character matrix) you can use the ‘ischar’ function
+in combination with the ‘isrow’ function as in the following example:
 
      ischar (collection)
           ⇒ 1
 
-     ischar (collection) && isvector (collection)
+     ischar (collection) && isrow (collection)
           ⇒ 0
 
-     ischar ("my string") && isvector ("my string")
+     ischar ("my string") && isrow ("my string")
           ⇒ 1
 
    One relevant question is, what happens when a character matrix is
@@ -6385,7 +6420,7 @@ general regular expressions, the following functions come with Octave.
      depends on the last character of STR:
 
      last character = "\n"
-          Data columns are padded with empty fields or Nan so that all
+          Data columns are padded with empty fields or NaN so that all
           columns have equal length
 
      last character is not "\n"
@@ -6416,6 +6451,40 @@ general regular expressions, the following functions come with Octave.
 
      See also: *note regexprep: XREFregexprep, *note strfind:
      XREFstrfind, *note findstr: XREFfindstr.
+
+ -- : NEWSTR = erase (STR, PTN)
+     Delete all occurrences of PTN within STR.
+
+     STR and PTN can be ordinary strings, cell array of strings, or
+     character arrays.
+
+     Examples
+
+          ## string, single pattern
+          erase ("Hello World!", " World")
+              ⇒ "Hello!"
+
+          ## cellstr, single pattern
+          erase ({"Hello", "World!"}, "World")
+              ⇒ {"Hello", "!"}
+
+          ## string, multiple patterns
+          erase ("The Octave interpreter is fabulous", {"interpreter ", "The "})
+              ⇒ "Octave is fabulous"
+
+          ## cellstr, multiple patterns
+          erase ({"The ", "Octave interpreter ", "is fabulous"}, {"interpreter ", "The "})
+              ⇒ {"", "Octave ", "is fabulous"}
+
+     Programming Note: ‘erase’ deletes the first instance of a pattern
+     in a string when there are overlapping occurrences.  For example:
+
+          erase ("abababa", "aba")
+              ⇒ "b"
+
+     See ‘strrep’ for processing overlaps.
+
+     See also: *note strrep: XREFstrrep, *note regexprep: XREFregexprep.
 
  -- : substr (S, OFFSET)
  -- : substr (S, OFFSET, LEN)
@@ -6889,9 +6958,8 @@ hexadecimal number to a floating point number.
      *note hex2dec: XREFhex2dec.
 
  -- : S = num2hex (N)
-     Typecast a double or single precision number or vector to a 8 or 16
-     character hexadecimal string of the IEEE 754 representation of the
-     number.
+ -- : S = num2hex (N, "cell")
+     Convert a numeric array to an array of hexadecimal strings.
 
      For example:
 
@@ -6910,16 +6978,20 @@ hexadecimal number to a floating point number.
               402df854
               7f800000"
 
+     With the optional second argument "cell, return a cell array of
+     strings instead of a character array.
+
      See also: *note hex2num: XREFhex2num, *note hex2dec: XREFhex2dec,
      *note dec2hex: XREFdec2hex.
 
  -- : N = hex2num (S)
  -- : N = hex2num (S, CLASS)
-     Typecast the 16 character hexadecimal character string to an IEEE
-     754 double precision number.
+     Typecast a hexadecimal character array or cell array of strings to
+     an array of numbers.
 
-     If fewer than 16 characters are given the strings are right padded
-     with ’0’ characters.
+     By default, the input array is interpreted as a hexadecimal number
+     representing a double precision value.  If fewer than 16 characters
+     are given the strings are right padded with ’0’ characters.
 
      Given a string matrix, ‘hex2num’ treats each row as a separate
      number.
@@ -6927,10 +6999,25 @@ hexadecimal number to a floating point number.
           hex2num (["4005bf0a8b145769"; "4024000000000000"])
              ⇒ [2.7183; 10.000]
 
-     The optional argument CLASS can be passed as the string "single" to
-     specify that the given string should be interpreted as a single
-     precision number.  In this case, S should be an 8 character
-     hexadecimal string.  For example:
+     The optional second argument CLASS may be used to cause the input
+     array to be interpreted as a different value type.  Possible values
+     are
+
+     Option   Characters
+     ----------------------
+     "int8"   2
+     "uint8"  2
+     "int16"  4
+     "uint16" 4
+     "int32"  8
+     "uint32" 8
+     "int64"  16
+     "uint64" 16
+     "char"   2
+     "single" 8
+     "double" 16
+
+     For example:
 
           hex2num (["402df854"; "41200000"], "single")
              ⇒ [2.7183; 10.000]
@@ -7029,17 +7116,6 @@ hexadecimal number to a floating point number.
 
      See also: *note str2double: XREFstr2double, *note eval: XREFeval.
 
- -- : toascii (S)
-     Return ASCII representation of S in a matrix.
-
-     For example:
-
-          toascii ("ASCII")
-               ⇒ [ 65, 83, 67, 73, 73 ]
-
-
-     See also: *note char: XREFchar.
-
  -- : tolower (S)
  -- : lower (S)
      Return a copy of the string or cell string S, with each uppercase
@@ -7065,6 +7141,42 @@ hexadecimal number to a floating point number.
                 ⇒ "MIXED CASE 123"
 
      See also: *note tolower: XREFtolower.
+
+ -- : NATIVE_BYTES = unicode2native (UTF8_STR, CODEPAGE)
+ -- : NATIVE_BYTES = unicode2native (UTF8_STR)
+     Convert UTF-8 string UTF8_STR to byte stream using CODEPAGE.
+
+     The character vector UTF8_STR is converted to a byte stream
+     NATIVE_BYTES using the code page given by CODEPAGE.  The string
+     CODEPAGE must be an identifier of a valid code page.  Examples for
+     valid code pages are "ISO-8859-1", "Shift-JIS", or "UTF-16".  For a
+     list of supported code pages, see
+     <https://www.gnu.org/software/libiconv>.  If CODEPAGE is omitted or
+     empty, the system default codepage is used.
+
+     If any of the characters cannot be mapped into the codepage
+     CODEPAGE, they are replaced with the appropriate substitution
+     sequence for that codepage.
+
+     See also: *note native2unicode: XREFnative2unicode.
+
+ -- : UTF8_STR = native2unicode (NATIVE_BYTES, CODEPAGE)
+ -- : UTF8_STR = native2unicode (NATIVE_BYTES)
+     Convert byte stream NATIVE_BYTES to UTF-8 using CODEPAGE.
+
+     The numbers in the vector NATIVE_BYTES are rounded and clipped to
+     integers between 0 and 255.  This byte stream is then mapped into
+     the code page given by the string CODEPAGE and returned in the
+     string UTF8_STR.  Octave uses UTF-8 as its internal encoding.  The
+     string CODEPAGE must be an identifier of a valid code page.
+     Examples for valid code pages are "ISO-8859-1", "Shift-JIS", or
+     "UTF-16".  For a list of supported code pages, see
+     <https://www.gnu.org/software/libiconv>.  If CODEPAGE is omitted or
+     empty, the system default codepage is used.
+
+     If NATIVE_BYTES is a string vector, it is returned as is.
+
+     See also: *note unicode2native: XREFunicode2native.
 
  -- : do_string_escapes (STRING)
      Convert escape sequences in STRING to the characters they
@@ -7282,21 +7394,23 @@ File: octave.info,  Node: Data Containers,  Next: Variables,  Prev: Strings,  Up
 6 Data Containers
 *****************
 
-Octave includes support for two different mechanisms to contain
-arbitrary data types in the same variable.  Structures, which are
-C-like, and are indexed with named fields, and cell arrays, where each
-element of the array can have a different data type and or shape.
-Multiple input arguments and return values of functions are organized as
-another data container, the comma separated list.
+Octave includes support for three different mechanisms to contain
+arbitrary data types in the same variable: Structures, which are C-like,
+and are indexed with named fields; containers.Map objects, which store
+data in key/value pairs; and cell arrays, where each element of the
+array can have a different data type and or shape.  Multiple input
+arguments and return values of functions are organized as another data
+container, the comma separated list.
 
 * Menu:
 
 * Structures::
+* containers.Map::
 * Cell Arrays::
 * Comma Separated Lists::
 
 
-File: octave.info,  Node: Structures,  Next: Cell Arrays,  Up: Data Containers
+File: octave.info,  Node: Structures,  Next: containers.Map,  Up: Data Containers
 
 6.1 Structures
 ==============
@@ -8050,9 +8164,53 @@ might be converted to another type of container before being treated.
      XREFfieldnames.
 
 
-File: octave.info,  Node: Cell Arrays,  Next: Comma Separated Lists,  Prev: Structures,  Up: Data Containers
+File: octave.info,  Node: containers.Map,  Next: Cell Arrays,  Prev: Structures,  Up: Data Containers
 
-6.2 Cell Arrays
+6.2 containers.Map
+==================
+
+ -- : M = containers.Map ()
+ -- : M = containers.Map (KEYS, VALS)
+ -- : M = containers.Map (KEYS, VALS, "UniformValues", IS_UNIFORM)
+ -- : M = containers.Map ("KeyType", KT, "ValueType", VT)
+
+     Create an object of the containers.Map class that stores a list of
+     key/value pairs.
+
+     KEYS is an array of _unique_ keys for the map.  The keys can be
+     numeric scalars or strings.  The type for numeric keys may be one
+     of "double", "single", "int32", "uint32", "int64", or "uint64".
+     Other numeric or logical keys will be converted to "double".  A
+     single string key may be entered as is.  Multiple string keys are
+     entered as a cell array of strings.
+
+     VALS is an array of values for the map with the _same_ number of
+     elements as KEYS.
+
+     When called with no input arguments a default map is created with
+     strings as the key type and "any" as the value type.
+
+     The "UniformValues" option specifies whether the values of the map
+     must be strictly of the same type.  If IS_UNIFORM is true, any
+     values which would be added to the map are first validated to
+     ensure they are of the correct type.
+
+     When called with "KeyType" and "ValueType" arguments, create an
+     empty map with the specified types.  The inputs KT and VT are the
+     types for the keys and values of the map respectively.  Allowed
+     values for KT are "char", "double", "single", "int32", "uint32",
+     "int64", "uint64".  Allowed values for VT are "any", "char",
+     "double", "single", "int32", "uint32", "int64", "uint64",
+     "logical".
+
+     The return value M is an object of the containers.Map class.
+
+     See also: *note struct: XREFstruct.
+
+
+File: octave.info,  Node: Cell Arrays,  Next: Comma Separated Lists,  Prev: containers.Map,  Up: Data Containers
+
+6.3 Cell Arrays
 ===============
 
 It can be both necessary and convenient to store several variables of
@@ -8072,7 +8230,7 @@ allocation and indexing operators.
 
 File: octave.info,  Node: Basic Usage of Cell Arrays,  Next: Creating Cell Arrays,  Up: Cell Arrays
 
-6.2.1 Basic Usage of Cell Arrays
+6.3.1 Basic Usage of Cell Arrays
 --------------------------------
 
 As an example, the following code creates a cell array containing a
@@ -8163,7 +8321,7 @@ example:
 
 File: octave.info,  Node: Creating Cell Arrays,  Next: Indexing Cell Arrays,  Prev: Basic Usage of Cell Arrays,  Up: Cell Arrays
 
-6.2.2 Creating Cell Arrays
+6.3.2 Creating Cell Arrays
 --------------------------
 
 The introductory example (*note Basic Usage of Cell Arrays::) showed how
@@ -8312,7 +8470,7 @@ the ‘num2cell’, ‘mat2cell’ and ‘cellslices’ functions.
 
 File: octave.info,  Node: Indexing Cell Arrays,  Next: Cell Arrays of Strings,  Prev: Creating Cell Arrays,  Up: Cell Arrays
 
-6.2.3 Indexing Cell Arrays
+6.3.3 Indexing Cell Arrays
 --------------------------
 
 As shown in *note Basic Usage of Cell Arrays:: elements can be extracted
@@ -8442,7 +8600,7 @@ the requested values.
 
 File: octave.info,  Node: Cell Arrays of Strings,  Next: Processing Data in Cell Arrays,  Prev: Indexing Cell Arrays,  Up: Cell Arrays
 
-6.2.4 Cell Arrays of Strings
+6.3.4 Cell Arrays of Strings
 ----------------------------
 
 One common use of cell arrays is to store multiple strings in the same
@@ -8502,12 +8660,12 @@ array of strings.
      Return true if every element of the cell array CELL is a character
      string.
 
-     See also: *note ischar: XREFischar.
+     See also: *note ischar: XREFischar, *note isstring: XREFisstring.
 
 
 File: octave.info,  Node: Processing Data in Cell Arrays,  Prev: Cell Arrays of Strings,  Up: Cell Arrays
 
-6.2.5 Processing Data in Cell Arrays
+6.3.5 Processing Data in Cell Arrays
 ------------------------------------
 
 Data that is stored in a cell array can be processed in several ways
@@ -8557,7 +8715,7 @@ using the ‘cell2mat’ and ‘cell2struct’ functions.
 
 File: octave.info,  Node: Comma Separated Lists,  Prev: Cell Arrays,  Up: Data Containers
 
-6.3 Comma Separated Lists
+6.4 Comma Separated Lists
 =========================
 
 Comma separated lists (1) are the basic argument type to all Octave
@@ -8605,7 +8763,7 @@ as “cs-lists”.
 
 File: octave.info,  Node: Comma Separated Lists Generated from Cell Arrays,  Next: Comma Separated Lists Generated from Structure Arrays,  Up: Comma Separated Lists
 
-6.3.1 Comma Separated Lists Generated from Cell Arrays
+6.4.1 Comma Separated Lists Generated from Cell Arrays
 ------------------------------------------------------
 
 As has been mentioned above (*note Indexing Cell Arrays::), elements of
@@ -8672,7 +8830,7 @@ list generated with ‘{}’ can be assigned to.  An example is
 
 File: octave.info,  Node: Comma Separated Lists Generated from Structure Arrays,  Prev: Comma Separated Lists Generated from Cell Arrays,  Up: Comma Separated Lists
 
-6.3.2 Comma Separated Lists Generated from Structure Arrays
+6.4.2 Comma Separated Lists Generated from Structure Arrays
 -----------------------------------------------------------
 
 Structure arrays can equally be used to create comma separated lists.
@@ -8770,7 +8928,7 @@ used before they have been given a value.  Doing so results in an error.
 
      Note that the result is a char array or cell array of strings, not
      the variables themselves.  To define a variable, ‘eval()’ can be
-     used.  The following trivial example sets ‘x’ to ‘42’.
+     used.  The following trivial example sets ‘x’ to 42.
 
           name = genvarname ("x");
           eval ([name " = 42"]);
@@ -8822,184 +8980,4 @@ used before they have been given a value.  Doing so results in an error.
 * Global Variables::
 * Persistent Variables::
 * Status of Variables::
-
-
-File: octave.info,  Node: Global Variables,  Next: Persistent Variables,  Up: Variables
-
-7.1 Global Variables
-====================
-
-A variable that has been declared “global” may be accessed from within a
-function body without having to pass it as a formal parameter.
-
-   A variable may be declared global using a ‘global’ declaration
-statement.  The following statements are all global declarations.
-
-     global a
-     global a b
-     global c = 2
-     global d = 3 e f = 5
-
-   A global variable may only be initialized once in a ‘global’
-statement.  For example, after executing the following code
-
-     global gvar = 1
-     global gvar = 2
-
-the value of the global variable ‘gvar’ is 1, not 2.  Issuing a ‘clear
-gvar’ command does not change the above behavior, but ‘clear all’ does.
-
-   It is necessary declare a variable as global within a function body
-in order to access it.  For example,
-
-     global x
-     function f ()
-       x = 1;
-     endfunction
-     f ()
-
-does _not_ set the value of the global variable ‘x’ to 1.  In order to
-change the value of the global variable ‘x’, you must also declare it to
-be global within the function body, like this
-
-     function f ()
-       global x;
-       x = 1;
-     endfunction
-
-   Passing a global variable in a function parameter list will make a
-local copy and not modify the global value.  For example, given the
-function
-
-     function f (x)
-       x = 0
-     endfunction
-
-and the definition of ‘x’ as a global variable at the top level,
-
-     global x = 13
-
-the expression
-
-     f (x)
-
-will display the value of ‘x’ from inside the function as 0, but the
-value of ‘x’ at the top level remains unchanged, because the function
-works with a _copy_ of its argument.
-
- -- : isglobal (NAME)
-     Return true if NAME is a globally visible variable.
-
-     For example:
-
-          global x
-          isglobal ("x")
-             ⇒ 1
-
-     See also: *note isvarname: XREFisvarname, *note exist: XREFexist.
-
-
-File: octave.info,  Node: Persistent Variables,  Next: Status of Variables,  Prev: Global Variables,  Up: Variables
-
-7.2 Persistent Variables
-========================
-
-A variable that has been declared “persistent” within a function will
-retain its contents in memory between subsequent calls to the same
-function.  The difference between persistent variables and global
-variables is that persistent variables are local in scope to a
-particular function and are not visible elsewhere.
-
-   The following example uses a persistent variable to create a function
-that prints the number of times it has been called.
-
-     function count_calls ()
-       persistent calls = 0;
-       printf ("'count_calls' has been called %d times\n",
-               ++calls);
-     endfunction
-
-     for i = 1:3
-       count_calls ();
-     endfor
-
-     ⊣ 'count_calls' has been called 1 times
-     ⊣ 'count_calls' has been called 2 times
-     ⊣ 'count_calls' has been called 3 times
-
-   As the example shows, a variable may be declared persistent using a
-‘persistent’ declaration statement.  The following statements are all
-persistent declarations.
-
-     persistent a
-     persistent a b
-     persistent c = 2
-     persistent d = 3 e f = 5
-
-   The behavior of persistent variables is equivalent to the behavior of
-static variables in C.
-
-   Like global variables, a persistent variable may only be initialized
-once.  For example, after executing the following code
-
-     persistent pvar = 1
-     persistent pvar = 2
-
-the value of the persistent variable ‘pvar’ is 1, not 2.
-
-   If a persistent variable is declared but not initialized to a
-specific value, it will contain an empty matrix.  So, it is also
-possible to initialize a persistent variable by checking whether it is
-empty, as the following example illustrates.
-
-     function count_calls ()
-       persistent calls;
-       if (isempty (calls))
-         calls = 0;
-       endif
-       printf ("'count_calls' has been called %d times\n",
-               ++calls);
-     endfunction
-
-This implementation behaves in exactly the same way as the previous
-implementation of ‘count_calls’.
-
-   The value of a persistent variable is kept in memory until it is
-explicitly cleared.  Assuming that the implementation of ‘count_calls’
-is saved on disk, we get the following behavior.
-
-     for i = 1:2
-       count_calls ();
-     endfor
-     ⊣ 'count_calls' has been called 1 times
-     ⊣ 'count_calls' has been called 2 times
-
-     clear
-     for i = 1:2
-       count_calls ();
-     endfor
-     ⊣ 'count_calls' has been called 3 times
-     ⊣ 'count_calls' has been called 4 times
-
-     clear all
-     for i = 1:2
-       count_calls ();
-     endfor
-     ⊣ 'count_calls' has been called 1 times
-     ⊣ 'count_calls' has been called 2 times
-
-     clear count_calls
-     for i = 1:2
-       count_calls ();
-     endfor
-     ⊣ 'count_calls' has been called 1 times
-     ⊣ 'count_calls' has been called 2 times
-
-That is, the persistent variable is only removed from memory when the
-function containing the variable is removed.  Note that if the function
-definition is typed directly into the Octave prompt, the persistent
-variable will be cleared by a simple ‘clear’ command as the entire
-function definition will be removed from memory.  If you do not want a
-persistent variable to be removed from memory even if the function is
-cleared, you should use the ‘mlock’ function (*note Function Locking::).
 

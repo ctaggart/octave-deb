@@ -15,7 +15,7 @@
 <link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
 <link href="Expressions.html#Expressions" rel="up" title="Expressions">
 <link href="Comparison-Ops.html#Comparison-Ops" rel="next" title="Comparison Ops">
-<link href="Recursion.html#Recursion" rel="prev" title="Recursion">
+<link href="Access-via-Handle.html#Access-via-Handle" rel="prev" title="Access via Handle">
 <style type="text/css">
 <!--
 a.summary-letter {text-decoration: none}
@@ -235,7 +235,7 @@ useful in this case.
 </p>
 <a name="index-_0027-3"></a>
 <a name="XREFctranspose"></a><dl>
-<dt><a name="index-ctranspose"></a>: <em></em> <strong>ctranspose</strong> <em>(<var>x</var>)</em></dt>
+<dt><a name="index-ctranspose"></a><em></em> <strong>ctranspose</strong> <em>(<var>x</var>)</em></dt>
 <dd><p>Return the complex conjugate transpose of <var>x</var>.
 </p>
 <p>This function and <code><var>x</var>'</code> are equivalent.
@@ -246,7 +246,7 @@ useful in this case.
 
 <a name="index-_002e_005c-1"></a>
 <a name="XREFldivide"></a><dl>
-<dt><a name="index-ldivide"></a>: <em></em> <strong>ldivide</strong> <em>(<var>x</var>, <var>y</var>)</em></dt>
+<dt><a name="index-ldivide"></a><em></em> <strong>ldivide</strong> <em>(<var>x</var>, <var>y</var>)</em></dt>
 <dd><p>Return the element-by-element left division of <var>x</var> and <var>y</var>.
 </p>
 <p>This function and <code><var>x</var>&nbsp;.\&nbsp;<var>y</var></code><!-- /@w --> are
@@ -258,7 +258,7 @@ equivalent.
 
 <a name="index-_002d-2"></a>
 <a name="XREFminus"></a><dl>
-<dt><a name="index-minus"></a>: <em></em> <strong>minus</strong> <em>(<var>x</var>, <var>y</var>)</em></dt>
+<dt><a name="index-minus"></a><em></em> <strong>minus</strong> <em>(<var>x</var>, <var>y</var>)</em></dt>
 <dd><p>This function and <code><var>x</var>&nbsp;<span class="nolinebreak">-</span>&nbsp;<var>y</var></code><!-- /@w --> are equivalent.
 </p>
 <p><strong>See also:</strong> <a href="#XREFplus">plus</a>, <a href="#XREFuminus">uminus</a>.
@@ -267,7 +267,7 @@ equivalent.
 
 <a name="index-_005c-1"></a>
 <a name="XREFmldivide"></a><dl>
-<dt><a name="index-mldivide"></a>: <em></em> <strong>mldivide</strong> <em>(<var>x</var>, <var>y</var>)</em></dt>
+<dt><a name="index-mldivide"></a><em></em> <strong>mldivide</strong> <em>(<var>x</var>, <var>y</var>)</em></dt>
 <dd><p>Return the matrix left division of <var>x</var> and <var>y</var>.
 </p>
 <p>This function and <code><var>x</var>&nbsp;\&nbsp;<var>y</var></code><!-- /@w --> are equivalent.
@@ -279,7 +279,7 @@ equivalent.
 <a name="index-_002a_002a-1"></a>
 <a name="index-_005e-1"></a>
 <a name="XREFmpower"></a><dl>
-<dt><a name="index-mpower"></a>: <em></em> <strong>mpower</strong> <em>(<var>x</var>, <var>y</var>)</em></dt>
+<dt><a name="index-mpower"></a><em></em> <strong>mpower</strong> <em>(<var>x</var>, <var>y</var>)</em></dt>
 <dd><p>Return the matrix power operation of <var>x</var> raised to the <var>y</var> power.
 </p>
 <p>This function and <code><var>x</var>&nbsp;^&nbsp;<var>y</var></code><!-- /@w --> are equivalent.
@@ -290,7 +290,7 @@ equivalent.
 
 <a name="index-_002f-1"></a>
 <a name="XREFmrdivide"></a><dl>
-<dt><a name="index-mrdivide"></a>: <em></em> <strong>mrdivide</strong> <em>(<var>x</var>, <var>y</var>)</em></dt>
+<dt><a name="index-mrdivide"></a><em></em> <strong>mrdivide</strong> <em>(<var>x</var>, <var>y</var>)</em></dt>
 <dd><p>Return the matrix right division of <var>x</var> and <var>y</var>.
 </p>
 <p>This function and <code><var>x</var>&nbsp;/&nbsp;<var>y</var></code><!-- /@w --> are equivalent.
@@ -301,8 +301,8 @@ equivalent.
 
 <a name="index-_002a-1"></a>
 <a name="XREFmtimes"></a><dl>
-<dt><a name="index-mtimes"></a>: <em></em> <strong>mtimes</strong> <em>(<var>x</var>, <var>y</var>)</em></dt>
-<dt><a name="index-mtimes-1"></a>: <em></em> <strong>mtimes</strong> <em>(<var>x1</var>, <var>x2</var>, &hellip;)</em></dt>
+<dt><a name="index-mtimes"></a><em></em> <strong>mtimes</strong> <em>(<var>x</var>, <var>y</var>)</em></dt>
+<dt><a name="index-mtimes-1"></a><em></em> <strong>mtimes</strong> <em>(<var>x1</var>, <var>x2</var>, &hellip;)</em></dt>
 <dd><p>Return the matrix multiplication product of inputs.
 </p>
 <p>This function and <code><var>x</var>&nbsp;*&nbsp;<var>y</var></code><!-- /@w --> are equivalent.
@@ -321,8 +321,8 @@ cumulatively from left to right:
 
 <a name="index-_002b-2"></a>
 <a name="XREFplus"></a><dl>
-<dt><a name="index-plus"></a>: <em></em> <strong>plus</strong> <em>(<var>x</var>, <var>y</var>)</em></dt>
-<dt><a name="index-plus-1"></a>: <em></em> <strong>plus</strong> <em>(<var>x1</var>, <var>x2</var>, &hellip;)</em></dt>
+<dt><a name="index-plus"></a><em></em> <strong>plus</strong> <em>(<var>x</var>, <var>y</var>)</em></dt>
+<dt><a name="index-plus-1"></a><em></em> <strong>plus</strong> <em>(<var>x1</var>, <var>x2</var>, &hellip;)</em></dt>
 <dd><p>This function and <code><var>x</var>&nbsp;+&nbsp;<var>y</var></code><!-- /@w --> are equivalent.
 </p>
 <p>If more arguments are given, the summation is applied
@@ -341,7 +341,7 @@ cumulatively from left to right:
 <a name="index-_002e_002a_002a-1"></a>
 <a name="index-_002e_005e-1"></a>
 <a name="XREFpower"></a><dl>
-<dt><a name="index-power"></a>: <em></em> <strong>power</strong> <em>(<var>x</var>, <var>y</var>)</em></dt>
+<dt><a name="index-power"></a><em></em> <strong>power</strong> <em>(<var>x</var>, <var>y</var>)</em></dt>
 <dd><p>Return the element-by-element operation of <var>x</var> raised to the
 <var>y</var> power.
 </p>
@@ -358,7 +358,7 @@ non-negative argument (angle).  Use <code>realpow</code>, <code>realsqrt</code>,
 
 <a name="index-_002e_002f-1"></a>
 <a name="XREFrdivide"></a><dl>
-<dt><a name="index-rdivide"></a>: <em></em> <strong>rdivide</strong> <em>(<var>x</var>, <var>y</var>)</em></dt>
+<dt><a name="index-rdivide"></a><em></em> <strong>rdivide</strong> <em>(<var>x</var>, <var>y</var>)</em></dt>
 <dd><p>Return the element-by-element right division of <var>x</var> and <var>y</var>.
 </p>
 <p>This function and <code><var>x</var>&nbsp;./&nbsp;<var>y</var></code><!-- /@w --> are equivalent.
@@ -369,8 +369,8 @@ non-negative argument (angle).  Use <code>realpow</code>, <code>realsqrt</code>,
 
 <a name="index-_002e_002a-1"></a>
 <a name="XREFtimes"></a><dl>
-<dt><a name="index-times"></a>: <em></em> <strong>times</strong> <em>(<var>x</var>, <var>y</var>)</em></dt>
-<dt><a name="index-times-1"></a>: <em></em> <strong>times</strong> <em>(<var>x1</var>, <var>x2</var>, &hellip;)</em></dt>
+<dt><a name="index-times"></a><em></em> <strong>times</strong> <em>(<var>x</var>, <var>y</var>)</em></dt>
+<dt><a name="index-times-1"></a><em></em> <strong>times</strong> <em>(<var>x1</var>, <var>x2</var>, &hellip;)</em></dt>
 <dd><p>Return the element-by-element multiplication product of inputs.
 </p>
 <p>This function and <code><var>x</var>&nbsp;.*&nbsp;<var>y</var></code><!-- /@w --> are equivalent.
@@ -389,7 +389,7 @@ cumulatively from left to right:
 
 <a name="index-_002e_0027-1"></a>
 <a name="XREFtranspose"></a><dl>
-<dt><a name="index-transpose-2"></a>: <em></em> <strong>transpose</strong> <em>(<var>x</var>)</em></dt>
+<dt><a name="index-transpose-2"></a><em></em> <strong>transpose</strong> <em>(<var>x</var>)</em></dt>
 <dd><p>Return the transpose of <var>x</var>.
 </p>
 <p>This function and <code><var>x</var>.'</code> are equivalent.
@@ -400,7 +400,7 @@ cumulatively from left to right:
 
 <a name="index-_002d-3"></a>
 <a name="XREFuminus"></a><dl>
-<dt><a name="index-uminus"></a>: <em></em> <strong>uminus</strong> <em>(<var>x</var>)</em></dt>
+<dt><a name="index-uminus"></a><em></em> <strong>uminus</strong> <em>(<var>x</var>)</em></dt>
 <dd><p>This function and <code><span class="nolinebreak">-</span>&nbsp;<var>x</var></code><!-- /@w --> are equivalent.
 </p>
 <p><strong>See also:</strong> <a href="#XREFuplus">uplus</a>, <a href="#XREFminus">minus</a>.
@@ -409,7 +409,7 @@ cumulatively from left to right:
 
 <a name="index-_002b-3"></a>
 <a name="XREFuplus"></a><dl>
-<dt><a name="index-uplus"></a>: <em></em> <strong>uplus</strong> <em>(<var>x</var>)</em></dt>
+<dt><a name="index-uplus"></a><em></em> <strong>uplus</strong> <em>(<var>x</var>)</em></dt>
 <dd><p>This function and <code>+&nbsp;<var>x</var></code><!-- /@w --> are equivalent.
 </p>
 <p><strong>See also:</strong> <a href="#XREFuminus">uminus</a>, <a href="#XREFplus">plus</a>, <a href="#XREFminus">minus</a>.

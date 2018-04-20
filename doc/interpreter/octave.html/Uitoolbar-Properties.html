@@ -57,7 +57,7 @@ Next: <a href="Uipushtool-Properties.html#Uipushtool-Properties" accesskey="n" r
 <hr>
 <a name="Uitoolbar-Properties-1"></a>
 <h4 class="subsubsection">15.3.3.15 Uitoolbar Properties</h4>
-<a name="index-uitoolbar-properties"></a>
+<a name="index--Uitoolbar-PropertiesUitoolbar-Properties"></a>
 
 <p>The <code>uitoolbar</code> properties are:
 </p>
@@ -65,12 +65,6 @@ Next: <a href="Uipushtool-Properties.html#Uipushtool-Properties" accesskey="n" r
 
 <dl compact="compact">
 <dd>
-<a name="XREFuitoolbar_005f_005fmodified_005f_005f"></a><a name="index-uitoolbar-_005f_005fmodified_005f_005f"></a>
-</dd>
-<dt><code>__modified__</code>: <code>&quot;off&quot;</code> | {<code>&quot;on&quot;</code>}</dt>
-<dd>
-
-
 <a name="XREFuitoolbarbeingdeleted"></a><a name="index-uitoolbar-beingdeleted"></a>
 </dd>
 <dt><code>beingdeleted</code>: {<code>&quot;off&quot;</code>} | <code>&quot;on&quot;</code></dt>
@@ -80,8 +74,9 @@ Next: <a href="Uipushtool-Properties.html#Uipushtool-Properties" accesskey="n" r
 <a name="XREFuitoolbarbusyaction"></a><a name="index-uitoolbar-busyaction"></a>
 </dd>
 <dt><code>busyaction</code>: <code>&quot;cancel&quot;</code> | {<code>&quot;queue&quot;</code>}</dt>
-<dd>
-
+<dd><p>Define how Octave handles the execution of this object&rsquo;s callback properties when it is unable to interrupt another object&rsquo;s executing callback.  This is only relevant when the currently executing callback object has its <code>interruptible</code> property set to <code>&quot;off&quot;</code>.  The <code>busyaction</code> property of the interrupting callback object indicates whether the interrupting callback is queued (<code>&quot;queue&quot;</code> (default)) or discarded (<code>&quot;cancel&quot;</code>).
+See <a href="Callbacks.html#Callbacks">Callbacks&nbsp;section<!-- /@w --></a>.
+</p>
 
 <a name="XREFuitoolbarbuttondownfcn"></a><a name="index-uitoolbar-buttondownfcn"></a>
 </dd>
@@ -104,7 +99,7 @@ Next: <a href="Uipushtool-Properties.html#Uipushtool-Properties" accesskey="n" r
 <a name="XREFuitoolbarcreatefcn"></a><a name="index-uitoolbar-createfcn"></a>
 </dd>
 <dt><code>createfcn</code>: string | function handle, def. <code>[](0x0)</code></dt>
-<dd><p>Callback function executed immediately after uitoolbar has been created.  Function is set by using default property on root object, e.g., <code>set (0, &quot;defaultuitoolbarcreatefcn&quot;, 'disp (&quot;uitoolbar created!&quot;)')</code>.
+<dd><p>Callback function executed immediately after uitoolbar has been created.  Function is set by using default property on root object, e.g., <code>set (groot, &quot;defaultuitoolbarcreatefcn&quot;, 'disp (&quot;uitoolbar created!&quot;)')</code>.
 </p>
 <p>For information on how to write graphics listener functions see <a href="Callbacks.html#Callbacks">Callbacks&nbsp;section<!-- /@w --></a>.
 </p>
@@ -126,19 +121,26 @@ Next: <a href="Uipushtool-Properties.html#Uipushtool-Properties" accesskey="n" r
 <a name="XREFuitoolbarhittest"></a><a name="index-uitoolbar-hittest"></a>
 </dd>
 <dt><code>hittest</code>: <code>&quot;off&quot;</code> | {<code>&quot;on&quot;</code>}</dt>
-<dd>
-
+<dd><p>Specify whether uitoolbar processes mouse events or passes them to ancestors of the object.  When enabled, the object may respond to mouse clicks by evaluating the <code>&quot;buttondownfcn&quot;</code>, showing the uicontextmenu, and eventually becoming the root <code>&quot;currentobject&quot;</code>.  This property is only relevant when the object can accept mouse clicks which is determined by the <code>&quot;pickableparts&quot;</code> property.  See <a href="#XREFuitoolbarpickableparts">pickableparts&nbsp;property<!-- /@w --></a>.
+</p>
 
 <a name="XREFuitoolbarinterruptible"></a><a name="index-uitoolbar-interruptible"></a>
 </dd>
 <dt><code>interruptible</code>: <code>&quot;off&quot;</code> | {<code>&quot;on&quot;</code>}</dt>
-<dd>
-
+<dd><p>Specify whether this object&rsquo;s callback functions may be interrupted by other callbacks.  By default <code>interruptible</code> is <code>&quot;on&quot;</code> and callbacks that make use of <code>drawnow</code>, <code>figure</code>, <code>waitfor</code>, <code>getframe</code> or <code>pause</code> functions are eventually interrupted.
+See <a href="Callbacks.html#Callbacks">Callbacks&nbsp;section<!-- /@w --></a>.
+</p>
 
 <a name="XREFuitoolbarparent"></a><a name="index-uitoolbar-parent"></a>
 </dd>
 <dt><code>parent</code>: graphics handle</dt>
 <dd><p>Handle of the parent graphics object.
+</p>
+
+<a name="XREFuitoolbarpickableparts"></a><a name="index-uitoolbar-pickableparts"></a>
+</dd>
+<dt><code>pickableparts</code>: <code>&quot;all&quot;</code> | <code>&quot;none&quot;</code> | {<code>&quot;visible&quot;</code>}</dt>
+<dd><p>Specify whether uitoolbar will accept mouse clicks.  By default, <code>pickableparts</code> is <code>&quot;visible&quot;</code> and only visible parts of the uitoolbar or its children may react to mouse clicks.  When <code>pickableparts</code> is <code>&quot;all&quot;</code> both visible and invisible parts (or children) may react to mouse clicks.  When <code>pickableparts</code> is <code>&quot;none&quot;</code> mouse clicks on the object are ignored and transmitted to any objects underneath this one.  When an object is configured to accept mouse clicks the <code>&quot;hittest&quot;</code> property will determine how they are processed.  See <a href="#XREFuitoolbarhittest">hittest&nbsp;property<!-- /@w --></a>.
 </p>
 
 <a name="XREFuitoolbarselected"></a><a name="index-uitoolbar-selected"></a>

@@ -64,14 +64,18 @@ handle.  The data can be anything which is meaningful to the application, and
 will be completely ignored by Octave.
 </p>
 <a name="XREFsetappdata"></a><dl>
-<dt><a name="index-setappdata"></a>: <em></em> <strong>setappdata</strong> <em>(<var>h</var>, <var>name</var>, <var>value</var>)</em></dt>
-<dt><a name="index-setappdata-1"></a>: <em></em> <strong>setappdata</strong> <em>(<var>h</var>, <var>name1</var>, <var>value1</var>, <var>name2</var>, <var>value3</var>, &hellip;)</em></dt>
+<dt><a name="index-setappdata"></a><em></em> <strong>setappdata</strong> <em>(<var>h</var>, <var>name</var>, <var>value</var>)</em></dt>
+<dt><a name="index-setappdata-1"></a><em></em> <strong>setappdata</strong> <em>(<var>h</var>, <var>name1</var>, <var>value1</var>, <var>name2</var>, <var>value3</var>, &hellip;)</em></dt>
+<dt><a name="index-setappdata-2"></a><em></em> <strong>setappdata</strong> <em>(<var>h</var>, {<var>name1</var>, <var>name2</var>, &hellip;}, {<var>value1</var>, <var>value2</var>, &hellip;})</em></dt>
 <dd><p>Set the application data <var>name</var> to <var>value</var> for the graphics object
 with handle <var>h</var>.
 </p>
 <p><var>h</var> may also be a vector of graphics handles.  If the application data
-with the specified <var>name</var> does not exist, it is created.  Multiple
-<var>name</var>/<var>value</var> pairs can be specified at a time.
+with the specified <var>name</var> does not exist, it is created.
+</p>
+<p>Multiple <var>name</var>/<var>value</var> pairs can be specified.  Alternatively, a
+cell array of <var>names</var> and a corresponding cell array of <var>values</var> can
+be specified.
 </p>
 
 <p><strong>See also:</strong> <a href="#XREFgetappdata">getappdata</a>, <a href="#XREFisappdata">isappdata</a>, <a href="#XREFrmappdata">rmappdata</a>, <a href="GUI-Utility-Functions.html#XREFguidata">guidata</a>, <a href="Graphics-Objects.html#XREFget">get</a>, <a href="Graphics-Objects.html#XREFset">set</a>, <a href="User_002dDefined-Preferences.html#XREFgetpref">getpref</a>, <a href="User_002dDefined-Preferences.html#XREFsetpref">setpref</a>.
@@ -79,8 +83,8 @@ with the specified <var>name</var> does not exist, it is created.  Multiple
 
 
 <a name="XREFgetappdata"></a><dl>
-<dt><a name="index-getappdata"></a>: <em><var>value</var> =</em> <strong>getappdata</strong> <em>(<var>h</var>, <var>name</var>)</em></dt>
-<dt><a name="index-getappdata-1"></a>: <em><var>appdata</var> =</em> <strong>getappdata</strong> <em>(<var>h</var>)</em></dt>
+<dt><a name="index-getappdata"></a><em><var>value</var> =</em> <strong>getappdata</strong> <em>(<var>h</var>, <var>name</var>)</em></dt>
+<dt><a name="index-getappdata-1"></a><em><var>appdata</var> =</em> <strong>getappdata</strong> <em>(<var>h</var>)</em></dt>
 <dd><p>Return the <var>value</var> of the application data <var>name</var> for the graphics
 object with handle <var>h</var>.
 </p>
@@ -94,8 +98,8 @@ object with handle <var>h</var>.
 
 
 <a name="XREFrmappdata"></a><dl>
-<dt><a name="index-rmappdata"></a>: <em></em> <strong>rmappdata</strong> <em>(<var>h</var>, <var>name</var>)</em></dt>
-<dt><a name="index-rmappdata-1"></a>: <em></em> <strong>rmappdata</strong> <em>(<var>h</var>, <var>name1</var>, <var>name2</var>, &hellip;)</em></dt>
+<dt><a name="index-rmappdata"></a><em></em> <strong>rmappdata</strong> <em>(<var>h</var>, <var>name</var>)</em></dt>
+<dt><a name="index-rmappdata-1"></a><em></em> <strong>rmappdata</strong> <em>(<var>h</var>, <var>name1</var>, <var>name2</var>, &hellip;)</em></dt>
 <dd><p>Delete the application data <var>name</var> from the graphics object with handle
 <var>h</var>.
 </p>
@@ -108,7 +112,7 @@ names may be supplied to delete several properties at once.
 
 
 <a name="XREFisappdata"></a><dl>
-<dt><a name="index-isappdata"></a>: <em><var>valid</var> =</em> <strong>isappdata</strong> <em>(<var>h</var>, <var>name</var>)</em></dt>
+<dt><a name="index-isappdata"></a><em><var>valid</var> =</em> <strong>isappdata</strong> <em>(<var>h</var>, <var>name</var>)</em></dt>
 <dd><p>Return true if the named application data, <var>name</var>, exists for the
 graphics object with handle <var>h</var>.
 </p>

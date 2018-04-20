@@ -1,28 +1,32 @@
-## Copyright (C) 2005-2017 John W. Eaton
+## Copyright (C) 2005-2018 John W. Eaton
 ##
 ## This file is part of Octave.
 ##
-## Octave is free software; you can redistribute it and/or modify it
+## Octave is free software: you can redistribute it and/or modify it
 ## under the terms of the GNU General Public License as published by
-## the Free Software Foundation; either version 3 of the License, or (at
-## your option) any later version.
+## the Free Software Foundation, either version 3 of the License, or
+## (at your option) any later version.
 ##
 ## Octave is distributed in the hope that it will be useful, but
 ## WITHOUT ANY WARRANTY; without even the implied warranty of
-## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-## General Public License for more details.
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU General Public License for more details.
 ##
 ## You should have received a copy of the GNU General Public License
 ## along with Octave; see the file COPYING.  If not, see
-## <http://www.gnu.org/licenses/>.
+## <https://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn  {} {[@var{status}, @var{msg}, @var{msgid}] =} copyfile (@var{f1}, @var{f2})
-## @deftypefnx {} {[@var{status}, @var{msg}, @var{msgid}] =} copyfile (@var{f1}, @var{f2}, 'f')
-## Copy the source files or directories @var{f1} to the destination @var{f2}.
+## @deftypefn  {} {} copyfile @var{f1} @var{f2}
+## @deftypefnx {} {} copyfile @var{f1} @var{f2} f
+## @deftypefnx {} {} copyfile (@var{f1}, @var{f2})
+## @deftypefnx {} {} copyfile (@var{f1}, @var{f2}, 'f')
+## @deftypefnx {} {[@var{status}, @var{msg}, @var{msgid}] =} copyfile (@dots{})
+## Copy the source file(s) or directory @var{f1} to the destination @var{f2}.
 ##
-## The name @var{f1} may contain globbing patterns.  If @var{f1} expands to
-## multiple filenames, @var{f2} must be a directory.
+## The name @var{f1} may contain globbing patterns, or may be a cell array of
+## strings.  If @var{f1} expands to multiple filenames, @var{f2} must be a
+## directory.
 ##
 ## When the force flag @qcode{'f'} is given any existing files will be
 ## overwritten without prompting.

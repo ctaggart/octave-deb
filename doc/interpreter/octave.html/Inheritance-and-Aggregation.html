@@ -74,12 +74,12 @@ FIR filter, i.e., a filter with a numerator polynomial but a denominator of 1.
 In traditional Octave programming this would be performed as follows.
 </p>
 <div class="example">
-<pre class="example">octave:1&gt; x = [some data vector];
-octave:2&gt; n = [some coefficient vector];
-octave:3&gt; y = filter (n, 1, x);
+<pre class="example">&gt;&gt; x = [some data vector];
+&gt;&gt; n = [some coefficient vector];
+&gt;&gt; y = filter (n, 1, x);
 </pre></div>
 
-<p>The equivalent behavior can be implemented as a class @FIRfilter.  The
+<p>The equivalent behavior can be implemented as a class <code>@FIRfilter</code>.  The
 constructor for this class is the file <samp>FIRfilter.m</samp> in the class
 directory <samp>@FIRfilter</samp>.
 </p>
@@ -111,12 +111,13 @@ endfunction
 <p>As before, the leading comments provide documentation for the class
 constructor.  This constructor is very similar to the polynomial class
 constructor, except that a polynomial object is passed as the third argument to
-the <code>class</code> function, telling Octave that the FIRfilter<!-- /@w --> class will be
-derived from the polynomial class.  The FIR filter class itself does not have
-any data fields, but it must provide a struct to the <code>class</code> function.
-Given that the @polynomial constructor will add an element named
-<var>polynomial</var> to the object struct, the @FIRfilter just initializes a
-struct with a dummy field <var>polynomial</var> which will later be overwritten.
+the <code>class</code> function, telling Octave that the <code>FIRfilter</code> class will
+be derived from the polynomial class.  The FIR filter class itself does not
+have any data fields, but it must provide a struct to the <code>class</code>
+function.  Given that the <code>@polynomial</code> constructor will add an element
+named <var>polynomial</var> to the object struct, the <code>@FIRfilter</code> just
+initializes a struct with a dummy field <var>polynomial</var> which will later be
+overwritten.
 </p>
 <p>Note that the sample code always provides for the case in which no arguments
 are supplied.  This is important because Octave will call a constructor with
@@ -127,18 +128,63 @@ inheritance structure.
 inheritance may be nested.  There is no limitation to the number of parents or
 the level of nesting other than memory or other physical issues.
 </p>
-<p>As before, a class requires a <code>display</code> method.  A simple example might be
+<p>For the <code>FIRfilter</code> class, more control about the object display is
+desired.  Therefore, the <code>display</code> method rather than the <code>disp</code>
+method is overloaded (see <a href="Class-Methods.html#Class-Methods">Class Methods</a>).  A simple example might be
 </p>
 <div class="example">
 <pre class="verbatim">function display (f)
   printf (&quot;%s.polynomial&quot;, inputname (1));
-  display (f.polynomial);
+  disp (f.polynomial);
 endfunction
 </pre></div>
 
-<p>Note that the FIRfilter<!-- /@w -->&rsquo;s display method relies on the display method
-from the polynomial class to actually display the filter coefficients.
+<p>Note that the <code>FIRfilter</code>&rsquo;s display method relies on the <code>disp</code>
+method from the <code>polynomial</code> class to actually display the filter
+coefficients.  Furthermore, note that in the <code>display</code> method it makes
+sense to start the method with the line
+<code><code>printf (&quot;%s =&quot;, inputname (1))</code></code> to be consistent with the
+rest of Octave which prints the variable name to be displayed followed by the
+value.  In general it is not recommended to overload the <code>display</code>
+function.
 </p>
+<a name="XREFdisplay"></a><dl>
+<dt><a name="index-display"></a><em></em> <strong>display</strong> <em>(<var>obj</var>)</em></dt>
+<dd><p>Display the contents of the object <var>obj</var> prepended by its name.
+</p>
+<p>The Octave interpreter calls the <code>display</code> function whenever it needs
+to present a class on-screen.  Typically, this would be a statement which
+does not end in a semicolon to suppress output.  For example:
+</p>
+<div class="example">
+<pre class="example">myclass (&hellip;)
+</pre></div>
+
+<p>Or:
+</p>
+<div class="example">
+<pre class="example">myobj = myclass (&hellip;)
+</pre></div>
+
+<p>In general, user-defined classes should overload the <code>disp</code> method to
+avoid the default output:
+</p>
+<div class="example">
+<pre class="example">myobj = myclass (&hellip;)
+  &rArr; myobj =
+
+  &lt;class myclass&gt;
+</pre></div>
+
+<p>When overloading the <code>display</code> method instead, one has to take care
+of properly displaying the object&rsquo;s name.  This can be done by using the
+<code>inputname</code> function.
+</p>
+
+<p><strong>See also:</strong> <a href="Terminal-Output.html#XREFdisp">disp</a>, <a href="Built_002din-Data-Types.html#XREFclass">class</a>, <a href="Defining-Indexing-And-Indexed-Assignment.html#XREFsubsref">subsref</a>, <a href="Defining-Indexing-And-Indexed-Assignment.html#XREFsubsasgn">subsasgn</a>.
+</p></dd></dl>
+
+
 <p>Once a constructor and display method exist, it is possible to create an
 instance of the class.  It is also possible to check the class type and examine
 the underlying structure.

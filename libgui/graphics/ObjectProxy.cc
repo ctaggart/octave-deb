@@ -1,22 +1,22 @@
 /*
 
-Copyright (C) 2011-2017 Michael Goffioul
+Copyright (C) 2011-2018 Michael Goffioul
 
 This file is part of Octave.
 
-Octave is free software; you can redistribute it and/or modify it
-under the terms of the GNU General Public License as published by the
-Free Software Foundation; either version 3 of the License, or (at your
-option) any later version.
+Octave is free software: you can redistribute it and/or modify it
+under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-Octave is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-for more details.
+Octave is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with Octave; see the file COPYING.  If not, see
-<http://www.gnu.org/licenses/>.
+<https://www.gnu.org/licenses/>.
 
 */
 
@@ -24,9 +24,12 @@ along with Octave; see the file COPYING.  If not, see
 #  include "config.h"
 #endif
 
+#include <QCoreApplication>
 #include <QString>
+#include <QThread>
 
 #include "oct-mutex.h"
+#include "utils.h"
 
 #include "Object.h"
 #include "ObjectProxy.h"
@@ -34,14 +37,14 @@ along with Octave; see the file COPYING.  If not, see
 namespace QtHandles
 {
 
-  ObjectProxy::ObjectProxy (Object* obj)
-    : QObject (), m_object (0)
+  ObjectProxy::ObjectProxy (Object *obj)
+    : QObject (), m_object (nullptr)
   {
     init (obj);
   }
 
   void
-  ObjectProxy::init (Object* obj)
+  ObjectProxy::init (Object *obj)
   {
     if (obj != m_object)
       {
@@ -75,7 +78,7 @@ namespace QtHandles
   }
 
   void
-  ObjectProxy::setObject (Object* obj)
+  ObjectProxy::setObject (Object *obj)
   {
     emit sendFinalize ();
     init (obj);
@@ -84,7 +87,7 @@ namespace QtHandles
   void
   ObjectProxy::update (int pId)
   {
-    if (octave_thread::is_octave_thread ())
+    if (octave::thread::is_thread ())
       emit sendUpdate (pId);
     else if (m_object)
       m_object->slotUpdate (pId);
@@ -94,7 +97,7 @@ namespace QtHandles
   ObjectProxy::finalize (void)
   {
     emit sendFinalize ();
-    init (0);
+    init (nullptr);
   }
 
   void
@@ -107,6 +110,43 @@ namespace QtHandles
   ObjectProxy::print (const QString& file_cmd, const QString& term)
   {
     emit sendPrint (file_cmd, term);
+  }
+
+  uint8NDArray
+  ObjectProxy::get_pixels (void)
+  {
+    uint8NDArray retval;
+
+    // The ObjectProxy is generally ran from the interpreter thread
+    // while the actual Figure (Object) lives in the gui thread. The
+    // following ensures synchronous execution of the Figure method and
+    // allows retrieving a return value.
+
+    Qt::ConnectionType t = Qt::BlockingQueuedConnection;
+
+    if (QThread::currentThread () == QCoreApplication::instance ()->thread ())
+      t = Qt::DirectConnection;
+
+    QMetaObject::invokeMethod (m_object, "slotGetPixels", t,
+                               Q_RETURN_ARG (uint8NDArray, retval));
+
+    // FIXME: The following may fail for obscure reasons, see bug #53328.
+    //        In absence of a solution, we retry twice before calling error().
+    if (! QMetaObject::invokeMethod (m_object, "slotGetPixels", t,
+                                     Q_RETURN_ARG (uint8NDArray, retval)))
+      {
+        octave_sleep (0.1);
+        if (! QMetaObject::invokeMethod (m_object, "slotGetPixels", t,
+                                         Q_RETURN_ARG (uint8NDArray, retval)))
+          {
+            octave_sleep (0.2);
+            if (! QMetaObject::invokeMethod (m_object, "slotGetPixels", t,
+                                             Q_RETURN_ARG (uint8NDArray, retval)))
+              error ("getframe: unable to retrieve figure pixels");
+          }
+      }
+
+    return retval;
   }
 
 };

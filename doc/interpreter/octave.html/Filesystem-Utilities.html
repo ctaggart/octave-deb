@@ -63,16 +63,22 @@ deleting files; for creating, reading, and deleting directories; for retrieving
 status information on files; and for manipulating file and path names.
 </p>
 <a name="XREFmovefile"></a><dl>
-<dt><a name="index-movefile"></a>: <em></em> <strong>movefile</strong> <em>(<var>f1</var>)</em></dt>
-<dt><a name="index-movefile-1"></a>: <em></em> <strong>movefile</strong> <em>(<var>f1</var>, <var>f2</var>)</em></dt>
-<dt><a name="index-movefile-2"></a>: <em></em> <strong>movefile</strong> <em>(<var>f1</var>, <var>f2</var>, 'f')</em></dt>
-<dt><a name="index-movefile-3"></a>: <em>[<var>status</var>, <var>msg</var>, <var>msgid</var>] =</em> <strong>movefile</strong> <em>(&hellip;)</em></dt>
-<dd><p>Move the source files or directories <var>f1</var> to the destination <var>f2</var>.
+<dt><a name="index-movefile"></a><em></em> <strong>movefile</strong> <em><var>f1</var></em></dt>
+<dt><a name="index-movefile-1"></a><em></em> <strong>movefile</strong> <em><var>f1</var> <var>f2</var></em></dt>
+<dt><a name="index-movefile-2"></a><em></em> <strong>movefile</strong> <em><var>f1</var> <var>f2</var> f</em></dt>
+<dt><a name="index-movefile-3"></a><em></em> <strong>movefile</strong> <em>(<var>f1</var>)</em></dt>
+<dt><a name="index-movefile-4"></a><em></em> <strong>movefile</strong> <em>(<var>f1</var>, <var>f2</var>)</em></dt>
+<dt><a name="index-movefile-5"></a><em></em> <strong>movefile</strong> <em>(<var>f1</var>, <var>f2</var>, 'f')</em></dt>
+<dt><a name="index-movefile-6"></a><em>[<var>status</var>, <var>msg</var>, <var>msgid</var>] =</em> <strong>movefile</strong> <em>(&hellip;)</em></dt>
+<dd><p>Move the source file or directory <var>f1</var> to the destination <var>f2</var>.
 </p>
-<p>The name <var>f1</var> may contain globbing patterns.  If <var>f1</var> expands to
-multiple filenames, <var>f2</var> must be a directory.  If no destination
-<var>f2</var> is specified then the destination is the present working directory.
-If <var>f2</var> is a filename then <var>f1</var> is renamed to <var>f2</var>.
+<p>The name <var>f1</var> may contain globbing patterns, or may be a cell array of
+strings.  If <var>f1</var> expands to multiple filenames, <var>f2</var> must be a
+directory.
+</p>
+<p>If no destination <var>f2</var> is specified then the destination is the present
+working directory.  If <var>f2</var> is a filename then <var>f1</var> is renamed to
+<var>f2</var>.
 </p>
 <p>When the force flag <code>'f'</code> is given any existing files will be
 overwritten without prompting.
@@ -88,8 +94,8 @@ identifier.  Note that the status code is exactly opposite that of the
 
 
 <a name="XREFrename"></a><dl>
-<dt><a name="index-rename"></a>: <em></em> <strong>rename</strong> <em><var>old</var> <var>new</var></em></dt>
-<dt><a name="index-rename-1"></a>: <em>[<var>err</var>, <var>msg</var>] =</em> <strong>rename</strong> <em>(<var>old</var>, <var>new</var>)</em></dt>
+<dt><a name="index-rename"></a><em></em> <strong>rename</strong> <em><var>old</var> <var>new</var></em></dt>
+<dt><a name="index-rename-1"></a><em>[<var>err</var>, <var>msg</var>] =</em> <strong>rename</strong> <em>(<var>old</var>, <var>new</var>)</em></dt>
 <dd><p>Change the name of file <var>old</var> to <var>new</var>.
 </p>
 <p>If successful, <var>err</var> is 0 and <var>msg</var> is an empty string.
@@ -101,12 +107,16 @@ error message.
 
 
 <a name="XREFcopyfile"></a><dl>
-<dt><a name="index-copyfile"></a>: <em>[<var>status</var>, <var>msg</var>, <var>msgid</var>] =</em> <strong>copyfile</strong> <em>(<var>f1</var>, <var>f2</var>)</em></dt>
-<dt><a name="index-copyfile-1"></a>: <em>[<var>status</var>, <var>msg</var>, <var>msgid</var>] =</em> <strong>copyfile</strong> <em>(<var>f1</var>, <var>f2</var>, 'f')</em></dt>
-<dd><p>Copy the source files or directories <var>f1</var> to the destination <var>f2</var>.
+<dt><a name="index-copyfile"></a><em></em> <strong>copyfile</strong> <em><var>f1</var> <var>f2</var></em></dt>
+<dt><a name="index-copyfile-1"></a><em></em> <strong>copyfile</strong> <em><var>f1</var> <var>f2</var> f</em></dt>
+<dt><a name="index-copyfile-2"></a><em></em> <strong>copyfile</strong> <em>(<var>f1</var>, <var>f2</var>)</em></dt>
+<dt><a name="index-copyfile-3"></a><em></em> <strong>copyfile</strong> <em>(<var>f1</var>, <var>f2</var>, 'f')</em></dt>
+<dt><a name="index-copyfile-4"></a><em>[<var>status</var>, <var>msg</var>, <var>msgid</var>] =</em> <strong>copyfile</strong> <em>(&hellip;)</em></dt>
+<dd><p>Copy the source file(s) or directory <var>f1</var> to the destination <var>f2</var>.
 </p>
-<p>The name <var>f1</var> may contain globbing patterns.  If <var>f1</var> expands to
-multiple filenames, <var>f2</var> must be a directory.
+<p>The name <var>f1</var> may contain globbing patterns, or may be a cell array of
+strings.  If <var>f1</var> expands to multiple filenames, <var>f2</var> must be a
+directory.
 </p>
 <p>When the force flag <code>'f'</code> is given any existing files will be
 overwritten without prompting.
@@ -122,7 +132,7 @@ identifier.  Note that the status code is exactly opposite that of the
 
 
 <a name="XREFunlink"></a><dl>
-<dt><a name="index-unlink"></a>: <em>[<var>err</var>, <var>msg</var>] =</em> <strong>unlink</strong> <em>(<var>file</var>)</em></dt>
+<dt><a name="index-unlink"></a><em>[<var>err</var>, <var>msg</var>] =</em> <strong>unlink</strong> <em>(<var>file</var>)</em></dt>
 <dd><p>Delete the file named <var>file</var>.
 </p>
 <p>If successful, <var>err</var> is 0 and <var>msg</var> is an empty string.
@@ -134,8 +144,8 @@ error message.
 
 
 <a name="XREFlink"></a><dl>
-<dt><a name="index-link"></a>: <em></em> <strong>link</strong> <em><var>old</var> <var>new</var></em></dt>
-<dt><a name="index-link-1"></a>: <em>[<var>err</var>, <var>msg</var>] =</em> <strong>link</strong> <em>(<var>old</var>, <var>new</var>)</em></dt>
+<dt><a name="index-link"></a><em></em> <strong>link</strong> <em><var>old</var> <var>new</var></em></dt>
+<dt><a name="index-link-1"></a><em>[<var>err</var>, <var>msg</var>] =</em> <strong>link</strong> <em>(<var>old</var>, <var>new</var>)</em></dt>
 <dd><p>Create a new link (also known as a hard link) to an existing file.
 </p>
 <p>If successful, <var>err</var> is 0 and <var>msg</var> is an empty string.
@@ -147,8 +157,8 @@ error message.
 
 
 <a name="XREFsymlink"></a><dl>
-<dt><a name="index-symlink"></a>: <em></em> <strong>symlink</strong> <em><var>old</var> <var>new</var></em></dt>
-<dt><a name="index-symlink-1"></a>: <em>[<var>err</var>, <var>msg</var>] =</em> <strong>symlink</strong> <em>(<var>old</var>, <var>new</var>)</em></dt>
+<dt><a name="index-symlink"></a><em></em> <strong>symlink</strong> <em><var>old</var> <var>new</var></em></dt>
+<dt><a name="index-symlink-1"></a><em>[<var>err</var>, <var>msg</var>] =</em> <strong>symlink</strong> <em>(<var>old</var>, <var>new</var>)</em></dt>
 <dd><p>Create a symbolic link <var>new</var> which contains the string <var>old</var>.
 </p>
 <p>If successful, <var>err</var> is 0 and <var>msg</var> is an empty string.
@@ -160,8 +170,8 @@ error message.
 
 
 <a name="XREFreadlink"></a><dl>
-<dt><a name="index-readlink"></a>: <em></em> <strong>readlink</strong> <em><var>symlink</var></em></dt>
-<dt><a name="index-readlink-1"></a>: <em>[<var>result</var>, <var>err</var>, <var>msg</var>] =</em> <strong>readlink</strong> <em>(<var>symlink</var>)</em></dt>
+<dt><a name="index-readlink"></a><em></em> <strong>readlink</strong> <em><var>symlink</var></em></dt>
+<dt><a name="index-readlink-1"></a><em>[<var>result</var>, <var>err</var>, <var>msg</var>] =</em> <strong>readlink</strong> <em>(<var>symlink</var>)</em></dt>
 <dd><p>Read the value of the symbolic link <var>symlink</var>.
 </p>
 <p>If successful, <var>result</var> contains the contents of the symbolic link
@@ -174,13 +184,15 @@ error message.
 
 
 <a name="XREFmkdir"></a><dl>
-<dt><a name="index-mkdir"></a>: <em></em> <strong>mkdir</strong> <em><var>dir</var></em></dt>
-<dt><a name="index-mkdir-1"></a>: <em></em> <strong>mkdir</strong> <em>(<var>parent</var>, <var>dir</var>)</em></dt>
-<dt><a name="index-mkdir-2"></a>: <em>[<var>status</var>, <var>msg</var>, <var>msgid</var>] =</em> <strong>mkdir</strong> <em>(&hellip;)</em></dt>
-<dd><p>Create a directory named <var>dir</var> in the directory <var>parent</var>,
+<dt><a name="index-mkdir"></a><em></em> <strong>mkdir</strong> <em><var>dirname</var></em></dt>
+<dt><a name="index-mkdir-1"></a><em></em> <strong>mkdir</strong> <em><var>parent</var> <var>dirname</var></em></dt>
+<dt><a name="index-mkdir-2"></a><em></em> <strong>mkdir</strong> <em>(<var>dirname</var>)</em></dt>
+<dt><a name="index-mkdir-3"></a><em></em> <strong>mkdir</strong> <em>(<var>parent</var>, <var>dirname</var>)</em></dt>
+<dt><a name="index-mkdir-4"></a><em>[<var>status</var>, <var>msg</var>, <var>msgid</var>] =</em> <strong>mkdir</strong> <em>(&hellip;)</em></dt>
+<dd><p>Create a directory named <var>dirname</var> in the directory <var>parent</var>,
 creating any intermediate directories if necessary.
 </p>
-<p>If <var>dir</var> is a relative path and no <var>parent</var> directory is specified
+<p>If <var>dir</var> is a relative path, and no <var>parent</var> directory is specified,
 then the present working directory is used.
 </p>
 <p>If successful, <var>status</var> is 1, and <var>msg</var> and <var>msgid</var> are empty
@@ -196,9 +208,9 @@ identifier.
 
 
 <a name="XREFrmdir"></a><dl>
-<dt><a name="index-rmdir"></a>: <em></em> <strong>rmdir</strong> <em><var>dir</var></em></dt>
-<dt><a name="index-rmdir-1"></a>: <em></em> <strong>rmdir</strong> <em>(<var>dir</var>, &quot;s&quot;)</em></dt>
-<dt><a name="index-rmdir-2"></a>: <em>[<var>status</var>, <var>msg</var>, <var>msgid</var>] =</em> <strong>rmdir</strong> <em>(&hellip;)</em></dt>
+<dt><a name="index-rmdir"></a><em></em> <strong>rmdir</strong> <em><var>dir</var></em></dt>
+<dt><a name="index-rmdir-1"></a><em></em> <strong>rmdir</strong> <em>(<var>dir</var>, &quot;s&quot;)</em></dt>
+<dt><a name="index-rmdir-2"></a><em>[<var>status</var>, <var>msg</var>, <var>msgid</var>] =</em> <strong>rmdir</strong> <em>(&hellip;)</em></dt>
 <dd><p>Remove the directory named <var>dir</var>.
 </p>
 <p>If the optional second parameter is supplied with value <code>&quot;s&quot;</code>,
@@ -215,9 +227,9 @@ identifier.
 
 
 <a name="XREFconfirm_005frecursive_005frmdir"></a><dl>
-<dt><a name="index-confirm_005frecursive_005frmdir"></a>: <em><var>val</var> =</em> <strong>confirm_recursive_rmdir</strong> <em>()</em></dt>
-<dt><a name="index-confirm_005frecursive_005frmdir-1"></a>: <em><var>old_val</var> =</em> <strong>confirm_recursive_rmdir</strong> <em>(<var>new_val</var>)</em></dt>
-<dt><a name="index-confirm_005frecursive_005frmdir-2"></a>: <em></em> <strong>confirm_recursive_rmdir</strong> <em>(<var>new_val</var>, &quot;local&quot;)</em></dt>
+<dt><a name="index-confirm_005frecursive_005frmdir"></a><em><var>val</var> =</em> <strong>confirm_recursive_rmdir</strong> <em>()</em></dt>
+<dt><a name="index-confirm_005frecursive_005frmdir-1"></a><em><var>old_val</var> =</em> <strong>confirm_recursive_rmdir</strong> <em>(<var>new_val</var>)</em></dt>
+<dt><a name="index-confirm_005frecursive_005frmdir-2"></a><em></em> <strong>confirm_recursive_rmdir</strong> <em>(<var>new_val</var>, &quot;local&quot;)</em></dt>
 <dd><p>Query or set the internal variable that controls whether Octave
 will ask for confirmation before recursively removing a directory tree.
 </p>
@@ -230,8 +242,8 @@ The original variable value is restored when exiting the function.
 
 
 <a name="XREFmkfifo"></a><dl>
-<dt><a name="index-mkfifo"></a>: <em><var>err</var> =</em> <strong>mkfifo</strong> <em>(<var>name</var>, <var>mode</var>)</em></dt>
-<dt><a name="index-mkfifo-1"></a>: <em>[<var>err</var>, <var>msg</var>] =</em> <strong>mkfifo</strong> <em>(<var>name</var>, <var>mode</var>)</em></dt>
+<dt><a name="index-mkfifo"></a><em><var>err</var> =</em> <strong>mkfifo</strong> <em>(<var>name</var>, <var>mode</var>)</em></dt>
+<dt><a name="index-mkfifo-1"></a><em>[<var>err</var>, <var>msg</var>] =</em> <strong>mkfifo</strong> <em>(<var>name</var>, <var>mode</var>)</em></dt>
 <dd><p>Create a FIFO special file named <var>name</var> with file mode <var>mode</var>.
 </p>
 <p><var>mode</var> is interpreted as an octal number and is subject to umask
@@ -246,7 +258,7 @@ error message.
 
 
 <a name="XREFumask"></a><dl>
-<dt><a name="index-umask"></a>: <em></em> <strong>umask</strong> <em>(<var>mask</var>)</em></dt>
+<dt><a name="index-umask"></a><em></em> <strong>umask</strong> <em>(<var>mask</var>)</em></dt>
 <dd><p>Set the permission mask for file creation.
 </p>
 <p>The parameter <var>mask</var> is an integer, interpreted as an octal number.
@@ -265,10 +277,10 @@ for the new object are <code><var>mode</var> - <var>mask</var></code>.
 
 
 <a name="XREFlstat"></a><a name="XREFstat"></a><dl>
-<dt><a name="index-stat"></a>: <em>[<var>info</var>, <var>err</var>, <var>msg</var>] =</em> <strong>stat</strong> <em>(<var>file</var>)</em></dt>
-<dt><a name="index-stat-1"></a>: <em>[<var>info</var>, <var>err</var>, <var>msg</var>] =</em> <strong>stat</strong> <em>(<var>fid</var>)</em></dt>
-<dt><a name="index-lstat"></a>: <em>[<var>info</var>, <var>err</var>, <var>msg</var>] =</em> <strong>lstat</strong> <em>(<var>file</var>)</em></dt>
-<dt><a name="index-lstat-1"></a>: <em>[<var>info</var>, <var>err</var>, <var>msg</var>] =</em> <strong>lstat</strong> <em>(<var>fid</var>)</em></dt>
+<dt><a name="index-stat"></a><em>[<var>info</var>, <var>err</var>, <var>msg</var>] =</em> <strong>stat</strong> <em>(<var>file</var>)</em></dt>
+<dt><a name="index-stat-1"></a><em>[<var>info</var>, <var>err</var>, <var>msg</var>] =</em> <strong>stat</strong> <em>(<var>fid</var>)</em></dt>
+<dt><a name="index-lstat"></a><em>[<var>info</var>, <var>err</var>, <var>msg</var>] =</em> <strong>lstat</strong> <em>(<var>file</var>)</em></dt>
+<dt><a name="index-lstat-1"></a><em>[<var>info</var>, <var>err</var>, <var>msg</var>] =</em> <strong>lstat</strong> <em>(<var>fid</var>)</em></dt>
 <dd><p>Return a structure <var>info</var> containing the following information about
 <var>file</var> or file identifier <var>fid</var>.
 </p>
@@ -376,7 +388,7 @@ want information about the symbolic link itself.
 
 
 <a name="XREFS_005fISBLK"></a><dl>
-<dt><a name="index-S_005fISBLK"></a>: <em></em> <strong>S_ISBLK</strong> <em>(<var>mode</var>)</em></dt>
+<dt><a name="index-S_005fISBLK"></a><em></em> <strong>S_ISBLK</strong> <em>(<var>mode</var>)</em></dt>
 <dd><p>Return true if <var>mode</var> corresponds to a block device.
 </p>
 <p>The value of <var>mode</var> is assumed to be returned from a call to
@@ -387,7 +399,7 @@ want information about the symbolic link itself.
 
 
 <a name="XREFS_005fISCHR"></a><dl>
-<dt><a name="index-S_005fISCHR"></a>: <em></em> <strong>S_ISCHR</strong> <em>(<var>mode</var>)</em></dt>
+<dt><a name="index-S_005fISCHR"></a><em></em> <strong>S_ISCHR</strong> <em>(<var>mode</var>)</em></dt>
 <dd><p>Return true if <var>mode</var> corresponds to a character device.
 </p>
 <p>The value of <var>mode</var> is assumed to be returned from a call to
@@ -398,7 +410,7 @@ want information about the symbolic link itself.
 
 
 <a name="XREFS_005fISDIR"></a><dl>
-<dt><a name="index-S_005fISDIR"></a>: <em></em> <strong>S_ISDIR</strong> <em>(<var>mode</var>)</em></dt>
+<dt><a name="index-S_005fISDIR"></a><em></em> <strong>S_ISDIR</strong> <em>(<var>mode</var>)</em></dt>
 <dd><p>Return true if <var>mode</var> corresponds to a directory.
 </p>
 <p>The value of <var>mode</var> is assumed to be returned from a call to
@@ -409,7 +421,7 @@ want information about the symbolic link itself.
 
 
 <a name="XREFS_005fISFIFO"></a><dl>
-<dt><a name="index-S_005fISFIFO"></a>: <em></em> <strong>S_ISFIFO</strong> <em>(<var>mode</var>)</em></dt>
+<dt><a name="index-S_005fISFIFO"></a><em></em> <strong>S_ISFIFO</strong> <em>(<var>mode</var>)</em></dt>
 <dd><p>Return true if <var>mode</var> corresponds to a fifo.
 </p>
 <p>The value of <var>mode</var> is assumed to be returned from a call to
@@ -420,7 +432,7 @@ want information about the symbolic link itself.
 
 
 <a name="XREFS_005fISLNK"></a><dl>
-<dt><a name="index-S_005fISLNK"></a>: <em></em> <strong>S_ISLNK</strong> <em>(<var>mode</var>)</em></dt>
+<dt><a name="index-S_005fISLNK"></a><em></em> <strong>S_ISLNK</strong> <em>(<var>mode</var>)</em></dt>
 <dd><p>Return true if <var>mode</var> corresponds to a symbolic link.
 </p>
 <p>The value of <var>mode</var> is assumed to be returned from a call to
@@ -431,7 +443,7 @@ want information about the symbolic link itself.
 
 
 <a name="XREFS_005fISREG"></a><dl>
-<dt><a name="index-S_005fISREG"></a>: <em></em> <strong>S_ISREG</strong> <em>(<var>mode</var>)</em></dt>
+<dt><a name="index-S_005fISREG"></a><em></em> <strong>S_ISREG</strong> <em>(<var>mode</var>)</em></dt>
 <dd><p>Return true if <var>mode</var> corresponds to a regular file.
 </p>
 <p>The value of <var>mode</var> is assumed to be returned from a call to
@@ -442,7 +454,7 @@ want information about the symbolic link itself.
 
 
 <a name="XREFS_005fISSOCK"></a><dl>
-<dt><a name="index-S_005fISSOCK"></a>: <em></em> <strong>S_ISSOCK</strong> <em>(<var>mode</var>)</em></dt>
+<dt><a name="index-S_005fISSOCK"></a><em></em> <strong>S_ISSOCK</strong> <em>(<var>mode</var>)</em></dt>
 <dd><p>Return true if <var>mode</var> corresponds to a socket.
 </p>
 <p>The value of <var>mode</var> is assumed to be returned from a call to
@@ -453,9 +465,9 @@ want information about the symbolic link itself.
 
 
 <a name="XREFfileattrib"></a><dl>
-<dt><a name="index-fileattrib"></a>: <em></em> <strong>fileattrib</strong> <em>(<var>file</var>)</em></dt>
-<dt><a name="index-fileattrib-1"></a>: <em></em> <strong>fileattrib</strong> <em>()</em></dt>
-<dt><a name="index-fileattrib-2"></a>: <em>[<var>status</var>, <var>msg</var>, <var>msgid</var>] =</em> <strong>fileattrib</strong> <em>(&hellip;)</em></dt>
+<dt><a name="index-fileattrib"></a><em></em> <strong>fileattrib</strong> <em>(<var>file</var>)</em></dt>
+<dt><a name="index-fileattrib-1"></a><em></em> <strong>fileattrib</strong> <em>()</em></dt>
+<dt><a name="index-fileattrib-2"></a><em>[<var>status</var>, <var>msg</var>, <var>msgid</var>] =</em> <strong>fileattrib</strong> <em>(&hellip;)</em></dt>
 <dd><p>Return information about <var>file</var>.
 </p>
 <p>If successful, <var>status</var> is 1 and <var>msg</var> is a structure with the
@@ -517,7 +529,7 @@ the matching files.
 
 
 <a name="XREFisdir"></a><dl>
-<dt><a name="index-isdir"></a>: <em></em> <strong>isdir</strong> <em>(<var>f</var>)</em></dt>
+<dt><a name="index-isdir"></a><em></em> <strong>isdir</strong> <em>(<var>f</var>)</em></dt>
 <dd><p>Return true if <var>f</var> is a directory.
 </p>
 <p><strong>See also:</strong> <a href="Status-of-Variables.html#XREFexist">exist</a>, <a href="#XREFstat">stat</a>, <a href="#XREFis_005fabsolute_005ffilename">is_absolute_filename</a>, <a href="#XREFis_005frooted_005frelative_005ffilename">is_rooted_relative_filename</a>.
@@ -525,8 +537,8 @@ the matching files.
 
 
 <a name="XREFreaddir"></a><dl>
-<dt><a name="index-readdir"></a>: <em><var>files</var> =</em> <strong>readdir</strong> <em>(<var>dir</var>)</em></dt>
-<dt><a name="index-readdir-1"></a>: <em>[<var>files</var>, <var>err</var>, <var>msg</var>] =</em> <strong>readdir</strong> <em>(<var>dir</var>)</em></dt>
+<dt><a name="index-readdir"></a><em><var>files</var> =</em> <strong>readdir</strong> <em>(<var>dir</var>)</em></dt>
+<dt><a name="index-readdir-1"></a><em>[<var>files</var>, <var>err</var>, <var>msg</var>] =</em> <strong>readdir</strong> <em>(<var>dir</var>)</em></dt>
 <dd><p>Return the names of files in the directory <var>dir</var> as a cell array of
 strings.
 </p>
@@ -540,7 +552,7 @@ error message.
 
 
 <a name="XREFglob"></a><dl>
-<dt><a name="index-glob"></a>: <em></em> <strong>glob</strong> <em>(<var>pattern</var>)</em></dt>
+<dt><a name="index-glob"></a><em></em> <strong>glob</strong> <em>(<var>pattern</var>)</em></dt>
 <dd><p>Given an array of pattern strings (as a char array or a cell array) in
 <var>pattern</var>, return a cell array of filenames that match any of
 them, or an empty cell array if no patterns match.
@@ -595,8 +607,8 @@ glob (&quot;file[12]&quot;)
 
 
 <a name="XREFfile_005fin_005fpath"></a><dl>
-<dt><a name="index-file_005fin_005fpath"></a>: <em></em> <strong>file_in_path</strong> <em>(<var>path</var>, <var>file</var>)</em></dt>
-<dt><a name="index-file_005fin_005fpath-1"></a>: <em></em> <strong>file_in_path</strong> <em>(<var>path</var>, <var>file</var>, &quot;all&quot;)</em></dt>
+<dt><a name="index-file_005fin_005fpath"></a><em></em> <strong>file_in_path</strong> <em>(<var>path</var>, <var>file</var>)</em></dt>
+<dt><a name="index-file_005fin_005fpath-1"></a><em></em> <strong>file_in_path</strong> <em>(<var>path</var>, <var>file</var>, &quot;all&quot;)</em></dt>
 <dd><p>Return the absolute name of <var>file</var> if it can be found in <var>path</var>.
 </p>
 <p>The value of <var>path</var> should be a colon-separated list of directories in
@@ -620,8 +632,8 @@ If no files are found, return an empty cell array.
 
 
 <a name="XREFfilesep"></a><dl>
-<dt><a name="index-filesep"></a>: <em></em> <strong>filesep</strong> <em>()</em></dt>
-<dt><a name="index-filesep-1"></a>: <em></em> <strong>filesep</strong> <em>(&quot;all&quot;)</em></dt>
+<dt><a name="index-filesep"></a><em></em> <strong>filesep</strong> <em>()</em></dt>
+<dt><a name="index-filesep-1"></a><em></em> <strong>filesep</strong> <em>(&quot;all&quot;)</em></dt>
 <dd><p>Return the system-dependent character used to separate directory names.
 </p>
 <p>If <code>&quot;all&quot;</code> is given, the function returns all valid file separators
@@ -633,42 +645,8 @@ It is &lsquo;<samp>/</samp>&rsquo; (forward slash) under UNIX or Mac&nbsp;OS&nbs
 </p></dd></dl>
 
 
-<a name="XREFfilemarker"></a><dl>
-<dt><a name="index-filemarker"></a>: <em><var>val</var> =</em> <strong>filemarker</strong> <em>()</em></dt>
-<dt><a name="index-filemarker-1"></a>: <em><var>old_val</var> =</em> <strong>filemarker</strong> <em>(<var>new_val</var>)</em></dt>
-<dt><a name="index-filemarker-2"></a>: <em></em> <strong>filemarker</strong> <em>(<var>new_val</var>, &quot;local&quot;)</em></dt>
-<dd><p>Query or set the character used to separate the filename from the
-subfunction names contained within the file.
-</p>
-<p>By default this is the character &lsquo;<samp>&gt;</samp>&rsquo;.
-This can be used in a generic manner to interact with subfunctions.
-For example,
-</p>
-<div class="example">
-<pre class="example">help ([&quot;myfunc&quot;, filemarker, &quot;mysubfunc&quot;])
-</pre></div>
-
-<p>returns the help string associated with the subfunction <code>mysubfunc</code>
-located in the file <samp>myfunc.m</samp>.
-</p>
-<p><code>filemarker</code> is also useful during debugging for placing breakpoints
-within subfunctions or nested functions.
-For example,
-</p>
-<div class="example">
-<pre class="example">dbstop ([&quot;myfunc&quot;, filemarker, &quot;mysubfunc&quot;])
-</pre></div>
-
-<p>will set a breakpoint at the first line of the subfunction <code>mysubfunc</code>.
-</p>
-<p>When called from inside a function with the <code>&quot;local&quot;</code> option, the
-variable is changed locally for the function and any subroutines it calls.
-The original variable value is restored when exiting the function.
-</p></dd></dl>
-
-
 <a name="XREFfileparts"></a><dl>
-<dt><a name="index-fileparts"></a>: <em>[<var>dir</var>, <var>name</var>, <var>ext</var>] =</em> <strong>fileparts</strong> <em>(<var>filename</var>)</em></dt>
+<dt><a name="index-fileparts"></a><em>[<var>dir</var>, <var>name</var>, <var>ext</var>] =</em> <strong>fileparts</strong> <em>(<var>filename</var>)</em></dt>
 <dd><p>Return the directory, name, and extension components of <var>filename</var>.
 </p>
 <p>The input <var>filename</var> is a string which is parsed.  There is no attempt
@@ -679,8 +657,8 @@ to check whether the filename or directory specified actually exists.
 
 
 <a name="XREFfullfile"></a><dl>
-<dt><a name="index-fullfile"></a>: <em><var>filename</var> =</em> <strong>fullfile</strong> <em>(<var>dir1</var>, <var>dir2</var>, &hellip;, <var>file</var>)</em></dt>
-<dt><a name="index-fullfile-1"></a>: <em><var>filenames</var> =</em> <strong>fullfile</strong> <em>(&hellip;, <var>files</var>)</em></dt>
+<dt><a name="index-fullfile"></a><em><var>filename</var> =</em> <strong>fullfile</strong> <em>(<var>dir1</var>, <var>dir2</var>, &hellip;, <var>file</var>)</em></dt>
+<dt><a name="index-fullfile-1"></a><em><var>filenames</var> =</em> <strong>fullfile</strong> <em>(&hellip;, <var>files</var>)</em></dt>
 <dd><p>Build complete filename from separate parts.
 </p>
 <p>Joins any number of path components intelligently.  The return value is
@@ -710,8 +688,8 @@ filename.
 
 
 <a name="XREFtilde_005fexpand"></a><dl>
-<dt><a name="index-tilde_005fexpand"></a>: <em></em> <strong>tilde_expand</strong> <em>(<var>string</var>)</em></dt>
-<dt><a name="index-tilde_005fexpand-1"></a>: <em></em> <strong>tilde_expand</strong> <em>(<var>cellstr</var>)</em></dt>
+<dt><a name="index-tilde_005fexpand"></a><em></em> <strong>tilde_expand</strong> <em>(<var>string</var>)</em></dt>
+<dt><a name="index-tilde_005fexpand-1"></a><em></em> <strong>tilde_expand</strong> <em>(<var>cellstr</var>)</em></dt>
 <dd><p>Perform tilde expansion on <var>string</var>.
 </p>
 <p>If <var>string</var> begins with a tilde character, (&lsquo;<samp>~</samp>&rsquo;), all of the
@@ -736,7 +714,7 @@ tilde_expand (&quot;~/bin&quot;)
 
 
 <a name="XREFcanonicalize_005ffile_005fname"></a><dl>
-<dt><a name="index-canonicalize_005ffile_005fname"></a>: <em>[<var>cname</var>, <var>status</var>, <var>msg</var>] =</em> <strong>canonicalize_file_name</strong> <em>(<var>fname</var>)</em></dt>
+<dt><a name="index-canonicalize_005ffile_005fname"></a><em>[<var>cname</var>, <var>status</var>, <var>msg</var>] =</em> <strong>canonicalize_file_name</strong> <em>(<var>fname</var>)</em></dt>
 <dd><p>Return the canonical name of file <var>fname</var>.
 </p>
 <p>If the file does not exist the empty string (&quot;&quot;) is returned.
@@ -746,7 +724,7 @@ tilde_expand (&quot;~/bin&quot;)
 
 
 <a name="XREFmake_005fabsolute_005ffilename"></a><dl>
-<dt><a name="index-make_005fabsolute_005ffilename"></a>: <em></em> <strong>make_absolute_filename</strong> <em>(<var>file</var>)</em></dt>
+<dt><a name="index-make_005fabsolute_005ffilename"></a><em></em> <strong>make_absolute_filename</strong> <em>(<var>file</var>)</em></dt>
 <dd><p>Return the full name of <var>file</var> beginning from the root of the file
 system.
 </p>
@@ -757,7 +735,7 @@ system.
 
 
 <a name="XREFis_005fabsolute_005ffilename"></a><dl>
-<dt><a name="index-is_005fabsolute_005ffilename"></a>: <em></em> <strong>is_absolute_filename</strong> <em>(<var>file</var>)</em></dt>
+<dt><a name="index-is_005fabsolute_005ffilename"></a><em></em> <strong>is_absolute_filename</strong> <em>(<var>file</var>)</em></dt>
 <dd><p>Return true if <var>file</var> is an absolute filename.
 </p>
 <p><strong>See also:</strong> <a href="#XREFis_005frooted_005frelative_005ffilename">is_rooted_relative_filename</a>, <a href="#XREFmake_005fabsolute_005ffilename">make_absolute_filename</a>, <a href="#XREFisdir">isdir</a>.
@@ -765,7 +743,7 @@ system.
 
 
 <a name="XREFis_005frooted_005frelative_005ffilename"></a><dl>
-<dt><a name="index-is_005frooted_005frelative_005ffilename"></a>: <em></em> <strong>is_rooted_relative_filename</strong> <em>(<var>file</var>)</em></dt>
+<dt><a name="index-is_005frooted_005frelative_005ffilename"></a><em></em> <strong>is_rooted_relative_filename</strong> <em>(<var>file</var>)</em></dt>
 <dd><p>Return true if <var>file</var> is a rooted-relative filename.
 </p>
 <p><strong>See also:</strong> <a href="#XREFis_005fabsolute_005ffilename">is_absolute_filename</a>, <a href="#XREFmake_005fabsolute_005ffilename">make_absolute_filename</a>, <a href="#XREFisdir">isdir</a>.
@@ -773,8 +751,8 @@ system.
 
 
 <a name="XREFrecycle"></a><dl>
-<dt><a name="index-recycle"></a>: <em><var>current_state</var> =</em> <strong>recycle</strong> <em>()</em></dt>
-<dt><a name="index-recycle-1"></a>: <em><var>old_state</var> =</em> <strong>recycle</strong> <em>(<var>new_state</var>)</em></dt>
+<dt><a name="index-recycle"></a><em><var>val</var> =</em> <strong>recycle</strong> <em>()</em></dt>
+<dt><a name="index-recycle-1"></a><em><var>old_val</var> =</em> <strong>recycle</strong> <em>(<var>new_val</var>)</em></dt>
 <dd><p>Query or set the preference for recycling deleted files.
 </p>
 <p>When recycling is enabled, commands which would permanently erase files

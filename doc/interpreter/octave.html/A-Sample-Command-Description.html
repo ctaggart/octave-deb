@@ -65,10 +65,11 @@ descriptions.  For example, here is the description for Octave&rsquo;s <code>dia
 command:
 </p>
 <dl>
-<dt><a name="index-diary"></a>: <em></em> <strong>diary</strong></dt>
-<dt><a name="index-diary-1"></a>: <em></em> <strong>diary</strong> <em>on</em></dt>
-<dt><a name="index-diary-2"></a>: <em></em> <strong>diary</strong> <em>off</em></dt>
-<dt><a name="index-diary-3"></a>: <em></em> <strong>diary</strong> <em><var>filename</var></em></dt>
+<dt><a name="index-diary"></a><em></em> <strong>diary</strong></dt>
+<dt><a name="index-diary-1"></a><em></em> <strong>diary</strong> <em>on</em></dt>
+<dt><a name="index-diary-2"></a><em></em> <strong>diary</strong> <em>off</em></dt>
+<dt><a name="index-diary-3"></a><em></em> <strong>diary</strong> <em><var>filename</var></em></dt>
+<dt><a name="index-diary-4"></a><em>[<var>status</var>, <var>diaryfile</var>] =</em> <strong>diary</strong></dt>
 <dd><p>Record a list of all commands <em>and</em> the output they produce, mixed
 together just as they appear on the terminal.
 </p>
@@ -76,8 +77,8 @@ together just as they appear on the terminal.
 </p>
 <dl compact="compact">
 <dt>on</dt>
-<dd><p>Start recording a session in a file called <samp>diary</samp> in the
-current working directory.
+<dd><p>Start recording a session in a file called <samp>diary</samp> in the current working
+directory.
 </p>
 </dd>
 <dt>off</dt>
@@ -89,7 +90,13 @@ current working directory.
 </p></dd>
 </dl>
 
-<p>With no arguments, <code>diary</code> toggles the current diary state.
+<p>With no input or output arguments, <code>diary</code> toggles the current diary
+state.
+</p>
+<p>If output arguments are requested, <code>diary</code> ignores inputs and returns
+the current status.  The boolean <var>status</var> indicates whether recording is on
+or off, and <var>diaryfile</var> is the name of the file where the session is
+stored.
 </p>
 <p><strong>See also:</strong> history, evalc.
 </p></dd></dl>

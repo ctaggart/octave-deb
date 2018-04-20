@@ -57,7 +57,7 @@ Next: <a href="Surface-Properties.html#Surface-Properties" accesskey="n" rel="ne
 <hr>
 <a name="Patch-Properties-1"></a>
 <h4 class="subsubsection">15.3.3.7 Patch Properties</h4>
-<a name="index-patch-properties"></a>
+<a name="index--Patch-PropertiesPatch-Properties"></a>
 
 <p>The <code>patch</code> properties are:
 </p>
@@ -65,12 +65,6 @@ Next: <a href="Surface-Properties.html#Surface-Properties" accesskey="n" rel="ne
 
 <dl compact="compact">
 <dd>
-<a name="XREFpatch_005f_005fmodified_005f_005f"></a><a name="index-patch-_005f_005fmodified_005f_005f"></a>
-</dd>
-<dt><code>__modified__</code>: <code>&quot;off&quot;</code> | {<code>&quot;on&quot;</code>}</dt>
-<dd>
-
-
 <a name="XREFpatchalphadatamapping"></a><a name="index-patch-alphadatamapping"></a>
 </dd>
 <dt><code>alphadatamapping</code>: <code>&quot;direct&quot;</code> | <code>&quot;none&quot;</code> | {<code>&quot;scaled&quot;</code>}</dt>
@@ -98,8 +92,9 @@ Next: <a href="Surface-Properties.html#Surface-Properties" accesskey="n" rel="ne
 <a name="XREFpatchbusyaction"></a><a name="index-patch-busyaction"></a>
 </dd>
 <dt><code>busyaction</code>: <code>&quot;cancel&quot;</code> | {<code>&quot;queue&quot;</code>}</dt>
-<dd>
-
+<dd><p>Define how Octave handles the execution of this object&rsquo;s callback properties when it is unable to interrupt another object&rsquo;s executing callback.  This is only relevant when the currently executing callback object has its <code>interruptible</code> property set to <code>&quot;off&quot;</code>.  The <code>busyaction</code> property of the interrupting callback object indicates whether the interrupting callback is queued (<code>&quot;queue&quot;</code> (default)) or discarded (<code>&quot;cancel&quot;</code>).
+See <a href="Callbacks.html#Callbacks">Callbacks&nbsp;section<!-- /@w --></a>.
+</p>
 
 <a name="XREFpatchbuttondownfcn"></a><a name="index-patch-buttondownfcn"></a>
 </dd>
@@ -141,7 +136,7 @@ Patch color can be defined for faces or for vertices.
 <a name="XREFpatchcreatefcn"></a><a name="index-patch-createfcn"></a>
 </dd>
 <dt><code>createfcn</code>: string | function handle, def. <code>[](0x0)</code></dt>
-<dd><p>Callback function executed immediately after patch has been created.  Function is set by using default property on root object, e.g., <code>set (0, &quot;defaultpatchcreatefcn&quot;, 'disp (&quot;patch created!&quot;)')</code>.
+<dd><p>Callback function executed immediately after patch has been created.  Function is set by using default property on root object, e.g., <code>set (groot, &quot;defaultpatchcreatefcn&quot;, 'disp (&quot;patch created!&quot;)')</code>.
 </p>
 <p>For information on how to write graphics listener functions see <a href="Callbacks.html#Callbacks">Callbacks&nbsp;section<!-- /@w --></a>.
 </p>
@@ -186,8 +181,8 @@ Patch color can be defined for faces or for vertices.
 
 <a name="XREFpatchfacealpha"></a><a name="index-patch-facealpha"></a>
 </dd>
-<dt><code>facealpha</code>: scalar | matrix, def. <code>1</code></dt>
-<dd><p>Transparency is not yet implemented for patch objects.  <code>facealpha</code> is unused.
+<dt><code>facealpha</code>: scalar | <code>&quot;flat&quot;</code> | <code>&quot;interp&quot;</code>, def. <code>1</code></dt>
+<dd><p>Transparency level of the faces of the patch object.  Only double values are supported at present where a value of 0 means complete transparency and a value of 1 means solid faces without transparency.  Setting the property to <code>&quot;flat&quot;</code> or <code>&quot;interp&quot;</code> causes the faces to not being rendered.  Additionally, the faces are not sorted from back to front which might lead to unexpected results when rendering layered transparent faces.
 </p>
 
 <a name="XREFpatchfacecolor"></a><a name="index-patch-facecolor"></a>
@@ -241,20 +236,15 @@ Patch color can be defined for faces or for vertices.
 <a name="XREFpatchhittest"></a><a name="index-patch-hittest"></a>
 </dd>
 <dt><code>hittest</code>: <code>&quot;off&quot;</code> | {<code>&quot;on&quot;</code>}</dt>
-<dd>
-
-
-<a name="XREFpatchinterpreter"></a><a name="index-patch-interpreter"></a>
-</dd>
-<dt><code>interpreter</code>: <code>&quot;latex&quot;</code> | <code>&quot;none&quot;</code> | {<code>&quot;tex&quot;</code>}</dt>
-<dd><p><code>interpreter</code> is unused.
+<dd><p>Specify whether patch processes mouse events or passes them to ancestors of the object.  When enabled, the object may respond to mouse clicks by evaluating the <code>&quot;buttondownfcn&quot;</code>, showing the uicontextmenu, and eventually becoming the root <code>&quot;currentobject&quot;</code>.  This property is only relevant when the object can accept mouse clicks which is determined by the <code>&quot;pickableparts&quot;</code> property.  See <a href="#XREFpatchpickableparts">pickableparts&nbsp;property<!-- /@w --></a>.
 </p>
 
 <a name="XREFpatchinterruptible"></a><a name="index-patch-interruptible"></a>
 </dd>
 <dt><code>interruptible</code>: <code>&quot;off&quot;</code> | {<code>&quot;on&quot;</code>}</dt>
-<dd>
-
+<dd><p>Specify whether this object&rsquo;s callback functions may be interrupted by other callbacks.  By default <code>interruptible</code> is <code>&quot;on&quot;</code> and callbacks that make use of <code>drawnow</code>, <code>figure</code>, <code>waitfor</code>, <code>getframe</code> or <code>pause</code> functions are eventually interrupted.
+See <a href="Callbacks.html#Callbacks">Callbacks&nbsp;section<!-- /@w --></a>.
+</p>
 
 <a name="XREFpatchlinestyle"></a><a name="index-patch-linestyle"></a>
 </dd>
@@ -296,6 +286,12 @@ Patch color can be defined for faces or for vertices.
 </dd>
 <dt><code>parent</code>: graphics handle</dt>
 <dd><p>Handle of the parent graphics object.
+</p>
+
+<a name="XREFpatchpickableparts"></a><a name="index-patch-pickableparts"></a>
+</dd>
+<dt><code>pickableparts</code>: <code>&quot;all&quot;</code> | <code>&quot;none&quot;</code> | {<code>&quot;visible&quot;</code>}</dt>
+<dd><p>Specify whether patch will accept mouse clicks.  By default, <code>pickableparts</code> is <code>&quot;visible&quot;</code> and only visible parts of the patch or its children may react to mouse clicks.  When <code>pickableparts</code> is <code>&quot;all&quot;</code> both visible and invisible parts (or children) may react to mouse clicks.  When <code>pickableparts</code> is <code>&quot;none&quot;</code> mouse clicks on the object are ignored and transmitted to any objects underneath this one.  When an object is configured to accept mouse clicks the <code>&quot;hittest&quot;</code> property will determine how they are processed.  See <a href="#XREFpatchhittest">hittest&nbsp;property<!-- /@w --></a>.
 </p>
 
 <a name="XREFpatchselected"></a><a name="index-patch-selected"></a>

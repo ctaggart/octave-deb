@@ -1,22 +1,22 @@
 @c DO NOT EDIT!  Generated automatically by munge-texi.pl.
 
-@c Copyright (C) 1996-2017 John W. Eaton
+@c Copyright (C) 1996-2018 John W. Eaton
 @c
 @c This file is part of Octave.
 @c
-@c Octave is free software; you can redistribute it and/or modify it
-@c under the terms of the GNU General Public License as published by the
-@c Free Software Foundation; either version 3 of the License, or (at
-@c your option) any later version.
+@c Octave is free software: you can redistribute it and/or modify it
+@c under the terms of the GNU General Public License as published by
+@c the Free Software Foundation, either version 3 of the License, or
+@c (at your option) any later version.
 @c
-@c Octave is distributed in the hope that it will be useful, but WITHOUT
-@c ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-@c FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-@c for more details.
+@c Octave is distributed in the hope that it will be useful, but
+@c WITHOUT ANY WARRANTY; without even the implied warranty of
+@c MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+@c GNU General Public License for more details.
 @c
 @c You should have received a copy of the GNU General Public License
 @c along with Octave; see the file COPYING.  If not, see
-@c <http://www.gnu.org/licenses/>.
+@c <https://www.gnu.org/licenses/>.
 
 @node Input and Output
 @chapter Input and Output
@@ -142,59 +142,50 @@ window in characters (rows and columns).
 @anchor{XREFformat}
 @deftypefn  {} {} format
 @deftypefnx {} {} format options
-Reset or specify the format of the output produced by @code{disp} and
-Octave's normal echoing mechanism.
+@deftypefnx {} {[@var{format}, @var{formatspacing}] =} format
+Reset or specify the format of the output produced by @code{disp} and Octave's
+normal echoing mechanism.
 
-This command only affects the display of numbers but not how they are stored
-or computed.  To change the internal representation from the default double
-use one of the conversion functions such as @code{single}, @code{uint8},
+This command only affects the display of numbers, but not how they are stored
+or computed.  To change the internal representation from the default double use
+one of the conversion functions such as @code{single}, @code{uint8},
 @code{int64}, etc.
 
 By default, Octave displays 5 significant digits in a human readable form
-(option @samp{short} paired with @samp{loose} format for matrices).
-If @code{format} is invoked without any options, this default format
-is restored.
+(option @samp{short} paired with @samp{loose} format for matrices).  If
+@code{format} is invoked without any options, this default format is restored.
 
 Valid formats for floating point numbers are listed in the following
 table.
 
 @table @code
 @item short
-Fixed point format with 5 significant figures in a field that is a maximum
-of 10 characters wide.  (default).
-
-If Octave is unable to format a matrix so that columns line up on the
-decimal point and all numbers fit within the maximum field width then
-it switches to an exponential @samp{e} format.
+Fixed point format with 5 significant figures (default).
 
 @item long
-Fixed point format with 15 significant figures in a field that is a maximum
-of 20 characters wide.
+Fixed point format with 16 significant figures.
 
-As with the @samp{short} format, Octave will switch to an exponential
-@samp{e} format if it is unable to format a matrix properly using the
-current format.
+As with the @samp{short} format, Octave will switch to an exponential @samp{e}
+format if it is unable to format a matrix properly using the current format.
 
 @item  short e
 @itemx long e
-Exponential format.  The number to be represented is split between a
-mantissa and an exponent (power of 10).  The mantissa has 5 significant
-digits in the short format and 15 digits in the long format.  For example,
-with the @samp{short e} format, @code{pi} is displayed as
-@code{3.1416e+00}.
+Exponential format.  The number to be represented is split between a mantissa
+and an exponent (power of 10).  The mantissa has 5 significant digits in the
+short format.  In the long format, double values are displayed with 16
+significant digits and single values are displayed with 8.  For example,
+with the @samp{short e} format, @code{pi} is displayed as @code{3.1416e+00}.
 
 @item  short E
 @itemx long E
-Identical to @samp{short e} or @samp{long e} but displays an uppercase
-@samp{E} to indicate the exponent.
-For example, with the @samp{long E} format, @code{pi} is displayed as
-@code{3.14159265358979E+00}.
+Identical to @samp{short e} or @samp{long e} but displays an uppercase @samp{E}
+to indicate the exponent.  For example, with the @samp{long E} format,
+@code{pi} is displayed as @code{3.141592653589793E+00}.
 
 @item  short g
 @itemx long g
-Optimally choose between fixed point and exponential format based on
-the magnitude of the number.
-For example, with the @samp{short g} format,
+Optimally choose between fixed point and exponential format based on the
+magnitude of the number.  For example, with the @samp{short g} format,
 @code{pi .^ [2; 4; 8; 16; 32]} is displayed as
 
 @example
@@ -211,40 +202,43 @@ ans =
 
 @item  short eng
 @itemx long eng
-Identical to @samp{short e} or @samp{long e} but displays the value
-using an engineering format, where the exponent is divisible by 3.  For
-example, with the @samp{short eng} format, @code{10 * pi} is displayed as
-@code{31.4159e+00}.
+Identical to @samp{short e} or @samp{long e} but displays the value using an
+engineering format, where the exponent is divisible by 3.  For example, with
+the @samp{short eng} format, @code{10 * pi} is displayed as @code{31.416e+00}.
 
 @item  long G
 @itemx short G
-Identical to @samp{short g} or @samp{long g} but displays an uppercase
-@samp{E} to indicate the exponent.
+Identical to @samp{short g} or @samp{long g} but displays an uppercase @samp{E}
+to indicate the exponent.
 
 @item  free
 @itemx none
-Print output in free format, without trying to line up columns of
-matrices on the decimal point.  This also causes complex numbers to be
-formatted as numeric pairs like this @samp{(0.60419, 0.60709)} instead
-of like this @samp{0.60419 + 0.60709i}.
+Print output in free format, without trying to line up columns of matrices on
+the decimal point.  This is a raw format equivalent to the C++ code
+@code{std::cout << @var{variable}}.  In general, the result is a presentation
+with 6 significant digits where unnecessary precision (such as trailing zeros
+for integers) is suppressed.  Complex numbers are formatted as numeric pairs
+like this @samp{(0.60419, 0.60709)} instead of like this
+@samp{0.60419 + 0.60709i}.
 @end table
 
-The following formats affect all numeric output (floating point and
-integer types).
+The following formats affect all numeric output (floating point and integer
+types).
 
-@table @code
-@item  "+"
-@itemx "+" @var{chars}
-@itemx plus
-@itemx plus @var{chars}
-Print a @samp{+} symbol for matrix elements greater than zero, a
-@samp{-} symbol for elements less than zero and a space for zero matrix
-elements.  This format can be very useful for examining the structure
-of a large sparse matrix.
+@table @asis
+@item  @qcode{"+"}
+@itemx @qcode{"+"} @qcode{"@var{chars}"}
+@itemx @code{plus}
+@itemx @code{plus @var{chars}}
+Print a @samp{+} symbol for matrix elements greater than zero, a @samp{-}
+symbol for elements less than zero, and a space for zero matrix elements.  This
+format can be useful for examining the sparsity structure of a large matrix.
+For very large matrices the function @code{spy} which plots the sparsity
+pattern will be clearer.
 
-The optional argument @var{chars} specifies a list of 3 characters to use
-for printing values greater than zero, less than zero and equal to zero.
-For example, with the @samp{"+" "+-."} format,
+The optional argument @var{chars} specifies a list of 3 characters to use for
+printing values greater than zero, less than zero, and equal to zero.  For
+example, with the format @qcode{"+" "+-."}, the matrix
 @code{[1, 0, -1; -1, 0, 1]} is displayed as
 
 @example
@@ -257,23 +251,23 @@ ans =
 @end example
 
 @item bank
-Print in a fixed format with two digits to the right of the decimal
-point.
+Print variable in a format appropriate for a currency (fixed format with two
+digits to the right of the decimal point).  Only the real part of a variable is
+displayed, as the imaginary part makes no sense for a currency.
 
 @item native-hex
-Print the hexadecimal representation of numbers as they are stored in
-memory.  For example, on a workstation which stores 8 byte real values
-in IEEE format with the least significant byte first, the value of
-@code{pi} when printed in @code{native-hex} format is
-@code{400921fb54442d18}.
+Print the hexadecimal representation of numbers as they are stored in memory.
+For example, on a workstation which stores 8 byte real values in IEEE format
+with the least significant byte first, the value of @code{pi} when printed in
+@code{native-hex} format is @code{400921fb54442d18}.
 
 @item hex
-The same as @code{native-hex}, but always print the most significant
-byte first.
+The same as @code{native-hex}, but always print the most significant byte
+first.
 
 @item native-bit
-Print the bit representation of numbers as stored in memory.
-For example, the value of @code{pi} is
+Print the bit representation of numbers as stored in memory.  For example, the
+value of @code{pi} is
 
 @example
 @group
@@ -282,33 +276,36 @@ For example, the value of @code{pi} is
 @end group
 @end example
 
-(shown here in two 32 bit sections for typesetting purposes) when
-printed in native-bit format on a workstation which stores 8 byte real
-values in IEEE format with the least significant byte first.
+(shown here in two 32 bit sections for typesetting purposes) when printed in
+native-bit format on a workstation which stores 8 byte real values in IEEE
+format with the least significant byte first.
 
 @item bit
-The same as @code{native-bit}, but always print the most significant
-bits first.
+The same as @code{native-bit}, but always print the most significant bits
+first.
 
 @item rat
-Print a rational approximation, i.e., values are approximated
-as the ratio of small integers.
-For example, with the @samp{rat} format,
-@code{pi} is displayed as @code{355/113}.
+Print a rational approximation, i.e., values are approximated as the ratio of
+small integers.  For example, with the @samp{rat} format, @code{pi} is
+displayed as @code{355/113}.
 @end table
 
 The following two options affect the display of all matrices.
 
 @table @code
 @item compact
-Remove blank lines around column number labels and between
-matrices producing more compact output with more data per page.
+Remove blank lines around column number labels and between matrices producing
+more compact output with more data per page.
 
 @item loose
-Insert blank lines above and below column number labels and between matrices
-to produce a more readable output with less data per page.  (default).
+Insert blank lines above and below column number labels and between matrices to
+produce a more readable output with less data per page.  (default).
 @end table
-@seealso{@ref{XREFfixed_point_format,,fixed_point_format}, @ref{XREFoutput_max_field_width,,output_max_field_width}, @ref{XREFoutput_precision,,output_precision}, @ref{XREFsplit_long_rows,,split_long_rows}, @ref{XREFprint_empty_dimensions,,print_empty_dimensions}, @ref{XREFrats,,rats}}
+
+If called with one or two output arguments, and no inputs, return the current
+format and format spacing.
+
+@seealso{@ref{XREFfixed_point_format,,fixed_point_format}, @ref{XREFoutput_precision,,output_precision}, @ref{XREFsplit_long_rows,,split_long_rows}, @ref{XREFprint_empty_dimensions,,print_empty_dimensions}, @ref{XREFrats,,rats}}
 @end deftypefn
 
 
@@ -319,25 +316,24 @@ to produce a more readable output with less data per page.  (default).
 @node Paging Screen Output
 @subsubsection Paging Screen Output
 
-When running interactively, Octave normally sends any output intended
-for your terminal that is more than one screen long to a paging program,
-such as @code{less} or @code{more}.  This avoids the problem of having a
-large volume of output stream by before you can read it.  With
-@code{less} (and some versions of @code{more}) you can also scan forward
-and backward, and search for specific items.
+When running interactively, Octave normally sends all output directly to the
+Command Window.  However, when using the CLI version of Octave this can create
+a problem because large volumes of data will stream by before you can read
+them.  In such cases, it is better to use a paging program such as @code{less}
+or @code{more} which displays just one screenful at a time.  With @code{less}
+(and some versions of @code{more}) you can also scan forward and backward, and
+search for specific items.  The pager is enabled by the command @code{more on}.
 
-Normally, no output is displayed by the pager until just before Octave
-is ready to print the top level prompt, or read from the standard input
-(for example, by using the @code{fscanf} or @code{scanf} functions).
-This means that there may be some delay before any output appears on
-your screen if you have asked Octave to perform a significant amount of
-work with a single command statement.  The function @code{fflush} may be
-used to force output to be sent to the pager (or any other stream)
-immediately.
+Normally, no output is displayed by the pager until just before Octave is ready
+to print the top level prompt, or read from the standard input (for example, by
+using the @code{fscanf} or @code{scanf} functions).  This means that there may
+be some delay before any output appears on your screen if you have asked Octave
+to perform a significant amount of work with a single command statement.  The
+function @code{fflush} may be used to force output to be sent to the pager (or
+any other stream) immediately.
 
-You can select the program to run as the pager using the @env{PAGER}
-function, and you can turn paging off by using the function
-@code{more}.
+You can select the program to run as the pager with the @code{PAGER} function,
+and configure the pager itself with the @code{PAGER_FLAGS} function.
 
 @c more libinterp/corefcn/pager.cc
 @anchor{XREFmore}
@@ -611,21 +607,24 @@ A
 @deftypefn  {} {} save file
 @deftypefnx {} {} save options file
 @deftypefnx {} {} save options file @var{v1} @var{v2} @dots{}
+@deftypefnx {} {} save options file -struct @var{STRUCT}
 @deftypefnx {} {} save options file -struct @var{STRUCT} @var{f1} @var{f2} @dots{}
 @deftypefnx {} {} save - @var{v1} @var{v2} @dots{}
 @deftypefnx {} {@var{str} =} save ("-", @qcode{"@var{v1}"}, @qcode{"@var{v2}"}, @dots{})
-Save the named variables @var{v1}, @var{v2}, @dots{}, in the file
-@var{file}.
+Save the named variables @var{v1}, @var{v2}, @dots{}, in the file @var{file}.
 
-The special filename @samp{-} may be used to return the
-content of the variables as a string.  If no variable names are listed,
-Octave saves all the variables in the current scope.  Otherwise, full
-variable names or pattern syntax can be used to specify the variables to
-save.  If the @option{-struct} modifier is used, fields @var{f1} @var{f2}
-@dots{} of the scalar structure @var{STRUCT} are saved as if they were
-variables with corresponding names.  Valid options for the @code{save}
-command are listed in the following table.  Options that modify the output
-format override the format specified by @code{save_default_options}.
+The special filename @samp{-} may be used to return the content of the
+variables as a string.  If no variable names are listed, Octave saves all the
+variables in the current scope.  Otherwise, full variable names or pattern
+syntax can be used to specify the variables to save.  If the @option{-struct}
+modifier is used then the fields of the @strong{scalar} struct are saved as if
+they were variables with the corresponding field names.  The @option{-struct}
+option can be combined with specific field names @var{f1}, @var{f2}, @dots{} to
+write only certain fields to the file.
+
+Valid options for the @code{save} command are listed in the following table.
+Options that modify the output format override the format specified by
+@code{save_default_options}.
 
 If save is invoked using the functional form
 
@@ -634,38 +633,48 @@ save ("-option1", @dots{}, "file", "v1", @dots{})
 @end example
 
 @noindent
-then the @var{options}, @var{file}, and variable name arguments
-(@var{v1}, @dots{}) must be specified as character strings.
+then the @var{options}, @var{file}, and variable name arguments (@var{v1},
+@dots{}) must be specified as character strings.
 
-If called with a filename of @qcode{"-"}, write the output to stdout
-if nargout is 0, otherwise return the output in a character string.
+If called with a filename of @qcode{"-"}, write the output to stdout if nargout
+is 0, otherwise return the output in a character string.
 
 @table @code
 @item -append
 Append to the destination instead of overwriting.
 
 @item -ascii
-Save a single matrix in a text file without header or any other information.
+Save a matrix in a text file without a header or any other information.  The
+matrix must be 2-D and only the real part of any complex value is written to
+the file.  Numbers are stored in single-precision format and separated by
+spaces.  Additional options for the @option{-ascii} format are
+
+@table @code
+@item -double
+Store numbers in double-precision format.
+
+@item -tabs
+Separate numbers with tabs.
+@end table
 
 @item -binary
 Save the data in Octave's binary data format.
 
 @item -float-binary
-Save the data in Octave's binary data format but only using single
-precision.  Only use this format if you know that all the
-values to be saved can be represented in single precision.
+Save the data in Octave's binary data format but using only single precision.
+Use this format @strong{only} if you know that all the values to be saved can
+be represented in single precision.
 
 @item -hdf5
 Save the data in @sc{hdf5} format.
-(HDF5 is a free, portable binary format developed by the National
-Center for Supercomputing Applications at the University of Illinois.)
-This format is only available if Octave was built with a link to the
-@sc{hdf5} libraries.
+(HDF5 is a free, portable, binary format developed by the National Center for
+Supercomputing Applications at the University of Illinois.) This format is only
+available if Octave was built with a link to the @sc{hdf5} libraries.
 
 @item -float-hdf5
-Save the data in @sc{hdf5} format but only using single precision.
-Only use this format if you know that all the
-values to be saved can be represented in single precision.
+Save the data in @sc{hdf5} format but using only single precision.  Use this
+format @strong{only} if you know that all the values to be saved can be
+represented in single precision.
 
 @item  -V7
 @itemx -v7
@@ -691,15 +700,14 @@ Save the data in Octave's text data format.  (default).
 
 @item  -zip
 @itemx -z
-Use the gzip algorithm to compress the file.  This works equally on files
-that are compressed with gzip outside of octave, and gzip can equally be
-used to convert the files for backward compatibility.
-This option is only available if Octave was built with a link to the zlib
-libraries.
+Use the gzip algorithm to compress the file.  This works on files that are
+compressed with gzip outside of Octave, and gzip can also be used to convert
+the files for backward compatibility.  This option is only available if Octave
+was built with a link to the zlib libraries.
 @end table
 
-The list of variables to save may use wildcard patterns containing
-the following special characters:
+The list of variables to save may use wildcard patterns containing the
+following special characters:
 
 @table @code
 @item ?
@@ -709,21 +717,20 @@ Match any single character.
 Match zero or more characters.
 
 @item [ @var{list} ]
-Match the list of characters specified by @var{list}.  If the first
-character is @code{!} or @code{^}, match all characters except those
-specified by @var{list}.  For example, the pattern @code{[a-zA-Z]} will
-match all lower and uppercase alphabetic characters.
+Match the list of characters specified by @var{list}.  If the first character
+is @code{!} or @code{^}, match all characters except those specified by
+@var{list}.  For example, the pattern @code{[a-zA-Z]} will match all lower and
+uppercase alphabetic characters.
 
-Wildcards may also be used in the field name specifications when using
-the @option{-struct} modifier (but not in the struct name itself).
+Wildcards may also be used in the field name specifications when using the
+@option{-struct} modifier (but not in the struct name itself).
 
 @end table
 
-Except when using the @sc{matlab} binary data file format or the
-@samp{-ascii} format, saving global
-variables also saves the global status of the variable.  If the variable
-is restored at a later time using @samp{load}, it will be restored as a
-global variable.
+Except when using the @sc{matlab} binary data file format or the @samp{-ascii}
+format, saving global variables also saves the global status of the variable.
+If the variable is restored at a later time using @samp{load}, it will be
+restored as a global variable.
 
 The command
 
@@ -732,9 +739,9 @@ save -binary data a b*
 @end example
 
 @noindent
-saves the variable @samp{a} and all variables beginning with @samp{b} to
-the file @file{data} in Octave's binary format.
-@seealso{@ref{XREFload,,load}, @ref{XREFsave_default_options,,save_default_options}, @ref{XREFsave_header_format_string,,save_header_format_string}, @ref{XREFdlmread,,dlmread}, @ref{XREFcsvread,,csvread}, @ref{XREFfread,,fread}}
+saves the variable @samp{a} and all variables beginning with @samp{b} to the
+file @file{data} in Octave's binary format.
+@seealso{@ref{XREFload,,load}, @ref{XREFsave_default_options,,save_default_options}, @ref{XREFsave_header_format_string,,save_header_format_string}, @ref{XREFsave_precision,,save_precision}, @ref{XREFdlmread,,dlmread}, @ref{XREFcsvread,,csvread}, @ref{XREFfread,,fread}}
 @end deftypefn
 
 
@@ -748,13 +755,13 @@ There are three functions that modify the behavior of @code{save}.
 Query or set the internal variable that specifies the default options
 for the @code{save} command, and defines the default format.
 
-Typical values include @qcode{"-ascii"}, @qcode{"-text -zip"}.
-The default value is @option{-text}.
+The default value is @qcode{"-text"} (Octave's own text-based file format).
+See the documentation of the @code{save} command for other choices.
 
 When called from inside a function with the @qcode{"local"} option, the
 variable is changed locally for the function and any subroutines it calls.
 The original variable value is restored when exiting the function.
-@seealso{@ref{XREFsave,,save}}
+@seealso{@ref{XREFsave,,save}, @ref{XREFsave_header_format_string,,save_header_format_string}, @ref{XREFsave_precision,,save_precision}}
 @end deftypefn
 
 
@@ -766,9 +773,17 @@ The original variable value is restored when exiting the function.
 Query or set the internal variable that specifies the number of digits to
 keep when saving data in text format.
 
+The default value is 17 which is the minimum necessary for the lossless saving
+and restoring of IEEE-754 double values; For IEEE-754 single values the minimum
+value is 9.  If file size is a concern, it is probably better to choose a
+binary format for saving data rather than to reduce the precision of the saved
+values.
+
 When called from inside a function with the @qcode{"local"} option, the
 variable is changed locally for the function and any subroutines it calls.
 The original variable value is restored when exiting the function.
+
+@seealso{@ref{XREFsave_default_options,,save_default_options}}
 @end deftypefn
 
 
@@ -777,11 +792,11 @@ The original variable value is restored when exiting the function.
 @deftypefn  {} {@var{val} =} save_header_format_string ()
 @deftypefnx {} {@var{old_val} =} save_header_format_string (@var{new_val})
 @deftypefnx {} {} save_header_format_string (@var{new_val}, "local")
-Query or set the internal variable that specifies the format
-string used for the comment line written at the beginning of
-text-format data files saved by Octave.
+Query or set the internal variable that specifies the format string used for
+the comment line written at the beginning of text-format data files saved by
+Octave.
 
-The format string is passed to @code{strftime} and should begin with the
+The format string is passed to @code{strftime} and must begin with the
 character @samp{#} and contain no newline characters.  If the value of
 @code{save_header_format_string} is the empty string, the header comment is
 omitted from text-format data files.  The default value is
@@ -794,7 +809,7 @@ omitted from text-format data files.  The default value is
 When called from inside a function with the @qcode{"local"} option, the
 variable is changed locally for the function and any subroutines it calls.
 The original variable value is restored when exiting the function.
-@seealso{@ref{XREFstrftime,,strftime}, @ref{XREFsave,,save}}
+@seealso{@ref{XREFstrftime,,strftime}, @ref{XREFsave_default_options,,save_default_options}}
 @end deftypefn
 
 
@@ -1552,6 +1567,21 @@ The original variable value is restored when exiting the function.
 @end deftypefn
 
 
+@c sigquit_dumps_octave_core libinterp/corefcn/sighandlers.cc
+@anchor{XREFsigquit_dumps_octave_core}
+@deftypefn  {} {@var{val} =} sigquit_dumps_octave_core ()
+@deftypefnx {} {@var{old_val} =} sigquit_dumps_octave_core (@var{new_val})
+@deftypefnx {} {} sigquit_dumps_octave_core (@var{new_val}, "local")
+Query or set the internal variable that controls whether Octave tries
+to save all current variables to the file @file{octave-workspace} if it
+receives a quit signal.
+
+When called from inside a function with the @qcode{"local"} option, the
+variable is changed locally for the function and any subroutines it calls.
+The original variable value is restored when exiting the function.
+@end deftypefn
+
+
 @c sigterm_dumps_octave_core libinterp/corefcn/sighandlers.cc
 @anchor{XREFsigterm_dumps_octave_core}
 @deftypefn  {} {@var{val} =} sigterm_dumps_octave_core ()
@@ -1591,15 +1621,17 @@ The original variable value is restored when exiting the function.
 @deftypefn  {} {@var{val} =} octave_core_file_limit ()
 @deftypefnx {} {@var{old_val} =} octave_core_file_limit (@var{new_val})
 @deftypefnx {} {} octave_core_file_limit (@var{new_val}, "local")
-Query or set the internal variable that specifies the maximum amount
-of memory (in kilobytes) of the top-level workspace that Octave will
-attempt to save when writing data to the crash dump file (the name of
-the file is specified by @var{octave_core_file_name}).
+Query or set the internal variable that specifies the maximum amount of memory
+that Octave will save when writing a crash dump file.
 
-If @var{octave_core_file_options} flags specify a binary format,
-then @var{octave_core_file_limit} will be approximately the maximum
-size of the file.  If a text file format is used, then the file could
-be much larger than the limit.  The default value is -1 (unlimited)
+The limit is measured in kilobytes and is applied to the top-level workspace.
+The name of the crash dump file is is specified by
+@var{octave_core_file_name}).
+
+If @var{octave_core_file_options} flags specify a binary format, then
+@var{octave_core_file_limit} will be approximately the maximum size of the
+file.  If a text file format is used, then the file could be much larger than
+the limit.  The default value is -1 (unlimited).
 
 When called from inside a function with the @qcode{"local"} option, the
 variable is changed locally for the function and any subroutines it calls.
@@ -1657,8 +1689,8 @@ line editing functions.
 @deftypefn {} {} stdout ()
 Return the numeric value corresponding to the standard output stream.
 
-Data written to the standard output is normally filtered through the pager.
-@seealso{@ref{XREFstdin,,stdin}, @ref{XREFstderr,,stderr}}
+Data written to the standard output may be filtered through the pager.
+@seealso{@ref{XREFstdin,,stdin}, @ref{XREFstderr,,stderr}, @ref{XREFpage_screen_output,,page_screen_output}}
 @end deftypefn
 
 
@@ -1726,7 +1758,7 @@ fclose (fid);
 Open a file for low-level I/O or query open files and file descriptors.
 
 The first form of the @code{fopen} function opens the named file with
-the specified mode (read-write, read-only, etc.) and architecture
+the specified mode (read-write, read-only, etc.@:) and architecture
 interpretation (IEEE big endian, IEEE little endian, etc.), and returns
 an integer value that may be used to refer to the file later.  If an
 error occurs, @var{fid} is set to @minus{}1 and @var{msg} contains the
@@ -2685,8 +2717,9 @@ integers in octal, decimal, and hexadecimal radices, respectively.
 The @samp{%X} conversion is identical to the @samp{%x} conversion.  They
 both permit either uppercase or lowercase letters to be used as digits.
 
-Unlike the C language @code{scanf}, Octave ignores the @samp{h},
-@samp{l}, and @samp{L} modifiers.
+By default, integers are read as 32-bit quantities.  With the @samp{h}
+modifier, 16-bit integers are used, and with the @samp{l} modifier,
+64-bit integers are used.
 
 @node String Input Conversions
 @subsection String Input Conversions
@@ -2763,44 +2796,45 @@ The optional argument @var{precision} is a string specifying the type of
 data to read and may be one of
 
 @table @asis
-@item  @qcode{"schar"}
-@itemx @qcode{"signed char"}
-Signed character.
-
-@item  @qcode{"uchar"}
-@itemx @qcode{"unsigned char"}
-Unsigned character.
+@item @qcode{"uint8"} (default)
+8-bit unsigned integer.
 
 @item  @qcode{"int8"}
 @itemx @qcode{"integer*1"}
-
 8-bit signed integer.
+
+@item  @qcode{"uint16"}
+@itemx @qcode{"ushort"}
+@itemx @qcode{"unsigned short"}
+16-bit unsigned integer.
 
 @item  @qcode{"int16"}
 @itemx @qcode{"integer*2"}
+@itemx @qcode{"short"}
 16-bit signed integer.
 
-@item  @qcode{"int32"}
+@item  @qcode{"uint"}
+@itemx @qcode{"uint32"}
+@itemx @qcode{"unsigned int"}
+@itemx @qcode{"ulong"}
+@itemx @qcode{"unsigned long"}
+32-bit unsigned integer.
+
+@item  @qcode{"int"}
+@itemx @qcode{"int32"}
 @itemx @qcode{"integer*4"}
+@itemx @qcode{"long"}
 32-bit signed integer.
+
+@item @qcode{"uint64"}
+64-bit unsigned integer.
 
 @item  @qcode{"int64"}
 @itemx @qcode{"integer*8"}
 64-bit signed integer.
 
-@item @qcode{"uint8"}
-8-bit unsigned integer.
-
-@item @qcode{"uint16"}
-16-bit unsigned integer.
-
-@item @qcode{"uint32"}
-32-bit unsigned integer.
-
-@item @qcode{"uint64"}
-64-bit unsigned integer.
-
 @item  @qcode{"single"}
+@itemx @qcode{"float"}
 @itemx @qcode{"float32"}
 @itemx @qcode{"real*4"}
 32-bit floating point number.
@@ -2812,35 +2846,20 @@ Unsigned character.
 
 @item  @qcode{"char"}
 @itemx @qcode{"char*1"}
-Single character.
+8-bit single character.
 
-@item @qcode{"short"}
-Short integer (size is platform dependent).
+@item  @qcode{"uchar"}
+@itemx @qcode{"unsigned char"}
+8-bit unsigned character.
 
-@item @qcode{"int"}
-Integer (size is platform dependent).
+@item  @qcode{"schar"}
+@itemx @qcode{"signed char"}
+8-bit signed character.
 
-@item @qcode{"long"}
-Long integer (size is platform dependent).
-
-@item  @qcode{"ushort"}
-@itemx @qcode{"unsigned short"}
-Unsigned short integer (size is platform dependent).
-
-@item  @qcode{"uint"}
-@itemx @qcode{"unsigned int"}
-Unsigned integer (size is platform dependent).
-
-@item  @qcode{"ulong"}
-@itemx @qcode{"unsigned long"}
-Unsigned long integer (size is platform dependent).
-
-@item @qcode{"float"}
-Single precision floating point number (size is platform dependent).
 @end table
 
 @noindent
-The default precision is @qcode{"uchar"}.
+The default precision is @qcode{"uint8"}.
 
 The @var{precision} argument may also specify an optional repeat
 count.  For example, @samp{32*single} causes @code{fread} to read
@@ -3060,7 +3079,7 @@ end-of-file condition.
 @deftypefn  {} {@var{msg} =} ferror (@var{fid})
 @deftypefnx {} {[@var{msg}, @var{err}] =} ferror (@var{fid})
 @deftypefnx {} {[@dots{}] =} ferror (@var{fid}, "clear")
-Query the error status of the stream specified by file descriptor @var{fid}
+Query the error status of the stream specified by file descriptor @var{fid}.
 
 If an error condition exists then return a string @var{msg} describing the
 error.  Otherwise, return an empty string @qcode{""}.
@@ -3132,38 +3151,43 @@ beginning of the file specified by file descriptor @var{fid}.
 @deftypefnx {} {@var{status} =} fseek (@dots{})
 Set the file pointer to the location @var{offset} within the file @var{fid}.
 
-The pointer is positioned @var{offset} characters from the @var{origin},
-which may be one of the predefined variables @w{@code{SEEK_CUR}} (current
-position), @w{@code{SEEK_SET}} (beginning), or @w{@code{SEEK_END}} (end of
-file) or strings @qcode{"cof"}, @qcode{"bof"} or @qcode{"eof"}.  If
-@var{origin} is omitted, @w{@code{SEEK_SET}} is assumed.  @var{offset} may
-be positive, negative, or zero but not all combinations of @var{origin} and
-@var{offset} can be realized.
+The pointer is positioned @var{offset} characters from the @var{origin}, which
+may be one of the predefined variables @w{@code{SEEK_SET}} (beginning),
+@w{@code{SEEK_CUR}} (current position), or @w{@code{SEEK_END}} (end of file) or
+strings @nospell{@qcode{"bof"}}, @nospell{@qcode{"cof"}}, or
+@nospell{@qcode{"eof"}}.  If @var{origin} is omitted, @w{@code{SEEK_SET}} is
+assumed.  @var{offset} may be positive, negative, or zero but not all
+combinations of @var{origin} and @var{offset} can be realized.
 
 @code{fseek} returns 0 on success and -1 on error.
-@seealso{@ref{XREFfskipl,,fskipl}, @ref{XREFfrewind,,frewind}, @ref{XREFftell,,ftell}, @ref{XREFfopen,,fopen}}
+@seealso{@ref{XREFfskipl,,fskipl}, @ref{XREFfrewind,,frewind}, @ref{XREFftell,,ftell}, @ref{XREFfopen,,fopen}, @ref{XREFSEEK_SET,,SEEK_SET}, @ref{XREFSEEK_CUR,,SEEK_CUR}, @ref{XREFSEEK_END,,SEEK_END}}
 @end deftypefn
 
 
 @c SEEK_SET libinterp/corefcn/file-io.cc
 @anchor{XREFSEEK_SET}
-@deftypefn  {} {} SEEK_SET ()
-@deftypefnx {} {} SEEK_CUR ()
-@deftypefnx {} {} SEEK_END ()
-Return the numerical value to pass to @code{fseek} to perform one of the
-following actions:
+@deftypefn {} {} SEEK_SET ()
+Return the numerical value to pass to @code{fseek} to position the file pointer
+relative to the beginning of the file.
+@seealso{@ref{XREFSEEK_CUR,,SEEK_CUR}, @ref{XREFSEEK_END,,SEEK_END}, @ref{XREFfseek,,fseek}}
+@end deftypefn
 
-@table @code
-@item SEEK_SET
-Position file relative to the beginning.
 
-@item SEEK_CUR
-Position file relative to the current position.
+@c SEEK_CUR libinterp/corefcn/file-io.cc
+@anchor{XREFSEEK_CUR}
+@deftypefn {} {} SEEK_CUR ()
+Return the numerical value to pass to @code{fseek} to position the file pointer
+relative to the current position.
+@seealso{@ref{XREFSEEK_SET,,SEEK_SET}, @ref{XREFSEEK_END,,SEEK_END}, @ref{XREFfseek,,fseek}}
+@end deftypefn
 
-@item SEEK_END
-Position file relative to the end.
-@end table
-@seealso{@ref{XREFfseek,,fseek}}
+
+@c SEEK_END libinterp/corefcn/file-io.cc
+@anchor{XREFSEEK_END}
+@deftypefn {} {} SEEK_END ()
+Return the numerical value to pass to @code{fseek} to position the file pointer
+relative to the end of the file.
+@seealso{@ref{XREFSEEK_SET,,SEEK_SET}, @ref{XREFSEEK_CUR,,SEEK_CUR}, @ref{XREFfseek,,fseek}}
 @end deftypefn
 
 

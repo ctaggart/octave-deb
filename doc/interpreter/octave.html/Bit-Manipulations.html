@@ -63,8 +63,8 @@ values on a bit by bit basis.  The basic functions to set and obtain the
 values of individual bits are <code>bitset</code> and <code>bitget</code>.
 </p>
 <a name="XREFbitset"></a><dl>
-<dt><a name="index-bitset"></a>: <em><var>C</var> =</em> <strong>bitset</strong> <em>(<var>A</var>, <var>n</var>)</em></dt>
-<dt><a name="index-bitset-1"></a>: <em><var>C</var> =</em> <strong>bitset</strong> <em>(<var>A</var>, <var>n</var>, <var>val</var>)</em></dt>
+<dt><a name="index-bitset"></a><em><var>C</var> =</em> <strong>bitset</strong> <em>(<var>A</var>, <var>n</var>)</em></dt>
+<dt><a name="index-bitset-1"></a><em><var>C</var> =</em> <strong>bitset</strong> <em>(<var>A</var>, <var>n</var>, <var>val</var>)</em></dt>
 <dd><p>Set or reset bit(s) <var>n</var> of the unsigned integers in <var>A</var>.
 </p>
 <p><var>val</var> = 0 resets and <var>val</var> = 1 sets the bits.
@@ -81,7 +81,7 @@ size or scalars.
 
 
 <a name="XREFbitget"></a><dl>
-<dt><a name="index-bitget"></a>: <em><var>c</var> =</em> <strong>bitget</strong> <em>(<var>A</var>, <var>n</var>)</em></dt>
+<dt><a name="index-bitget"></a><em><var>c</var> =</em> <strong>bitget</strong> <em>(<var>A</var>, <var>n</var>)</em></dt>
 <dd><p>Return the status of bit(s) <var>n</var> of the unsigned integers in <var>A</var>.
 </p>
 <p>The least significant bit is <var>n</var> = 1.
@@ -128,7 +128,7 @@ two utility functions: <code>flintmax</code> for floating point integers, and
 operators.
 </p>
 <a name="XREFbitand"></a><dl>
-<dt><a name="index-bitand"></a>: <em></em> <strong>bitand</strong> <em>(<var>x</var>, <var>y</var>)</em></dt>
+<dt><a name="index-bitand"></a><em></em> <strong>bitand</strong> <em>(<var>x</var>, <var>y</var>)</em></dt>
 <dd><p>Return the bitwise AND of non-negative integers.
 </p>
 <p><var>x</var>, <var>y</var> must be in the range [0,intmax]
@@ -138,7 +138,7 @@ operators.
 
 
 <a name="XREFbitor"></a><dl>
-<dt><a name="index-bitor"></a>: <em></em> <strong>bitor</strong> <em>(<var>x</var>, <var>y</var>)</em></dt>
+<dt><a name="index-bitor"></a><em></em> <strong>bitor</strong> <em>(<var>x</var>, <var>y</var>)</em></dt>
 <dd><p>Return the bitwise OR of non-negative integers <var>x</var> and <var>y</var>.
 </p>
 
@@ -147,7 +147,7 @@ operators.
 
 
 <a name="XREFbitxor"></a><dl>
-<dt><a name="index-bitxor"></a>: <em></em> <strong>bitxor</strong> <em>(<var>x</var>, <var>y</var>)</em></dt>
+<dt><a name="index-bitxor"></a><em></em> <strong>bitxor</strong> <em>(<var>x</var>, <var>y</var>)</em></dt>
 <dd><p>Return the bitwise XOR of non-negative integers <var>x</var> and <var>y</var>.
 </p>
 
@@ -161,7 +161,7 @@ mask against which the value is negated must be defined.  Octave&rsquo;s
 bitwise &rsquo;not&rsquo; operator is <code>bitcmp</code>.
 </p>
 <a name="XREFbitcmp"></a><dl>
-<dt><a name="index-bitcmp"></a>: <em></em> <strong>bitcmp</strong> <em>(<var>A</var>, <var>k</var>)</em></dt>
+<dt><a name="index-bitcmp"></a><em></em> <strong>bitcmp</strong> <em>(<var>A</var>, <var>k</var>)</em></dt>
 <dd><p>Return the <var>k</var>-bit complement of integers in <var>A</var>.
 </p>
 <p>If <var>k</var> is omitted <code>k = log2 (flintmax) + 1</code> is assumed.
@@ -183,8 +183,8 @@ dec2bin (bitcmp (11, 6))
 <p>Octave also includes the ability to left-shift and right-shift values bitwise.
 </p>
 <a name="XREFbitshift"></a><dl>
-<dt><a name="index-bitshift"></a>: <em></em> <strong>bitshift</strong> <em>(<var>a</var>, <var>k</var>)</em></dt>
-<dt><a name="index-bitshift-1"></a>: <em></em> <strong>bitshift</strong> <em>(<var>a</var>, <var>k</var>, <var>n</var>)</em></dt>
+<dt><a name="index-bitshift"></a><em></em> <strong>bitshift</strong> <em>(<var>a</var>, <var>k</var>)</em></dt>
+<dt><a name="index-bitshift-1"></a><em></em> <strong>bitshift</strong> <em>(<var>a</var>, <var>k</var>, <var>n</var>)</em></dt>
 <dd><p>Return a <var>k</var> bit shift of <var>n</var>-digit unsigned integers in <var>a</var>.
 </p>
 <p>A positive <var>k</var> leads to a left shift; A negative value to a right shift.

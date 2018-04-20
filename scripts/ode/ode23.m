@@ -1,24 +1,24 @@
-## Copyright (C) 2016-2017 Carlo de Falco
-## Copyright (C) 2016 Francesco Faccio <francesco.faccio@mail.polimi.it>
-## Copyright (C) 2014-2016 Jacopo Corno <jacopo.corno@gmail.com>
-## Copyright (C) 2013-2016 Roberto Porcu' <roberto.porcu@polimi.it>
-## Copyright (C) 2006-2016 Thomas Treichl <treichl@users.sourceforge.net>
+## Copyright (C) 2016-2018 Carlo de Falco
+## Copyright (C) 2016-2018 Francesco Faccio <francesco.faccio@mail.polimi.it>
+## Copyright (C) 2014-2018 Jacopo Corno <jacopo.corno@gmail.com>
+## Copyright (C) 2013-2018 Roberto Porcu' <roberto.porcu@polimi.it>
+## Copyright (C) 2006-2018 Thomas Treichl <treichl@users.sourceforge.net>
 ##
 ## This file is part of Octave.
 ##
-## Octave is free software; you can redistribute it and/or modify it
+## Octave is free software: you can redistribute it and/or modify it
 ## under the terms of the GNU General Public License as published by
-## the Free Software Foundation; either version 3 of the License, or (at
-## your option) any later version.
+## the Free Software Foundation, either version 3 of the License, or
+## (at your option) any later version.
 ##
 ## Octave is distributed in the hope that it will be useful, but
 ## WITHOUT ANY WARRANTY; without even the implied warranty of
-## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-## General Public License for more details.
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU General Public License for more details.
 ##
 ## You should have received a copy of the GNU General Public License
 ## along with Octave; see the file COPYING.  If not, see
-## <http://www.gnu.org/licenses/>.
+## <https://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
 ## @deftypefn  {} {[@var{t}, @var{y}] =} ode23 (@var{fun}, @var{trange}, @var{init})
@@ -29,8 +29,6 @@
 ##
 ## Solve a set of non-stiff Ordinary Differential Equations (non-stiff ODEs)
 ## with the well known explicit @nospell{Bogacki-Shampine} method of order 3.
-## For the definition of this method see
-## @url{http://en.wikipedia.org/wiki/List_of_Runge%E2%80%93Kutta_methods}.
 ##
 ## @var{fun} is a function handle, inline function, or string containing the
 ## name of the function that defines the ODE: @code{y' = f(t,y)}.  The function
@@ -45,8 +43,8 @@
 ##
 ## By default, @code{ode23} uses an adaptive timestep with the
 ## @code{integrate_adaptive} algorithm.  The tolerance for the timestep
-## computation may be changed by using the options @qcode{"RelTol"}
-## and @qcode{"AbsTol"}.
+## computation may be changed by using the options @qcode{"RelTol"} and
+## @qcode{"AbsTol"}.
 ##
 ## @var{init} contains the initial value for the unknowns.  If it is a row
 ## vector then the solution @var{y} will be a matrix in which each column is
@@ -60,20 +58,20 @@
 ## output @var{y} is a matrix in which each column refers to a different
 ## unknown of the problem and each row corresponds to a time in @var{t}.
 ##
-## The output can also be returned as a structure @var{solution} which
-## has a field @var{x} containing a row vector of times where the solution
-## was evaluated and a field @var{y} containing the solution matrix such
-## that each column corresponds to a time in @var{x}.
-## Use @code{fieldnames (@var{solution})} to see the other fields and
+## The output can also be returned as a structure @var{solution} which has a
+## field @var{x} containing a row vector of times where the solution was
+## evaluated and a field @var{y} containing the solution matrix such that each
+## column corresponds to a time in @var{x}.  Use
+## @w{@code{fieldnames (@var{solution})}} to see the other fields and
 ## additional information returned.
 ##
-## If no output arguments are requested, and no @code{OutputFcn} is
-## specified in @var{ode_opt}, then the @code{OutputFcn} is set to
-## @code{odeplot} and the results of the solver are plotted immediately.
+## If no output arguments are requested, and no @code{OutputFcn} is specified
+## in @var{ode_opt}, then the @code{OutputFcn} is set to @code{odeplot} and the
+## results of the solver are plotted immediately.
 ##
-## If using the @qcode{"Events"} option then three additional outputs may
-## be returned.  @var{te} holds the time when an Event function returned a
-## zero.  @var{ye} holds the value of the solution at time @var{te}.  @var{ie}
+## If using the @qcode{"Events"} option then three additional outputs may be
+## returned.  @var{te} holds the time when an Event function returned a zero.
+## @var{ye} holds the value of the solution at time @var{te}.  @var{ie}
 ## contains an index indicating which Event function was triggered in the case
 ## of multiple Event functions.
 ##
@@ -85,7 +83,10 @@
 ## [@var{t},@var{y}] = ode23 (fvdp, [0, 20], [2, 0]);
 ## @end group
 ## @end example
-## @seealso{odeset, odeget, ode45}
+##
+## Reference: For the definition of this method see
+## @url{https://en.wikipedia.org/wiki/List_of_Runge%E2%80%93Kutta_methods}.
+## @seealso{odeset, odeget, ode45, ode15s}
 ## @end deftypefn
 
 function varargout = ode23 (fun, trange, init, varargin)
@@ -191,7 +192,7 @@ function varargout = ode23 (fun, trange, init, varargin)
     odeopts.InitialStep = odeopts.direction * ...
                           starting_stepsize (order, fun, trange(1), init,
                                              odeopts.AbsTol, odeopts.RelTol,
-                                             strcmp (odeopts.NormControl, "on"),
+                                             strcmpi (odeopts.NormControl, "on"),
                                              odeopts.funarguments);
   endif
 
@@ -241,19 +242,17 @@ function varargout = ode23 (fun, trange, init, varargin)
   endif
 
   ## Print additional information if option Stats is set
-  if (strcmp (odeopts.Stats, "on"))
+  if (strcmpi (odeopts.Stats, "on"))
     nsteps    = solution.cntloop;             # cntloop from 2..end
     nfailed   = solution.cntcycles - nsteps;  # cntcycl from 1..end
     nfevals   = 3 * solution.cntcycles + 1;   # number of ode evaluations
     ndecomps  = 0;  # number of LU decompositions
     npds      = 0;  # number of partial derivatives
     nlinsols  = 0;  # no. of solutions of linear systems
-    ## Print cost statistics if no output argument is given
-    if (nargout == 0)
-      printf ("Number of successful steps: %d\n", nsteps);
-      printf ("Number of failed attempts:  %d\n", nfailed);
-      printf ("Number of function calls:   %d\n", nfevals);
-    endif
+
+    printf ("Number of successful steps: %d\n", nsteps);
+    printf ("Number of failed attempts:  %d\n", nfailed);
+    printf ("Number of function calls:   %d\n", nfevals);
   endif
 
   if (nargout == 2)
@@ -264,11 +263,11 @@ function varargout = ode23 (fun, trange, init, varargin)
     varargout{1}.y = solution.x.';   # Results are saved in field y (row vector)
     varargout{1}.solver = solver;   # Solver name is saved in field solver
     if (! isempty (odeopts.Events))
-      varargout{1}.ie = solution.event{2};  # Index info which event occurred
       varargout{1}.xe = solution.event{3};  # Time info when an event occurred
       varargout{1}.ye = solution.event{4};  # Results when an event occurred
+      varargout{1}.ie = solution.event{2};  # Index info which event occurred
     endif
-    if (strcmp (odeopts.Stats, "on"))
+    if (strcmpi (odeopts.Stats, "on"))
       varargout{1}.stats = struct ();
       varargout{1}.stats.nsteps   = nsteps;
       varargout{1}.stats.nfailed  = nfailed;
@@ -316,10 +315,8 @@ endfunction
 %! ## Estimate order numerically
 %! p = diff (log (err)) ./ diff (log (h))
 
-## We are using the "Van der Pol" implementation for all tests that are done
-## for this function.
-## For further tests we also define a reference solution (computed at high
-## accuracy)
+## We are using the Van der Pol equation for all tests.
+## Further tests also define a reference solution (computed at high accuracy)
 %!function ydot = fpol (t, y)  # The Van der Pol ODE
 %!  ydot = [y(2); (1 - y(1)^2) * y(2) - y(1)];
 %!endfunction
@@ -327,20 +324,20 @@ endfunction
 %!  ref = [0.32331666704577, -1.83297456798624];
 %!endfunction
 %!function [val, trm, dir] = feve (t, y, varargin)
-%!  val = fpol (t, y, varargin);    # We use the derivatives
-%!  trm = zeros (2,1);              # that's why component 2
-%!  dir = ones (2,1);               # does not seem to be exact
+%!  val = fpol (t, y, varargin);  # We use the derivatives
+%!  trm = zeros (2,1);            # that's why component 2
+%!  dir = ones (2,1);             # does not seem to be exact
 %!endfunction
 %!function [val, trm, dir] = fevn (t, y, varargin)
-%!  val = fpol (t, y, varargin);    # We use the derivatives
-%!  trm = ones (2,1);               # that's why component 2
-%!  dir = ones (2,1);               # does not seem to be exact
+%!  val = fpol (t, y, varargin);  # We use the derivatives
+%!  trm = ones (2,1);             # that's why component 2
+%!  dir = ones (2,1);             # does not seem to be exact
 %!endfunction
 %!function mas = fmas (t, y, varargin)
-%!  mas = [1, 0; 0, 1];             # Dummy mass matrix for tests
+%!  mas = [1, 0; 0, 1];           # Dummy mass matrix for tests
 %!endfunction
 %!function mas = fmsa (t, y, varargin)
-%!  mas = sparse ([1, 0; 0, 1]);    # A sparse dummy matrix
+%!  mas = sparse ([1, 0; 0, 1]);  # A sparse dummy matrix
 %!endfunction
 %!function out = fout (t, y, flag, varargin)
 %!  out = false;
@@ -417,6 +414,10 @@ endfunction
 %! opt = odeset ("AbsTol", 1e-8, "RelTol", 1e-8);
 %! sol = ode23 (@fpol, [0 2], [2 0], opt);
 %! assert ([sol.x(end); sol.y(:,end)], [2; fref'], 1e-3);
+%!test # hermite_cubic_interpolation
+%! opt = odeset ("RelTol", 1e-8, "NormControl", "on");
+%! [t,sol] = ode23(@(t,x)[x(2);x(1)],linspace(0,1),[1;0],opt);
+%! assert(max(abs(sol(:,1)-cosh(t))),0,1e-6)
 %!test  # RelTol and NormControl option -- higher accuracy
 %! opt = odeset ("RelTol", 1e-8, "NormControl", "on");
 %! sol = ode23 (@fpol, [0 2], [2 0], opt);
@@ -430,7 +431,8 @@ endfunction
 %! sol = ode23 (@fpol, [0 2], [2 0], opt);
 %!test  # Stats must add further elements in sol
 %! opt = odeset ("Stats", "on");
-%! sol = ode23 (@fpol, [0 2], [2 0], opt);
+%! stat_str = evalc ("sol = ode23 (@fpol, [0 2], [2 0], opt);");
+%! assert (strncmp (stat_str, "Number of successful steps:", 27));
 %! assert (isfield (sol, "stats"));
 %! assert (isfield (sol.stats, "nsteps"));
 %!test  # Events option add further elements in sol

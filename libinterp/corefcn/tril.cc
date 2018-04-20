@@ -1,23 +1,23 @@
 /*
 
-Copyright (C) 2004-2017 David Bateman
+Copyright (C) 2004-2018 David Bateman
 Copyright (C) 2009 VZLU Prague
 
 This file is part of Octave.
 
-Octave is free software; you can redistribute it and/or modify it
-under the terms of the GNU General Public License as published by the
-Free Software Foundation; either version 3 of the License, or (at your
-option) any later version.
+Octave is free software: you can redistribute it and/or modify it
+under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-Octave is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-for more details.
+Octave is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with Octave; see the file COPYING.  If not, see
-<http://www.gnu.org/licenses/>.
+<https://www.gnu.org/licenses/>.
 
 */
 
@@ -108,7 +108,7 @@ do_triu (const Array<T>& a, octave_idx_type k, bool pack)
     }
   else
     {
-      NoAlias<Array<T> > r (a.dims ());
+      NoAlias<Array<T>> r (a.dims ());
       T *rvec = r.fortran_vec ();
       for (octave_idx_type j = 0; j < nc; j++)
         {
@@ -131,7 +131,7 @@ static Sparse<T>
 do_tril (const Sparse<T>& a, octave_idx_type k, bool pack)
 {
   if (pack) // FIXME
-    error ("tril: \"pack\" not implemented for sparse matrices");
+    error (R"(tril: "pack" not implemented for sparse matrices)");
 
   Sparse<T> m = a;
   octave_idx_type nc = m.cols ();
@@ -151,7 +151,7 @@ static Sparse<T>
 do_triu (const Sparse<T>& a, octave_idx_type k, bool pack)
 {
   if (pack) // FIXME
-    error ("triu: \"pack\" not implemented for sparse matrices");
+    error (R"(triu: "pack" not implemented for sparse matrices)");
 
   Sparse<T> m = a;
   octave_idx_type nc = m.cols ();
@@ -215,14 +215,14 @@ do_trilu (const std::string& name,
   switch (arg.builtin_type ())
     {
     case btyp_double:
-      if (arg.is_sparse_type ())
+      if (arg.issparse ())
         retval = do_trilu (arg.sparse_matrix_value (), k, lower, pack);
       else
         retval = do_trilu (arg.array_value (), k, lower, pack);
       break;
 
     case btyp_complex:
-      if (arg.is_sparse_type ())
+      if (arg.issparse ())
         retval = do_trilu (arg.sparse_complex_matrix_value (), k, lower,
                            pack);
       else
@@ -230,7 +230,7 @@ do_trilu (const std::string& name,
       break;
 
     case btyp_bool:
-      if (arg.is_sparse_type ())
+      if (arg.issparse ())
         retval = do_trilu (arg.sparse_bool_matrix_value (), k, lower,
                            pack);
       else
@@ -261,11 +261,11 @@ do_trilu (const std::string& name,
         // Generic code that works on octave-values, that is slow
         // but will also work on arbitrary user types
         if (pack) // FIXME
-          error ("%s: \"pack\" not implemented for class %s",
+          error (R"(%s: "pack" not implemented for class %s)",
                  name.c_str (), arg.class_name ().c_str ());
 
         octave_value tmp = arg;
-        if (arg.is_empty ())
+        if (arg.isempty ())
           return arg;
 
         octave_idx_type nr = dims(0);
@@ -286,16 +286,16 @@ do_trilu (const std::string& name,
         idx_tmp.push_back (ov_idx);
         ov_idx(1) = static_cast<double> (nc);
         tmp = tmp.resize (dim_vector (0,0));
-        tmp = tmp.subsasgn ("(",idx_tmp, arg.do_index_op (ov_idx));
+        tmp = tmp.subsasgn ("(", idx_tmp, arg.do_index_op (ov_idx));
         tmp = tmp.resize (dims);
 
         if (lower)
           {
-            octave_idx_type st = nc < nr + k ? nc : nr + k;
+            octave_idx_type st = (nc < nr + k ? nc : nr + k);
 
             for (octave_idx_type j = 1; j <= st; j++)
               {
-                octave_idx_type nr_limit = 1 > j - k ? 1 : j - k;
+                octave_idx_type nr_limit = (1 > j - k ? 1 : j - k);
                 ov_idx(1) = static_cast<double> (j);
                 ov_idx(0) = Range (nr_limit, nr);
                 std::list<octave_value_list> idx;
@@ -306,11 +306,11 @@ do_trilu (const std::string& name,
           }
         else
           {
-            octave_idx_type st = k + 1 > 1 ? k + 1 : 1;
+            octave_idx_type st = (k + 1 > 1 ? k + 1 : 1);
 
             for (octave_idx_type j = st; j <= nc; j++)
               {
-                octave_idx_type nr_limit = nr < j - k ? nr : j - k;
+                octave_idx_type nr_limit = (nr < j - k ? nr : j - k);
                 ov_idx(1) = static_cast<double> (j);
                 ov_idx(0) = Range (1, nr_limit);
                 std::list<octave_value_list> idx;
@@ -329,30 +329,21 @@ do_trilu (const std::string& name,
 
 DEFUN (tril, args, ,
        doc: /* -*- texinfo -*-
-@deftypefn  {} {} tril (@var{A})
-@deftypefnx {} {} tril (@var{A}, @var{k})
-@deftypefnx {} {} tril (@var{A}, @var{k}, @var{pack})
-@deftypefnx {} {} triu (@var{A})
-@deftypefnx {} {} triu (@var{A}, @var{k})
-@deftypefnx {} {} triu (@var{A}, @var{k}, @var{pack})
-Return a new matrix formed by extracting the lower (@code{tril})
-or upper (@code{triu}) triangular part of the matrix @var{A}, and
-setting all other elements to zero.
+@deftypefn  {} {@var{A_LO} =} tril (@var{A})
+@deftypefnx {} {@var{A_LO} =} tril (@var{A}, @var{k})
+@deftypefnx {} {@var{A_LO} =} tril (@var{A}, @var{k}, @var{pack})
+Return a new matrix formed by extracting the lower triangular part of the
+matrix @var{A}, and setting all other elements to zero.
 
-The second argument is optional, and specifies how many diagonals above or
-below the main diagonal should also be set to zero.
+The optional second argument specifies how many diagonals above or below the
+main diagonal should also be set to zero.  The default value of @var{k} is
+zero which includes the main diagonal as part of the result.  If the value of
+@var{k} is a nonzero integer then the selection of elements starts at an offset
+of @var{k} diagonals above the main diagonal for positive @var{k} or below the
+main diagonal for negative @var{k}.  The absolute value of @var{k} may not be
+greater than the number of subdiagonals or superdiagonals.
 
-The default value of @var{k} is zero, so that @code{triu} and @code{tril}
-normally include the main diagonal as part of the result.
-
-If the value of @var{k} is nonzero integer, the selection of elements starts
-at an offset of @var{k} diagonals above or below the main diagonal; above
-for positive @var{k} and below for negative @var{k}.
-
-The absolute value of @var{k} must not be greater than the number of
-subdiagonals or superdiagonals.
-
-For example:
+Example 1 : exclude main diagonal
 
 @example
 @group
@@ -364,7 +355,8 @@ tril (ones (3), -1)
 @end example
 
 @noindent
-and
+
+Example 2 : include first superdiagonal
 
 @example
 @group
@@ -375,10 +367,10 @@ tril (ones (3), 1)
 @end group
 @end example
 
-If the option @qcode{"pack"} is given as third argument, the extracted
-elements are not inserted into a matrix, but rather stacked column-wise one
-above other.
-@seealso{diag}
+If the optional third argument @qcode{"pack"} is given then the extracted
+elements are not inserted into a matrix, but instead stacked column-wise one
+above another, and returned as a column vector.
+@seealso{triu, istril, diag}
 @end deftypefn */)
 {
   return do_trilu ("tril", args);
@@ -386,11 +378,48 @@ above other.
 
 DEFUN (triu, args, ,
        doc: /* -*- texinfo -*-
-@deftypefn  {} {} triu (@var{A})
-@deftypefnx {} {} triu (@var{A}, @var{k})
-@deftypefnx {} {} triu (@var{A}, @var{k}, @var{pack})
-See the documentation for the @code{tril} function (@pxref{tril}).
-@seealso{tril}
+@deftypefn  {} {@var{A_UP} =} triu (@var{A})
+@deftypefnx {} {@var{A_UP} =} triu (@var{A}, @var{k})
+@deftypefnx {} {@var{A_UP} =} triu (@var{A}, @var{k}, @var{pack})
+Return a new matrix formed by extracting the upper triangular part of the
+matrix @var{A}, and setting all other elements to zero.
+
+The optional second argument specifies how many diagonals above or below the
+main diagonal should also be set to zero.  The default value of @var{k} is
+zero which includes the main diagonal as part of the result.  If the value of
+@var{k} is a nonzero integer then the selection of elements starts at an offset
+of @var{k} diagonals above the main diagonal for positive @var{k} or below the
+main diagonal for negative @var{k}.  The absolute value of @var{k} may not be
+greater than the number of subdiagonals or superdiagonals.
+
+Example 1 : exclude main diagonal
+
+@example
+@group
+triu (ones (3), 1)
+     @result{}  0  1  1
+         0  0  1
+         0  0  0
+@end group
+@end example
+
+@noindent
+
+Example 2 : include first subdiagonal
+
+@example
+@group
+triu (ones (3), -1)
+     @result{}  1  1  1
+         1  1  1
+         0  1  1
+@end group
+@end example
+
+If the optional third argument @qcode{"pack"} is given then the extracted
+elements are not inserted into a matrix, but instead stacked column-wise one
+above another, and returned as a column vector.
+@seealso{tril, istriu, diag}
 @end deftypefn */)
 {
   return do_trilu ("triu", args);

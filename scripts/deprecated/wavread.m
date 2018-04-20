@@ -1,21 +1,21 @@
-## Copyright (C) 2016-2017 Mike Miller
-## Copyright (C) 2005-2016 Michael Zeising
+## Copyright (C) 2016-2018 Mike Miller
+## Copyright (C) 2005-2018 Michael Zeising
 ##
 ## This file is part of Octave.
 ##
-## Octave is free software; you can redistribute it and/or modify it
+## Octave is free software: you can redistribute it and/or modify it
 ## under the terms of the GNU General Public License as published by
-## the Free Software Foundation; either version 3 of the License, or (at
-## your option) any later version.
+## the Free Software Foundation, either version 3 of the License, or
+## (at your option) any later version.
 ##
 ## Octave is distributed in the hope that it will be useful, but
 ## WITHOUT ANY WARRANTY; without even the implied warranty of
-## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-## General Public License for more details.
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU General Public License for more details.
 ##
 ## You should have received a copy of the GNU General Public License
 ## along with Octave; see the file COPYING.  If not, see
-## <http://www.gnu.org/licenses/>.
+## <https://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
 ## @deftypefn  {} {@var{y} =} wavread (@var{filename})
@@ -26,7 +26,7 @@
 ## @deftypefnx {} {@var{sz} =} wavread (@var{filename}, "size")
 ## @deftypefnx {} {[@var{n_samp}, @var{n_chan}] =} wavread (@var{filename}, "size")
 ##
-## @code{wavread} is deprecated and will be removed in Octave version 4.6.
+## @code{wavread} is deprecated and will be removed in Octave version 5.
 ## Use @code{audioread} for the equivalent functionality.
 ##
 ## Read the audio signal @var{y} from the RIFF/WAVE sound file @var{filename}.

@@ -62,48 +62,42 @@ Next: <a href="Installation-Problems.html#Installation-Problems" accesskey="n" r
 Configuring Octave with <samp>--enable-64</samp> cannot magically make a
 32-bit system have a 64-bit address space.
 </p>
-<p>On 64-bit systems, Octave is limited to (approximately) the following
-array sizes when using the default 32-bit indexing mode:
+<p>On 64-bit systems, Octave uses 64-bit integers for indexing arrays
+by default.  If the configure script determines that your <small>BLAS</small>
+library uses 32-bit integers, then operations using the following
+libraries are limited to arrays with dimensions that are smaller than
+<em>2^{31}</em> elements:
 </p>
-<div class="example">
-<pre class="example">double:         16 GB
-single:          8 GB
-uint64, int64:  16 GB
-uint32, int32:   8 GB
-uint16, int16:   4 GB
-uint8, int8:     2 GB
-</pre></div>
+<ul>
+<li> <small>BLAS</small>
 
-<p>In each case, the limit is really (approximately) <em>2^{31}</em> elements
-because of the default type of the value used for indexing arrays
-(signed 32-bit integer, corresponding to the size of a Fortran INTEGER
-value).
-</p>
-<p>Trying to create larger arrays will produce the following error:
-</p>
-<div class="example">
-<pre class="example">octave:1&gt; a = zeros (1024*1024*1024*3, 1, 'int8');
-error: memory exhausted or requested size too large
-       for range of Octave's index type --
-       trying to return to prompt
-</pre></div>
+</li><li> <small>LAPACK</small>
 
-<p>You will obtain this error even if your system has enough memory to
-create this array (4 GB in the above case).
+</li><li> QRUPDATE
+
+</li><li> SuiteSparse
+
+</li><li> <small>ARPACK</small>
+</li></ul>
+
+<p>Additionally, the following libraries use <code>int</code> internally, so
+maximum problem sizes are always limited:
 </p>
-<p>To use arrays larger than 2 GB, Octave has to be configured with the
-option <samp>--enable-64</samp>.  This option is experimental and you are
-encouraged to submit bug reports if you find a problem.  With this
-option, Octave will use 64-bit integers internally for array dimensions
-and indexing.  However, all numerical libraries used by Octave will
-<strong>also</strong> need to use 64-bit integers for array dimensions and
-indexing.  In most cases, this means they will need to be compiled from
-source since most (all?) distributions which package these libraries
-compile them with the default Fortran integer size, which is normally
-32-bits wide.
+<ul>
+<li> <small>GLPK</small>
+
+</li><li> Qhull
+</li></ul>
+
+<p>Except for <small>GLPK</small> and Qhull, these libraries may also be configured
+to use 64-bit integers, but most systems do not provide packages built
+this way.  If you wish to experiment with large arrays, the following
+information may be helpful.
 </p>
 <p>The following instructions were tested with the development version of
-Octave and GCC 4.3.4 on an x86_64 Debian system.
+Octave and GCC 4.3.4 on an x86_64 Debian system and may be out of date
+now.  Please report any problems or corrections on the Octave bug
+tracker.
 </p>
 <p>The versions listed below are the versions used for testing.  If newer
 versions of these packages are available, you should try to use them,
@@ -128,7 +122,7 @@ compiling Suite Sparse and Octave.  In the following we assume that
 you installed the <small>LAPACK</small> library as $prefix64/lib/liblapack.a.
 </li></ul>
 
-</li><li> QRUPDATE (<a href="http://sourceforge.net/projects/qrupdate">http://sourceforge.net/projects/qrupdate</a>)
+</li><li> QRUPDATE (<a href="https://sourceforge.net/projects/qrupdate">https://sourceforge.net/projects/qrupdate</a>)
 
 <p>In the <samp>Makeconf</samp> file:
 </p>
@@ -146,7 +140,7 @@ location.
 </li><li>- Run <code>make install</code> to install the library.
 </li></ul>
 
-</li><li> SuiteSparse (<a href="http://www.cise.ufl.edu/research/sparse/SuiteSparse">http://www.cise.ufl.edu/research/sparse/SuiteSparse</a>)
+</li><li> SuiteSparse (<a href="http://faculty.cse.tamu.edu/davis/suitesparse.html">http://faculty.cse.tamu.edu/davis/suitesparse.html</a>)
 
 <p>Pass the following options to <code>make</code> to enable 64-bit integers
 for <small>BLAS</small> library calls.  On 64-bit Windows systems, use
@@ -174,7 +168,7 @@ done
 
 <p>Other systems may require a different solution.
 </p>
-</li><li> <small>ARPACK</small> (http://forge.scilab.org/index.php/p/arpack-ng/)
+</li><li> <small>ARPACK</small> (<a href="https://forge.scilab.org/index.php/p/arpack-ng/">https://forge.scilab.org/index.php/p/arpack-ng/</a>)
 
 <ul class="no-bullet">
 <li>- Add <samp>-fdefault-integer-8</samp> to <code>FFLAGS</code> when running configure.
@@ -208,12 +202,12 @@ sizes may be limited.
 </pre></div>
 
 <p>You must ensure that all Fortran sources except those in the
-<samp>liboctave/cruft/ranlib</samp> directory are compiled such that INTEGERS are
+<samp>liboctave/external/ranlib</samp> directory are compiled such that INTEGERS are
 8-bytes wide.  If you are using gfortran, the configure script should
 automatically set the Makefile variable <code><span class="nolinebreak">F77_INTEGER_8_FLAG</span></code><!-- /@w --> to
 <samp>-fdefault-integer-8</samp>.  If you are using another compiler, you
 must set this variable yourself.  You should NOT set this flag in
-<code>FFLAGS</code>, otherwise the files in <samp>liboctave/cruft/ranlib</samp> will be
+<code>FFLAGS</code>, otherwise the files in <samp>liboctave/external/ranlib</samp> will be
 miscompiled.
 </p>
 </li><li> Other dependencies

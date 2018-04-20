@@ -34,35 +34,35 @@ struct LSODE_options_struct
 static LSODE_options_struct LSODE_options_table [] =
 {
   { "absolute tolerance",
-    { "absolute", "tolerance", 0, 0, },
+    { "absolute", "tolerance", nullptr, nullptr, },
     { 1, 0, 0, 0, }, 1, },
 
   { "relative tolerance",
-    { "relative", "tolerance", 0, 0, },
+    { "relative", "tolerance", nullptr, nullptr, },
     { 1, 0, 0, 0, }, 1, },
 
   { "integration method",
-    { "integration", "method", 0, 0, },
+    { "integration", "method", nullptr, nullptr, },
     { 3, 0, 0, 0, }, 1, },
 
   { "initial step size",
-    { "initial", "step", "size", 0, },
+    { "initial", "step", "size", nullptr, },
     { 3, 0, 0, 0, }, 1, },
 
   { "maximum order",
-    { "maximum", "order", 0, 0, },
+    { "maximum", "order", nullptr, nullptr, },
     { 2, 1, 0, 0, }, 2, },
 
   { "maximum step size",
-    { "maximum", "step", "size", 0, },
+    { "maximum", "step", "size", nullptr, },
     { 2, 1, 0, 0, }, 2, },
 
   { "minimum step size",
-    { "minimum", "step", "size", 0, },
+    { "minimum", "step", "size", nullptr, },
     { 2, 0, 0, 0, }, 1, },
 
   { "step limit",
-    { "step", "limit", 0, 0, },
+    { "step", "limit", nullptr, nullptr, },
     { 1, 0, 0, 0, }, 1, },
 };
 
