@@ -6,7 +6,7 @@ Reviewed-by: Rafael Laboissière <rafael@debian.org>
 Last-Update: 2016-11-20
 --- a/src/module.mk
 +++ b/src/module.mk
-@@ -215,7 +215,7 @@ src/octave-build-info.cc: src/octave-bui
+@@ -210,7 +210,7 @@ endif
  
  ALL_LOCAL_TARGETS += $(OCTAVE_CROSS_TOOLS)
  
@@ -44,7 +44,7 @@ Last-Update: 2016-11-20
        __gripe_missing_component__ ("pkg", "mkoctfile");
 --- a/src/main.in.cc
 +++ b/src/main.in.cc
-@@ -202,7 +202,7 @@ main (int argc, char **argv)
+@@ -211,7 +211,7 @@ main (int argc, char **argv)
    std::string octave_bindir = get_octave_bindir ();
    std::string octave_archlibdir = get_octave_archlibdir ();
    std::string octave_cli
