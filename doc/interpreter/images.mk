@@ -263,3 +263,5 @@ doc/interpreter/splinefit4.txt: doc/interpreter/splineimages.m
 doc/interpreter/splinefit6.txt: doc/interpreter/splineimages.m
 	$(AM_V_GEN)$(SHELL) run-octave --norc --silent --no-history --path $(abs_top_srcdir)/doc/interpreter/ --eval "splineimages ('doc/interpreter/', 'splinefit6', 'txt');"
 endif
+
+doc_MAINTAINERCLEANFILES += $(srcdir)/%reldir%/images.mk

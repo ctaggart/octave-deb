@@ -530,7 +530,7 @@ dimensions.
 @deftypefn {} {} iscellstr (@var{cell})
 Return true if every element of the cell array @var{cell} is a character
 string.
-@seealso{ischar}
+@seealso{ischar, isstring}
 @end deftypefn
 cellstr
 @c cellstr libinterp/octave-value/ov-cell.cc
@@ -945,10 +945,10 @@ equivalent
 
 @seealso{__java_get__, javaMethod, javaObject}
 @end deftypefn
-java2mat
-@c java2mat libinterp/octave-value/ov-java.cc
+__java2mat__
+@c __java2mat__ libinterp/octave-value/ov-java.cc
 -*- texinfo -*-
-@deftypefn {} {} java2mat (@var{javaobj})
+@deftypefn {} {} __java2mat__ (@var{javaobj})
 Undocumented internal function.
 @end deftypefn
 java_matrix_autoconversion
@@ -1013,18 +1013,38 @@ Return true if @var{x} is a Java object.
 Return true if @var{x} is a special null matrix, string, or single quoted
 string.
 
-Indexed assignment with such a value on the right-hand side should delete
-array elements.  This function should be used when overloading indexed
-assignment for user-defined classes instead of @code{isempty}, to
-distinguish the cases:
+Indexed assignment with such a null value on the right-hand side should delete
+array elements.  This function is used in place of @code{isempty} when
+overloading the indexed assignment method (@code{subsasgn}) for user-defined
+classes.  @code{isnull} is used to distinguish between these two cases:
 
-@table @asis
-@item @code{A(I) = []}
-This should delete elements if @code{I} is nonempty.
+@code{@var{A}(@var{I}) = []}
 
-@item @code{X = []; A(I) = X}
-This should give an error if @code{I} is nonempty.
-@end table
+and
+
+@code{@var{X} = []; @var{A}(@var{I}) = @var{X}}
+
+In the first assignment, the right-hand side is @code{[]} which is a special
+null value.  As long as the index @var{I} is not empty, this code should
+delete elements from @var{A} rather than perform assignment.
+
+In the second assignment, the right-hand side is empty (because @var{X} is
+@code{[]}), but it is @strong{not} null.  This code should assign the empty
+value to elements in @var{A}.
+
+An example from Octave's built-in char class demonstrates the interpreter
+behavior when @code{isnull} is used correctly.
+
+@example
+@group
+str = "Hello World";
+nm = "Wally";
+str(7:end) = nm                # indexed assignment
+  @result{} str = Hello Wally
+str(7:end) = ""                # indexed deletion
+  @result{} str = Hello
+@end group
+@end example
 @seealso{isempty, isindex}
 @end deftypefn
 onCleanup
@@ -1038,23 +1058,6 @@ elements) or returned from a function, @var{function} will be executed after
 clearing the last copy of the object.  Note that if multiple local onCleanup
 variables are created, the order in which they are called is unspecified.
 For similar functionality @xref{The unwind_protect Statement}.
-@end deftypefn
-allow_noninteger_range_as_index
-@c allow_noninteger_range_as_index libinterp/octave-value/ov-range.cc
--*- texinfo -*-
-@deftypefn  {} {@var{val} =} allow_noninteger_range_as_index ()
-@deftypefnx {} {@var{old_val} =} allow_noninteger_range_as_index (@var{new_val})
-@deftypefnx {} {} allow_noninteger_range_as_index (@var{new_val}, "local")
-Query or set the internal variable that controls whether non-integer
-ranges are allowed as indices.
-
-This might be useful for @sc{matlab} compatibility; however, it is still not
-entirely compatible because @sc{matlab} treats the range expression
-differently in different contexts.
-
-When called from inside a function with the @qcode{"local"} option, the
-variable is changed locally for the function and any subroutines it calls.
-The original variable value is restored when exiting the function.
 @end deftypefn
 struct
 @c struct libinterp/octave-value/ov-struct.cc
@@ -1608,6 +1611,24 @@ Query or set the internal flag that determines whether Octave's lexer prints
 debug information as it processes an expression.
 @seealso{__display_tokens__, __token_count__, __parse_debug_flag__}
 @end deftypefn
+__profiler_enable__
+@c __profiler_enable__ libinterp/parse-tree/profiler.cc
+-*- texinfo -*-
+@deftypefn {} {} __profiler_enable__ ()
+Undocumented internal function.
+@end deftypefn
+__profiler_reset__
+@c __profiler_reset__ libinterp/parse-tree/profiler.cc
+-*- texinfo -*-
+@deftypefn {} {} __profiler_reset__ ()
+Undocumented internal function.
+@end deftypefn
+__profiler_data__
+@c __profiler_data__ libinterp/parse-tree/profiler.cc
+-*- texinfo -*-
+@deftypefn {} {} __profiler_data__ ()
+Undocumented internal function.
+@end deftypefn
 end
 @c end libinterp/parse-tree/pt-arg-list.cc
 -*- texinfo -*-
@@ -1623,37 +1644,16 @@ Example:
 
 @example
 @group
-@var{x} = [ 1 2 3
-      4 5 6 ];
+@var{x} = [ 1 2 3; 4 5 6 ];
 @var{x}(1,end)
-    @result{} 3
+   @result{} 3
 @var{x}(end,1)
-    @result{} 4
+   @result{} 4
 @var{x}(end,end)
-    @result{} 6
+   @result{} 6
 @end group
 @end example
 @seealso{for, parfor, if, do, while, function, switch, try, unwind_protect}
-@end deftypefn
-do_braindead_shortcircuit_evaluation
-@c do_braindead_shortcircuit_evaluation libinterp/parse-tree/pt-binop.cc
--*- texinfo -*-
-@deftypefn  {} {@var{val} =} do_braindead_shortcircuit_evaluation ()
-@deftypefnx {} {@var{old_val} =} do_braindead_shortcircuit_evaluation (@var{new_val})
-@deftypefnx {} {} do_braindead_shortcircuit_evaluation (@var{new_val}, "local")
-Query or set the internal variable that controls whether Octave will
-do short-circuit evaluation of @samp{|} and @samp{&} operators inside the
-conditions of if or while statements.
-
-This feature is only provided for compatibility with @sc{matlab} and should
-not be used unless you are porting old code that relies on this feature.
-
-To obtain short-circuit behavior for logical expressions in new programs,
-you should always use the @samp{&&} and @samp{||} operators.
-
-When called from inside a function with the @qcode{"local"} option, the
-variable is changed locally for the function and any subroutines it calls.
-The original variable value is restored when exiting the function.
 @end deftypefn
 max_recursion_depth
 @c max_recursion_depth libinterp/parse-tree/pt-eval.cc
@@ -1670,6 +1670,8 @@ the top level.
 When called from inside a function with the @qcode{"local"} option, the
 variable is changed locally for the function and any subroutines it calls.
 The original variable value is restored when exiting the function.
+
+@seealso{max_stack_depth}
 @end deftypefn
 silent_functions
 @c silent_functions libinterp/parse-tree/pt-eval.cc
@@ -1689,7 +1691,7 @@ variable is changed locally for the function and any subroutines it calls.
 The original variable value is restored when exiting the function.
 @end deftypefn
 string_fill_char
-@c string_fill_char libinterp/parse-tree/pt-mat.cc
+@c string_fill_char libinterp/parse-tree/pt-eval.cc
 -*- texinfo -*-
 @deftypefn  {} {@var{val} =} string_fill_char ()
 @deftypefnx {} {@var{old_val} =} string_fill_char (@var{new_val})
@@ -1714,16 +1716,133 @@ When called from inside a function with the @qcode{"local"} option, the
 variable is changed locally for the function and any subroutines it calls.
 The original variable value is restored when exiting the function.
 @end deftypefn
+PS4
+@c PS4 libinterp/parse-tree/pt-eval.cc
+-*- texinfo -*-
+@deftypefn  {} {@var{val} =} PS4 ()
+@deftypefnx {} {@var{old_val} =} PS4 (@var{new_val})
+@deftypefnx {} {} PS4 (@var{new_val}, "local")
+Query or set the character string used to prefix output produced
+when echoing commands is enabled.
+
+The default value is @qcode{"+ "}.
+@xref{Diary and Echo Commands}, for a description of echoing commands.
+
+When called from inside a function with the @qcode{"local"} option, the
+variable is changed locally for the function and any subroutines it calls.
+The original variable value is restored when exiting the function.
+@seealso{echo, PS1, PS2}
+@end deftypefn
+echo
+@c echo libinterp/parse-tree/pt-eval.cc
+-*- texinfo -*-
+@deftypefn  {} {} echo
+@deftypefnx {} {} echo on
+@deftypefnx {} {} echo off
+@deftypefnx {} {} echo on all
+@deftypefnx {} {} echo off all
+@deftypefnx {} {} echo @var{function} on
+@deftypefnx {} {} echo @var{function} off
+Control whether commands are displayed as they are executed.
+
+Valid options are:
+
+@table @code
+@item on
+Enable echoing of commands as they are executed in script files.
+
+@item off
+Disable echoing of commands as they are executed in script files.
+
+@item on all
+Enable echoing of commands as they are executed in script files and
+functions.
+
+@item off all
+Disable echoing of commands as they are executed in script files and
+functions.
+
+@item @var{function} on
+Enable echoing of commands as they are executed in the named function.
+
+@item @var{function} off
+Disable echoing of commands as they are executed in the named function.
+@end table
+
+@noindent
+With no arguments, @code{echo} toggles the current echo state.
+
+@seealso{PS4}
+@end deftypefn
+jit_failcnt
+@c jit_failcnt libinterp/parse-tree/pt-jit.cc
+-*- texinfo -*-
+@deftypefn  {} {@var{val} =} jit_failcnt ()
+@deftypefnx {} {@var{old_val} =} jit_failcnt (@var{new_val})
+@deftypefnx {} {} jit_failcnt (@var{new_val}, "local")
+Query or set the internal variable that counts the number of JIT fail
+exceptions for Octave's JIT compiler.
+
+When called from inside a function with the @qcode{"local"} option, the
+variable is changed locally for the function and any subroutines it calls.
+The original variable value is restored when exiting the function.
+@seealso{jit_enable, jit_startcnt, debug_jit}
+@end deftypefn
+debug_jit
+@c debug_jit libinterp/parse-tree/pt-jit.cc
+-*- texinfo -*-
+@deftypefn  {} {@var{val} =} debug_jit ()
+@deftypefnx {} {@var{old_val} =} debug_jit (@var{new_val})
+@deftypefnx {} {} debug_jit (@var{new_val}, "local")
+Query or set the internal variable that determines whether
+debugging/tracing is enabled for Octave's JIT compiler.
+
+When called from inside a function with the @qcode{"local"} option, the
+variable is changed locally for the function and any subroutines it calls.
+The original variable value is restored when exiting the function.
+@seealso{jit_enable, jit_startcnt}
+@end deftypefn
+jit_enable
+@c jit_enable libinterp/parse-tree/pt-jit.cc
+-*- texinfo -*-
+@deftypefn  {} {@var{val} =} jit_enable ()
+@deftypefnx {} {@var{old_val} =} jit_enable (@var{new_val})
+@deftypefnx {} {} jit_enable (@var{new_val}, "local")
+Query or set the internal variable that enables Octave's JIT compiler.
+
+When called from inside a function with the @qcode{"local"} option, the
+variable is changed locally for the function and any subroutines it calls.
+The original variable value is restored when exiting the function.
+@seealso{jit_startcnt, debug_jit}
+@end deftypefn
+jit_startcnt
+@c jit_startcnt libinterp/parse-tree/pt-jit.cc
+-*- texinfo -*-
+@deftypefn  {} {@var{val} =} jit_startcnt ()
+@deftypefnx {} {@var{old_val} =} jit_startcnt (@var{new_val})
+@deftypefnx {} {} jit_startcnt (@var{new_val}, "local")
+Query or set the internal variable that determines whether JIT compilation
+will take place for a specific loop.
+
+Because compilation is a costly operation it does not make sense to employ
+JIT when the loop count is low.  By default only loops with greater than
+1000 iterations will be accelerated.
+
+When called from inside a function with the @qcode{"local"} option, the
+variable is changed locally for the function and any subroutines it calls.
+The original variable value is restored when exiting the function.
+@seealso{jit_enable, jit_failcnt, debug_jit}
+@end deftypefn
+__betainc__
+@c __betainc__ libinterp/corefcn/__betainc__.cc
+-*- texinfo -*-
+@deftypefn {} {@var{y} =} __betainc__ (@var{x}, @var{a}, @var{b})
+Continued fraction for incomplete beta function.
+@end deftypefn
 __contourc__
 @c __contourc__ libinterp/corefcn/__contourc__.cc
 -*- texinfo -*-
 @deftypefn {} {} __contourc__ (@var{x}, @var{y}, @var{z}, @var{levels})
-Undocumented internal function.
-@end deftypefn
-__dispatch__
-@c __dispatch__ libinterp/corefcn/__dispatch__.cc
--*- texinfo -*-
-@deftypefn {} {} __dispatch__ ()
 Undocumented internal function.
 @end deftypefn
 __dsearchn__
@@ -1732,46 +1851,48 @@ Undocumented internal function.
 @deftypefn {} {[@var{idx}, @var{d}] =} dsearch (@var{x}, @var{xi})
 Undocumented internal function.
 @end deftypefn
+__expint__
+@c __expint__ libinterp/corefcn/__expint__.cc
+-*- texinfo -*-
+@deftypefn {} {@var{y} =} __expint__ (@var{x})
+Continued fraction expansion for the exponential integral.
+@end deftypefn
+__gammainc__
+@c __gammainc__ libinterp/corefcn/__gammainc__.cc
+-*- texinfo -*-
+@deftypefn {} {@var{y} =} __gammainc__ (@var{x}, @var{a})
+Continued fraction for incomplete gamma function.
+@end deftypefn
 __ichol0__
 @c __ichol0__ libinterp/corefcn/__ichol__.cc
 -*- texinfo -*-
-@deftypefn  {} {@var{L} =} __ichol0__ (@var{A})
-@deftypefnx {} {@var{L} =} __ichol0__ (@var{A}, @var{michol})
+@deftypefn {} {@var{L} =} __ichol0__ (@var{A}, @var{michol})
 Undocumented internal function.
 @end deftypefn
 __icholt__
 @c __icholt__ libinterp/corefcn/__ichol__.cc
 -*- texinfo -*-
-@deftypefn  {} {@var{L} =} __icholt__ (@var{A})
-@deftypefnx {} {@var{L} =} __icholt__ (@var{A}, @var{droptol})
-@deftypefnx {} {@var{L} =} __icholt__ (@var{A}, @var{droptol}, @var{michol})
+@deftypefn {} {@var{L} =} __icholt__ (@var{A}, @var{droptol}, @var{michol})
 Undocumented internal function.
 @end deftypefn
 __ilu0__
 @c __ilu0__ libinterp/corefcn/__ilu__.cc
 -*- texinfo -*-
-@deftypefn  {} {[@var{L}, @var{U}] =} __ilu0__ (@var{A})
-@deftypefnx {} {[@var{L}, @var{U}] =} __ilu0__ (@var{A}, @var{milu})
-@deftypefnx {} {[@var{L}, @var{U}, @var{P}] =} __ilu0__ (@var{A}, @dots{})
+@deftypefn  {} {[@var{L}, @var{U}] =} __ilu0__ (@var{A}, @var{milu})
+@deftypefnx {} {[@var{L}, @var{U}, @var{P}] =} __ilu0__ (@var{A}, @var{milu})
 Undocumented internal function.
 @end deftypefn
 __iluc__
 @c __iluc__ libinterp/corefcn/__ilu__.cc
 -*- texinfo -*-
-@deftypefn  {} {[@var{L}, @var{U}] =} __iluc__ (@var{A})
-@deftypefnx {} {[@var{L}, @var{U}] =} __iluc__ (@var{A}, @var{droptol})
-@deftypefnx {} {[@var{L}, @var{U}] =} __iluc__ (@var{A}, @var{droptol}, @var{milu})
+@deftypefn {} {[@var{L}, @var{U}] =} __iluc__ (@var{A}, @var{droptol}, @var{milu})
 Undocumented internal function.
 @end deftypefn
 __ilutp__
 @c __ilutp__ libinterp/corefcn/__ilu__.cc
 -*- texinfo -*-
-@deftypefn  {} {[@var{L}, @var{U}] =} __ilutp__ (@var{A})
-@deftypefnx {} {[@var{L}, @var{U}] =} __ilutp__ (@var{A}, @var{droptol})
-@deftypefnx {} {[@var{L}, @var{U}] =} __ilutp__ (@var{A}, @var{droptol}, @var{thresh})
-@deftypefnx {} {[@var{L}, @var{U}] =} __ilutp__ (@var{A}, @var{droptol}, @var{thresh}, @var{milu})
-@deftypefnx {} {[@var{L}, @var{U}] =} __ilutp__ (@var{A}, @var{droptol}, @var{thresh}, @var{milu}, @var{udiag})
-@deftypefnx {} {[@var{L}, @var{U}, @var{P}] =} __ilutp__ (@var{A}, @dots{})
+@deftypefn  {} {[@var{L}, @var{U}] =} __ilutp__ (@var{A}, @var{droptol}, @var{thresh}, @var{milu}, @var{udiag})
+@deftypefnx {} {[@var{L}, @var{U}, @var{P}] =} __ilutp__ (@dots{})
 Undocumented internal function.
 @end deftypefn
 __lin_interpn__
@@ -1779,17 +1900,6 @@ Undocumented internal function.
 -*- texinfo -*-
 @deftypefn {} {@var{vi} =} __lin_interpn__ (@var{x1}, @var{x2}, @dots{}, @var{xn}, @var{v}, @var{y1}, @var{y2}, @dots{}, @var{yn})
 Undocumented internal function.
-@end deftypefn
-__luinc__
-@c __luinc__ libinterp/corefcn/__luinc__.cc
--*- texinfo -*-
-@deftypefn  {} {[@var{L}, @var{U}, @var{P}, @var{Q}] =} __luinc__ (@var{A}, '0')
-@deftypefnx {} {[@var{L}, @var{U}, @var{P}, @var{Q}] =} __luinc__ (@var{A}, @var{droptol})
-@deftypefnx {} {[@var{L}, @var{U}, @var{P}, @var{Q}] =} __luinc__ (@var{A}, @var{opts})
-Internal implementation of @code{luinc}.
-
-See documentation for @code{luinc}.
-@seealso{luinc}
 @end deftypefn
 __magick_read__
 @c __magick_read__ libinterp/corefcn/__magick_read__.cc
@@ -1902,51 +2012,26 @@ Generalized eigenvalue problem balancing uses Ward's algorithm
 besselj
 @c besselj libinterp/corefcn/besselj.cc
 -*- texinfo -*-
-@deftypefn  {} {[@var{j}, @var{ierr}] =} besselj (@var{alpha}, @var{x}, @var{opt})
-@deftypefnx {} {[@var{y}, @var{ierr}] =} bessely (@var{alpha}, @var{x}, @var{opt})
-@deftypefnx {} {[@var{i}, @var{ierr}] =} besseli (@var{alpha}, @var{x}, @var{opt})
-@deftypefnx {} {[@var{k}, @var{ierr}] =} besselk (@var{alpha}, @var{x}, @var{opt})
-@deftypefnx {} {[@var{h}, @var{ierr}] =} besselh (@var{alpha}, @var{k}, @var{x}, @var{opt})
-Compute Bessel or Hankel functions of various kinds:
+@deftypefn  {} {@var{J} =} besselj (@var{alpha}, @var{x})
+@deftypefnx {} {@var{J} =} besselj (@var{alpha}, @var{x}, @var{opt})
+@deftypefnx {} {[@var{J}, @var{ierr}] =} besselj (@dots{})
+Compute Bessel functions of the first kind.
 
-@table @code
-@item besselj
-Bessel functions of the first kind.  If the argument @var{opt} is 1 or true,
-the result is multiplied by @w{@code{exp (-abs (imag (@var{x})))}}.
+The order of the Bessel function @var{alpha} must be real.  The points for
+evaluation @var{x} may be complex.
 
-@item bessely
-Bessel functions of the second kind.  If the argument @var{opt} is 1 or
-true, the result is multiplied by @code{exp (-abs (imag (@var{x})))}.
+If the optional argument @var{opt} is 1 or true, the result @var{J} is
+multiplied by @w{@code{exp (-abs (imag (@var{x})))}}.
 
-@item besseli
+If @var{alpha} is a scalar, the result is the same size as @var{x}.  If @var{x}
+is a scalar, the result is the same size as @var{alpha}.  If @var{alpha} is a
+row vector and @var{x} is a column vector, the result is a matrix with
+@code{length (@var{x})} rows and @code{length (@var{alpha})} columns.
+Otherwise, @var{alpha} and @var{x} must conform and the result will be the same
+size.
 
-Modified Bessel functions of the first kind.  If the argument @var{opt} is 1
-or true, the result is multiplied by @code{exp (-abs (real (@var{x})))}.
-
-@item besselk
-
-Modified Bessel functions of the second kind.  If the argument @var{opt} is
-1 or true, the result is multiplied by @code{exp (@var{x})}.
-
-@item besselh
-Compute Hankel functions of the first (@var{k} = 1) or second (@var{k}
-= 2) kind.  If the argument @var{opt} is 1 or true, the result is multiplied
-by @code{exp (-I*@var{x})} for @var{k} = 1 or @code{exp (I*@var{x})} for
-@var{k} = 2.
-@end table
-
-If @var{alpha} is a scalar, the result is the same size as @var{x}.
-If @var{x} is a scalar, the result is the same size as @var{alpha}.
-If @var{alpha} is a row vector and @var{x} is a column vector, the
-result is a matrix with @code{length (@var{x})} rows and
-@code{length (@var{alpha})} columns.  Otherwise, @var{alpha} and
-@var{x} must conform and the result will be the same size.
-
-The value of @var{alpha} must be real.  The value of @var{x} may be
-complex.
-
-If requested, @var{ierr} contains the following status information
-and is the same size as the result.
+If requested, @var{ierr} contains the following status information and is the
+same size as the result.
 
 @enumerate 0
 @item
@@ -1959,40 +2044,215 @@ Input error, return @code{NaN}.
 Overflow, return @code{Inf}.
 
 @item
-Loss of significance by argument reduction results in less than
-half of machine accuracy.
+Loss of significance by argument reduction results in less than half of machine
+accuracy.
+
+@item
+Loss of significance by argument reduction, output may be inaccurate.
+
+@item
+Error---no computation, algorithm termination condition not met, return
+@code{NaN}.
+@end enumerate
+
+@seealso{bessely, besseli, besselk, besselh}
+@end deftypefn
+bessely
+@c bessely libinterp/corefcn/besselj.cc
+-*- texinfo -*-
+@deftypefn  {} {@var{Y} =} bessely (@var{alpha}, @var{x})
+@deftypefnx {} {@var{Y} =} bessely (@var{alpha}, @var{x}, @var{opt})
+@deftypefnx {} {[@var{Y}, @var{ierr}] =} bessely (@dots{})
+Compute Bessel functions of the second kind.
+
+The order of the Bessel function @var{alpha} must be real.  The points for
+evaluation @var{x} may be complex.
+
+If the optional argument @var{opt} is 1 or true, the result @var{Y} is
+multiplied by @w{@code{exp (-abs (imag (@var{x})))}}.
+
+If @var{alpha} is a scalar, the result is the same size as @var{x}.  If @var{x}
+is a scalar, the result is the same size as @var{alpha}.  If @var{alpha} is a
+row vector and @var{x} is a column vector, the result is a matrix with
+@code{length (@var{x})} rows and @code{length (@var{alpha})} columns.
+Otherwise, @var{alpha} and @var{x} must conform and the result will be the same
+size.
+
+If requested, @var{ierr} contains the following status information and is the
+same size as the result.
+
+@enumerate 0
+@item
+Normal return.
+
+@item
+Input error, return @code{NaN}.
+
+@item
+Overflow, return @code{Inf}.
+
+@item
+Loss of significance by argument reduction results in less than half of machine
+accuracy.
 
 @item
 Complete loss of significance by argument reduction, return @code{NaN}.
 
 @item
-Error---no computation, algorithm termination condition not met,
-return @code{NaN}.
+Error---no computation, algorithm termination condition not met, return
+@code{NaN}.
 @end enumerate
-@end deftypefn
-bessely
-@c bessely libinterp/corefcn/besselj.cc
--*- texinfo -*-
-@deftypefn {} {[@var{y}, @var{ierr}] =} bessely (@var{alpha}, @var{x}, @var{opt})
-See besselj.
+
+@seealso{besselj, besseli, besselk, besselh}
 @end deftypefn
 besseli
 @c besseli libinterp/corefcn/besselj.cc
 -*- texinfo -*-
-@deftypefn {} {[@var{i}, @var{ierr}] =} besseli (@var{alpha}, @var{x}, @var{opt})
-See besselj.
+@deftypefn  {} {@var{I} =} besseli (@var{alpha}, @var{x})
+@deftypefnx {} {@var{I} =} besseli (@var{alpha}, @var{x}, @var{opt})
+@deftypefnx {} {[@var{I}, @var{ierr}] =} besseli (@dots{})
+Compute modified Bessel functions of the first kind.
+
+The order of the Bessel function @var{alpha} must be real.  The points for
+evaluation @var{x} may be complex.
+
+If the optional argument @var{opt} is 1 or true, the result @var{I} is
+multiplied by @w{@code{exp (-abs (real (@var{x})))}}.
+
+If @var{alpha} is a scalar, the result is the same size as @var{x}.  If @var{x}
+is a scalar, the result is the same size as @var{alpha}.  If @var{alpha} is a
+row vector and @var{x} is a column vector, the result is a matrix with
+@code{length (@var{x})} rows and @code{length (@var{alpha})} columns.
+Otherwise, @var{alpha} and @var{x} must conform and the result will be the same
+size.
+
+If requested, @var{ierr} contains the following status information and is the
+same size as the result.
+
+@enumerate 0
+@item
+Normal return.
+
+@item
+Input error, return @code{NaN}.
+
+@item
+Overflow, return @code{Inf}.
+
+@item
+Loss of significance by argument reduction results in less than half of machine
+accuracy.
+
+@item
+Complete loss of significance by argument reduction, return @code{NaN}.
+
+@item
+Error---no computation, algorithm termination condition not met, return
+@code{NaN}.
+@end enumerate
+
+@seealso{besselk, besselj, bessely, besselh}
 @end deftypefn
 besselk
 @c besselk libinterp/corefcn/besselj.cc
 -*- texinfo -*-
-@deftypefn {} {[@var{k}, @var{ierr}] =} besselk (@var{alpha}, @var{x}, @var{opt})
-See besselj.
+@deftypefn  {} {@var{K} =} besselk (@var{alpha}, @var{x})
+@deftypefnx {} {@var{K} =} besselk (@var{alpha}, @var{x}, @var{opt})
+@deftypefnx {} {[@var{K}, @var{ierr}] =} besselk (@dots{})
+
+Compute modified Bessel functions of the second kind.
+
+The order of the Bessel function @var{alpha} must be real.  The points for
+evaluation @var{x} may be complex.
+
+If the optional argument @var{opt} is 1 or true, the result @var{K} is
+multiplied by @w{@code{exp (@var{x})}}.
+
+If @var{alpha} is a scalar, the result is the same size as @var{x}.  If @var{x}
+is a scalar, the result is the same size as @var{alpha}.  If @var{alpha} is a
+row vector and @var{x} is a column vector, the result is a matrix with
+@code{length (@var{x})} rows and @code{length (@var{alpha})} columns.
+Otherwise, @var{alpha} and @var{x} must conform and the result will be the same
+size.
+
+If requested, @var{ierr} contains the following status information and is the
+same size as the result.
+
+@enumerate 0
+@item
+Normal return.
+
+@item
+Input error, return @code{NaN}.
+
+@item
+Overflow, return @code{Inf}.
+
+@item
+Loss of significance by argument reduction results in less than half of machine
+accuracy.
+
+@item
+Complete loss of significance by argument reduction, return @code{NaN}.
+
+@item
+Error---no computation, algorithm termination condition not met, return
+@code{NaN}.
+@end enumerate
+
+@seealso{besseli, besselj, bessely, besselh}
 @end deftypefn
 besselh
 @c besselh libinterp/corefcn/besselj.cc
 -*- texinfo -*-
-@deftypefn {} {[@var{h}, @var{ierr}] =} besselh (@var{alpha}, @var{k}, @var{x}, @var{opt})
-See besselj.
+@deftypefn  {} {@var{H} =} besselh (@var{alpha}, @var{x})
+@deftypefnx {} {@var{H} =} besselh (@var{alpha}, @var{k}, @var{x})
+@deftypefnx {} {@var{H} =} besselh (@var{alpha}, @var{k}, @var{x}, @var{opt})
+@deftypefnx {} {[@var{H}, @var{ierr}] =} besselh (@dots{})
+Compute Bessel functions of the third kind (Hankel functions).
+
+The order of the Bessel function @var{alpha} must be real.  The kind of Hankel
+function is specified by @var{k} and may be either first (@var{k} = 1) or
+second (@var{k} = 2).  The default is Hankel functions of the first kind.  The
+points for evaluation @var{x} may be complex.
+
+If the optional argument @var{opt} is 1 or true, the result is multiplied
+by @code{exp (-I*@var{x})} for @var{k} = 1 or @code{exp (I*@var{x})} for
+@var{k} = 2.
+
+If @var{alpha} is a scalar, the result is the same size as @var{x}.  If @var{x}
+is a scalar, the result is the same size as @var{alpha}.  If @var{alpha} is a
+row vector and @var{x} is a column vector, the result is a matrix with
+@code{length (@var{x})} rows and @code{length (@var{alpha})} columns.
+Otherwise, @var{alpha} and @var{x} must conform and the result will be the same
+size.
+
+If requested, @var{ierr} contains the following status information and is the
+same size as the result.
+
+@enumerate 0
+@item
+Normal return.
+
+@item
+Input error, return @code{NaN}.
+
+@item
+Overflow, return @code{Inf}.
+
+@item
+Loss of significance by argument reduction results in less than half of machine
+accuracy.
+
+@item
+Complete loss of significance by argument reduction, return @code{NaN}.
+
+@item
+Error---no computation, algorithm termination condition not met, return
+@code{NaN}.
+@end enumerate
+
+@seealso{besselj, bessely, besseli, besselk}
 @end deftypefn
 airy
 @c airy libinterp/corefcn/besselj.cc
@@ -2034,57 +2294,12 @@ Loss of significance by argument reduction results in less than half
  of machine accuracy.
 
 @item
-Complete loss of significance by argument reduction, return @code{NaN}.
+Loss of significance by argument reduction, output may be inaccurate.
 
 @item
 Error---no computation, algorithm termination condition not met,
 return @code{NaN}.
 @end enumerate
-@end deftypefn
-betainc
-@c betainc libinterp/corefcn/betainc.cc
--*- texinfo -*-
-@deftypefn {} {} betainc (@var{x}, @var{a}, @var{b})
-Compute the regularized incomplete Beta function.
-
-The regularized incomplete Beta function is defined by
-@tex
-$$
- I (x, a, b) = {1 \over {B (a, b)}} \int_0^x t^{(a-z)} (1-t)^{(b-1)} dt.
-$$
-@end tex
-@ifnottex
-@c Set example in small font to prevent overfull line
-
-@smallexample
-@group
-                                   x
-                          1       /
-betainc (x, a, b) = -----------   | t^(a-1) (1-t)^(b-1) dt.
-                    beta (a, b)   /
-                               t=0
-@end group
-@end smallexample
-
-@end ifnottex
-
-If @var{x} has more than one component, both @var{a} and @var{b} must be
-scalars.  If @var{x} is a scalar, @var{a} and @var{b} must be of
-compatible dimensions.
-@seealso{betaincinv, beta, betaln}
-@end deftypefn
-betaincinv
-@c betaincinv libinterp/corefcn/betainc.cc
--*- texinfo -*-
-@deftypefn {} {} betaincinv (@var{y}, @var{a}, @var{b})
-Compute the inverse of the incomplete Beta function.
-
-The inverse is the value @var{x} such that
-
-@example
-@var{y} == betainc (@var{x}, @var{a}, @var{b})
-@end example
-@seealso{betainc, beta, betaln}
 @end deftypefn
 bitand
 @c bitand libinterp/corefcn/bitfcns.cc
@@ -2249,20 +2464,37 @@ by @code{intmax}.
 @c bsxfun libinterp/corefcn/bsxfun.cc
 -*- texinfo -*-
 @deftypefn {} {} bsxfun (@var{f}, @var{A}, @var{B})
-The binary singleton expansion function performs broadcasting,
-that is, it applies a binary function @var{f} element-by-element to two
-array arguments @var{A} and @var{B}, and expands as necessary
-singleton dimensions in either input argument.
+Apply a binary function @var{f} element-by-element to two array arguments
+@var{A} and @var{B}, expanding singleton dimensions in either input argument as
+necessary.
 
 @var{f} is a function handle, inline function, or string containing the name
-of the function to evaluate.  The function @var{f} must be capable of
-accepting two column-vector arguments of equal length, or one column vector
-argument and a scalar.
+of the function to evaluate.  The function @var{f} must be capable of accepting
+two column-vector arguments of equal length, or one column vector argument and
+a scalar.
 
 The dimensions of @var{A} and @var{B} must be equal or singleton.  The
-singleton dimensions of the arrays will be expanded to the same
-dimensionality as the other array.
+singleton dimensions of the arrays will be expanded to the same dimensionality
+as the other array.
 @seealso{arrayfun, cellfun}
+@end deftypefn
+max_stack_depth
+@c max_stack_depth libinterp/corefcn/call-stack.cc
+-*- texinfo -*-
+@deftypefn  {} {@var{val} =} max_stack_depth ()
+@deftypefnx {} {@var{old_val} =} max_stack_depth (@var{new_val})
+@deftypefnx {} {} max_stack_depth (@var{new_val}, "local")
+Query or set the internal limit on the number of times a function may
+be called recursively.
+
+If the limit is exceeded, an error message is printed and control returns to
+the top level.
+
+When called from inside a function with the @qcode{"local"} option, the
+variable is changed locally for the function and any subroutines it calls.
+The original variable value is restored when exiting the function.
+
+@seealso{max_recursion_depth}
 @end deftypefn
 cellfun
 @c cellfun libinterp/corefcn/cellfun.cc
@@ -2713,7 +2945,9 @@ The size of the result is @code{max (size (A) - size (B) + 1, 0)}.
 @c daspk libinterp/corefcn/daspk.cc
 -*- texinfo -*-
 @deftypefn {} {[@var{x}, @var{xdot}, @var{istate}, @var{msg}] =} daspk (@var{fcn}, @var{x_0}, @var{xdot_0}, @var{t}, @var{t_crit})
-Solve the set of differential-algebraic equations
+Solve a set of differential-algebraic equations.
+
+@code{daspk} solves the set of equations
 @tex
 $$ 0 = f (x, \dot{x}, t) $$
 with
@@ -2817,7 +3051,9 @@ parameters for @code{daspk}.
 @deftypefnx {} {@dots{} =} dasrt (@var{fcn}, @var{g}, @var{x_0}, @var{xdot_0}, @var{t}, @var{t_crit})
 @deftypefnx {} {@dots{} =} dasrt (@var{fcn}, @var{x_0}, @var{xdot_0}, @var{t})
 @deftypefnx {} {@dots{} =} dasrt (@var{fcn}, @var{x_0}, @var{xdot_0}, @var{t}, @var{t_crit})
-Solve the set of differential-algebraic equations
+Solve a set of differential-algebraic equations.
+
+@code{dasrt} solves the set of equations
 @tex
 $$ 0 = f (x, \dot{x}, t) $$
 with
@@ -2955,7 +3191,9 @@ parameters for @code{dasrt}.
 @c dassl libinterp/corefcn/dassl.cc
 -*- texinfo -*-
 @deftypefn {} {[@var{x}, @var{xdot}, @var{istate}, @var{msg}] =} dassl (@var{fcn}, @var{x_0}, @var{xdot_0}, @var{t}, @var{t_crit})
-Solve the set of differential-algebraic equations
+Solve a set of differential-algebraic equations.
+
+@code{dassl} solves the set of equations
 @tex
 $$ 0 = f (x, \dot{x}, t) $$
 with
@@ -3657,9 +3895,11 @@ Sum of elements along dimension @var{dim}.
 If @var{dim} is omitted, it defaults to the first non-singleton dimension.
 
 The optional @qcode{"type"} input determines the class of the variable
-used for calculations.  If the argument @qcode{"native"} is given, then
-the operation is performed in the same type as the original argument, rather
-than the default double type.
+used for calculations.  By default, operations on floating point inputs (double
+or single) are performed in their native data type, while operations on
+integer, logical, and character data types are performed using doubles.  If the
+argument @qcode{"native"} is given, then the operation is performed in the same
+type as the original argument.
 
 For example:
 
@@ -3672,13 +3912,13 @@ sum ([true, true], "native")
 @end group
 @end example
 
-On the contrary, if @qcode{"double"} is given, the sum is performed in
-double precision even for single precision inputs.
+If @qcode{"double"} is given the sum is performed in double precision even for
+single precision inputs.
 
 For double precision inputs, the @qcode{"extra"} option will use a more
 accurate algorithm than straightforward summation.  For single precision
-inputs, @qcode{"extra"} is the same as @qcode{"double"}.  Otherwise,
-@qcode{"extra"} has no effect.
+inputs, @qcode{"extra"} is the same as @qcode{"double"}.  For all other data
+type @qcode{"extra"} has no effect.
 @seealso{cumsum, sumsq, prod}
 @end deftypefn
 sumsq
@@ -3706,7 +3946,7 @@ but it uses less memory and avoids calling @code{conj} if @var{x} is real.
 @deftypefn  {} {} islogical (@var{x})
 @deftypefnx {} {} isbool (@var{x})
 Return true if @var{x} is a logical object.
-@seealso{isfloat, isinteger, ischar, isnumeric, isa}
+@seealso{ischar, isfloat, isinteger, isstring, isnumeric, isa}
 @end deftypefn
 isinteger
 @c isinteger libinterp/corefcn/data.cc
@@ -3716,14 +3956,14 @@ Return true if @var{x} is an integer object (int8, uint8, int16, etc.).
 
 Note that @w{@code{isinteger (14)}} is false because numeric constants in
 Octave are double precision floating point values.
-@seealso{isfloat, ischar, islogical, isnumeric, isa}
+@seealso{isfloat, ischar, islogical, isstring, isnumeric, isa}
 @end deftypefn
 iscomplex
 @c iscomplex libinterp/corefcn/data.cc
 -*- texinfo -*-
 @deftypefn {} {} iscomplex (@var{x})
 Return true if @var{x} is a complex-valued numeric object.
-@seealso{isreal, isnumeric, islogical, ischar, isfloat, isa}
+@seealso{isreal, isnumeric, ischar, isfloat, islogical, isstring, isa}
 @end deftypefn
 isfloat
 @c isfloat libinterp/corefcn/data.cc
@@ -3732,7 +3972,7 @@ Return true if @var{x} is a complex-valued numeric object.
 Return true if @var{x} is a floating-point numeric object.
 
 Objects of class double or single are floating-point objects.
-@seealso{isinteger, ischar, islogical, isnumeric, isa}
+@seealso{isinteger, ischar, islogical, isnumeric, isstring, isa}
 @end deftypefn
 complex
 @c complex libinterp/corefcn/data.cc
@@ -3784,7 +4024,7 @@ Return true if @var{x} is a numeric object, i.e., an integer, real, or
 complex array.
 
 Logical and character arrays are not considered to be numeric.
-@seealso{isinteger, isfloat, isreal, iscomplex, islogical, ischar, iscell, isstruct, isa}
+@seealso{isinteger, isfloat, isreal, iscomplex, ischar, islogical, isstring, iscell, isstruct, isa}
 @end deftypefn
 isscalar
 @c isscalar libinterp/corefcn/data.cc
@@ -4447,8 +4687,9 @@ Largest singular value of @var{A}.
 Infinity norm, the largest row sum of the absolute values of @var{A}.
 
 @item @var{p} = @qcode{"fro"}
-@cindex Frobenius norm
-Frobenius norm of @var{A}, @code{sqrt (sum (diag (@var{A}' * @var{A})))}.
+@cindex @nospell{Frobenius} norm
+@nospell{Frobenius} norm of @var{A},
+@code{sqrt (sum (diag (@var{A}' * @var{A})))}.
 
 @item other @var{p}, @code{@var{p} > 1}
 @cindex general p-norm
@@ -4465,7 +4706,7 @@ If @var{A} is a vector or a scalar:
 @code{min (abs (@var{A}))}.
 
 @item @var{p} = @qcode{"fro"}
-Frobenius norm of @var{A}, @code{sqrt (sumsq (abs (A)))}.
+@nospell{Frobenius} norm of @var{A}, @code{sqrt (sumsq (abs (A)))}.
 
 @item @var{p} = 0
 Hamming norm---the number of nonzero elements.
@@ -4481,7 +4722,7 @@ If @var{opt} is the value @qcode{"rows"}, treat each row as a vector and
 compute its norm.  The result is returned as a column vector.
 Similarly, if @var{opt} is @qcode{"columns"} or @qcode{"cols"} then
 compute the norms of each column and return a row vector.
-@seealso{normest, normest1, cond, svd}
+@seealso{normest, normest1, vecnorm, cond, svd}
 @end deftypefn
 not
 @c not libinterp/corefcn/data.cc
@@ -4745,45 +4986,51 @@ This function is equivalent to the operator syntax
 -*- texinfo -*-
 @deftypefn  {} {} tic ()
 @deftypefnx {} {@var{id} =} tic ()
-@deftypefnx {} {} toc ()
-@deftypefnx {} {} toc (@var{id})
-@deftypefnx {} {@var{val} =} toc (@dots{})
-Set or check a wall-clock timer.
+Initialize a wall-clock timer.
 
-Calling @code{tic} without an output argument sets the internal timer state.
-Subsequent calls to @code{toc} return the number of seconds since the timer
-was set.
-For example,
+Calling @code{tic} without an output argument resets the internal timer.
+Subsequent calls to @code{toc} return the number of seconds since the timer was
+set.
+
+If called with one output argument, @code{tic} creates a new timer instance and
+returns a timer identifier @var{id}.  The @var{id} is a scalar of type
+@code{uint64} that may be passed to @code{toc} to check elapsed time on this
+timer, rather than the default internal timer.
+
+Example 1 : benchmarking code with internal timer
 
 @example
 @group
-tic ();
+tic;
 # many computations later@dots{}
-elapsed_time = toc ();
+elapsed_time = toc;
+@end group
+@end example
+
+Example 2 : mixed timer id and internal timer
+
+@example
+@group
+tic;
+pause (1);
+toc
+@result{} Elapsed time is 1.0089 seconds.
+id = tic;
+pause (2);
+toc (id)
+@result{} Elapsed time is 2.01142 seconds.
+toc
+Elapsed time is 3.02308 seconds.
 @end group
 @end example
 
 @noindent
-will set the variable @code{elapsed_time} to the number of seconds since
-the most recent call to the function @code{tic}.
+Calling @code{tic} and @code{toc} in this way allows nested timing calls.
 
-If called with one output argument, @code{tic} returns a scalar
-of type @code{uint64} that may be later passed to @code{toc}.
-
-@example
-@group
-id = tic; pause (5); toc (id)
-      @result{} 5.0010
-@end group
-@end example
-
-Calling @code{tic} and @code{toc} this way allows nested timing calls.
-
-If you are more interested in the CPU time that your process used, you
-should use the @code{cputime} function instead.  The @code{tic} and
-@code{toc} functions report the actual wall clock time that elapsed
-between the calls.  This may include time spent processing other jobs or
-doing nothing at all.
+If you are more interested in the CPU time that your process used, you should
+use the @code{cputime} function instead.  The @code{tic} and @code{toc}
+functions report the actual wall clock time that elapsed between the calls.
+This may include time spent processing other jobs or doing nothing at all.
 @seealso{toc, cputime}
 @end deftypefn
 toc
@@ -4791,7 +5038,17 @@ doing nothing at all.
 -*- texinfo -*-
 @deftypefn  {} {} toc ()
 @deftypefnx {} {} toc (@var{id})
-@deftypefnx {} {@var{val} =} toc (@dots{})
+@deftypefnx {} {@var{elapsed_time} =} toc (@dots{})
+Measure elapsed time on a wall-clock timer.
+
+With no arguments, return the number of seconds elapsed on the internal timer
+since the last call to @code{tic}.
+
+When given the identifier @var{id} of a specific timer, return the number of
+seconds elapsed since the timer @var{id} was initialized.
+
+@xref{XREFtic, , tic}, for examples of the use of @code{tic}/@code{toc}.
+
 @seealso{tic, cputime}
 @end deftypefn
 cputime
@@ -5405,65 +5662,23 @@ Disable line info printing at the next breakpoint.
 
 With a logical argument @var{flag}, set the state on or off.
 @end deftypefn
-EDITOR
-@c EDITOR libinterp/corefcn/defaults.cc
--*- texinfo -*-
-@deftypefn  {} {@var{val} =} EDITOR ()
-@deftypefnx {} {@var{old_val} =} EDITOR (@var{new_val})
-@deftypefnx {} {} EDITOR (@var{new_val}, "local")
-Query or set the internal variable that specifies the default text editor.
-
-The default value is taken from the environment variable @w{@env{EDITOR}}
-when Octave starts.  If the environment variable is not initialized,
-@w{@env{EDITOR}} will be set to @qcode{"emacs"}.
-
-When called from inside a function with the @qcode{"local"} option, the
-variable is changed locally for the function and any subroutines it calls.
-The original variable value is restored when exiting the function.
-
-@seealso{edit, edit_history}
-@end deftypefn
-EXEC_PATH
-@c EXEC_PATH libinterp/corefcn/defaults.cc
--*- texinfo -*-
-@deftypefn  {} {@var{val} =} EXEC_PATH ()
-@deftypefnx {} {@var{old_val} =} EXEC_PATH (@var{new_val})
-@deftypefnx {} {} EXEC_PATH (@var{new_val}, "local")
-Query or set the internal variable that specifies a colon separated
-list of directories to append to the shell PATH when executing external
-programs.
-
-The initial value of is taken from the environment variable
-@w{@env{OCTAVE_EXEC_PATH}}, but that value can be overridden by the command
-line argument @option{--exec-path PATH}.
-
-When called from inside a function with the @qcode{"local"} option, the
-variable is changed locally for the function and any subroutines it calls.
-The original variable value is restored when exiting the function.
-
-@seealso{IMAGE_PATH, OCTAVE_HOME}
-@end deftypefn
-IMAGE_PATH
-@c IMAGE_PATH libinterp/corefcn/defaults.cc
--*- texinfo -*-
-@deftypefn  {} {@var{val} =} IMAGE_PATH ()
-@deftypefnx {} {@var{old_val} =} IMAGE_PATH (@var{new_val})
-@deftypefnx {} {} IMAGE_PATH (@var{new_val}, "local")
-Query or set the internal variable that specifies a colon separated
-list of directories in which to search for image files.
-
-When called from inside a function with the @qcode{"local"} option, the
-variable is changed locally for the function and any subroutines it calls.
-The original variable value is restored when exiting the function.
-
-@seealso{EXEC_PATH, OCTAVE_HOME}
-@end deftypefn
 OCTAVE_HOME
 @c OCTAVE_HOME libinterp/corefcn/defaults.cc
 -*- texinfo -*-
 @deftypefn {} {} OCTAVE_HOME ()
 Return the name of the top-level Octave installation directory.
-@seealso{EXEC_PATH, IMAGE_PATH}
+OCTAVE_HOME corresponds to the configuration variable @var{prefix}.
+@seealso{EXEC_PATH, IMAGE_PATH, OCTAVE_EXEC_HOME}
+@end deftypefn
+OCTAVE_EXEC_HOME
+@c OCTAVE_EXEC_HOME libinterp/corefcn/defaults.cc
+-*- texinfo -*-
+@deftypefn {} {} OCTAVE_HOME ()
+Return the name of the top-level Octave installation directory for
+architecture-dependent files.  If not specified separately, the value
+is the same as OCTAVE_HOME@.  OCTAVE_EXEC_HOME corresponds to the
+configuration variable @var{exec_prefix}.
+@seealso{EXEC_PATH, IMAGE_PATH, OCTAVE_HOME}
 @end deftypefn
 OCTAVE_VERSION
 @c OCTAVE_VERSION libinterp/corefcn/defaults.cc
@@ -5756,9 +5971,8 @@ It is @samp{/} (forward slash) under UNIX or @w{Mac OS X}, @samp{/} and
 pathsep
 @c pathsep libinterp/corefcn/dirfns.cc
 -*- texinfo -*-
-@deftypefn  {} {@var{val} =} pathsep ()
-@deftypefnx {} {@var{old_val} =} pathsep (@var{new_val})
-Query or set the character used to separate directories in a path.
+@deftypefn {} {@var{val} =} pathsep ()
+Query the character used to separate directories in a path.
 @seealso{filesep}
 @end deftypefn
 confirm_recursive_rmdir
@@ -5774,6 +5988,14 @@ When called from inside a function with the @qcode{"local"} option, the
 variable is changed locally for the function and any subroutines it calls.
 The original variable value is restored when exiting the function.
 @seealso{rmdir}
+@end deftypefn
+have_window_system
+@c have_window_system libinterp/corefcn/display.cc
+-*- texinfo -*-
+@deftypefn {} {} have_window_system ()
+Return true if a window system is available (X11, Windows, or Apple OS X)
+and false otherwise.
+@seealso{isguirunning}
 @end deftypefn
 dlmread
 @c dlmread libinterp/corefcn/dlmread.cc
@@ -5860,14 +6082,13 @@ endfor
 @deftypefnx {} {[@dots{}] =} eig (@var{A}, @var{B}, @var{algorithm})
 @deftypefnx {} {[@dots{}] =} eig (@dots{}, @var{eigvalOption})
 Compute the eigenvalues (@var{lambda}) and optionally the right eigenvectors
-(@var{V}) and the left eigenvectors (@var{W}) of a matrix or a pair of
-matrices.
+(@var{V}) and the left eigenvectors (@var{W}) of a matrix or pair of matrices.
 
 The flag @var{balanceOption} can be one of:
 
 @table @asis
-@item @qcode{"balance"}
-Preliminary balancing is on. (default)
+@item @qcode{"balance"} (default)
+Preliminary balancing is on.
 
 @item @qcode{"nobalance"}
 Disables preliminary balancing.
@@ -5877,24 +6098,23 @@ The flag @var{eigvalOption} can be one of:
 
 @table @asis
 @item @qcode{"matrix"}
-Return the eigenvalues in a diagonal matrix. (default if 2 or 3 outputs
-are specified)
+Return the eigenvalues in a diagonal matrix.  (default if 2 or 3 outputs
+are requested)
 
 @item @qcode{"vector"}
-Return the eigenvalues in a column vector. (default if 1 output is
-specified, e.g. @var{lambda} = eig (@var{A}))
+Return the eigenvalues in a column vector.  (default if only 1 output is
+requested, e.g., @var{lambda} = eig (@var{A}))
 @end table
 
 The flag @var{algorithm} can be one of:
 
 @table @asis
 @item @qcode{"chol"}
-Uses the Cholesky factorization of B. (default if A is symmetric (Hermitian)
-and B is symmetric (Hermitian) positive definite)
+Use the Cholesky factorization of B.  (default if @var{A} is symmetric
+(Hermitian) and @var{B} is symmetric (Hermitian) positive definite)
 
 @item @qcode{"qz"}
-Uses the QZ algorithm. (When A or B are not symmetric always the
-QZ algorithm will be used)
+Use the QZ algorithm.  (used whenever @var{A} or @var{B} are not symmetric)
 @end table
 
 @multitable @columnfractions .31 .23 .23 .23
@@ -5951,6 +6171,59 @@ Reference: Milton @nospell{Abramowitz} and Irene A @nospell{Stegun},
 and 16.15), Dover, 1965.
 
 @seealso{ellipke}
+@end deftypefn
+EDITOR
+@c EDITOR libinterp/corefcn/environment.cc
+-*- texinfo -*-
+@deftypefn  {} {@var{val} =} EDITOR ()
+@deftypefnx {} {@var{old_val} =} EDITOR (@var{new_val})
+@deftypefnx {} {} EDITOR (@var{new_val}, "local")
+Query or set the internal variable that specifies the default text editor.
+
+The default value is taken from the environment variable @w{@env{EDITOR}}
+when Octave starts.  If the environment variable is not initialized,
+@w{@env{EDITOR}} will be set to @qcode{"emacs"}.
+
+When called from inside a function with the @qcode{"local"} option, the
+variable is changed locally for the function and any subroutines it calls.
+The original variable value is restored when exiting the function.
+
+@seealso{edit, edit_history}
+@end deftypefn
+EXEC_PATH
+@c EXEC_PATH libinterp/corefcn/environment.cc
+-*- texinfo -*-
+@deftypefn  {} {@var{val} =} EXEC_PATH ()
+@deftypefnx {} {@var{old_val} =} EXEC_PATH (@var{new_val})
+@deftypefnx {} {} EXEC_PATH (@var{new_val}, "local")
+Query or set the internal variable that specifies a colon separated
+list of directories to append to the shell PATH when executing external
+programs.
+
+The initial value of is taken from the environment variable
+@w{@env{OCTAVE_EXEC_PATH}}, but that value can be overridden by the command
+line argument @option{--exec-path PATH}.
+
+When called from inside a function with the @qcode{"local"} option, the
+variable is changed locally for the function and any subroutines it calls.
+The original variable value is restored when exiting the function.
+
+@seealso{IMAGE_PATH, OCTAVE_HOME, OCTAVE_EXEC_HOME}
+@end deftypefn
+IMAGE_PATH
+@c IMAGE_PATH libinterp/corefcn/environment.cc
+-*- texinfo -*-
+@deftypefn  {} {@var{val} =} IMAGE_PATH ()
+@deftypefnx {} {@var{old_val} =} IMAGE_PATH (@var{new_val})
+@deftypefnx {} {} IMAGE_PATH (@var{new_val}, "local")
+Query or set the internal variable that specifies a colon separated
+list of directories in which to search for image files.
+
+When called from inside a function with the @qcode{"local"} option, the
+variable is changed locally for the function and any subroutines it calls.
+The original variable value is restored when exiting the function.
+
+@seealso{EXEC_PATH, OCTAVE_HOME, OCTAVE_EXEC_HOME}
 @end deftypefn
 rethrow
 @c rethrow libinterp/corefcn/error.cc
@@ -6059,62 +6332,113 @@ disable escape sequence expansion use a second backslash before the sequence
 @deftypefnx {} {} warning (@var{id}, @var{template}, @dots{})
 @deftypefnx {} {} warning ("on", @var{id})
 @deftypefnx {} {} warning ("off", @var{id})
-@deftypefnx {} {} warning ("query", @var{id})
 @deftypefnx {} {} warning ("error", @var{id})
-@deftypefnx {} {} warning (@var{state}, "backtrace")
+@deftypefnx {} {} warning ("query", @var{id})
 @deftypefnx {} {} warning (@var{state}, @var{id}, "local")
-Display a warning message or control the behavior of Octave's warning
-system.
+@deftypefnx {} {} warning (@var{warning_struct})
+@deftypefnx {} {@var{warning_struct} =} warning (@dots{})
+@deftypefnx {} {@var{mode_struct} =} warning (@var{state}, @var{mode})
+@deftypefnx {} {} warning (@var{mode_st})
 
-Format the optional arguments under the control of the template string
-@var{template} using the same rules as the @code{printf} family of
-functions (@pxref{Formatted Output}) and print the resulting message
-on the @code{stderr} stream.  The message is prefixed by the character
-string @samp{warning: }.
-You should use this function when you want to notify the user
-of an unusual condition, but only when it makes sense for your program
-to go on.
+Display a warning message or control the behavior of Octave's warning system.
 
-The optional message identifier allows users to enable or disable
-warnings tagged by @var{id}.  A message identifier is of the form
-"NAMESPACE:WARNING-NAME".  Octave's own warnings use the
-@qcode{"Octave"} namespace (@pxref{XREFwarning_ids,,warning_ids}).  The special
-identifier @qcode{"all"} may be used to set the state of all warnings.
-
-If the first argument is @qcode{"on"} or @qcode{"off"},
-set the state of a particular warning using the identifier @var{id}.  If the
-first argument is @qcode{"query"}, query the state of this warning
-instead.  If the identifier is omitted, a value of @qcode{"all"} is
-assumed.  If you set the state of a warning to @qcode{"error"}, the
-warning named by @var{id} is handled as if it were an error instead.  So,
-for example, the following handles all warnings as errors:
+The first call form uses a template @var{template} and optional additional
+arguments to display a message on the @code{stderr} stream.  The message is
+formatted using the same rules as the @code{printf} family of functions
+(@pxref{Formatted Output}) and prefixed by the character string
+@w{@samp{warning: }}.  You should use this function when you want to notify the
+user of an unusual condition, but only when it makes sense for your program to
+go on.  For example:
 
 @example
 @group
-warning ("error");
+warning ("foo: maybe something wrong here");
 @end group
 @end example
 
-If the state is @qcode{"on"} or @qcode{"off"} and the third argument
-is @qcode{"backtrace"}, then a stack trace is printed along with the
-warning message when warnings occur inside function calls.  This option
-is enabled by default.
+The optional warning identifier @var{id} allows users to enable or disable
+warnings tagged by this identifier.  A message identifier is a string of the
+form @qcode{"NAMESPACE:WARNING-NAME"}.  Octave's own warnings use the
+@qcode{"Octave"} namespace (@pxref{XREFwarning_ids,,warning_ids}).  For
+example:
 
-If the state is @qcode{"on"}, @qcode{"off"}, or @qcode{"error"}
-and the third argument is @qcode{"local"}, then the warning state
-will be set temporarily, until the end of the current function.
-Changes to warning states that are set locally affect the current
-function and all functions called from the current scope.  The
-previous warning state is restored on return from the current
-function.  The @qcode{"local"} option is ignored if used in the top-level
-workspace.
+@example
+@group
+warning ("MyNameSpace:check-something",
+         "foo: maybe something wrong here");
+@end group
+@end example
 
-Implementation Note: For compatibility with @sc{matlab}, escape
-sequences in @var{template} (e.g., @qcode{"@xbackslashchar{}n"} =>
-newline) are processed regardless of whether @var{template} has been defined
-with single quotes, as long as there are two or more input arguments.  To
-disable escape sequence expansion use a second backslash before the sequence
-(e.g., @qcode{"@xbackslashchar{}@xbackslashchar{}n"}) or use the
+The second call form is meant to change and/or query the state of warnings.
+The first input argument must be a string @var{state} (@qcode{"on"},
+@qcode{"off"}, @qcode{"error"}, or @qcode{"query"}) followed by an optional
+warning identifier @var{id} or @qcode{"all"} (default).
+
+The optional output argument @var{warning_struct} is a structure or structure
+array with fields @qcode{"state"} and @qcode{"identifier"}.  The @var{state}
+argument may have the following values:
+
+@table @asis
+@item @qcode{"on"}|@qcode{"off"}:
+Enable or disable the display of warnings identified by @var{id} and optionally
+return their previous state @var{stout}.
+
+@item @qcode{"error"}:
+Turn warnings identified by @var{id} into errors and optionally return their
+previous state @var{stout}.
+
+@item @qcode{"query"}:
+Return the current state of warnings identified by @var{id}.
+@end table
+
+A structure or structure array @var{warning_struct}, with fields
+@qcode{"state"} and @qcode{"identifier"}, may be given as an input to achieve
+equivalent results.  The following example shows how to temporarily disable a
+warning and then restore its original state:
+
+@example
+@group
+loglog (-1:10);
+## Disable the previous warning and save its original state
+[~, id] = lastwarn ();
+warnstate = warning ("off", id);
+loglog (-1:10);
+## Restore its original state
+warning (warnstate);
+@end group
+@end example
+
+If a final argument @qcode{"local"} is provided then the warning state will be
+set temporarily until the end of the current function.  Changes to warning
+states that are set locally affect the current function and all functions
+called from the current scope.  The previous warning state is restored on
+return from the current function.  The @qcode{"local"} option is ignored if
+used in the top-level workspace.
+
+With no input argument @code{warning ()} is equivalent to
+@code{warning ("query", "all")} except that in the absence of an output
+argument, the state of warnings is displayed on @code{stderr}.
+
+The level of verbosity of the warning system may also be controlled by two
+modes @var{mode}:
+
+@table @asis
+@item @qcode{"backtrace"}:
+enable/disable the display of the stack trace after the warning message
+
+@item @qcode{"verbose"}:
+enable/disable the display of additional information after the warning message
+@end table
+
+In this case the @var{state} argument may only be @qcode{"on"} or
+@qcode{"off"}.
+
+Implementation Note: For compatibility with @sc{matlab}, escape sequences in
+@var{template} (e.g., @qcode{"@xbackslashchar{}n"} => newline) are processed
+regardless of whether @var{template} has been defined with single quotes, as
+long as there are two or more input arguments.  To disable escape sequence
+expansion use a second backslash before the sequence (e.g.,
+@qcode{"@xbackslashchar{}@xbackslashchar{}n"}) or use the
 @code{regexptranslate} function.
 @seealso{warning_ids, lastwarn, error}
 @end deftypefn
@@ -6196,35 +6520,6 @@ With one argument, set the last warning message to @var{msg}.
 
 With two arguments, also set the last message identifier.
 @seealso{warning, lasterror, lasterr}
-@end deftypefn
-__usage__
-@c __usage__ libinterp/corefcn/error.cc
--*- texinfo -*-
-@deftypefn {} {} usage (@var{msg})
-Print the message @var{msg}, prefixed by the string @samp{usage: }, and
-set Octave's internal error state such that control will return to the
-top level without evaluating any more commands.  This is useful for
-aborting from functions.
-
-After @code{usage} is evaluated, Octave will print a traceback of all
-the function calls leading to the usage message.
-
-You should use this function for reporting problems errors that result
-from an improper call to a function, such as calling a function with an
-incorrect number of arguments, or with arguments of the wrong type.  For
-example, most functions distributed with Octave begin with code like
-this
-
-@example
-@group
-if (nargin != 2)
-  usage ("foo (a, b)");
-endif
-@end group
-@end example
-
-@noindent
-to check for the proper number of arguments.
 @end deftypefn
 beep_on_error
 @c beep_on_error libinterp/corefcn/error.cc
@@ -6490,7 +6785,7 @@ Returns the number of lines skipped (end-of-line sequences encountered).
 Open a file for low-level I/O or query open files and file descriptors.
 
 The first form of the @code{fopen} function opens the named file with
-the specified mode (read-write, read-only, etc.) and architecture
+the specified mode (read-write, read-only, etc.@:) and architecture
 interpretation (IEEE big endian, IEEE little endian, etc.), and returns
 an integer value that may be used to refer to the file later.  If an
 error occurs, @var{fid} is set to @minus{}1 and @var{msg} contains the
@@ -6629,16 +6924,16 @@ is equivalent to @code{fseek (@var{fid}, 0, SEEK_SET)}.
 @deftypefnx {} {@var{status} =} fseek (@dots{})
 Set the file pointer to the location @var{offset} within the file @var{fid}.
 
-The pointer is positioned @var{offset} characters from the @var{origin},
-which may be one of the predefined variables @w{@code{SEEK_CUR}} (current
-position), @w{@code{SEEK_SET}} (beginning), or @w{@code{SEEK_END}} (end of
-file) or strings @qcode{"cof"}, @qcode{"bof"} or @qcode{"eof"}.  If
-@var{origin} is omitted, @w{@code{SEEK_SET}} is assumed.  @var{offset} may
-be positive, negative, or zero but not all combinations of @var{origin} and
-@var{offset} can be realized.
+The pointer is positioned @var{offset} characters from the @var{origin}, which
+may be one of the predefined variables @w{@code{SEEK_SET}} (beginning),
+@w{@code{SEEK_CUR}} (current position), or @w{@code{SEEK_END}} (end of file) or
+strings @nospell{@qcode{"bof"}}, @nospell{@qcode{"cof"}}, or
+@nospell{@qcode{"eof"}}.  If @var{origin} is omitted, @w{@code{SEEK_SET}} is
+assumed.  @var{offset} may be positive, negative, or zero but not all
+combinations of @var{origin} and @var{offset} can be realized.
 
 @code{fseek} returns 0 on success and -1 on error.
-@seealso{fskipl, frewind, ftell, fopen}
+@seealso{fskipl, frewind, ftell, fopen, SEEK_SET, SEEK_CUR, SEEK_END}
 @end deftypefn
 ftell
 @c ftell libinterp/corefcn/file-io.cc
@@ -7112,44 +7407,45 @@ The optional argument @var{precision} is a string specifying the type of
 data to read and may be one of
 
 @table @asis
-@item  @qcode{"schar"}
-@itemx @qcode{"signed char"}
-Signed character.
-
-@item  @qcode{"uchar"}
-@itemx @qcode{"unsigned char"}
-Unsigned character.
+@item @qcode{"uint8"} (default)
+8-bit unsigned integer.
 
 @item  @qcode{"int8"}
 @itemx @qcode{"integer*1"}
-
 8-bit signed integer.
+
+@item  @qcode{"uint16"}
+@itemx @qcode{"ushort"}
+@itemx @qcode{"unsigned short"}
+16-bit unsigned integer.
 
 @item  @qcode{"int16"}
 @itemx @qcode{"integer*2"}
+@itemx @qcode{"short"}
 16-bit signed integer.
 
-@item  @qcode{"int32"}
+@item  @qcode{"uint"}
+@itemx @qcode{"uint32"}
+@itemx @qcode{"unsigned int"}
+@itemx @qcode{"ulong"}
+@itemx @qcode{"unsigned long"}
+32-bit unsigned integer.
+
+@item  @qcode{"int"}
+@itemx @qcode{"int32"}
 @itemx @qcode{"integer*4"}
+@itemx @qcode{"long"}
 32-bit signed integer.
+
+@item @qcode{"uint64"}
+64-bit unsigned integer.
 
 @item  @qcode{"int64"}
 @itemx @qcode{"integer*8"}
 64-bit signed integer.
 
-@item @qcode{"uint8"}
-8-bit unsigned integer.
-
-@item @qcode{"uint16"}
-16-bit unsigned integer.
-
-@item @qcode{"uint32"}
-32-bit unsigned integer.
-
-@item @qcode{"uint64"}
-64-bit unsigned integer.
-
 @item  @qcode{"single"}
+@itemx @qcode{"float"}
 @itemx @qcode{"float32"}
 @itemx @qcode{"real*4"}
 32-bit floating point number.
@@ -7161,35 +7457,20 @@ Unsigned character.
 
 @item  @qcode{"char"}
 @itemx @qcode{"char*1"}
-Single character.
+8-bit single character.
 
-@item @qcode{"short"}
-Short integer (size is platform dependent).
+@item  @qcode{"uchar"}
+@itemx @qcode{"unsigned char"}
+8-bit unsigned character.
 
-@item @qcode{"int"}
-Integer (size is platform dependent).
+@item  @qcode{"schar"}
+@itemx @qcode{"signed char"}
+8-bit signed character.
 
-@item @qcode{"long"}
-Long integer (size is platform dependent).
-
-@item  @qcode{"ushort"}
-@itemx @qcode{"unsigned short"}
-Unsigned short integer (size is platform dependent).
-
-@item  @qcode{"uint"}
-@itemx @qcode{"unsigned int"}
-Unsigned integer (size is platform dependent).
-
-@item  @qcode{"ulong"}
-@itemx @qcode{"unsigned long"}
-Unsigned long integer (size is platform dependent).
-
-@item @qcode{"float"}
-Single precision floating point number (size is platform dependent).
 @end table
 
 @noindent
-The default precision is @qcode{"uchar"}.
+The default precision is @qcode{"uint8"}.
 
 The @var{precision} argument may also specify an optional repeat
 count.  For example, @samp{32*single} causes @code{fread} to read
@@ -7284,7 +7565,7 @@ end-of-file condition.
 @deftypefn  {} {@var{msg} =} ferror (@var{fid})
 @deftypefnx {} {[@var{msg}, @var{err}] =} ferror (@var{fid})
 @deftypefnx {} {[@dots{}] =} ferror (@var{fid}, "clear")
-Query the error status of the stream specified by file descriptor @var{fid}
+Query the error status of the stream specified by file descriptor @var{fid}.
 
 If an error condition exists then return a string @var{msg} describing the
 error.  Otherwise, return an empty string @qcode{""}.
@@ -7439,39 +7720,26 @@ environment variable.
 SEEK_SET
 @c SEEK_SET libinterp/corefcn/file-io.cc
 -*- texinfo -*-
-@deftypefn  {} {} SEEK_SET ()
-@deftypefnx {} {} SEEK_CUR ()
-@deftypefnx {} {} SEEK_END ()
-Return the numerical value to pass to @code{fseek} to perform one of the
-following actions:
-
-@table @code
-@item SEEK_SET
-Position file relative to the beginning.
-
-@item SEEK_CUR
-Position file relative to the current position.
-
-@item SEEK_END
-Position file relative to the end.
-@end table
-@seealso{fseek}
+@deftypefn {} {} SEEK_SET ()
+Return the numerical value to pass to @code{fseek} to position the file pointer
+relative to the beginning of the file.
+@seealso{SEEK_CUR, SEEK_END, fseek}
 @end deftypefn
 SEEK_CUR
 @c SEEK_CUR libinterp/corefcn/file-io.cc
 -*- texinfo -*-
 @deftypefn {} {} SEEK_CUR ()
-Return the numerical value to pass to @code{fseek} to
-position the file pointer relative to the current position.
-@seealso{SEEK_SET, SEEK_END}
+Return the numerical value to pass to @code{fseek} to position the file pointer
+relative to the current position.
+@seealso{SEEK_SET, SEEK_END, fseek}
 @end deftypefn
 SEEK_END
 @c SEEK_END libinterp/corefcn/file-io.cc
 -*- texinfo -*-
 @deftypefn {} {} SEEK_END ()
-Return the numerical value to pass to @code{fseek} to
-position the file pointer relative to the end of the file.
-@seealso{SEEK_SET, SEEK_CUR}
+Return the numerical value to pass to @code{fseek} to position the file pointer
+relative to the end of the file.
+@seealso{SEEK_SET, SEEK_CUR, fseek}
 @end deftypefn
 stdin
 @c stdin libinterp/corefcn/file-io.cc
@@ -7489,8 +7757,8 @@ line editing functions.
 @deftypefn {} {} stdout ()
 Return the numeric value corresponding to the standard output stream.
 
-Data written to the standard output is normally filtered through the pager.
-@seealso{stdin, stderr}
+Data written to the standard output may be filtered through the pager.
+@seealso{stdin, stderr, page_screen_output}
 @end deftypefn
 stderr
 @c stderr libinterp/corefcn/file-io.cc
@@ -7670,52 +7938,6 @@ b = sparse (i, j, v, sz(1), sz(2));
 @end group
 @end example
 @seealso{nonzeros}
-@end deftypefn
-gammainc
-@c gammainc libinterp/corefcn/gammainc.cc
--*- texinfo -*-
-@deftypefn  {} {} gammainc (@var{x}, @var{a})
-@deftypefnx {} {} gammainc (@var{x}, @var{a}, "lower")
-@deftypefnx {} {} gammainc (@var{x}, @var{a}, "upper")
-Compute the normalized incomplete gamma function.
-
-This is defined as
-@tex
-$$
- \gamma (x, a) = {1 \over {\Gamma (a)}}\displaystyle{\int_0^x t^{a-1} e^{-t} dt}
-$$
-@end tex
-@ifnottex
-
-@example
-@group
-                                x
-                       1       /
-gammainc (x, a) = ---------    | exp (-t) t^(a-1) dt
-                  gamma (a)    /
-                            t=0
-@end group
-@end example
-
-@end ifnottex
-with the limiting value of 1 as @var{x} approaches infinity.
-The standard notation is @math{P(a,x)}, e.g., @nospell{Abramowitz} and
-@nospell{Stegun} (6.5.1).
-
-If @var{a} is scalar, then @code{gammainc (@var{x}, @var{a})} is returned
-for each element of @var{x} and vice versa.
-
-If neither @var{x} nor @var{a} is scalar, the sizes of @var{x} and
-@var{a} must agree, and @code{gammainc} is applied element-by-element.
-
-By default the incomplete gamma function integrated from 0 to @var{x} is
-computed.  If @qcode{"upper"} is given then the complementary function
-integrated from @var{x} to infinity is calculated.  It should be noted that
-
-@example
-gammainc (@var{x}, @var{a}) @equiv{} 1 - gammainc (@var{x}, @var{a}, "upper")
-@end example
-@seealso{gamma, gammaln}
 @end deftypefn
 gcd
 @c gcd libinterp/corefcn/gcd.cc
@@ -7925,19 +8147,28 @@ $$
 with $x$ and $y$ scalars.
 @end tex
 @ifnottex
-The Givens matrix is a 2 by 2 orthogonal matrix
+The Givens matrix is a 2-by-2 orthogonal matrix
 
-@code{@var{g} = [@var{c} @var{s}; -@var{s}' @var{c}]}
+@example
+@group
+@var{G} = [ @var{c} , @var{s}
+     -@var{s}', @var{c}]
+@end group
+@end example
 
+@noindent
 such that
 
-@code{@var{g} [@var{x}; @var{y}] = [*; 0]}
+@example
+@var{G} * [@var{x}; @var{y}] = [*; 0]
+@end example
 
+@noindent
 with @var{x} and @var{y} scalars.
 @end ifnottex
 
-If two output arguments are requested, return the factors @var{c} and
-@var{s} rather than the Givens rotation matrix.
+If two output arguments are requested, return the factors @var{c} and @var{s}
+rather than the Givens rotation matrix.
 
 For example:
 
@@ -7948,18 +8179,22 @@ givens (1, 1)
        -0.70711   0.70711
 @end group
 @end example
-@seealso{planerot}
+
+Note: The Givens matrix represents a counterclockwise rotation of a 2-D
+plane and can be used to introduce zeros into a matrix prior to complete
+factorization.
+@seealso{planerot, qr}
 @end deftypefn
-ishandle
-@c ishandle libinterp/corefcn/graphics.cc
+ishghandle
+@c ishghandle libinterp/corefcn/graphics.cc
 -*- texinfo -*-
-@deftypefn {} {} ishandle (@var{h})
+@deftypefn {} {} ishghandle (@var{h})
 Return true if @var{h} is a graphics handle and false otherwise.
 
 @var{h} may also be a matrix of handles in which case a logical array is
 returned that is true where the elements of @var{h} are graphics handles and
 false where they are not.
-@seealso{isaxes, isfigure}
+@seealso{isgraphics, isaxes, isfigure, ishandle}
 @end deftypefn
 __is_handle_visible__
 @c __is_handle_visible__ libinterp/corefcn/graphics.cc
@@ -8183,12 +8418,6 @@ Undocumented internal function.
 @deftypefn {} {} __go_delete__ (@var{h})
 Undocumented internal function.
 @end deftypefn
-__go_axes_init__
-@c __go_axes_init__ libinterp/corefcn/graphics.cc
--*- texinfo -*-
-@deftypefn {} {} __go_axes_init__ (@var{h}, @var{mode})
-Undocumented internal function.
-@end deftypefn
 __go_handles__
 @c __go_handles__ libinterp/corefcn/graphics.cc
 -*- texinfo -*-
@@ -8211,7 +8440,7 @@ Undocumented internal function.
 __image_pixel_size__
 @c __image_pixel_size__ libinterp/corefcn/graphics.cc
 -*- texinfo -*-
-@deftypefn {} {@var{px}, @var{py}} __image_pixel_size__ (@var{h})
+@deftypefn {} {@var{sz} =} __image_pixel_size__ (@var{h})
 Internal function: returns the pixel size of the image in normalized units.
 @end deftypefn
 available_graphics_toolkits
@@ -8438,6 +8667,69 @@ In all cases, typing CTRL-C stops program execution immediately.
 @deftypefnx {} {} __zoom__ (@var{axes}, "reset")
 Undocumented internal function.
 @end deftypefn
+__get_frame__
+@c __get_frame__ libinterp/corefcn/graphics.cc
+-*- texinfo -*-
+@deftypefn {} {@var{cdata} =} __get_frame__ (@var{hfig})
+Internal function.
+
+Return the pixel cdata of figure hfig in the form of a height-by-width-by-3
+uint8 array.
+@end deftypefn
+gsvd
+@c gsvd libinterp/corefcn/gsvd.cc
+-*- texinfo -*-
+@deftypefn  {} {@var{S} =} gsvd (@var{A}, @var{B})
+@deftypefnx {} {[@var{U}, @var{V}, @var{X}, @var{C}, @var{S}] =} gsvd (@var{A}, @var{B})
+@deftypefnx {} {[@var{U}, @var{V}, @var{X}, @var{C}, @var{S}] =} gsvd (@var{A}, @var{B}, 0)
+Compute the generalized singular value decomposition of (@var{A}, @var{B}).
+
+The generalized singular value decomposition is defined by the following
+relations:
+
+@tex
+$$ A = U C X^\dagger $$
+$$ B = V S X^\dagger $$
+$$ C^\dagger C + S^\dagger S = eye (columns (A)) $$
+@end tex
+@ifnottex
+
+@example
+@group
+A = U*C*X'
+B = V*S*X'
+C'*C + S'*S = eye (columns (A))
+@end group
+@end example
+
+@end ifnottex
+
+The function @code{gsvd} normally returns just the vector of generalized
+singular values
+@tex
+$$ \sqrt{{{diag (C^\dagger C)} \over {diag (S^\dagger S)}}} $$
+@end tex
+@ifnottex
+@code{sqrt (diag (C'*C) ./ diag (S'*S))}.
+@end ifnottex
+If asked for five return values, it also computes
+@tex
+$U$, $V$, $X$, and $C$.
+@end tex
+@ifnottex
+U, V, X, and C.
+@end ifnottex
+
+If the optional third input is present, @code{gsvd} constructs the
+"economy-sized" decomposition where the number of columns of @var{U}, @var{V}
+and the number of rows of @var{C}, @var{S} is less than or equal to the number
+of columns of @var{A}.  This option is not yet implemented.
+
+Programming Note: the code is a wrapper to the corresponding @sc{lapack} dggsvd
+and zggsvd routines.
+
+@seealso{svd}
+@end deftypefn
 hash
 @c hash libinterp/corefcn/hash.cc
 -*- texinfo -*-
@@ -8502,26 +8794,6 @@ hash ("md5", fileread (file));
 @end example
 
 @end deftypefn
-built_in_docstrings_file
-@c built_in_docstrings_file libinterp/corefcn/help.cc
--*- texinfo -*-
-@deftypefn  {} {@var{val} =} built_in_docstrings_file ()
-@deftypefnx {} {@var{old_val} =} built_in_docstrings_file (@var{new_val})
-@deftypefnx {} {} built_in_docstrings_file (@var{new_val}, "local")
-Query or set the internal variable that specifies the name of the
-file containing docstrings for built-in Octave functions.
-
-The default value is
-@file{@var{octave-home}/share/octave/@var{version}/etc/built-in-docstrings},
-in which @var{octave-home} is the root directory of the Octave installation,
-and @var{version} is the Octave version number.  The default value may be
-overridden by the environment variable
-@w{@env{OCTAVE_BUILT_IN_DOCSTRINGS_FILE}}, or the command line argument
-@option{--built-in-docstrings-file FNAME}.
-
-Note: This variable is only used when Octave is initializing itself.
-Modifying it during a running session of Octave will have no effect.
-@end deftypefn
 get_help_text
 @c get_help_text libinterp/corefcn/help.cc
 -*- texinfo -*-
@@ -8550,12 +8822,6 @@ The format is a string which is one of @qcode{"texinfo"},
 @deftypefn {} {} __operators__ ()
 Undocumented internal function.
 @end deftypefn
-__keywords__
-@c __keywords__ libinterp/corefcn/help.cc
--*- texinfo -*-
-@deftypefn {} {} __keywords__ ()
-Undocumented internal function.
-@end deftypefn
 __builtins__
 @c __builtins__ libinterp/corefcn/help.cc
 -*- texinfo -*-
@@ -8576,8 +8842,7 @@ called.  Nested functions are @emph{not} included in the list.
 If the call is from the command line, an anonymous function, or a script,
 the return value is an empty cell array.
 
-Compatibility Note: Subfunctions which contain nested functions are not
-included in the list.  This is a known issue.
+@seealso{functions}
 @end deftypefn
 __which__
 @c __which__ libinterp/corefcn/help.cc
@@ -8595,6 +8860,26 @@ Return a list of all functions (.m and .oct functions) in the load path.
 If the optional argument @var{directory} is given then list only the functions
 in that directory.
 @seealso{path}
+@end deftypefn
+built_in_docstrings_file
+@c built_in_docstrings_file libinterp/corefcn/help.cc
+-*- texinfo -*-
+@deftypefn  {} {@var{val} =} built_in_docstrings_file ()
+@deftypefnx {} {@var{old_val} =} built_in_docstrings_file (@var{new_val})
+@deftypefnx {} {} built_in_docstrings_file (@var{new_val}, "local")
+Query or set the internal variable that specifies the name of the
+file containing docstrings for built-in Octave functions.
+
+The default value is
+@file{@var{octave-home}/share/octave/@var{version}/etc/built-in-docstrings},
+in which @var{octave-home} is the root directory of the Octave installation,
+and @var{version} is the Octave version number.  The default value may be
+overridden by the environment variable
+@w{@env{OCTAVE_BUILT_IN_DOCSTRINGS_FILE}}, or the command line argument
+@option{--built-in-docstrings-file FNAME}.
+
+Note: This variable is only used when Octave is initializing itself.
+Modifying it during a running session of Octave will have no effect.
 @end deftypefn
 doc_cache_file
 @c doc_cache_file libinterp/corefcn/help.cc
@@ -8619,29 +8904,6 @@ variable is changed locally for the function and any subroutines it calls.
 The original variable value is restored when exiting the function.
 @seealso{doc_cache_create, lookfor, info_program, doc, help, makeinfo_program}
 @seealso{lookfor}
-@end deftypefn
-texi_macros_file
-@c texi_macros_file libinterp/corefcn/help.cc
--*- texinfo -*-
-@deftypefn  {} {@var{val} =} texi_macros_file ()
-@deftypefnx {} {@var{old_val} =} texi_macros_file (@var{new_val})
-@deftypefnx {} {} texi_macros_file (@var{new_val}, "local")
-Query or set the internal variable that specifies the name of the
-file containing Texinfo macros that are prepended to documentation strings
-before they are passed to makeinfo.
-
-The default value is
-@file{@var{octave-home}/share/octave/@var{version}/etc/macros.texi},
-in which @var{octave-home} is the root directory of the Octave installation,
-and @var{version} is the Octave version number.
-The default value may be overridden by the environment variable
-@w{@env{OCTAVE_TEXI_MACROS_FILE}}, or the command line argument
-@option{--texi-macros-file FNAME}.
-
-When called from inside a function with the @qcode{"local"} option, the
-variable is changed locally for the function and any subroutines it calls.
-The original variable value is restored when exiting the function.
-@seealso{makeinfo_program}
 @end deftypefn
 info_file
 @c info_file libinterp/corefcn/help.cc
@@ -8718,6 +8980,29 @@ When called from inside a function with the @qcode{"local"} option, the
 variable is changed locally for the function and any subroutines it calls.
 The original variable value is restored when exiting the function.
 @end deftypefn
+texi_macros_file
+@c texi_macros_file libinterp/corefcn/help.cc
+-*- texinfo -*-
+@deftypefn  {} {@var{val} =} texi_macros_file ()
+@deftypefnx {} {@var{old_val} =} texi_macros_file (@var{new_val})
+@deftypefnx {} {} texi_macros_file (@var{new_val}, "local")
+Query or set the internal variable that specifies the name of the
+file containing Texinfo macros that are prepended to documentation strings
+before they are passed to makeinfo.
+
+The default value is
+@file{@var{octave-home}/share/octave/@var{version}/etc/macros.texi},
+in which @var{octave-home} is the root directory of the Octave installation,
+and @var{version} is the Octave version number.
+The default value may be overridden by the environment variable
+@w{@env{OCTAVE_TEXI_MACROS_FILE}}, or the command line argument
+@option{--texi-macros-file FNAME}.
+
+When called from inside a function with the @qcode{"local"} option, the
+variable is changed locally for the function and any subroutines it calls.
+The original variable value is restored when exiting the function.
+@seealso{makeinfo_program}
+@end deftypefn
 hess
 @c hess libinterp/corefcn/hess.cc
 -*- texinfo -*-
@@ -8752,11 +9037,12 @@ IEEE Transactions on Automatic Control, 1979).
 -*- texinfo -*-
 @deftypefn  {} {@var{n} =} hex2num (@var{s})
 @deftypefnx {} {@var{n} =} hex2num (@var{s}, @var{class})
-Typecast the 16 character hexadecimal character string to an IEEE 754
-double precision number.
+Typecast a hexadecimal character array or cell array of strings to an
+array of numbers.
 
-If fewer than 16 characters are given the strings are right padded with
-@qcode{'0'} characters.
+By default, the input array is interpreted as a hexadecimal number
+representing a double precision value.  If fewer than 16 characters are
+given the strings are right padded with @qcode{'0'} characters.
 
 Given a string matrix, @code{hex2num} treats each row as a separate number.
 
@@ -8767,10 +9053,25 @@ hex2num (["4005bf0a8b145769"; "4024000000000000"])
 @end group
 @end example
 
-The optional argument @var{class} can be passed as the string
-@qcode{"single"} to specify that the given string should be interpreted as
-a single precision number.  In this case, @var{s} should be an 8 character
-hexadecimal string.  For example:
+The optional second argument @var{class} may be used to cause the input
+array to be interpreted as a different value type.  Possible values are
+
+@multitable {Option} {Characters}
+@headitem Option @tab Characters
+@item @qcode{"int8"} @tab 2
+@item @qcode{"uint8"} @tab 2
+@item @qcode{"int16"} @tab 4
+@item @qcode{"uint16"} @tab 4
+@item @qcode{"int32"} @tab 8
+@item @qcode{"uint32"} @tab 8
+@item @qcode{"int64"} @tab 16
+@item @qcode{"uint64"} @tab 16
+@item @qcode{"char"} @tab 2
+@item @qcode{"single"} @tab 8
+@item @qcode{"double"} @tab 16
+@end multitable
+
+For example:
 
 @example
 @group
@@ -8783,9 +9084,9 @@ hex2num (["402df854"; "41200000"], "single")
 num2hex
 @c num2hex libinterp/corefcn/hex2num.cc
 -*- texinfo -*-
-@deftypefn {} {@var{s} =} num2hex (@var{n})
-Typecast a double or single precision number or vector to a 8 or 16
-character hexadecimal string of the IEEE 754 representation of the number.
+@deftypefn  {} {@var{s} =} num2hex (@var{n})
+@deftypefnx {} {@var{s} =} num2hex (@var{n}, "cell")
+Convert a numeric array to an array of hexadecimal strings.
 
 For example:
 
@@ -8811,6 +9112,9 @@ num2hex (single ([-1, 1, e, Inf]))
     7f800000"
 @end group
 @end example
+
+With the optional second argument @qcode{"cell}, return a cell array of
+strings instead of a character array.
 @seealso{hex2num, hex2dec, dec2hex}
 @end deftypefn
 input
@@ -8883,45 +9187,6 @@ The @code{keyboard} function does not return an exit status.
 If @code{keyboard} is invoked without arguments, a default prompt of
 @samp{debug> } is used.
 @seealso{dbstop, dbcont, dbquit}
-@end deftypefn
-echo
-@c echo libinterp/corefcn/input.cc
--*- texinfo -*-
-@deftypefn  {} {} echo
-@deftypefnx {} {} echo on
-@deftypefnx {} {} echo off
-@deftypefnx {} {} echo on all
-@deftypefnx {} {} echo off all
-Control whether commands are displayed as they are executed.
-
-Valid options are:
-
-@table @code
-@item on
-Enable echoing of commands as they are executed in script files.
-
-@item off
-Disable echoing of commands as they are executed in script files.
-
-@item on all
-Enable echoing of commands as they are executed in script files and
-functions.
-
-@item off all
-Disable echoing of commands as they are executed in script files and
-functions.
-@end table
-
-@noindent
-With no arguments, @code{echo} toggles the current echo state.
-
-@seealso{echo_executing_commands}
-@end deftypefn
-__echostate__
-@c __echostate__ libinterp/corefcn/input.cc
--*- texinfo -*-
-@deftypefn {} {@var{state} =} __echostate__ ()
-Undocumented internal function
 @end deftypefn
 completion_matches
 @c completion_matches libinterp/corefcn/input.cc
@@ -9045,23 +9310,6 @@ variable is changed locally for the function and any subroutines it calls.
 The original variable value is restored when exiting the function.
 @seealso{PS1, PS4}
 @end deftypefn
-PS4
-@c PS4 libinterp/corefcn/input.cc
--*- texinfo -*-
-@deftypefn  {} {@var{val} =} PS4 ()
-@deftypefnx {} {@var{old_val} =} PS4 (@var{new_val})
-@deftypefnx {} {} PS4 (@var{new_val}, "local")
-Query or set the character string used to prefix output produced
-when echoing commands is enabled.
-
-The default value is @qcode{"+ "}.
-@xref{Diary and Echo Commands}, for a description of echoing commands.
-
-When called from inside a function with the @qcode{"local"} option, the
-variable is changed locally for the function and any subroutines it calls.
-The original variable value is restored when exiting the function.
-@seealso{echo, echo_executing_commands, PS1, PS2}
-@end deftypefn
 completion_append_char
 @c completion_append_char libinterp/corefcn/input.cc
 -*- texinfo -*-
@@ -9077,39 +9325,6 @@ When called from inside a function with the @qcode{"local"} option, the
 variable is changed locally for the function and any subroutines it calls.
 The original variable value is restored when exiting the function.
 @end deftypefn
-echo_executing_commands
-@c echo_executing_commands libinterp/corefcn/input.cc
--*- texinfo -*-
-@deftypefn  {} {@var{val} =} echo_executing_commands ()
-@deftypefnx {} {@var{old_val} =} echo_executing_commands (@var{new_val})
-@deftypefnx {} {} echo_executing_commands (@var{new_val}, "local")
-Query or set the internal variable that controls the echo state.
-
-It may be the sum of the following values:
-
-@table @asis
-@item 1
-Echo commands read from script files.
-
-@item 2
-Echo commands from functions.
-
-@item 4
-Echo commands read from command line.
-@end table
-
-More than one state can be active at once.  For example, a value of 3 is
-equivalent to the command @kbd{echo on all}.
-
-The value of @code{echo_executing_commands} may be set by the @kbd{echo}
-command or the command line option @option{--echo-commands}.
-
-When called from inside a function with the @qcode{"local"} option, the
-variable is changed locally for the function and any subroutines it calls.
-The original variable value is restored when exiting the function.
-
-@seealso{echo}
-@end deftypefn
 __request_drawnow__
 @c __request_drawnow__ libinterp/corefcn/input.cc
 -*- texinfo -*-
@@ -9122,42 +9337,6 @@ Undocumented internal function.
 -*- texinfo -*-
 @deftypefn {} {} __gud_mode__ ()
 Undocumented internal function.
-@end deftypefn
-filemarker
-@c filemarker libinterp/corefcn/input.cc
--*- texinfo -*-
-@deftypefn  {} {@var{val} =} filemarker ()
-@deftypefnx {} {@var{old_val} =} filemarker (@var{new_val})
-@deftypefnx {} {} filemarker (@var{new_val}, "local")
-Query or set the character used to separate the filename from the
-subfunction names contained within the file.
-
-By default this is the character @samp{>}.
-This can be used in a generic manner to interact with subfunctions.
-For example,
-
-@example
-help (["myfunc", filemarker, "mysubfunc"])
-@end example
-
-@noindent
-returns the help string associated with the subfunction @code{mysubfunc}
-located in the file @file{myfunc.m}.
-
-@code{filemarker} is also useful during debugging for placing breakpoints
-within subfunctions or nested functions.
-For example,
-
-@example
-dbstop (["myfunc", filemarker, "mysubfunc"])
-@end example
-
-@noindent
-will set a breakpoint at the first line of the subfunction @code{mysubfunc}.
-
-When called from inside a function with the @qcode{"local"} option, the
-variable is changed locally for the function and any subroutines it calls.
-The original variable value is restored when exiting the function.
 @end deftypefn
 inv
 @c inv libinterp/corefcn/inv.cc
@@ -9180,16 +9359,6 @@ If called with a sparse matrix, then in general @var{x} will be a full
 matrix requiring significantly more storage.  Avoid forming the inverse of a
 sparse matrix if possible.
 @seealso{ldivide, rdivide, pinv}
-@end deftypefn
-inverse
-@c inverse libinterp/corefcn/inv.cc
--*- texinfo -*-
-@deftypefn  {} {@var{x} =} inverse (@var{A})
-@deftypefnx {} {[@var{x}, @var{rcond}] =} inverse (@var{A})
-Compute the inverse of the square matrix @var{A}.
-
-This is an alias for @code{inv}.
-@seealso{inv}
 @end deftypefn
 __version_info__
 @c __version_info__ libinterp/corefcn/interpreter.cc
@@ -9296,8 +9465,13 @@ Since the Kronecker product is associative, this is well-defined.
 @deftypefnx {} {} genpath (@var{dir}, @var{skip}, @dots{})
 Return a path constructed from @var{dir} and all its subdirectories.
 
+The path does not include package directories (beginning with @samp{+}),
+old-style class directories (beginning with @samp{@@}), @file{private}
+directories, or any subdirectories of these types.
+
 If additional string parameters are given, the resulting path will exclude
 directories with those names.
+@seealso{path, addpath}
 @end deftypefn
 rehash
 @c rehash libinterp/corefcn/load-path.cc
@@ -9308,7 +9482,7 @@ Reinitialize Octave's load path directory cache.
 command_line_path
 @c command_line_path libinterp/corefcn/load-path.cc
 -*- texinfo -*-
-@deftypefn {} {} command_line_path (@dots{})
+@deftypefn {} {} command_line_path ()
 Return the command line path variable.
 
 @seealso{path, addpath, rmpath, genpath, pathdef, savepath, pathsep}
@@ -9316,7 +9490,7 @@ Return the command line path variable.
 restoredefaultpath
 @c restoredefaultpath libinterp/corefcn/load-path.cc
 -*- texinfo -*-
-@deftypefn {} {} restoredefaultpath (@dots{})
+@deftypefn {} {} restoredefaultpath ()
 Restore Octave's path to its initial state at startup.
 
 @seealso{path, addpath, rmpath, genpath, pathdef, savepath, pathsep}
@@ -9503,21 +9677,24 @@ Force Octave to assume the file is in Octave's text format.
 @deftypefn  {} {} save file
 @deftypefnx {} {} save options file
 @deftypefnx {} {} save options file @var{v1} @var{v2} @dots{}
+@deftypefnx {} {} save options file -struct @var{STRUCT}
 @deftypefnx {} {} save options file -struct @var{STRUCT} @var{f1} @var{f2} @dots{}
 @deftypefnx {} {} save - @var{v1} @var{v2} @dots{}
 @deftypefnx {} {@var{str} =} save ("-", @qcode{"@var{v1}"}, @qcode{"@var{v2}"}, @dots{})
-Save the named variables @var{v1}, @var{v2}, @dots{}, in the file
-@var{file}.
+Save the named variables @var{v1}, @var{v2}, @dots{}, in the file @var{file}.
 
-The special filename @samp{-} may be used to return the
-content of the variables as a string.  If no variable names are listed,
-Octave saves all the variables in the current scope.  Otherwise, full
-variable names or pattern syntax can be used to specify the variables to
-save.  If the @option{-struct} modifier is used, fields @var{f1} @var{f2}
-@dots{} of the scalar structure @var{STRUCT} are saved as if they were
-variables with corresponding names.  Valid options for the @code{save}
-command are listed in the following table.  Options that modify the output
-format override the format specified by @code{save_default_options}.
+The special filename @samp{-} may be used to return the content of the
+variables as a string.  If no variable names are listed, Octave saves all the
+variables in the current scope.  Otherwise, full variable names or pattern
+syntax can be used to specify the variables to save.  If the @option{-struct}
+modifier is used then the fields of the @strong{scalar} struct are saved as if
+they were variables with the corresponding field names.  The @option{-struct}
+option can be combined with specific field names @var{f1}, @var{f2}, @dots{} to
+write only certain fields to the file.
+
+Valid options for the @code{save} command are listed in the following table.
+Options that modify the output format override the format specified by
+@code{save_default_options}.
 
 If save is invoked using the functional form
 
@@ -9526,38 +9703,48 @@ save ("-option1", @dots{}, "file", "v1", @dots{})
 @end example
 
 @noindent
-then the @var{options}, @var{file}, and variable name arguments
-(@var{v1}, @dots{}) must be specified as character strings.
+then the @var{options}, @var{file}, and variable name arguments (@var{v1},
+@dots{}) must be specified as character strings.
 
-If called with a filename of @qcode{"-"}, write the output to stdout
-if nargout is 0, otherwise return the output in a character string.
+If called with a filename of @qcode{"-"}, write the output to stdout if nargout
+is 0, otherwise return the output in a character string.
 
 @table @code
 @item -append
 Append to the destination instead of overwriting.
 
 @item -ascii
-Save a single matrix in a text file without header or any other information.
+Save a matrix in a text file without a header or any other information.  The
+matrix must be 2-D and only the real part of any complex value is written to
+the file.  Numbers are stored in single-precision format and separated by
+spaces.  Additional options for the @option{-ascii} format are
+
+@table @code
+@item -double
+Store numbers in double-precision format.
+
+@item -tabs
+Separate numbers with tabs.
+@end table
 
 @item -binary
 Save the data in Octave's binary data format.
 
 @item -float-binary
-Save the data in Octave's binary data format but only using single
-precision.  Only use this format if you know that all the
-values to be saved can be represented in single precision.
+Save the data in Octave's binary data format but using only single precision.
+Use this format @strong{only} if you know that all the values to be saved can
+be represented in single precision.
 
 @item -hdf5
 Save the data in @sc{hdf5} format.
-(HDF5 is a free, portable binary format developed by the National
-Center for Supercomputing Applications at the University of Illinois.)
-This format is only available if Octave was built with a link to the
-@sc{hdf5} libraries.
+(HDF5 is a free, portable, binary format developed by the National Center for
+Supercomputing Applications at the University of Illinois.) This format is only
+available if Octave was built with a link to the @sc{hdf5} libraries.
 
 @item -float-hdf5
-Save the data in @sc{hdf5} format but only using single precision.
-Only use this format if you know that all the
-values to be saved can be represented in single precision.
+Save the data in @sc{hdf5} format but using only single precision.  Use this
+format @strong{only} if you know that all the values to be saved can be
+represented in single precision.
 
 @item  -V7
 @itemx -v7
@@ -9583,15 +9770,14 @@ Save the data in Octave's text data format.  (default).
 
 @item  -zip
 @itemx -z
-Use the gzip algorithm to compress the file.  This works equally on files
-that are compressed with gzip outside of octave, and gzip can equally be
-used to convert the files for backward compatibility.
-This option is only available if Octave was built with a link to the zlib
-libraries.
+Use the gzip algorithm to compress the file.  This works on files that are
+compressed with gzip outside of Octave, and gzip can also be used to convert
+the files for backward compatibility.  This option is only available if Octave
+was built with a link to the zlib libraries.
 @end table
 
-The list of variables to save may use wildcard patterns containing
-the following special characters:
+The list of variables to save may use wildcard patterns containing the
+following special characters:
 
 @table @code
 @item ?
@@ -9601,21 +9787,20 @@ Match any single character.
 Match zero or more characters.
 
 @item [ @var{list} ]
-Match the list of characters specified by @var{list}.  If the first
-character is @code{!} or @code{^}, match all characters except those
-specified by @var{list}.  For example, the pattern @code{[a-zA-Z]} will
-match all lower and uppercase alphabetic characters.
+Match the list of characters specified by @var{list}.  If the first character
+is @code{!} or @code{^}, match all characters except those specified by
+@var{list}.  For example, the pattern @code{[a-zA-Z]} will match all lower and
+uppercase alphabetic characters.
 
-Wildcards may also be used in the field name specifications when using
-the @option{-struct} modifier (but not in the struct name itself).
+Wildcards may also be used in the field name specifications when using the
+@option{-struct} modifier (but not in the struct name itself).
 
 @end table
 
-Except when using the @sc{matlab} binary data file format or the
-@samp{-ascii} format, saving global
-variables also saves the global status of the variable.  If the variable
-is restored at a later time using @samp{load}, it will be restored as a
-global variable.
+Except when using the @sc{matlab} binary data file format or the @samp{-ascii}
+format, saving global variables also saves the global status of the variable.
+If the variable is restored at a later time using @samp{load}, it will be
+restored as a global variable.
 
 The command
 
@@ -9624,9 +9809,9 @@ save -binary data a b*
 @end example
 
 @noindent
-saves the variable @samp{a} and all variables beginning with @samp{b} to
-the file @file{data} in Octave's binary format.
-@seealso{load, save_default_options, save_header_format_string, dlmread, csvread, fread}
+saves the variable @samp{a} and all variables beginning with @samp{b} to the
+file @file{data} in Octave's binary format.
+@seealso{load, save_default_options, save_header_format_string, save_precision, dlmread, csvread, fread}
 @end deftypefn
 crash_dumps_octave_core
 @c crash_dumps_octave_core libinterp/corefcn/load-save.cc
@@ -9652,13 +9837,13 @@ The original variable value is restored when exiting the function.
 Query or set the internal variable that specifies the default options
 for the @code{save} command, and defines the default format.
 
-Typical values include @qcode{"-ascii"}, @qcode{"-text -zip"}.
-The default value is @option{-text}.
+The default value is @qcode{"-text"} (Octave's own text-based file format).
+See the documentation of the @code{save} command for other choices.
 
 When called from inside a function with the @qcode{"local"} option, the
 variable is changed locally for the function and any subroutines it calls.
 The original variable value is restored when exiting the function.
-@seealso{save}
+@seealso{save, save_header_format_string, save_precision}
 @end deftypefn
 octave_core_file_limit
 @c octave_core_file_limit libinterp/corefcn/load-save.cc
@@ -9666,15 +9851,17 @@ The original variable value is restored when exiting the function.
 @deftypefn  {} {@var{val} =} octave_core_file_limit ()
 @deftypefnx {} {@var{old_val} =} octave_core_file_limit (@var{new_val})
 @deftypefnx {} {} octave_core_file_limit (@var{new_val}, "local")
-Query or set the internal variable that specifies the maximum amount
-of memory (in kilobytes) of the top-level workspace that Octave will
-attempt to save when writing data to the crash dump file (the name of
-the file is specified by @var{octave_core_file_name}).
+Query or set the internal variable that specifies the maximum amount of memory
+that Octave will save when writing a crash dump file.
 
-If @var{octave_core_file_options} flags specify a binary format,
-then @var{octave_core_file_limit} will be approximately the maximum
-size of the file.  If a text file format is used, then the file could
-be much larger than the limit.  The default value is -1 (unlimited)
+The limit is measured in kilobytes and is applied to the top-level workspace.
+The name of the crash dump file is is specified by
+@var{octave_core_file_name}).
+
+If @var{octave_core_file_options} flags specify a binary format, then
+@var{octave_core_file_limit} will be approximately the maximum size of the
+file.  If a text file format is used, then the file could be much larger than
+the limit.  The default value is -1 (unlimited).
 
 When called from inside a function with the @qcode{"local"} option, the
 variable is changed locally for the function and any subroutines it calls.
@@ -9721,11 +9908,11 @@ The original variable value is restored when exiting the function.
 @deftypefn  {} {@var{val} =} save_header_format_string ()
 @deftypefnx {} {@var{old_val} =} save_header_format_string (@var{new_val})
 @deftypefnx {} {} save_header_format_string (@var{new_val}, "local")
-Query or set the internal variable that specifies the format
-string used for the comment line written at the beginning of
-text-format data files saved by Octave.
+Query or set the internal variable that specifies the format string used for
+the comment line written at the beginning of text-format data files saved by
+Octave.
 
-The format string is passed to @code{strftime} and should begin with the
+The format string is passed to @code{strftime} and must begin with the
 character @samp{#} and contain no newline characters.  If the value of
 @code{save_header_format_string} is the empty string, the header comment is
 omitted from text-format data files.  The default value is
@@ -9738,58 +9925,57 @@ omitted from text-format data files.  The default value is
 When called from inside a function with the @qcode{"local"} option, the
 variable is changed locally for the function and any subroutines it calls.
 The original variable value is restored when exiting the function.
-@seealso{strftime, save}
+@seealso{strftime, save_default_options}
 @end deftypefn
 lookup
 @c lookup libinterp/corefcn/lookup.cc
 -*- texinfo -*-
 @deftypefn  {} {@var{idx} =} lookup (@var{table}, @var{y})
 @deftypefnx {} {@var{idx} =} lookup (@var{table}, @var{y}, @var{opt})
-Lookup values in a sorted table.
+Lookup values in a @strong{sorted} table.
 
 This function is usually used as a prelude to interpolation.
 
-If table is increasing and @code{idx = lookup (table, y)}, then
-@code{table(idx(i)) <= y(i) < table(idx(i+1))} for all @code{y(i)} within
-the table.  If @code{y(i) < table(1)} then @code{idx(i)} is 0.  If
-@code{y(i) >= table(end)} or @code{isnan (y(i))} then @code{idx(i)} is
-@code{n}.
+If table is increasing, of length N and @code{idx = lookup (table, y)}, then
+@code{table(idx(i)) <= y(i) < table(idx(i+1))} for all @code{y(i)} within the
+table.  If @code{y(i) < table(1)} then @code{idx(i)} is 0.  If
+@code{y(i) >= table(end)} or @code{isnan (y(i))} then @code{idx(i)} is N.
 
-If the table is decreasing, then the tests are reversed.
-For non-strictly monotonic tables, empty intervals are always skipped.
-The result is undefined if @var{table} is not monotonic, or if
-@var{table} contains a NaN.
+If the table is decreasing, then the tests are reversed.  For non-strictly
+monotonic tables, empty intervals are always skipped.  The result is undefined
+if @var{table} is not monotonic, or if @var{table} contains a NaN.
 
-The complexity of the lookup is O(M*log(N)) where N is the size of
-@var{table} and M is the size of @var{y}.  In the special case when @var{y}
-is also sorted, the complexity is O(min(M*log(N),M+N)).
+The complexity of the lookup is O(M*log(N)) where M is the size of @var{y}.
+In the special case when @var{y} is also sorted, the complexity is
+O(min (M*log(N), M+N)).
 
-@var{table} and @var{y} can also be cell arrays of strings
-(or @var{y} can be a single string).  In this case, string lookup
-is performed using lexicographical comparison.
+@var{table} and @var{y} can also be cell arrays of strings (or @var{y} can be a
+single string).  In this case, string lookup is performed using lexicographical
+comparison.
 
 If @var{opts} is specified, it must be a string with letters indicating
 additional options.
 
 @table @code
 @item m
-@code{table(idx(i)) == y(i)} if @code{y(i)}
-occurs in table; otherwise, @code{idx(i)} is zero.
+Match.  @code{table(idx(i)) == y(i)} if @code{y(i)} occurs in table;
+otherwise, @code{idx(i)} is zero.
 
 @item b
-@code{idx(i)} is a logical 1 or 0, indicating whether
-@code{val(i)} is contained in table or not.
+Boolean.  @code{idx(i)} is a logical 1 or 0, indicating whether @code{y(i)}
+is contained in table or not.
 
 @item l
-For numeric lookups
-the leftmost subinterval shall be extended to infinity (i.e., all indices
-at least 1)
+Left.  For numeric lookups the leftmost subinterval shall be extended to
+minus infinity (i.e., all indices at least 1).
 
 @item r
-For numeric lookups
-the rightmost subinterval shall be extended to infinity (i.e., all indices
-at most n-1).
+Right.  For numeric lookups the rightmost subinterval shall be extended to
+infinity (i.e., all indices at most N-1).
 @end table
+
+@strong{Note}: If @var{table} is not sorted the results from @code{lookup}
+will be unpredictable.
 @end deftypefn
 save_precision
 @c save_precision libinterp/corefcn/ls-oct-text.cc
@@ -9800,9 +9986,17 @@ at most n-1).
 Query or set the internal variable that specifies the number of digits to
 keep when saving data in text format.
 
+The default value is 17 which is the minimum necessary for the lossless saving
+and restoring of IEEE-754 double values; For IEEE-754 single values the minimum
+value is 9.  If file size is a concern, it is probably better to choose a
+binary format for saving data rather than to reduce the precision of the saved
+values.
+
 When called from inside a function with the @qcode{"local"} option, the
 variable is changed locally for the function and any subroutines it calls.
 The original variable value is restored when exiting the function.
+
+@seealso{save_default_options}
 @end deftypefn
 lsode
 @c lsode libinterp/corefcn/lsode.cc
@@ -9971,14 +10165,14 @@ p =
 The matrix is not required to be square.
 
 When called with two or three output arguments and a sparse input matrix,
-@code{lu} does not attempt to perform sparsity preserving column
-permutations.  Called with a fourth output argument, the sparsity
-preserving column transformation @var{Q} is returned, such that
-@code{@var{P} * @var{A} * @var{Q} = @var{L} * @var{U}}.
+@code{lu} does not attempt to perform sparsity preserving column permutations.
+Called with a fourth output argument, the sparsity preserving column
+transformation @var{Q} is returned, such that
+@code{@var{P} * @var{A} * @var{Q} = @var{L} * @var{U}}.  This is the
+@strong{preferred} way to call @code{lu} with sparse input matrices.
 
-Called with a fifth output argument and a sparse input matrix,
-@code{lu} attempts to use a scaling factor @var{R} on the input matrix
-such that
+Called with a fifth output argument and a sparse input matrix, @code{lu}
+attempts to use a scaling factor @var{R} on the input matrix such that
 @code{@var{P} * (@var{R} \ @var{A}) * @var{Q} = @var{L} * @var{U}}.
 This typically leads to a sparser and more stable factorization.
 
@@ -10779,23 +10973,6 @@ Compute the tangent for each element of @var{x} in radians.
 Compute hyperbolic tangent for each element of @var{x}.
 @seealso{atanh, sinh, cosh}
 @end deftypefn
-toascii
-@c toascii libinterp/corefcn/mappers.cc
--*- texinfo -*-
-@deftypefn {} {} toascii (@var{s})
-Return ASCII representation of @var{s} in a matrix.
-
-For example:
-
-@example
-@group
-toascii ("ASCII")
-     @result{} [ 65, 83, 67, 73, 73 ]
-@end group
-
-@end example
-@seealso{char}
-@end deftypefn
 tolower
 @c tolower libinterp/corefcn/mappers.cc
 -*- texinfo -*-
@@ -11416,10 +11593,28 @@ Undocumented internal function.
 @deftypefn {} {} __octave_link_show_preferences__ ()
 Undocumented internal function.
 @end deftypefn
+openvar
+@c openvar libinterp/corefcn/octave-link.cc
+-*- texinfo -*-
+@deftypefn {} {} openvar (@var{name})
+Open the variable @var{name} in the graphical Variable Editor.
+@end deftypefn
 __octave_link_show_doc__
 @c __octave_link_show_doc__ libinterp/corefcn/octave-link.cc
 -*- texinfo -*-
 @deftypefn {} {} __octave_link_show_doc__ (@var{filename})
+Undocumented internal function.
+@end deftypefn
+__octave_link_register_doc__
+@c __octave_link_register_doc__ libinterp/corefcn/octave-link.cc
+-*- texinfo -*-
+@deftypefn {} {} __octave_link_register_doc__ (@var{filename})
+Undocumented internal function.
+@end deftypefn
+__octave_link_unregister_doc__
+@c __octave_link_unregister_doc__ libinterp/corefcn/octave-link.cc
+-*- texinfo -*-
+@deftypefn {} {} __octave_link_unregister_doc__ (@var{filename})
 Undocumented internal function.
 @end deftypefn
 ordschur
@@ -11474,6 +11669,7 @@ is in the upper left corner, by doing:
 @deftypefnx {} {} diary on
 @deftypefnx {} {} diary off
 @deftypefnx {} {} diary @var{filename}
+@deftypefnx {} {[@var{status}, @var{diaryfile}] =} diary
 Record a list of all commands @emph{and} the output they produce, mixed
 together just as they appear on the terminal.
 
@@ -11481,8 +11677,8 @@ Valid options are:
 
 @table @asis
 @item on
-Start recording a session in a file called @file{diary} in the
-current working directory.
+Start recording a session in a file called @file{diary} in the current working
+directory.
 
 @item off
 Stop recording the session in the diary file.
@@ -11491,20 +11687,14 @@ Stop recording the session in the diary file.
 Record the session in the file named @var{filename}.
 @end table
 
-With no arguments, @code{diary} toggles the current diary state.
+With no input or output arguments, @code{diary} toggles the current diary
+state.
+
+If output arguments are requested, @code{diary} ignores inputs and returns
+the current status.  The boolean @var{status} indicates whether recording is on
+or off, and @var{diaryfile} is the name of the file where the session is
+stored.
 @seealso{history, evalc}
-@end deftypefn
-__diaryfile__
-@c __diaryfile__ libinterp/corefcn/pager.cc
--*- texinfo -*-
-@deftypefn {} {@var{fname} =} __diaryfile__ ()
-Undocumented internal function
-@end deftypefn
-__diarystate__
-@c __diarystate__ libinterp/corefcn/pager.cc
--*- texinfo -*-
-@deftypefn {} {@var{state} =} __diarystate__ ()
-Undocumented internal function
 @end deftypefn
 more
 @c more libinterp/corefcn/pager.cc
@@ -11600,7 +11790,7 @@ The original variable value is restored when exiting the function.
 -*- texinfo -*-
 @deftypefn  {} {} pinv (@var{x})
 @deftypefnx {} {} pinv (@var{x}, @var{tol})
-Return the Moore-Penrose pseudoinverse of @var{x}.
+Return the @nospell{Moore-Penrose} pseudoinverse of @var{x}.
 
 Singular values less than @var{tol} are ignored.
 
@@ -11611,6 +11801,32 @@ tol = max ([rows(@var{x}), columns(@var{x})]) * norm (@var{x}) * eps
 @end example
 
 @seealso{inv, ldivide}
+@end deftypefn
+output_max_field_width
+@c output_max_field_width libinterp/corefcn/pr-flt-fmt.cc
+-*- texinfo -*-
+@deftypefn {} {} output_max_field_width
+This function is obsolete and will be removed from a future version
+of Octave.
+@end deftypefn
+output_precision
+@c output_precision libinterp/corefcn/pr-flt-fmt.cc
+-*- texinfo -*-
+@deftypefn  {} {@var{val} =} output_precision ()
+@deftypefnx {} {@var{old_val} =} output_precision (@var{new_val})
+@deftypefnx {} {} output_precision (@var{new_val}, "local")
+Query or set the internal variable that specifies the minimum number of
+significant figures to display for numeric output.
+
+Note that regardless of the value set for @code{output_precision}, the
+number of digits of precision displayed is limited to 16 for double
+precision values and 7 for single precision values.
+
+When called from inside a function with the @qcode{"local"} option, the
+variable is changed locally for the function and any subroutines it calls.
+The original variable value is restored when exiting the function.
+
+@seealso{format, fixed_point_format}
 @end deftypefn
 rats
 @c rats libinterp/corefcn/pr-output.cc
@@ -11680,64 +11896,93 @@ fdisp (stdout, "The value of pi is:"), fdisp (stdout, pi)
 Note that the output from @code{fdisp} always ends with a newline.
 @seealso{disp}
 @end deftypefn
+display
+@c display libinterp/corefcn/pr-output.cc
+-*- texinfo -*-
+@deftypefn {} {} display (@var{obj})
+Display the contents of the object @var{obj} prepended by its name.
+
+The Octave interpreter calls the @code{display} function whenever it needs
+to present a class on-screen.  Typically, this would be a statement which
+does not end in a semicolon to suppress output.  For example:
+
+@example
+myclass (@dots{})
+@end example
+
+Or:
+
+@example
+myobj = myclass (@dots{})
+@end example
+
+In general, user-defined classes should overload the @code{disp} method to
+avoid the default output:
+
+@example
+@group
+myobj = myclass (@dots{})
+  @result{} myobj =
+
+  <class myclass>
+@end group
+@end example
+
+When overloading the @code{display} method instead, one has to take care
+of properly displaying the object's name.  This can be done by using the
+@code{inputname} function.
+
+@seealso{disp, class, subsref, subsasgn}
+@end deftypefn
 format
 @c format libinterp/corefcn/pr-output.cc
 -*- texinfo -*-
 @deftypefn  {} {} format
 @deftypefnx {} {} format options
-Reset or specify the format of the output produced by @code{disp} and
-Octave's normal echoing mechanism.
+@deftypefnx {} {[@var{format}, @var{formatspacing}] =} format
+Reset or specify the format of the output produced by @code{disp} and Octave's
+normal echoing mechanism.
 
-This command only affects the display of numbers but not how they are stored
-or computed.  To change the internal representation from the default double
-use one of the conversion functions such as @code{single}, @code{uint8},
+This command only affects the display of numbers, but not how they are stored
+or computed.  To change the internal representation from the default double use
+one of the conversion functions such as @code{single}, @code{uint8},
 @code{int64}, etc.
 
 By default, Octave displays 5 significant digits in a human readable form
-(option @samp{short} paired with @samp{loose} format for matrices).
-If @code{format} is invoked without any options, this default format
-is restored.
+(option @samp{short} paired with @samp{loose} format for matrices).  If
+@code{format} is invoked without any options, this default format is restored.
 
 Valid formats for floating point numbers are listed in the following
 table.
 
 @table @code
 @item short
-Fixed point format with 5 significant figures in a field that is a maximum
-of 10 characters wide.  (default).
-
-If Octave is unable to format a matrix so that columns line up on the
-decimal point and all numbers fit within the maximum field width then
-it switches to an exponential @samp{e} format.
+Fixed point format with 5 significant figures (default).
 
 @item long
-Fixed point format with 15 significant figures in a field that is a maximum
-of 20 characters wide.
+Fixed point format with 16 significant figures.
 
-As with the @samp{short} format, Octave will switch to an exponential
-@samp{e} format if it is unable to format a matrix properly using the
-current format.
+As with the @samp{short} format, Octave will switch to an exponential @samp{e}
+format if it is unable to format a matrix properly using the current format.
 
 @item  short e
 @itemx long e
-Exponential format.  The number to be represented is split between a
-mantissa and an exponent (power of 10).  The mantissa has 5 significant
-digits in the short format and 15 digits in the long format.  For example,
-with the @samp{short e} format, @code{pi} is displayed as
-@code{3.1416e+00}.
+Exponential format.  The number to be represented is split between a mantissa
+and an exponent (power of 10).  The mantissa has 5 significant digits in the
+short format.  In the long format, double values are displayed with 16
+significant digits and single values are displayed with 8.  For example,
+with the @samp{short e} format, @code{pi} is displayed as @code{3.1416e+00}.
 
 @item  short E
 @itemx long E
-Identical to @samp{short e} or @samp{long e} but displays an uppercase
-@samp{E} to indicate the exponent.
-For example, with the @samp{long E} format, @code{pi} is displayed as
-@code{3.14159265358979E+00}.
+Identical to @samp{short e} or @samp{long e} but displays an uppercase @samp{E}
+to indicate the exponent.  For example, with the @samp{long E} format,
+@code{pi} is displayed as @code{3.141592653589793E+00}.
 
 @item  short g
 @itemx long g
-Optimally choose between fixed point and exponential format based on
-the magnitude of the number.
-For example, with the @samp{short g} format,
+Optimally choose between fixed point and exponential format based on the
+magnitude of the number.  For example, with the @samp{short g} format,
 @code{pi .^ [2; 4; 8; 16; 32]} is displayed as
 
 @example
@@ -11754,40 +11999,43 @@ ans =
 
 @item  short eng
 @itemx long eng
-Identical to @samp{short e} or @samp{long e} but displays the value
-using an engineering format, where the exponent is divisible by 3.  For
-example, with the @samp{short eng} format, @code{10 * pi} is displayed as
-@code{31.4159e+00}.
+Identical to @samp{short e} or @samp{long e} but displays the value using an
+engineering format, where the exponent is divisible by 3.  For example, with
+the @samp{short eng} format, @code{10 * pi} is displayed as @code{31.416e+00}.
 
 @item  long G
 @itemx short G
-Identical to @samp{short g} or @samp{long g} but displays an uppercase
-@samp{E} to indicate the exponent.
+Identical to @samp{short g} or @samp{long g} but displays an uppercase @samp{E}
+to indicate the exponent.
 
 @item  free
 @itemx none
-Print output in free format, without trying to line up columns of
-matrices on the decimal point.  This also causes complex numbers to be
-formatted as numeric pairs like this @samp{(0.60419, 0.60709)} instead
-of like this @samp{0.60419 + 0.60709i}.
+Print output in free format, without trying to line up columns of matrices on
+the decimal point.  This is a raw format equivalent to the C++ code
+@code{std::cout << @var{variable}}.  In general, the result is a presentation
+with 6 significant digits where unnecessary precision (such as trailing zeros
+for integers) is suppressed.  Complex numbers are formatted as numeric pairs
+like this @samp{(0.60419, 0.60709)} instead of like this
+@samp{0.60419 + 0.60709i}.
 @end table
 
-The following formats affect all numeric output (floating point and
-integer types).
+The following formats affect all numeric output (floating point and integer
+types).
 
-@table @code
-@item  "+"
-@itemx "+" @var{chars}
-@itemx plus
-@itemx plus @var{chars}
-Print a @samp{+} symbol for matrix elements greater than zero, a
-@samp{-} symbol for elements less than zero and a space for zero matrix
-elements.  This format can be very useful for examining the structure
-of a large sparse matrix.
+@table @asis
+@item  @qcode{"+"}
+@itemx @qcode{"+"} @qcode{"@var{chars}"}
+@itemx @code{plus}
+@itemx @code{plus @var{chars}}
+Print a @samp{+} symbol for matrix elements greater than zero, a @samp{-}
+symbol for elements less than zero, and a space for zero matrix elements.  This
+format can be useful for examining the sparsity structure of a large matrix.
+For very large matrices the function @code{spy} which plots the sparsity
+pattern will be clearer.
 
-The optional argument @var{chars} specifies a list of 3 characters to use
-for printing values greater than zero, less than zero and equal to zero.
-For example, with the @samp{"+" "+-."} format,
+The optional argument @var{chars} specifies a list of 3 characters to use for
+printing values greater than zero, less than zero, and equal to zero.  For
+example, with the format @qcode{"+" "+-."}, the matrix
 @code{[1, 0, -1; -1, 0, 1]} is displayed as
 
 @example
@@ -11800,23 +12048,23 @@ ans =
 @end example
 
 @item bank
-Print in a fixed format with two digits to the right of the decimal
-point.
+Print variable in a format appropriate for a currency (fixed format with two
+digits to the right of the decimal point).  Only the real part of a variable is
+displayed, as the imaginary part makes no sense for a currency.
 
 @item native-hex
-Print the hexadecimal representation of numbers as they are stored in
-memory.  For example, on a workstation which stores 8 byte real values
-in IEEE format with the least significant byte first, the value of
-@code{pi} when printed in @code{native-hex} format is
-@code{400921fb54442d18}.
+Print the hexadecimal representation of numbers as they are stored in memory.
+For example, on a workstation which stores 8 byte real values in IEEE format
+with the least significant byte first, the value of @code{pi} when printed in
+@code{native-hex} format is @code{400921fb54442d18}.
 
 @item hex
-The same as @code{native-hex}, but always print the most significant
-byte first.
+The same as @code{native-hex}, but always print the most significant byte
+first.
 
 @item native-bit
-Print the bit representation of numbers as stored in memory.
-For example, the value of @code{pi} is
+Print the bit representation of numbers as stored in memory.  For example, the
+value of @code{pi} is
 
 @example
 @group
@@ -11825,46 +12073,36 @@ For example, the value of @code{pi} is
 @end group
 @end example
 
-(shown here in two 32 bit sections for typesetting purposes) when
-printed in native-bit format on a workstation which stores 8 byte real
-values in IEEE format with the least significant byte first.
+(shown here in two 32 bit sections for typesetting purposes) when printed in
+native-bit format on a workstation which stores 8 byte real values in IEEE
+format with the least significant byte first.
 
 @item bit
-The same as @code{native-bit}, but always print the most significant
-bits first.
+The same as @code{native-bit}, but always print the most significant bits
+first.
 
 @item rat
-Print a rational approximation, i.e., values are approximated
-as the ratio of small integers.
-For example, with the @samp{rat} format,
-@code{pi} is displayed as @code{355/113}.
+Print a rational approximation, i.e., values are approximated as the ratio of
+small integers.  For example, with the @samp{rat} format, @code{pi} is
+displayed as @code{355/113}.
 @end table
 
 The following two options affect the display of all matrices.
 
 @table @code
 @item compact
-Remove blank lines around column number labels and between
-matrices producing more compact output with more data per page.
+Remove blank lines around column number labels and between matrices producing
+more compact output with more data per page.
 
 @item loose
-Insert blank lines above and below column number labels and between matrices
-to produce a more readable output with less data per page.  (default).
+Insert blank lines above and below column number labels and between matrices to
+produce a more readable output with less data per page.  (default).
 @end table
-@seealso{fixed_point_format, output_max_field_width, output_precision, split_long_rows, print_empty_dimensions, rats}
-@end deftypefn
-__compactformat__
-@c __compactformat__ libinterp/corefcn/pr-output.cc
--*- texinfo -*-
-@deftypefn  {} {@var{val} =} __compactformat__ ()
-@deftypefnx {} {} __compactformat__ (@var{TRUE|FALSE})
-Undocumented internal function
-@end deftypefn
-__formatstring__
-@c __formatstring__ libinterp/corefcn/pr-output.cc
--*- texinfo -*-
-@deftypefn {} {@var{val} =} __formatstring__ ()
-Undocumented internal function
+
+If called with one or two output arguments, and no inputs, return the current
+format and format spacing.
+
+@seealso{fixed_point_format, output_precision, split_long_rows, print_empty_dimensions, rats}
 @end deftypefn
 fixed_point_format
 @c fixed_point_format libinterp/corefcn/pr-output.cc
@@ -11902,7 +12140,7 @@ of the possibility for confusion you should be careful about enabling
 When called from inside a function with the @qcode{"local"} option, the
 variable is changed locally for the function and any subroutines it calls.
 The original variable value is restored when exiting the function.
-@seealso{format, output_max_field_width, output_precision}
+@seealso{format, output_precision}
 @end deftypefn
 print_empty_dimensions
 @c print_empty_dimensions libinterp/corefcn/pr-output.cc
@@ -11966,52 +12204,6 @@ When called from inside a function with the @qcode{"local"} option, the
 variable is changed locally for the function and any subroutines it calls.
 The original variable value is restored when exiting the function.
 @seealso{format}
-@end deftypefn
-output_max_field_width
-@c output_max_field_width libinterp/corefcn/pr-output.cc
--*- texinfo -*-
-@deftypefn  {} {@var{val} =} output_max_field_width ()
-@deftypefnx {} {@var{old_val} =} output_max_field_width (@var{new_val})
-@deftypefnx {} {} output_max_field_width (@var{new_val}, "local")
-Query or set the internal variable that specifies the maximum width
-of a numeric output field.
-
-When called from inside a function with the @qcode{"local"} option, the
-variable is changed locally for the function and any subroutines it calls.
-The original variable value is restored when exiting the function.
-@seealso{format, fixed_point_format, output_precision}
-@end deftypefn
-output_precision
-@c output_precision libinterp/corefcn/pr-output.cc
--*- texinfo -*-
-@deftypefn  {} {@var{val} =} output_precision ()
-@deftypefnx {} {@var{old_val} =} output_precision (@var{new_val})
-@deftypefnx {} {} output_precision (@var{new_val}, "local")
-Query or set the internal variable that specifies the minimum number of
-significant figures to display for numeric output.
-
-When called from inside a function with the @qcode{"local"} option, the
-variable is changed locally for the function and any subroutines it calls.
-The original variable value is restored when exiting the function.
-@seealso{format, fixed_point_format, output_max_field_width}
-@end deftypefn
-__profiler_enable__
-@c __profiler_enable__ libinterp/corefcn/profiler.cc
--*- texinfo -*-
-@deftypefn {} {} __profiler_enable__ ()
-Undocumented internal function.
-@end deftypefn
-__profiler_reset__
-@c __profiler_reset__ libinterp/corefcn/profiler.cc
--*- texinfo -*-
-@deftypefn {} {} __profiler_reset__ ()
-Undocumented internal function.
-@end deftypefn
-__profiler_data__
-@c __profiler_data__ libinterp/corefcn/profiler.cc
--*- texinfo -*-
-@deftypefn {} {} __profiler_data__ ()
-Undocumented internal function.
 @end deftypefn
 psi
 @c psi libinterp/corefcn/psi.cc
@@ -12101,8 +12293,8 @@ variable by routines @code{dblquad} and @code{triplequad}.
 @deftypefnx {} {@var{q} =} quadcc (@var{f}, @var{a}, @var{b}, @var{tol})
 @deftypefnx {} {@var{q} =} quadcc (@var{f}, @var{a}, @var{b}, @var{tol}, @var{sing})
 @deftypefnx {} {[@var{q}, @var{err}, @var{nr_points}] =} quadcc (@dots{})
-Numerically evaluate the integral of @var{f} from @var{a} to @var{b}
-using doubly-adaptive @nospell{Clenshaw-Curtis} quadrature.
+Numerically evaluate the integral of @var{f} from @var{a} to @var{b} using
+doubly-adaptive @nospell{Clenshaw-Curtis} quadrature.
 
 @var{f} is a function handle, inline function, or string containing the name
 of the function to evaluate.  The function @var{f} must be vectorized and
@@ -12116,38 +12308,41 @@ f = @@(x) x .* sin (1./x) .* sqrt (abs (1 - x));
 @noindent
 which uses the element-by-element ``dot'' form for all operators.
 
-@var{a} and @var{b} are the lower and upper limits of integration.  Either
-or both limits may be infinite.  @code{quadcc} handles an inifinite limit
-by substituting the variable of integration with @code{x = tan (pi/2*u)}.
+@var{a} and @var{b} are the lower and upper limits of integration.  Either or
+both limits may be infinite.  @code{quadcc} handles an infinite limit by
+substituting the variable of integration with @code{x = tan (pi/2*u)}.
 
-The optional argument @var{tol} defines the relative tolerance used to stop
-the integration procedure.  The default value is 1e-6.
+The optional argument @var{tol} is a 1- or 2-element vector that specifies the
+desired accuracy of the result.  The first element of the vector is the desired
+absolute tolerance, and the second element is the desired relative tolerance.
+To choose a relative test only, set the absolute tolerance to zero.  To choose
+an absolute test only, set the relative tolerance to zero.  The default
+absolute tolerance is 1e-10 (1e-5 for single), and the default relative
+tolerance is 1e-6 (1e-4 for single).
 
-The optional argument @var{sing} contains a list of points where the
-integrand has known singularities, or discontinuities
-in any of its derivatives, inside the integration interval.
-For the example above, which has a discontinuity at x=1, the call to
-@code{quadcc} would be as follows
+The optional argument @var{sing} contains a list of points where the integrand
+has known singularities, or discontinuities in any of its derivatives, inside
+the integration interval.  For the example above, which has a discontinuity at
+x=1, the call to @code{quadcc} would be as follows
 
 @example
-int = quadcc (f, a, b, 1.0e-6, [ 1 ]);
+int = quadcc (f, a, b, [], [ 1 ]);
 @end example
 
 The result of the integration is returned in @var{q}.
 
 @var{err} is an estimate of the absolute integration error.
 
-@var{nr_points} is the number of points at which the integrand was
-evaluated.
+@var{nr_points} is the number of points at which the integrand was evaluated.
 
 If the adaptive integration did not converge, the value of @var{err} will be
 larger than the requested tolerance.  Therefore, it is recommended to verify
 this value for difficult integrands.
 
 @code{quadcc} is capable of dealing with non-numeric values of the integrand
-such as @code{NaN} or @code{Inf}.  If the integral diverges, and
-@code{quadcc} detects this, then a warning is issued and @code{Inf} or
-@code{-Inf} is returned.
+such as @code{NaN} or @code{Inf}.  If the integral diverges, and @code{quadcc}
+detects this, then a warning is issued and @code{Inf} or @code{-Inf} is
+returned.
 
 Note: @code{quadcc} is a general purpose quadrature algorithm and, as such,
 may be less efficient for a smooth or otherwise well-behaved integrand than
@@ -12160,8 +12355,17 @@ error estimate is computed from the L2-norm of the difference between two
 successive interpolations of the integrand over the nodes of the respective
 quadrature rules.
 
+@c FIXME: DEPRECATED: Remove in Octave version 6.
+Implementation Note: For Octave versions @leq{} 4.2, @code{quadcc} accepted a
+single tolerance argument which specified the relative tolerance.  For
+versions 4.4 and 5, @code{quadcc} will issue a warning when called with a
+single tolerance argument indicating that the meaning of this input has
+changed from relative tolerance to absolute tolerance.  The warning ID for this
+message is @qcode{"Octave:quadcc:RelTol-conversion"}.  The warning may be
+disabled with @code{warning ("off", "Octave:quadcc:RelTol-conversion")}.
+
 Reference: @nospell{P. Gonnet}, @cite{Increasing the Reliability of Adaptive
-Quadrature Using Explicit Interpolants}, ACM Transactions on
+Quadrature Using Explicit Interpolants}, @nospell{ACM} Transactions on
 Mathematical Software, Vol. 37, Issue 3, Article No. 3, 2010.
 @seealso{quad, quadv, quadl, quadgk, trapz, dblquad, triplequad}
 @end deftypefn
@@ -12172,7 +12376,10 @@ Mathematical Software, Vol. 37, Issue 3, Article No. 3, 2010.
 @deftypefnx {} {[@var{AA}, @var{BB}, @var{Q}, @var{Z}, @var{V}, @var{W}, @var{lambda}] =} qz (@var{A}, @var{B})
 @deftypefnx {} {[@var{AA}, @var{BB}, @var{Z}] =} qz (@var{A}, @var{B}, @var{opt})
 @deftypefnx {} {[@var{AA}, @var{BB}, @var{Z}, @var{lambda}] =} qz (@var{A}, @var{B}, @var{opt})
-QZ@tie{}decomposition of the generalized eigenvalue problem
+Compute the QZ@tie{}decomposition of a generalized eigenvalue problem.
+
+The generalized eigenvalue problem is defined as
+
 @tex
 $$A x = \lambda B x$$
 @end tex
@@ -12222,9 +12429,9 @@ with @var{Q} and @var{Z} orthogonal (unitary for complex case).
 @item @code{[@var{AA}, @var{BB}, @var{Z} @{, @var{lambda}@}] = qz (@var{A}, @var{B}, @var{opt})}
 
 As in form 2 above, but allows ordering of generalized eigenpairs for, e.g.,
-solution of discrete time algebraic Riccati equations.  Form 3 is not available
-for complex matrices, and does not compute the generalized eigenvectors
-@var{V}, @var{W}, nor the orthogonal matrix @var{Q}.
+solution of discrete time algebraic @nospell{Riccati} equations.  Form 3 is not
+available for complex matrices, and does not compute the generalized
+eigenvectors @var{V}, @var{W}, nor the orthogonal matrix @var{Q}.
 
 @table @var
 @item opt
@@ -12319,8 +12526,8 @@ Twister with a period of @math{2^{19937}-1}
 (See @nospell{M. Matsumoto and T. Nishimura},
 @cite{Mersenne Twister: A 623-dimensionally equidistributed uniform
 pseudorandom number generator},
-ACM Trans. on Modeling and Computer Simulation Vol. 8, No. 1, pp. 3--30,
-January 1998,
+@nospell{ACM} Trans. on Modeling and Computer Simulation Vol. 8, No. 1,
+pp. 3--30, January 1998,
 @url{http://www.math.sci.hiroshima-u.ac.jp/~m-mat/MT/emt.html}).
 Do @strong{not} use for cryptography without securely hashing several
 returned values together, otherwise the generator state can be learned after
@@ -12388,7 +12595,7 @@ classes.
 Reference: @nospell{G. Marsaglia and W.W. Tsang},
 @cite{Ziggurat Method for Generating Random Variables},
 J. Statistical Software, vol 5, 2000,
-@url{http://www.jstatsoft.org/v05/i08/}
+@url{https://www.jstatsoft.org/v05/i08/}
 
 @seealso{rand, rande, randg, randp}
 @end deftypefn
@@ -12421,7 +12628,7 @@ classes.
 Reference: @nospell{G. Marsaglia and W.W. Tsang},
 @cite{Ziggurat Method for Generating Random Variables},
 J. Statistical Software, vol 5, 2000,
-@url{http://www.jstatsoft.org/v05/i08/}
+@url{https://www.jstatsoft.org/v05/i08/}
 
 @seealso{rand, randn, randg, randp}
 @end deftypefn
@@ -12813,6 +13020,7 @@ Return zero-length matches.
 are zero or more @qcode{'b'} characters at positions 1 and end-of-string.
 
 @end table
+
 Stack Limitation Note: Pattern searches are done with a recursive function
 which can overflow the program stack when there are a high number of matches.
 For example,
@@ -12821,6 +13029,7 @@ For example,
 @code{regexp (repmat ('a', 1, 1e5), '(a)+')}
 @end example
 
+@noindent
 may lead to a segfault.  As an alternative, consider constructing pattern
 searches that reduce the number of matches (e.g., by creatively using set
 complement), and then further processing the return variables (now reduced in
@@ -12947,8 +13156,8 @@ leading @var{k} columns of @var{U} always span the @var{A}-invariant
 subspace corresponding to the @var{k} leading eigenvalues of @var{S}.
 
 The Schur@tie{}decomposition is used to compute eigenvalues of a square
-matrix, and has applications in the solution of algebraic Riccati equations
-in control (see @code{are} and @code{dare}).
+matrix, and has applications in the solution of algebraic @nospell{Riccati}
+equations in control (see @code{are} and @code{dare}).
 @seealso{rsf2csf, ordschur, lu, chol, hess, qr, qz, svd}
 @end deftypefn
 rsf2csf
@@ -13005,6 +13214,20 @@ The original variable value is restored when exiting the function.
 Query or set the internal variable that controls whether Octave tries
 to save all current variables to the file @file{octave-workspace} if it
 receives a hangup signal.
+
+When called from inside a function with the @qcode{"local"} option, the
+variable is changed locally for the function and any subroutines it calls.
+The original variable value is restored when exiting the function.
+@end deftypefn
+sigquit_dumps_octave_core
+@c sigquit_dumps_octave_core libinterp/corefcn/sighandlers.cc
+-*- texinfo -*-
+@deftypefn  {} {@var{val} =} sigquit_dumps_octave_core ()
+@deftypefnx {} {@var{old_val} =} sigquit_dumps_octave_core (@var{new_val})
+@deftypefnx {} {} sigquit_dumps_octave_core (@var{new_val}, "local")
+Query or set the internal variable that controls whether Octave tries
+to save all current variables to the file @file{octave-workspace} if it
+receives a quit signal.
 
 When called from inside a function with the @qcode{"local"} option, the
 variable is changed locally for the function and any subroutines it calls.
@@ -13416,7 +13639,7 @@ strvcat ([97, 98, 99], "", @{"98", "99", 100@}, "str1", ["ha", "lf"])
 -*- texinfo -*-
 @deftypefn {} {} ischar (@var{x})
 Return true if @var{x} is a character array.
-@seealso{isfloat, isinteger, islogical, isnumeric, iscellstr, isa}
+@seealso{isfloat, isinteger, islogical, isnumeric, isstring, iscellstr, isa}
 @end deftypefn
 strcmp
 @c strcmp libinterp/corefcn/strfns.cc
@@ -13508,6 +13731,23 @@ This is just the opposite of the corresponding C library function.
 @strong{Caution:} National alphabets are not supported.
 @seealso{strncmp, strcmp, strcmpi}
 @end deftypefn
+__native2unicode__
+@c __native2unicode__ libinterp/corefcn/strfns.cc
+-*- texinfo -*-
+@deftypefn {} {@var{utf8_str} =} __native2unicode__ (@var{native_bytes}, @var{codepage})
+Convert byte stream @var{native_bytes} to UTF-8 using @var{codepage}.
+
+@seealso{native2unicode, __unicode2native__}
+@end deftypefn
+__unicode2native__
+@c __unicode2native__ libinterp/corefcn/strfns.cc
+-*- texinfo -*-
+@deftypefn {} {@var{native_bytes} =} __unicode2native__ (@var{utf8_str}, @var{codepage})
+Convert UTF-8 string @var{utf8_str} to byte stream @var{native_bytes} using
+@var{codepage}.
+
+@seealso{unicode2native, __native2unicode__}
+@end deftypefn
 list_in_columns
 @c list_in_columns libinterp/corefcn/strfns.cc
 -*- texinfo -*-
@@ -13563,8 +13803,8 @@ be specified with subscripts for the row, column, page, etc.  The functions
 @code{ind2sub} and @code{sub2ind} interconvert between the two forms.
 
 The linear index traverses dimension 1 (rows), then dimension 2 (columns), then
-dimension 3 (pages), etc. until it has numbered all of the elements.  Consider
-the following 3-by-3 matrices:
+dimension 3 (pages), etc.@: until it has numbered all of the elements.
+Consider the following 3-by-3 matrices:
 
 @example
 @group
@@ -13610,8 +13850,8 @@ be specified with subscripts for the row, column, page, etc.  The functions
 @code{ind2sub} and @code{sub2ind} interconvert between the two forms.
 
 The linear index traverses dimension 1 (rows), then dimension 2 (columns), then
-dimension 3 (pages), etc. until it has numbered all of the elements.  Consider
-the following 3-by-3 matrices:
+dimension 3 (pages), etc.@: until it has numbered all of the elements.
+Consider the following 3-by-3 matrices:
 
 @example
 @group
@@ -13668,9 +13908,13 @@ r = ind2sub (dims, ind)
 -*- texinfo -*-
 @deftypefn  {} {@var{s} =} svd (@var{A})
 @deftypefnx {} {[@var{U}, @var{S}, @var{V}] =} svd (@var{A})
-@deftypefnx {} {[@var{U}, @var{S}, @var{V}] =} svd (@var{A}, @var{econ})
+@deftypefnx {} {[@var{U}, @var{S}, @var{V}] =} svd (@var{A}, "econ")
+@deftypefnx {} {[@var{U}, @var{S}, @var{V}] =} svd (@var{A}, 0)
 @cindex singular value decomposition
-Compute the singular value decomposition of @var{A}
+Compute the singular value decomposition of @var{A}.
+
+The singular value decomposition is defined by the relation
+
 @tex
 $$
  A = U S V^{\dagger}
@@ -13743,9 +13987,21 @@ v =
 @end group
 @end example
 
-If given a second argument, @code{svd} returns an economy-sized
+When given a second argument that is not 0, @code{svd} returns an economy-sized
 decomposition, eliminating the unnecessary rows or columns of @var{U} or
 @var{V}.
+
+If the second argument is exactly 0, then the choice of decomposition is based
+on the matrix @var{A}.  If @var{A} has more rows than columns then an
+economy-sized decomposition is returned, otherwise a regular decomposition
+is calculated.
+
+Algorithm Notes: When calculating the full decomposition (left and right
+singular matrices in addition to singular values) there is a choice of two
+routines in @sc{lapack}.  The default routine used by Octave is @code{gesdd}
+which is 5X faster than the alternative @code{gesvd}, but may use more memory
+and may be less accurate for some matrices.  See the documentation for
+@code{svd_driver} for more information.
 @seealso{svd_driver, svds, eig, lu, chol, hess, qr, qz}
 @end deftypefn
 svd_driver
@@ -13756,19 +14012,48 @@ decomposition, eliminating the unnecessary rows or columns of @var{U} or
 @deftypefnx {} {} svd_driver (@var{new_val}, "local")
 Query or set the underlying @sc{lapack} driver used by @code{svd}.
 
-Currently recognized values are @qcode{"gesvd"} and @qcode{"gesdd"}.
-The default is @qcode{"gesvd"}.
+Currently recognized values are @qcode{"gesdd"} and @qcode{"gesvd"}.
+The default is @qcode{"gesdd"}.
 
 When called from inside a function with the @qcode{"local"} option, the
 variable is changed locally for the function and any subroutines it calls.
 The original variable value is restored when exiting the function.
+
+Algorithm Notes: The @sc{lapack} library provides two routines for calculating
+the full singular value decomposition (left and right singular matrices as
+well as singular values).  When calculating just the singular values the
+following discussion is not relevant.
+
+The default routine use by Octave is the newer @code{gesdd} which is based on a
+Divide-and-Conquer algorithm that is 5X faster than the alternative
+@code{gesvd}, which is based on QR factorization.  However, the new algorithm
+can use significantly more memory.  For an @nospell{MxN} input matrix the
+memory usage is of order O(min(M,N) ^ 2), whereas the alternative is of order
+O(max(M,N)).  In general, modern computers have abundant memory so Octave has
+chosen to prioritize speed.
+
+In addition, there have been instances in the past where some input matrices
+were not accurately decomposed by @code{gesdd}.  This appears to have been
+resolved with modern versions of @sc{lapack}.  However, if certainty is
+required the accuracy of the decomposition can always be tested after the fact
+with
+
+@example
+@group
+[@var{u}, @var{s}, @var{v}] = svd (@var{x});
+norm (@var{x} - @var{u}*@var{s}*@var{v'}, "fro")
+@end group
+@end example
+
 @seealso{svd}
 @end deftypefn
 sylvester
 @c sylvester libinterp/corefcn/sylvester.cc
 -*- texinfo -*-
 @deftypefn {} {@var{X} =} sylvester (@var{A}, @var{B}, @var{C})
-Solve the Sylvester equation
+Solve the Sylvester equation.
+
+The Sylvester equation is defined as:
 @tex
 $$
  A X + X B = C
@@ -13781,7 +14066,7 @@ A X + X B = C
 @end example
 
 @end ifnottex
-using standard @sc{lapack} subroutines.
+The solution is computed using standard @sc{lapack} subroutines.
 
 For example:
 
@@ -13814,7 +14099,7 @@ determine whether functions defined in function files need to recompiled.
 __current_scope__
 @c __current_scope__ libinterp/corefcn/symtab.cc
 -*- texinfo -*-
-@deftypefn {} {[@var{scope}, @var{context}]} __current_scope__ ()
+@deftypefn {} {[@var{scope}, @var{context}] =} __current_scope__ ()
 Return the current scope and context as integers.
 @seealso{__dump_symtab_info__}
 @end deftypefn
@@ -13822,9 +14107,7 @@ Return the current scope and context as integers.
 @c __dump_symtab_info__ libinterp/corefcn/symtab.cc
 -*- texinfo -*-
 @deftypefn  {} {} __dump_symtab_info__ ()
-@deftypefnx {} {} __dump_symtab_info__ (@var{scope})
-@deftypefnx {} {} __dump_symtab_info__ ("scopes")
-@deftypefnx {} {} __dump_symtab_info__ ("functions")
+@deftypefnx {} {} __dump_symtab_info__ (@var{function})
 Undocumented internal function.
 @seealso{__current_scope__}
 @end deftypefn
@@ -14403,7 +14686,7 @@ true if the child produced a core dump.
 
 This function should only be employed if @code{WIFSIGNALED} returned true.
 The macro used to implement this function is not specified in POSIX.1-2001
-and is not available on some Unix implementations (e.g., AIX, SunOS).
+and is not available on some Unix implementations (e.g., @nospell{AIX, SunOS}).
 @seealso{waitpid, WIFEXITED, WEXITSTATUS, WIFSIGNALED, WTERMSIG, WIFSTOPPED, WSTOPSIG, WIFCONTINUED}
 @end deftypefn
 WIFSTOPPED
@@ -14488,103 +14771,126 @@ status flags.
 @c O_APPEND libinterp/corefcn/syscalls.cc
 -*- texinfo -*-
 @deftypefn {} {} O_APPEND ()
-Return the numerical value of the file status flag that may be
-returned by @code{fcntl} to indicate each write operation appends,
-or that may be passed to @code{fcntl} to set the write mode to append.
+Return the numerical value of the @code{O_APPEND} macro.
+
+@code{O_APPEND} is file status flag that may be returned by @code{fcntl}
+to indicate each write operation appends, or that may be passed to
+@code{fcntl} to set the write mode to append.
 @seealso{fcntl, O_ASYNC, O_CREAT, O_EXCL, O_NONBLOCK, O_RDONLY, O_RDWR, O_SYNC, O_TRUNC, O_WRONLY}
 @end deftypefn
 O_ASYNC
 @c O_ASYNC libinterp/corefcn/syscalls.cc
 -*- texinfo -*-
 @deftypefn {} {} O_ASYNC ()
-Return the numerical value of the file status flag that may be
-returned by @code{fcntl} to indicate asynchronous I/O.
+Return the numerical value of the @code{O_ASYNC} macro.
+
+@code{O_ASYNC} is the file status flag that may be returned by
+@code{fcntl} to indicate asynchronous I/O.
 @seealso{fcntl, O_APPEND, O_CREAT, O_EXCL, O_NONBLOCK, O_RDONLY, O_RDWR, O_SYNC, O_TRUNC, O_WRONLY}
 @end deftypefn
 O_CREAT
 @c O_CREAT libinterp/corefcn/syscalls.cc
 -*- texinfo -*-
 @deftypefn {} {} O_CREAT ()
-Return the numerical value of the file status flag that may be
-returned by @code{fcntl} to indicate that a file should be created if it
-does not exist.
+Return the numerical value of the @code{O_CREAT}.
+
+@code{O_CREAT} is the file status flag that may be returned by
+@code{fcntl} to indicate that a file should be created if it does not
+exist.
 @seealso{fcntl, O_APPEND, O_ASYNC, O_EXCL, O_NONBLOCK, O_RDONLY, O_RDWR, O_SYNC, O_TRUNC, O_WRONLY}
 @end deftypefn
 O_EXCL
 @c O_EXCL libinterp/corefcn/syscalls.cc
 -*- texinfo -*-
 @deftypefn {} {} O_EXCL ()
-Return the numerical value of the file status flag that may be
-returned by @code{fcntl} to indicate that file locking is used.
+Return the numerical value of the @code{O_EXCL}.
+
+@code{O_EXCL} is the file status flag that may be returned by
+@code{fcntl} to indicate that file locking is used.
 @seealso{fcntl, O_APPEND, O_ASYNC, O_CREAT, O_NONBLOCK, O_RDONLY, O_RDWR, O_SYNC, O_TRUNC, O_WRONLY}
 @end deftypefn
 O_NONBLOCK
 @c O_NONBLOCK libinterp/corefcn/syscalls.cc
 -*- texinfo -*-
 @deftypefn {} {} O_NONBLOCK ()
-Return the numerical value of the file status flag that may be
-returned by @code{fcntl} to indicate that non-blocking I/O is in use,
-or that may be passsed to @code{fcntl} to set non-blocking I/O.
+Return the numerical value of the @code{O_NONBLOCK}.
+
+@code{O_NONBLOCK} is the file status flag that may be returned by
+@code{fcntl} to indicate that non-blocking I/O is in use, or that may be
+passsed to @code{fcntl} to set non-blocking I/O.
 @seealso{fcntl, O_APPEND, O_ASYNC, O_CREAT, O_EXCL, O_RDONLY, O_RDWR, O_SYNC, O_TRUNC, O_WRONLY}
 @end deftypefn
 O_RDONLY
 @c O_RDONLY libinterp/corefcn/syscalls.cc
 -*- texinfo -*-
 @deftypefn {} {} O_RDONLY ()
-Return the numerical value of the file status flag that may be
-returned by @code{fcntl} to indicate that a file is open for reading only.
+Return the numerical value of the @code{O_RDONLY}.
+
+@code{O_RDONLY} is the file status flag that may be returned by
+@code{fcntl} to indicate that a file is open for reading only.
 @seealso{fcntl, O_APPEND, O_ASYNC, O_CREAT, O_EXCL, O_NONBLOCK, O_RDWR, O_SYNC, O_TRUNC, O_WRONLY}
 @end deftypefn
 O_RDWR
 @c O_RDWR libinterp/corefcn/syscalls.cc
 -*- texinfo -*-
 @deftypefn {} {} O_RDWR ()
-Return the numerical value of the file status flag that may be
-returned by @code{fcntl} to indicate that a file is open for both reading
-and writing.
+Return the numerical value of the @code{O_RDWR}.
+
+@code{O_RDWR} is the file status flag that may be returned by
+@code{fcntl} to indicate that a file is open for both reading and
+writing.
 @seealso{fcntl, O_APPEND, O_ASYNC, O_CREAT, O_EXCL, O_NONBLOCK, O_RDONLY, O_SYNC, O_TRUNC, O_WRONLY}
 @end deftypefn
 O_SYNC
 @c O_SYNC libinterp/corefcn/syscalls.cc
 -*- texinfo -*-
 @deftypefn {} {} O_SYNC ()
-Return the numerical value of the file status flag that may be
-returned by @code{fcntl} to indicate that a file is open for synchronous
-I/O.
+Return the numerical value of the @code{O_SYNC}.
+
+@code{O_SYNC} is the file status flag that may be returned by
+@code{fcntl} to indicate that a file is open for synchronous I/O
 @seealso{fcntl, O_APPEND, O_ASYNC, O_CREAT, O_EXCL, O_NONBLOCK, O_RDONLY, O_RDWR, O_TRUNC, O_WRONLY}
 @end deftypefn
 O_TRUNC
 @c O_TRUNC libinterp/corefcn/syscalls.cc
 -*- texinfo -*-
 @deftypefn {} {} O_TRUNC ()
-Return the numerical value of the file status flag that may be
-returned by @code{fcntl} to indicate that if file exists, it should be
-truncated when writing.
+Return the numerical value of the @code{O_TRUNC}.
+
+@code{O_TRUNC} is the file status flag that may be returned by
+@code{fcntl} to indicate that if file exists, it should be truncated
+when writing.
 @seealso{fcntl, O_APPEND, O_ASYNC, O_CREAT, O_EXCL, O_NONBLOCK, O_RDONLY, O_RDWR, O_SYNC, O_WRONLY}
 @end deftypefn
 O_WRONLY
 @c O_WRONLY libinterp/corefcn/syscalls.cc
 -*- texinfo -*-
 @deftypefn {} {} O_WRONLY ()
-Return the numerical value of the file status flag that may be
-returned by @code{fcntl} to indicate that a file is open for writing only.
+Return the numerical value of the @code{O_WRONLY}.
+
+@code{O_WRONLY} is the file status flag that may be returned by
+@code{fcntl} to indicate that a file is open for writing only
 @seealso{fcntl, O_APPEND, O_ASYNC, O_CREAT, O_EXCL, O_NONBLOCK, O_RDONLY, O_RDWR, O_SYNC, O_TRUNC}
 @end deftypefn
 WNOHANG
 @c WNOHANG libinterp/corefcn/syscalls.cc
 -*- texinfo -*-
 @deftypefn {} {} WNOHANG ()
-Return the numerical value of the option argument that may be
-passed to @code{waitpid} to indicate that it should return its status
-immediately instead of waiting for a process to exit.
+Return the numerical value of the @code{WNOHANG} macro.
+
+@code{WNOHANG} is the option argument that may be passed to
+@code{waitpid} to indicate that it should return its status immediately
+instead of waiting for a process to exit.
 @seealso{waitpid, WUNTRACED, WCONTINUE}
 @end deftypefn
 WUNTRACED
 @c WUNTRACED libinterp/corefcn/syscalls.cc
 -*- texinfo -*-
 @deftypefn {} {} WUNTRACED ()
-Return the numerical value of the option argument that may be
-passed to @code{waitpid} to indicate that it should also return if the child
+Return the numerical value of the @code{WUNTRACED} macro.
+
+@code{WUNTRACED} is the option argument that may be passed to
+@code{waitpid} to indicate that it should also return if the child
 process has stopped but is not traced via the @code{ptrace} system call
 @seealso{waitpid, WNOHANG, WCONTINUE}
 @end deftypefn
@@ -14592,9 +14898,11 @@ process has stopped but is not traced via the @code{ptrace} system call
 @c WCONTINUE libinterp/corefcn/syscalls.cc
 -*- texinfo -*-
 @deftypefn {} {} WCONTINUE ()
-Return the numerical value of the option argument that may be
-passed to @code{waitpid} to indicate that it should also return if a stopped
-child has been resumed by delivery of a @code{SIGCONT} signal.
+Return the numerical value of the @code{WCONTINUE} macro.
+
+@code{WCONTINUE} is the option argument that may be passed to
+@code{waitpid} to indicate that it should also return if a stopped child
+has been resumed by delivery of a @code{SIGCONT} signal.
 @seealso{waitpid, WNOHANG, WUNTRACED}
 @end deftypefn
 __open_with_system_app__
@@ -14647,6 +14955,76 @@ Delete the environment variable @var{var}.
 Return 0 if the variable was deleted, or did not exist, and -1 if an error
 occurred.
 @seealso{setenv, getenv}
+@end deftypefn
+winqueryreg
+@c winqueryreg libinterp/corefcn/sysdep.cc
+-*- texinfo -*-
+@deftypefn  {} {@var{value} =} winqueryreg (@var{rootkey}, @var{subkey}, @var{valuename})
+@deftypefnx {} {@var{value} =} winqueryreg (@var{rootkey}, @var{subkey})
+@deftypefnx {} {@var{names} =} winqueryreg (@code{"name"}, @var{rootkey}, @var{subkey})
+
+Query names or value from the Windows registry.
+
+On Windows, return the value of the registry key @var{subkey} from the root key
+@var{rootkey}.  You can specify the name of the queried registry value with the
+optional argument @var{valuename}.  Otherwise, if called with only two
+arguments or @var{valuename} is empty, then the default value of @var{subkey}
+is returned.  If the registry value is of type @nospell{@qcode{"REG_DWORD"}}
+then @var{value} is of class int32.  If the value is of the type
+@nospell{@qcode{"REG_SZ"}} or @nospell{@qcode{"REG_EXPAND_SZ"}} a string is
+returned.
+
+If the first argument is @qcode{"name"}, a cell array of strings with the names
+of the values at that key is returned.
+
+The variable @var{rootkey} must be a string with a valid root key identifier:
+
+@table @asis
+@item  @nospell{HKCR}
+@itemx @nospell{HKEY_CLASSES_ROOT}
+
+@item @nospell{HKEY_CURRENT_CONFIG}
+
+@item  @nospell{HKCU}
+@itemx @nospell{HKEY_CURRENT_USER}
+
+@item  @nospell{HKLM}
+@itemx @nospell{HKEY_LOCAL_MACHINE}
+
+
+@item  @nospell{HKU}
+@itemx @nospell{HKEY_USERS}
+
+
+@item @nospell{HKEY_PERFORMANCE_DATA}
+
+@end table
+
+Examples:
+
+Get a list of value names at the key @nospell{@qcode{'HKCU\Environment'}}:
+
+@example
+@group
+@var{valuenames} = winqueryreg ("name", "HKEY_CURRENT_USER", ...
+                          "Environment");
+@end group
+@end example
+
+For each @var{valuenames}, display the value:
+
+@example
+@group
+for @var{k} = 1:numel (@var{valuenames})
+  @var{val} = winqueryreg ("HKEY_CURRENT_USER", "Environment", ...
+                     @var{valuenames}@{@var{k}@});
+  @var{str} = sprintf ("%s = %s", @var{valuenames}@{@var{k}@}, num2str (@var{val}));
+  disp (@var{str});
+endfor
+@end group
+@end example
+
+On non-Windows platforms this function fails with an error.
 @end deftypefn
 kbhit
 @c kbhit libinterp/corefcn/sysdep.cc
@@ -14764,13 +15142,17 @@ equivalent to
 @code{fullfile (getenv ("HOMEDRIVE"), getenv ("HOMEPATH"))}
 @seealso{getenv}
 @end deftypefn
-have_window_system
-@c have_window_system libinterp/corefcn/sysdep.cc
+__blas_version__
+@c __blas_version__ libinterp/corefcn/sysdep.cc
 -*- texinfo -*-
-@deftypefn {} {} have_window_system ()
-Return true if a window system is available (X11, Windows, or Apple OS X)
-and false otherwise.
-@seealso{isguirunning}
+@deftypefn {} {} __blas_version__ ()
+Undocumented internal function.
+@end deftypefn
+__lapack_version__
+@c __lapack_version__ libinterp/corefcn/sysdep.cc
+-*- texinfo -*-
+@deftypefn {} {} __lapack_version__ ()
+Undocumented internal function.
 @end deftypefn
 time
 @c time libinterp/corefcn/time.cc
@@ -15059,6 +15441,7 @@ to the standard output.  To send the output of a command executed with
 @example
 @group
 [~, text] = system ("cmd");
+more on;
 disp (text);
 @end group
 @end example
@@ -15067,7 +15450,10 @@ disp (text);
 or
 
 @example
+@group
+more on;
 printf ("%s\n", nthargout (2, "system", "cmd"));
+@end group
 @end example
 
 The @code{system} function can return two values.  The first is the
@@ -15075,7 +15461,7 @@ exit status of the command and the second is any output from the
 command that was written to the standard output stream.  For example,
 
 @example
-[status, output] = system ("echo foo; exit 2");
+[status, output] = system ("echo foo & exit 2");
 @end example
 
 @noindent
@@ -15084,6 +15470,11 @@ variable @code{status} to the integer @samp{2}.
 
 For commands run asynchronously, @var{status} is the process id of the
 command shell that is started to run the command.
+
+The shell used for executing commands varies with operating system and is
+typically @file{/bin/sh} for UNIX systems and @nospell{@file{cmd.exe}} for
+Windows
+systems.
 @seealso{unix, dos}
 @end deftypefn
 __octave_config_info__
@@ -15102,30 +15493,21 @@ specified option.
 tril
 @c tril libinterp/corefcn/tril.cc
 -*- texinfo -*-
-@deftypefn  {} {} tril (@var{A})
-@deftypefnx {} {} tril (@var{A}, @var{k})
-@deftypefnx {} {} tril (@var{A}, @var{k}, @var{pack})
-@deftypefnx {} {} triu (@var{A})
-@deftypefnx {} {} triu (@var{A}, @var{k})
-@deftypefnx {} {} triu (@var{A}, @var{k}, @var{pack})
-Return a new matrix formed by extracting the lower (@code{tril})
-or upper (@code{triu}) triangular part of the matrix @var{A}, and
-setting all other elements to zero.
+@deftypefn  {} {@var{A_LO} =} tril (@var{A})
+@deftypefnx {} {@var{A_LO} =} tril (@var{A}, @var{k})
+@deftypefnx {} {@var{A_LO} =} tril (@var{A}, @var{k}, @var{pack})
+Return a new matrix formed by extracting the lower triangular part of the
+matrix @var{A}, and setting all other elements to zero.
 
-The second argument is optional, and specifies how many diagonals above or
-below the main diagonal should also be set to zero.
+The optional second argument specifies how many diagonals above or below the
+main diagonal should also be set to zero.  The default value of @var{k} is
+zero which includes the main diagonal as part of the result.  If the value of
+@var{k} is a nonzero integer then the selection of elements starts at an offset
+of @var{k} diagonals above the main diagonal for positive @var{k} or below the
+main diagonal for negative @var{k}.  The absolute value of @var{k} may not be
+greater than the number of subdiagonals or superdiagonals.
 
-The default value of @var{k} is zero, so that @code{triu} and @code{tril}
-normally include the main diagonal as part of the result.
-
-If the value of @var{k} is nonzero integer, the selection of elements starts
-at an offset of @var{k} diagonals above or below the main diagonal; above
-for positive @var{k} and below for negative @var{k}.
-
-The absolute value of @var{k} must not be greater than the number of
-subdiagonals or superdiagonals.
-
-For example:
+Example 1 : exclude main diagonal
 
 @example
 @group
@@ -15137,7 +15519,8 @@ tril (ones (3), -1)
 @end example
 
 @noindent
-and
+
+Example 2 : include first superdiagonal
 
 @example
 @group
@@ -15148,19 +15531,56 @@ tril (ones (3), 1)
 @end group
 @end example
 
-If the option @qcode{"pack"} is given as third argument, the extracted
-elements are not inserted into a matrix, but rather stacked column-wise one
-above other.
-@seealso{diag}
+If the optional third argument @qcode{"pack"} is given then the extracted
+elements are not inserted into a matrix, but instead stacked column-wise one
+above another, and returned as a column vector.
+@seealso{triu, istril, diag}
 @end deftypefn
 triu
 @c triu libinterp/corefcn/tril.cc
 -*- texinfo -*-
-@deftypefn  {} {} triu (@var{A})
-@deftypefnx {} {} triu (@var{A}, @var{k})
-@deftypefnx {} {} triu (@var{A}, @var{k}, @var{pack})
-See the documentation for the @code{tril} function (@pxref{tril}).
-@seealso{tril}
+@deftypefn  {} {@var{A_UP} =} triu (@var{A})
+@deftypefnx {} {@var{A_UP} =} triu (@var{A}, @var{k})
+@deftypefnx {} {@var{A_UP} =} triu (@var{A}, @var{k}, @var{pack})
+Return a new matrix formed by extracting the upper triangular part of the
+matrix @var{A}, and setting all other elements to zero.
+
+The optional second argument specifies how many diagonals above or below the
+main diagonal should also be set to zero.  The default value of @var{k} is
+zero which includes the main diagonal as part of the result.  If the value of
+@var{k} is a nonzero integer then the selection of elements starts at an offset
+of @var{k} diagonals above the main diagonal for positive @var{k} or below the
+main diagonal for negative @var{k}.  The absolute value of @var{k} may not be
+greater than the number of subdiagonals or superdiagonals.
+
+Example 1 : exclude main diagonal
+
+@example
+@group
+triu (ones (3), 1)
+     @result{}  0  1  1
+         0  0  1
+         0  0  0
+@end group
+@end example
+
+@noindent
+
+Example 2 : include first subdiagonal
+
+@example
+@group
+triu (ones (3), -1)
+     @result{}  1  1  1
+         1  1  1
+         0  1  1
+@end group
+@end example
+
+If the optional third argument @qcode{"pack"} is given then the extracted
+elements are not inserted into a matrix, but instead stacked column-wise one
+above another, and returned as a column vector.
+@seealso{tril, istriu, diag}
 @end deftypefn
 tsearch
 @c tsearch libinterp/corefcn/tsearch.cc
@@ -15484,13 +15904,16 @@ Return true if @var{name} is a valid variable name.
 file_in_loadpath
 @c file_in_loadpath libinterp/corefcn/utils.cc
 -*- texinfo -*-
-@deftypefn  {} {} file_in_loadpath (@var{file})
-@deftypefnx {} {} file_in_loadpath (@var{file}, "all")
-
-Return the absolute name of @var{file} if it can be found in
-the list of directories specified by @code{path}.
+@deftypefn  {} {@var{fname} =} file_in_loadpath (@var{file})
+@deftypefnx {} {@var{fname} =} file_in_loadpath (@var{file}, "all")
+Return the absolute name of @var{file} if it can be found in the list of
+directories specified by @code{path}.
 
 If no file is found, return an empty character string.
+
+When @var{file} is already an absolute name, the name is checked against the
+file system instead of Octave's loadpath.  In this case, if @var{file} exists
+it will be returned in @var{fname}, otherwise an empty string is returned.
 
 If the first argument is a cell array of strings, search each directory of
 the loadpath for element of the cell array and return the first that
@@ -15596,15 +16019,21 @@ No check is done for the existence of @var{file}.
 dir_in_loadpath
 @c dir_in_loadpath libinterp/corefcn/utils.cc
 -*- texinfo -*-
-@deftypefn  {} {} dir_in_loadpath (@var{dir})
-@deftypefnx {} {} dir_in_loadpath (@var{dir}, "all")
-Return the full name of the path element matching @var{dir}.
+@deftypefn  {} {@var{dirname} =} dir_in_loadpath (@var{dir})
+@deftypefnx {} {@var{dirname} =} dir_in_loadpath (@var{dir}, "all")
+Return the absolute name of the loadpath element matching @var{dir} if it can
+be found in the list of directories specified by @code{path}.
+
+If no match is found, return an empty character string.
 
 The match is performed at the end of each path element.  For example, if
 @var{dir} is @qcode{"foo/bar"}, it matches the path element
 @nospell{@qcode{"/some/dir/foo/bar"}}, but not
 @nospell{@qcode{"/some/dir/foo/bar/baz"}}
-@nospell{@qcode{"/some/dir/allfoo/bar"}}.
+@nospell{@qcode{"/some/dir/allfoo/bar"}}.  When @var{dir} is an absolute name,
+rather than just a path fragment, it is matched against the file system
+instead of Octave's loadpath.  In this case, if @var{dir} exists it will be
+returned in @var{dirname}, otherwise an empty string is returned.
 
 If the optional second argument is supplied, return a cell array containing
 all name matches rather than just the first.
@@ -15616,10 +16045,17 @@ all name matches rather than just the first.
 @deftypefn  {} {@var{err} =} errno ()
 @deftypefnx {} {@var{err} =} errno (@var{val})
 @deftypefnx {} {@var{err} =} errno (@var{name})
-Return the current value of the system-dependent variable errno,
-set its value to @var{val} and return the previous value, or return
-the named error code given @var{name} as a character string, or -1
-if @var{name} is not found.
+Query or set the system-dependent variable errno.
+
+When called with no inputs, return the current value of errno.
+
+When called with a numeric input @var{val}, set the current value of errno
+to the specified value.  The previous value of errno is returned as @var{err}.
+
+When called with a character string @var{name}, return the numeric value of
+errno which corresponds to the specified error code.  If @var{name} is not
+a recognized error code then -1 is returned.
+
 @seealso{errno_list}
 @end deftypefn
 errno_list
@@ -15678,8 +16114,8 @@ isglobal ("x")
 -*- texinfo -*-
 @deftypefn  {} {@var{c} =} exist (@var{name})
 @deftypefnx {} {@var{c} =} exist (@var{name}, @var{type})
-Check for the existence of @var{name} as a variable, function, file,
-directory, or class.
+Check for the existence of @var{name} as a variable, function, file, directory,
+or class.
 
 The return code @var{c} is one of
 
@@ -15688,9 +16124,8 @@ The return code @var{c} is one of
 @var{name} is a variable.
 
 @item 2
-@var{name} is an absolute filename, an ordinary file in Octave's
-@code{path}, or (after appending @samp{.m}) a function file in Octave's
-@code{path}.
+@var{name} is an absolute filename, an ordinary file in Octave's @code{path},
+or (after appending @samp{.m}) a function file in Octave's @code{path}.
 
 @item 3
 @var{name} is a @samp{.oct} or @samp{.mex} file in Octave's @code{path}.
@@ -15701,6 +16136,9 @@ The return code @var{c} is one of
 @item 7
 @var{name} is a directory.
 
+@item 8
+@var{name} is a class.  (Note: not currently implemented)
+
 @item 103
 @var{name} is a function not associated with a file (entered on the command
 line).
@@ -15709,8 +16147,8 @@ line).
 @var{name} does not exist.
 @end table
 
-If the optional argument @var{type} is supplied, check only for symbols of
-the specified type.  Valid types are
+If the optional argument @var{type} is supplied, check only for symbols of the
+specified type.  Valid types are
 
 @table @asis
 @item @qcode{"var"}
@@ -15735,14 +16173,13 @@ If no type is given, and there are multiple possible matches for name,
 variable, built-in function, oct-file, directory, file, class.
 
 @code{exist} returns 2 if a regular file called @var{name} is present in
-Octave's search path.  If you want information about other types of files
-not on the search path you should use some combination of the functions
-@code{file_in_path} and @code{stat} instead.
+Octave's search path.  For information about other types of files not on the
+search path use some combination of the functions @code{file_in_path} and
+@code{stat} instead.
 
 Programming Note: If @var{name} is implemented by a buggy .oct/.mex file,
-calling @var{exist} may cause Octave to crash.  To maintain high
-performance, Octave trusts .oct/.mex files instead of @nospell{sandboxing}
-them.
+calling @var{exist} may cause Octave to crash.  To maintain high performance,
+Octave trusts .oct/.mex files instead of @nospell{sandboxing} them.
 
 @seealso{file_in_loadpath, file_in_path, dir_in_loadpath, stat}
 @end deftypefn
@@ -16068,65 +16505,6 @@ component and a string describing the missing component.  The hook function
 should return an error message to be displayed.
 @seealso{missing_function_hook}
 @end deftypefn
-jit_failcnt
-@c jit_failcnt libinterp/corefcn/pt-jit.cc
--*- texinfo -*-
-@deftypefn  {} {@var{val} =} jit_failcnt ()
-@deftypefnx {} {@var{old_val} =} jit_failcnt (@var{new_val})
-@deftypefnx {} {} jit_failcnt (@var{new_val}, "local")
-Query or set the internal variable that counts the number of JIT fail
-exceptions for Octave's JIT compiler.
-
-When called from inside a function with the @qcode{"local"} option, the
-variable is changed locally for the function and any subroutines it calls.
-The original variable value is restored when exiting the function.
-@seealso{jit_enable, jit_startcnt, debug_jit}
-@end deftypefn
-debug_jit
-@c debug_jit libinterp/corefcn/pt-jit.cc
--*- texinfo -*-
-@deftypefn  {} {@var{val} =} debug_jit ()
-@deftypefnx {} {@var{old_val} =} debug_jit (@var{new_val})
-@deftypefnx {} {} debug_jit (@var{new_val}, "local")
-Query or set the internal variable that determines whether
-debugging/tracing is enabled for Octave's JIT compiler.
-
-When called from inside a function with the @qcode{"local"} option, the
-variable is changed locally for the function and any subroutines it calls.
-The original variable value is restored when exiting the function.
-@seealso{jit_enable, jit_startcnt}
-@end deftypefn
-jit_enable
-@c jit_enable libinterp/corefcn/pt-jit.cc
--*- texinfo -*-
-@deftypefn  {} {@var{val} =} jit_enable ()
-@deftypefnx {} {@var{old_val} =} jit_enable (@var{new_val})
-@deftypefnx {} {} jit_enable (@var{new_val}, "local")
-Query or set the internal variable that enables Octave's JIT compiler.
-
-When called from inside a function with the @qcode{"local"} option, the
-variable is changed locally for the function and any subroutines it calls.
-The original variable value is restored when exiting the function.
-@seealso{jit_startcnt, debug_jit}
-@end deftypefn
-jit_startcnt
-@c jit_startcnt libinterp/corefcn/pt-jit.cc
--*- texinfo -*-
-@deftypefn  {} {@var{val} =} jit_startcnt ()
-@deftypefnx {} {@var{old_val} =} jit_startcnt (@var{new_val})
-@deftypefnx {} {} jit_startcnt (@var{new_val}, "local")
-Query or set the internal variable that determines whether JIT compilation
-will take place for a specific loop.
-
-Because compilation is a costly operation it does not make sense to employ
-JIT when the loop count is low.  By default only loops with greater than
-1000 iterations will be accelerated.
-
-When called from inside a function with the @qcode{"local"} option, the
-variable is changed locally for the function and any subroutines it calls.
-The original variable value is restored when exiting the function.
-@seealso{jit_enable, jit_failcnt, debug_jit}
-@end deftypefn
 autoload
 @c autoload libinterp/parse-tree/oct-parse.in.yy
 -*- texinfo -*-
@@ -16434,6 +16812,12 @@ Undocumented internal function.
 @deftypefn {} {@var{gnuplot_available} =} __have_gnuplot__ ()
 Undocumented internal function.
 @end deftypefn
+__ode15__
+@c __ode15__ libinterp/dldfcn/__ode15__.cc
+-*- texinfo -*-
+@deftypefn {} {@var{t}, @var{y} =} __ode15__ (@var{fun}, @var{tspan}, @var{y0}, @var{yp0}, @var{options})
+Undocumented internal function.
+@end deftypefn
 __osmesa_print__
 @c __osmesa_print__ libinterp/dldfcn/__osmesa_print__.cc
 -*- texinfo -*-
@@ -16504,8 +16888,7 @@ absorption.  The default is not to perform aggressive absorption.
 @end table
 
 The author of the code itself is Timothy A. Davis
-@email{davis@@cise.ufl.edu}, University of Florida
-(see @url{http://www.cise.ufl.edu/research/sparse/amd}).
+(see @url{http://faculty.cse.tamu.edu/davis/suitesparse.html}).
 @seealso{symamd, colamd}
 @end deftypefn
 audiodevinfo
@@ -16528,7 +16911,9 @@ fields @qcode{"Name"}, @nospell{"DriverVersion"} and @qcode{"ID"}
 describing an audio device.
 
 If the optional argument @var{io} is 1, return information about input
-devices only.  If it is 0, return information about output devices only.
+devices only.  If it is 0, return information about output devices
+only.  If @var{io} is the only argument supplied, return the number of
+input or output devices available.
 
 If the optional argument @var{id} is provided, return information about
 the corresponding device.
@@ -16554,7 +16939,7 @@ Undocumented internal function.
 __recorder_getaudiodata__
 @c __recorder_getaudiodata__ libinterp/dldfcn/audiodevinfo.cc
 -*- texinfo -*-
-@deftypefn {} {@var{data}} __recorder_getaudiodata__ (@var{recorder})
+@deftypefn {} {@var{data} =} __recorder_getaudiodata__ (@var{recorder})
 Undocumented internal function.
 @end deftypefn
 __recorder_get_channels__
@@ -16794,6 +17179,7 @@ and ending frames.
 The optional argument @var{datatype} specifies the datatype to return.
 If it is @qcode{"native"}, then the type of data depends on how the data
 is stored in the audio file.
+@seealso{audiowrite, audioformats, audioinfo}
 @end deftypefn
 audiowrite
 @c audiowrite libinterp/dldfcn/audioread.cc
@@ -16828,12 +17214,52 @@ Artist name.
 @item Comment
 Comment.
 @end table
+@seealso{audioread, audioformats, audioinfo}
 @end deftypefn
 audioinfo
 @c audioinfo libinterp/dldfcn/audioread.cc
 -*- texinfo -*-
 @deftypefn {} {@var{info} =} audioinfo (@var{filename})
 Return information about an audio file specified by @var{filename}.
+
+The output @var{info} is a structure containing the following fields:
+
+@table @samp
+@item Filename
+Name of the audio file.
+
+@item CompressionMethod
+Audio compression method.  Unused, only present for compatibility with
+@sc{matlab}.
+
+@item NumChannels
+Number of audio channels.
+
+@item SampleRate
+Sample rate of the audio, in Hertz.
+
+@item TotalSamples
+Number of samples in the file.
+
+@item Duration
+Duration of the audio, in seconds.
+
+@item BitsPerSample
+Number of bits per sample.
+
+@item BitRate
+Audio bit rate.  Unused, only present for compatibility with @sc{matlab}.
+
+@item Title
+@qcode{"Title"} audio metadata value as a string, or empty if not present.
+
+@item Artist
+@qcode{"Artist"} audio metadata value as a string, or empty if not present.
+
+@item Comment
+@qcode{"Comment"} audio metadata value as a string, or empty if not present.
+@end table
+@seealso{audioread, audiowrite}
 @end deftypefn
 audioformats
 @c audioformats libinterp/dldfcn/audioread.cc
@@ -16844,6 +17270,7 @@ Display information about all supported audio formats.
 
 If the optional argument @var{format} is given, then display only formats
 with names that start with @var{format}.
+@seealso{audioread, audiowrite}
 @end deftypefn
 ccolamd
 @c ccolamd libinterp/dldfcn/ccolamd.cc
@@ -16928,13 +17355,13 @@ such row index exists.  @code{@var{stats}(7)} is the number of duplicate
 or out-of-order row indices.  @code{@var{stats}(8 : 20)} is always zero in
 the current version of @sc{ccolamd} (reserved for future use).
 
-The authors of the code itself are @nospell{S. Larimore, T. Davis}
-(Univ. of Florida) and @nospell{S. Rajamanickam} in collaboration with
-@nospell{J. Bilbert and E. Ng}.  Supported by the National Science Foundation
+The authors of the code itself are @nospell{S. Larimore, T. Davis} and
+@nospell{S. Rajamanickam} in collaboration with @nospell{J. Bilbert and E. Ng}.
+Supported by the National Science Foundation
 @nospell{(DMS-9504974, DMS-9803599, CCR-0203270)}, and a grant from
 @nospell{Sandia} National Lab.
-See @url{http://www.cise.ufl.edu/research/sparse} for
-ccolamd, csymamd, amd, colamd, symamd, and other related orderings.
+See @url{http://faculty.cse.tamu.edu/davis/suitesparse.html} for ccolamd,
+csymamd, amd, colamd, symamd, and other related orderings.
 @seealso{colamd, csymamd}
 @end deftypefn
 csymamd
@@ -16994,13 +17421,13 @@ such row index exists.  @code{@var{stats}(7)} is the number of duplicate
 or out-of-order row indices.  @code{@var{stats}(8:20)} is always zero in
 the current version of @sc{ccolamd} (reserved for future use).
 
-The authors of the code itself are @nospell{S. Larimore, T. Davis}
-(Univ. of Florida) and @nospell{S. Rajamanickam} in collaboration with
-@nospell{J. Bilbert and E. Ng}.  Supported by the National Science Foundation
+The authors of the code itself are @nospell{S. Larimore, T. Davis} and
+@nospell{S. Rajamanickam} in collaboration with @nospell{J. Bilbert and E. Ng}.
+Supported by the National Science Foundation
 @nospell{(DMS-9504974, DMS-9803599, CCR-0203270)}, and a grant from
 @nospell{Sandia} National Lab.
-See @url{http://www.cise.ufl.edu/research/sparse} for
-ccolamd, csymamd, amd, colamd, symamd, and other related orderings.
+See @url{http://faculty.cse.tamu.edu/davis/suitesparse.html} for ccolamd,
+colamd, csymamd, amd, colamd, symamd, and other related orderings.
 @seealso{symamd, ccolamd}
 @end deftypefn
 chol
@@ -17145,6 +17572,8 @@ If @var{info} is not present, an error message is printed in cases 1 and 2.
 -*- texinfo -*-
 @deftypefn  {} {@var{R1} =} cholinsert (@var{R}, @var{j}, @var{u})
 @deftypefnx {} {[@var{R1}, @var{info}] =} cholinsert (@var{R}, @var{j}, @var{u})
+Update a Cholesky factorization given a row or column to insert in the original factored matrix.
+
 Given a Cholesky@tie{}factorization of a real symmetric or complex Hermitian
 positive definite matrix @w{@var{A} = @var{R}'*@var{R}}, @var{R}@tie{}upper
 triangular, return the Cholesky@tie{}factorization of
@@ -17168,6 +17597,8 @@ If @var{info} is not present, an error message is printed in cases 1 and 2.
 @c choldelete libinterp/dldfcn/chol.cc
 -*- texinfo -*-
 @deftypefn {} {@var{R1} =} choldelete (@var{R}, @var{j})
+Update a Cholesky factorization given a row or column to delete from the original factored matrix.
+
 Given a Cholesky@tie{}factorization of a real symmetric or complex Hermitian
 positive definite matrix @w{@var{A} = @var{R}'*@var{R}}, @var{R}@tie{}upper
 triangular, return the Cholesky@tie{}factorization of @w{A(p,p)}, where
@@ -17178,6 +17609,8 @@ triangular, return the Cholesky@tie{}factorization of @w{A(p,p)}, where
 @c cholshift libinterp/dldfcn/chol.cc
 -*- texinfo -*-
 @deftypefn {} {@var{R1} =} cholshift (@var{R}, @var{i}, @var{j})
+Update a Cholesky factorization given a range of columns to shift in the original factored matrix.
+
 Given a Cholesky@tie{}factorization of a real symmetric or complex Hermitian
 positive definite matrix @w{@var{A} = @var{R}'*@var{R}}, @var{R}@tie{}upper
 triangular, return the Cholesky@tie{}factorization of
@@ -17253,9 +17686,9 @@ the current version of @sc{colamd} (reserved for future use).
 The ordering is followed by a column elimination tree post-ordering.
 
 The authors of the code itself are @nospell{Stefan I. Larimore} and
-@nospell{Timothy A. Davis @email{davis@@cise.ufl.edu}}, University of Florida.  The algorithm was developed in collaboration with @nospell{John Gilbert},
-Xerox PARC, and @nospell{Esmond Ng}, Oak Ridge National Laboratory.  (see
-@url{http://www.cise.ufl.edu/research/sparse/colamd})
+@nospell{Timothy A. Davis}.  The algorithm was developed in collaboration with
+@nospell{John Gilbert}, Xerox PARC, and @nospell{Esmond Ng}, Oak Ridge National
+Laboratory.  (see @url{http://faculty.cse.tamu.edu/davis/suitesparse.html})
 @seealso{colperm, symamd, ccolamd}
 @end deftypefn
 symamd
@@ -17318,9 +17751,9 @@ always zero in the current version of SYMAMD (reserved for future use).
 The ordering is followed by a column elimination tree post-ordering.
 
 The authors of the code itself are @nospell{Stefan I. Larimore} and
-@nospell{Timothy A. Davis @email{davis@@cise.ufl.edu}}, University of Florida.  The algorithm was developed in collaboration with @nospell{John Gilbert},
-Xerox PARC, and @nospell{Esmond Ng}, Oak Ridge National Laboratory.  (see
-@url{http://www.cise.ufl.edu/research/sparse/colamd})
+@nospell{Timothy A. Davis}.  The algorithm was developed in collaboration with
+@nospell{John Gilbert}, Xerox PARC, and @nospell{Esmond Ng}, Oak Ridge National
+Laboratory.  (see @url{http://faculty.cse.tamu.edu/davis/suitesparse.html})
 @seealso{colperm, colamd}
 @end deftypefn
 etree
@@ -17382,7 +17815,7 @@ convex hull is calculated.
 @deftypefn  {} {@var{p} =} dmperm (@var{S})
 @deftypefnx {} {[@var{p}, @var{q}, @var{r}, @var{S}] =} dmperm (@var{S})
 
-@cindex Dulmage-Mendelsohn decomposition
+@cindex @nospell{Dulmage-Mendelsohn} decomposition
 Perform a @nospell{Dulmage-Mendelsohn} permutation of the sparse matrix
 @var{S}.
 
@@ -17397,7 +17830,7 @@ of the blocks.  If @var{S} is square then @code{@var{r} == @var{S}}.
 
 The method used is described in: @nospell{A. Pothen & C.-J. Fan.}
 @cite{Computing the Block Triangular Form of a Sparse Matrix}.
-ACM Trans. Math. Software, 16(4):303-324, 1990.
+@nospell{ACM} Trans. Math. Software, 16(4):303-324, 1990.
 @seealso{colamd, ccolamd}
 @end deftypefn
 sprank
@@ -17567,23 +18000,29 @@ The optional output @var{filelist} is a list of the compressed files.
 @c qr libinterp/dldfcn/qr.cc
 -*- texinfo -*-
 @deftypefn  {} {[@var{Q}, @var{R}] =} qr (@var{A})
-@deftypefnx {} {[@var{Q}, @var{R}, @var{P}] =} qr (@var{A}) # non-sparse A
-@deftypefnx {} {@var{X} =} qr (@var{A})
-@deftypefnx {} {@var{R} =} qr (@var{A}) # sparse A
+@deftypefnx {} {[@var{Q}, @var{R}, @var{P}] =} qr (@var{A})  # non-sparse A
+@deftypefnx {} {@var{X} =} qr (@var{A})  # non-sparse A
+@deftypefnx {} {@var{R} =} qr (@var{A})  # sparse A
 @deftypefnx {} {[@var{C}, @var{R}] =} qr (@var{A}, @var{B})
 @deftypefnx {} {[@dots{}] =} qr (@dots{}, 0)
-@deftypefnx {} {[@dots{}] =} qr (@dots{}, 'vector')
-@deftypefnx {} {[@dots{}] =} qr (@dots{}, 'matrix')
+@deftypefnx {} {[@dots{}] =} qr (@dots{}, "vector")
+@deftypefnx {} {[@dots{}] =} qr (@dots{}, "matrix")
 @cindex QR factorization
 Compute the QR@tie{}factorization of @var{A}, using standard @sc{lapack}
 subroutines.
+
 The QR@tie{}factorization is
 @tex
 $QR = A$ where $Q$ is an orthogonal matrix and $R$ is upper triangular.
 @end tex
 @ifnottex
-@code{@var{Q} * @var{R} = @var{A}} where @var{Q} is an orthogonal matrix and
-@var{R} is upper triangular.
+
+@example
+@var{Q} * @var{R} = @var{A}
+@end example
+
+@noindent
+where @var{Q} is an orthogonal matrix and @var{R} is upper triangular.
 @end ifnottex
 
 For example, given the matrix @code{@var{A} = [1, 2; 3, 4]},
@@ -17609,41 +18048,45 @@ returns
 @end group
 @end example
 
-The @code{qr} factorization has applications in the solution of least
-squares problems
+@noindent
+which multiplied together return the original matrix
+
+@example
+@group
+@var{Q} * @var{R}
+  @result{}
+     1.0000   2.0000
+     3.0000   4.0000
+@end group
+@end example
+
+If just a single return value is requested then it is either @var{R}, if
+@var{A} is sparse, or @var{X}, such that @code{@var{R} = triu (@var{X})} if
+@var{A} is full.  (Note: unlike most commands, the single return value is not
+the first return value when multiple values are requested.)
+
+If the matrix @var{A} is full, and a third output @var{P} is requested, then
+@code{qr} calculates the permuted QR@tie{}factorization
 @tex
-$$
-\min_x \left\Vert A x - b \right\Vert_2
-$$
+$QR = AP$ where $Q$ is an orthogonal matrix, $R$ is upper triangular, and $P$
+is a permutation matrix.
 @end tex
 @ifnottex
 
 @example
-min norm(A x - b)
+@var{Q} * @var{R} = @var{A} * @var{P}
 @end example
 
+@noindent
+where @var{Q} is an orthogonal matrix, @var{R} is upper triangular, and
+@var{P} is a permutation matrix.
 @end ifnottex
-for overdetermined systems of equations (i.e.,
-@tex
-$A$
-@end tex
-@ifnottex
-@var{A}
-@end ifnottex
-is a tall, thin matrix).
 
-If only a single return value is requested, then it is either @var{R} if
-@var{A} is sparse, or @var{X} such that @code{@var{R} = triu (@var{X})} if
-@var{A} is full.
-(Note: Unlike most commands, the single return value is not
-the first return value when multiple are requested.)
+The permuted QR@tie{}factorization has the additional property that the
+diagonal entries of @var{R} are ordered by decreasing magnitude.  In other
+words, @code{abs (diag (@var{R}))} will be ordered from largest to smallest.
 
-
-If the matrix @var{A} is full, the permuted QR@tie{}factorization
-@code{[@var{Q}, @var{R}, @var{P}] = qr (@var{A})} forms the
-QR@tie{}factorization such that the diagonal entries of @var{R} are
-decreasing in magnitude order.  For example, given the matrix
-@code{a = [1, 2; 3, 4]},
+For example, given the matrix @code{@var{A} = [1, 2; 3, 4]},
 
 @example
 [@var{Q}, @var{R}, @var{P}] = qr (@var{A})
@@ -17671,38 +18114,69 @@ returns
 @end group
 @end example
 
-The permuted @code{qr} factorization
-@code{[@var{Q}, @var{R}, @var{P}] = qr (@var{A})} factorization allows the
-construction of an orthogonal basis of @code{span (A)}.
-
-If the matrix @var{A} is sparse, then the sparse QR@tie{}factorization
-of @var{A} is computed using @sc{CSparse}.
-As the matrix @var{Q} is in general a full matrix,
-it is recommended to request only one return value,
-which is the @var{Q}-less factorization @var{R} of @var{A}, such that
-@code{@var{R} = chol (@var{A}' * @var{A})}.
+If the input matrix @var{A} is sparse then the sparse QR@tie{}factorization
+is computed using @sc{CSparse}.  Because the matrix @var{Q} is, in general, a
+full matrix, it is recommended to request only one return value @var{R}.  In
+that case, the computation avoids the construction of @var{Q} and returns
+@var{R} such that @code{@var{R} = chol (@var{A}' * @var{A})}.
 
 If an additional matrix @var{B} is supplied and two return values are
-requested, then @code{qr} returns
-@var{C}, where @code{@var{C} = @var{Q}' * @var{B}}.  This allows the
-least squares approximation of @code{@var{A} \ @var{B}} to be calculated
-as
+requested, then @code{qr} returns @var{C}, where
+@code{@var{C} = @var{Q}' * @var{B}}.  This allows the least squares
+approximation of @code{@var{A} \ @var{B}} to be calculated as
 
 @example
 @group
 [@var{C}, @var{R}] = qr (@var{A}, @var{B})
-x = @var{R} \ @var{C}
+@var{x} = @var{R} \ @var{C}
 @end group
 @end example
 
-If the final argument is the scalar 0 and the number of rows is larger
-than the number of columns, then an @qcode{"economy"} factorization is
-returned, omitting zeroes of @var{R} and the corresponding columns of @var{Q}.
-That is, @var{R} will have only @code{size (@var{A},1)} rows.  In this case,
-@var{P} is a vector rather than a matrix.
-
 If the final argument is the string @qcode{"vector"} then @var{P} is a
-permutation vector instead of a permutation matrix.
+permutation vector (of the columns of @var{A}) instead of a permutation matrix.
+In this case, the defining relationship is
+
+@example
+@var{Q} * @var{R} = @var{A}(:, @var{P})
+@end example
+
+The default, however, is to return a permutation matrix and this may be
+explicitly specified by using a final argument of @qcode{"matrix"}.
+
+If the final argument is the scalar 0 an @qcode{"economy"} factorization is
+returned.  When the original matrix @var{A} has size MxN and M > N then the
+@qcode{"economy"} factorization will calculate just N rows in @var{R} and N
+columns in @var{Q} and omit the zeros in @var{R}.  If M @leq{} N there is no
+difference between the economy and standard factorizations.  When calculating
+an @qcode{"economy"} factorization the output @var{P} is always a vector
+rather than a matrix.
+
+Background: The QR factorization has applications in the solution of least
+squares problems
+@tex
+$$
+\min_x \left\Vert A x - b \right\Vert_2
+$$
+@end tex
+@ifnottex
+
+@example
+min norm (A*x - b)
+@end example
+
+@end ifnottex
+for overdetermined systems of equations (i.e.,
+@tex
+$A$
+@end tex
+@ifnottex
+@var{A}
+@end ifnottex
+is a tall, thin matrix).
+
+The permuted QR@tie{}factorization
+@code{[@var{Q}, @var{R}, @var{P}] = qr (@var{A})} allows the construction of an
+orthogonal basis of @code{span (A)}.
 
 @seealso{chol, hess, lu, qz, schur, svd, qrupdate, qrinsert, qrdelete, qrshift}
 @end deftypefn
@@ -17710,6 +18184,8 @@ permutation vector instead of a permutation matrix.
 @c qrupdate libinterp/dldfcn/qr.cc
 -*- texinfo -*-
 @deftypefn {} {[@var{Q1}, @var{R1}] =} qrupdate (@var{Q}, @var{R}, @var{u}, @var{v})
+Update a QR factorization given update vectors or matrices.
+
 Given a QR@tie{}factorization of a real or complex matrix
 @w{@var{A} = @var{Q}*@var{R}}, @var{Q}@tie{}unitary and
 @var{R}@tie{}upper trapezoidal, return the QR@tie{}factorization of
@@ -17728,6 +18204,9 @@ economized (R is square).
 @c qrinsert libinterp/dldfcn/qr.cc
 -*- texinfo -*-
 @deftypefn {} {[@var{Q1}, @var{R1}] =} qrinsert (@var{Q}, @var{R}, @var{j}, @var{x}, @var{orient})
+Update a QR factorization given a row or column to insert in the original factored matrix.
+
+
 Given a QR@tie{}factorization of a real or complex matrix
 @w{@var{A} = @var{Q}*@var{R}}, @var{Q}@tie{}unitary and
 @var{R}@tie{}upper trapezoidal, return the QR@tie{}factorization of
@@ -17754,6 +18233,8 @@ If @var{orient} is @qcode{"row"}, full factorization is needed.
 @c qrdelete libinterp/dldfcn/qr.cc
 -*- texinfo -*-
 @deftypefn {} {[@var{Q1}, @var{R1}] =} qrdelete (@var{Q}, @var{R}, @var{j}, @var{orient})
+Update a QR factorization given a row or column to delete from the original factored matrix.
+
 Given a QR@tie{}factorization of a real or complex matrix
 @w{@var{A} = @var{Q}*@var{R}}, @var{Q}@tie{}unitary and
 @var{R}@tie{}upper trapezoidal, return the QR@tie{}factorization of
@@ -17780,6 +18261,8 @@ If @var{orient} is @qcode{"row"}, full factorization is needed.
 @c qrshift libinterp/dldfcn/qr.cc
 -*- texinfo -*-
 @deftypefn {} {[@var{Q1}, @var{R1}] =} qrshift (@var{Q}, @var{R}, @var{i}, @var{j})
+Update a QR factorization given a range of columns to shift in the original factored matrix.
+
 Given a QR@tie{}factorization of a real or complex matrix
 @w{@var{A} = @var{Q}*@var{R}}, @var{Q}@tie{}unitary and
 @var{R}@tie{}upper trapezoidal, return the QR@tie{}factorization
@@ -17869,8 +18352,9 @@ The algorithm represents a heuristic approach to the NP-complete bandwidth
 minimization problem.  The implementation is based in the descriptions found
 in
 
-@nospell{E. Cuthill, J. McKee}. @cite{Reducing the Bandwidth of Sparse
-Symmetric Matrices}. Proceedings of the 24th ACM National Conference,
+@nospell{E. Cuthill, J. McKee}.
+@cite{Reducing the Bandwidth of Sparse Symmetric Matrices}.
+Proceedings of the 24th @nospell{ACM} National Conference,
 157--172 1969, Brandon Press, New Jersey.
 
 @nospell{A. George, J.W.H. Liu}. @cite{Computer Solution of Large Sparse
@@ -17985,7 +18469,7 @@ and after @code{%@}}.  It is possible to nest block comments.
 @deftypefn {} {} ...
 Continuation marker.
 
-Joins current line with following line.
+Joins current line with following line before parsing.
 @end deftypefn
 &
 @c libinterp/parse-tree/oct-parse.in.yy
@@ -18159,6 +18643,9 @@ Element by element left division operator.
 -*- texinfo -*-
 @deftypefn {} {} \
 Left division operator.
+
+Within double-quoted strings, @samp{\} is the line continuation marker used
+to join the current line with the following line.
 @seealso{.\\, /, ldivide, mldivide}
 @end deftypefn
 :
@@ -18242,6 +18729,26 @@ Element by element logical 'or' operator.
 @deftypefn {} {} ||
 Logical 'or' (with short-circuit evaluation) operator.
 @seealso{|, or}
+@end deftypefn
+@
+@c libinterp/parse-tree/oct-parse.in.yy
+-*- texinfo -*-
+@deftypefn {} {} @@
+Return handle to a function.
+
+Example:
+
+@example
+@group
+f = @@plus;
+f (2, 2)
+@result{}  4
+@end group
+@end example
+
+(Note: @@ also finds use in creating classes.  See manual chapter titled
+Object Oriented Programming for detailed description.)
+@seealso{function, functions, func2str, str2func}
 @end deftypefn
 break
 @c libinterp/parse-tree/oct-parse.in.yy
@@ -18438,11 +18945,17 @@ endfor
 function
 @c libinterp/parse-tree/oct-parse.in.yy
 -*- texinfo -*-
-@deftypefn  {} {} function @var{outputs} = function (@var{input}, @dots{})
-@deftypefnx {} {} function {} function (@var{input}, @dots{})
-@deftypefnx {} {} function @var{outputs} = function
-Begin a function body with @var{outputs} as results and @var{inputs} as
-parameters.
+@deftypefn  {} {} function @var{outputs} = function_name (@var{input}, @dots{})
+@deftypefnx {} {} function {} function_name (@var{input}, @dots{})
+@deftypefnx {} {} function @var{outputs} = function_name
+Begin a function body with name @code{function_name}, with @var{outputs} as
+results, and with @var{inputs} as parameters.  The function can later be
+invoked in Octave using the syntax
+
+@example
+[@var{output1}, @var{output2}, @dots{}] = function_name (@var{input1}, @var{input2}, @dots{})
+@end example
+
 @seealso{return}
 @end deftypefn
 global
@@ -18484,14 +18997,14 @@ endif
 @end example
 @seealso{switch}
 @end deftypefn
-## FIXME: Can't have duplicate DOCSTRING entries.  The function methods
-##        already has a docstring which overrides this keyword definition.
-#methods
-#@c libinterp/parse-tree/oct-parse.in.yy
-#-*- texinfo -*-
-#@deftypefn {} {} methods
-#Begin a methods block in a classdef definition.
-#@end deftypefn
+@c ## FIXME: Can't have duplicate DOCSTRING entries.  The function methods
+@c ##        already has a docstring which overrides this keyword definition.
+@c #methods
+@c #@c libinterp/parse-tree/oct-parse.in.yy
+@c #-*- texinfo -*-
+@c #@deftypefn {} {} methods
+@c #Begin a methods block in a classdef definition.
+@c #@end deftypefn
 otherwise
 @c libinterp/parse-tree/oct-parse.in.yy
 -*- texinfo -*-
@@ -18599,7 +19112,7 @@ If an error occurs within the first part of an unwind_protect block the
 commands within the unwind_protect_cleanup block are executed before the error
 is thrown.  If an error is not thrown, then the unwind_protect_cleanup block is
 still executed.  In other words, the unwind_protect_cleanup code is guaranteed
-to execute regardless of success or failure in the unwind_protect block. 
+to execute regardless of success or failure in the unwind_protect block.
 @seealso{unwind_protect_cleanup, try}
 @end deftypefn
 unwind_protect_cleanup

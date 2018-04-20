@@ -75,7 +75,7 @@ objective function
 (<code>Fto_max = -Fto_min</code>).
 </p>
 <a name="XREFfminbnd"></a><dl>
-<dt><a name="index-fminbnd"></a>: <em>[<var>x</var>, <var>fval</var>, <var>info</var>, <var>output</var>] =</em> <strong>fminbnd</strong> <em>(<var>fun</var>, <var>a</var>, <var>b</var>, <var>options</var>)</em></dt>
+<dt><a name="index-fminbnd"></a><em>[<var>x</var>, <var>fval</var>, <var>info</var>, <var>output</var>] =</em> <strong>fminbnd</strong> <em>(<var>fun</var>, <var>a</var>, <var>b</var>, <var>options</var>)</em></dt>
 <dd><p>Find a minimum point of a univariate function.
 </p>
 <p><var>fun</var> should be a function handle or name.  <var>a</var>, <var>b</var> specify a
@@ -112,9 +112,9 @@ Golden Section search strategy.
 
 
 <a name="XREFfminunc"></a><dl>
-<dt><a name="index-fminunc"></a>: <em></em> <strong>fminunc</strong> <em>(<var>fcn</var>, <var>x0</var>)</em></dt>
-<dt><a name="index-fminunc-1"></a>: <em></em> <strong>fminunc</strong> <em>(<var>fcn</var>, <var>x0</var>, <var>options</var>)</em></dt>
-<dt><a name="index-fminunc-2"></a>: <em>[<var>x</var>, <var>fval</var>, <var>info</var>, <var>output</var>, <var>grad</var>, <var>hess</var>] =</em> <strong>fminunc</strong> <em>(<var>fcn</var>, &hellip;)</em></dt>
+<dt><a name="index-fminunc"></a><em></em> <strong>fminunc</strong> <em>(<var>fcn</var>, <var>x0</var>)</em></dt>
+<dt><a name="index-fminunc-1"></a><em></em> <strong>fminunc</strong> <em>(<var>fcn</var>, <var>x0</var>, <var>options</var>)</em></dt>
+<dt><a name="index-fminunc-2"></a><em>[<var>x</var>, <var>fval</var>, <var>info</var>, <var>output</var>, <var>grad</var>, <var>hess</var>] =</em> <strong>fminunc</strong> <em>(<var>fcn</var>, &hellip;)</em></dt>
 <dd><p>Solve an unconstrained optimization problem defined by the function
 <var>fcn</var>.
 </p>
@@ -193,9 +193,10 @@ discontinuities it may be better to use a derivative-free algorithm such as
 
 
 <a name="XREFfminsearch"></a><dl>
-<dt><a name="index-fminsearch"></a>: <em><var>x</var> =</em> <strong>fminsearch</strong> <em>(<var>fun</var>, <var>x0</var>)</em></dt>
-<dt><a name="index-fminsearch-1"></a>: <em><var>x</var> =</em> <strong>fminsearch</strong> <em>(<var>fun</var>, <var>x0</var>, <var>options</var>)</em></dt>
-<dt><a name="index-fminsearch-2"></a>: <em>[<var>x</var>, <var>fval</var>] =</em> <strong>fminsearch</strong> <em>(&hellip;)</em></dt>
+<dt><a name="index-fminsearch"></a><em><var>x</var> =</em> <strong>fminsearch</strong> <em>(<var>fun</var>, <var>x0</var>)</em></dt>
+<dt><a name="index-fminsearch-1"></a><em><var>x</var> =</em> <strong>fminsearch</strong> <em>(<var>fun</var>, <var>x0</var>, <var>options</var>)</em></dt>
+<dt><a name="index-fminsearch-2"></a><em><var>x</var> =</em> <strong>fminsearch</strong> <em>(<var>fun</var>, <var>x0</var>, <var>options</var>, <var>fun_arg1</var>, <var>fun_arg2</var>, &hellip;)</em></dt>
+<dt><a name="index-fminsearch-3"></a><em>[<var>x</var>, <var>fval</var>, <var>exitflag</var>, <var>output</var>] =</em> <strong>fminsearch</strong> <em>(&hellip;)</em></dt>
 <dd>
 <p>Find a value of <var>x</var> which minimizes the function <var>fun</var>.
 </p>
@@ -206,21 +207,87 @@ which a gradient-based search such as <code>fminunc</code> fails.
 </p>
 <p>Options for the search are provided in the parameter <var>options</var> using the
 function <code>optimset</code>.  Currently, <code>fminsearch</code> accepts the options:
-<code>&quot;TolX&quot;</code>, <code>&quot;MaxFunEvals&quot;</code>, <code>&quot;MaxIter&quot;</code>, <code>&quot;Display&quot;</code>.
+<code>&quot;TolX&quot;</code>, <code>&quot;TolFun&quot;</code>, <code>&quot;MaxFunEvals&quot;</code>, <code>&quot;MaxIter&quot;</code>,
+<code>&quot;Display&quot;</code>, <code>&quot;FunValCheck&quot;</code>, and <code>&quot;OutputFcn&quot;</code>.
 For a description of these options, see <code>optimset</code>.
 </p>
-<p>On exit, the function returns <var>x</var>, the minimum point, and <var>fval</var>,
-the function value thereof.
+<p>Additional inputs for the function <var>fun</var> can be passed as the fourth
+and higher arguments.  To pass function arguments while using the default
+<var>options</var> values, use <code>[]</code> for <var>options</var>.
 </p>
-<p>Example usages:
+<p>On exit, the function returns <var>x</var>, the minimum point, and <var>fval</var>,
+the function value at the minimum.
+</p>
+<p>The third return value <var>exitflag</var> is
+</p>
+<dl compact="compact">
+<dt>1</dt>
+<dd><p>if the algorithm converged
+(size of the simplex is smaller than <code><var>options</var>.TolX</code> <strong>AND</strong>
+the step in the function value between iterations is smaller than
+<code><var>options</var>.TolFun</code>).
+</p>
+</dd>
+<dt>0</dt>
+<dd><p>if the maximum number of iterations or the maximum number of function
+evaluations are exceeded.
+</p>
+</dd>
+<dt>-1</dt>
+<dd><p>if the iteration is stopped by the <code>&quot;OutputFcn&quot;</code>.
+</p></dd>
+</dl>
+
+<p>The fourth return value is a structure <var>output</var> with the fields,
+<code>funcCount</code> containing the number of function calls to <var>fun</var>,
+<code>iterations</code> containing the number of iteration steps,
+<code>algorithm</code> with the name of the search algorithm (always:
+<code>&quot;Nelder-Mead simplex direct search&quot;</code>), and <code>message</code>
+with the exit message.
+</p>
+<p>Example:
 </p>
 <div class="example">
 <pre class="example">fminsearch (@(x) (x(1)-5).^2+(x(2)-8).^4, [0;0])
-
-fminsearch (inline (&quot;(x(1)-5).^2+(x(2)-8).^4&quot;, &quot;x&quot;), [0;0])
 </pre></div>
 
 <p><strong>See also:</strong> <a href="#XREFfminbnd">fminbnd</a>, <a href="#XREFfminunc">fminunc</a>, <a href="Linear-Least-Squares.html#XREFoptimset">optimset</a>.
+</p></dd></dl>
+
+
+<p>The function <code>humps</code> is a useful function for testing zero and
+extrema finding functions.
+</p>
+<a name="XREFhumps"></a><dl>
+<dt><a name="index-humps"></a><em><var>y</var> =</em> <strong>humps</strong> <em>(<var>x</var>)</em></dt>
+<dt><a name="index-humps-1"></a><em>[<var>x</var>, <var>y</var>] =</em> <strong>humps</strong> <em>(<var>x</var>)</em></dt>
+<dd><p>Evaluate a function with multiple minima, maxima, and zero crossings.
+</p>
+<p>The output <var>y</var> is the evaluation of the rational function:
+</p>
+
+<div class="example">
+<pre class="example">        1200*<var>x</var>^4 - 2880*<var>x</var>^3 + 2036*<var>x</var>^2 - 348*<var>x</var> - 88
+ <var>y</var> = - ---------------------------------------------
+         200*<var>x</var>^4 - 480*<var>x</var>^3 + 406*<var>x</var>^2 - 138*<var>x</var> + 17
+</pre></div>
+
+
+<p><var>x</var> may be a scalar, vector or array.  If <var>x</var> is omitted, the
+default range [0:0.05:1] is used.
+</p>
+<p>When called with two output arguments, [<var>x</var>, <var>y</var>], <var>x</var> will
+contain the input values, and <var>y</var> will contain the output from
+<code>humps</code>.
+</p>
+<p>Programming Notes: <code>humps</code> has two local maxima located near <var>x</var> =
+0.300 and 0.893, a local minimum near <var>x</var> = 0.637, and zeros near
+<var>x</var> = -0.132 and 1.300.  <code>humps</code> is a useful function for testing
+algorithms which find zeros or local minima and maxima.
+</p>
+<p>Try <code>demo humps</code> to see a plot of the <code>humps</code> function.
+</p>
+<p><strong>See also:</strong> <a href="Solvers.html#XREFfzero">fzero</a>, <a href="#XREFfminbnd">fminbnd</a>, <a href="#XREFfminunc">fminunc</a>, <a href="#XREFfminsearch">fminsearch</a>.
 </p></dd></dl>
 
 

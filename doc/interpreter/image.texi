@@ -1,22 +1,22 @@
 @c DO NOT EDIT!  Generated automatically by munge-texi.pl.
 
-@c Copyright (C) 1996-2017 John W. Eaton
+@c Copyright (C) 1996-2018 John W. Eaton
 @c
 @c This file is part of Octave.
 @c
-@c Octave is free software; you can redistribute it and/or modify it
-@c under the terms of the GNU General Public License as published by the
-@c Free Software Foundation; either version 3 of the License, or (at
-@c your option) any later version.
+@c Octave is free software: you can redistribute it and/or modify it
+@c under the terms of the GNU General Public License as published by
+@c the Free Software Foundation, either version 3 of the License, or
+@c (at your option) any later version.
 @c
-@c Octave is distributed in the hope that it will be useful, but WITHOUT
-@c ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-@c FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-@c for more details.
+@c Octave is distributed in the hope that it will be useful, but
+@c WITHOUT ANY WARRANTY; without even the implied warranty of
+@c MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+@c GNU General Public License for more details.
 @c
 @c You should have received a copy of the GNU General Public License
 @c along with Octave; see the file COPYING.  If not, see
-@c <http://www.gnu.org/licenses/>.
+@c <https://www.gnu.org/licenses/>.
 
 @node Image Processing
 @chapter Image Processing
@@ -215,7 +215,7 @@ matrix that could be expected when using @code{imread} with the option
 @end deftypefn
 
 
-@c IMAGE_PATH libinterp/corefcn/defaults.cc
+@c IMAGE_PATH libinterp/corefcn/environment.cc
 @anchor{XREFIMAGE_PATH}
 @deftypefn  {} {@var{val} =} IMAGE_PATH ()
 @deftypefnx {} {@var{old_val} =} IMAGE_PATH (@var{new_val})
@@ -227,7 +227,7 @@ When called from inside a function with the @qcode{"local"} option, the
 variable is changed locally for the function and any subroutines it calls.
 The original variable value is restored when exiting the function.
 
-@seealso{@ref{XREFEXEC_PATH,,EXEC_PATH}, @ref{XREFOCTAVE_HOME,,OCTAVE_HOME}}
+@seealso{@ref{XREFEXEC_PATH,,EXEC_PATH}, @ref{XREFOCTAVE_HOME,,OCTAVE_HOME}, @ref{XREFOCTAVE_EXEC_HOME,,OCTAVE_EXEC_HOME}}
 @end deftypefn
 
 
@@ -287,7 +287,7 @@ Units of image resolution.  Value is @qcode{"Inch"},
 @qcode{"Centimeter"}, or @qcode{"undefined"}.
 
 @item DelayTime
-Time in 1/100ths of a second (0 to 65535) which must expire before
+Time in @nospell{1/100ths} of a second (0 to 65535) which must expire before
 displaying the next image in an animated sequence.
 
 @item LoopCount
@@ -540,6 +540,9 @@ form is used which first calls @code{newplot} to prepare the graphic figure
 and axes.  When the only inputs to @code{image} are property/value pairs
 the Low-Level form is used which creates a new instance of an image object
 and inserts it in the current axes.
+
+Graphic Properties: The full list of properties is documented at
+@ref{Image Properties,,Image Properties}.
 @seealso{@ref{XREFimshow,,imshow}, @ref{XREFimagesc,,imagesc}, @ref{XREFcolormap,,colormap}}
 @end deftypefn
 
@@ -689,7 +692,7 @@ one of @code{uint8}, @code{uint16}, @code{single}, or @code{double}.
 
 Implementation Note: There are several ways of converting colors to
 grayscale intensities.  This functions uses the luminance value obtained
-from @code{rgb2ntsc} which is @code{I = 0.299*R + 0.587*G + 0.114*B}.
+from @code{rgb2gray} which is @code{I = 0.299*R + 0.587*G + 0.114*B}.
 Other possibilities include the value component from @code{rgb2hsv} or
 using a single color channel from @code{ind2rgb}.
 @seealso{@ref{XREFgray2ind,,gray2ind}, @ref{XREFind2rgb,,ind2rgb}}
@@ -717,7 +720,7 @@ Multi-dimensional indexed images (of size @nospell{MxNx3xK}) are also
 supported, both via a single input (@var{rgb}) or its three color channels
 as separate variables.
 
-@seealso{@ref{XREFind2rgb,,ind2rgb}, @ref{XREFrgb2hsv,,rgb2hsv}, @ref{XREFrgb2ntsc,,rgb2ntsc}}
+@seealso{@ref{XREFind2rgb,,ind2rgb}, @ref{XREFrgb2hsv,,rgb2hsv}, @ref{XREFrgb2gray,,rgb2gray}}
 @end deftypefn
 
 
@@ -740,24 +743,54 @@ color matrices of size @nospell{MxN} may be returned.
 Multi-dimensional indexed images (of size @nospell{MxNx1xK}) are also
 supported.
 
-@seealso{@ref{XREFrgb2ind,,rgb2ind}, @ref{XREFind2gray,,ind2gray}, @ref{XREFhsv2rgb,,hsv2rgb}, @ref{XREFntsc2rgb,,ntsc2rgb}}
+@seealso{@ref{XREFrgb2ind,,rgb2ind}, @ref{XREFind2gray,,ind2gray}, @ref{XREFhsv2rgb,,hsv2rgb}}
+@end deftypefn
+
+
+@c getframe scripts/image/getframe.m
+@anchor{XREFgetframe}
+@deftypefn  {} {@var{frame} =} getframe ()
+@deftypefnx {} {@var{frame} =} getframe (@var{hax})
+@deftypefnx {} {@var{frame} =} getframe (@var{hfig})
+@deftypefnx {} {@var{frame} =} getframe (@dots{}, @var{rect})
+
+Capture a figure or axes as a movie frame structure.
+
+Without an argument, capture the current axes excluding ticklabels, title,
+and x/y/zlabels.  The returned structure @var{frame} has a field
+@code{cdata}, which contains the actual image data in the form of an
+@nospell{NxMx3} (RGB) uint8 matrix, and a field @code{colormap} which is
+provided for @sc{matlab} compatibility but is always empty.
+
+If the first argument @var{hax} is an axes handle, then capture this axes,
+rather than the current axes returned by @code{gca}.
+
+If the first argument @var{hfig} is a figure handle then the entire
+corresponding figure canvas is captured.
+
+Finally, if a second argument @var{rect} is provided it must be a
+four-element vector ([left bottom width height]) defining the region inside
+the figure to be captured.  Regardless of the figure @qcode{"units"}
+property, @var{rect} must be defined in @strong{pixels}.
+
+@seealso{@ref{XREFim2frame,,im2frame}, @ref{XREFframe2im,,frame2im}}
 @end deftypefn
 
 
 @c frame2im scripts/image/frame2im.m
 @anchor{XREFframe2im}
-@deftypefn {} {[@var{x}, @var{map}] =} frame2im (@var{f})
+@deftypefn {} {[@var{x}, @var{map}] =} frame2im (@var{frame})
 Convert movie frame to indexed image.
 
 A movie frame is simply a struct with the fields @qcode{"cdata"} and
 @qcode{"colormap"}.
 
-Support for N-dimensional images or movies is given when @var{f} is a
+Support for N-dimensional images or movies is given when @var{frame} is a
 struct array.  In such cases, @var{x} will be a @nospell{MxNx1xK or MxNx3xK}
 for indexed and RGB movies respectively, with each frame concatenated
 along the 4th dimension.
 
-@seealso{@ref{XREFim2frame,,im2frame}}
+@seealso{@ref{XREFim2frame,,im2frame}, @ref{XREFgetframe,,getframe}}
 @end deftypefn
 
 
@@ -803,7 +836,7 @@ The map may also be specified by a string, @var{map_name}, which
 is the name of a function that returns a colormap.
 
 If the first argument @var{hax} is an axes handle, then the colormap for
-the parent figure of @var{hax} is queried or set.
+those axes is queried or set.
 
 For convenience, it is also possible to use this function with the
 command form, @code{colormap @var{map_name}}.
@@ -1228,20 +1261,34 @@ value of @var{inc} will cause faster cycling through the colormap.
 @deftypefn  {} {} whitebg ()
 @deftypefnx {} {} whitebg (@var{color})
 @deftypefnx {} {} whitebg ("none")
-@deftypefnx {} {} whitebg (@var{hfig}, @dots{})
+@deftypefnx {} {} whitebg (@var{hfig})
+@deftypefnx {} {} whitebg (@var{hfig}, @var{color})
+@deftypefnx {} {} whitebg (@var{hfig}, "none")
 Invert the colors in the current color scheme.
 
-The root properties are also inverted such that all subsequent plot use the
-new color scheme.
+The root properties are also inverted such that all subsequent plots will
+use the new color scheme.
 
 If the optional argument @var{color} is present then the background color
 is set to @var{color} rather than inverted.  @var{color} may be a string
 representing one of the eight known colors or an RGB triplet.  The special
-string argument @qcode{"none"} restores the plot to the default colors.
+string argument @qcode{"none"} restores the plot to the factory default
+colors.
 
-If the first argument @var{hfig} is a figure handle, then operate on
-this figure rather than the current figure returned by @code{gcf}.  The
-root properties will not be changed.
+If the first argument @var{hfig} is a figure handle or list of figure
+handles, then operate on these figures rather than the current figure
+returned by @code{gcf}.  The root properties will not be changed unless 0
+is in the list of figures.
+
+Programming Note: @code{whitebg} operates by changing the color properties
+of the children of the specified figures.  Only objects with a single color
+are affected.  For example, a patch with a single @qcode{"FaceColor"} will
+be changed, but a patch with shading (@qcode{"interp"}) will not be
+modified.  For inversion, the new color is simply the inversion in RGB
+space: @code{@var{cnew} = [1-@var{R} 1-@var{G} 1-@var{B}]}.  When a color
+is specified, the axes and figure are set to the new color, and the color
+of child objects are then adjusted to have some contrast (visibility)
+against the new background.
 @seealso{@ref{XREFreset,,reset}, @ref{XREFget,,get}, @ref{XREFset,,set}}
 @end deftypefn
 
@@ -1334,8 +1381,9 @@ hold ("off");
 @node Color Conversion
 @section Color Conversion
 
-Octave supports conversion from the RGB color system to NTSC and HSV
-and vice versa.
+Octave supports conversion from the RGB color system to the HSV color system
+and vice versa.  It is also possible to convert from a color RGB image to a
+grayscale image.
 
 @c rgb2hsv scripts/image/rgb2hsv.m
 @anchor{XREFrgb2hsv}
@@ -1353,7 +1401,7 @@ the height and is the amount of light in the color.
 
 Output class and size will be the same as input.
 
-@seealso{@ref{XREFhsv2rgb,,hsv2rgb}, @ref{XREFrgb2ind,,rgb2ind}, @ref{XREFrgb2ntsc,,rgb2ntsc}}
+@seealso{@ref{XREFhsv2rgb,,hsv2rgb}, @ref{XREFrgb2ind,,rgb2ind}, @ref{XREFrgb2gray,,rgb2gray}}
 @end deftypefn
 
 
@@ -1389,54 +1437,32 @@ of hue (azimuth), since the value corresponds to an angle,
 
 Output class and size will be the same as input.
 
-@seealso{@ref{XREFrgb2hsv,,rgb2hsv}, @ref{XREFind2rgb,,ind2rgb}, @ref{XREFntsc2rgb,,ntsc2rgb}}
+@seealso{@ref{XREFrgb2hsv,,rgb2hsv}, @ref{XREFind2rgb,,ind2rgb}}
 @end deftypefn
 
 
-@c rgb2ntsc scripts/image/rgb2ntsc.m
-@anchor{XREFrgb2ntsc}
-@deftypefn  {} {@var{yiq_map} =} rgb2ntsc (@var{rgb_map})
-@deftypefnx {} {@var{yiq_img} =} rgb2ntsc (@var{rgb_img})
-Transform a colormap or image from red-green-blue (RGB) color space to
-luminance-chrominance (NTSC) space.  The input may be of class uint8,
-uint16, single, or double.  The output is of class double.
+@c rgb2gray scripts/image/rgb2gray.m
+@anchor{XREFrgb2gray}
+@deftypefn  {} {@var{I} =} rgb2gray (@var{rgb_img})
+@deftypefnx {} {@var{gray_map} =} rgb2gray (@var{rgb_map})
+Transform an image or colormap from red-green-blue (RGB) color space to
+a grayscale intensity image.
+
+The input may be of class uint8, int8, uint16, int16, single, or double.
+The output is of the same class as the input.
 
 Implementation Note:
-The reference matrix for the transformation is
+The grayscale intensity is calculated as
 
 @example
 @group
-/Y\     0.299  0.587  0.114  /R\
-|I|  =  0.596 -0.274 -0.322  |G|
-\Q/     0.211 -0.523  0.312  \B/
+@var{I} = 0.298936*@var{R} + 0.587043*@var{G} + 0.114021*@var{B}
 @end group
 @end example
 
 @noindent
-as documented in @url{http://en.wikipedia.org/wiki/YIQ} and truncated to 3
-significant figures.  Note: The FCC version of NTSC uses only 2 significant
-digits and is slightly different.
-@seealso{@ref{XREFntsc2rgb,,ntsc2rgb}, @ref{XREFrgb2hsv,,rgb2hsv}, @ref{XREFrgb2ind,,rgb2ind}}
-@end deftypefn
-
-
-@c ntsc2rgb scripts/image/ntsc2rgb.m
-@anchor{XREFntsc2rgb}
-@deftypefn  {} {@var{rgb_map} =} ntsc2rgb (@var{yiq_map})
-@deftypefnx {} {@var{rgb_img} =} ntsc2rgb (@var{yiq_img})
-Transform a colormap or image from luminance-chrominance (NTSC) space to
-red-green-blue (RGB) color space.
-
-Implementation Note:
-The conversion matrix is chosen to be the inverse of the matrix used for
-rgb2ntsc such that
-
-@example
-x == ntsc2rgb (rgb2ntsc (x))
-@end example
-
-@sc{matlab} uses a slightly different matrix where rounding means the
-equality above does not hold.
-@seealso{@ref{XREFrgb2ntsc,,rgb2ntsc}, @ref{XREFhsv2rgb,,hsv2rgb}, @ref{XREFind2rgb,,ind2rgb}}
+which corresponds to the luminance channel when RGB is translated to
+@nospell{YIQ} as documented in @url{https://en.wikipedia.org/wiki/YIQ}.
+@seealso{@ref{XREFrgb2hsv,,rgb2hsv}, @ref{XREFrgb2ind,,rgb2ind}}
 @end deftypefn
 

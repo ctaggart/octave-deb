@@ -21,6 +21,196 @@ manual into another language, under the above conditions for modified
 versions.
 
 
+File: octave.info,  Node: Global Variables,  Next: Persistent Variables,  Up: Variables
+
+7.1 Global Variables
+====================
+
+A variable that has been declared “global” may be accessed from within a
+function body without having to pass it as a formal parameter.
+
+   A variable may be declared global using a ‘global’ declaration
+statement.  The following statements are all global declarations.
+
+     global a
+     global a b
+     global c = 2
+     global d = 3 e f = 5
+
+   A global variable may only be initialized once in a ‘global’
+statement.  For example, after executing the following code
+
+     global gvar = 1
+     global gvar = 2
+
+the value of the global variable ‘gvar’ is 1, not 2.  Issuing a ‘clear
+gvar’ command does not change the above behavior, but ‘clear all’ does.
+
+   It is necessary declare a variable as global within a function body
+in order to access it.  For example,
+
+     global x
+     function f ()
+       x = 1;
+     endfunction
+     f ()
+
+does _not_ set the value of the global variable ‘x’ to 1.  In order to
+change the value of the global variable ‘x’, you must also declare it to
+be global within the function body, like this
+
+     function f ()
+       global x;
+       x = 1;
+     endfunction
+
+   Passing a global variable in a function parameter list will make a
+local copy and not modify the global value.  For example, given the
+function
+
+     function f (x)
+       x = 0
+     endfunction
+
+and the definition of ‘x’ as a global variable at the top level,
+
+     global x = 13
+
+the expression
+
+     f (x)
+
+will display the value of ‘x’ from inside the function as 0, but the
+value of ‘x’ at the top level remains unchanged, because the function
+works with a _copy_ of its argument.
+
+ -- : isglobal (NAME)
+     Return true if NAME is a globally visible variable.
+
+     For example:
+
+          global x
+          isglobal ("x")
+             ⇒ 1
+
+     See also: *note isvarname: XREFisvarname, *note exist: XREFexist.
+
+
+File: octave.info,  Node: Persistent Variables,  Next: Status of Variables,  Prev: Global Variables,  Up: Variables
+
+7.2 Persistent Variables
+========================
+
+A variable that has been declared “persistent” within a function will
+retain its contents in memory between subsequent calls to the same
+function.  The difference between persistent variables and global
+variables is that persistent variables are local in scope to a
+particular function and are not visible elsewhere.
+
+   The following example uses a persistent variable to create a function
+that prints the number of times it has been called.
+
+     function count_calls ()
+       persistent calls = 0;
+       printf ("'count_calls' has been called %d times\n",
+               ++calls);
+     endfunction
+
+     for i = 1:3
+       count_calls ();
+     endfor
+
+     ⊣ 'count_calls' has been called 1 times
+     ⊣ 'count_calls' has been called 2 times
+     ⊣ 'count_calls' has been called 3 times
+
+   As the example shows, a variable may be declared persistent using a
+‘persistent’ declaration statement.  The following statements are all
+persistent declarations.
+
+     persistent a
+     persistent a b
+     persistent c = 2
+     persistent d = 3 e f = 5
+
+   The behavior of persistent variables is equivalent to the behavior of
+static variables in C.
+
+   One restriction for persistent variables is, that neither input nor
+output arguments of a function can be persistent:
+
+     function y = foo ()
+       persistent y = 0;  # Not allowed!
+     endfunction
+
+     foo ()
+     ⊣ error: can't make function parameter y persistent
+
+   Like global variables, a persistent variable may only be initialized
+once.  For example, after executing the following code
+
+     persistent pvar = 1
+     persistent pvar = 2
+
+the value of the persistent variable ‘pvar’ is 1, not 2.
+
+   If a persistent variable is declared but not initialized to a
+specific value, it will contain an empty matrix.  So, it is also
+possible to initialize a persistent variable by checking whether it is
+empty, as the following example illustrates.
+
+     function count_calls ()
+       persistent calls;
+       if (isempty (calls))
+         calls = 0;
+       endif
+       printf ("'count_calls' has been called %d times\n",
+               ++calls);
+     endfunction
+
+This implementation behaves in exactly the same way as the previous
+implementation of ‘count_calls’.
+
+   The value of a persistent variable is kept in memory until it is
+explicitly cleared.  Assuming that the implementation of ‘count_calls’
+is saved on disk, we get the following behavior.
+
+     for i = 1:2
+       count_calls ();
+     endfor
+     ⊣ 'count_calls' has been called 1 times
+     ⊣ 'count_calls' has been called 2 times
+
+     clear
+     for i = 1:2
+       count_calls ();
+     endfor
+     ⊣ 'count_calls' has been called 3 times
+     ⊣ 'count_calls' has been called 4 times
+
+     clear all
+     for i = 1:2
+       count_calls ();
+     endfor
+     ⊣ 'count_calls' has been called 1 times
+     ⊣ 'count_calls' has been called 2 times
+
+     clear count_calls
+     for i = 1:2
+       count_calls ();
+     endfor
+     ⊣ 'count_calls' has been called 1 times
+     ⊣ 'count_calls' has been called 2 times
+
+That is, the persistent variable is only removed from memory when the
+function containing the variable is removed.  Note that if the function
+definition is typed directly into the Octave prompt, the persistent
+variable will be cleared by a simple ‘clear’ command as the entire
+function definition will be removed from memory.  If you do not want a
+persistent variable to be removed from memory even if the function is
+cleared, you should use the ‘mlock’ function (*note Function Locking::).
+
+
 File: octave.info,  Node: Status of Variables,  Prev: Persistent Variables,  Up: Variables
 
 7.3 Status of Variables
@@ -230,6 +420,9 @@ variable.  The following example illustrates this.
      7
           NAME is a directory.
 
+     8
+          NAME is a class.  (Note: not currently implemented)
+
      103
           NAME is a function not associated with a file (entered on the
           command line).
@@ -262,9 +455,9 @@ variable.  The following example illustrates this.
      file, class.
 
      ‘exist’ returns 2 if a regular file called NAME is present in
-     Octave’s search path.  If you want information about other types of
-     files not on the search path you should use some combination of the
-     functions ‘file_in_path’ and ‘stat’ instead.
+     Octave’s search path.  For information about other types of files
+     not on the search path use some combination of the functions
+     ‘file_in_path’ and ‘stat’ instead.
 
      Programming Note: If NAME is implemented by a buggy .oct/.mex file,
      calling EXIST may cause Octave to crash.  To maintain high
@@ -678,8 +871,8 @@ result.
      interconvert between the two forms.
 
      The linear index traverses dimension 1 (rows), then dimension 2
-     (columns), then dimension 3 (pages), etc.  until it has numbered
-     all of the elements.  Consider the following 3-by-3 matrices:
+     (columns), then dimension 3 (pages), etc. until it has numbered all
+     of the elements.  Consider the following 3-by-3 matrices:
 
           [(1,1), (1,2), (1,3)]     [1, 4, 7]
           [(2,1), (2,2), (2,3)] ==> [2, 5, 8]
@@ -716,8 +909,8 @@ result.
      interconvert between the two forms.
 
      The linear index traverses dimension 1 (rows), then dimension 2
-     (columns), then dimension 3 (pages), etc.  until it has numbered
-     all of the elements.  Consider the following 3-by-3 matrices:
+     (columns), then dimension 3 (pages), etc. until it has numbered all
+     of the elements.  Consider the following 3-by-3 matrices:
 
           [1, 4, 7]     [(1,1), (1,2), (1,3)]
           [2, 5, 8] ==> [(2,1), (2,2), (2,3)]
@@ -772,21 +965,6 @@ result.
      Implementation Note: Strings are first converted to double values
      before the checks for valid indices are made.  Unless a string
      contains the NULL character "\0", it will always be a valid index.
-
- -- : VAL = allow_noninteger_range_as_index ()
- -- : OLD_VAL = allow_noninteger_range_as_index (NEW_VAL)
- -- : allow_noninteger_range_as_index (NEW_VAL, "local")
-     Query or set the internal variable that controls whether
-     non-integer ranges are allowed as indices.
-
-     This might be useful for MATLAB compatibility; however, it is still
-     not entirely compatible because MATLAB treats the range expression
-     differently in different contexts.
-
-     When called from inside a function with the "local" option, the
-     variable is changed locally for the function and any subroutines it
-     calls.  The original variable value is restored when exiting the
-     function.
 
 
 File: octave.info,  Node: Calling Functions,  Next: Arithmetic Ops,  Prev: Index Expressions,  Up: Expressions
@@ -849,6 +1027,7 @@ Ops::.
 
 * Call by Value::
 * Recursion::
+* Access via Handle::
 
 
 File: octave.info,  Node: Call by Value,  Next: Recursion,  Up: Calling Functions
@@ -901,7 +1080,7 @@ of the function ‘f’, or attempting (and probably failing!)  to modify
 the value of a constant or the value of a temporary result.
 
 
-File: octave.info,  Node: Recursion,  Prev: Call by Value,  Up: Calling Functions
+File: octave.info,  Node: Recursion,  Next: Access via Handle,  Prev: Call by Value,  Up: Calling Functions
 
 8.2.2 Recursion
 ---------------
@@ -919,7 +1098,7 @@ factorial of a given integer:
        endif
      endfunction
 
-   This function is recursive because it calls itself directly.  It
+This function is recursive because it calls itself directly.  It
 eventually terminates because each time it calls itself, it uses an
 argument that is one less than was used for the previous call.  Once the
 argument is no longer greater than zero, it does not call itself, and
@@ -927,6 +1106,11 @@ the recursion ends.
 
    The built-in variable ‘max_recursion_depth’ specifies a limit to the
 recursion depth and prevents Octave from recursing infinitely.
+Similarly, the variable ‘max_stack_depth’ specifies a limit to the depth
+of function calls, whether recursive or not.  These limits help prevent
+stack overflow on the computer Octave is running on, so that instead of
+exiting with a signal, the interpreter will throw an error and return to
+the command prompt.
 
  -- : VAL = max_recursion_depth ()
  -- : OLD_VAL = max_recursion_depth (NEW_VAL)
@@ -942,6 +1126,24 @@ recursion depth and prevents Octave from recursing infinitely.
      calls.  The original variable value is restored when exiting the
      function.
 
+     See also: *note max_stack_depth: XREFmax_stack_depth.
+
+ -- : VAL = max_stack_depth ()
+ -- : OLD_VAL = max_stack_depth (NEW_VAL)
+ -- : max_stack_depth (NEW_VAL, "local")
+     Query or set the internal limit on the number of times a function
+     may be called recursively.
+
+     If the limit is exceeded, an error message is printed and control
+     returns to the top level.
+
+     When called from inside a function with the "local" option, the
+     variable is changed locally for the function and any subroutines it
+     calls.  The original variable value is restored when exiting the
+     function.
+
+     See also: *note max_recursion_depth: XREFmax_recursion_depth.
+
    ---------- Footnotes ----------
 
    (1) Some of Octave’s functions are implemented in terms of functions
@@ -954,6 +1156,42 @@ Doing so will result in an error.
    (2) It would be much better to use ‘prod (1:n)’, or ‘gamma (n+1)’
 instead, after first checking to ensure that the value ‘n’ is actually a
 positive integer.
+
+
+File: octave.info,  Node: Access via Handle,  Prev: Recursion,  Up: Calling Functions
+
+8.2.3 Access via Handle
+-----------------------
+
+A function may be abstracted and referenced via a function handle
+acquired using the special operator ‘@’.  For example,
+
+     f = @plus;
+     f (2, 2)
+     ⇒  4
+
+is equivalent to calling ‘plus (2, 2)’ directly.  Beyond abstraction for
+general programming, function handles find use in callback methods for
+figures and graphics by adding listeners to properties or assigning
+pre-existing actions, such as in the following example:
+
+     function mydeletefcn (h, ~, msg)
+       printf (msg);
+     endfunction
+     sombrero;
+     set (gcf, "deletefcn", {@mydeletefcn, "Bye!\n"});
+     close;
+
+The above will print "Bye!"  to the terminal upon the closing (deleting)
+of the figure.  There are many graphics property actions for which a
+callback function may be assigned, including, ‘buttondownfcn’,
+‘windowscrollwheelfcn’, ‘createfcn’, ‘deletefcn’, ‘keypressfcn’, etc.
+
+   Note that the ‘@’ character also plays a role in defining class
+functions, i.e., methods, but not as a syntactical element.  Rather it
+begins a directory name containing methods for a class that shares the
+directory name sans the ‘@’ character.  See *note Object Oriented
+Programming::.
 
 
 File: octave.info,  Node: Arithmetic Ops,  Next: Comparison Ops,  Prev: Calling Functions,  Up: Expressions
@@ -1497,29 +1735,10 @@ for the operator ‘&’.
 
    MATLAB has special behavior that allows the operators ‘&’ and ‘|’ to
 short-circuit when used in the truth expression for ‘if’ and ‘while’
-statements.  Octave also behaves the same way by default, though the use
-of the ‘&’ and ‘|’ operators in this way is strongly discouraged.
-Instead, you should use the ‘&&’ and ‘||’ operators that always have
-short-circuit behavior.
-
- -- : VAL = do_braindead_shortcircuit_evaluation ()
- -- : OLD_VAL = do_braindead_shortcircuit_evaluation (NEW_VAL)
- -- : do_braindead_shortcircuit_evaluation (NEW_VAL, "local")
-     Query or set the internal variable that controls whether Octave
-     will do short-circuit evaluation of ‘|’ and ‘&’ operators inside
-     the conditions of if or while statements.
-
-     This feature is only provided for compatibility with MATLAB and
-     should not be used unless you are porting old code that relies on
-     this feature.
-
-     To obtain short-circuit behavior for logical expressions in new
-     programs, you should always use the ‘&&’ and ‘||’ operators.
-
-     When called from inside a function with the "local" option, the
-     variable is changed locally for the function and any subroutines it
-     calls.  The original variable value is restored when exiting the
-     function.
+statements.  Octave behaves the same way for compatibility, however, the
+use of the ‘&’ and ‘|’ operators in this way is strongly discouraged and
+a warning will be issued.  Instead, you should use the ‘&&’ and ‘||’
+operators that always have short-circuit behavior.
 
    Finally, the ternary operator (?:) is not supported in Octave.  If
 short-circuiting is not important, it can be replaced by the ‘ifelse’
@@ -3882,7 +4101,7 @@ statement to exit the loop once a nonzero value is found without adding
 extra logic to avoid printing the message if the vector does contain a
 nonzero element.
 
- -- Keyword: return
+ -- : return
      When Octave encounters the keyword ‘return’ inside a function or
      script, it returns control to the caller immediately.  At the top
      level, the return statement is ignored.  A ‘return’ statement is
@@ -4169,8 +4388,14 @@ After this the directory ‘~/Octave’ will be searched for functions.
  -- : genpath (DIR, SKIP, ...)
      Return a path constructed from DIR and all its subdirectories.
 
+     The path does not include package directories (beginning with ‘+’),
+     old-style class directories (beginning with ‘@’), ‘private’
+     directories, or any subdirectories of these types.
+
      If additional string parameters are given, the resulting path will
      exclude directories with those names.
+
+     See also: *note path: XREFpath, *note addpath: XREFaddpath.
 
  -- : rmpath (DIR1, ...)
      Remove DIR1, ... from the current function search path.
@@ -4254,21 +4479,24 @@ After this the directory ‘~/Octave’ will be searched for functions.
      XREFsavepath.
 
  -- : VAL = pathsep ()
- -- : OLD_VAL = pathsep (NEW_VAL)
-     Query or set the character used to separate directories in a path.
+     Query the character used to separate directories in a path.
 
      See also: *note filesep: XREFfilesep.
 
  -- : rehash ()
      Reinitialize Octave’s load path directory cache.
 
- -- : file_in_loadpath (FILE)
- -- : file_in_loadpath (FILE, "all")
-
+ -- : FNAME = file_in_loadpath (FILE)
+ -- : FNAME = file_in_loadpath (FILE, "all")
      Return the absolute name of FILE if it can be found in the list of
      directories specified by ‘path’.
 
      If no file is found, return an empty character string.
+
+     When FILE is already an absolute name, the name is checked against
+     the file system instead of Octave’s loadpath.  In this case, if
+     FILE exists it will be returned in FNAME, otherwise an empty string
+     is returned.
 
      If the first argument is a cell array of strings, search each
      directory of the loadpath for element of the cell array and return
@@ -4281,7 +4509,7 @@ After this the directory ‘~/Octave’ will be searched for functions.
      See also: *note file_in_path: XREFfile_in_path, *note
      dir_in_loadpath: XREFdir_in_loadpath, *note path: XREFpath.
 
- -- : restoredefaultpath (...)
+ -- : restoredefaultpath ()
      Restore Octave’s path to its initial state at startup.
 
      See also: *note path: XREFpath, *note addpath: XREFaddpath, *note
@@ -4289,7 +4517,7 @@ After this the directory ‘~/Octave’ will be searched for functions.
      XREFpathdef, *note savepath: XREFsavepath, *note pathsep:
      XREFpathsep.
 
- -- : command_line_path (...)
+ -- : command_line_path ()
      Return the command line path variable.
 
      See also: *note path: XREFpath, *note addpath: XREFaddpath, *note
@@ -4297,14 +4525,20 @@ After this the directory ‘~/Octave’ will be searched for functions.
      XREFpathdef, *note savepath: XREFsavepath, *note pathsep:
      XREFpathsep.
 
- -- : dir_in_loadpath (DIR)
- -- : dir_in_loadpath (DIR, "all")
-     Return the full name of the path element matching DIR.
+ -- : DIRNAME = dir_in_loadpath (DIR)
+ -- : DIRNAME = dir_in_loadpath (DIR, "all")
+     Return the absolute name of the loadpath element matching DIR if it
+     can be found in the list of directories specified by ‘path’.
+
+     If no match is found, return an empty character string.
 
      The match is performed at the end of each path element.  For
      example, if DIR is "foo/bar", it matches the path element
      "/some/dir/foo/bar", but not "/some/dir/foo/bar/baz"
-     "/some/dir/allfoo/bar".
+     "/some/dir/allfoo/bar".  When DIR is an absolute name, rather than
+     just a path fragment, it is matched against the file system instead
+     of Octave’s loadpath.  In this case, if DIR exists it will be
+     returned in DIRNAME, otherwise an empty string is returned.
 
      If the optional second argument is supplied, return a cell array
      containing all name matches rather than just the first.
@@ -4350,8 +4584,7 @@ subfunctions, but not from outside the file ‘f.m’.
      If the call is from the command line, an anonymous function, or a
      script, the return value is an empty cell array.
 
-     Compatibility Note: Subfunctions which contain nested functions are
-     not included in the list.  This is a known issue.
+     See also: *note functions: XREFfunctions.
 
 
 File: octave.info,  Node: Private Functions,  Next: Nested Functions,  Prev: Subfunctions,  Up: Function Files
@@ -4822,73 +5055,81 @@ presents them alongside static documentation in a desired output format.
 The static documentation can make use of *note Publishing Markup:: to
 enhance and customize the output.
 
- -- : publish (FILENAME)
- -- : publish (FILENAME, OUTPUT_FORMAT)
- -- : publish (FILENAME, OPTION1, VALUE1, ...)
- -- : publish (FILENAME, OPTIONS)
- -- : OUTPUT_FILE = publish (FILENAME, ...)
+ -- : publish (FILE)
+ -- : publish (FILE, OUTPUT_FORMAT)
+ -- : publish (FILE, OPTION1, VALUE1, ...)
+ -- : publish (FILE, OPTIONS)
+ -- : OUTPUT_FILE = publish (FILE, ...)
 
-     Generate reports from Octave script files in several output
-     formats.
+     Generate a report from the Octave script file FILE in one of
+     several output formats.
 
-     The generated reports consider Publishing Markup in comments, which
-     is explained in detail in the GNU Octave manual.  Assume the
-     following example, using some Publishing Markup, to be the content
-     of a script file named ‘example.m’:
+     The generated reports interpret any Publishing Markup in comments,
+     which is explained in detail in the GNU Octave manual.  Assume the
+     following example, using some Publishing Markup, to be the contents
+     of the script file ‘pub_example.m’:
 
-          %% Headline title
-          %
-          % Some *bold*, _italic_, or |monospaced| Text with
-          % a <http://www.octave.org link to *GNU Octave*>.
-          %%
+          ## Headline title
+          #
+          # Some *bold*, _italic_, or |monospaced| Text with
+          # a <https://www.octave.org link to *GNU Octave*>.
+          ##
 
           # "Real" Octave commands to be evaluated
           sombrero ()
 
-          ## Octave comment style supported as well
-          #
-          # * Bulleted list item 1
-          # * Bulleted list item 2
-          #
-          # # Numbered list item 1
-          # # Numbered list item 2
+          %% MATLAB comment style ('%') is supported as well
+          %
+          % * Bulleted list item 1
+          % * Bulleted list item 2
+          %
+          % # Numbered list item 1
+          % # Numbered list item 2
 
-     To publish this script file, type ‘publish ("example.m")’.
+     To publish this script file, type ‘publish ("pub_example.m")’.
 
-     With only FILENAME given, a HTML report is generated in a
-     subdirectory ‘html’ relative to the current working directory.  The
-     Octave commands are evaluated in a separate context and any figures
+     With only FILE given, a HTML report is generated in a subdirectory
+     ‘html’ relative to the current working directory.  The Octave
+     commands are evaluated in a separate context and any figures
      created while executing the script file are included in the report.
-     All formatting syntax of FILENAME is treated according to the
-     specified output format and included in the report.
+     All formatting syntax of FILE is treated according to the specified
+     output format and included in the report.
 
-     Using ‘publish (FILENAME, OUTPUT_FORMAT)’ is equivalent to the
-     function call using a structure
+     Using ‘publish (FILE, OUTPUT_FORMAT)’ is equivalent to the function
+     call using a structure
 
           OPTIONS.format = OUTPUT_FORMAT;
-          publish (FILENAME, OPTIONS)
+          publish (FILE, OPTIONS)
 
-     which is described below.  The same holds for using
-     option-value-pairs
+     which is described below.  The same holds for using option/value
+     pairs
 
           OPTIONS.OPTION1 = VALUE1;
-          publish (FILENAME, OPTIONS)
+          publish (FILE, OPTIONS)
 
      The structure OPTIONS can have the following field names.  If a
-     field name is not specified, the default value is considered:
+     field name is not specified, the default value is used:
 
         • ‘format’ — Output format of the published script file, one of
 
-          ‘html’ (default), ‘doc’, ‘latex’, ‘ppt’, ‘xml’, or ‘pdf’.
+          ‘html’ (default), ‘doc’, ‘latex’, ‘ppt’, ‘pdf’, or ‘xml’.
 
-          The output formats ‘doc’, ‘ppt’, and ‘xml’ are currently not
+          The output formats ‘doc’, ‘ppt’, and ‘xml’ are not currently
           supported.  To generate a ‘doc’ report, open a generated
           ‘html’ report with your office suite.
 
-        • ‘outputDir’ — Full path string of a directory, where the
-          generated report will be located.  If no directory is given,
-          the report is generated in a subdirectory ‘html’ relative to
-          the current working directory.
+          In Octave custom formats are supported by implementing all
+          callback subfunctions in a function file named
+          ‘__publish_<custom format>_output__.m’.  To obtain a template
+          for the HTML format type:
+
+               edit (fullfile (fileparts (which ("publish")), ...
+                     "private", "__publish_html_output__.m"))
+
+        • ‘outputDir’ — Full path of the directory where the generated
+          report will be located.  If no directory is given, the report
+          is generated in a subdirectory ‘html’ relative to the current
+          working directory.
 
         • ‘stylesheet’ — Not supported, only for MATLAB compatibility.
 
@@ -4898,24 +5139,25 @@ enhance and customize the output.
         • ‘figureSnapMethod’ — Not supported, only for MATLAB
           compatibility.
 
-        • ‘imageFormat’ — Desired format for images produced, while
+        • ‘imageFormat’ — Desired format for any images produced while
           evaluating the code.  The allowed image formats depend on the
           output format:
 
-             • ‘html’ and ‘xml’ — ‘png’ (default), any other image
-               format supported by Octave
-
-             • ‘latex’ — ‘epsc2’ (default), any other image format
+             • ‘html’, ‘xml’ — ‘png’ (default), any image format
                supported by Octave
+
+             • ‘latex’ — ‘epsc2’ (default), any image format supported
+               by Octave
 
              • ‘pdf’ — ‘jpg’ (default) or ‘bmp’, note MATLAB uses ‘bmp’
                as default
 
              • ‘doc’ or ‘ppt’ — ‘png’ (default), ‘jpg’, ‘bmp’, or ‘tiff’
 
-        • ‘maxHeight’ and ‘maxWidth’ — Maximum height (width) of the
+        • ‘maxWidth’ and ‘maxHeight’ — Maximum width (height) of the
           produced images in pixels.  An empty value means no
-          restriction.  Both values have to be set, to work properly.
+          restriction.  Both values must be set in order for the option
+          to work properly.
 
           ‘[]’ (default), integer value ≥ 0
 
@@ -4929,7 +5171,7 @@ enhance and customize the output.
 
           ‘true’ (default) or ‘false’
 
-        • ‘catchError’ — Catch errors while code evaluation and continue
+        • ‘catchError’ — Catch errors while evaluating code and continue
 
           ‘true’ (default) or ‘false’
 
@@ -4937,8 +5179,8 @@ enhance and customize the output.
           prior to publishing the script file.  These Octave commands do
           not appear in the generated report.
 
-        • ‘maxOutputLines’ — Maximum number of shown output lines of the
-          code evaluation
+        • ‘maxOutputLines’ — Maximum number of output lines from code
+          evaluation which are included in output.
 
           ‘Inf’ (default) or integer value > 0
 
@@ -4947,39 +5189,37 @@ enhance and customize the output.
 
           ‘true’ (default) or ‘false’
 
-     The returned OUTPUT_FILE is a string with the path and file name of
-     the generated report.
+     The option output OUTPUT_FILE is a string with path and file name
+     of the generated report.
 
      See also: *note grabcode: XREFgrabcode.
 
    The counterpart to ‘publish’ is ‘grabcode’:
 
  -- : grabcode (URL)
- -- : CODE_STR = grabcode (URL)
+ -- : grabcode (FILENAME)
+ -- : CODE_STR = grabcode (...)
 
-     Grab by the ‘publish’ function generated HTML reports from Octave
-     script files.
+     Grab the code from a report created by the ‘publish’ function.
 
-     The input parameter URL must point to a local or remote HTML file
-     with extension ‘.htm’ or ‘.html’ which was generated by the
-     ‘publish’ function.  With any other HTML file this will not work!
+     The grabbed code inside the published report must be enclosed by
+     the strings ‘##### SOURCE BEGIN #####’ and ‘##### SOURCE END
+     #####’.  The ‘publish’ function creates this format automatically.
 
-     If no return value is given, the grabbed code is saved to a
-     temporary file and opened in the default editor.
+     If no return value is requested the code is saved to a temporary
+     file and opened in the default editor.  NOTE: The temporary file
+     must be saved under a new or the code will be lost.
 
-     NOTE: You have to save the file at another location with arbitrary
-     name, otherwise any grabbed code will be lost!
-
-     With a return value given, the grabbed code will be returned as
+     If an output is requested the grabbed code will be returned as
      string CODE_STR.
 
-     An example:
+     Example:
 
           publish ("my_script.m");
           grabcode ("html/my_script.html");
 
-     The example above publishes ‘my_script.m’ by default to
-     ‘html/my_script.html’.  Afterwards this published Octave script is
+     The example above publishes ‘my_script.m’ to the default location
+     ‘html/my_script.html’.  Next, the published Octave script is
      grabbed to edit its content in a new temporary file.
 
      See also: *note publish: XREFpublish.
@@ -5013,8 +5253,8 @@ File: octave.info,  Node: Using Publishing Markup in Script Files,  Next: Text F
 .................................................
 
 To use Publishing Markup, start by typing ‘##’ or ‘%%’ at the beginning
-of a new line.  For MATLAB compatibility ‘%%’ is treated the same way as
-‘##’.
+of a new line.  For MATLAB compatibility ‘%%%’ is treated the same way
+as ‘%%’.
 
    The lines following ‘##’ or ‘%%’ start with one of either ‘#’ or ‘%’
 followed by at least one space.  These lines are interpreted as section.
@@ -5030,7 +5270,7 @@ document title and introduction text.
      %% Headline title
      %
      % Some *bold*, _italic_, or |monospaced| Text with
-     % a <http://www.octave.org link to GNU Octave>.
+     % a <https://www.octave.org link to GNU Octave>.
      %%
 
      # "Real" Octave commands to be evaluated
@@ -5072,7 +5312,7 @@ A section is started by typing ‘##’ or ‘%%’ at the beginning of a new
 line.  A section title can be provided by writing it, separated by a
 space, in the first line after ‘##’ or ‘%%’.  Without a section title,
 the section is interpreted as a continuation of the previous section.
-For MATLAB compatibility ‘%%’ is treated the same way as ‘%%’.
+For MATLAB compatibility ‘%%%’ is treated the same way as ‘%%’.
 
      some_code ();
 
@@ -5087,9 +5327,9 @@ For MATLAB compatibility ‘%%’ is treated the same way as ‘%%’.
 
      some_code ();
 
-     ### Section 3
-     #
-     #
+     %%% Section 3
+     %
+     %
 
 
 File: octave.info,  Node: Preformatted Code,  Next: Preformatted Text,  Prev: Sections,  Up: Publishing Markup
@@ -5231,13 +5471,13 @@ Basically, a URL is written between an opening ‘<’ and a closing ‘>’
 angle.
 
      ##
-     # <http://www.octave.org>
+     # <https://www.octave.org>
 
    Text that is within these angles and separated by at least one space
 from the URL is a displayed text for the link.
 
      ##
-     # <http://www.octave.org GNU Octave>
+     # <https://www.octave.org GNU Octave>
 
    A link starting with ‘<octave:’ followed by the name of a GNU Octave
 function, optionally with a displayed text, results in a link to the
@@ -5603,6 +5843,12 @@ They are loosely organized by topic, in subdirectories of
    The following is a list of all the function file subdirectories, and
 the types of functions you will find there.
 
+‘@ftp’
+     Class functions for the FTP object.
+
+‘+containers’
+     Package for the containers classes.
+
 ‘audio’
      Functions for playing and recording sounds.
 
@@ -5612,9 +5858,6 @@ the types of functions you will find there.
 ‘elfun’
      Elementary functions, principally trigonometric.
 
-‘@ftp’
-     Class functions for the FTP object.
-
 ‘general’
      Miscellaneous matrix manipulations, like ‘flipud’, ‘rot90’, and
      ‘triu’, as well as other basic functions, like ‘ismatrix’,
@@ -5622,6 +5865,9 @@ the types of functions you will find there.
 
 ‘geometry’
      Functions related to Delaunay triangulation.
+
+‘gui’
+     Functions for GUI elements like dialog, message box, etc.
 
 ‘help’
      Functions for Octave’s built-in help system.
@@ -5633,11 +5879,17 @@ the types of functions you will find there.
 ‘io’
      Input-output functions.
 
+‘java’
+     Functions related to the Java integration.
+
 ‘linear-algebra’
      Functions for linear algebra.
 
 ‘miscellaneous’
      Functions that don’t really belong anywhere else.
+
+‘ode’
+     Functions to solve ordinary differential equations (ODEs).
 
 ‘optimization’
      Functions related to minimization, optimization, and root finding.
@@ -5866,7 +6118,7 @@ error.
      ⊣  'doc <topic>' to search the manual index.
      ⊣
      ⊣  Help and information about Octave is also available on the WWW
-     ⊣  at http://www.octave.org and via the help@octave.org
+     ⊣  at https://www.octave.org and via the help@octave.org
      ⊣  mailing list.
 
  -- : print_usage ()
@@ -6086,10 +6338,17 @@ occurs.
  -- : ERR = errno ()
  -- : ERR = errno (VAL)
  -- : ERR = errno (NAME)
-     Return the current value of the system-dependent variable errno,
-     set its value to VAL and return the previous value, or return the
-     named error code given NAME as a character string, or -1 if NAME is
-     not found.
+     Query or set the system-dependent variable errno.
+
+     When called with no inputs, return the current value of errno.
+
+     When called with a numeric input VAL, set the current value of
+     errno to the specified value.  The previous value of errno is
+     returned as ERR.
+
+     When called with a character string NAME, return the numeric value
+     of errno which corresponds to the specified error code.  If NAME is
+     not a recognized error code then -1 is returned.
 
      See also: *note errno_list: XREFerrno_list.
 
@@ -6195,49 +6454,92 @@ available as a namespace for user’s own warnings.
  -- : warning (ID, TEMPLATE, ...)
  -- : warning ("on", ID)
  -- : warning ("off", ID)
- -- : warning ("query", ID)
  -- : warning ("error", ID)
- -- : warning (STATE, "backtrace")
+ -- : warning ("query", ID)
  -- : warning (STATE, ID, "local")
+ -- : warning (WARNING_STRUCT)
+ -- : WARNING_STRUCT = warning (...)
+ -- : MODE_STRUCT = warning (STATE, MODE)
+ -- : warning (MODE_ST)
+
      Display a warning message or control the behavior of Octave’s
      warning system.
 
-     Format the optional arguments under the control of the template
-     string TEMPLATE using the same rules as the ‘printf’ family of
-     functions (*note Formatted Output::) and print the resulting
-     message on the ‘stderr’ stream.  The message is prefixed by the
+     The first call form uses a template TEMPLATE and optional
+     additional arguments to display a message on the ‘stderr’ stream.
+     The message is formatted using the same rules as the ‘printf’
+     family of functions (*note Formatted Output::) and prefixed by the
      character string ‘warning: ’.  You should use this function when
      you want to notify the user of an unusual condition, but only when
-     it makes sense for your program to go on.
+     it makes sense for your program to go on.  For example:
 
-     The optional message identifier allows users to enable or disable
-     warnings tagged by ID.  A message identifier is of the form
-     "NAMESPACE:WARNING-NAME". Octave’s own warnings use the "Octave"
-     namespace (*note warning_ids: XREFwarning_ids.).  The special
-     identifier "all" may be used to set the state of all warnings.
+          warning ("foo: maybe something wrong here");
 
-     If the first argument is "on" or "off", set the state of a
-     particular warning using the identifier ID.  If the first argument
-     is "query", query the state of this warning instead.  If the
-     identifier is omitted, a value of "all" is assumed.  If you set the
-     state of a warning to "error", the warning named by ID is handled
-     as if it were an error instead.  So, for example, the following
-     handles all warnings as errors:
+     The optional warning identifier ID allows users to enable or
+     disable warnings tagged by this identifier.  A message identifier
+     is a string of the form "NAMESPACE:WARNING-NAME". Octave’s own
+     warnings use the "Octave" namespace (*note warning_ids:
+     XREFwarning_ids.).  For example:
 
-          warning ("error");
+          warning ("MyNameSpace:check-something",
+                   "foo: maybe something wrong here");
 
-     If the state is "on" or "off" and the third argument is
-     "backtrace", then a stack trace is printed along with the warning
-     message when warnings occur inside function calls.  This option is
-     enabled by default.
+     The second call form is meant to change and/or query the state of
+     warnings.  The first input argument must be a string STATE ("on",
+     "off", "error", or "query") followed by an optional warning
+     identifier ID or "all" (default).
 
-     If the state is "on", "off", or "error" and the third argument is
-     "local", then the warning state will be set temporarily, until the
-     end of the current function.  Changes to warning states that are
-     set locally affect the current function and all functions called
-     from the current scope.  The previous warning state is restored on
-     return from the current function.  The "local" option is ignored if
-     used in the top-level workspace.
+     The optional output argument WARNING_STRUCT is a structure or
+     structure array with fields "state" and "identifier".  The STATE
+     argument may have the following values:
+
+     "on"|"off":
+          Enable or disable the display of warnings identified by ID and
+          optionally return their previous state STOUT.
+
+     "error":
+          Turn warnings identified by ID into errors and optionally
+          return their previous state STOUT.
+
+     "query":
+          Return the current state of warnings identified by ID.
+
+     A structure or structure array WARNING_STRUCT, with fields "state"
+     and "identifier", may be given as an input to achieve equivalent
+     results.  The following example shows how to temporarily disable a
+     warning and then restore its original state:
+
+          loglog (-1:10);
+          ## Disable the previous warning and save its original state
+          [~, id] = lastwarn ();
+          warnstate = warning ("off", id);
+          loglog (-1:10);
+          ## Restore its original state
+          warning (warnstate);
+
+     If a final argument "local" is provided then the warning state will
+     be set temporarily until the end of the current function.  Changes
+     to warning states that are set locally affect the current function
+     and all functions called from the current scope.  The previous
+     warning state is restored on return from the current function.  The
+     "local" option is ignored if used in the top-level workspace.
+
+     With no input argument ‘warning ()’ is equivalent to ‘warning
+     ("query", "all")’ except that in the absence of an output argument,
+     the state of warnings is displayed on ‘stderr’.
+
+     The level of verbosity of the warning system may also be controlled
+     by two modes MODE:
+
+     "backtrace":
+          enable/disable the display of the stack trace after the
+          warning message
+
+     "verbose":
+          enable/disable the display of additional information after the
+          warning message
+
+     In this case the STATE argument may only be "on" or "off".
 
      Implementation Note: For compatibility with MATLAB, escape
      sequences in TEMPLATE (e.g., "\n" => newline) are processed
@@ -6270,6 +6572,13 @@ warnings.
 ‘Octave:abbreviated-property-match’
      By default, the ‘Octave:abbreviated-property-match’ warning is
      enabled.
+
+‘Octave:addpath-pkg’
+     If the ‘Octave:addpath-pkg’ warning is enabled, Octave will warn
+     when a package directory (i.e., +package_name) is added to the
+     ‘path’.  Typically, only the parent directory which contains the
+     package directory should be added to the load path.  By default,
+     the ‘Octave:addpath-pkg’ warning is enabled.
 
 ‘Octave:array-as-logical’
      If the ‘Octave:array-as-logical’ warning is enabled, Octave will
@@ -6378,8 +6687,27 @@ warnings.
      issued when Octave encounters a division by zero.  By default, the
      ‘Octave:divide-by-zero’ warning is enabled.
 
-‘Octave:fopen-file-in-path’
-     By default, the ‘Octave:fopen-file-in-path’ warning is enabled.
+‘Octave:eigs:UnconvergedEigenvalues’
+     If the ‘Octave:eigs:UnconvergedEigenvalues’ warning is enabled then
+     the eigs function will issue a warning if the number of calculated
+     eigenvalues is less than the number of requested eigenvalues.  By
+     default, the ‘Octave:eigs:UnconvergedEigenvalues’ warning is
+     enabled.
+
+‘Octave:erase:chararray’
+     If the ‘Octave:erase:chararray’ warning is enabled then the erase
+     function will issue a warning if the input pattern is a character
+     array rather than a string or cell array of strings.  By default,
+     the ‘Octave:eigs:UnconvergedEigenvalues’ warning is enabled.
+
+‘Octave:data-file-in-path’
+     If the ‘Octave:data-file-in-path’ warning is enabled, a warning is
+     issued when Octave does not find the target of a file operation
+     such as ‘load’ or ‘fopen’ directly, but is able to locate the file
+     in Octave’s search ‘path’ for files.  The warning could indicate
+     that a different file target than the programmer intended is being
+     used.  By default, the ‘Octave:data-file-in-path’ warning is
+     enabled.
 
 ‘Octave:function-name-clash’
      If the ‘Octave:function-name-clash’ warning is enabled, a warning
@@ -6410,11 +6738,16 @@ warnings.
      ‘--traditional’ or ‘--braindead’ startup options for Octave may
      also be of use, *note Command Line Options::.
 
-‘Octave:load-file-in-path’
-     By default, the ‘Octave:load-file-in-path’ warning is enabled.
-
 ‘Octave:logical-conversion’
      By default, the ‘Octave:logical-conversion’ warning is enabled.
+
+‘Octave:lu:sparse_input’
+     If the ‘Octave:lu:sparse_input’ warning is enabled, Octave will
+     warn when the lu function is called with a sparse input and less
+     than four output arguments.  In this case, sparsity-preserving
+     column permutations are not performed and the result may be
+     inaccurate.  By default, the ‘Octave:lu:sparse_input’ warning is
+     enabled.
 
 ‘Octave:missing-glyph’
      By default, the ‘Octave:missing-glyph’ warning is enabled.
@@ -6430,6 +6763,11 @@ warnings.
      warning when concatenating a mixture of double and single quoted
      strings.  By default, the ‘Octave:mixed-string-concat’ warning is
      disabled.
+
+‘Octave:nearly-singular-matrix’
+‘Octave:singular-matrix’
+     By default, the ‘Octave:nearly-singular-matrix’ and
+     ‘Octave:singular-matrix’ warnings are enabled.
 
 ‘Octave:neg-dim-as-zero’
      If the ‘Octave:neg-dim-as-zero’ warning is enabled, print a warning
@@ -6463,17 +6801,8 @@ warnings.
      If the ‘Octave:possible-matlab-short-circuit-operator’ warning is
      enabled, Octave will warn about using the not short circuiting
      operators ‘&’ and ‘|’ inside ‘if’ or ‘while’ conditions.  They
-     normally never short circuit, but MATLAB always short circuits if
-     any logical operators are used in a condition.  You can turn on the
-     option
-
-          do_braindead_shortcircuit_evaluation (1)
-
-     if you would like to enable this short-circuit evaluation in
-     Octave.  Note that the ‘&&’ and ‘||’ operators always short circuit
-     in both Octave and MATLAB, so it’s only necessary to enable
-     MATLAB-style short-circuiting if it’s too arduous to modify
-     existing code that relies on this behavior.  By default, the
+     normally never short circuit, but they do short circuit when used
+     in a condition.  By default, the
      ‘Octave:possible-matlab-short-circuit-operator’ warning is enabled.
 
 ‘Octave:precedence-change’
@@ -6522,11 +6851,6 @@ warnings.
      string constant.  By default, the ‘Octave:single-quote-string’
      warning is disabled.
 
-‘Octave:nearly-singular-matrix’
-‘Octave:singular-matrix’
-     By default, the ‘Octave:nearly-singular-matrix’ and
-     ‘Octave:singular-matrix’ warnings are enabled.
-
 ‘Octave:sqrtm:SingularMatrix’
      By default, the ‘Octave:sqrtm:SingularMatrix’ warning is enabled.
 
@@ -6540,12 +6864,6 @@ warnings.
 
      elicits a warning if the ‘Octave:str-to-num’ warning is enabled.
      By default, the ‘Octave:str-to-num’ warning is disabled.
-
-‘Octave:undefined-return-values’
-     If the ‘Octave:undefined-return-values’ warning is disabled, print
-     a warning if a function does not define all the values in the
-     return list which are expected.  By default, the
-     ‘Octave:undefined-return-values’ warning is enabled.
 
 ‘Octave:variable-switch-label’
      If the ‘Octave:variable-switch-label’ warning is enabled, Octave
@@ -6794,7 +7112,7 @@ function.
 
 Breakpoints in class methods are also supported (e.g., ‘dbstop
 ("@class/method")’).  However, breakpoints cannot be set in built-in
-functions (e.g., ‘sin’, etc.)  or dynamically loaded functions (i.e.,
+functions (e.g., ‘sin’, etc.) or dynamically loaded functions (i.e.,
 oct-files).
 
    To set a breakpoint immediately upon entering a function use line
@@ -6909,15 +7227,11 @@ file contains the functions
 then a breakpoint can be set at the start of the subfunction directly
 with
 
-     dbstop (["func1", filemarker(), "func2"])
+     dbstop func1>func2
      ⇒ 5
 
-   Note that ‘filemarker’ returns the character that marks subfunctions
-from the file containing them.  Unless the default has been changed this
-character is ‘>’.  Thus, a quicker and more normal way to set the
-breakpoint would be
-
-     dbstop func1>func2
+   Note that ‘>’ is the character that distinguishes subfunctions from
+the m-file containing them.
 
    Another simple way of setting a breakpoint in an Octave script is the
 use of the ‘keyboard’ function.
@@ -7522,10 +7836,11 @@ values with ‘disp’ and through the normal echoing mechanism.
 
  -- : format
  -- : format options
+ -- : [FORMAT, FORMATSPACING] = format
      Reset or specify the format of the output produced by ‘disp’ and
      Octave’s normal echoing mechanism.
 
-     This command only affects the display of numbers but not how they
+     This command only affects the display of numbers, but not how they
      are stored or computed.  To change the internal representation from
      the default double use one of the conversion functions such as
      ‘single’, ‘uint8’, ‘int64’, etc.
@@ -7539,16 +7854,10 @@ values with ‘disp’ and through the normal echoing mechanism.
      following table.
 
      ‘short’
-          Fixed point format with 5 significant figures in a field that
-          is a maximum of 10 characters wide.  (default).
-
-          If Octave is unable to format a matrix so that columns line up
-          on the decimal point and all numbers fit within the maximum
-          field width then it switches to an exponential ‘e’ format.
+          Fixed point format with 5 significant figures (default).
 
      ‘long’
-          Fixed point format with 15 significant figures in a field that
-          is a maximum of 20 characters wide.
+          Fixed point format with 16 significant figures.
 
           As with the ‘short’ format, Octave will switch to an
           exponential ‘e’ format if it is unable to format a matrix
@@ -7558,15 +7867,16 @@ values with ‘disp’ and through the normal echoing mechanism.
      ‘long e’
           Exponential format.  The number to be represented is split
           between a mantissa and an exponent (power of 10).  The
-          mantissa has 5 significant digits in the short format and 15
-          digits in the long format.  For example, with the ‘short e’
-          format, ‘pi’ is displayed as ‘3.1416e+00’.
+          mantissa has 5 significant digits in the short format.  In the
+          long format, double values are displayed with 16 significant
+          digits and single values are displayed with 8.  For example,
+          with the ‘short e’ format, ‘pi’ is displayed as ‘3.1416e+00’.
 
      ‘short E’
      ‘long E’
           Identical to ‘short e’ or ‘long e’ but displays an uppercase
           ‘E’ to indicate the exponent.  For example, with the ‘long E’
-          format, ‘pi’ is displayed as ‘3.14159265358979E+00’.
+          format, ‘pi’ is displayed as ‘3.141592653589793E+00’.
 
      ‘short g’
      ‘long g’
@@ -7587,7 +7897,7 @@ values with ‘disp’ and through the normal echoing mechanism.
           Identical to ‘short e’ or ‘long e’ but displays the value
           using an engineering format, where the exponent is divisible
           by 3.  For example, with the ‘short eng’ format, ‘10 * pi’ is
-          displayed as ‘31.4159e+00’.
+          displayed as ‘31.416e+00’.
 
      ‘long G’
      ‘short G’
@@ -7597,48 +7907,56 @@ values with ‘disp’ and through the normal echoing mechanism.
      ‘free’
      ‘none’
           Print output in free format, without trying to line up columns
-          of matrices on the decimal point.  This also causes complex
-          numbers to be formatted as numeric pairs like this ‘(0.60419,
-          0.60709)’ instead of like this ‘0.60419 + 0.60709i’.
+          of matrices on the decimal point.  This is a raw format
+          equivalent to the C++ code ‘std::cout << VARIABLE’.  In
+          general, the result is a presentation with 6 significant
+          digits where unnecessary precision (such as trailing zeros for
+          integers) is suppressed.  Complex numbers are formatted as
+          numeric pairs like this ‘(0.60419, 0.60709)’ instead of like
+          this ‘0.60419 + 0.60709i’.
 
      The following formats affect all numeric output (floating point and
      integer types).
 
-     ‘"+"’
-     ‘"+" CHARS’
+     "+"
+     "+" "CHARS"
      ‘plus’
      ‘plus CHARS’
           Print a ‘+’ symbol for matrix elements greater than zero, a
-          ‘-’ symbol for elements less than zero and a space for zero
-          matrix elements.  This format can be very useful for examining
-          the structure of a large sparse matrix.
+          ‘-’ symbol for elements less than zero, and a space for zero
+          matrix elements.  This format can be useful for examining the
+          sparsity structure of a large matrix.  For very large matrices
+          the function ‘spy’ which plots the sparsity pattern will be
+          clearer.
 
           The optional argument CHARS specifies a list of 3 characters
-          to use for printing values greater than zero, less than zero
-          and equal to zero.  For example, with the ‘"+" "+-."’ format,
-          ‘[1, 0, -1; -1, 0, 1]’ is displayed as
+          to use for printing values greater than zero, less than zero,
+          and equal to zero.  For example, with the format "+" "+-.",
+          the matrix ‘[1, 0, -1; -1, 0, 1]’ is displayed as
 
                ans =
 
                +.-
                -.+
 
-     ‘bank’
-          Print in a fixed format with two digits to the right of the
-          decimal point.
+     bank
+          Print variable in a format appropriate for a currency (fixed
+          format with two digits to the right of the decimal point).
+          Only the real part of a variable is displayed, as the
+          imaginary part makes no sense for a currency.
 
-     ‘native-hex’
+     native-hex
           Print the hexadecimal representation of numbers as they are
           stored in memory.  For example, on a workstation which stores
           8 byte real values in IEEE format with the least significant
           byte first, the value of ‘pi’ when printed in ‘native-hex’
           format is ‘400921fb54442d18’.
 
-     ‘hex’
+     hex
           The same as ‘native-hex’, but always print the most
           significant byte first.
 
-     ‘native-bit’
+     native-bit
           Print the bit representation of numbers as stored in memory.
           For example, the value of ‘pi’ is
 
@@ -7650,11 +7968,11 @@ values with ‘disp’ and through the normal echoing mechanism.
           stores 8 byte real values in IEEE format with the least
           significant byte first.
 
-     ‘bit’
+     bit
           The same as ‘native-bit’, but always print the most
           significant bits first.
 
-     ‘rat’
+     rat
           Print a rational approximation, i.e., values are approximated
           as the ratio of small integers.  For example, with the ‘rat’
           format, ‘pi’ is displayed as ‘355/113’.
@@ -7671,8 +7989,10 @@ values with ‘disp’ and through the normal echoing mechanism.
           between matrices to produce a more readable output with less
           data per page.  (default).
 
+     If called with one or two output arguments, and no inputs, return
+     the current format and format spacing.
+
      See also: *note fixed_point_format: XREFfixed_point_format, *note
-     output_max_field_width: XREFoutput_max_field_width, *note
      output_precision: XREFoutput_precision, *note split_long_rows:
      XREFsplit_long_rows, *note print_empty_dimensions:
      XREFprint_empty_dimensions, *note rats: XREFrats.
@@ -7687,12 +8007,14 @@ File: octave.info,  Node: Paging Screen Output,  Up: Terminal Output
 14.1.1.1 Paging Screen Output
 .............................
 
-When running interactively, Octave normally sends any output intended
-for your terminal that is more than one screen long to a paging program,
-such as ‘less’ or ‘more’.  This avoids the problem of having a large
-volume of output stream by before you can read it.  With ‘less’ (and
-some versions of ‘more’) you can also scan forward and backward, and
-search for specific items.
+When running interactively, Octave normally sends all output directly to
+the Command Window.  However, when using the CLI version of Octave this
+can create a problem because large volumes of data will stream by before
+you can read them.  In such cases, it is better to use a paging program
+such as ‘less’ or ‘more’ which displays just one screenful at a time.
+With ‘less’ (and some versions of ‘more’) you can also scan forward and
+backward, and search for specific items.  The pager is enabled by the
+command ‘more on’.
 
    Normally, no output is displayed by the pager until just before
 Octave is ready to print the top level prompt, or read from the standard
@@ -7702,8 +8024,9 @@ screen if you have asked Octave to perform a significant amount of work
 with a single command statement.  The function ‘fflush’ may be used to
 force output to be sent to the pager (or any other stream) immediately.
 
-   You can select the program to run as the pager using the ‘PAGER’
-function, and you can turn paging off by using the function ‘more’.
+   You can select the program to run as the pager with the ‘PAGER’
+function, and configure the pager itself with the ‘PAGER_FLAGS’
+function.
 
  -- : more
  -- : more on
@@ -7939,6 +8262,7 @@ read into memory using the ‘load’ command.
  -- : save file
  -- : save options file
  -- : save options file V1 V2 ...
+ -- : save options file -struct STRUCT
  -- : save options file -struct STRUCT F1 F2 ...
  -- : save - V1 V2 ...
  -- : STR = save ("-", "V1", "V2", ...)
@@ -7948,12 +8272,15 @@ read into memory using the ‘load’ command.
      variables as a string.  If no variable names are listed, Octave
      saves all the variables in the current scope.  Otherwise, full
      variable names or pattern syntax can be used to specify the
-     variables to save.  If the ‘-struct’ modifier is used, fields F1 F2
-     ... of the scalar structure STRUCT are saved as if they were
-     variables with corresponding names.  Valid options for the ‘save’
-     command are listed in the following table.  Options that modify the
-     output format override the format specified by
-     ‘save_default_options’.
+     variables to save.  If the ‘-struct’ modifier is used then the
+     fields of the *scalar* struct are saved as if they were variables
+     with the corresponding field names.  The ‘-struct’ option can be
+     combined with specific field names F1, F2, ... to write only
+     certain fields to the file.
+
+     Valid options for the ‘save’ command are listed in the following
+     table.  Options that modify the output format override the format
+     specified by ‘save_default_options’.
 
      If save is invoked using the functional form
 
@@ -7969,27 +8296,36 @@ read into memory using the ‘load’ command.
           Append to the destination instead of overwriting.
 
      ‘-ascii’
-          Save a single matrix in a text file without header or any
-          other information.
+          Save a matrix in a text file without a header or any other
+          information.  The matrix must be 2-D and only the real part of
+          any complex value is written to the file.  Numbers are stored
+          in single-precision format and separated by spaces.
+          Additional options for the ‘-ascii’ format are
+
+          ‘-double’
+               Store numbers in double-precision format.
+
+          ‘-tabs’
+               Separate numbers with tabs.
 
      ‘-binary’
           Save the data in Octave’s binary data format.
 
      ‘-float-binary’
-          Save the data in Octave’s binary data format but only using
-          single precision.  Only use this format if you know that all
+          Save the data in Octave’s binary data format but using only
+          single precision.  Use this format *only* if you know that all
           the values to be saved can be represented in single precision.
 
      ‘-hdf5’
-          Save the data in HDF5 format.  (HDF5 is a free, portable
+          Save the data in HDF5 format.  (HDF5 is a free, portable,
           binary format developed by the National Center for
           Supercomputing Applications at the University of Illinois.)
           This format is only available if Octave was built with a link
           to the HDF5 libraries.
 
      ‘-float-hdf5’
-          Save the data in HDF5 format but only using single precision.
-          Only use this format if you know that all the values to be
+          Save the data in HDF5 format but using only single precision.
+          Use this format *only* if you know that all the values to be
           saved can be represented in single precision.
 
      ‘-V7’
@@ -8017,11 +8353,11 @@ read into memory using the ‘load’ command.
 
      ‘-zip’
      ‘-z’
-          Use the gzip algorithm to compress the file.  This works
-          equally on files that are compressed with gzip outside of
-          octave, and gzip can equally be used to convert the files for
-          backward compatibility.  This option is only available if
-          Octave was built with a link to the zlib libraries.
+          Use the gzip algorithm to compress the file.  This works on
+          files that are compressed with gzip outside of Octave, and
+          gzip can also be used to convert the files for backward
+          compatibility.  This option is only available if Octave was
+          built with a link to the zlib libraries.
 
      The list of variables to save may use wildcard patterns containing
      the following special characters:
@@ -8056,8 +8392,9 @@ read into memory using the ‘load’ command.
 
      See also: *note load: XREFload, *note save_default_options:
      XREFsave_default_options, *note save_header_format_string:
-     XREFsave_header_format_string, *note dlmread: XREFdlmread, *note
-     csvread: XREFcsvread, *note fread: XREFfread.
+     XREFsave_header_format_string, *note save_precision:
+     XREFsave_precision, *note dlmread: XREFdlmread, *note csvread:
+     XREFcsvread, *note fread: XREFfread.
 
    There are three functions that modify the behavior of ‘save’.
 
@@ -8067,15 +8404,17 @@ read into memory using the ‘load’ command.
      Query or set the internal variable that specifies the default
      options for the ‘save’ command, and defines the default format.
 
-     Typical values include "-ascii", "-text -zip".  The default value
-     is ‘-text’.
+     The default value is "-text" (Octave’s own text-based file format).
+     See the documentation of the ‘save’ command for other choices.
 
      When called from inside a function with the "local" option, the
      variable is changed locally for the function and any subroutines it
      calls.  The original variable value is restored when exiting the
      function.
 
-     See also: *note save: XREFsave.
+     See also: *note save: XREFsave, *note save_header_format_string:
+     XREFsave_header_format_string, *note save_precision:
+     XREFsave_precision.
 
  -- : VAL = save_precision ()
  -- : OLD_VAL = save_precision (NEW_VAL)
@@ -8083,10 +8422,18 @@ read into memory using the ‘load’ command.
      Query or set the internal variable that specifies the number of
      digits to keep when saving data in text format.
 
+     The default value is 17 which is the minimum necessary for the
+     lossless saving and restoring of IEEE-754 double values; For
+     IEEE-754 single values the minimum value is 9.  If file size is a
+     concern, it is probably better to choose a binary format for saving
+     data rather than to reduce the precision of the saved values.
+
      When called from inside a function with the "local" option, the
      variable is changed locally for the function and any subroutines it
      calls.  The original variable value is restored when exiting the
      function.
+
+     See also: *note save_default_options: XREFsave_default_options.
 
  -- : VAL = save_header_format_string ()
  -- : OLD_VAL = save_header_format_string (NEW_VAL)
@@ -8095,7 +8442,7 @@ read into memory using the ‘load’ command.
      used for the comment line written at the beginning of text-format
      data files saved by Octave.
 
-     The format string is passed to ‘strftime’ and should begin with the
+     The format string is passed to ‘strftime’ and must begin with the
      character ‘#’ and contain no newline characters.  If the value of
      ‘save_header_format_string’ is the empty string, the header comment
      is omitted from text-format data files.  The default value is
@@ -8107,7 +8454,8 @@ read into memory using the ‘load’ command.
      calls.  The original variable value is restored when exiting the
      function.
 
-     See also: *note strftime: XREFstrftime, *note save: XREFsave.
+     See also: *note strftime: XREFstrftime, *note save_default_options:
+     XREFsave_default_options.
 
  -- : load file
  -- : load options file

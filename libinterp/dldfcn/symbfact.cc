@@ -1,23 +1,23 @@
 /*
 
-Copyright (C) 2005-2017 David Bateman
+Copyright (C) 2005-2018 David Bateman
 Copyright (C) 1998-2005 Andy Adler
 
 This file is part of Octave.
 
-Octave is free software; you can redistribute it and/or modify it
-under the terms of the GNU General Public License as published by the
-Free Software Foundation; either version 3 of the License, or (at your
-option) any later version.
+Octave is free software: you can redistribute it and/or modify it
+under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-Octave is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-for more details.
+Octave is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with Octave; see the file COPYING.  If not, see
-<http://www.gnu.org/licenses/>.
+<https://www.gnu.org/licenses/>.
 
 */
 
@@ -25,14 +25,20 @@ along with Octave; see the file COPYING.  If not, see
 #  include "config.h"
 #endif
 
+#include <cmath>
+
+#include <algorithm>
+#include <string>
+
+#include "CSparse.h"
+#include "boolSparse.h"
+#include "dColVector.h"
+#include "dSparse.h"
 #include "oct-locbuf.h"
 #include "oct-sparse.h"
 #include "oct-spparms.h"
-#include "sparse-chol.h"
 #include "sparse-util.h"
 
-#include "ov-re-sparse.h"
-#include "ov-cx-sparse.h"
 #include "defun-dld.h"
 #include "error.h"
 #include "errwarn.h"
@@ -116,7 +122,7 @@ Cholesky@tie{}factorization as determined by @var{typ}.
   cholmod_sparse *A = &Astore;
   A->packed = true;
   A->sorted = true;
-  A->nz = 0;
+  A->nz = nullptr;
 #if defined (OCTAVE_ENABLE_64)
   A->itype = CHOLMOD_LONG;
 #else
@@ -126,7 +132,7 @@ Cholesky@tie{}factorization as determined by @var{typ}.
   A->stype = 1;
   A->x = &dummy;
 
-  if (args(0).is_real_type ())
+  if (args(0).isreal ())
     {
       const SparseMatrix a = args(0).sparse_matrix_value ();
       A->nrow = a.rows ();
@@ -139,7 +145,7 @@ Cholesky@tie{}factorization as determined by @var{typ}.
       if (a.rows () > 0 && a.cols () > 0)
         A->x = a.data ();
     }
-  else if (args(0).is_complex_type ())
+  else if (args(0).iscomplex ())
     {
       const SparseComplexMatrix a = args(0).sparse_complex_matrix_value ();
       A->nrow = a.rows ();
@@ -177,7 +183,7 @@ Cholesky@tie{}factorization as determined by @var{typ}.
       else if (ch == 'l')     // 'lo'
         A->stype = -1;
       else
-        error ("symbfact: unrecognized TYP \"%s\"", str.c_str ());
+        error (R"(symbfact: unrecognized TYP "%s")", str.c_str ());
     }
 
   if (nargin == 3)
@@ -187,16 +193,16 @@ Cholesky@tie{}factorization as determined by @var{typ}.
       char ch;
       ch = toupper (str[0]);
       if (ch != 'L')
-        error ("symbfact: unrecognized MODE \"%s\"", str.c_str ());
+        error (R"(symbfact: unrecognized MODE "%s")", str.c_str ());
     }
 
   if (A->stype && A->nrow != A->ncol)
     err_square_matrix_required ("symbfact", "S");
 
-  OCTAVE_LOCAL_BUFFER (octave_idx_type, Parent, n);
-  OCTAVE_LOCAL_BUFFER (octave_idx_type, Post, n);
-  OCTAVE_LOCAL_BUFFER (octave_idx_type, ColCount, n);
-  OCTAVE_LOCAL_BUFFER (octave_idx_type, First, n);
+  OCTAVE_LOCAL_BUFFER (octave::suitesparse_integer, Parent, n);
+  OCTAVE_LOCAL_BUFFER (octave::suitesparse_integer, Post, n);
+  OCTAVE_LOCAL_BUFFER (octave::suitesparse_integer, ColCount, n);
+  OCTAVE_LOCAL_BUFFER (octave::suitesparse_integer, First, n);
   OCTAVE_LOCAL_BUFFER (octave_idx_type, Level, n);
 
   cholmod_common Common;
@@ -207,7 +213,7 @@ Cholesky@tie{}factorization as determined by @var{typ}.
   if (spu == 0.)
     {
       cm->print = -1;
-      SUITESPARSE_ASSIGN_FPTR (printf_func, cm->print_function, 0);
+      SUITESPARSE_ASSIGN_FPTR (printf_func, cm->print_function, nullptr);
     }
   else
     {
@@ -244,14 +250,14 @@ Cholesky@tie{}factorization as determined by @var{typ}.
       goto cleanup;
     }
 
-  if (CHOLMOD_NAME(postorder) (Parent, n, 0, Post, cm) != n)
+  if (CHOLMOD_NAME(postorder) (Parent, n, nullptr, Post, cm) != n)
     {
       err_msg = "symbfact: postorder failed";
       goto cleanup;
     }
 
-  CHOLMOD_NAME(rowcolcounts) (Alo, 0, 0, Parent, Post, 0,
-                              ColCount, First, Level, cm);
+  CHOLMOD_NAME(rowcolcounts) (Alo, nullptr, 0, Parent, Post, nullptr, ColCount,
+                              First, octave::to_suitesparse_intptr (Level), cm);
 
   if (cm->status < CHOLMOD_OK)
     {
@@ -266,12 +272,12 @@ Cholesky@tie{}factorization as determined by @var{typ}.
       if (A->stype == 1)
         {
           A1 = A;
-          A2 = 0;
+          A2 = nullptr;
         }
       else if (A->stype == -1)
         {
           A1 = F;
-          A2 = 0;
+          A2 = nullptr;
         }
       else if (coletree)
         {
@@ -290,7 +296,7 @@ Cholesky@tie{}factorization as determined by @var{typ}.
         lnz += ColCount[j];
 
       // allocate the output matrix L (pattern-only)
-      SparseBoolMatrix L (n, n, lnz);
+      SparseBoolMatrix L (dim_vector (n, n), lnz);
 
       // initialize column pointers
       lnz = 0;
@@ -302,7 +308,7 @@ Cholesky@tie{}factorization as determined by @var{typ}.
       L.xcidx(n) = lnz;
 
       // create a copy of the column pointers
-      octave_idx_type *W = First;
+      octave::suitesparse_integer *W = First;
       for (octave_idx_type j = 0 ; j < n ; j++)
         W[j] = L.xcidx (j);
 
@@ -328,13 +334,12 @@ Cholesky@tie{}factorization as determined by @var{typ}.
       // free workspace
       CHOLMOD_NAME(free_sparse) (&R, cm);
 
+      // fill L with one's
+      std::fill_n (L.xdata (), lnz, true);
+
       // transpose L to get R, or leave as is
       if (nargin < 3)
         L = L.transpose ();
-
-      // fill numerical values of L with one's
-      for (octave_idx_type p = 0 ; p < lnz ; p++)
-        L.xdata(p) = true;
 
       retval(4) = L;
     }
@@ -401,7 +406,7 @@ cleanup:
 %! [~, ~, ~, ~, l] = symbfact (A, "sym", "lower");
 %! assert (l, sparse (tril (true (3))));
 
-%!testif HAVE_CHOLMOD <42587>
+%!testif HAVE_CHOLMOD <*42587>
 %! ## singular matrix
 %! A = sparse ([1 0 8;0 1 8;8 8 1]);
 %! [count, h, parent, post, r] = symbfact (A);

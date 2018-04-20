@@ -63,8 +63,8 @@ Use the function <code>ftp</code> to create an FTP object which represents the
 connection.  All FTP functions take an FTP object as the first argument.
 </p>
 <a name="XREF_0040ftp_002fftp"></a><dl>
-<dt><a name="index-ftp"></a>: <em><var>f</var> =</em> <strong>ftp</strong> <em>(<var>host</var>)</em></dt>
-<dt><a name="index-ftp-1"></a>: <em><var>f</var> =</em> <strong>ftp</strong> <em>(<var>host</var>, <var>username</var>, <var>password</var>)</em></dt>
+<dt><a name="index-ftp"></a><em><var>f</var> =</em> <strong>ftp</strong> <em>(<var>host</var>)</em></dt>
+<dt><a name="index-ftp-1"></a><em><var>f</var> =</em> <strong>ftp</strong> <em>(<var>host</var>, <var>username</var>, <var>password</var>)</em></dt>
 <dd><p>Connect to the FTP server <var>host</var> with <var>username</var> and <var>password</var>.
 </p>
 <p>If <var>username</var> and <var>password</var> are not specified, user
@@ -93,7 +93,7 @@ require an FTP object as the first argument.
 
 
 <a name="XREF_0040ftp_002fclose"></a><dl>
-<dt><a name="index-close-7"></a>: <em></em> <strong>close</strong> <em>(<var>f</var>)</em></dt>
+<dt><a name="index-close-6"></a><em></em> <strong>close</strong> <em>(<var>f</var>)</em></dt>
 <dd><p>Close the FTP connection represented by the FTP object <var>f</var>.
 </p>
 <p><var>f</var> is an FTP object returned by the <code>ftp</code> function.
@@ -101,9 +101,9 @@ require an FTP object as the first argument.
 
 
 <a name="XREF_0040ftp_002fmget"></a><dl>
-<dt><a name="index-mget"></a>: <em></em> <strong>mget</strong> <em>(<var>f</var>, <var>file</var>)</em></dt>
-<dt><a name="index-mget-1"></a>: <em></em> <strong>mget</strong> <em>(<var>f</var>, <var>dir</var>)</em></dt>
-<dt><a name="index-mget-2"></a>: <em></em> <strong>mget</strong> <em>(<var>f</var>, <var>remote_name</var>, <var>target</var>)</em></dt>
+<dt><a name="index-mget"></a><em></em> <strong>mget</strong> <em>(<var>f</var>, <var>file</var>)</em></dt>
+<dt><a name="index-mget-1"></a><em></em> <strong>mget</strong> <em>(<var>f</var>, <var>dir</var>)</em></dt>
+<dt><a name="index-mget-2"></a><em></em> <strong>mget</strong> <em>(<var>f</var>, <var>remote_name</var>, <var>target</var>)</em></dt>
 <dd><p>Download a remote file <var>file</var> or directory <var>dir</var> to the local
 directory on the FTP connection <var>f</var>.
 </p>
@@ -119,7 +119,7 @@ relative or absolute path.
 
 
 <a name="XREF_0040ftp_002fmput"></a><dl>
-<dt><a name="index-mput"></a>: <em></em> <strong>mput</strong> <em>(<var>f</var>, <var>file</var>)</em></dt>
+<dt><a name="index-mput"></a><em></em> <strong>mput</strong> <em>(<var>f</var>, <var>file</var>)</em></dt>
 <dd><p>Upload the local file <var>file</var> into the current remote directory on the
 FTP connection <var>f</var>.
 </p>
@@ -131,8 +131,8 @@ files that match the wildcards in <var>file</var> will be uploaded.
 
 
 <a name="XREF_0040ftp_002fcd"></a><dl>
-<dt><a name="index-cd"></a>: <em></em> <strong>cd</strong> <em>(<var>f</var>)</em></dt>
-<dt><a name="index-cd-1"></a>: <em></em> <strong>cd</strong> <em>(<var>f</var>, <var>path</var>)</em></dt>
+<dt><a name="index-cd"></a><em></em> <strong>cd</strong> <em>(<var>f</var>)</em></dt>
+<dt><a name="index-cd-1"></a><em></em> <strong>cd</strong> <em>(<var>f</var>, <var>path</var>)</em></dt>
 <dd><p>Get or set the remote directory on the FTP connection <var>f</var>.
 </p>
 <p><var>f</var> is an FTP object returned by the <code>ftp</code> function.
@@ -147,7 +147,7 @@ working directory is not changed.
 
 
 <a name="XREF_0040ftp_002fdir"></a><dl>
-<dt><a name="index-dir"></a>: <em><var>lst</var> =</em> <strong>dir</strong> <em>(<var>f</var>)</em></dt>
+<dt><a name="index-dir"></a><em><var>lst</var> =</em> <strong>dir</strong> <em>(<var>f</var>)</em></dt>
 <dd><p>List the current directory in verbose form for the FTP connection <var>f</var>.
 </p>
 <p><var>f</var> is an FTP object returned by the <code>ftp</code> function.
@@ -155,7 +155,7 @@ working directory is not changed.
 
 
 <a name="XREF_0040ftp_002fascii"></a><dl>
-<dt><a name="index-ascii"></a>: <em></em> <strong>ascii</strong> <em>(<var>f</var>)</em></dt>
+<dt><a name="index-ascii"></a><em></em> <strong>ascii</strong> <em>(<var>f</var>)</em></dt>
 <dd><p>Set the FTP connection <var>f</var> to use ASCII mode for transfers.
 </p>
 <p>ASCII mode is only appropriate for text files as it will convert the
@@ -167,7 +167,7 @@ representation.
 
 
 <a name="XREF_0040ftp_002fbinary"></a><dl>
-<dt><a name="index-binary"></a>: <em></em> <strong>binary</strong> <em>(<var>f</var>)</em></dt>
+<dt><a name="index-binary"></a><em></em> <strong>binary</strong> <em>(<var>f</var>)</em></dt>
 <dd><p>Set the FTP connection <var>f</var> to use binary mode for transfers.
 </p>
 <p>In binary mode there is no conversion of newlines from the remote
@@ -178,7 +178,7 @@ representation to the local representation.
 
 
 <a name="XREF_0040ftp_002fdelete"></a><dl>
-<dt><a name="index-delete-3"></a>: <em></em> <strong>delete</strong> <em>(<var>f</var>, <var>file</var>)</em></dt>
+<dt><a name="index-delete-3"></a><em></em> <strong>delete</strong> <em>(<var>f</var>, <var>file</var>)</em></dt>
 <dd><p>Delete the remote file <var>file</var> over the FTP connection <var>f</var>.
 </p>
 <p><var>f</var> is an FTP object returned by the <code>ftp</code> function.
@@ -186,7 +186,7 @@ representation to the local representation.
 
 
 <a name="XREF_0040ftp_002frename"></a><dl>
-<dt><a name="index-rename-2"></a>: <em></em> <strong>rename</strong> <em>(<var>f</var>, <var>oldname</var>, <var>newname</var>)</em></dt>
+<dt><a name="index-rename-2"></a><em></em> <strong>rename</strong> <em>(<var>f</var>, <var>oldname</var>, <var>newname</var>)</em></dt>
 <dd><p>Rename or move the remote file or directory <var>oldname</var> to <var>newname</var>,
 over the FTP connection <var>f</var>.
 </p>
@@ -195,7 +195,7 @@ over the FTP connection <var>f</var>.
 
 
 <a name="XREF_0040ftp_002fmkdir"></a><dl>
-<dt><a name="index-mkdir-3"></a>: <em></em> <strong>mkdir</strong> <em>(<var>f</var>, <var>path</var>)</em></dt>
+<dt><a name="index-mkdir-5"></a><em></em> <strong>mkdir</strong> <em>(<var>f</var>, <var>path</var>)</em></dt>
 <dd><p>Create the remote directory <var>path</var>, over the FTP connection <var>f</var>.
 </p>
 <p><var>f</var> is an FTP object returned by the <code>ftp</code> function.
@@ -203,7 +203,7 @@ over the FTP connection <var>f</var>.
 
 
 <a name="XREF_0040ftp_002frmdir"></a><dl>
-<dt><a name="index-rmdir-3"></a>: <em></em> <strong>rmdir</strong> <em>(<var>f</var>, <var>path</var>)</em></dt>
+<dt><a name="index-rmdir-3"></a><em></em> <strong>rmdir</strong> <em>(<var>f</var>, <var>path</var>)</em></dt>
 <dd><p>Remove the remote directory <var>path</var>, over the FTP connection <var>f</var>.
 </p>
 <p><var>f</var> is an FTP object returned by the <code>ftp</code> function.

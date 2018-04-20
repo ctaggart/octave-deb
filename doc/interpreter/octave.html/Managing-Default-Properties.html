@@ -72,7 +72,7 @@ objects to <code>&quot;green&quot;</code>, for the <code>root</code> object, wil
 value.
 </p>
 <div class="example">
-<pre class="example">set (0, &quot;defaultlinecolor&quot;, &quot;green&quot;);
+<pre class="example">set (groot, &quot;defaultlinecolor&quot;, &quot;green&quot;);
 </pre></div>
 
 <p>sets the default line color for all objects.  The rule for constructing
@@ -86,7 +86,7 @@ the property name to set a default value is
 <code>defaultlinelinewidth&quot;</code> specifies the default <code>linewidth</code>
 property for <code>line</code> objects.
 </p>
-<p>The example above used the root figure object, 0, so the default
+<p>The example above used the root figure object so the default
 property value will apply to all line objects.  However, default values
 are hierarchical, so defaults set in a figure objects override those
 set in the root figure object.  Likewise, defaults set in axes objects
@@ -94,7 +94,7 @@ override those set in figure or root figure objects.  For example,
 </p>
 <div class="example">
 <pre class="example">subplot (2, 1, 1);
-set (0, &quot;defaultlinecolor&quot;, &quot;red&quot;);
+set (groot, &quot;defaultlinecolor&quot;, &quot;red&quot;);
 set (1, &quot;defaultlinecolor&quot;, &quot;green&quot;);
 set (gca (), &quot;defaultlinecolor&quot;, &quot;blue&quot;);
 line (1:10, rand (1, 10));
@@ -123,7 +123,7 @@ object.  To quickly remove all user-defined defaults use the <code>reset</code>
 function.
 </p>
 <a name="XREFreset"></a><dl>
-<dt><a name="index-reset"></a>: <em></em> <strong>reset</strong> <em>(<var>h</var>)</em></dt>
+<dt><a name="index-reset"></a><em></em> <strong>reset</strong> <em>(<var>h</var>)</em></dt>
 <dd><p>Reset the properties of the graphic object <var>h</var> to their default values.
 </p>
 <p>For figures, the properties <code>&quot;position&quot;</code>, <code>&quot;units&quot;</code>,
@@ -152,7 +152,7 @@ object.
 command
 </p>
 <div class="example">
-<pre class="example">get (0, &quot;factory&quot;);
+<pre class="example">get (groot, &quot;factory&quot;);
 </pre></div>
 
 <p>returns a list of factory defaults.

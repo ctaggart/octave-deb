@@ -67,7 +67,7 @@ accepts.
 
 <dl compact="compact">
 <dt><code>--built-in-docstrings-file <var>filename</var></code></dt>
-<dd><a name="index-_002d_002dbuilt_002din_002ddocstrings_002dfile-filename"></a>
+<dd><a name="index-options_002c-Octave-command-_002d_002dbuilt_002din_002ddocstrings_002dfile--_002d_002dbuilt_002din_002ddocstrings_002dfile-filename"></a>
 <p>Specify the name of the file containing documentation strings for the
 built-in functions of Octave.  This value is normally correct and should
 only need to specified in extraordinary situations.
@@ -75,20 +75,20 @@ only need to specified in extraordinary situations.
 </dd>
 <dt><code>--debug</code></dt>
 <dt><code>-d</code></dt>
-<dd><a name="index-_002d_002ddebug"></a>
-<a name="index-_002dd"></a>
+<dd><a name="index-options_002c-Octave-command-_002d_002ddebug--_002d_002ddebug"></a>
+<a name="index-options_002c-Octave-command-_002dd--_002dd"></a>
 <p>Enter parser debugging mode.  Using this option will cause Octave&rsquo;s
 parser to print a lot of information about the commands it reads, and is
 probably only useful if you are actually trying to debug the parser.
 </p>
 </dd>
 <dt><code>--debug-jit</code></dt>
-<dd><a name="index-_002d_002ddebug_002djit"></a>
+<dd><a name="index-options_002c-Octave-command-_002d_002ddebug_002djit--_002d_002ddebug_002djit"></a>
 <p>Enable JIT compiler debugging and tracing.
 </p>
 </dd>
 <dt><code>--doc-cache-file <var>filename</var></code></dt>
-<dd><a name="index-_002d_002ddoc_002dcache_002dfile-filename"></a>
+<dd><a name="index-options_002c-Octave-command-_002d_002ddoc_002dcache_002dfile--_002d_002ddoc_002dcache_002dfile-filename"></a>
 <p>Specify the name of the doc cache file to use.  The value of <var>filename</var>
 specified on the command line will override any value of
 <code><span class="nolinebreak">OCTAVE_DOC_CACHE_FILE</span></code><!-- /@w --> found in the environment, but not any commands
@@ -98,18 +98,19 @@ function.
 </dd>
 <dt><code>--echo-commands</code></dt>
 <dt><code>-x</code></dt>
-<dd><a name="index-_002d_002decho_002dcommands"></a>
-<a name="index-_002dx"></a>
+<dd><a name="index-options_002c-Octave-command-_002d_002decho_002dcommands--_002d_002decho_002dcommands"></a>
+<a name="index-options_002c-Octave-command-_002dx--_002dx"></a>
 <p>Echo commands as they are executed.
 </p>
 </dd>
 <dt><code>--eval <var>code</var></code></dt>
-<dd><p>Evaluate <var>code</var> and exit when finished unless <samp>--persist</samp> is also
+<dd><a name="index-options_002c-Octave-command-_002d_002deval--_002d_002deval-code"></a>
+<p>Evaluate <var>code</var> and exit when finished unless <samp>--persist</samp> is also
 specified.
 </p>
 </dd>
 <dt><code>--exec-path <var>path</var></code></dt>
-<dd><a name="index-_002d_002dexec_002dpath-path"></a>
+<dd><a name="index-options_002c-Octave-command-_002d_002dexec_002dpath--_002d_002dexec_002dpath-path"></a>
 <p>Specify the path to search for programs to run.  The value of <var>path</var>
 specified on the command line will override any value of
 <code><span class="nolinebreak">OCTAVE_EXEC_PATH</span></code><!-- /@w --> found in the environment, but not any commands
@@ -117,22 +118,20 @@ in the system or user startup files that set the built-in variable
 <code><span class="nolinebreak">EXEC_PATH</span></code><!-- /@w -->.
 </p>
 </dd>
-<dt><code>--force-gui</code></dt>
-<dd><a name="index-_002d_002dforce_002dgui"></a>
-<p>Force the graphical user interface (GUI) to start.
+<dt><code>--gui</code></dt>
+<dd><a name="index-options_002c-Octave-command-_002d_002dgui--_002d_002dgui"></a>
+<p>Start the graphical user interface (GUI).
 </p>
 </dd>
 <dt><code>--help</code></dt>
 <dt><code>-h</code></dt>
-<dt><code>-?</code></dt>
-<dd><a name="index-_002d_002dhelp"></a>
-<a name="index-_002dh"></a>
-<a name="index-_002d_003f"></a>
+<dd><a name="index-options_002c-Octave-command-_002d_002dhelp--_002d_002dhelp"></a>
+<a name="index-options_002c-Octave-command-_002dh--_002dh"></a>
 <p>Print short help message and exit.
 </p>
 </dd>
 <dt><code>--image-path <var>path</var></code></dt>
-<dd><a name="index-_002d_002dimage_002dpath-path"></a>
+<dd><a name="index-options_002c-Octave-command-_002d_002dimage_002dpath--_002d_002dimage_002dpath-path"></a>
 <p>Add path to the head of the search path for images.  The value of
 <var>path</var> specified on the command line will override any value of
 <code><span class="nolinebreak">OCTAVE_IMAGE_PATH</span></code><!-- /@w --> found in the environment, but not any commands
@@ -141,7 +140,7 @@ in the system or user startup files that set the built-in variable
 </p>
 </dd>
 <dt><code>--info-file <var>filename</var></code></dt>
-<dd><a name="index-_002d_002dinfo_002dfile-filename"></a>
+<dd><a name="index-options_002c-Octave-command-_002d_002dinfo_002dfile--_002d_002dinfo_002dfile-filename"></a>
 <p>Specify the name of the info file to use.  The value of <var>filename</var>
 specified on the command line will override any value of
 <code><span class="nolinebreak">OCTAVE_INFO_FILE</span></code><!-- /@w --> found in the environment, but not any commands
@@ -150,7 +149,7 @@ function.
 </p>
 </dd>
 <dt><code>--info-program <var>program</var></code></dt>
-<dd><a name="index-_002d_002dinfo_002dprogram-program"></a>
+<dd><a name="index-options_002c-Octave-command-_002d_002dinfo_002dprogram--_002d_002dinfo_002dprogram-program"></a>
 <p>Specify the name of the info program to use.  The value of <var>program</var>
 specified on the command line will override any value of
 <code><span class="nolinebreak">OCTAVE_INFO_PROGRAM</span></code><!-- /@w --> found in the environment, but not any
@@ -160,67 +159,72 @@ commands in the system or user startup files that use the
 </dd>
 <dt><code>--interactive</code></dt>
 <dt><code>-i</code></dt>
-<dd><a name="index-_002d_002dinteractive"></a>
-<a name="index-_002di"></a>
+<dd><a name="index-options_002c-Octave-command-_002d_002dinteractive--_002d_002dinteractive"></a>
+<a name="index-options_002c-Octave-command-_002di--_002di"></a>
 <p>Force interactive behavior.  This can be useful for running Octave via a
 remote shell command or inside an Emacs shell buffer.
 </p>
 </dd>
 <dt><code>--jit-compiler</code></dt>
-<dd><a name="index-_002d_002djit_002dcompiler"></a>
+<dd><a name="index-options_002c-Octave-command-_002d_002djit_002dcompiler--_002d_002djit_002dcompiler"></a>
 <p>Enable the JIT compiler used for accelerating loops.
 </p>
 </dd>
 <dt><code>--line-editing</code></dt>
-<dd><a name="index-_002d_002dline_002dediting"></a>
+<dd><a name="index-options_002c-Octave-command-_002d_002dline_002dediting--_002d_002dline_002dediting"></a>
 <p>Force readline use for command-line editing.
 </p>
 </dd>
 <dt><code>--no-gui</code></dt>
-<dd><a name="index-_002d_002dno_002dgui"></a>
+<dd><a name="index-options_002c-Octave-command-_002d_002dno_002dgui--_002d_002dno_002dgui"></a>
 <p>Disable the graphical user interface (GUI) and use the command line
-interface (CLI) instead.
+interface (CLI) instead.  This is the default behavior, but this option
+may be useful to override a previous <samp>--gui</samp>.
 </p>
 </dd>
 <dt><code>--no-history</code></dt>
 <dt><code>-H</code></dt>
-<dd><a name="index-_002d_002dno_002dhistory"></a>
-<a name="index-_002dH"></a>
+<dd><a name="index-options_002c-Octave-command-_002d_002dno_002dhistory--_002d_002dno_002dhistory"></a>
+<a name="index-options_002c-Octave-command-_002dH--_002dH"></a>
 <p>Disable recording of command-line history.
 </p>
 </dd>
 <dt><code>--no-init-file</code></dt>
-<dd><a name="index-_002d_002dno_002dinit_002dfile"></a>
+<dd><a name="index-options_002c-Octave-command-_002d_002dno_002dinit_002dfile--_002d_002dno_002dinit_002dfile"></a>
+<a name="index-octaverc-_007e_002f_002eoctaverc_007e_002f_002eoctaverc"></a>
+<a name="index-octaverc-_002eoctaverc_002eoctaverc"></a>
 <p>Don&rsquo;t read the initialization files <samp>~/.octaverc</samp> and <samp>.octaverc</samp>.
 </p>
 </dd>
 <dt><code>--no-init-path</code></dt>
-<dd><a name="index-_002d_002dno_002dinit_002dpath"></a>
+<dd><a name="index-options_002c-Octave-command-_002d_002dno_002dinit_002dpath--_002d_002dno_002dinit_002dpath"></a>
 <p>Don&rsquo;t initialize the search path for function files to include default
 locations.
 </p>
 </dd>
 <dt><code>--no-line-editing</code></dt>
-<dd><a name="index-_002d_002dno_002dline_002dediting"></a>
+<dd><a name="index-options_002c-Octave-command-_002d_002dno_002dline_002dediting--_002d_002dno_002dline_002dediting"></a>
 <p>Disable command-line editing.
 </p>
 </dd>
 <dt><code>--no-site-file</code></dt>
-<dd><a name="index-_002d_002dno_002dsite_002dfile"></a>
+<dd><a name="index-options_002c-Octave-command-_002d_002dno_002dsite_002dfile--_002d_002dno_002dsite_002dfile"></a>
+<a name="index-site-startup-file"></a>
 <p>Don&rsquo;t read the site-wide <samp>octaverc</samp> initialization files.
 </p>
 </dd>
 <dt><code>--no-window-system</code></dt>
 <dt><code>-W</code></dt>
-<dd><a name="index-_002d_002dno_002dwindow_002dsystem"></a>
+<dd><a name="index-options_002c-Octave-command-_002d_002dno_002dwindow_002dsystem--_002d_002dno_002dwindow_002dsystem"></a>
+<a name="index-options_002c-Octave-command-_002dW--_002dW"></a>
 <p>Disable use of a windowing system including graphics.  This forces a
 strictly terminal-only environment.
 </p>
 </dd>
 <dt><code>--norc</code></dt>
 <dt><code>-f</code></dt>
-<dd><a name="index-_002d_002dnorc"></a>
-<a name="index-_002df"></a>
+<dd><a name="index-options_002c-Octave-command-_002d_002dnorc--_002d_002dnorc"></a>
+<a name="index-options_002c-Octave-command-_002df--_002df"></a>
 <p>Don&rsquo;t read any of the system or user initialization files at startup.
 This is equivalent to using both of the options <samp>--no-init-file</samp>
 and <samp>--no-site-file</samp>.
@@ -228,8 +232,8 @@ and <samp>--no-site-file</samp>.
 </dd>
 <dt><code>--path <var>path</var></code></dt>
 <dt><code>-p <var>path</var></code></dt>
-<dd><a name="index-_002d_002dpath-path"></a>
-<a name="index-_002dp-path"></a>
+<dd><a name="index-options_002c-Octave-command-_002d_002dpath--_002d_002dpath-path"></a>
+<a name="index-options_002c-Octave-command-_002dp--_002dp-path"></a>
 <p>Add path to the head of the search path for function files.  The
 value of <var>path</var> specified on the command line will override any value
 of <code><span class="nolinebreak">OCTAVE_PATH</span></code><!-- /@w --> found in the environment, but not any commands in the
@@ -238,7 +242,7 @@ of the path functions.
 </p>
 </dd>
 <dt><code>--persist</code></dt>
-<dd><a name="index-_002d_002dpersist"></a>
+<dd><a name="index-options_002c-Octave-command-_002d_002dpersist--_002d_002dpersist"></a>
 <p>Go to interactive mode after <samp>--eval</samp> or reading from a file
 named on the command line.
 </p>
@@ -246,21 +250,21 @@ named on the command line.
 <dt><code>--silent</code></dt>
 <dt><code>--quiet</code></dt>
 <dt><code>-q</code></dt>
-<dd><a name="index-_002d_002dsilent"></a>
-<a name="index-_002d_002dquiet"></a>
-<a name="index-_002dq"></a>
+<dd><a name="index-options_002c-Octave-command-_002d_002dsilent--_002d_002dsilent"></a>
+<a name="index-options_002c-Octave-command-_002d_002dquiet--_002d_002dquiet"></a>
+<a name="index-options_002c-Octave-command-_002dq--_002dq"></a>
 <p>Don&rsquo;t print the usual greeting and version message at startup.
 </p>
 </dd>
 <dt><code>--texi-macros-file <var>filename</var></code></dt>
-<dd><a name="index-_002d_002dtexi_002dmacros_002dfile-filename"></a>
+<dd><a name="index-options_002c-Octave-command-_002d_002dtexi_002dmacros_002dfile--_002d_002dtexi_002dmacros_002dfile-filename"></a>
 <p>Specify the name of the file containing Texinfo macros for use by makeinfo.
 </p>
 </dd>
 <dt><code>--traditional</code></dt>
 <dt><code>--braindead</code></dt>
-<dd><a name="index-_002d_002dtraditional"></a>
-<a name="index-_002d_002dbraindead"></a>
+<dd><a name="index-options_002c-Octave-command-_002d_002dtraditional--_002d_002dtraditional"></a>
+<a name="index-options_002c-Octave-command-_002d_002dbraindead--_002d_002dbraindead"></a>
 <p>For compatibility with <small>MATLAB</small>, set initial values for
 user preferences to the following values
 </p>
@@ -275,7 +279,6 @@ disable_permutation_matrix      = true
 disable_range                   = true
 fixed_point_format              = true
 history_timestamp_format_string = &quot;%%-- %D %I:%M %p --%%&quot;
-page_screen_output              = false
 print_empty_dimensions          = false
 save_default_options            = &quot;-mat-binary&quot;
 struct_levels_to_print          = 0
@@ -285,9 +288,8 @@ struct_levels_to_print          = 0
 </p>
 <div class="example">
 <pre class="example">Octave:abbreviated-property-match
-Octave:fopen-file-in-path
+Octave:data-file-in-path
 Octave:function-name-clash
-Octave:load-file-in-path
 Octave:possible-matlab-short-circuit-operator
 </pre></div>
 
@@ -299,15 +301,15 @@ that works in Octave but not <small>MATLAB</small> (see <a href="Issuing-Warning
 </dd>
 <dt><code>--verbose</code></dt>
 <dt><code>-V</code></dt>
-<dd><a name="index-_002d_002dverbose"></a>
-<a name="index-_002dV"></a>
+<dd><a name="index-options_002c-Octave-command-_002d_002dverbose--_002d_002dverbose"></a>
+<a name="index-options_002c-Octave-command-_002dV--_002dV"></a>
 <p>Turn on verbose output.
 </p>
 </dd>
 <dt><code>--version</code></dt>
 <dt><code>-v</code></dt>
-<dd><a name="index-_002d_002dversion"></a>
-<a name="index-_002dv"></a>
+<dd><a name="index-options_002c-Octave-command-_002d_002dversion--_002d_002dversion"></a>
+<a name="index-options_002c-Octave-command-_002dv--_002dv"></a>
 <p>Print the program version number and exit.
 </p>
 </dd>
@@ -322,7 +324,7 @@ about the command line, including the number of arguments and all of the
 options.
 </p>
 <a name="XREFargv"></a><dl>
-<dt><a name="index-argv"></a>: <em></em> <strong>argv</strong> <em>()</em></dt>
+<dt><a name="index-argv"></a><em></em> <strong>argv</strong> <em>()</em></dt>
 <dd><p>Return the command line arguments passed to Octave.
 </p>
 <p>For example, if you invoked Octave using the command
@@ -341,7 +343,7 @@ an example of how to create an executable Octave script.
 
 
 <a name="XREFprogram_005fname"></a><dl>
-<dt><a name="index-program_005fname"></a>: <em></em> <strong>program_name</strong> <em>()</em></dt>
+<dt><a name="index-program_005fname"></a><em></em> <strong>program_name</strong> <em>()</em></dt>
 <dd><p>Return the last component of the value returned by
 <code>program_invocation_name</code>.
 </p>
@@ -350,7 +352,7 @@ an example of how to create an executable Octave script.
 
 
 <a name="XREFprogram_005finvocation_005fname"></a><dl>
-<dt><a name="index-program_005finvocation_005fname"></a>: <em></em> <strong>program_invocation_name</strong> <em>()</em></dt>
+<dt><a name="index-program_005finvocation_005fname"></a><em></em> <strong>program_invocation_name</strong> <em>()</em></dt>
 <dd><p>Return the name that was typed at the shell prompt to run Octave.
 </p>
 <p>If executing a script from the command line (e.g., <code>octave foo.m</code>)

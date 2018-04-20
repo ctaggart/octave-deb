@@ -153,20 +153,19 @@ scalar.  The following code accomplishes this with broadcasting,
 <code>bsxfun</code> can be useful for coercing them to broadcast.
 </p>
 <a name="XREFbsxfun"></a><dl>
-<dt><a name="index-bsxfun"></a>: <em></em> <strong>bsxfun</strong> <em>(<var>f</var>, <var>A</var>, <var>B</var>)</em></dt>
-<dd><p>The binary singleton expansion function performs broadcasting,
-that is, it applies a binary function <var>f</var> element-by-element to two
-array arguments <var>A</var> and <var>B</var>, and expands as necessary
-singleton dimensions in either input argument.
+<dt><a name="index-bsxfun"></a><em></em> <strong>bsxfun</strong> <em>(<var>f</var>, <var>A</var>, <var>B</var>)</em></dt>
+<dd><p>Apply a binary function <var>f</var> element-by-element to two array arguments
+<var>A</var> and <var>B</var>, expanding singleton dimensions in either input argument as
+necessary.
 </p>
 <p><var>f</var> is a function handle, inline function, or string containing the name
-of the function to evaluate.  The function <var>f</var> must be capable of
-accepting two column-vector arguments of equal length, or one column vector
-argument and a scalar.
+of the function to evaluate.  The function <var>f</var> must be capable of accepting
+two column-vector arguments of equal length, or one column vector argument and
+a scalar.
 </p>
 <p>The dimensions of <var>A</var> and <var>B</var> must be equal or singleton.  The
-singleton dimensions of the arrays will be expanded to the same
-dimensionality as the other array.
+singleton dimensions of the arrays will be expanded to the same dimensionality
+as the other array.
 </p>
 <p><strong>See also:</strong> <a href="Function-Application.html#XREFarrayfun">arrayfun</a>, <a href="Function-Application.html#XREFcellfun">cellfun</a>.
 </p></dd></dl>

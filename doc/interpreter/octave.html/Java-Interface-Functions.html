@@ -65,8 +65,8 @@ which return results to Octave.
 <a name="index-object_002c-creating-a-Java-object"></a>
 <a name="index-instance_002c-creating-a-Java-instance"></a>
 <a name="XREFjavaObject"></a><dl>
-<dt><a name="index-javaObject"></a>: <em><var>jobj</var> =</em> <strong>javaObject</strong> <em>(<var>classname</var>)</em></dt>
-<dt><a name="index-javaObject-1"></a>: <em><var>jobj</var> =</em> <strong>javaObject</strong> <em>(<var>classname</var>, <var>arg1</var>, &hellip;)</em></dt>
+<dt><a name="index-javaObject"></a><em><var>jobj</var> =</em> <strong>javaObject</strong> <em>(<var>classname</var>)</em></dt>
+<dt><a name="index-javaObject-1"></a><em><var>jobj</var> =</em> <strong>javaObject</strong> <em>(<var>classname</var>, <var>arg1</var>, &hellip;)</em></dt>
 <dd><p>Create a Java object of class <var>classsname</var>, by calling the class
 constructor with the arguments <var>arg1</var>, &hellip;
 </p>
@@ -85,8 +85,8 @@ x = javaObject (&quot;java.lang.StringBuffer&quot;, &quot;Initial string&quot;)
 
 <a name="index-array_002c-creating-a-Java-array"></a>
 <a name="XREFjavaArray"></a><dl>
-<dt><a name="index-javaArray"></a>: <em><var>jary</var> =</em> <strong>javaArray</strong> <em>(<var>classname</var>, <var>sz</var>)</em></dt>
-<dt><a name="index-javaArray-1"></a>: <em><var>jary</var> =</em> <strong>javaArray</strong> <em>(<var>classname</var>, <var>m</var>, <var>n</var>, &hellip;)</em></dt>
+<dt><a name="index-javaArray"></a><em><var>jary</var> =</em> <strong>javaArray</strong> <em>(<var>classname</var>, <var>sz</var>)</em></dt>
+<dt><a name="index-javaArray-1"></a><em><var>jary</var> =</em> <strong>javaArray</strong> <em>(<var>classname</var>, <var>m</var>, <var>n</var>, &hellip;)</em></dt>
 <dd>
 <p>Create a Java array of size <var>sz</var> with elements of class <var>classname</var>.
 </p>
@@ -114,7 +114,7 @@ through <code>javaObject</code> can use Java functions.  Before using Java with 
 unknown object the type can be checked with <code>isjava</code>.
 </p>
 <a name="XREFisjava"></a><dl>
-<dt><a name="index-isjava"></a>: <em></em> <strong>isjava</strong> <em>(<var>x</var>)</em></dt>
+<dt><a name="index-isjava"></a><em></em> <strong>isjava</strong> <em>(<var>x</var>)</em></dt>
 <dd><p>Return true if <var>x</var> is a Java object.
 </p>
 <p><strong>See also:</strong> <a href="Built_002din-Data-Types.html#XREFclass">class</a>, <a href="Data-Types.html#XREFtypeinfo">typeinfo</a>, <a href="Built_002din-Data-Types.html#XREFisa">isa</a>, <a href="#XREFjavaObject">javaObject</a>.
@@ -162,7 +162,7 @@ java_get (&quot;java.lang.Float&quot;, &quot;MAX_VALUE&quot;)
 </pre></div>
 
 <a name="XREFjava_005fget"></a><dl>
-<dt><a name="index-java_005fget"></a>: <em><var>val</var> =</em> <strong>java_get</strong> <em>(<var>obj</var>, <var>name</var>)</em></dt>
+<dt><a name="index-java_005fget"></a><em><var>val</var> =</em> <strong>java_get</strong> <em>(<var>obj</var>, <var>name</var>)</em></dt>
 <dd><p>Get the value of the field <var>name</var> of the Java object <var>obj</var>.
 </p>
 <p>For static fields, <var>obj</var> can be a string representing the fully
@@ -184,7 +184,7 @@ equivalent
 
 <a name="index-field_002c-setting-value-of-Java-object-field"></a>
 <a name="XREFjava_005fset"></a><dl>
-<dt><a name="index-java_005fset"></a>: <em><var>obj</var> =</em> <strong>java_set</strong> <em>(<var>obj</var>, <var>name</var>, <var>val</var>)</em></dt>
+<dt><a name="index-java_005fset"></a><em><var>obj</var> =</em> <strong>java_set</strong> <em>(<var>obj</var>, <var>name</var>, <var>val</var>)</em></dt>
 <dd><p>Set the value of the field <var>name</var> of the Java object <var>obj</var> to
 <var>val</var>.
 </p>
@@ -234,8 +234,8 @@ javaMethod (&quot;equals&quot;, dobj, pi)
 
 <a name="index-method_002c-invoking-a-method-of-a-Java-object"></a>
 <a name="XREFjavaMethod"></a><dl>
-<dt><a name="index-javaMethod"></a>: <em><var>ret</var> =</em> <strong>javaMethod</strong> <em>(<var>methodname</var>, <var>obj</var>)</em></dt>
-<dt><a name="index-javaMethod-1"></a>: <em><var>ret</var> =</em> <strong>javaMethod</strong> <em>(<var>methodname</var>, <var>obj</var>, <var>arg1</var>, &hellip;)</em></dt>
+<dt><a name="index-javaMethod"></a><em><var>ret</var> =</em> <strong>javaMethod</strong> <em>(<var>methodname</var>, <var>obj</var>)</em></dt>
+<dt><a name="index-javaMethod-1"></a><em><var>ret</var> =</em> <strong>javaMethod</strong> <em>(<var>methodname</var>, <var>obj</var>, <var>arg1</var>, &hellip;)</em></dt>
 <dd><p>Invoke the method <var>methodname</var> on the Java object <var>obj</var> with the
 arguments <var>arg1</var>, &hellip;.
 </p>
@@ -268,10 +268,10 @@ used by the Java Virtual Machine.  This is entirely separate from Octave&rsquo;s
 <a name="index-classpath_002c-static"></a>
 <a name="index-static-classpath-1"></a>
 <a name="XREFjavaclasspath"></a><dl>
-<dt><a name="index-javaclasspath"></a>: <em></em> <strong>javaclasspath</strong> <em>()</em></dt>
-<dt><a name="index-javaclasspath-1"></a>: <em><var>dpath</var> =</em> <strong>javaclasspath</strong> <em>()</em></dt>
-<dt><a name="index-javaclasspath-2"></a>: <em>[<var>dpath</var>, <var>spath</var>] =</em> <strong>javaclasspath</strong> <em>()</em></dt>
-<dt><a name="index-javaclasspath-3"></a>: <em><var>clspath</var> =</em> <strong>javaclasspath</strong> <em>(<var>what</var>)</em></dt>
+<dt><a name="index-javaclasspath"></a><em></em> <strong>javaclasspath</strong> <em>()</em></dt>
+<dt><a name="index-javaclasspath-1"></a><em><var>dpath</var> =</em> <strong>javaclasspath</strong> <em>()</em></dt>
+<dt><a name="index-javaclasspath-2"></a><em>[<var>dpath</var>, <var>spath</var>] =</em> <strong>javaclasspath</strong> <em>()</em></dt>
+<dt><a name="index-javaclasspath-3"></a><em><var>clspath</var> =</em> <strong>javaclasspath</strong> <em>(<var>what</var>)</em></dt>
 <dd><p>Return the class path of the Java virtual machine in the form of a cell
 array of strings.
 </p>
@@ -315,8 +315,8 @@ contain the static classpath.
 <a name="index-classpath_002c-dynamic-1"></a>
 <a name="index-dynamic-classpath_002c-adding-new-path"></a>
 <a name="XREFjavaaddpath"></a><dl>
-<dt><a name="index-javaaddpath-1"></a>: <em></em> <strong>javaaddpath</strong> <em>(<var>clspath</var>)</em></dt>
-<dt><a name="index-javaaddpath-2"></a>: <em></em> <strong>javaaddpath</strong> <em>(<var>clspath1</var>, &hellip;)</em></dt>
+<dt><a name="index-javaaddpath-1"></a><em></em> <strong>javaaddpath</strong> <em>(<var>clspath</var>)</em></dt>
+<dt><a name="index-javaaddpath-2"></a><em></em> <strong>javaaddpath</strong> <em>(<var>clspath1</var>, &hellip;)</em></dt>
 <dd><p>Add <var>clspath</var> to the dynamic class path of the Java virtual machine.
 </p>
 <p><var>clspath</var> may either be a directory where <samp>.class</samp> files are
@@ -330,8 +330,8 @@ be added at once by specifying additional arguments.
 <a name="index-classpath_002c-removing-path"></a>
 <a name="index-path_002c-removing-from-classpath"></a>
 <a name="XREFjavarmpath"></a><dl>
-<dt><a name="index-javarmpath"></a>: <em></em> <strong>javarmpath</strong> <em>(<var>clspath</var>)</em></dt>
-<dt><a name="index-javarmpath-1"></a>: <em></em> <strong>javarmpath</strong> <em>(<var>clspath1</var>, &hellip;)</em></dt>
+<dt><a name="index-javarmpath"></a><em></em> <strong>javarmpath</strong> <em>(<var>clspath</var>)</em></dt>
+<dt><a name="index-javarmpath-1"></a><em></em> <strong>javarmpath</strong> <em>(<var>clspath1</var>, &hellip;)</em></dt>
 <dd><p>Remove <var>clspath</var> from the dynamic class path of the Java virtual
 machine.
 </p>
@@ -347,9 +347,9 @@ removed at once by specifying additional arguments.
 between Octave and the Java Virtual Machine.
 </p>
 <a name="XREFjavachk"></a><dl>
-<dt><a name="index-javachk"></a>: <em></em> <strong>javachk</strong> <em>(<var>feature</var>)</em></dt>
-<dt><a name="index-javachk-1"></a>: <em></em> <strong>javachk</strong> <em>(<var>feature</var>, <var>component</var>)</em></dt>
-<dt><a name="index-javachk-2"></a>: <em><var>msg</var> =</em> <strong>javachk</strong> <em>(&hellip;)</em></dt>
+<dt><a name="index-javachk"></a><em></em> <strong>javachk</strong> <em>(<var>feature</var>)</em></dt>
+<dt><a name="index-javachk-1"></a><em></em> <strong>javachk</strong> <em>(<var>feature</var>, <var>component</var>)</em></dt>
+<dt><a name="index-javachk-2"></a><em><var>msg</var> =</em> <strong>javachk</strong> <em>(&hellip;)</em></dt>
 <dd><p>Check for the presence of the Java <var>feature</var> in the current session
 and print or return an error message if it is not.
 </p>
@@ -415,7 +415,7 @@ Interface and Java is installed.
 
 
 <a name="XREFusejava"></a><dl>
-<dt><a name="index-usejava"></a>: <em></em> <strong>usejava</strong> <em>(<var>feature</var>)</em></dt>
+<dt><a name="index-usejava"></a><em></em> <strong>usejava</strong> <em>(<var>feature</var>)</em></dt>
 <dd><p>Return true if the Java element <var>feature</var> is available.
 </p>
 <p>Possible features are:
@@ -451,8 +451,8 @@ Java Interface and Java is installed.
 
 <a name="index-memory_002c-displaying-Java-memory-status"></a>
 <a name="XREFjavamem"></a><dl>
-<dt><a name="index-javamem"></a>: <em></em> <strong>javamem</strong> <em>()</em></dt>
-<dt><a name="index-javamem-1"></a>: <em><var>jmem</var> =</em> <strong>javamem</strong> <em>()</em></dt>
+<dt><a name="index-javamem"></a><em></em> <strong>javamem</strong> <em>()</em></dt>
+<dt><a name="index-javamem-1"></a><em><var>jmem</var> =</em> <strong>javamem</strong> <em>()</em></dt>
 <dd><p>Show the current memory usage of the Java virtual machine (JVM) and run the
 garbage collector.
 </p>
@@ -492,9 +492,9 @@ Java&rsquo;s own cleaning up and your operating system&rsquo;s memory management
 
 
 <a name="XREFjava_005fmatrix_005fautoconversion"></a><dl>
-<dt><a name="index-java_005fmatrix_005fautoconversion"></a>: <em><var>val</var> =</em> <strong>java_matrix_autoconversion</strong> <em>()</em></dt>
-<dt><a name="index-java_005fmatrix_005fautoconversion-1"></a>: <em><var>old_val</var> =</em> <strong>java_matrix_autoconversion</strong> <em>(<var>new_val</var>)</em></dt>
-<dt><a name="index-java_005fmatrix_005fautoconversion-2"></a>: <em></em> <strong>java_matrix_autoconversion</strong> <em>(<var>new_val</var>, &quot;local&quot;)</em></dt>
+<dt><a name="index-java_005fmatrix_005fautoconversion"></a><em><var>val</var> =</em> <strong>java_matrix_autoconversion</strong> <em>()</em></dt>
+<dt><a name="index-java_005fmatrix_005fautoconversion-1"></a><em><var>old_val</var> =</em> <strong>java_matrix_autoconversion</strong> <em>(<var>new_val</var>)</em></dt>
+<dt><a name="index-java_005fmatrix_005fautoconversion-2"></a><em></em> <strong>java_matrix_autoconversion</strong> <em>(<var>new_val</var>, &quot;local&quot;)</em></dt>
 <dd><p>Query or set the internal variable that controls whether Java arrays are
 automatically converted to Octave matrices.
 </p>
@@ -509,9 +509,9 @@ The original variable value is restored when exiting the function.
 
 
 <a name="XREFjava_005funsigned_005fautoconversion"></a><dl>
-<dt><a name="index-java_005funsigned_005fautoconversion"></a>: <em><var>val</var> =</em> <strong>java_unsigned_autoconversion</strong> <em>()</em></dt>
-<dt><a name="index-java_005funsigned_005fautoconversion-1"></a>: <em><var>old_val</var> =</em> <strong>java_unsigned_autoconversion</strong> <em>(<var>new_val</var>)</em></dt>
-<dt><a name="index-java_005funsigned_005fautoconversion-2"></a>: <em></em> <strong>java_unsigned_autoconversion</strong> <em>(<var>new_val</var>, &quot;local&quot;)</em></dt>
+<dt><a name="index-java_005funsigned_005fautoconversion"></a><em><var>val</var> =</em> <strong>java_unsigned_autoconversion</strong> <em>()</em></dt>
+<dt><a name="index-java_005funsigned_005fautoconversion-1"></a><em><var>old_val</var> =</em> <strong>java_unsigned_autoconversion</strong> <em>(<var>new_val</var>)</em></dt>
+<dt><a name="index-java_005funsigned_005fautoconversion-2"></a><em></em> <strong>java_unsigned_autoconversion</strong> <em>(<var>new_val</var>, &quot;local&quot;)</em></dt>
 <dd><p>Query or set the internal variable that controls how integer classes are
 converted when <code>java_matrix_autoconversion</code> is enabled.
 </p>
@@ -527,9 +527,9 @@ The original variable value is restored when exiting the function.
 
 
 <a name="XREFdebug_005fjava"></a><dl>
-<dt><a name="index-debug_005fjava"></a>: <em><var>val</var> =</em> <strong>debug_java</strong> <em>()</em></dt>
-<dt><a name="index-debug_005fjava-1"></a>: <em><var>old_val</var> =</em> <strong>debug_java</strong> <em>(<var>new_val</var>)</em></dt>
-<dt><a name="index-debug_005fjava-2"></a>: <em></em> <strong>debug_java</strong> <em>(<var>new_val</var>, &quot;local&quot;)</em></dt>
+<dt><a name="index-debug_005fjava"></a><em><var>val</var> =</em> <strong>debug_java</strong> <em>()</em></dt>
+<dt><a name="index-debug_005fjava-1"></a><em><var>old_val</var> =</em> <strong>debug_java</strong> <em>(<var>new_val</var>)</em></dt>
+<dt><a name="index-debug_005fjava-2"></a><em></em> <strong>debug_java</strong> <em>(<var>new_val</var>, &quot;local&quot;)</em></dt>
 <dd><p>Query or set the internal variable that determines whether extra debugging
 information regarding the initialization of the JVM and any Java exceptions
 is printed.

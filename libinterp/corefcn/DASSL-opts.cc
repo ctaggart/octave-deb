@@ -34,35 +34,35 @@ struct DASSL_options_struct
 static DASSL_options_struct DASSL_options_table [] =
 {
   { "absolute tolerance",
-    { "absolute", "tolerance", 0, 0, 0, },
+    { "absolute", "tolerance", nullptr, nullptr, nullptr, },
     { 1, 0, 0, 0, 0, }, 1, },
 
   { "relative tolerance",
-    { "relative", "tolerance", 0, 0, 0, },
+    { "relative", "tolerance", nullptr, nullptr, nullptr, },
     { 1, 0, 0, 0, 0, }, 1, },
 
   { "compute consistent initial condition",
-    { "compute", "consistent", "initial", "condition", 0, },
+    { "compute", "consistent", "initial", "condition", nullptr, },
     { 1, 0, 0, 0, 0, }, 1, },
 
   { "enforce nonnegativity constraints",
-    { "enforce", "nonnegativity", "constraints", 0, 0, },
+    { "enforce", "nonnegativity", "constraints", nullptr, nullptr, },
     { 1, 0, 0, 0, 0, }, 1, },
 
   { "initial step size",
-    { "initial", "step", "size", 0, 0, },
+    { "initial", "step", "size", nullptr, nullptr, },
     { 1, 0, 0, 0, 0, }, 1, },
 
   { "maximum order",
-    { "maximum", "order", 0, 0, 0, },
+    { "maximum", "order", nullptr, nullptr, nullptr, },
     { 1, 1, 0, 0, 0, }, 2, },
 
   { "maximum step size",
-    { "maximum", "step", "size", 0, 0, },
+    { "maximum", "step", "size", nullptr, nullptr, },
     { 1, 1, 0, 0, 0, }, 2, },
 
   { "step limit",
-    { "step", "limit", 0, 0, 0, },
+    { "step", "limit", nullptr, nullptr, nullptr, },
     { 1, 0, 0, 0, 0, }, 1, },
 };
 

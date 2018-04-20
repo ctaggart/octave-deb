@@ -1,36 +1,37 @@
 @c DO NOT EDIT!  Generated automatically by munge-texi.pl.
 
-@c Copyright (C) 1996-2017 John W. Eaton
+@c Copyright (C) 1996-2018 John W. Eaton
 @c
 @c This file is part of Octave.
 @c
-@c Octave is free software; you can redistribute it and/or modify it
-@c under the terms of the GNU General Public License as published by the
-@c Free Software Foundation; either version 3 of the License, or (at
-@c your option) any later version.
+@c Octave is free software: you can redistribute it and/or modify it
+@c under the terms of the GNU General Public License as published by
+@c the Free Software Foundation, either version 3 of the License, or
+@c (at your option) any later version.
 @c
-@c Octave is distributed in the hope that it will be useful, but WITHOUT
-@c ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-@c FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-@c for more details.
+@c Octave is distributed in the hope that it will be useful, but
+@c WITHOUT ANY WARRANTY; without even the implied warranty of
+@c MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+@c GNU General Public License for more details.
 @c
 @c You should have received a copy of the GNU General Public License
 @c along with Octave; see the file COPYING.  If not, see
-@c <http://www.gnu.org/licenses/>.
+@c <https://www.gnu.org/licenses/>.
 
 @node Data Containers
 @chapter Data Containers
 @cindex containers
 
-Octave includes support for two different mechanisms to contain
-arbitrary data types in the same variable.  Structures, which are C-like,
-and are indexed with named fields, and cell arrays, where each element
-of the array can have a different data type and or shape.  Multiple
-input arguments and return values of functions are organized as
-another data container, the comma separated list.
+Octave includes support for three different mechanisms to contain arbitrary
+data types in the same variable: Structures, which are C-like, and are indexed
+with named fields; containers.Map objects, which store data in key/value pairs;
+and cell arrays, where each element of the array can have a different data type
+and or shape.  Multiple input arguments and return values of functions are
+organized as another data container, the comma separated list.
 
 @menu
 * Structures::
+* containers.Map::
 * Cell Arrays::
 * Comma Separated Lists::
 @end menu
@@ -68,7 +69,7 @@ x.c = "string";
 @end group
 @end example
 
-@opindex .
+@opindex . @ @ @ 
 @noindent
 create a structure with three elements.  The @samp{.} character separates
 the structure name from the field name and indicates to Octave that this
@@ -610,7 +611,7 @@ Return the number of fields of the structure @var{s}.
 @end deftypefn
 
 
-@c fieldnames scripts/general/fieldnames.m
+@c fieldnames scripts/miscellaneous/fieldnames.m
 @anchor{XREFfieldnames}
 @deftypefn  {} {@var{names} =} fieldnames (@var{struct})
 @deftypefnx {} {@var{names} =} fieldnames (@var{obj})
@@ -930,6 +931,58 @@ c(2,1,:)(:)
 @end example
 
 @seealso{@ref{XREFcell2struct,,cell2struct}, @ref{XREFfieldnames,,fieldnames}}
+@end deftypefn
+
+
+@node containers.Map
+@section containers.Map
+@cindex Map
+@cindex key/value store
+@cindex hash table
+
+@c FIXME: Need to fill in documentation on what a Map is, when to use it over
+@c        other container types, how to perform basic operations with a Map.
+
+@c FIXME: Currently have trouble getting documentation for classdef functions.
+@c containers.Map scripts/+containers/Map.m
+@anchor{XREFcontainers.Map}
+@deftypefn  {} {@var{m} =} containers.Map ()
+@deftypefnx {} {@var{m} =} containers.Map (@var{keys}, @var{vals})
+@deftypefnx {} {@var{m} =} containers.Map (@var{keys}, @var{vals}, @qcode{"UniformValues"}, @var{is_uniform})
+@deftypefnx {} {@var{m} =} containers.Map (@qcode{"KeyType"}, @var{kt}, @qcode{"ValueType"}, @var{vt})
+
+Create an object of the containers.Map class that stores a list of key/value
+pairs.
+
+@var{keys} is an array of @emph{unique} keys for the map.  The keys can be
+numeric scalars or strings.  The type for numeric keys may be one of
+@qcode{"double"}, @qcode{"single"}, @qcode{"int32"}, @qcode{"uint32"},
+@qcode{"int64"}, or @qcode{"uint64"}.  Other numeric or logical keys will
+be converted to @qcode{"double"}.  A single string key may be entered as is.
+Multiple string keys are entered as a cell array of strings.
+
+@var{vals} is an array of values for the map with the @emph{same} number
+of elements as @var{keys}.
+
+When called with no input arguments a default map is created with strings
+as the key type and @qcode{"any"} as the value type.
+
+The @qcode{"UniformValues"} option specifies whether the values of
+the map must be strictly of the same type.  If @var{is_uniform} is true, any
+values which would be added to the map are first validated to ensure they
+are of the correct type.
+
+When called with @qcode{"KeyType"} and @qcode{"ValueType"} arguments, create
+an empty map with the specified types.  The inputs @var{kt} and @var{vt} are
+the types for the keys and values of the map respectively.  Allowed values
+for @var{kt} are @qcode{"char"}, @qcode{"double"}, @qcode{"single"},
+@qcode{"int32"}, @qcode{"uint32"}, @qcode{"int64"}, @qcode{"uint64"}.
+Allowed values for @var{vt} are @qcode{"any"}, @qcode{"char"},
+@qcode{"double"}, @qcode{"single"}, @qcode{"int32"}, @qcode{"uint32"},
+@qcode{"int64"}, @qcode{"uint64"}, @qcode{"logical"}.
+
+The return value @var{m} is an object of the containers.Map class.
+@seealso{@ref{XREFstruct,,struct}}
 @end deftypefn
 
 
@@ -1483,7 +1536,7 @@ cell array of strings.
 @deftypefn {} {} iscellstr (@var{cell})
 Return true if every element of the cell array @var{cell} is a character
 string.
-@seealso{@ref{XREFischar,,ischar}}
+@seealso{@ref{XREFischar,,ischar}, @ref{XREFisstring,,isstring}}
 @end deftypefn
 
 
@@ -1656,7 +1709,6 @@ If used on the left-hand side of an assignment, a comma separated list
 generated with @code{@{@}} can be assigned to.  An example is
 
 @example
-@group
 in@{1@} = [10, 20, 30];
 in@{2@} = inf;
 in@{3@} = "last";
@@ -1667,19 +1719,18 @@ out = cell (4, 1);
      @result{} out =
         @{
            [1,1] =
-         
+
               10   20   30
-         
+
            [2,1] = Inf
            [3,1] = last
            [4,1] =
-         
+
               10   20   30
-         
+
            [5,1] = Inf
            [6,1] = first
         @}
-@end group
 @end example
 
 

@@ -1,22 +1,22 @@
 @c DO NOT EDIT!  Generated automatically by munge-texi.pl.
 
-@c Copyright (C) 1996-2017 John W. Eaton
+@c Copyright (C) 1996-2018 John W. Eaton
 @c
 @c This file is part of Octave.
 @c
-@c Octave is free software; you can redistribute it and/or modify it
-@c under the terms of the GNU General Public License as published by the
-@c Free Software Foundation; either version 3 of the License, or (at
-@c your option) any later version.
+@c Octave is free software: you can redistribute it and/or modify it
+@c under the terms of the GNU General Public License as published by
+@c the Free Software Foundation, either version 3 of the License, or
+@c (at your option) any later version.
 @c
-@c Octave is distributed in the hope that it will be useful, but WITHOUT
-@c ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-@c FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-@c for more details.
+@c Octave is distributed in the hope that it will be useful, but
+@c WITHOUT ANY WARRANTY; without even the implied warranty of
+@c MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+@c GNU General Public License for more details.
 @c
 @c You should have received a copy of the GNU General Public License
 @c along with Octave; see the file COPYING.  If not, see
-@c <http://www.gnu.org/licenses/>.
+@c <https://www.gnu.org/licenses/>.
 
 @node Differential Equations
 @chapter Differential Equations
@@ -57,8 +57,6 @@ dt
 
 @noindent
 using @nospell{Hindmarsh's} ODE solver @sc{lsode}.
-
-
 
 @c lsode libinterp/corefcn/lsode.cc
 @anchor{XREFlsode}
@@ -329,20 +327,32 @@ Currently implemented solvers are:
   @item @nospell{Runge-Kutta} methods
 
   @itemize
-    @item @code{ode45} Integrates a system of non--stiff ordinary differential equations
-    (non--stiff ODEs and DAEs) using second order @nospell{Dormand-Prince}
-    method.  This is a fourth--order accurate integrator therefore the local
-    error normally expected is @math{O(h^5)}.  This solver requires six
-    function evaluations per integration step.
+    @item @code{ode23} integrates a system of non-stiff ordinary differential
+    equations (ODEs) or index-1 differential-algebraic equations (DAEs).  It
+    uses the third-order @nospell{Bogacki-Shampine} method and adapts the local
+    step size in order to satisfy a user-specified tolerance.  The solver
+    requires three function evaluations per integration step.
 
-    @item @code{ode23} Integrates a system of non--stiff ordinary differential equations
-    (non-stiff ODEs and DAEs) using second order @nospell{Bogacki-Shampine}
-    method.  This is a second-order accurate integrator therefore the local
-    error normally expected is @math{O(h^3)}.  This solver requires three
-    function evaluations per integration step.
+    @item @code{ode45} integrates a system of non-stiff ODEs (or index-1 DAEs)
+    using the high-order, variable-step @nospell{Dormand-Prince} method.  It
+    requires six function evaluations per integration step, but may
+    take larger steps on smooth problems than @code{ode23}: potentially
+    offering improved efficiency at smaller tolerances.
+  @end itemize
+
+  @item Linear multistep methods
+
+  @itemize
+    @item @code{ode15s} integrates a system of stiff ODEs (or index-1 DAEs)
+    using a variable step, variable order method based on Backward Difference
+    Formulas (BDF).
+
+    @item @code{ode15i} integrates a system of fully-implicit ODEs (or index-1
+    DAEs) using the same variable step, variable order method as @code{ode15s}.
+    The function @code{decic} can be used to compute consistent initial
+    conditions.
   @end itemize
 @end itemize
-
 
 @c ode45 scripts/ode/ode45.m
 @anchor{XREFode45}
@@ -368,8 +378,8 @@ instances.
 
 By default, @code{ode45} uses an adaptive timestep with the
 @code{integrate_adaptive} algorithm.  The tolerance for the timestep
-computation may be changed by using the options @qcode{"RelTol"}
-and @qcode{"AbsTol"}.
+computation may be changed by using the options @qcode{"RelTol"} and
+@qcode{"AbsTol"}.
 
 @var{init} contains the initial value for the unknowns.  If it is a row
 vector then the solution @var{y} will be a matrix in which each column is
@@ -383,20 +393,20 @@ column vector and contains the times where the solution was found.  The
 output @var{y} is a matrix in which each column refers to a different
 unknown of the problem and each row corresponds to a time in @var{t}.
 
-The output can also be returned as a structure @var{solution} which
-has a field @var{x} containing a row vector of times where the solution
-was evaluated and a field @var{y} containing the solution matrix such
-that each column corresponds to a time in @var{x}.
-Use @code{fieldnames (@var{solution})} to see the other fields and
+The output can also be returned as a structure @var{solution} which has a
+field @var{x} containing a row vector of times where the solution was
+evaluated and a field @var{y} containing the solution matrix such that each
+column corresponds to a time in @var{x}.  Use
+@w{@code{fieldnames (@var{solution})}} to see the other fields and
 additional information returned.
 
-If no output arguments are requested, and no @code{OutputFcn} is
-specified in @var{ode_opt}, then the @code{OutputFcn} is set to
-@code{odeplot} and the results of the solver are plotted immediately.
+If no output arguments are requested, and no @code{OutputFcn} is specified
+in @var{ode_opt}, then the @code{OutputFcn} is set to @code{odeplot} and the
+results of the solver are plotted immediately.
 
-If using the @qcode{"Events"} option then three additional outputs may
-be returned.  @var{te} holds the time when an Event function returned a
-zero.  @var{ye} holds the value of the solution at time @var{te}.  @var{ie}
+If using the @qcode{"Events"} option then three additional outputs may be
+returned.  @var{te} holds the time when an Event function returned a zero.
+@var{ye} holds the value of the solution at time @var{te}.  @var{ie}
 contains an index indicating which Event function was triggered in the case
 of multiple Event functions.
 
@@ -408,7 +418,7 @@ fvdp = @@(@var{t},@var{y}) [@var{y}(2); (1 - @var{y}(1)^2) * @var{y}(2) - @var{y
 [@var{t},@var{y}] = ode45 (fvdp, [0, 20], [2, 0]);
 @end group
 @end example
-@seealso{@ref{XREFodeset,,odeset}, @ref{XREFodeget,,odeget}, @ref{XREFode23,,ode23}}
+@seealso{@ref{XREFodeset,,odeset}, @ref{XREFodeget,,odeget}, @ref{XREFode23,,ode23}, @ref{XREFode15s,,ode15s}}
 @end deftypefn
 
 
@@ -422,8 +432,6 @@ fvdp = @@(@var{t},@var{y}) [@var{y}(2); (1 - @var{y}(1)^2) * @var{y}(2) - @var{y
 
 Solve a set of non-stiff Ordinary Differential Equations (non-stiff ODEs)
 with the well known explicit @nospell{Bogacki-Shampine} method of order 3.
-For the definition of this method see
-@url{http://en.wikipedia.org/wiki/List_of_Runge%E2%80%93Kutta_methods}.
 
 @var{fun} is a function handle, inline function, or string containing the
 name of the function that defines the ODE: @code{y' = f(t,y)}.  The function
@@ -438,8 +446,8 @@ instances.
 
 By default, @code{ode23} uses an adaptive timestep with the
 @code{integrate_adaptive} algorithm.  The tolerance for the timestep
-computation may be changed by using the options @qcode{"RelTol"}
-and @qcode{"AbsTol"}.
+computation may be changed by using the options @qcode{"RelTol"} and
+@qcode{"AbsTol"}.
 
 @var{init} contains the initial value for the unknowns.  If it is a row
 vector then the solution @var{y} will be a matrix in which each column is
@@ -453,20 +461,20 @@ column vector and contains the times where the solution was found.  The
 output @var{y} is a matrix in which each column refers to a different
 unknown of the problem and each row corresponds to a time in @var{t}.
 
-The output can also be returned as a structure @var{solution} which
-has a field @var{x} containing a row vector of times where the solution
-was evaluated and a field @var{y} containing the solution matrix such
-that each column corresponds to a time in @var{x}.
-Use @code{fieldnames (@var{solution})} to see the other fields and
+The output can also be returned as a structure @var{solution} which has a
+field @var{x} containing a row vector of times where the solution was
+evaluated and a field @var{y} containing the solution matrix such that each
+column corresponds to a time in @var{x}.  Use
+@w{@code{fieldnames (@var{solution})}} to see the other fields and
 additional information returned.
 
-If no output arguments are requested, and no @code{OutputFcn} is
-specified in @var{ode_opt}, then the @code{OutputFcn} is set to
-@code{odeplot} and the results of the solver are plotted immediately.
+If no output arguments are requested, and no @code{OutputFcn} is specified
+in @var{ode_opt}, then the @code{OutputFcn} is set to @code{odeplot} and the
+results of the solver are plotted immediately.
 
-If using the @qcode{"Events"} option then three additional outputs may
-be returned.  @var{te} holds the time when an Event function returned a
-zero.  @var{ye} holds the value of the solution at time @var{te}.  @var{ie}
+If using the @qcode{"Events"} option then three additional outputs may be
+returned.  @var{te} holds the time when an Event function returned a zero.
+@var{ye} holds the value of the solution at time @var{te}.  @var{ie}
 contains an index indicating which Event function was triggered in the case
 of multiple Event functions.
 
@@ -478,7 +486,227 @@ fvdp = @@(@var{t},@var{y}) [@var{y}(2); (1 - @var{y}(1)^2) * @var{y}(2) - @var{y
 [@var{t},@var{y}] = ode23 (fvdp, [0, 20], [2, 0]);
 @end group
 @end example
-@seealso{@ref{XREFodeset,,odeset}, @ref{XREFodeget,,odeget}, @ref{XREFode45,,ode45}}
+
+Reference: For the definition of this method see
+@url{https://en.wikipedia.org/wiki/List_of_Runge%E2%80%93Kutta_methods}.
+@seealso{@ref{XREFodeset,,odeset}, @ref{XREFodeget,,odeget}, @ref{XREFode45,,ode45}, @ref{XREFode15s,,ode15s}}
+@end deftypefn
+
+
+@c ode15s scripts/ode/ode15s.m
+@anchor{XREFode15s}
+@deftypefn  {} {[@var{t}, @var{y}] =} ode15s (@var{fun}, @var{trange}, @var{y0})
+@deftypefnx {} {[@var{t}, @var{y}] =} ode15s (@var{fun}, @var{trange}, @var{y0}, @var{ode_opt})
+@deftypefnx {} {[@var{t}, @var{y}, @var{te}, @var{ye}, @var{ie}] =} ode15s (@dots{})
+@deftypefnx {} {@var{solution} =} ode15s (@dots{})
+@deftypefnx {} {} ode15s (@dots{})
+Solve a set of stiff Ordinary Differential Equations (ODEs) or stiff
+semi-explicit index 1 Differential Algebraic Equations (DAEs).
+
+@code{ode15s} uses a variable step, variable order BDF (Backward
+Differentiation Formula) method that ranges from order 1 to 5.
+
+@var{fun} is a function handle, inline function, or string containing the
+name of the function that defines the ODE: @code{y' = f(t,y)}.  The function
+must accept two inputs where the first is time @var{t} and the second is a
+column vector of unknowns @var{y}.
+
+@var{trange} specifies the time interval over which the ODE will be
+evaluated.  Typically, it is a two-element vector specifying the initial and
+final times (@code{[tinit, tfinal]}).  If there are more than two elements
+then the solution will also be evaluated at these intermediate time
+instances.
+
+@var{init} contains the initial value for the unknowns.  If it is a row
+vector then the solution @var{y} will be a matrix in which each column is
+the solution for the corresponding initial value in @var{init}.
+
+The optional fourth argument @var{ode_opt} specifies non-default options to
+the ODE solver.  It is a structure generated by @code{odeset}.
+
+The function typically returns two outputs.  Variable @var{t} is a
+column vector and contains the times where the solution was found.  The
+output @var{y} is a matrix in which each column refers to a different
+unknown of the problem and each row corresponds to a time in @var{t}.
+
+The output can also be returned as a structure @var{solution} which has a
+field @var{x} containing a row vector of times where the solution was
+evaluated and a field @var{y} containing the solution matrix such that each
+column corresponds to a time in @var{x}.  Use
+@w{@code{fieldnames (@var{solution})}} to see the other fields and
+additional information returned.
+
+If no output arguments are requested, and no @code{OutputFcn} is specified
+in @var{ode_opt}, then the @code{OutputFcn} is set to @code{odeplot} and the
+results of the solver are plotted immediately.
+
+If using the @qcode{"Events"} option then three additional outputs may be
+returned.  @var{te} holds the time when an Event function returned a zero.
+@var{ye} holds the value of the solution at time @var{te}.  @var{ie}
+contains an index indicating which Event function was triggered in the case
+of multiple Event functions.
+
+Example: Solve @nospell{Robertson's} equations:
+
+@smallexample
+@group
+function r = robertson_dae (@var{t}, @var{y})
+  r = [ -0.04*@var{y}(1) + 1e4*@var{y}(2)*@var{y}(3)
+         0.04*@var{y}(1) - 1e4*@var{y}(2)*@var{y}(3) - 3e7*@var{y}(2)^2
+@var{y}(1) + @var{y}(2) + @var{y}(3) - 1 ];
+endfunction
+opt = odeset ("Mass", [1 0 0; 0 1 0; 0 0 0], "MStateDependence", "none");
+[@var{t},@var{y}] = ode15s (@@robertson_dae, [0, 1e3], [1; 0; 0], opt);
+@end group
+@end smallexample
+@seealso{@ref{XREFdecic,,decic}, @ref{XREFodeset,,odeset}, @ref{XREFodeget,,odeget}, @ref{XREFode23,,ode23}, @ref{XREFode45,,ode45}}
+@end deftypefn
+
+
+@c ode15i scripts/ode/ode15i.m
+@anchor{XREFode15i}
+@deftypefn  {} {[@var{t}, @var{y}] =} ode15i (@var{fun}, @var{trange}, @var{y0}, @var{yp0})
+@deftypefnx {} {[@var{t}, @var{y}] =} ode15i (@var{fun}, @var{trange}, @var{y0}, @var{yp0}, @var{ode_opt})
+@deftypefnx {} {[@var{t}, @var{y}, @var{te}, @var{ye}, @var{ie}] =} ode15i (@dots{})
+@deftypefnx {} {@var{solution} =} ode15i (@dots{})
+@deftypefnx {} {} ode15i (@dots{})
+Solve a set of fully-implicit Ordinary Differential Equations (ODEs) or
+index 1 Differential Algebraic Equations (DAEs).
+
+@code{ode15i} uses a variable step, variable order BDF (Backward
+Differentiation Formula) method that ranges from order 1 to 5.
+
+@var{fun} is a function handle, inline function, or string containing the
+name of the function that defines the ODE: @code{0 = f(t,y,yp)}.  The
+function must accept three inputs where the first is time @var{t}, the
+second is the function value @var{y} (a column vector), and the third
+is the derivative value @var{yp} (a column vector).
+
+@var{trange} specifies the time interval over which the ODE will be
+evaluated.  Typically, it is a two-element vector specifying the initial and
+final times (@code{[tinit, tfinal]}).  If there are more than two elements
+then the solution will also be evaluated at these intermediate time
+instances.
+
+@var{y0} and @var{yp0} contain the initial values for the unknowns @var{y}
+and @var{yp}.  If they are row vectors then the solution @var{y} will be a
+matrix in which each column is the solution for the corresponding initial
+value in @var{y0} and @var{yp0}.
+
+@var{y0} and @var{yp0} must be consistent initial conditions, meaning that
+@code{f(t,y0,yp0) = 0} is satisfied.  The function @code{decic} may be used
+to compute consistent initial conditions given initial guesses.
+
+The optional fifth argument @var{ode_opt} specifies non-default options to
+the ODE solver.  It is a structure generated by @code{odeset}.
+
+The function typically returns two outputs.  Variable @var{t} is a
+column vector and contains the times where the solution was found.  The
+output @var{y} is a matrix in which each column refers to a different
+unknown of the problem and each row corresponds to a time in @var{t}.
+
+The output can also be returned as a structure @var{solution} which has a
+field @var{x} containing a row vector of times where the solution was
+evaluated and a field @var{y} containing the solution matrix such that each
+column corresponds to a time in @var{x}.  Use
+@w{@code{fieldnames (@var{solution})}} to see the other fields and
+additional information returned.
+
+If no output arguments are requested, and no @code{OutputFcn} is specified
+in @var{ode_opt}, then the @code{OutputFcn} is set to @code{odeplot} and the
+results of the solver are plotted immediately.
+
+If using the @qcode{"Events"} option then three additional outputs may be
+returned.  @var{te} holds the time when an Event function returned a zero.
+@var{ye} holds the value of the solution at time @var{te}.  @var{ie}
+contains an index indicating which Event function was triggered in the case
+of multiple Event functions.
+
+Example: Solve @nospell{Robertson's} equations:
+
+@smallexample
+@group
+function r = robertson_dae (@var{t}, @var{y}, @var{yp})
+  r = [ -(@var{yp}(1) + 0.04*@var{y}(1) - 1e4*@var{y}(2)*@var{y}(3))
+        -(@var{yp}(2) - 0.04*@var{y}(1) + 1e4*@var{y}(2)*@var{y}(3) + 3e7*@var{y}(2)^2)
+@var{y}(1) + @var{y}(2) + @var{y}(3) - 1 ];
+endfunction
+[@var{t},@var{y}] = ode15i (@@robertson_dae, [0, 1e3], [1; 0; 0], [-1e-4; 1e-4; 0]);
+@end group
+@end smallexample
+@seealso{@ref{XREFdecic,,decic}, @ref{XREFodeset,,odeset}, @ref{XREFodeget,,odeget}}
+@end deftypefn
+
+
+@c decic scripts/ode/decic.m
+@anchor{XREFdecic}
+@deftypefn  {} {[@var{y0_new}, @var{yp0_new}] =} decic (@var{fun}, @var{t0}, @var{y0}, @var{fixed_y0}, @var{yp0}, @var{fixed_yp0})
+@deftypefnx {} {[@var{y0_new}, @var{yp0_new}] =} decic (@var{fun}, @var{t0}, @var{y0}, @var{fixed_y0}, @var{yp0}, @var{fixed_yp0}, @var{options})
+@deftypefnx {} {[@var{y0_new}, @var{yp0_new}, @var{resnorm}] =} decic (@dots{})
+
+Compute consistent implicit ODE initial conditions @var{y0_new} and
+@var{yp0_new} given initial guesses @var{y0} and @var{yp0}.
+
+A maximum of @code{length (@var{y0})} components between @var{fixed_y0} and
+@var{fixed_yp0} may be chosen as fixed values.
+
+@var{fun} is a function handle.  The function must accept three inputs where
+the first is time @var{t}, the second is a column vector of unknowns
+@var{y}, and the third is a column vector of unknowns @var{yp}.
+
+@var{t0} is the initial time such that
+@code{@var{fun}(@var{t0}, @var{y0_new}, @var{yp0_new}) = 0}, specified as a
+scalar.
+
+@var{y0} is a vector used as the initial guess for @var{y}.
+
+@var{fixed_y0} is a vector which specifies the components of @var{y0} to
+hold fixed.  Choose a maximum of @code{length (@var{y0})} components between
+@var{fixed_y0} and @var{fixed_yp0} as fixed values.
+Set @var{fixed_y0}(i) component to 1 if you want to fix the value of
+@var{y0}(i).
+Set @var{fixed_y0}(i) component to 0 if you want to allow the value of
+@var{y0}(i) to change.
+
+@var{yp0} is a vector used as the initial guess for @var{yp}.
+
+@var{fixed_yp0} is a vector which specifies the components of @var{yp0} to
+hold fixed.  Choose a maximum of @code{length (@var{yp0})} components
+between @var{fixed_y0} and @var{fixed_yp0} as fixed values.
+Set @var{fixed_yp0}(i) component to 1 if you want to fix the value of
+@var{yp0}(i).
+Set @var{fixed_yp0}(i) component to 0 if you want to allow the value of
+@var{yp0}(i) to change.
+
+The optional seventh argument @var{options} is a structure array.  Use
+@code{odeset} to generate this structure.  The relevant options are
+@code{RelTol} and @code{AbsTol} which specify the error thresholds used to
+compute the initial conditions.
+
+The function typically returns two outputs.  Variable @var{y0_new} is a
+column vector and contains the consistent initial value of y.  The output
+@var{yp0_new} is a column vector and contains the consistent initial value
+of yp.
+
+The optional third output @var{resnorm} is the norm of the vector of
+residuals.  If @var{resnorm} is small, @code{decic} has successfully
+computed the initial conditions.  If the value of @var{resnorm} is large,
+use @code{RelTol} and @code{AbsTol} to adjust it.
+
+Example: Compute initial conditions for @nospell{Robertson's} equations:
+
+@smallexample
+@group
+function r = robertson_dae (@var{t}, @var{y}, @var{yp})
+  r = [ -(@var{yp}(1) + 0.04*@var{y}(1) - 1e4*@var{y}(2)*@var{y}(3))
+        -(@var{yp}(2) - 0.04*@var{y}(1) + 1e4*@var{y}(2)*@var{y}(3) + 3e7*@var{y}(2)^2)
+@var{y}(1) + @var{y}(2) + @var{y}(3) - 1 ];
+endfunction
+@end group
+[@var{y0_new},@var{yp0_new}] = decic (@@robertson_dae, 0, [1; 0; 0], [1; 1; 0],
+[-1e-4; 1; 0], [0; 0; 0]);
+@end smallexample
+@seealso{@ref{XREFode15i,,ode15i}, @ref{XREFodeset,,odeset}}
 @end deftypefn
 
 
@@ -516,7 +744,7 @@ Empty values in @var{newstruct} will not overwrite values in
 @var{oldstruct}.
 
 The most commonly used ODE options, which are always assigned a value
-by @qcode{odeset}, are the following:
+by @code{odeset}, are the following:
 
 @table @asis
 @item AbsTol
@@ -524,10 +752,10 @@ Absolute error tolerance.
 
 @item BDF
 Use BDF formulas in implicit multistep methods.
-@strong{Note:} This option is not yet implemented.
+@emph{Note}: This option is not yet implemented.
 
 @item Events
-Event function. An event function must have the form
+Event function.  An event function must have the form
 @code{[value, isterminal, direction] = my_events_f (t, y)}
 
 @item InitialSlope
@@ -553,7 +781,7 @@ Mass matrix, specified as a constant matrix or a function of
 time and state.
 
 @item MassSingular
-Specify whether the mass matrix is singular. Accepted values include
+Specify whether the mass matrix is singular.  Accepted values include
 @qcode{"yes"}, @qcode{"no"}, @qcode{"maybe"}.
 
 @item MaxOrder
@@ -568,19 +796,19 @@ Specify whether the mass matrix depends on the state or only on time.
 @item MvPattern
 If the mass matrix is sparse and non-constant but maintains a
 constant sparsity pattern, specify the sparsity pattern.
-@strong{Note:} This option is not yet implemented.
+@emph{Note}: This option is not yet implemented.
 
 @item NonNegative
 Specify elements of the state vector that are expected to remain
-nonnegative during the simulation.
+non-negative during the simulation.
 
 @item NormControl
 Control error relative to the 2-norm of the solution, rather than its
 absolute value.
 
 @item OutputFcn
-Function to monitor the state during the simulation. For the form of
-the function to use see @qcode{odeplot}.
+Function to monitor the state during the simulation.  For the form of
+the function to use see @code{odeplot}.
 
 @item OutputSel
 Indices of elements of the state vector to be passed to the output
@@ -588,10 +816,10 @@ monitoring function.
 
 @item Refine
 Specify whether output should be returned only at the end of each
-time step or also at intermediate time instances. The value should be
+time step or also at intermediate time instances.  The value should be
 a scalar indicating the number of equally spaced time points to use
 within each timestep at which to return output.
-@strong{Note:} This option is not yet implemented.
+@emph{Note}: This option is not yet implemented.
 
 @item RelTol
 Relative error tolerance.
@@ -600,7 +828,7 @@ Relative error tolerance.
 Print solver statistics after simulation.
 
 @item Vectorized
-Specify whether @qcode{odefun} can be passed multiple values of the
+Specify whether @code{odefun} can be passed multiple values of the
 state at once.
 
 @end table
@@ -718,7 +946,9 @@ is the derivative of @math{x}.  The equation is solved using
 @c daspk libinterp/corefcn/daspk.cc
 @anchor{XREFdaspk}
 @deftypefn {} {[@var{x}, @var{xdot}, @var{istate}, @var{msg}] =} daspk (@var{fcn}, @var{x_0}, @var{xdot_0}, @var{t}, @var{t_crit})
-Solve the set of differential-algebraic equations
+Solve a set of differential-algebraic equations.
+
+@code{daspk} solves the set of equations
 @tex
 $$ 0 = f (x, \dot{x}, t) $$
 with
@@ -999,7 +1229,9 @@ and @sc{dasrt}, which can be used to solve DAEs with constraints
 @c dassl libinterp/corefcn/dassl.cc
 @anchor{XREFdassl}
 @deftypefn {} {[@var{x}, @var{xdot}, @var{istate}, @var{msg}] =} dassl (@var{fcn}, @var{x_0}, @var{xdot_0}, @var{t}, @var{t_crit})
-Solve the set of differential-algebraic equations
+Solve a set of differential-algebraic equations.
+
+@code{dassl} solves the set of equations
 @tex
 $$ 0 = f (x, \dot{x}, t) $$
 with
@@ -1175,7 +1407,9 @@ underlying Fortran code.
 @deftypefnx {} {@dots{} =} dasrt (@var{fcn}, @var{g}, @var{x_0}, @var{xdot_0}, @var{t}, @var{t_crit})
 @deftypefnx {} {@dots{} =} dasrt (@var{fcn}, @var{x_0}, @var{xdot_0}, @var{t})
 @deftypefnx {} {@dots{} =} dasrt (@var{fcn}, @var{x_0}, @var{xdot_0}, @var{t}, @var{t_crit})
-Solve the set of differential-algebraic equations
+Solve a set of differential-algebraic equations.
+
+@code{dasrt} solves the set of equations
 @tex
 $$ 0 = f (x, \dot{x}, t) $$
 with

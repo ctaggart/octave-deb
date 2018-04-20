@@ -1,21 +1,21 @@
-## Copyright (C) 2005-2017 Søren Hauberg
-## Copyright (C) 2010-2016 VZLU Prague, a.s.
+## Copyright (C) 2005-2018 Søren Hauberg
+## Copyright (C) 2010-2018 VZLU Prague, a.s.
 ##
 ## This file is part of Octave.
 ##
-## Octave is free software; you can redistribute it and/or modify it
+## Octave is free software: you can redistribute it and/or modify it
 ## under the terms of the GNU General Public License as published by
-## the Free Software Foundation; either version 3 of the License, or (at
-## your option) any later version.
+## the Free Software Foundation, either version 3 of the License, or
+## (at your option) any later version.
 ##
 ## Octave is distributed in the hope that it will be useful, but
 ## WITHOUT ANY WARRANTY; without even the implied warranty of
-## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-## General Public License for more details.
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU General Public License for more details.
 ##
 ## You should have received a copy of the GNU General Public License
 ## along with Octave; see the file COPYING.  If not, see
-## <http://www.gnu.org/licenses/>.
+## <https://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
 ## @deftypefn {} {[@var{ver}, @var{url}] =} get_forge_pkg (@var{name})
@@ -31,13 +31,13 @@ function [ver, url] = get_forge_pkg (name)
   if (! (ischar (name) && rows (name) == 1 && ndims (name) == 2))
     error ("get_forge_pkg: package NAME must be a string");
   elseif (! all (isalnum (name) | name == "-" | name == "." | name == "_"))
-    error ("get_forge_pkg: invalid package name: %s", name);
+    error ("get_forge_pkg: invalid package NAME: %s", name);
   endif
 
   name = tolower (name);
 
   ## Try to download package's index page.
-  [html, succ] = urlread (sprintf ("http://packages.octave.org/%s/index.html",
+  [html, succ] = urlread (sprintf ("https://packages.octave.org/%s/index.html",
                                    name));
   if (succ)
     ## Remove blanks for simpler matching.
@@ -52,7 +52,7 @@ function [ver, url] = get_forge_pkg (name)
       if (nargout > 1)
         ## Build download string.
         pkg_file = sprintf ("%s-%s.tar.gz", name, ver);
-        url = ["http://packages.octave.org/download/" pkg_file];
+        url = ["https://packages.octave.org/download/" pkg_file];
         ## Verify that the package string exists on the page.
         if (isempty (strfind (html, pkg_file)))
           warning ("get_forge_pkg: download URL not verified");
@@ -61,7 +61,7 @@ function [ver, url] = get_forge_pkg (name)
     endif
   else
     ## Try get the list of all packages.
-    [html, succ] = urlread ("http://packages.octave.org/list_packages.php");
+    [html, succ] = urlread ("https://packages.octave.org/list_packages.php");
     if (! succ)
       error ("get_forge_pkg: could not read URL, please verify internet connection");
     endif

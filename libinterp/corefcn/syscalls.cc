@@ -1,23 +1,23 @@
 /*
 
-Copyright (C) 1996-2017 John W. Eaton
+Copyright (C) 1996-2018 John W. Eaton
 Copyright (C) 2010 VZLU Prague
 
 This file is part of Octave.
 
-Octave is free software; you can redistribute it and/or modify it
-under the terms of the GNU General Public License as published by the
-Free Software Foundation; either version 3 of the License, or (at your
-option) any later version.
+Octave is free software: you can redistribute it and/or modify it
+under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-Octave is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-for more details.
+Octave is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with Octave; see the file COPYING.  If not, see
-<http://www.gnu.org/licenses/>.
+<https://www.gnu.org/licenses/>.
 
 */
 
@@ -46,6 +46,7 @@ along with Octave; see the file COPYING.  If not, see
 #include "defun.h"
 #include "error.h"
 #include "errwarn.h"
+#include "interpreter.h"
 #include "oct-hist.h"
 #include "oct-map.h"
 #include "ovl.h"
@@ -105,8 +106,8 @@ mk_stat_result (const octave::sys::base_file_stat& fs)
     return ovl (Matrix (), -1, fs.error ());
 }
 
-DEFUNX ("dup2", Fdup2, args, ,
-        doc: /* -*- texinfo -*-
+DEFMETHODX ("dup2", Fdup2, interp, args, ,
+            doc: /* -*- texinfo -*-
 @deftypefn {} {[@var{fid}, @var{msg}] =} dup2 (@var{old}, @var{new})
 Duplicate a file descriptor.
 
@@ -119,9 +120,11 @@ error message.
   if (args.length () != 2)
     print_usage ();
 
-  octave_stream old_stream = octave_stream_list::lookup (args(0), "dup2");
+  octave::stream_list& streams = interp.get_stream_list ();
 
-  octave_stream new_stream = octave_stream_list::lookup (args(1), "dup2");
+  octave::stream old_stream = streams.lookup (args(0), "dup2");
+
+  octave::stream new_stream = streams.lookup (args(1), "dup2");
 
   int i_old = old_stream.file_number ();
   int i_new = new_stream.file_number ();
@@ -200,8 +203,8 @@ error message.
   return ovl (status, msg);
 }
 
-DEFUNX ("popen2", Fpopen2, args, ,
-        doc: /* -*- texinfo -*-
+DEFMETHODX ("popen2", Fpopen2, interp, args, ,
+            doc: /* -*- texinfo -*-
 @deftypefn {} {[@var{in}, @var{out}, @var{pid}] =} popen2 (@var{command}, @var{args})
 Start a subprocess with two-way communication.
 
@@ -290,17 +293,15 @@ exit status, it will linger until Octave exits.
   FILE *ifile = fdopen (filedesc[1], "r");
   FILE *ofile = fdopen (filedesc[0], "w");
 
-  octave_stream is = octave_stdiostream::create (exec_file + "-in",
-                                                 ifile,
-                                                 std::ios::in);
+  octave::stream is
+    = octave_stdiostream::create (exec_file + "-in", ifile, std::ios::in);
 
-  octave_stream os = octave_stdiostream::create (exec_file + "-out",
-                                                 ofile,
-                                                 std::ios::out);
+  octave::stream os
+    = octave_stdiostream::create (exec_file + "-out", ofile, std::ios::out);
 
-  return ovl (octave_stream_list::insert (os),
-              octave_stream_list::insert (is),
-              pid);
+  octave::stream_list& streams = interp.get_stream_list ();
+
+  return ovl (streams.insert (os), streams.insert (is), pid);
 }
 
 /*
@@ -371,8 +372,8 @@ exit status, it will linger until Octave exits.
 
 */
 
-DEFUNX ("fcntl", Ffcntl, args, ,
-        doc: /* -*- texinfo -*-
+DEFMETHODX ("fcntl", Ffcntl, interp, args, ,
+            doc: /* -*- texinfo -*-
 @deftypefn {} {[@var{err}, @var{msg}] =} fcntl (@var{fid}, @var{request}, @var{arg})
 Change the properties of the open file @var{fid}.
 
@@ -433,7 +434,9 @@ message.
   if (args.length () != 3)
     print_usage ();
 
-  octave_stream strm = octave_stream_list::lookup (args(0), "fcntl");
+  octave::stream_list& streams = interp.get_stream_list ();
+
+  octave::stream strm = streams.lookup (args(0), "fcntl");
 
   int fid = strm.file_number ();
 
@@ -453,8 +456,8 @@ message.
   return ovl (status, msg);
 }
 
-DEFUNX ("fork", Ffork, args, ,
-        doc: /* -*- texinfo -*-
+DEFMETHODX ("fork", Ffork, interp, args, ,
+            doc: /* -*- texinfo -*-
 @deftypefn {} {[@var{pid}, @var{msg}] =} fork ()
 Create a copy of the current process.
 
@@ -479,7 +482,9 @@ action.  A system dependent error message will be waiting in @var{msg}.
   if (args.length () != 0)
     print_usage ();
 
-  if (symbol_table::at_top_level ())
+  octave::symbol_table& symtab = interp.get_symbol_table ();
+
+  if (symtab.at_top_level ())
     error ("fork: cannot be called from command line");
 
   std::string msg;
@@ -715,8 +720,8 @@ error message.
 
 */
 
-DEFUNX ("pipe", Fpipe, args, ,
-        doc: /* -*- texinfo -*-
+DEFMETHODX ("pipe", Fpipe, interp, args, ,
+            doc: /* -*- texinfo -*-
 @deftypefn {} {[@var{read_fd}, @var{write_fd}, @var{err}, @var{msg}] =} pipe ()
 Create a pipe and return the reading and writing ends of the pipe into
 @var{read_fd} and @var{write_fd} respectively.
@@ -742,21 +747,20 @@ error message.
       FILE *ifile = fdopen (fid[0], "r");
       FILE *ofile = fdopen (fid[1], "w");
 
-      octave_stream is
+      octave::stream is
         = octave_stdiostream::create ("pipe-in", ifile, std::ios::in);
 
-      octave_stream os
+      octave::stream os
         = octave_stdiostream::create ("pipe-out", ofile, std::ios::out);
 
-      return ovl (octave_stream_list::insert (is),
-                  octave_stream_list::insert (os),
-                  status,
-                  msg);
+      octave::stream_list& streams = interp.get_stream_list ();
+
+      return ovl (streams.insert (is), streams.insert (os), status, msg);
     }
 }
 
-DEFUNX ("stat", Fstat, args, ,
-        doc: /* -*- texinfo -*-
+DEFMETHODX ("stat", Fstat, interp, args, ,
+            doc: /* -*- texinfo -*-
 @deftypefn  {} {[@var{info}, @var{err}, @var{msg}] =} stat (@var{file})
 @deftypefnx {} {[@var{info}, @var{err}, @var{msg}] =} stat (@var{fid})
 @deftypefnx {} {[@var{info}, @var{err}, @var{msg}] =} lstat (@var{file})
@@ -858,7 +862,9 @@ For example:
 
   if (args(0).is_scalar_type ())
     {
-      int fid = octave_stream_list::get_file_number (args(0));
+      octave::stream_list& streams = interp.get_stream_list ();
+
+      int fid = streams.get_file_number (args(0));
 
       octave::sys::file_fstat fs (fid);
 
@@ -1055,6 +1061,15 @@ system-dependent error message.
   return ovl (m, sysinfo.error (), sysinfo.message ());
 }
 
+/*
+%!test <51869>
+%! [info, status, msg] = uname ();
+%! if (status == 0)
+%!   assert (isstruct (info))
+%!   assert (ischar (msg) && isempty (msg))
+%! endif
+*/
+
 DEFUNX ("unlink", Funlink, args, ,
         doc: /* -*- texinfo -*-
 @deftypefn {} {[@var{err}, @var{msg}] =} unlink (@var{file})
@@ -1221,7 +1236,7 @@ true if the child produced a core dump.
 
 This function should only be employed if @code{WIFSIGNALED} returned true.
 The macro used to implement this function is not specified in POSIX.1-2001
-and is not available on some Unix implementations (e.g., AIX, SunOS).
+and is not available on some Unix implementations (e.g., @nospell{AIX, SunOS}).
 @seealso{waitpid, WIFEXITED, WEXITSTATUS, WIFSIGNALED, WTERMSIG, WIFSTOPPED, WSTOPSIG, WIFCONTINUED}
 @end deftypefn */)
 {
@@ -1399,9 +1414,11 @@ status flags.
 DEFUNX ("O_APPEND", FO_APPEND, args, ,
         doc: /* -*- texinfo -*-
 @deftypefn {} {} O_APPEND ()
-Return the numerical value of the file status flag that may be
-returned by @code{fcntl} to indicate each write operation appends,
-or that may be passed to @code{fcntl} to set the write mode to append.
+Return the numerical value of the @code{O_APPEND} macro.
+
+@code{O_APPEND} is file status flag that may be returned by @code{fcntl}
+to indicate each write operation appends, or that may be passed to
+@code{fcntl} to set the write mode to append.
 @seealso{fcntl, O_ASYNC, O_CREAT, O_EXCL, O_NONBLOCK, O_RDONLY, O_RDWR, O_SYNC, O_TRUNC, O_WRONLY}
 @end deftypefn */)
 {
@@ -1416,8 +1433,10 @@ or that may be passed to @code{fcntl} to set the write mode to append.
 DEFUNX ("O_ASYNC", FO_ASYNC, args, ,
         doc: /* -*- texinfo -*-
 @deftypefn {} {} O_ASYNC ()
-Return the numerical value of the file status flag that may be
-returned by @code{fcntl} to indicate asynchronous I/O.
+Return the numerical value of the @code{O_ASYNC} macro.
+
+@code{O_ASYNC} is the file status flag that may be returned by
+@code{fcntl} to indicate asynchronous I/O.
 @seealso{fcntl, O_APPEND, O_CREAT, O_EXCL, O_NONBLOCK, O_RDONLY, O_RDWR, O_SYNC, O_TRUNC, O_WRONLY}
 @end deftypefn */)
 {
@@ -1432,9 +1451,11 @@ returned by @code{fcntl} to indicate asynchronous I/O.
 DEFUNX ("O_CREAT", FO_CREAT, args, ,
         doc: /* -*- texinfo -*-
 @deftypefn {} {} O_CREAT ()
-Return the numerical value of the file status flag that may be
-returned by @code{fcntl} to indicate that a file should be created if it
-does not exist.
+Return the numerical value of the @code{O_CREAT}.
+
+@code{O_CREAT} is the file status flag that may be returned by
+@code{fcntl} to indicate that a file should be created if it does not
+exist.
 @seealso{fcntl, O_APPEND, O_ASYNC, O_EXCL, O_NONBLOCK, O_RDONLY, O_RDWR, O_SYNC, O_TRUNC, O_WRONLY}
 @end deftypefn */)
 {
@@ -1449,8 +1470,10 @@ does not exist.
 DEFUNX ("O_EXCL", FO_EXCL, args, ,
         doc: /* -*- texinfo -*-
 @deftypefn {} {} O_EXCL ()
-Return the numerical value of the file status flag that may be
-returned by @code{fcntl} to indicate that file locking is used.
+Return the numerical value of the @code{O_EXCL}.
+
+@code{O_EXCL} is the file status flag that may be returned by
+@code{fcntl} to indicate that file locking is used.
 @seealso{fcntl, O_APPEND, O_ASYNC, O_CREAT, O_NONBLOCK, O_RDONLY, O_RDWR, O_SYNC, O_TRUNC, O_WRONLY}
 @end deftypefn */)
 {
@@ -1465,9 +1488,11 @@ returned by @code{fcntl} to indicate that file locking is used.
 DEFUNX ("O_NONBLOCK", FO_NONBLOCK, args, ,
         doc: /* -*- texinfo -*-
 @deftypefn {} {} O_NONBLOCK ()
-Return the numerical value of the file status flag that may be
-returned by @code{fcntl} to indicate that non-blocking I/O is in use,
-or that may be passsed to @code{fcntl} to set non-blocking I/O.
+Return the numerical value of the @code{O_NONBLOCK}.
+
+@code{O_NONBLOCK} is the file status flag that may be returned by
+@code{fcntl} to indicate that non-blocking I/O is in use, or that may be
+passsed to @code{fcntl} to set non-blocking I/O.
 @seealso{fcntl, O_APPEND, O_ASYNC, O_CREAT, O_EXCL, O_RDONLY, O_RDWR, O_SYNC, O_TRUNC, O_WRONLY}
 @end deftypefn */)
 {
@@ -1482,8 +1507,10 @@ or that may be passsed to @code{fcntl} to set non-blocking I/O.
 DEFUNX ("O_RDONLY", FO_RDONLY, args, ,
         doc: /* -*- texinfo -*-
 @deftypefn {} {} O_RDONLY ()
-Return the numerical value of the file status flag that may be
-returned by @code{fcntl} to indicate that a file is open for reading only.
+Return the numerical value of the @code{O_RDONLY}.
+
+@code{O_RDONLY} is the file status flag that may be returned by
+@code{fcntl} to indicate that a file is open for reading only.
 @seealso{fcntl, O_APPEND, O_ASYNC, O_CREAT, O_EXCL, O_NONBLOCK, O_RDWR, O_SYNC, O_TRUNC, O_WRONLY}
 @end deftypefn */)
 {
@@ -1498,9 +1525,11 @@ returned by @code{fcntl} to indicate that a file is open for reading only.
 DEFUNX ("O_RDWR", FO_RDWR, args, ,
         doc: /* -*- texinfo -*-
 @deftypefn {} {} O_RDWR ()
-Return the numerical value of the file status flag that may be
-returned by @code{fcntl} to indicate that a file is open for both reading
-and writing.
+Return the numerical value of the @code{O_RDWR}.
+
+@code{O_RDWR} is the file status flag that may be returned by
+@code{fcntl} to indicate that a file is open for both reading and
+writing.
 @seealso{fcntl, O_APPEND, O_ASYNC, O_CREAT, O_EXCL, O_NONBLOCK, O_RDONLY, O_SYNC, O_TRUNC, O_WRONLY}
 @end deftypefn */)
 {
@@ -1515,9 +1544,10 @@ and writing.
 DEFUNX ("O_SYNC", FO_SYNC, args, ,
         doc: /* -*- texinfo -*-
 @deftypefn {} {} O_SYNC ()
-Return the numerical value of the file status flag that may be
-returned by @code{fcntl} to indicate that a file is open for synchronous
-I/O.
+Return the numerical value of the @code{O_SYNC}.
+
+@code{O_SYNC} is the file status flag that may be returned by
+@code{fcntl} to indicate that a file is open for synchronous I/O
 @seealso{fcntl, O_APPEND, O_ASYNC, O_CREAT, O_EXCL, O_NONBLOCK, O_RDONLY, O_RDWR, O_TRUNC, O_WRONLY}
 @end deftypefn */)
 {
@@ -1532,9 +1562,11 @@ I/O.
 DEFUNX ("O_TRUNC", FO_TRUNC, args, ,
         doc: /* -*- texinfo -*-
 @deftypefn {} {} O_TRUNC ()
-Return the numerical value of the file status flag that may be
-returned by @code{fcntl} to indicate that if file exists, it should be
-truncated when writing.
+Return the numerical value of the @code{O_TRUNC}.
+
+@code{O_TRUNC} is the file status flag that may be returned by
+@code{fcntl} to indicate that if file exists, it should be truncated
+when writing.
 @seealso{fcntl, O_APPEND, O_ASYNC, O_CREAT, O_EXCL, O_NONBLOCK, O_RDONLY, O_RDWR, O_SYNC, O_WRONLY}
 @end deftypefn */)
 {
@@ -1549,8 +1581,10 @@ truncated when writing.
 DEFUNX ("O_WRONLY", FO_WRONLY, args, ,
         doc: /* -*- texinfo -*-
 @deftypefn {} {} O_WRONLY ()
-Return the numerical value of the file status flag that may be
-returned by @code{fcntl} to indicate that a file is open for writing only.
+Return the numerical value of the @code{O_WRONLY}.
+
+@code{O_WRONLY} is the file status flag that may be returned by
+@code{fcntl} to indicate that a file is open for writing only
 @seealso{fcntl, O_APPEND, O_ASYNC, O_CREAT, O_EXCL, O_NONBLOCK, O_RDONLY, O_RDWR, O_SYNC, O_TRUNC}
 @end deftypefn */)
 {
@@ -1565,9 +1599,11 @@ returned by @code{fcntl} to indicate that a file is open for writing only.
 DEFUNX ("WNOHANG", FWNOHANG, args, ,
         doc: /* -*- texinfo -*-
 @deftypefn {} {} WNOHANG ()
-Return the numerical value of the option argument that may be
-passed to @code{waitpid} to indicate that it should return its status
-immediately instead of waiting for a process to exit.
+Return the numerical value of the @code{WNOHANG} macro.
+
+@code{WNOHANG} is the option argument that may be passed to
+@code{waitpid} to indicate that it should return its status immediately
+instead of waiting for a process to exit.
 @seealso{waitpid, WUNTRACED, WCONTINUE}
 @end deftypefn */)
 {
@@ -1577,8 +1613,10 @@ immediately instead of waiting for a process to exit.
 DEFUNX ("WUNTRACED", FWUNTRACED, args, ,
         doc: /* -*- texinfo -*-
 @deftypefn {} {} WUNTRACED ()
-Return the numerical value of the option argument that may be
-passed to @code{waitpid} to indicate that it should also return if the child
+Return the numerical value of the @code{WUNTRACED} macro.
+
+@code{WUNTRACED} is the option argument that may be passed to
+@code{waitpid} to indicate that it should also return if the child
 process has stopped but is not traced via the @code{ptrace} system call
 @seealso{waitpid, WNOHANG, WCONTINUE}
 @end deftypefn */)
@@ -1589,9 +1627,11 @@ process has stopped but is not traced via the @code{ptrace} system call
 DEFUNX ("WCONTINUE", FWCONTINUE, args, ,
         doc: /* -*- texinfo -*-
 @deftypefn {} {} WCONTINUE ()
-Return the numerical value of the option argument that may be
-passed to @code{waitpid} to indicate that it should also return if a stopped
-child has been resumed by delivery of a @code{SIGCONT} signal.
+Return the numerical value of the @code{WCONTINUE} macro.
+
+@code{WCONTINUE} is the option argument that may be passed to
+@code{waitpid} to indicate that it should also return if a stopped child
+has been resumed by delivery of a @code{SIGCONT} signal.
 @seealso{waitpid, WNOHANG, WUNTRACED}
 @end deftypefn */)
 {

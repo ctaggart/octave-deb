@@ -1,21 +1,21 @@
-## Copyright (C) 2005-2017 Nicolo' Giorgetti
-## Copyright (C) 2013-2016 Sébastien Villemot <sebastien@debian.org>
+## Copyright (C) 2005-2018 Nicolo' Giorgetti
+## Copyright (C) 2013-2018 Sébastien Villemot <sebastien@debian.org>
 ##
 ## This file is part of Octave.
 ##
-## Octave is free software; you can redistribute it and/or modify it
+## Octave is free software: you can redistribute it and/or modify it
 ## under the terms of the GNU General Public License as published by
-## the Free Software Foundation; either version 3 of the License, or (at
-## your option) any later version.
+## the Free Software Foundation, either version 3 of the License, or
+## (at your option) any later version.
 ##
 ## Octave is distributed in the hope that it will be useful, but
 ## WITHOUT ANY WARRANTY; without even the implied warranty of
-## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-## General Public License for more details.
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU General Public License for more details.
 ##
 ## You should have received a copy of the GNU General Public License
 ## along with Octave; see the file COPYING.  If not, see
-## <http://www.gnu.org/licenses/>.
+## <https://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
 ## @deftypefn {} {[@var{xopt}, @var{fmin}, @var{errnum}, @var{extra}] =} glpk (@var{c}, @var{A}, @var{b}, @var{lb}, @var{ub}, @var{ctype}, @var{vartype}, @var{sense}, @var{param})
@@ -294,9 +294,9 @@
 ## should delay sending information about the solution to the standard output.
 ##
 ## @item save (default: 0)
-## If this parameter is nonzero, save a copy of the problem in CPLEX LP
-## format to the file @file{"outpb.lp"}.  There is currently no way to change
-## the name of the output file.
+## If this parameter is nonzero, save a copy of the problem in @nospell{CPLEX}
+## LP format to the file @file{"outpb.lp"}.  There is currently no way to
+## change the name of the output file.
 ## @end table
 ##
 ## Real parameters:

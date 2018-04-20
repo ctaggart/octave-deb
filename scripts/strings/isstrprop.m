@@ -1,20 +1,20 @@
-## Copyright (C) 2008-2017 John W. Eaton
+## Copyright (C) 2008-2018 John W. Eaton
 ##
 ## This file is part of Octave.
 ##
-## Octave is free software; you can redistribute it and/or modify it
+## Octave is free software: you can redistribute it and/or modify it
 ## under the terms of the GNU General Public License as published by
-## the Free Software Foundation; either version 3 of the License, or (at
-## your option) any later version.
+## the Free Software Foundation, either version 3 of the License, or
+## (at your option) any later version.
 ##
 ## Octave is distributed in the hope that it will be useful, but
 ## WITHOUT ANY WARRANTY; without even the implied warranty of
-## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-## General Public License for more details.
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU General Public License for more details.
 ##
 ## You should have received a copy of the GNU General Public License
 ## along with Octave; see the file COPYING.  If not, see
-## <http://www.gnu.org/licenses/>.
+## <https://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
 ## @deftypefn {} {} isstrprop (@var{str}, @var{prop})
@@ -40,8 +40,8 @@
 ## @item @qcode{"alpha"}
 ## True for characters that are alphabetic (letters).
 ##
-## @item  @qcode{"alnum"}
-## @itemx @qcode{"alphanum"}
+## @item  @nospell{@qcode{"alnum"}}
+## @itemx @nospell{@qcode{"alphanum"}}
 ## True for characters that are alphabetic or digits.
 ##
 ## @item @qcode{"lower"}
@@ -53,19 +53,19 @@
 ## @item @qcode{"digit"}
 ## True for decimal digits (0-9).
 ##
-## @item @qcode{"xdigit"}
+## @item @nospell{@qcode{"xdigit"}}
 ## True for hexadecimal digits (@nospell{a-fA-F0-9}).
 ##
 ## @item  @qcode{"space"}
-## @itemx @qcode{"wspace"}
+## @itemx @nospell{@qcode{"wspace"}}
 ## True for whitespace characters (space, formfeed, newline, carriage return,
 ## tab, vertical tab).
 ##
-## @item @qcode{"punct"}
+## @item @nospell{@qcode{"punct"}}
 ## True for punctuation characters (printing characters except space or
 ## letter or digit).
 ##
-## @item @qcode{"cntrl"}
+## @item @nospell{@qcode{"cntrl"}}
 ## True for control characters.
 ##
 ## @item  @qcode{"graph"}

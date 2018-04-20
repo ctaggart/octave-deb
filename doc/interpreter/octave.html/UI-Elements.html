@@ -63,8 +63,8 @@ toolkit, although some functionality is available with the <code>fltk</code> too
 There is no support for the <code>gnuplot</code> toolkit.
 </p>
 <a name="XREFuimenu"></a><dl>
-<dt><a name="index-uimenu"></a>: <em><var>hui</var> =</em> <strong>uimenu</strong> <em>(<var>property</var>, <var>value</var>, &hellip;)</em></dt>
-<dt><a name="index-uimenu-1"></a>: <em><var>hui</var> =</em> <strong>uimenu</strong> <em>(<var>h</var>, <var>property</var>, <var>value</var>, &hellip;)</em></dt>
+<dt><a name="index-uimenu"></a><em><var>hui</var> =</em> <strong>uimenu</strong> <em>(<var>property</var>, <var>value</var>, &hellip;)</em></dt>
+<dt><a name="index-uimenu-1"></a><em><var>hui</var> =</em> <strong>uimenu</strong> <em>(<var>h</var>, <var>property</var>, <var>value</var>, &hellip;)</em></dt>
 <dd><p>Create a uimenu object and return a handle to it.
 </p>
 <p>If <var>h</var> is omitted then a top-level menu for the current figure is
@@ -116,6 +116,9 @@ line above the current position.  It is ignored for top level entries.
 </dd>
 </dl>
 
+<p>The full list of properties is documented at
+<a href="Uimenu-Properties.html#Uimenu-Properties">Uimenu Properties</a>.
+</p>
 <p>Examples:
 </p>
 <div class="example">
@@ -132,9 +135,9 @@ uimenu (e, &quot;label&quot;, &quot;Toggle &amp;Grid&quot;, &quot;accelerator&qu
 
 
 <a name="XREFuibuttongroup"></a><dl>
-<dt><a name="index-uibuttongroup"></a>: <em><var>hui</var> =</em> <strong>uibuttongroup</strong> <em>(<var>property</var>, <var>value</var>, &hellip;)</em></dt>
-<dt><a name="index-uibuttongroup-1"></a>: <em><var>hui</var> =</em> <strong>uibuttongroup</strong> <em>(<var>parent</var>, <var>property</var>, <var>value</var>, &hellip;)</em></dt>
-<dt><a name="index-uibuttongroup-2"></a>: <em></em> <strong>uibuttongroup</strong> <em>(<var>h</var>)</em></dt>
+<dt><a name="index-uibuttongroup"></a><em><var>hui</var> =</em> <strong>uibuttongroup</strong> <em>(<var>property</var>, <var>value</var>, &hellip;)</em></dt>
+<dt><a name="index-uibuttongroup-1"></a><em><var>hui</var> =</em> <strong>uibuttongroup</strong> <em>(<var>parent</var>, <var>property</var>, <var>value</var>, &hellip;)</em></dt>
+<dt><a name="index-uibuttongroup-2"></a><em></em> <strong>uibuttongroup</strong> <em>(<var>h</var>)</em></dt>
 <dd>
 <p>Create a uibuttongroup object and return a handle to it.
 </p>
@@ -176,8 +179,8 @@ b3 = uicontrol (f, &quot;style&quot;, &quot;radiobutton&quot;, ...
 
 
 <a name="XREFuicontextmenu"></a><dl>
-<dt><a name="index-uicontextmenu"></a>: <em><var>hui</var> =</em> <strong>uicontextmenu</strong> <em>(<var>property</var>, <var>value</var>, &hellip;)</em></dt>
-<dt><a name="index-uicontextmenu-1"></a>: <em><var>hui</var> =</em> <strong>uicontextmenu</strong> <em>(<var>h</var>, <var>property</var>, <var>value</var>, &hellip;)</em></dt>
+<dt><a name="index-uicontextmenu"></a><em><var>hui</var> =</em> <strong>uicontextmenu</strong> <em>(<var>property</var>, <var>value</var>, &hellip;)</em></dt>
+<dt><a name="index-uicontextmenu-1"></a><em><var>hui</var> =</em> <strong>uicontextmenu</strong> <em>(<var>h</var>, <var>property</var>, <var>value</var>, &hellip;)</em></dt>
 <dd>
 <p>Create a uicontextmenu object and return a handle to it.
 </p>
@@ -211,9 +214,9 @@ set (f, &quot;uicontextmenu&quot;, c);
 
 
 <a name="XREFuicontrol"></a><dl>
-<dt><a name="index-uicontrol"></a>: <em><var>hui</var> =</em> <strong>uicontrol</strong> <em>(<var>property</var>, <var>value</var>, &hellip;)</em></dt>
-<dt><a name="index-uicontrol-1"></a>: <em><var>hui</var> =</em> <strong>uicontrol</strong> <em>(<var>parent</var>, <var>property</var>, <var>value</var>, &hellip;)</em></dt>
-<dt><a name="index-uicontrol-2"></a>: <em></em> <strong>uicontrol</strong> <em>(<var>h</var>)</em></dt>
+<dt><a name="index-uicontrol"></a><em><var>hui</var> =</em> <strong>uicontrol</strong> <em>(<var>property</var>, <var>value</var>, &hellip;)</em></dt>
+<dt><a name="index-uicontrol-1"></a><em><var>hui</var> =</em> <strong>uicontrol</strong> <em>(<var>parent</var>, <var>property</var>, <var>value</var>, &hellip;)</em></dt>
+<dt><a name="index-uicontrol-2"></a><em></em> <strong>uicontrol</strong> <em>(<var>h</var>)</em></dt>
 <dd>
 <p>Create a uicontrol object and return a handle to it.
 </p>
@@ -300,10 +303,11 @@ c1 = uicontrol (f, &quot;style&quot;, &quot;checkbox&quot;, &quot;string&quot;, 
 
 
 <a name="XREFuipanel"></a><dl>
-<dt><a name="index-uipanel"></a>: <em><var>hui</var> =</em> <strong>uipanel</strong> <em>(<var>property</var>, <var>value</var>, &hellip;)</em></dt>
-<dt><a name="index-uipanel-1"></a>: <em><var>hui</var> =</em> <strong>uipanel</strong> <em>(<var>parent</var>, &quot;<var>property</var>, <var>value</var>, &hellip;)</em></dt>
+<dt><a name="index-uipanel"></a><em></em> <strong>uipanel</strong> <em>(<var>property</var>, <var>value</var>, &hellip;)</em></dt>
+<dt><a name="index-uipanel-1"></a><em></em> <strong>uipanel</strong> <em>(<var>parent</var>, &quot;<var>property</var>, <var>value</var>, &hellip;)</em></dt>
+<dt><a name="index-uipanel-2"></a><em><var>hui</var> =</em> <strong>uipanel</strong> <em>(&hellip;)</em></dt>
 <dd>
-<p>Create a uipanel object and return a handle to it.
+<p>Create a uipanel object.
 </p>
 <p>uipanels are used as containers to group other uicontrol objects.
 </p>
@@ -316,6 +320,9 @@ created.  If no figure is available, a new figure is created first.
 created uipanel object.
 </p>
 <p>Uipanel properties are documented at <a href="Uipanel-Properties.html#Uipanel-Properties">Uipanel Properties</a>.
+</p>
+<p>The optional return value <var>hui</var> is a graphics handle to the created
+uipanel object.
 </p>
 <p>Examples:
 </p>
@@ -335,10 +342,11 @@ b2 = uicontrol (&quot;parent&quot;, p, &quot;string&quot;, &quot;Another Button&
 
 
 <a name="XREFuipushtool"></a><dl>
-<dt><a name="index-uipushtool"></a>: <em><var>hui</var> =</em> <strong>uipushtool</strong> <em>(<var>property</var>, <var>value</var>, &hellip;)</em></dt>
-<dt><a name="index-uipushtool-1"></a>: <em><var>hui</var> =</em> <strong>uipushtool</strong> <em>(<var>parent</var>, <var>property</var>, <var>value</var>, &hellip;)</em></dt>
+<dt><a name="index-uipushtool"></a><em></em> <strong>uipushtool</strong> <em>(<var>property</var>, <var>value</var>, &hellip;)</em></dt>
+<dt><a name="index-uipushtool-1"></a><em></em> <strong>uipushtool</strong> <em>(<var>parent</var>, <var>property</var>, <var>value</var>, &hellip;)</em></dt>
+<dt><a name="index-uipushtool-2"></a><em><var>hui</var> =</em> <strong>uipushtool</strong> <em>(&hellip;)</em></dt>
 <dd>
-<p>Create a uipushtool object and return a handle to it.
+<p>Create a uipushtool object.
 </p>
 <p>uipushtools are buttons that appear on a figure toolbar.  The button is
 created with a border that is shown when the user hovers over the button.
@@ -349,13 +357,16 @@ created.  If no figure is available, a new figure is created first.  If a
 figure is available, but does not contain a uitoolbar, a uitoolbar will be
 created.
 </p>
-<p>If <var>parent</var> is given then an uipushtools is created on the
-<var>parent</var> uitoolbar.
+<p>If <var>parent</var> is given then a uipushtool is created on the <var>parent</var>
+uitoolbar.
 </p>
 <p>Any provided property value pairs will override the default values of the
 created uipushtool object.
 </p>
 <p>Uipushtool properties are documented at <a href="Uipushtool-Properties.html#Uipushtool-Properties">Uipushtool Properties</a>.
+</p>
+<p>The optional return value <var>hui</var> is a graphics handle to the created
+uipushtool object.
 </p>
 <p>Examples:
 </p>
@@ -375,10 +386,11 @@ b = uipushtool (t, &quot;cdata&quot;, img);
 
 
 <a name="XREFuitoggletool"></a><dl>
-<dt><a name="index-uitoggletool"></a>: <em><var>hui</var> =</em> <strong>uitoggletool</strong> <em>(<var>property</var>, <var>value</var>, &hellip;)</em></dt>
-<dt><a name="index-uitoggletool-1"></a>: <em><var>hui</var> =</em> <strong>uitoggletool</strong> <em>(<var>parent</var>, <var>property</var>, <var>value</var>, &hellip;)</em></dt>
+<dt><a name="index-uitoggletool"></a><em></em> <strong>uitoggletool</strong> <em>(<var>property</var>, <var>value</var>, &hellip;)</em></dt>
+<dt><a name="index-uitoggletool-1"></a><em></em> <strong>uitoggletool</strong> <em>(<var>parent</var>, <var>property</var>, <var>value</var>, &hellip;)</em></dt>
+<dt><a name="index-uitoggletool-2"></a><em><var>hui</var> =</em> <strong>uitoggletool</strong> <em>(&hellip;)</em></dt>
 <dd>
-<p>Create a uitoggletool object and return a handle to it.
+<p>Create a uitoggletool object.
 </p>
 <p>uitoggletool are togglebuttons that appear on a figure toolbar.  The
 button is created with a border that is shown when the user hovers over
@@ -396,6 +408,9 @@ created.
 created uitoggletool object.
 </p>
 <p>Uitoggletool properties are documented at <a href="Uitoggletool-Properties.html#Uitoggletool-Properties">Uitoggletool Properties</a>.
+</p>
+<p>The optional return value <var>hui</var> is a graphics handle to the created
+uitoggletool object.
 </p>
 <p>Examples:
 </p>
@@ -415,11 +430,12 @@ b = uitoggletool (t, &quot;cdata&quot;, img);
 
 
 <a name="XREFuitoolbar"></a><dl>
-<dt><a name="index-uitoolbar"></a>: <em><var>hui</var> =</em> <strong>uitoolbar</strong> <em>(<var>property</var>, <var>value</var>, &hellip;)</em></dt>
-<dt><a name="index-uitoolbar-1"></a>: <em><var>hui</var> =</em> <strong>uitoolbar</strong> <em>(<var>parent</var>, <var>property</var>, <var>value</var>, &hellip;)</em></dt>
+<dt><a name="index-uitoolbar"></a><em></em> <strong>uitoolbar</strong> <em>(<var>property</var>, <var>value</var>, &hellip;)</em></dt>
+<dt><a name="index-uitoolbar-1"></a><em></em> <strong>uitoolbar</strong> <em>(<var>parent</var>, <var>property</var>, <var>value</var>, &hellip;)</em></dt>
+<dt><a name="index-uitoolbar-2"></a><em><var>hui</var> =</em> <strong>uitoolbar</strong> <em>(&hellip;)</em></dt>
 <dd>
-<p>Create a uitoolbar object and return a handle to it.  A uitoolbar displays
-uitoggletool and uipushtool buttons.
+<p>Create a uitoolbar object.  A uitoolbar displays uitoggletool and uipushtool
+buttons.
 </p>
 <p>If <var>parent</var> is omitted then a uitoolbar for the current figure is
 created.  If no figure is available, a new figure is created first.
@@ -431,6 +447,9 @@ created.
 created uitoolbar object.
 </p>
 <p>Uitoolbar properties are documented at <a href="Uitoolbar-Properties.html#Uitoolbar-Properties">Uitoolbar Properties</a>.
+</p>
+<p>The optional return value <var>hui</var> is a graphics handle to the created
+uitoolbar object.
 </p>
 <p>Examples:
 </p>

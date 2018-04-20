@@ -102,7 +102,7 @@ for leap seconds.
 </p>
 </dd>
 <dt><code>isdst</code></dt>
-<dd><p>Daylight Savings Time flag.
+<dd><p>Daylight saving time flag.
 </p>
 </dd>
 <dt><code>gmtoff</code></dt>
@@ -118,7 +118,7 @@ for leap seconds.
 referred to as a <var>tm_struct</var>.
 </p>
 <a name="XREFtime"></a><dl>
-<dt><a name="index-time"></a>: <em><var>seconds</var> =</em> <strong>time</strong> <em>()</em></dt>
+<dt><a name="index-time"></a><em><var>seconds</var> =</em> <strong>time</strong> <em>()</em></dt>
 <dd><p>Return the current time as the number of seconds since the epoch.
 </p>
 <p>The epoch is referenced to 00:00:00 CUT (Coordinated Universal Time) 1 Jan
@@ -130,7 +130,7 @@ returned by <code>time</code> was 856163706.
 
 
 <a name="XREFnow"></a><dl>
-<dt><a name="index-now"></a>: <em>t =</em> <strong>now</strong> <em>()</em></dt>
+<dt><a name="index-now"></a><em>t =</em> <strong>now</strong> <em>()</em></dt>
 <dd><p>Return the current local date/time as a serial day number
 (see <code>datenum</code>).
 </p>
@@ -144,7 +144,7 @@ between today and Jan 1, 0000.
 
 
 <a name="XREFctime"></a><dl>
-<dt><a name="index-ctime"></a>: <em></em> <strong>ctime</strong> <em>(<var>t</var>)</em></dt>
+<dt><a name="index-ctime"></a><em></em> <strong>ctime</strong> <em>(<var>t</var>)</em></dt>
 <dd><p>Convert a value returned from <code>time</code> (or any other non-negative
 integer), to the local time and return a string of the same form as
 <code>asctime</code>.
@@ -162,7 +162,7 @@ integer), to the local time and return a string of the same form as
 
 
 <a name="XREFgmtime"></a><dl>
-<dt><a name="index-gmtime"></a>: <em><var>tm_struct</var> =</em> <strong>gmtime</strong> <em>(<var>t</var>)</em></dt>
+<dt><a name="index-gmtime"></a><em><var>tm_struct</var> =</em> <strong>gmtime</strong> <em>(<var>t</var>)</em></dt>
 <dd><p>Given a value returned from <code>time</code>, or any non-negative integer,
 return a time structure corresponding to CUT (Coordinated Universal Time).
 </p>
@@ -191,7 +191,7 @@ return a time structure corresponding to CUT (Coordinated Universal Time).
 
 
 <a name="XREFlocaltime"></a><dl>
-<dt><a name="index-localtime"></a>: <em><var>tm_struct</var> =</em> <strong>localtime</strong> <em>(<var>t</var>)</em></dt>
+<dt><a name="index-localtime"></a><em><var>tm_struct</var> =</em> <strong>localtime</strong> <em>(<var>t</var>)</em></dt>
 <dd><p>Given a value returned from <code>time</code>, or any non-negative integer,
 return a time structure corresponding to the local time zone.
 </p>
@@ -218,7 +218,7 @@ return a time structure corresponding to the local time zone.
 
 
 <a name="XREFmktime"></a><dl>
-<dt><a name="index-mktime"></a>: <em><var>seconds</var> =</em> <strong>mktime</strong> <em>(<var>tm_struct</var>)</em></dt>
+<dt><a name="index-mktime"></a><em><var>seconds</var> =</em> <strong>mktime</strong> <em>(<var>tm_struct</var>)</em></dt>
 <dd><p>Convert a time structure corresponding to the local time to the number of
 seconds since the epoch.
 </p>
@@ -234,7 +234,7 @@ seconds since the epoch.
 
 
 <a name="XREFasctime"></a><dl>
-<dt><a name="index-asctime"></a>: <em></em> <strong>asctime</strong> <em>(<var>tm_struct</var>)</em></dt>
+<dt><a name="index-asctime"></a><em></em> <strong>asctime</strong> <em>(<var>tm_struct</var>)</em></dt>
 <dd><p>Convert a time structure to a string using the following
 format: <code>&quot;ddd mmm mm HH:MM:SS yyyy\n&quot;</code>.
 </p>
@@ -252,7 +252,7 @@ format: <code>&quot;ddd mmm mm HH:MM:SS yyyy\n&quot;</code>.
 
 
 <a name="XREFstrftime"></a><dl>
-<dt><a name="index-strftime"></a>: <em></em> <strong>strftime</strong> <em>(<var>fmt</var>, <var>tm_struct</var>)</em></dt>
+<dt><a name="index-strftime"></a><em></em> <strong>strftime</strong> <em>(<var>fmt</var>, <var>tm_struct</var>)</em></dt>
 <dd><p>Format the time structure <var>tm_struct</var> in a flexible way using the format
 string <var>fmt</var> that contains &lsquo;<samp>%</samp>&rsquo; substitutions similar to those in
 <code>printf</code>.
@@ -442,7 +442,7 @@ determinable.
 
 
 <a name="XREFstrptime"></a><dl>
-<dt><a name="index-strptime"></a>: <em>[<var>tm_struct</var>, <var>nchars</var>] =</em> <strong>strptime</strong> <em>(<var>str</var>, <var>fmt</var>)</em></dt>
+<dt><a name="index-strptime"></a><em>[<var>tm_struct</var>, <var>nchars</var>] =</em> <strong>strptime</strong> <em>(<var>str</var>, <var>fmt</var>)</em></dt>
 <dd><p>Convert the string <var>str</var> to the time structure <var>tm_struct</var> under
 the control of the format string <var>fmt</var>.
 </p>
@@ -460,7 +460,7 @@ compatibility with <small>MATLAB</small> and others are provided because they ar
 useful.
 </p>
 <a name="XREFclock"></a><dl>
-<dt><a name="index-clock"></a>: <em></em> <strong>clock</strong> <em>()</em></dt>
+<dt><a name="index-clock"></a><em></em> <strong>clock</strong> <em>()</em></dt>
 <dd><p>Return the current local date and time as a date vector.
 </p>
 <p>The date vector contains the following fields: current year, month (1-12),
@@ -482,7 +482,7 @@ function.
 
 
 <a name="XREFdate"></a><dl>
-<dt><a name="index-date"></a>: <em></em> <strong>date</strong> <em>()</em></dt>
+<dt><a name="index-date"></a><em></em> <strong>date</strong> <em>()</em></dt>
 <dd><p>Return the current date as a character string in the form DD-MMM-YYYY.
 </p>
 <p>For example:
@@ -497,7 +497,7 @@ function.
 
 
 <a name="XREFetime"></a><dl>
-<dt><a name="index-etime"></a>: <em></em> <strong>etime</strong> <em>(<var>t2</var>, <var>t1</var>)</em></dt>
+<dt><a name="index-etime"></a><em></em> <strong>etime</strong> <em>(<var>t2</var>, <var>t1</var>)</em></dt>
 <dd><p>Return the difference in seconds between two time values returned from
 <code>clock</code> (<em><var>t2</var> - <var>t1</var></em>).
 </p>
@@ -517,7 +517,7 @@ variable <code>t0</code> was set.
 
 
 <a name="XREFcputime"></a><dl>
-<dt><a name="index-cputime"></a>: <em>[<var>total</var>, <var>user</var>, <var>system</var>] =</em> <strong>cputime</strong> <em>();</em></dt>
+<dt><a name="index-cputime"></a><em>[<var>total</var>, <var>user</var>, <var>system</var>] =</em> <strong>cputime</strong> <em>();</em></dt>
 <dd><p>Return the CPU time used by your Octave session.
 </p>
 <p>The first output is the total time spent executing your process and is equal
@@ -537,8 +537,8 @@ CPU time used is nonzero.
 
 
 <a name="XREFis_005fleap_005fyear"></a><dl>
-<dt><a name="index-is_005fleap_005fyear"></a>: <em></em> <strong>is_leap_year</strong> <em>()</em></dt>
-<dt><a name="index-is_005fleap_005fyear-1"></a>: <em></em> <strong>is_leap_year</strong> <em>(<var>year</var>)</em></dt>
+<dt><a name="index-is_005fleap_005fyear"></a><em></em> <strong>is_leap_year</strong> <em>()</em></dt>
+<dt><a name="index-is_005fleap_005fyear-1"></a><em></em> <strong>is_leap_year</strong> <em>(<var>year</var>)</em></dt>
 <dd><p>Return true if <var>year</var> is a leap year and false otherwise.
 </p>
 <p>If no year is specified, <code>is_leap_year</code> uses the current year.
@@ -554,51 +554,76 @@ CPU time used is nonzero.
 </p></dd></dl>
 
 
-<a name="XREFtoc"></a><a name="XREFtic"></a><dl>
-<dt><a name="index-tic"></a>: <em></em> <strong>tic</strong> <em>()</em></dt>
-<dt><a name="index-tic-1"></a>: <em><var>id</var> =</em> <strong>tic</strong> <em>()</em></dt>
-<dt><a name="index-toc"></a>: <em></em> <strong>toc</strong> <em>()</em></dt>
-<dt><a name="index-toc-1"></a>: <em></em> <strong>toc</strong> <em>(<var>id</var>)</em></dt>
-<dt><a name="index-toc-2"></a>: <em><var>val</var> =</em> <strong>toc</strong> <em>(&hellip;)</em></dt>
-<dd><p>Set or check a wall-clock timer.
+<a name="XREFtic"></a><dl>
+<dt><a name="index-tic"></a><em></em> <strong>tic</strong> <em>()</em></dt>
+<dt><a name="index-tic-1"></a><em><var>id</var> =</em> <strong>tic</strong> <em>()</em></dt>
+<dd><p>Initialize a wall-clock timer.
 </p>
-<p>Calling <code>tic</code> without an output argument sets the internal timer state.
-Subsequent calls to <code>toc</code> return the number of seconds since the timer
-was set.
-For example,
+<p>Calling <code>tic</code> without an output argument resets the internal timer.
+Subsequent calls to <code>toc</code> return the number of seconds since the timer was
+set.
+</p>
+<p>If called with one output argument, <code>tic</code> creates a new timer instance and
+returns a timer identifier <var>id</var>.  The <var>id</var> is a scalar of type
+<code>uint64</code> that may be passed to <code>toc</code> to check elapsed time on this
+timer, rather than the default internal timer.
+</p>
+<p>Example 1 : benchmarking code with internal timer
 </p>
 <div class="example">
-<pre class="example">tic ();
+<pre class="example">tic;
 # many computations later&hellip;
-elapsed_time = toc ();
+elapsed_time = toc;
 </pre></div>
 
-<p>will set the variable <code>elapsed_time</code> to the number of seconds since
-the most recent call to the function <code>tic</code>.
-</p>
-<p>If called with one output argument, <code>tic</code> returns a scalar
-of type <code>uint64</code> that may be later passed to <code>toc</code>.
+<p>Example 2 : mixed timer id and internal timer
 </p>
 <div class="example">
-<pre class="example">id = tic; pause (5); toc (id)
-      &rArr; 5.0010
+<pre class="example">tic;
+pause (1);
+toc
+&rArr; Elapsed time is 1.0089 seconds.
+id = tic;
+pause (2);
+toc (id)
+&rArr; Elapsed time is 2.01142 seconds.
+toc
+Elapsed time is 3.02308 seconds.
 </pre></div>
 
-<p>Calling <code>tic</code> and <code>toc</code> this way allows nested timing calls.
+<p>Calling <code>tic</code> and <code>toc</code> in this way allows nested timing calls.
 </p>
-<p>If you are more interested in the CPU time that your process used, you
-should use the <code>cputime</code> function instead.  The <code>tic</code> and
-<code>toc</code> functions report the actual wall clock time that elapsed
-between the calls.  This may include time spent processing other jobs or
-doing nothing at all.
+<p>If you are more interested in the CPU time that your process used, you should
+use the <code>cputime</code> function instead.  The <code>tic</code> and <code>toc</code>
+functions report the actual wall clock time that elapsed between the calls.
+This may include time spent processing other jobs or doing nothing at all.
 </p>
 <p><strong>See also:</strong> <a href="#XREFtoc">toc</a>, <a href="#XREFcputime">cputime</a>.
 </p></dd></dl>
 
 
+<a name="XREFtoc"></a><dl>
+<dt><a name="index-toc"></a><em></em> <strong>toc</strong> <em>()</em></dt>
+<dt><a name="index-toc-1"></a><em></em> <strong>toc</strong> <em>(<var>id</var>)</em></dt>
+<dt><a name="index-toc-2"></a><em><var>elapsed_time</var> =</em> <strong>toc</strong> <em>(&hellip;)</em></dt>
+<dd><p>Measure elapsed time on a wall-clock timer.
+</p>
+<p>With no arguments, return the number of seconds elapsed on the internal timer
+since the last call to <code>tic</code>.
+</p>
+<p>When given the identifier <var>id</var> of a specific timer, return the number of
+seconds elapsed since the timer <var>id</var> was initialized.
+</p>
+<p>See <a href="#XREFtic">tic</a>, for examples of the use of <code>tic</code>/<code>toc</code>.
+</p>
+
+<p><strong>See also:</strong> <a href="#XREFtic">tic</a>, <a href="#XREFcputime">cputime</a>.
+</p></dd></dl>
+
+
 <a name="XREFpause"></a><dl>
-<dt><a name="index-pause-2"></a>: <em></em> <strong>pause</strong> <em>()</em></dt>
-<dt><a name="index-pause-3"></a>: <em></em> <strong>pause</strong> <em>(<var>n</var>)</em></dt>
+<dt><a name="index-pause-2"></a><em></em> <strong>pause</strong> <em>()</em></dt>
+<dt><a name="index-pause-3"></a><em></em> <strong>pause</strong> <em>(<var>n</var>)</em></dt>
 <dd><p>Suspend the execution of the program for <var>n</var> seconds.
 </p>
 <p>If invoked without an input arguments then the program is suspended until a
@@ -627,15 +652,15 @@ clc;
 
 
 <a name="XREFdatenum"></a><dl>
-<dt><a name="index-datenum"></a>: <em><var>days</var> =</em> <strong>datenum</strong> <em>(<var>datevec</var>)</em></dt>
-<dt><a name="index-datenum-1"></a>: <em><var>days</var> =</em> <strong>datenum</strong> <em>(<var>year</var>, <var>month</var>, <var>day</var>)</em></dt>
-<dt><a name="index-datenum-2"></a>: <em><var>days</var> =</em> <strong>datenum</strong> <em>(<var>year</var>, <var>month</var>, <var>day</var>, <var>hour</var>)</em></dt>
-<dt><a name="index-datenum-3"></a>: <em><var>days</var> =</em> <strong>datenum</strong> <em>(<var>year</var>, <var>month</var>, <var>day</var>, <var>hour</var>, <var>minute</var>)</em></dt>
-<dt><a name="index-datenum-4"></a>: <em><var>days</var> =</em> <strong>datenum</strong> <em>(<var>year</var>, <var>month</var>, <var>day</var>, <var>hour</var>, <var>minute</var>, <var>second</var>)</em></dt>
-<dt><a name="index-datenum-5"></a>: <em><var>days</var> =</em> <strong>datenum</strong> <em>(&quot;datestr&quot;)</em></dt>
-<dt><a name="index-datenum-6"></a>: <em><var>days</var> =</em> <strong>datenum</strong> <em>(&quot;datestr&quot;, <var>f</var>)</em></dt>
-<dt><a name="index-datenum-7"></a>: <em><var>days</var> =</em> <strong>datenum</strong> <em>(&quot;datestr&quot;, <var>p</var>)</em></dt>
-<dt><a name="index-datenum-8"></a>: <em>[<var>days</var>, <var>secs</var>] =</em> <strong>datenum</strong> <em>(&hellip;)</em></dt>
+<dt><a name="index-datenum"></a><em><var>days</var> =</em> <strong>datenum</strong> <em>(<var>datevec</var>)</em></dt>
+<dt><a name="index-datenum-1"></a><em><var>days</var> =</em> <strong>datenum</strong> <em>(<var>year</var>, <var>month</var>, <var>day</var>)</em></dt>
+<dt><a name="index-datenum-2"></a><em><var>days</var> =</em> <strong>datenum</strong> <em>(<var>year</var>, <var>month</var>, <var>day</var>, <var>hour</var>)</em></dt>
+<dt><a name="index-datenum-3"></a><em><var>days</var> =</em> <strong>datenum</strong> <em>(<var>year</var>, <var>month</var>, <var>day</var>, <var>hour</var>, <var>minute</var>)</em></dt>
+<dt><a name="index-datenum-4"></a><em><var>days</var> =</em> <strong>datenum</strong> <em>(<var>year</var>, <var>month</var>, <var>day</var>, <var>hour</var>, <var>minute</var>, <var>second</var>)</em></dt>
+<dt><a name="index-datenum-5"></a><em><var>days</var> =</em> <strong>datenum</strong> <em>(&quot;datestr&quot;)</em></dt>
+<dt><a name="index-datenum-6"></a><em><var>days</var> =</em> <strong>datenum</strong> <em>(&quot;datestr&quot;, <var>f</var>)</em></dt>
+<dt><a name="index-datenum-7"></a><em><var>days</var> =</em> <strong>datenum</strong> <em>(&quot;datestr&quot;, <var>p</var>)</em></dt>
+<dt><a name="index-datenum-8"></a><em>[<var>days</var>, <var>secs</var>] =</em> <strong>datenum</strong> <em>(&hellip;)</em></dt>
 <dd><p>Return the date/time input as a serial day number, with Jan 1, 0000
 defined as day 1.
 </p>
@@ -693,9 +718,9 @@ available on the Wikipedia entry for leap seconds.
 
 
 <a name="XREFdatestr"></a><dl>
-<dt><a name="index-datestr"></a>: <em><var>str</var> =</em> <strong>datestr</strong> <em>(<var>date</var>)</em></dt>
-<dt><a name="index-datestr-1"></a>: <em><var>str</var> =</em> <strong>datestr</strong> <em>(<var>date</var>, <var>f</var>)</em></dt>
-<dt><a name="index-datestr-2"></a>: <em><var>str</var> =</em> <strong>datestr</strong> <em>(<var>date</var>, <var>f</var>, <var>p</var>)</em></dt>
+<dt><a name="index-datestr"></a><em><var>str</var> =</em> <strong>datestr</strong> <em>(<var>date</var>)</em></dt>
+<dt><a name="index-datestr-1"></a><em><var>str</var> =</em> <strong>datestr</strong> <em>(<var>date</var>, <var>f</var>)</em></dt>
+<dt><a name="index-datestr-2"></a><em><var>str</var> =</em> <strong>datestr</strong> <em>(<var>date</var>, <var>f</var>, <var>p</var>)</em></dt>
 <dd><p>Format the given date/time according to the format <code>f</code> and return
 the result in <var>str</var>.
 </p>
@@ -786,11 +811,11 @@ is returned.
 
 
 <a name="XREFdatevec"></a><dl>
-<dt><a name="index-datevec"></a>: <em><var>v</var> =</em> <strong>datevec</strong> <em>(<var>date</var>)</em></dt>
-<dt><a name="index-datevec-1"></a>: <em><var>v</var> =</em> <strong>datevec</strong> <em>(<var>date</var>, <var>f</var>)</em></dt>
-<dt><a name="index-datevec-2"></a>: <em><var>v</var> =</em> <strong>datevec</strong> <em>(<var>date</var>, <var>p</var>)</em></dt>
-<dt><a name="index-datevec-3"></a>: <em><var>v</var> =</em> <strong>datevec</strong> <em>(<var>date</var>, <var>f</var>, <var>p</var>)</em></dt>
-<dt><a name="index-datevec-4"></a>: <em>[<var>y</var>, <var>m</var>, <var>d</var>, <var>h</var>, <var>mi</var>, <var>s</var>] =</em> <strong>datevec</strong> <em>(&hellip;)</em></dt>
+<dt><a name="index-datevec"></a><em><var>v</var> =</em> <strong>datevec</strong> <em>(<var>date</var>)</em></dt>
+<dt><a name="index-datevec-1"></a><em><var>v</var> =</em> <strong>datevec</strong> <em>(<var>date</var>, <var>f</var>)</em></dt>
+<dt><a name="index-datevec-2"></a><em><var>v</var> =</em> <strong>datevec</strong> <em>(<var>date</var>, <var>p</var>)</em></dt>
+<dt><a name="index-datevec-3"></a><em><var>v</var> =</em> <strong>datevec</strong> <em>(<var>date</var>, <var>f</var>, <var>p</var>)</em></dt>
+<dt><a name="index-datevec-4"></a><em>[<var>y</var>, <var>m</var>, <var>d</var>, <var>h</var>, <var>mi</var>, <var>s</var>] =</em> <strong>datevec</strong> <em>(&hellip;)</em></dt>
 <dd><p>Convert a serial date number (see <code>datenum</code>) or date string (see
 <code>datestr</code>) into a date vector.
 </p>
@@ -814,7 +839,7 @@ will be referenced.  If not specified, it defaults to the current year minus
 
 
 <a name="XREFaddtodate"></a><dl>
-<dt><a name="index-addtodate"></a>: <em><var>d</var> =</em> <strong>addtodate</strong> <em>(<var>d</var>, <var>q</var>, <var>f</var>)</em></dt>
+<dt><a name="index-addtodate"></a><em><var>d</var> =</em> <strong>addtodate</strong> <em>(<var>d</var>, <var>q</var>, <var>f</var>)</em></dt>
 <dd><p>Add <var>q</var> amount of time (with units <var>f</var>) to the serial datenum,
 <var>d</var>.
 </p>
@@ -827,10 +852,10 @@ will be referenced.  If not specified, it defaults to the current year minus
 
 
 <a name="XREFcalendar"></a><dl>
-<dt><a name="index-calendar"></a>: <em><var>c</var> =</em> <strong>calendar</strong> <em>()</em></dt>
-<dt><a name="index-calendar-1"></a>: <em><var>c</var> =</em> <strong>calendar</strong> <em>(<var>d</var>)</em></dt>
-<dt><a name="index-calendar-2"></a>: <em><var>c</var> =</em> <strong>calendar</strong> <em>(<var>y</var>, <var>m</var>)</em></dt>
-<dt><a name="index-calendar-3"></a>: <em></em> <strong>calendar</strong> <em>(&hellip;)</em></dt>
+<dt><a name="index-calendar"></a><em><var>c</var> =</em> <strong>calendar</strong> <em>()</em></dt>
+<dt><a name="index-calendar-1"></a><em><var>c</var> =</em> <strong>calendar</strong> <em>(<var>d</var>)</em></dt>
+<dt><a name="index-calendar-2"></a><em><var>c</var> =</em> <strong>calendar</strong> <em>(<var>y</var>, <var>m</var>)</em></dt>
+<dt><a name="index-calendar-3"></a><em></em> <strong>calendar</strong> <em>(&hellip;)</em></dt>
 <dd><p>Return the current monthly calendar in a 6x7 matrix.
 </p>
 <p>If <var>d</var> is specified, return the calendar for the month containing the
@@ -847,8 +872,8 @@ instead of returning a matrix.
 
 
 <a name="XREFweekday"></a><dl>
-<dt><a name="index-weekday"></a>: <em>[<var>n</var>, <var>s</var>] =</em> <strong>weekday</strong> <em>(<var>d</var>)</em></dt>
-<dt><a name="index-weekday-1"></a>: <em>[<var>n</var>, <var>s</var>] =</em> <strong>weekday</strong> <em>(<var>d</var>, <var>format</var>)</em></dt>
+<dt><a name="index-weekday"></a><em>[<var>n</var>, <var>s</var>] =</em> <strong>weekday</strong> <em>(<var>d</var>)</em></dt>
+<dt><a name="index-weekday-1"></a><em>[<var>n</var>, <var>s</var>] =</em> <strong>weekday</strong> <em>(<var>d</var>, <var>format</var>)</em></dt>
 <dd><p>Return the day of the week as a number in <var>n</var> and as a string in
 <var>s</var>.
 </p>
@@ -879,7 +904,7 @@ then <var>s</var> will contain the abbreviated name of the weekday.  If
 
 
 <a name="XREFeomday"></a><dl>
-<dt><a name="index-eomday"></a>: <em><var>e</var> =</em> <strong>eomday</strong> <em>(<var>y</var>, <var>m</var>)</em></dt>
+<dt><a name="index-eomday"></a><em><var>e</var> =</em> <strong>eomday</strong> <em>(<var>y</var>, <var>m</var>)</em></dt>
 <dd><p>Return the last day of the month <var>m</var> for the year <var>y</var>.
 </p>
 <p><strong>See also:</strong> <a href="#XREFweekday">weekday</a>, <a href="#XREFdatenum">datenum</a>, <a href="#XREFdatevec">datevec</a>, <a href="#XREFis_005fleap_005fyear">is_leap_year</a>, <a href="#XREFcalendar">calendar</a>.
@@ -887,13 +912,13 @@ then <var>s</var> will contain the abbreviated name of the weekday.  If
 
 
 <a name="XREFdatetick"></a><dl>
-<dt><a name="index-datetick"></a>: <em></em> <strong>datetick</strong> <em>()</em></dt>
-<dt><a name="index-datetick-1"></a>: <em></em> <strong>datetick</strong> <em>(<var>axis_str</var>)</em></dt>
-<dt><a name="index-datetick-2"></a>: <em></em> <strong>datetick</strong> <em>(<var>date_format</var>)</em></dt>
-<dt><a name="index-datetick-3"></a>: <em></em> <strong>datetick</strong> <em>(<var>axis_str</var>, <var>date_format</var>)</em></dt>
-<dt><a name="index-datetick-4"></a>: <em></em> <strong>datetick</strong> <em>(&hellip;, &quot;keeplimits&quot;)</em></dt>
-<dt><a name="index-datetick-5"></a>: <em></em> <strong>datetick</strong> <em>(&hellip;, &quot;keepticks&quot;)</em></dt>
-<dt><a name="index-datetick-6"></a>: <em></em> <strong>datetick</strong> <em>(<var>hax</var>, &hellip;)</em></dt>
+<dt><a name="index-datetick"></a><em></em> <strong>datetick</strong> <em>()</em></dt>
+<dt><a name="index-datetick-1"></a><em></em> <strong>datetick</strong> <em>(<var>axis_str</var>)</em></dt>
+<dt><a name="index-datetick-2"></a><em></em> <strong>datetick</strong> <em>(<var>date_format</var>)</em></dt>
+<dt><a name="index-datetick-3"></a><em></em> <strong>datetick</strong> <em>(<var>axis_str</var>, <var>date_format</var>)</em></dt>
+<dt><a name="index-datetick-4"></a><em></em> <strong>datetick</strong> <em>(&hellip;, &quot;keeplimits&quot;)</em></dt>
+<dt><a name="index-datetick-5"></a><em></em> <strong>datetick</strong> <em>(&hellip;, &quot;keepticks&quot;)</em></dt>
+<dt><a name="index-datetick-6"></a><em></em> <strong>datetick</strong> <em>(<var>hax</var>, &hellip;)</em></dt>
 <dd><p>Add date-formatted tick labels to an axis.
 </p>
 <p>The axis to apply the ticks to is determined by <var>axis_str</var> which can

@@ -1,22 +1,22 @@
 @c DO NOT EDIT!  Generated automatically by munge-texi.pl.
 
-@c Copyright (C) 1996-2017 John W. Eaton
+@c Copyright (C) 1996-2018 John W. Eaton
 @c
 @c This file is part of Octave.
 @c
-@c Octave is free software; you can redistribute it and/or modify it
-@c under the terms of the GNU General Public License as published by the
-@c Free Software Foundation; either version 3 of the License, or (at
-@c your option) any later version.
+@c Octave is free software: you can redistribute it and/or modify it
+@c under the terms of the GNU General Public License as published by
+@c the Free Software Foundation, either version 3 of the License, or
+@c (at your option) any later version.
 @c
-@c Octave is distributed in the hope that it will be useful, but WITHOUT
-@c ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-@c FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-@c for more details.
+@c Octave is distributed in the hope that it will be useful, but
+@c WITHOUT ANY WARRANTY; without even the implied warranty of
+@c MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+@c GNU General Public License for more details.
 @c
 @c You should have received a copy of the GNU General Public License
 @c along with Octave; see the file COPYING.  If not, see
-@c <http://www.gnu.org/licenses/>.
+@c <https://www.gnu.org/licenses/>.
 
 @node Linear Algebra
 @chapter Linear Algebra
@@ -261,14 +261,13 @@ For that, use any of the condition number functions: @code{cond},
 @deftypefnx {} {[@dots{}] =} eig (@var{A}, @var{B}, @var{algorithm})
 @deftypefnx {} {[@dots{}] =} eig (@dots{}, @var{eigvalOption})
 Compute the eigenvalues (@var{lambda}) and optionally the right eigenvectors
-(@var{V}) and the left eigenvectors (@var{W}) of a matrix or a pair of
-matrices.
+(@var{V}) and the left eigenvectors (@var{W}) of a matrix or pair of matrices.
 
 The flag @var{balanceOption} can be one of:
 
 @table @asis
-@item @qcode{"balance"}
-Preliminary balancing is on. (default)
+@item @qcode{"balance"} (default)
+Preliminary balancing is on.
 
 @item @qcode{"nobalance"}
 Disables preliminary balancing.
@@ -278,24 +277,23 @@ The flag @var{eigvalOption} can be one of:
 
 @table @asis
 @item @qcode{"matrix"}
-Return the eigenvalues in a diagonal matrix. (default if 2 or 3 outputs
-are specified)
+Return the eigenvalues in a diagonal matrix.  (default if 2 or 3 outputs
+are requested)
 
 @item @qcode{"vector"}
-Return the eigenvalues in a column vector. (default if 1 output is
-specified, e.g. @var{lambda} = eig (@var{A}))
+Return the eigenvalues in a column vector.  (default if only 1 output is
+requested, e.g., @var{lambda} = eig (@var{A}))
 @end table
 
 The flag @var{algorithm} can be one of:
 
 @table @asis
 @item @qcode{"chol"}
-Uses the Cholesky factorization of B. (default if A is symmetric (Hermitian)
-and B is symmetric (Hermitian) positive definite)
+Use the Cholesky factorization of B.  (default if @var{A} is symmetric
+(Hermitian) and @var{B} is symmetric (Hermitian) positive definite)
 
 @item @qcode{"qz"}
-Uses the QZ algorithm. (When A or B are not symmetric always the
-QZ algorithm will be used)
+Use the QZ algorithm.  (used whenever @var{A} or @var{B} are not symmetric)
 @end table
 
 @multitable @columnfractions .31 .23 .23 .23
@@ -333,19 +331,28 @@ $$
 with $x$ and $y$ scalars.
 @end tex
 @ifnottex
-The Givens matrix is a 2 by 2 orthogonal matrix
+The Givens matrix is a 2-by-2 orthogonal matrix
 
-@code{@var{g} = [@var{c} @var{s}; -@var{s}' @var{c}]}
+@example
+@group
+@var{G} = [ @var{c} , @var{s}
+     -@var{s}', @var{c}]
+@end group
+@end example
 
+@noindent
 such that
 
-@code{@var{g} [@var{x}; @var{y}] = [*; 0]}
+@example
+@var{G} * [@var{x}; @var{y}] = [*; 0]
+@end example
 
+@noindent
 with @var{x} and @var{y} scalars.
 @end ifnottex
 
-If two output arguments are requested, return the factors @var{c} and
-@var{s} rather than the Givens rotation matrix.
+If two output arguments are requested, return the factors @var{c} and @var{s}
+rather than the Givens rotation matrix.
 
 For example:
 
@@ -356,23 +363,108 @@ givens (1, 1)
        -0.70711   0.70711
 @end group
 @end example
-@seealso{@ref{XREFplanerot,,planerot}}
+
+Note: The Givens matrix represents a counterclockwise rotation of a 2-D
+plane and can be used to introduce zeros into a matrix prior to complete
+factorization.
+@seealso{@ref{XREFplanerot,,planerot}, @ref{XREFqr,,qr}}
+@end deftypefn
+
+
+@c gsvd libinterp/corefcn/gsvd.cc
+@anchor{XREFgsvd}
+@deftypefn  {} {@var{S} =} gsvd (@var{A}, @var{B})
+@deftypefnx {} {[@var{U}, @var{V}, @var{X}, @var{C}, @var{S}] =} gsvd (@var{A}, @var{B})
+@deftypefnx {} {[@var{U}, @var{V}, @var{X}, @var{C}, @var{S}] =} gsvd (@var{A}, @var{B}, 0)
+Compute the generalized singular value decomposition of (@var{A}, @var{B}).
+
+The generalized singular value decomposition is defined by the following
+relations:
+
+@tex
+$$ A = U C X^\dagger $$
+$$ B = V S X^\dagger $$
+$$ C^\dagger C + S^\dagger S = eye (columns (A)) $$
+@end tex
+@ifnottex
+
+@example
+@group
+A = U*C*X'
+B = V*S*X'
+C'*C + S'*S = eye (columns (A))
+@end group
+@end example
+
+@end ifnottex
+
+The function @code{gsvd} normally returns just the vector of generalized
+singular values
+@tex
+$$ \sqrt{{{diag (C^\dagger C)} \over {diag (S^\dagger S)}}} $$
+@end tex
+@ifnottex
+@code{sqrt (diag (C'*C) ./ diag (S'*S))}.
+@end ifnottex
+If asked for five return values, it also computes
+@tex
+$U$, $V$, $X$, and $C$.
+@end tex
+@ifnottex
+U, V, X, and C.
+@end ifnottex
+
+If the optional third input is present, @code{gsvd} constructs the
+"economy-sized" decomposition where the number of columns of @var{U}, @var{V}
+and the number of rows of @var{C}, @var{S} is less than or equal to the number
+of columns of @var{A}.  This option is not yet implemented.
+
+Programming Note: the code is a wrapper to the corresponding @sc{lapack} dggsvd
+and zggsvd routines.
+
+@seealso{@ref{XREFsvd,,svd}}
 @end deftypefn
 
 
 @c planerot scripts/linear-algebra/planerot.m
 @anchor{XREFplanerot}
 @deftypefn {} {[@var{G}, @var{y}] =} planerot (@var{x})
-Given a two-element column vector, return the
+Compute the Givens rotation matrix for the two-element column vector
+@var{x}.
+
 @tex
-$2 \times 2$ orthogonal matrix
+The Givens matrix is a $2\times 2$ orthogonal matrix
+$$
+ G = \left[\matrix{c & s\cr -s'& c\cr}\right]
+$$
+such that
+$$
+ G \left[\matrix{x(1)\cr x(2)}\right] = \left[\matrix{\ast\cr 0}\right]
+$$
 @end tex
 @ifnottex
-2 by 2 orthogonal matrix
+The Givens matrix is a 2-by-2 orthogonal matrix
+
+@example
+@group
+@var{G} = [ @var{c} , @var{s}
+     -@var{s}', @var{c}]
+@end group
+@end example
+
+@noindent
+such that
+
+@example
+@var{y} = @var{G} * [@var{x}(1); @var{x}(2)] @equiv{} [*; 0]
+@end example
+
 @end ifnottex
-@var{G} such that
-@code{@var{y} = @var{g} * @var{x}} and @code{@var{y}(2) = 0}.
-@seealso{@ref{XREFgivens,,givens}}
+
+Note: The Givens matrix represents a counterclockwise rotation of a 2-D
+plane and can be used to introduce zeros into a matrix prior to complete
+factorization.
+@seealso{@ref{XREFgivens,,givens}, @ref{XREFqr,,qr}}
 @end deftypefn
 
 
@@ -416,11 +508,11 @@ to @code{linsolve} you can inform Octave directly about the matrix @var{A}.
 In this case Octave will skip the matrix examination and proceed directly
 to solving the linear system.
 
-@strong{Warning:} If the matrix @var{A} does not have the properties
-listed in the @var{opts} structure then the result will not be accurate
-AND no warning will be given.  When in doubt, let Octave examine the matrix
-and choose the appropriate solver as this step takes little time and the
-result is cached so that it is only done once per linear system.
+@strong{Warning:} If the matrix @var{A} does not have the properties listed
+in the @var{opts} structure then the result will not be accurate AND no
+warning will be given.  When in doubt, let Octave examine the matrix and
+choose the appropriate solver as this step takes little time and the result
+is cached so that it is only done once per linear system.
 
 Possible @var{opts} fields (set value to true/false):
 
@@ -444,7 +536,7 @@ Possible @var{opts} fields (set value to true/false):
 @var{A} is general rectangular (currently makes no difference)
 
 @item TRANSA
-  Solve @code{A'*x = b} by @code{transpose (A) \ b}
+  Solve @code{A'*x = b} if true rather than @code{A*x = b}
 @end table
 
 The optional second output @var{R} is the inverse condition number of
@@ -560,8 +652,9 @@ Largest singular value of @var{A}.
 Infinity norm, the largest row sum of the absolute values of @var{A}.
 
 @item @var{p} = @qcode{"fro"}
-@cindex Frobenius norm
-Frobenius norm of @var{A}, @code{sqrt (sum (diag (@var{A}' * @var{A})))}.
+@cindex @nospell{Frobenius} norm
+@nospell{Frobenius} norm of @var{A},
+@code{sqrt (sum (diag (@var{A}' * @var{A})))}.
 
 @item other @var{p}, @code{@var{p} > 1}
 @cindex general p-norm
@@ -578,7 +671,7 @@ If @var{A} is a vector or a scalar:
 @code{min (abs (@var{A}))}.
 
 @item @var{p} = @qcode{"fro"}
-Frobenius norm of @var{A}, @code{sqrt (sumsq (abs (A)))}.
+@nospell{Frobenius} norm of @var{A}, @code{sqrt (sumsq (abs (A)))}.
 
 @item @var{p} = 0
 Hamming norm---the number of nonzero elements.
@@ -594,7 +687,7 @@ If @var{opt} is the value @qcode{"rows"}, treat each row as a vector and
 compute its norm.  The result is returned as a column vector.
 Similarly, if @var{opt} is @qcode{"columns"} or @qcode{"cols"} then
 compute the norms of each column and return a row vector.
-@seealso{@ref{XREFnormest,,normest}, @ref{XREFnormest1,,normest1}, @ref{XREFcond,,cond}, @ref{XREFsvd,,svd}}
+@seealso{@ref{XREFnormest,,normest}, @ref{XREFnormest1,,normest1}, @ref{XREFvecnorm,,vecnorm}, @ref{XREFcond,,cond}, @ref{XREFsvd,,svd}}
 @end deftypefn
 
 
@@ -656,7 +749,7 @@ On exit, @var{y} is a unit vector such that:
 @anchor{XREFpinv}
 @deftypefn  {} {} pinv (@var{x})
 @deftypefnx {} {} pinv (@var{x}, @var{tol})
-Return the Moore-Penrose pseudoinverse of @var{x}.
+Return the @nospell{Moore-Penrose} pseudoinverse of @var{x}.
 
 Singular values less than @var{tol} are ignored.
 
@@ -690,26 +783,42 @@ where @code{eps} is machine precision and @code{sigma(1)} is the largest
 singular value of @var{A}.
 
 The rank of a matrix is the number of linearly independent rows or columns
-and determines how many particular solutions exist to a system of equations.
-Use @code{null} for finding the remaining homogenous solutions.
+and equals the dimension of the row and column space.  The function
+@code{orth} may be used to compute an orthonormal basis of the column space.
+
+For testing if a system @code{@var{A}*@var{x} = @var{b}} of linear equations
+is solvable, one can use
+
+@example
+rank (@var{A}) == rank ([@var{A} @var{b}])
+@end example
+
+In this case, @code{@var{x} = @var{A} \ @var{b}} finds a particular solution
+@var{x}.  The general solution is @var{x} plus the null space of matrix
+@var{A}.  The function @code{null} may be used to compute a basis of the
+null space.
 
 Example:
 
 @example
 @group
-x = [1 2 3
+A = [1 2 3
      4 5 6
      7 8 9];
-rank (x)
+rank (A)
   @result{} 2
 @end group
 @end example
 
 @noindent
-The number of linearly independent rows is only 2 because the final row is a
-linear combination of -1*row1 + 2*row2.
+In this example, the number of linearly independent rows is only 2 because
+the final row is a linear combination of the first two rows:
 
-@seealso{@ref{XREFnull,,null}, @ref{XREFsprank,,sprank}, @ref{XREFsvd,,svd}}
+@example
+A(3,:) == -A(1,:) + 2 * A(2,:)
+@end example
+
+@seealso{@ref{XREFnull,,null}, @ref{XREForth,,orth}, @ref{XREFsprank,,sprank}, @ref{XREFsvd,,svd}, @ref{XREFeps,,eps}}
 @end deftypefn
 
 
@@ -754,6 +863,34 @@ The optional return argument @var{k} contains the vector of
 "bound variables", which are those columns on which elimination has been
 performed.
 
+@end deftypefn
+
+
+@c vecnorm scripts/linear-algebra/vecnorm.m
+@anchor{XREFvecnorm}
+@deftypefn  {} {@var{n} =} vecnorm (@var{A})
+@deftypefnx {} {@var{n} =} vecnorm (@var{A}, @var{p})
+@deftypefnx {} {@var{n} =} vecnorm (@var{A}, @var{p}, @var{dim})
+Return the p-norm of the elements of @var{A} along dimension @var{dim}.
+
+The p-norm of a vector is defined as
+
+@tex
+$$ {\Vert A \Vert}_p  = \left[ \sum_{i=1}^N {| A_i |}^p \right] ^ {1/p} $$
+@end tex
+@ifnottex
+
+@example
+@var{p-norm} (@var{A}, @var{p}) = sum (abs (@var{A}) .^ @var{p})) ^ (1/@var{p})
+@end example
+
+@end ifnottex
+If @var{p} is omitted it defaults to 2 (Euclidean norm).  @var{p} can be
+@code{Inf} (absolute value of largest element).
+
+If @var{dim} is omitted the first non-singleton dimension is used.
+
+@seealso{@ref{XREFnorm,,norm}}
 @end deftypefn
 
 
@@ -906,6 +1043,8 @@ If @var{info} is not present, an error message is printed in cases 1 and 2.
 @anchor{XREFcholinsert}
 @deftypefn  {} {@var{R1} =} cholinsert (@var{R}, @var{j}, @var{u})
 @deftypefnx {} {[@var{R1}, @var{info}] =} cholinsert (@var{R}, @var{j}, @var{u})
+Update a Cholesky factorization given a row or column to insert in the original factored matrix.
+
 Given a Cholesky@tie{}factorization of a real symmetric or complex Hermitian
 positive definite matrix @w{@var{A} = @var{R}'*@var{R}}, @var{R}@tie{}upper
 triangular, return the Cholesky@tie{}factorization of
@@ -930,6 +1069,8 @@ If @var{info} is not present, an error message is printed in cases 1 and 2.
 @c choldelete libinterp/dldfcn/chol.cc
 @anchor{XREFcholdelete}
 @deftypefn {} {@var{R1} =} choldelete (@var{R}, @var{j})
+Update a Cholesky factorization given a row or column to delete from the original factored matrix.
+
 Given a Cholesky@tie{}factorization of a real symmetric or complex Hermitian
 positive definite matrix @w{@var{A} = @var{R}'*@var{R}}, @var{R}@tie{}upper
 triangular, return the Cholesky@tie{}factorization of @w{A(p,p)}, where
@@ -941,6 +1082,8 @@ triangular, return the Cholesky@tie{}factorization of @w{A(p,p)}, where
 @c cholshift libinterp/dldfcn/chol.cc
 @anchor{XREFcholshift}
 @deftypefn {} {@var{R1} =} cholshift (@var{R}, @var{i}, @var{j})
+Update a Cholesky factorization given a range of columns to shift in the original factored matrix.
+
 Given a Cholesky@tie{}factorization of a real symmetric or complex Hermitian
 positive definite matrix @w{@var{A} = @var{R}'*@var{R}}, @var{R}@tie{}upper
 triangular, return the Cholesky@tie{}factorization of
@@ -1030,14 +1173,14 @@ p =
 The matrix is not required to be square.
 
 When called with two or three output arguments and a sparse input matrix,
-@code{lu} does not attempt to perform sparsity preserving column
-permutations.  Called with a fourth output argument, the sparsity
-preserving column transformation @var{Q} is returned, such that
-@code{@var{P} * @var{A} * @var{Q} = @var{L} * @var{U}}.
+@code{lu} does not attempt to perform sparsity preserving column permutations.
+Called with a fourth output argument, the sparsity preserving column
+transformation @var{Q} is returned, such that
+@code{@var{P} * @var{A} * @var{Q} = @var{L} * @var{U}}.  This is the
+@strong{preferred} way to call @code{lu} with sparse input matrices.
 
-Called with a fifth output argument and a sparse input matrix,
-@code{lu} attempts to use a scaling factor @var{R} on the input matrix
-such that
+Called with a fifth output argument and a sparse input matrix, @code{lu}
+attempts to use a scaling factor @var{R} on the input matrix such that
 @code{@var{P} * (@var{R} \ @var{A}) * @var{Q} = @var{L} * @var{U}}.
 This typically leads to a sparser and more stable factorization.
 
@@ -1114,23 +1257,29 @@ factorization from scratch.
 @c qr libinterp/dldfcn/qr.cc
 @anchor{XREFqr}
 @deftypefn  {} {[@var{Q}, @var{R}] =} qr (@var{A})
-@deftypefnx {} {[@var{Q}, @var{R}, @var{P}] =} qr (@var{A}) # non-sparse A
-@deftypefnx {} {@var{X} =} qr (@var{A})
-@deftypefnx {} {@var{R} =} qr (@var{A}) # sparse A
+@deftypefnx {} {[@var{Q}, @var{R}, @var{P}] =} qr (@var{A})  # non-sparse A
+@deftypefnx {} {@var{X} =} qr (@var{A})  # non-sparse A
+@deftypefnx {} {@var{R} =} qr (@var{A})  # sparse A
 @deftypefnx {} {[@var{C}, @var{R}] =} qr (@var{A}, @var{B})
 @deftypefnx {} {[@dots{}] =} qr (@dots{}, 0)
-@deftypefnx {} {[@dots{}] =} qr (@dots{}, 'vector')
-@deftypefnx {} {[@dots{}] =} qr (@dots{}, 'matrix')
+@deftypefnx {} {[@dots{}] =} qr (@dots{}, "vector")
+@deftypefnx {} {[@dots{}] =} qr (@dots{}, "matrix")
 @cindex QR factorization
 Compute the QR@tie{}factorization of @var{A}, using standard @sc{lapack}
 subroutines.
+
 The QR@tie{}factorization is
 @tex
 $QR = A$ where $Q$ is an orthogonal matrix and $R$ is upper triangular.
 @end tex
 @ifnottex
-@code{@var{Q} * @var{R} = @var{A}} where @var{Q} is an orthogonal matrix and
-@var{R} is upper triangular.
+
+@example
+@var{Q} * @var{R} = @var{A}
+@end example
+
+@noindent
+where @var{Q} is an orthogonal matrix and @var{R} is upper triangular.
 @end ifnottex
 
 For example, given the matrix @code{@var{A} = [1, 2; 3, 4]},
@@ -1156,41 +1305,45 @@ returns
 @end group
 @end example
 
-The @code{qr} factorization has applications in the solution of least
-squares problems
+@noindent
+which multiplied together return the original matrix
+
+@example
+@group
+@var{Q} * @var{R}
+  @result{}
+     1.0000   2.0000
+     3.0000   4.0000
+@end group
+@end example
+
+If just a single return value is requested then it is either @var{R}, if
+@var{A} is sparse, or @var{X}, such that @code{@var{R} = triu (@var{X})} if
+@var{A} is full.  (Note: unlike most commands, the single return value is not
+the first return value when multiple values are requested.)
+
+If the matrix @var{A} is full, and a third output @var{P} is requested, then
+@code{qr} calculates the permuted QR@tie{}factorization
 @tex
-$$
-\min_x \left\Vert A x - b \right\Vert_2
-$$
+$QR = AP$ where $Q$ is an orthogonal matrix, $R$ is upper triangular, and $P$
+is a permutation matrix.
 @end tex
 @ifnottex
 
 @example
-min norm(A x - b)
+@var{Q} * @var{R} = @var{A} * @var{P}
 @end example
 
+@noindent
+where @var{Q} is an orthogonal matrix, @var{R} is upper triangular, and
+@var{P} is a permutation matrix.
 @end ifnottex
-for overdetermined systems of equations (i.e.,
-@tex
-$A$
-@end tex
-@ifnottex
-@var{A}
-@end ifnottex
-is a tall, thin matrix).
 
-If only a single return value is requested, then it is either @var{R} if
-@var{A} is sparse, or @var{X} such that @code{@var{R} = triu (@var{X})} if
-@var{A} is full.
-(Note: Unlike most commands, the single return value is not
-the first return value when multiple are requested.)
+The permuted QR@tie{}factorization has the additional property that the
+diagonal entries of @var{R} are ordered by decreasing magnitude.  In other
+words, @code{abs (diag (@var{R}))} will be ordered from largest to smallest.
 
-
-If the matrix @var{A} is full, the permuted QR@tie{}factorization
-@code{[@var{Q}, @var{R}, @var{P}] = qr (@var{A})} forms the
-QR@tie{}factorization such that the diagonal entries of @var{R} are
-decreasing in magnitude order.  For example, given the matrix
-@code{a = [1, 2; 3, 4]},
+For example, given the matrix @code{@var{A} = [1, 2; 3, 4]},
 
 @example
 [@var{Q}, @var{R}, @var{P}] = qr (@var{A})
@@ -1218,38 +1371,69 @@ returns
 @end group
 @end example
 
-The permuted @code{qr} factorization
-@code{[@var{Q}, @var{R}, @var{P}] = qr (@var{A})} factorization allows the
-construction of an orthogonal basis of @code{span (A)}.
-
-If the matrix @var{A} is sparse, then the sparse QR@tie{}factorization
-of @var{A} is computed using @sc{CSparse}.
-As the matrix @var{Q} is in general a full matrix,
-it is recommended to request only one return value,
-which is the @var{Q}-less factorization @var{R} of @var{A}, such that
-@code{@var{R} = chol (@var{A}' * @var{A})}.
+If the input matrix @var{A} is sparse then the sparse QR@tie{}factorization
+is computed using @sc{CSparse}.  Because the matrix @var{Q} is, in general, a
+full matrix, it is recommended to request only one return value @var{R}.  In
+that case, the computation avoids the construction of @var{Q} and returns
+@var{R} such that @code{@var{R} = chol (@var{A}' * @var{A})}.
 
 If an additional matrix @var{B} is supplied and two return values are
-requested, then @code{qr} returns
-@var{C}, where @code{@var{C} = @var{Q}' * @var{B}}.  This allows the
-least squares approximation of @code{@var{A} \ @var{B}} to be calculated
-as
+requested, then @code{qr} returns @var{C}, where
+@code{@var{C} = @var{Q}' * @var{B}}.  This allows the least squares
+approximation of @code{@var{A} \ @var{B}} to be calculated as
 
 @example
 @group
 [@var{C}, @var{R}] = qr (@var{A}, @var{B})
-x = @var{R} \ @var{C}
+@var{x} = @var{R} \ @var{C}
 @end group
 @end example
 
-If the final argument is the scalar 0 and the number of rows is larger
-than the number of columns, then an @qcode{"economy"} factorization is
-returned, omitting zeroes of @var{R} and the corresponding columns of @var{Q}.
-That is, @var{R} will have only @code{size (@var{A},1)} rows.  In this case,
-@var{P} is a vector rather than a matrix.
-
 If the final argument is the string @qcode{"vector"} then @var{P} is a
-permutation vector instead of a permutation matrix.
+permutation vector (of the columns of @var{A}) instead of a permutation matrix.
+In this case, the defining relationship is
+
+@example
+@var{Q} * @var{R} = @var{A}(:, @var{P})
+@end example
+
+The default, however, is to return a permutation matrix and this may be
+explicitly specified by using a final argument of @qcode{"matrix"}.
+
+If the final argument is the scalar 0 an @qcode{"economy"} factorization is
+returned.  When the original matrix @var{A} has size MxN and M > N then the
+@qcode{"economy"} factorization will calculate just N rows in @var{R} and N
+columns in @var{Q} and omit the zeros in @var{R}.  If M @leq{} N there is no
+difference between the economy and standard factorizations.  When calculating
+an @qcode{"economy"} factorization the output @var{P} is always a vector
+rather than a matrix.
+
+Background: The QR factorization has applications in the solution of least
+squares problems
+@tex
+$$
+\min_x \left\Vert A x - b \right\Vert_2
+$$
+@end tex
+@ifnottex
+
+@example
+min norm (A*x - b)
+@end example
+
+@end ifnottex
+for overdetermined systems of equations (i.e.,
+@tex
+$A$
+@end tex
+@ifnottex
+@var{A}
+@end ifnottex
+is a tall, thin matrix).
+
+The permuted QR@tie{}factorization
+@code{[@var{Q}, @var{R}, @var{P}] = qr (@var{A})} allows the construction of an
+orthogonal basis of @code{span (A)}.
 
 @seealso{@ref{XREFchol,,chol}, @ref{XREFhess,,hess}, @ref{XREFlu,,lu}, @ref{XREFqz,,qz}, @ref{XREFschur,,schur}, @ref{XREFsvd,,svd}, @ref{XREFqrupdate,,qrupdate}, @ref{XREFqrinsert,,qrinsert}, @ref{XREFqrdelete,,qrdelete}, @ref{XREFqrshift,,qrshift}}
 @end deftypefn
@@ -1258,6 +1442,8 @@ permutation vector instead of a permutation matrix.
 @c qrupdate libinterp/dldfcn/qr.cc
 @anchor{XREFqrupdate}
 @deftypefn {} {[@var{Q1}, @var{R1}] =} qrupdate (@var{Q}, @var{R}, @var{u}, @var{v})
+Update a QR factorization given update vectors or matrices.
+
 Given a QR@tie{}factorization of a real or complex matrix
 @w{@var{A} = @var{Q}*@var{R}}, @var{Q}@tie{}unitary and
 @var{R}@tie{}upper trapezoidal, return the QR@tie{}factorization of
@@ -1277,6 +1463,9 @@ economized (R is square).
 @c qrinsert libinterp/dldfcn/qr.cc
 @anchor{XREFqrinsert}
 @deftypefn {} {[@var{Q1}, @var{R1}] =} qrinsert (@var{Q}, @var{R}, @var{j}, @var{x}, @var{orient})
+Update a QR factorization given a row or column to insert in the original factored matrix.
+
+
 Given a QR@tie{}factorization of a real or complex matrix
 @w{@var{A} = @var{Q}*@var{R}}, @var{Q}@tie{}unitary and
 @var{R}@tie{}upper trapezoidal, return the QR@tie{}factorization of
@@ -1304,6 +1493,8 @@ If @var{orient} is @qcode{"row"}, full factorization is needed.
 @c qrdelete libinterp/dldfcn/qr.cc
 @anchor{XREFqrdelete}
 @deftypefn {} {[@var{Q1}, @var{R1}] =} qrdelete (@var{Q}, @var{R}, @var{j}, @var{orient})
+Update a QR factorization given a row or column to delete from the original factored matrix.
+
 Given a QR@tie{}factorization of a real or complex matrix
 @w{@var{A} = @var{Q}*@var{R}}, @var{Q}@tie{}unitary and
 @var{R}@tie{}upper trapezoidal, return the QR@tie{}factorization of
@@ -1331,6 +1522,8 @@ If @var{orient} is @qcode{"row"}, full factorization is needed.
 @c qrshift libinterp/dldfcn/qr.cc
 @anchor{XREFqrshift}
 @deftypefn {} {[@var{Q1}, @var{R1}] =} qrshift (@var{Q}, @var{R}, @var{i}, @var{j})
+Update a QR factorization given a range of columns to shift in the original factored matrix.
+
 Given a QR@tie{}factorization of a real or complex matrix
 @w{@var{A} = @var{Q}*@var{R}}, @var{Q}@tie{}unitary and
 @var{R}@tie{}upper trapezoidal, return the QR@tie{}factorization
@@ -1349,7 +1542,10 @@ of @w{@var{A}(:,p)}, where @w{p} is the permutation @*
 @deftypefnx {} {[@var{AA}, @var{BB}, @var{Q}, @var{Z}, @var{V}, @var{W}, @var{lambda}] =} qz (@var{A}, @var{B})
 @deftypefnx {} {[@var{AA}, @var{BB}, @var{Z}] =} qz (@var{A}, @var{B}, @var{opt})
 @deftypefnx {} {[@var{AA}, @var{BB}, @var{Z}, @var{lambda}] =} qz (@var{A}, @var{B}, @var{opt})
-QZ@tie{}decomposition of the generalized eigenvalue problem
+Compute the QZ@tie{}decomposition of a generalized eigenvalue problem.
+
+The generalized eigenvalue problem is defined as
+
 @tex
 $$A x = \lambda B x$$
 @end tex
@@ -1399,9 +1595,9 @@ with @var{Q} and @var{Z} orthogonal (unitary for complex case).
 @item @code{[@var{AA}, @var{BB}, @var{Z} @{, @var{lambda}@}] = qz (@var{A}, @var{B}, @var{opt})}
 
 As in form 2 above, but allows ordering of generalized eigenpairs for, e.g.,
-solution of discrete time algebraic Riccati equations.  Form 3 is not available
-for complex matrices, and does not compute the generalized eigenvectors
-@var{V}, @var{W}, nor the orthogonal matrix @var{Q}.
+solution of discrete time algebraic @nospell{Riccati} equations.  Form 3 is not
+available for complex matrices, and does not compute the generalized
+eigenvectors @var{V}, @var{W}, nor the orthogonal matrix @var{Q}.
 
 @table @var
 @item opt
@@ -1546,8 +1742,8 @@ leading @var{k} columns of @var{U} always span the @var{A}-invariant
 subspace corresponding to the @var{k} leading eigenvalues of @var{S}.
 
 The Schur@tie{}decomposition is used to compute eigenvalues of a square
-matrix, and has applications in the solution of algebraic Riccati equations
-in control (see @code{are} and @code{dare}).
+matrix, and has applications in the solution of algebraic @nospell{Riccati}
+equations in control (see @code{are} and @code{dare}).
 @seealso{@ref{XREFrsf2csf,,rsf2csf}, @ref{XREFordschur,,ordschur}, @ref{XREFlu,,lu}, @ref{XREFchol,,chol}, @ref{XREFhess,,hess}, @ref{XREFqr,,qr}, @ref{XREFqz,,qz}, @ref{XREFsvd,,svd}}
 @end deftypefn
 
@@ -1632,9 +1828,13 @@ spanned by the columns of matrices @var{A} and @var{B}.
 @anchor{XREFsvd}
 @deftypefn  {} {@var{s} =} svd (@var{A})
 @deftypefnx {} {[@var{U}, @var{S}, @var{V}] =} svd (@var{A})
-@deftypefnx {} {[@var{U}, @var{S}, @var{V}] =} svd (@var{A}, @var{econ})
+@deftypefnx {} {[@var{U}, @var{S}, @var{V}] =} svd (@var{A}, "econ")
+@deftypefnx {} {[@var{U}, @var{S}, @var{V}] =} svd (@var{A}, 0)
 @cindex singular value decomposition
-Compute the singular value decomposition of @var{A}
+Compute the singular value decomposition of @var{A}.
+
+The singular value decomposition is defined by the relation
+
 @tex
 $$
  A = U S V^{\dagger}
@@ -1707,9 +1907,21 @@ v =
 @end group
 @end example
 
-If given a second argument, @code{svd} returns an economy-sized
+When given a second argument that is not 0, @code{svd} returns an economy-sized
 decomposition, eliminating the unnecessary rows or columns of @var{U} or
 @var{V}.
+
+If the second argument is exactly 0, then the choice of decomposition is based
+on the matrix @var{A}.  If @var{A} has more rows than columns then an
+economy-sized decomposition is returned, otherwise a regular decomposition
+is calculated.
+
+Algorithm Notes: When calculating the full decomposition (left and right
+singular matrices in addition to singular values) there is a choice of two
+routines in @sc{lapack}.  The default routine used by Octave is @code{gesdd}
+which is 5X faster than the alternative @code{gesvd}, but may use more memory
+and may be less accurate for some matrices.  See the documentation for
+@code{svd_driver} for more information.
 @seealso{@ref{XREFsvd_driver,,svd_driver}, @ref{XREFsvds,,svds}, @ref{XREFeig,,eig}, @ref{XREFlu,,lu}, @ref{XREFchol,,chol}, @ref{XREFhess,,hess}, @ref{XREFqr,,qr}, @ref{XREFqz,,qz}}
 @end deftypefn
 
@@ -1721,12 +1933,39 @@ decomposition, eliminating the unnecessary rows or columns of @var{U} or
 @deftypefnx {} {} svd_driver (@var{new_val}, "local")
 Query or set the underlying @sc{lapack} driver used by @code{svd}.
 
-Currently recognized values are @qcode{"gesvd"} and @qcode{"gesdd"}.
-The default is @qcode{"gesvd"}.
+Currently recognized values are @qcode{"gesdd"} and @qcode{"gesvd"}.
+The default is @qcode{"gesdd"}.
 
 When called from inside a function with the @qcode{"local"} option, the
 variable is changed locally for the function and any subroutines it calls.
 The original variable value is restored when exiting the function.
+
+Algorithm Notes: The @sc{lapack} library provides two routines for calculating
+the full singular value decomposition (left and right singular matrices as
+well as singular values).  When calculating just the singular values the
+following discussion is not relevant.
+
+The default routine use by Octave is the newer @code{gesdd} which is based on a
+Divide-and-Conquer algorithm that is 5X faster than the alternative
+@code{gesvd}, which is based on QR factorization.  However, the new algorithm
+can use significantly more memory.  For an @nospell{MxN} input matrix the
+memory usage is of order O(min(M,N) ^ 2), whereas the alternative is of order
+O(max(M,N)).  In general, modern computers have abundant memory so Octave has
+chosen to prioritize speed.
+
+In addition, there have been instances in the past where some input matrices
+were not accurately decomposed by @code{gesdd}.  This appears to have been
+resolved with modern versions of @sc{lapack}.  However, if certainty is
+required the accuracy of the decomposition can always be tested after the fact
+with
+
+@example
+@group
+[@var{u}, @var{s}, @var{v}] = svd (@var{x});
+norm (@var{x} - @var{u}*@var{s}*@var{v'}, "fro")
+@end group
+@end example
+
 @seealso{@ref{XREFsvd,,svd}}
 @end deftypefn
 
@@ -1776,14 +2015,17 @@ householder vector
 @c krylov scripts/linear-algebra/krylov.m
 @anchor{XREFkrylov}
 @deftypefn {} {[@var{u}, @var{h}, @var{nu}] =} krylov (@var{A}, @var{V}, @var{k}, @var{eps1}, @var{pflg})
-Construct an orthogonal basis @var{u} of block Krylov subspace
+Construct an orthogonal basis @var{u} of a block Krylov subspace.
+
+The block Krylov subspace has the following form:
 
 @example
 [v a*v a^2*v @dots{} a^(k+1)*v]
 @end example
 
 @noindent
-using Householder reflections to guard against loss of orthogonality.
+The construction is made with Householder reflections to guard against loss
+of orthogonality.
 
 If @var{V} is a vector, then @var{h} contains the Hessenberg matrix
 such that @nospell{@tcode{a*u == u*h+rk*ek'}}, in which
@@ -1967,7 +2209,9 @@ endfor
 @c sylvester libinterp/corefcn/sylvester.cc
 @anchor{XREFsylvester}
 @deftypefn {} {@var{X} =} sylvester (@var{A}, @var{B}, @var{C})
-Solve the Sylvester equation
+Solve the Sylvester equation.
+
+The Sylvester equation is defined as:
 @tex
 $$
  A X + X B = C
@@ -1980,7 +2224,7 @@ A X + X B = C
 @end example
 
 @end ifnottex
-using standard @sc{lapack} subroutines.
+The solution is computed using standard @sc{lapack} subroutines.
 
 For example:
 
@@ -1999,89 +2243,263 @@ sylvester ([1, 2; 3, 4], [5, 6; 7, 8], [9, 10; 11, 12])
 
 @c bicg scripts/sparse/bicg.m
 @anchor{XREFbicg}
-@deftypefn  {} {@var{x} =} bicg (@var{A}, @var{b}, @var{rtol}, @var{maxit}, @var{M1}, @var{M2}, @var{x0})
-@deftypefnx {} {@var{x} =} bicg (@var{A}, @var{b}, @var{rtol}, @var{maxit}, @var{P})
+@deftypefn  {} {@var{x} =} bicg (@var{A}, @var{b})
+@deftypefnx {} {@var{x} =} bicg (@var{A}, @var{b}, @var{tol})
+@deftypefnx {} {@var{x} =} bicg (@var{A}, @var{b}, @var{tol}, @var{maxit})
+@deftypefnx {} {@var{x} =} bicg (@var{A}, @var{b}, @var{tol}, @var{maxit}, @var{M})
+@deftypefnx {} {@var{x} =} bicg (@var{A}, @var{b}, @var{tol}, @var{maxit}, @var{M1}, @var{M2})
+@deftypefnx {} {@var{x} =} bicg (@var{A}, @var{b}, @var{tol}, @var{maxit}, @var{M}, [], @var{x0})
+@deftypefnx {} {@var{x} =} bicg (@var{A}, @var{b}, @var{tol}, @var{maxit}, @var{M1}, @var{M2}, @var{x0})
+@deftypefnx {} {@var{x} =} bicg (@var{A}, @var{b}, @var{tol}, @var{maxit}, @var{M}, [], @var{x0}, @dots{})
+@deftypefnx {} {@var{x} =} bicg (@var{A}, @var{b}, @var{tol}, @var{maxit}, @var{M1}, @var{M2}, @var{x0}, @dots{})
 @deftypefnx {} {[@var{x}, @var{flag}, @var{relres}, @var{iter}, @var{resvec}] =} bicg (@var{A}, @var{b}, @dots{})
-Solve @code{A x = b} using the Bi-conjugate gradient iterative method.
+Solve the linear system of equations @w{@code{@var{A} * @var{x} = @var{b}}}
+by means of the Bi-Conjugate Gradient iterative method.
 
-@itemize @minus
-@item @var{rtol} is the relative tolerance, if not given or set to [] the
-default value 1e-6 is used.
+The input arguments are:
 
-@item @var{maxit} the maximum number of outer iterations, if not given or
-set to [] the default value @code{min (20, numel (b))} is used.
+@itemize
 
-@item @var{x0} the initial guess, if not given or set to [] the default
-value @code{zeros (size (b))} is used.
+@item @var{A} is the matrix of the linear system and it must be square.
+@var{A} can be passed as a matrix, function handle, or inline function
+@code{Afun} such that @w{@code{Afun (x, "notransp") = A * x}} and
+@w{@code{Afun (x, "transp") = A' * x}}.  Additional parameters to
+@code{Afun} may be passed after @var{x0}.
+
+@item @var{b} is the right-hand side vector.  It must be a column vector
+with the same number of rows as @var{A}.
+
+@item
+@var{tol} is the required relative tolerance for the residual error,
+@w{@code{@var{b} - @var{A} * @var{x}}}.  The iteration stops if
+@w{@code{norm (@var{b} - @var{A} * @var{x})} @leq{}
+@w{@code{@var{tol} * norm (@var{b})}}}.
+If @var{tol} is omitted or empty, then a tolerance of 1e-6 is used.
+
+@item
+@var{maxit} is the maximum allowed number of iterations; if @var{maxit}
+is omitted or empty then a value of 20 is used.
+
+@item
+@var{M1}, @var{M2} are the preconditioners.  The preconditioner @var{M} is
+given as @code{@var{M} = @var{M1} * @var{M2}}.  Both @var{M1} and @var{M2}
+can be passed as a matrix or as a function handle or inline function
+@code{g} such that @w{@code{g (@var{x}, "notransp") = @var{M1} \ @var{x}}}
+or @w{@code{g (@var{x}, "notransp") = @var{M2} \ @var{x}}} and
+@w{@code{g (@var{x}, "transp") = @var{M1}' \ @var{x}}} or
+@w{@code{g (@var{x}, "transp") = @var{M2}' \ @var{x}}}.
+If @var{M1} is omitted or empty, then preconditioning is not applied.
+The preconditioned system is theoretically equivalent to applying the
+@code{bicg} method to the linear system
+@code{inv (@var{M1}) * A * inv (@var{M2}) * @var{y} = inv
+(@var{M1}) * @var{b}} and
+@code{inv (@var{M2'}) * A' * inv (@var{M1'}) * @var{z} =
+inv (@var{M2'}) * @var{b}} and then setting
+@code{@var{x} = inv (@var{M2}) * @var{y}}.
+
+@item
+@var{x0} is the initial guess.  If @var{x0} is omitted or empty then the
+function sets @var{x0} to a zero vector by default.
 @end itemize
 
-@var{A} can be passed as a matrix or as a function handle or inline function
-@code{f} such that @code{f(x, "notransp") = A*x} and
-@code{f(x, "transp") = A'*x}.
+Any arguments which follow @var{x0} are treated as parameters, and passed in
+an appropriate manner to any of the functions (@var{Afun} or @var{Mfun}) or
+that have been given to @code{bicg}.
 
-The preconditioner @var{P} is given as @code{P = M1 * M2}.  Both @var{M1}
-and @var{M2} can be passed as a matrix or as a function handle or inline
-function @code{g} such that @code{g(x, "notransp") = M1 \ x} or
-@code{g(x, "notransp") = M2 \ x} and @code{g(x, "transp") = M1' \ x} or
-@code{g(x, "transp") = M2' \ x}.
+The output parameters are:
 
-If called with more than one output parameter
+@itemize
 
-@itemize @minus
-@item @var{flag} indicates the exit status:
+@item
+@var{x} is the computed approximation to the solution of
+@w{@code{@var{A} * @var{x} = @var{b}}}.  If the algorithm did not converge,
+then @var{x} is the iteration which has the minimum residual.
 
-@itemize @minus
-@item 0: iteration converged to the within the chosen tolerance
+@item
+@var{flag} indicates the exit status:
 
-@item 1: the maximum number of iterations was reached before convergence
+@itemize
+@item 0: The algorithm converged to within the prescribed tolerance.
 
-@item 3: the algorithm reached stagnation
+@item 1: The algorithm did not converge and it reached the maximum number of
+iterations.
+
+@item 2: The preconditioner matrix is singular.
+
+@item 3: The algorithm stagnated, i.e., the absolute value of the
+difference between the current iteration @var{x} and the previous is less
+than @code{eps * norm (@var{x},2)}.
+
+@item 4: The algorithm could not continue because intermediate values
+became too small or too large for reliable computation.
 @end itemize
 
-(the value 2 is unused but skipped for compatibility).
+@item
+@var{relres} is the ratio of the final residual to its initial value,
+measured in the Euclidean norm.
 
-@item @var{relres} is the final value of the relative residual.
+@item
+@var{iter} is the iteration which @var{x} is computed.
 
-@item @var{iter} is the number of iterations performed.
-
-@item @var{resvec} is a vector containing the relative residual at each
-iteration.
+@item
+@var{resvec} is a vector containing the residual at each iteration.
+The total number of iterations performed is given by
+@code{length (@var{resvec}) - 1}.
 @end itemize
 
-@seealso{@ref{XREFbicgstab,,bicgstab}, @ref{XREFcgs,,cgs}, @ref{XREFgmres,,gmres}, @ref{XREFpcg,,pcg}, @ref{XREFqmr,,qmr}}
+Consider a trivial problem with a tridiagonal matrix
 
+@example
+@group
+n = 20;
+A = toeplitz (sparse ([1, 1], [1, 2], [2, 1] * n ^ 2, 1, n)) + ...
+    toeplitz (sparse (1, 2, -1, 1, n) * n / 2, ...
+              sparse (1, 2, 1, 1, n) * n / 2);
+b = A * ones (n, 1);
+restart = 5;
+[M1, M2] = ilu (A);  # in this tridiag case, it corresponds to lu (A)
+M = M1 * M2;
+Afun = @@(x, string) strcmp (string, "notransp") * (A * x) + ...
+                     strcmp (string, "transp") * (A' * x);
+Mfun = @@(x, string) strcmp (string, "notransp") * (M \ x) + ...
+                     strcmp (string, "transp") * (M' \ x);
+M1fun = @@(x, string) strcmp (string, "notransp") * (M1 \ x) + ...
+                     strcmp (string, "transp") * (M1' \ x);
+M2fun = @@(x, string) strcmp (string, "notransp") * (M2 \ x) + ...
+                     strcmp (string, "transp") * (M2' \ x);;
+@end group
+@end example
+
+@sc{Example 1:} simplest usage of @code{bicg}
+
+@example
+x = bicg (A, b)
+@end example
+
+@sc{Example 2:} @code{bicg} with a function that computes
+@code{@var{A}*@var{x}} and @code{@var{A'}*@var{x}}
+
+@example
+x = bicg (Afun, b, [], n)
+@end example
+
+@sc{Example 3:} @code{bicg} with a preconditioner matrix @var{M}
+
+@example
+x = bicg (A, b, 1e-6, n, M)
+@end example
+
+@sc{Example 4:} @code{bicg} with a function as preconditioner
+
+@example
+x = bicg (Afun, b, 1e-6, n, Mfun)
+@end example
+
+@sc{Example 5:} @code{bicg} with preconditioner matrices @var{M1}
+and @var{M2}
+
+@example
+x = bicg (A, b, 1e-6, n, M1, M2)
+@end example
+
+@sc{Example 6:} @code{bicg} with functions as preconditioners
+
+@example
+x = bicg (Afun, b, 1e-6, n, M1fun, M2fun)
+@end example
+
+@sc{Example 7:} @code{bicg} with as input a function requiring an argument
+
+@example
+@group
+function y = Ap (A, x, string, z)
+  ## compute A^z * x or (A^z)' * x
+  y = x;
+  if (strcmp (string, "notransp"))
+    for i = 1:z
+      y = A * y;
+    endfor
+  elseif (strcmp (string, "transp"))
+    for i = 1:z
+      y = A' * y;
+    endfor
+  endif
+endfunction
+
+Apfun = @@(x, string, p) Ap (A, x, string, p);
+x = bicg (Apfun, b, [], [], [], [], [], 2);
+@end group
+@end example
+
+References:
+
+@enumerate
+
+@item @nospell{Y. Saad}, @cite{Iterative Methods for Sparse Linear Systems},
+Second edition, 2003, SIAM.
+
+@end enumerate
+
+@seealso{@ref{XREFbicgstab,,bicgstab}, @ref{XREFcgs,,cgs}, @ref{XREFgmres,,gmres}, @ref{XREFpcg,,pcg}, @ref{XREFqmr,,qmr}, @ref{XREFtfqmr,,tfqmr}}
 @end deftypefn
 
 
 @c bicgstab scripts/sparse/bicgstab.m
 @anchor{XREFbicgstab}
-@deftypefn  {} {@var{x} =} bicgstab (@var{A}, @var{b}, @var{rtol}, @var{maxit}, @var{M1}, @var{M2}, @var{x0})
-@deftypefnx {} {@var{x} =} bicgstab (@var{A}, @var{b}, @var{rtol}, @var{maxit}, @var{P})
+@deftypefn  {} {@var{x} =} bicgstab (@var{A}, @var{b}, @var{tol}, @var{maxit}, @var{M1}, @var{M2}, @var{x0}, @dots{})
+@deftypefnx {} {@var{x} =} bicgstab (@var{A}, @var{b}, @var{tol}, @var{maxit}, @var{M}, [], @var{x0}, @dots{})
 @deftypefnx {} {[@var{x}, @var{flag}, @var{relres}, @var{iter}, @var{resvec}] =} bicgstab (@var{A}, @var{b}, @dots{})
 Solve @code{A x = b} using the stabilizied Bi-conjugate gradient iterative
 method.
 
+The input parameters are:
+
 @itemize @minus
-@item @var{rtol} is the relative tolerance, if not given or set to [] the
-default value 1e-6 is used.
+
+@item @var{A} is the matrix of the linear system and it must be square.
+@var{A} can be passed as a matrix, function handle, or inline
+function @code{Afun} such that @code{Afun(x) = A * x}.  Additional
+parameters to @code{Afun} are passed after @var{x0}.
+
+@item @var{b} is the right hand side vector.  It must be a column vector
+with the same number of rows as @var{A}.
+
+@item
+@var{tol} is the required relative tolerance for the residual error,
+@w{@code{@var{b} - @var{A} * @var{x}}}.  The iteration stops if
+@w{@code{norm (@var{b} - @var{A} * @var{x})} @leq{}
+@w{@code{@var{tol} * norm (@var{b})}}}.
+If @var{tol} is omitted or empty, then a tolerance of 1e-6 is used.
 
 @item @var{maxit} the maximum number of outer iterations, if not given or
 set to [] the default value @code{min (20, numel (b))} is used.
 
+@item @var{M1}, @var{M2} are the preconditioners.  The preconditioner
+@var{M} is given as @code{@var{M} = @var{M1} * @var{M2}}.
+Both @var{M1} and @var{M2} can be passed as a matrix or as a function
+handle or inline function @code{g} such that
+@code{g(@var{x}) = @var{M1} \ @var{x}} or
+@code{g(@var{x}) = @var{M2} \ @var{x}}.
+The technique used is the right preconditioning, i.e., it is
+solved @code{@var{A} * inv (@var{M}) * @var{y} = @var{b}} and then
+@code{@var{x} = inv (@var{M}) * @var{y}}.
+
 @item @var{x0} the initial guess, if not given or set to [] the default
-value @code{zeros (size (b))} is used.
+value @code{zeros (size (@var{b}))} is used.
+
 @end itemize
 
-@var{A} can be passed as a matrix or as a function handle or inline
-function @code{f} such that @code{f(x) = A*x}.
+The arguments which follow @var{x0} are treated as parameters, and passed in
+a proper way to any of the functions (@var{A} or @var{M}) which are passed
+to @code{bicstab}.
 
-The preconditioner @var{P} is given as @code{P = M1 * M2}.  Both @var{M1}
-and @var{M2} can be passed as a matrix or as a function handle or inline
-function @code{g} such that @code{g(x) = M1 \ x} or @code{g(x) = M2 \ x}.
-
-If called with more than one output parameter
+The output parameters are:
 
 @itemize @minus
+
+@item @var{x} is the approximation computed.  If the method doesn't
+converge then it is the iterated with the minimum residual.
+
 @item @var{flag} indicates the exit status:
 
 @itemize @minus
@@ -2089,53 +2507,181 @@ If called with more than one output parameter
 
 @item 1: the maximum number of iterations was reached before convergence
 
+@item 2: the preconditioner matrix is singular
+
 @item 3: the algorithm reached stagnation
+
+@item 4: the algorithm can't continue due to a division by zero
 @end itemize
 
-(the value 2 is unused but skipped for compatibility).
+@item @var{relres} is the relative residual obtained with as
+@code{(@var{A}*@var{x}-@var{b}) / @code{norm(@var{b})}}.
 
-@item @var{relres} is the final value of the relative residual.
+@item @var{iter} is the (possibily half) iteration which @var{x} is
+computed.  If it is an half iteration then it is @code{@var{iter} + 0.5}
 
-@item @var{iter} is the number of iterations performed.
+@item @var{resvec} is a vector containing the residual of each half and
+total iteration (There are also the half iterations since @var{x} is
+computed in two steps at each iteration).
+Doing @code{(length(@var{resvec}) - 1) / 2} is possible to see the
+total number of (total) iterations performed.
 
-@item @var{resvec} is a vector containing the relative residual at each
-iteration.
 @end itemize
 
-@seealso{@ref{XREFbicg,,bicg}, @ref{XREFcgs,,cgs}, @ref{XREFgmres,,gmres}, @ref{XREFpcg,,pcg}, @ref{XREFqmr,,qmr}}
+Let us consider a trivial problem with a tridiagonal matrix
+
+@example
+@group
+n = 20;
+A = toeplitz (sparse ([1, 1], [1, 2], [2, 1] * n ^ 2, 1, n))  + ...
+    toeplitz (sparse (1, 2, -1, 1, n) * n / 2, ...
+    sparse (1, 2, 1, 1, n) * n / 2);
+b = A * ones (n, 1);
+restart = 5;
+[M1, M2] = ilu (A); # in this tridiag case, it corresponds to lu (A)
+M = M1 * M2;
+Afun = @@(x) A * x;
+Mfun = @@(x) M \ x;
+M1fun = @@(x) M1 \ x;
+M2fun = @@(x) M2 \ x;
+@end group
+@end example
+
+@sc{Example 1:} simplest usage of @code{bicgstab}
+
+@example
+x = bicgstab (A, b, [], n)
+@end example
+
+@sc{Example 2:} @code{bicgstab} with a function which computes
+@code{@var{A} * @var{x}}
+
+@example
+x = bicgstab (Afun, b, [], n)
+@end example
+
+@sc{Example 3:} @code{bicgstab} with a preconditioner matrix @var{M}
+
+@example
+x = bicgstab (A, b, [], 1e-06, n, M)
+@end example
+
+@sc{Example 4:} @code{bicgstab} with a function as preconditioner
+
+@example
+x = bicgstab (Afun, b, 1e-6, n, Mfun)
+@end example
+
+@sc{Example 5:} @code{bicgstab} with preconditioner matrices @var{M1}
+and @var{M2}
+
+@example
+x = bicgstab (A, b, [], 1e-6, n, M1, M2)
+@end example
+
+@sc{Example 6:} @code{bicgstab} with functions as preconditioners
+
+@example
+x = bicgstab (Afun, b, 1e-6, n, M1fun, M2fun)
+@end example
+
+@sc{Example 7:} @code{bicgstab} with as input a function requiring
+an argument
+
+@example
+@group
+function y = Ap (A, x, z) # compute A^z * x
+   y = x;
+   for i = 1:z
+     y = A * y;
+   endfor
+ endfunction
+Apfun = @@(x, string, p) Ap (A, x, string, p);
+x = bicgstab (Apfun, b, [], [], [], [], [], 2);
+@end group
+@end example
+
+@sc{Example 8:} explicit example to show that @code{bicgstab} uses a
+right preconditioner
+
+@example
+@group
+[M1, M2] = ilu (A + 0.1 * eye (n)); # factorization of A perturbed
+M = M1 * M2;
+
+## reference solution computed by bicgstab after one iteration
+[x_ref, fl] = bicgstab (A, b, [], 1, M)
+
+## right preconditioning
+[y, fl] = bicgstab (A / M, b, [], 1)
+x = M \ y # compare x and x_ref
+
+@end group
+@end example
+
+References:
+
+@enumerate
+
+@item @nospell{Y. Saad}, @cite{Iterative Methods for Sparse Linear
+Systems}, Second edition, 2003, SIAM
+
+@end enumerate
+
+@seealso{@ref{XREFbicg,,bicg}, @ref{XREFcgs,,cgs}, @ref{XREFgmres,,gmres}, @ref{XREFpcg,,pcg}, @ref{XREFqmr,,qmr}, @ref{XREFtfqmr,,tfqmr}}
 
 @end deftypefn
 
 
 @c cgs scripts/sparse/cgs.m
 @anchor{XREFcgs}
-@deftypefn  {} {@var{x} =} cgs (@var{A}, @var{b}, @var{rtol}, @var{maxit}, @var{M1}, @var{M2}, @var{x0})
-@deftypefnx {} {@var{x} =} cgs (@var{A}, @var{b}, @var{rtol}, @var{maxit}, @var{P})
+@deftypefn  {} {@var{x} =} cgs (@var{A}, @var{b}, @var{tol}, @var{maxit}, @var{M1}, @var{M2}, @var{x0}, @dots{})
+@deftypefnx {} {@var{x} =} cgs (@var{A}, @var{b}, @var{tol}, @var{maxit}, @var{M}, [], @var{x0}, @dots{})
 @deftypefnx {} {[@var{x}, @var{flag}, @var{relres}, @var{iter}, @var{resvec}] =} cgs (@var{A}, @var{b}, @dots{})
 Solve @code{A x = b}, where @var{A} is a square matrix, using the
 Conjugate Gradients Squared method.
 
+The input arguments are:
+
 @itemize @minus
-@item @var{rtol} is the relative tolerance, if not given or set to [] the
+
+@item @var{A} is the matrix of the linear system and it must be square.
+@var{A} can be passed as a matrix, function handle, or inline
+function @code{Afun} such that @code{Afun(x) = A * x}.  Additional
+parameters to @code{Afun} are passed after @var{x0}.
+
+@item @var{b} is the right hand side vector.  It must be a column vector
+with same number of rows of @var{A}.
+
+@item @var{tol} is the relative tolerance, if not given or set to [] the
 default value 1e-6 is used.
 
 @item @var{maxit} the maximum number of outer iterations, if not given or
 set to [] the default value @code{min (20, numel (b))} is used.
 
+@item @var{M1}, @var{M2} are the preconditioners.  The preconditioner
+matrix is given as @code{M = M1 * M2}.  Both @var{M1}
+and @var{M2} can be passed as a matrix or as a function handle or inline
+function @code{g} such that @code{g(x) = M1 \ x} or @code{g(x) = M2 \ x}.
+If M1 is empty or not passed then no preconditioners are applied.
+The technique used is the right preconditioning, i.e., it is solved
+@code{@var{A}*inv(@var{M})*y = b} and then @code{@var{x} = inv(@var{M})*y}.
+
 @item @var{x0} the initial guess, if not given or set to [] the default
 value @code{zeros (size (b))} is used.
 @end itemize
 
-@var{A} can be passed as a matrix or as a function handle or inline
-function @code{f} such that @code{f(x) = A*x}.
+The arguments which follow @var{x0} are treated as parameters, and passed in
+a proper way to any of the functions (@var{A} or @var{P}) which are passed
+to @code{cgs}.
 
-The preconditioner @var{P} is given as @code{P = M1 * M2}.  Both @var{M1}
-and @var{M2} can be passed as a matrix or as a function handle or inline
-function @code{g} such that @code{g(x) = M1 \ x} or @code{g(x) = M2 \ x}.
-
-If called with more than one output parameter
+The output parameters are:
 
 @itemize @minus
+
+@item @var{x} is the approximation computed.  If the method doesn't
+converge then it is the iterated with the minimum residual.
+
 @item @var{flag} indicates the exit status:
 
 @itemize @minus
@@ -2143,55 +2689,192 @@ If called with more than one output parameter
 
 @item 1: the maximum number of iterations was reached before convergence
 
+@item 2: the preconditioner matrix is singular
+
 @item 3: the algorithm reached stagnation
+
+@item 4: the algorithm can't continue due to a division by zero
 @end itemize
 
-(the value 2 is unused but skipped for compatibility).
+@item @var{relres} is the relative residual obtained with as
+@code{(@var{A}*@var{x}-@var{b}) / @code{norm(@var{b})}}.
 
-@item @var{relres} is the final value of the relative residual.
+@item @var{iter} is the iteration which @var{x} is computed.
 
-@item @var{iter} is the number of iterations performed.
-
-@item @var{resvec} is a vector containing the relative residual at
-each iteration.
+@item @var{resvec} is a vector containing the residual at each iteration.
+Doing @code{length(@var{resvec}) - 1} is possible to see the total number
+of iterations performed.
 @end itemize
 
-@seealso{@ref{XREFpcg,,pcg}, @ref{XREFbicgstab,,bicgstab}, @ref{XREFbicg,,bicg}, @ref{XREFgmres,,gmres}, @ref{XREFqmr,,qmr}}
+Let us consider a trivial problem with a tridiagonal matrix
+
+@example
+@group
+n = 20;
+A = toeplitz (sparse ([1, 1], [1, 2], [2, 1] * n ^ 2, 1, n))  + ...
+    toeplitz (sparse (1, 2, -1, 1, n) * n / 2, ...
+    sparse (1, 2, 1, 1, n) * n / 2);
+b = A * ones (n, 1);
+restart = 5;
+[M1, M2] = ilu (A); # in this tridiag case it corresponds to chol (A)'
+M = M1 * M2;
+Afun = @@(x) A * x;
+Mfun = @@(x) M \ x;
+M1fun = @@(x) M1 \ x;
+M2fun = @@(x) M2 \ x;
+@end group
+@end example
+
+@sc{Example 1:} simplest usage of @code{cgs}
+
+@example
+x = cgs (A, b, [], n)
+@end example
+
+@sc{Example 2:} @code{cgs} with a function which computes
+@code{@var{A} * @var{x}}
+
+@example
+x = cgs (Afun, b, [], n)
+@end example
+
+@sc{Example 3:} @code{cgs} with a preconditioner matrix @var{M}
+
+@example
+x = cgs (A, b, [], 1e-06, n, M)
+@end example
+
+@sc{Example 4:} @code{cgs} with a function as preconditioner
+
+@example
+x = cgs (Afun, b, 1e-6, n, Mfun)
+@end example
+
+@sc{Example 5:} @code{cgs} with preconditioner matrices @var{M1}
+and @var{M2}
+
+@example
+x = cgs (A, b, [], 1e-6, n, M1, M2)
+@end example
+
+@sc{Example 6:} @code{cgs} with functions as preconditioners
+
+@example
+x = cgs (Afun, b, 1e-6, n, M1fun, M2fun)
+@end example
+
+@sc{Example 7:} @code{cgs} with as input a function requiring an argument
+
+@example
+@group
+function y = Ap (A, x, z) # compute A^z * x
+   y = x;
+   for i = 1:z
+     y = A * y;
+   endfor
+ endfunction
+Apfun = @@(x, string, p) Ap (A, x, string, p);
+x = cgs (Apfun, b, [], [], [], [], [], 2);
+@end group
+@end example
+
+@sc{Example 8:} explicit example to show that @code{cgs} uses a
+right preconditioner
+
+@example
+@group
+[M1, M2] = ilu (A + 0.3 * eye (n)); # factorization of A perturbed
+M = M1 * M2;
+
+## reference solution computed by cgs after one iteration
+[x_ref, fl] = cgs (A, b, [], 1, M)
+
+## right preconditioning
+[y, fl] = cgs (A / M, b, [], 1)
+x = M \ y # compare x and x_ref
+
+@end group
+@end example
+
+References:
+
+@enumerate
+
+@item @nospell{Y. Saad}, @cite{Iterative Methods for Sparse Linear Systems},
+Second edition, 2003, SIAM
+
+@end enumerate
+
+@seealso{@ref{XREFpcg,,pcg}, @ref{XREFbicgstab,,bicgstab}, @ref{XREFbicg,,bicg}, @ref{XREFgmres,,gmres}, @ref{XREFqmr,,qmr}, @ref{XREFtfqmr,,tfqmr}}
 @end deftypefn
 
 
 @c gmres scripts/sparse/gmres.m
 @anchor{XREFgmres}
-@deftypefn  {} {@var{x} =} gmres (@var{A}, @var{b}, @var{m}, @var{rtol}, @var{maxit}, @var{M1}, @var{M2}, @var{x0})
-@deftypefnx {} {@var{x} =} gmres (@var{A}, @var{b}, @var{m}, @var{rtol}, @var{maxit}, @var{P})
-@deftypefnx {} {[@var{x}, @var{flag}, @var{relres}, @var{iter}, @var{resvec}] =} gmres (@dots{})
+@deftypefn  {} {@var{x} =} gmres (@var{A}, @var{b}, @var{restart}, @var{tol}, @var{maxit}, @var{M1}, @var{M2}, @var{x0}, @dots{})
+@deftypefnx {} {@var{x} =} gmres (@var{A}, @var{b}, @var{restart}, @var{tol}, @var{maxit}, @var{M}, [], @var{x0}, @dots{})
+@deftypefnx {} {[@var{x}, @var{flag}, @var{relres}, @var{iter}, @var{resvec}] =} gmres (@var{A}, @var{b}, @dots{})
 Solve @code{A x = b} using the Preconditioned GMRES iterative method with
-restart, a.k.a. PGMRES(m).
+restart, a.k.a. PGMRES(restart).
+
+The input arguments are:
 
 @itemize @minus
-@item @var{rtol} is the relative tolerance,
-if not given or set to [] the default value 1e-6 is used.
+
+@item @var{A} is the matrix of the linear system and it must be square.
+@var{A} can be passed as a matrix, function handle, or inline
+function @code{Afun} such that @code{Afun(x) = A * x}.  Additional
+parameters to @code{Afun} are passed after @var{x0}.
+
+@item @var{b} is the right hand side vector.  It must be a column vector
+with the same numbers of rows as @var{A}.
+
+@item @var{restart} is the number of iterations before that the
+method restarts.  If it is [] or N = numel (b), then the restart
+is not applied.
+
+@item @var{tol} is the required relative tolerance for the
+preconditioned residual error,
+@code{inv (@var{M}) * (@var{b} - @var{a} * @var{x})}.  The iteration
+stops if @code{norm (inv (@var{M}) * (@var{b} - @var{a} * @var{x}))
+@leq{} @var{tol} * norm (inv (@var{M}) * @var{B})}.  If @var{tol} is
+omitted or empty, then a tolerance of 1e-6 is used.
 
 @item @var{maxit} is the maximum number of outer iterations, if not given or
-set to [] the default value @code{min (10, numel (b) / restart)} is used.
+set to [], then the default value @code{min (10, @var{N} / @var{restart})}
+is used.
+Note that, if @var{restart} is empty, then @var{maxit} is the maximum number
+of iterations.  If @var{restart} and @var{maxit} are not empty, then
+the maximum number of iterations is @code{@var{restart} * @var{maxit}}.
+If both @var{restart} and @var{maxit} are empty, then the maximum
+number of iterations is set to @code{min (10, @var{N})}.
+
+@item @var{M1}, @var{M2} are the preconditioners.  The preconditioner
+@var{M} is given as @code{M = M1 * M2}.  Both @var{M1} and @var{M2} can
+be passed as a matrix, function handle, or inline function @code{g} such
+that @code{g(x) = M1 \ x} or @code{g(x) = M2 \ x}.  If @var{M1} is [] or not
+given, then the preconditioner is not applied.
+The technique used is the left-preconditioning, i.e., it is solved
+@code{inv(@var{M}) * @var{A} * @var{x} = inv(@var{M}) * @var{b}} instead of
+@code{@var{A} * @var{x} = @var{b}}.
 
 @item @var{x0} is the initial guess,
-if not given or set to [] the default value @code{zeros (size (b))} is used.
+if not given or set to [], then the default value
+@code{zeros (size (@var{b}))} is used.
 
-@item @var{m} is the restart parameter,
-if not given or set to [] the default value @code{numel (b)} is used.
 @end itemize
 
-Argument @var{A} can be passed as a matrix, function handle, or inline
-function @code{f} such that @code{f(x) = A*x}.
+The arguments which follow @var{x0} are treated as parameters, and passed in
+a proper way to any of the functions (@var{A} or @var{M} or
+@var{M1} or @var{M2}) which are passed to @code{gmres}.
 
-The preconditioner @var{P} is given as @code{P = M1 * M2}.  Both @var{M1}
-and @var{M2} can be passed as a matrix, function handle, or inline function
-@code{g} such that @code{g(x) = M1\x} or @code{g(x) = M2\x}.
-
-Besides the vector @var{x}, additional outputs are:
+The outputs are:
 
 @itemize @minus
+
+@item @var{x} the computed approximation.  If the method does not
+converge, then it is the iterated with minimum residual.
+
 @item @var{flag} indicates the exit status:
 
 @table @asis
@@ -2199,21 +2882,149 @@ Besides the vector @var{x}, additional outputs are:
 
 @item 1 : maximum number of iterations exceeded
 
-@item 2 : unused, but skipped for compatibility
+@item 2 : the preconditioner matrix is singular
 
-@item 3 : algorithm reached stagnation (no change between iterations)
+@item 3 : algorithm reached stagnation (the relative difference between two
+consecutive iterations is less than eps)
 @end table
 
-@item @var{relres} is the final value of the relative residual.
+@item @var{relres} is the value of the relative preconditioned
+residual of the approximation @var{x}.
 
 @item @var{iter} is a vector containing the number of outer iterations and
-total iterations performed.
+inner iterations performed to compute @var{x}.  That is:
 
-@item @var{resvec} is a vector containing the relative residual at each
-iteration.
+@itemize
+@item @var{iter(1)}: number of outer iterations, i.e., how many
+times the method restarted.  (if @var{restart} is empty or @var{N},
+then it is 1, if not 1 @leq{} @var{iter(1)} @leq{} @var{maxit}).
+
+@item @var{iter(2)}: the number of iterations performed before the
+restart, i.e., the method restarts when
+@code{@var{iter(2)} = @var{restart}}.  If @var{restart} is empty or
+@var{N}, then 1 @leq{} @var{iter(2)} @leq{} @var{maxit}.
 @end itemize
 
-@seealso{@ref{XREFbicg,,bicg}, @ref{XREFbicgstab,,bicgstab}, @ref{XREFcgs,,cgs}, @ref{XREFpcg,,pcg}, @ref{XREFpcr,,pcr}, @ref{XREFqmr,,qmr}}
+To be more clear, the approximation @var{x} is computed at the iteration
+@code{(@var{iter(1)} - 1) * @var{restart} + @var{iter(2)}}.
+Since the output @var{x} corresponds to the minimal preconditioned
+residual solution, the total number of iterations that
+the method performed is given by @code{length (resvec) - 1}.
+
+@item @var{resvec} is a vector containing the preconditioned
+relative residual at each iteration, including the 0-th iteration
+@code{norm (@var{A} * @var{x0} - @var{b})}.
+@end itemize
+
+Let us consider a trivial problem with a tridiagonal matrix
+
+@example
+@group
+n = 20;
+A = toeplitz (sparse ([1, 1], [1, 2], [2, 1] * n ^ 2, 1, n))  + ...
+    toeplitz (sparse (1, 2, -1, 1, n) * n / 2, ...
+    sparse (1, 2, 1, 1, n) * n / 2);
+b = A * ones (n, 1);
+restart = 5;
+[M1, M2] = ilu (A); # in this tridiag case, it corresponds to lu (A)
+M = M1 * M2;
+Afun = @@(x) A * x;
+Mfun = @@(x) M \ x;
+M1fun = @@(x) M1 \ x;
+M2fun = @@(x) M2 \ x;
+@end group
+@end example
+
+@sc{Example 1:} simplest usage of @code{gmres}
+
+@example
+x = gmres (A, b, [], [], n)
+@end example
+
+@sc{Example 2:} @code{gmres} with a function which computes
+@code{@var{A} * @var{x}}
+
+@example
+x = gmres (Afun, b, [], [], n)
+@end example
+
+@sc{Example 3:} usage of @code{gmres} with the restart
+
+@example
+x = gmres (A, b, restart);
+@end example
+
+@sc{Example 4:} @code{gmres} with a preconditioner matrix @var{M}
+with and without restart
+
+@example
+@group
+x = gmres (A, b, [], 1e-06, n, M)
+x = gmres (A, b, restart, 1e-06, n, M)
+@end group
+@end example
+
+@sc{Example 5:} @code{gmres} with a function as preconditioner
+
+@example
+x = gmres (Afun, b, [], 1e-6, n, Mfun)
+@end example
+
+@sc{Example 6:} @code{gmres} with preconditioner matrices @var{M1}
+and @var{M2}
+
+@example
+x = gmres (A, b, [], 1e-6, n, M1, M2)
+@end example
+
+@sc{Example 7:} @code{gmres} with functions as preconditioners
+
+@example
+x = gmres (Afun, b, 1e-6, n, M1fun, M2fun)
+@end example
+
+@sc{Example 8:} @code{gmres} with as input a function requiring an argument
+
+@example
+@group
+  function y = Ap (A, x, p) # compute A^p * x
+     y = x;
+     for i = 1:p
+       y = A * y;
+     endfor
+  endfunction
+Apfun = @@(x, p) Ap (A, x, p);
+x = gmres (Apfun, b, [], [], [], [], [], [], 2);
+@end group
+@end example
+
+@sc{Example 9:} explicit example to show that @code{gmres} uses a
+left preconditioner
+
+@example
+@group
+[M1, M2] = ilu (A + 0.1 * eye (n)); # factorization of A perturbed
+M = M1 * M2;
+
+## reference solution computed by gmres after two iterations
+[x_ref, fl] = gmres (A, b, [], [], 1, M)
+
+## left preconditioning
+[x, fl] = gmres (M \ A, M \ b, [], [], 1)
+x # compare x and x_ref
+
+@end group
+@end example
+
+References:
+
+@enumerate
+
+@item @nospell{Y. Saad}, @cite{Iterative Methods for Sparse Linear
+Systems}, Second edition, 2003, SIAM
+
+@end enumerate
+@seealso{@ref{XREFbicg,,bicg}, @ref{XREFbicgstab,,bicgstab}, @ref{XREFcgs,,cgs}, @ref{XREFpcg,,pcg}, @ref{XREFpcr,,pcr}, @ref{XREFqmr,,qmr}, @ref{XREFtfqmr,,tfqmr}}
 @end deftypefn
 
 
@@ -2285,5 +3096,190 @@ for iterative methods}, SIAM, 2nd ed., 1994.
 @end enumerate
 
 @seealso{@ref{XREFbicg,,bicg}, @ref{XREFbicgstab,,bicgstab}, @ref{XREFcgs,,cgs}, @ref{XREFgmres,,gmres}, @ref{XREFpcg,,pcg}}
+@end deftypefn
+
+
+@c tfqmr scripts/sparse/tfqmr.m
+@anchor{XREFtfqmr}
+@deftypefn  {} {@var{x} =} tfqmr (@var{A}, @var{b}, @var{tol}, @var{maxit}, @var{M1}, @var{M2}, @var{x0}, @dots{})
+@deftypefnx {} {@var{x} =} tfqmr (@var{A}, @var{b}, @var{tol}, @var{maxit}, @var{M}, [], @var{x0}, @dots{})
+@deftypefnx {} {[@var{x}, @var{flag}, @var{relres}, @var{iter}, @var{resvec}] =} tfqmr (@var{A}, @var{b}, @dots{})
+Solve @code{A x = b} using the Transpose-Tree qmr method, based on the cgs.
+
+The input parameters are:
+
+@itemize @minus
+
+@item @var{A} is the matrix of the linear system and it must be square.
+@var{A} can be passed as a matrix, function handle, or inline
+function @code{Afun} such that @code{Afun(x) = A * x}.  Additional
+parameters to @code{Afun} are passed after @var{x0}.
+
+@item @var{b} is the right hand side vector.  It must be a column vector
+with the same number of rows as @var{A}.
+
+@item @var{tol} is the relative tolerance, if not given or set to [] the
+default value 1e-6 is used.
+
+@item @var{maxit} the maximum number of outer iterations, if not given or
+set to [] the default value @code{min (20, numel (b))} is used.  To be
+compatible, since the method as different behaviors in the iteration
+number is odd or even, is considered as iteration in @code{tfqmr} the
+entire odd-even cycle.  That is, to make an entire iteration, the algorithm
+performs two sub-iterations: the odd one and the even one.
+
+@item @var{M1}, @var{M2} are the preconditioners.  The preconditioner
+@var{M} is given as @code{M = M1 * M2}.
+Both @var{M1} and @var{M2} can be passed as a matrix or as a function
+handle or inline function @code{g} such that @code{g(x) = M1 \ x} or
+@code{g(x) = M2 \ x}.
+The technique used is the right-preconditioning, i.e., it is solved
+@code{A*inv(M)*y = b} and then @code{x = inv(M)*y}, instead of
+@code{A x = b}.
+
+@item @var{x0} the initial guess, if not given or set to [] the default
+value @code{zeros (size (b))} is used.
+
+@end itemize
+
+The arguments which follow @var{x0} are treated as parameters, and passed in
+a proper way to any of the functions (@var{A} or @var{M}) which are passed
+to @code{tfqmr}.
+
+The output parameters are:
+
+@itemize @minus
+
+@item @var{x} is the approximation computed.  If the method doesn't
+converge then it is the iterated with the minimum residual.
+
+@item @var{flag} indicates the exit status:
+
+@itemize @minus
+@item 0: iteration converged to the within the chosen tolerance
+
+@item 1: the maximum number of iterations was reached before convergence
+
+@item 2: the preconditioner matrix is singular
+
+@item 3: the algorithm reached stagnation
+
+@item 4: the algorithm can't continue due to a division by zero
+@end itemize
+
+@item @var{relres} is the relative residual obtained as
+@code{(@var{A}*@var{x}-@var{b}) / @code{norm (@var{b})}}.
+
+@item @var{iter} is the iteration which @var{x} is
+computed.
+
+@item @var{resvec} is a vector containing the residual at each iteration
+(including @code{norm (b - A x0)}).
+Doing @code{length (@var{resvec}) - 1} is possible to see the
+total number of iterations performed.
+
+@end itemize
+
+Let us consider a trivial problem with a tridiagonal matrix
+
+@example
+@group
+n = 20;
+A = toeplitz (sparse ([1, 1], [1, 2], [2, 1] * n ^ 2, 1, n))  + ...
+    toeplitz (sparse (1, 2, -1, 1, n) * n / 2, ...
+    sparse (1, 2, 1, 1, n) * n / 2);
+b = A * ones (n, 1);
+restart = 5;
+[M1, M2] = ilu (A); # in this tridiag case it corresponds to chol (A)'
+M = M1 * M2;
+Afun = @@(x) A * x;
+Mfun = @@(x) M \ x;
+M1fun = @@(x) M1 \ x;
+M2fun = @@(x) M2 \ x;
+@end group
+@end example
+
+@sc{Example 1:} simplest usage of @code{tfqmr}
+
+@example
+x = tfqmr (A, b, [], n)
+@end example
+
+@sc{Example 2:} @code{tfqmr} with a function which computes
+@code{@var{A} * @var{x}}
+
+@example
+x = tfqmr (Afun, b, [], n)
+@end example
+
+@sc{Example 3:} @code{tfqmr} with a preconditioner matrix @var{M}
+
+@example
+x = tfqmr (A, b, [], 1e-06, n, M)
+@end example
+
+@sc{Example 4:} @code{tfqmr} with a function as preconditioner
+
+@example
+x = tfqmr (Afun, b, 1e-6, n, Mfun)
+@end example
+
+@sc{Example 5:} @code{tfqmr} with preconditioner matrices @var{M1}
+and @var{M2}
+
+@example
+x = tfqmr (A, b, [], 1e-6, n, M1, M2)
+@end example
+
+@sc{Example 6:} @code{tfmqr} with functions as preconditioners
+
+@example
+x = tfqmr (Afun, b, 1e-6, n, M1fun, M2fun)
+@end example
+
+@sc{Example 7:} @code{tfqmr} with as input a function requiring an argument
+
+@example
+@group
+function y = Ap (A, x, z) # compute A^z * x
+   y = x;
+   for i = 1:z
+     y = A * y;
+   endfor
+ endfunction
+Apfun = @@(x, string, p) Ap (A, x, string, p);
+x = tfqmr (Apfun, b, [], [], [], [], [], 2);
+@end group
+@end example
+
+@sc{Example 8:} explicit example to show that @code{tfqmr} uses a
+right preconditioner
+
+@example
+@group
+[M1, M2] = ilu (A + 0.3 * eye (n)); # factorization of A perturbed
+M = M1 * M2;
+
+## reference solution computed by tfqmr after one iteration
+[x_ref, fl] = tfqmr (A, b, [], 1, M)
+
+## right preconditioning
+[y, fl] = tfqmr (A / M, b, [], 1)
+x = M \ y # compare x and x_ref
+
+@end group
+@end example
+
+References:
+
+@enumerate
+
+@item @nospell{Y. Saad}, @cite{Iterative Methods for Sparse Linear Systems},
+Second edition, 2003, SIAM
+
+@end enumerate
+
+@seealso{@ref{XREFbicg,,bicg}, @ref{XREFbicgstab,,bicgstab}, @ref{XREFcgs,,cgs}, @ref{XREFgmres,,gmres}, @ref{XREFpcg,,pcg}, @ref{XREFqmr,,qmr}, @ref{XREFpcr,,pcr}}
+
 @end deftypefn
 

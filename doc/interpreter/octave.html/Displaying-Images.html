@@ -63,13 +63,13 @@ The most basic function for this is the <code>imshow</code> function that
 shows the image given in the first input argument.
 </p>
 <a name="XREFimshow"></a><dl>
-<dt><a name="index-imshow"></a>: <em></em> <strong>imshow</strong> <em>(<var>im</var>)</em></dt>
-<dt><a name="index-imshow-1"></a>: <em></em> <strong>imshow</strong> <em>(<var>im</var>, <var>limits</var>)</em></dt>
-<dt><a name="index-imshow-2"></a>: <em></em> <strong>imshow</strong> <em>(<var>im</var>, <var>map</var>)</em></dt>
-<dt><a name="index-imshow-3"></a>: <em></em> <strong>imshow</strong> <em>(<var>rgb</var>, &hellip;)</em></dt>
-<dt><a name="index-imshow-4"></a>: <em></em> <strong>imshow</strong> <em>(<var>filename</var>)</em></dt>
-<dt><a name="index-imshow-5"></a>: <em></em> <strong>imshow</strong> <em>(&hellip;, <var>string_param1</var>, <var>value1</var>, &hellip;)</em></dt>
-<dt><a name="index-imshow-6"></a>: <em><var>h</var> =</em> <strong>imshow</strong> <em>(&hellip;)</em></dt>
+<dt><a name="index-imshow"></a><em></em> <strong>imshow</strong> <em>(<var>im</var>)</em></dt>
+<dt><a name="index-imshow-1"></a><em></em> <strong>imshow</strong> <em>(<var>im</var>, <var>limits</var>)</em></dt>
+<dt><a name="index-imshow-2"></a><em></em> <strong>imshow</strong> <em>(<var>im</var>, <var>map</var>)</em></dt>
+<dt><a name="index-imshow-3"></a><em></em> <strong>imshow</strong> <em>(<var>rgb</var>, &hellip;)</em></dt>
+<dt><a name="index-imshow-4"></a><em></em> <strong>imshow</strong> <em>(<var>filename</var>)</em></dt>
+<dt><a name="index-imshow-5"></a><em></em> <strong>imshow</strong> <em>(&hellip;, <var>string_param1</var>, <var>value1</var>, &hellip;)</em></dt>
+<dt><a name="index-imshow-6"></a><em><var>h</var> =</em> <strong>imshow</strong> <em>(&hellip;)</em></dt>
 <dd><p>Display the image <var>im</var>, where <var>im</var> can be a 2-dimensional
 (grayscale image) or a 3-dimensional (RGB image) matrix.
 </p>
@@ -118,11 +118,11 @@ respectively.
 
 
 <a name="XREFimage"></a><dl>
-<dt><a name="index-image"></a>: <em></em> <strong>image</strong> <em>(<var>img</var>)</em></dt>
-<dt><a name="index-image-1"></a>: <em></em> <strong>image</strong> <em>(<var>x</var>, <var>y</var>, <var>img</var>)</em></dt>
-<dt><a name="index-image-2"></a>: <em></em> <strong>image</strong> <em>(&hellip;, &quot;<var>prop</var>&quot;, <var>val</var>, &hellip;)</em></dt>
-<dt><a name="index-image-3"></a>: <em></em> <strong>image</strong> <em>(&quot;<var>prop1</var>&quot;, <var>val1</var>, &hellip;)</em></dt>
-<dt><a name="index-image-4"></a>: <em><var>h</var> =</em> <strong>image</strong> <em>(&hellip;)</em></dt>
+<dt><a name="index-image"></a><em></em> <strong>image</strong> <em>(<var>img</var>)</em></dt>
+<dt><a name="index-image-1"></a><em></em> <strong>image</strong> <em>(<var>x</var>, <var>y</var>, <var>img</var>)</em></dt>
+<dt><a name="index-image-2"></a><em></em> <strong>image</strong> <em>(&hellip;, &quot;<var>prop</var>&quot;, <var>val</var>, &hellip;)</em></dt>
+<dt><a name="index-image-3"></a><em></em> <strong>image</strong> <em>(&quot;<var>prop1</var>&quot;, <var>val1</var>, &hellip;)</em></dt>
+<dt><a name="index-image-4"></a><em><var>h</var> =</em> <strong>image</strong> <em>(&hellip;)</em></dt>
 <dd><p>Display a matrix as an indexed color image.
 </p>
 <p>The elements of <var>img</var> are indices into the current colormap.
@@ -155,18 +155,21 @@ and axes.  When the only inputs to <code>image</code> are property/value pairs
 the Low-Level form is used which creates a new instance of an image object
 and inserts it in the current axes.
 </p>
+<p>Graphic Properties: The full list of properties is documented at
+<a href="Image-Properties.html#Image-Properties">Image Properties</a>.
+</p>
 <p><strong>See also:</strong> <a href="#XREFimshow">imshow</a>, <a href="#XREFimagesc">imagesc</a>, <a href="Representing-Images.html#XREFcolormap">colormap</a>.
 </p></dd></dl>
 
 
 <a name="XREFimagesc"></a><dl>
-<dt><a name="index-imagesc"></a>: <em></em> <strong>imagesc</strong> <em>(<var>img</var>)</em></dt>
-<dt><a name="index-imagesc-1"></a>: <em></em> <strong>imagesc</strong> <em>(<var>x</var>, <var>y</var>, <var>img</var>)</em></dt>
-<dt><a name="index-imagesc-2"></a>: <em></em> <strong>imagesc</strong> <em>(&hellip;, <var>climits</var>)</em></dt>
-<dt><a name="index-imagesc-3"></a>: <em></em> <strong>imagesc</strong> <em>(&hellip;, &quot;<var>prop</var>&quot;, <var>val</var>, &hellip;)</em></dt>
-<dt><a name="index-imagesc-4"></a>: <em></em> <strong>imagesc</strong> <em>(&quot;<var>prop1</var>&quot;, <var>val1</var>, &hellip;)</em></dt>
-<dt><a name="index-imagesc-5"></a>: <em></em> <strong>imagesc</strong> <em>(<var>hax</var>, &hellip;)</em></dt>
-<dt><a name="index-imagesc-6"></a>: <em><var>h</var> =</em> <strong>imagesc</strong> <em>(&hellip;)</em></dt>
+<dt><a name="index-imagesc"></a><em></em> <strong>imagesc</strong> <em>(<var>img</var>)</em></dt>
+<dt><a name="index-imagesc-1"></a><em></em> <strong>imagesc</strong> <em>(<var>x</var>, <var>y</var>, <var>img</var>)</em></dt>
+<dt><a name="index-imagesc-2"></a><em></em> <strong>imagesc</strong> <em>(&hellip;, <var>climits</var>)</em></dt>
+<dt><a name="index-imagesc-3"></a><em></em> <strong>imagesc</strong> <em>(&hellip;, &quot;<var>prop</var>&quot;, <var>val</var>, &hellip;)</em></dt>
+<dt><a name="index-imagesc-4"></a><em></em> <strong>imagesc</strong> <em>(&quot;<var>prop1</var>&quot;, <var>val1</var>, &hellip;)</em></dt>
+<dt><a name="index-imagesc-5"></a><em></em> <strong>imagesc</strong> <em>(<var>hax</var>, &hellip;)</em></dt>
+<dt><a name="index-imagesc-6"></a><em><var>h</var> =</em> <strong>imagesc</strong> <em>(&hellip;)</em></dt>
 <dd><p>Display a scaled version of the matrix <var>img</var> as a color image.
 </p>
 <p>The colormap is scaled so that the entries of the matrix occupy the entire

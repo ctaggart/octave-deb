@@ -80,25 +80,44 @@ together into a matrix.
 matrix.
 </p>
 <a name="XREFischar"></a><dl>
-<dt><a name="index-ischar"></a>: <em></em> <strong>ischar</strong> <em>(<var>x</var>)</em></dt>
+<dt><a name="index-ischar"></a><em></em> <strong>ischar</strong> <em>(<var>x</var>)</em></dt>
 <dd><p>Return true if <var>x</var> is a character array.
 </p>
-<p><strong>See also:</strong> <a href="Predicates-for-Numeric-Objects.html#XREFisfloat">isfloat</a>, <a href="Integer-Data-Types.html#XREFisinteger">isinteger</a>, <a href="Predicates-for-Numeric-Objects.html#XREFislogical">islogical</a>, <a href="Predicates-for-Numeric-Objects.html#XREFisnumeric">isnumeric</a>, <a href="Cell-Arrays-of-Strings.html#XREFiscellstr">iscellstr</a>, <a href="Built_002din-Data-Types.html#XREFisa">isa</a>.
+<p><strong>See also:</strong> <a href="Predicates-for-Numeric-Objects.html#XREFisfloat">isfloat</a>, <a href="Integer-Data-Types.html#XREFisinteger">isinteger</a>, <a href="Predicates-for-Numeric-Objects.html#XREFislogical">islogical</a>, <a href="Predicates-for-Numeric-Objects.html#XREFisnumeric">isnumeric</a>, <a href="#XREFisstring">isstring</a>, <a href="Cell-Arrays-of-Strings.html#XREFiscellstr">iscellstr</a>, <a href="Built_002din-Data-Types.html#XREFisa">isa</a>.
 </p></dd></dl>
 
 
-<p>To test if an object is a string (i.e., a character vector and not a character
-matrix) you can use the <code>ischar</code> function in combination with the
-<code>isvector</code> function as in the following example:
+<a name="XREFisstring"></a><dl>
+<dt><a name="index-isstring"></a><em></em> <strong>isstring</strong> <em>(<var>s</var>)</em></dt>
+<dd><p>Return true if <var>s</var> is a string array.
+</p>
+<p>A string array is a data type that stores strings (row vectors of
+characters) at each element in the array.  It is distinct from character
+arrays which are N-dimensional arrays where each element is a single 1x1
+character.  It is also distinct from cell arrays of strings which store
+strings at each element, but use cell indexing &lsquo;<samp>{}</samp>&rsquo; to access
+elements rather than string arrays which use ordinary array indexing
+&lsquo;<samp>()</samp>&rsquo;.
+</p>
+<p>Programming Note: Octave does not yet implement string arrays so this
+function will always return false.
+</p>
+<p><strong>See also:</strong> <a href="#XREFischar">ischar</a>, <a href="Cell-Arrays-of-Strings.html#XREFiscellstr">iscellstr</a>, <a href="Predicates-for-Numeric-Objects.html#XREFisfloat">isfloat</a>, <a href="Integer-Data-Types.html#XREFisinteger">isinteger</a>, <a href="Predicates-for-Numeric-Objects.html#XREFislogical">islogical</a>, <a href="Predicates-for-Numeric-Objects.html#XREFisnumeric">isnumeric</a>, <a href="Built_002din-Data-Types.html#XREFisa">isa</a>.
+</p></dd></dl>
+
+
+<p>To test if an object is a string (i.e., a 1xN row vector of
+characters and not a character matrix) you can use the <code>ischar</code> function
+in combination with the <code>isrow</code> function as in the following example:
 </p>
 <div class="example">
 <pre class="example">ischar (collection)
      &rArr; 1
 
-ischar (collection) &amp;&amp; isvector (collection)
+ischar (collection) &amp;&amp; isrow (collection)
      &rArr; 0
 
-ischar (&quot;my string&quot;) &amp;&amp; isvector (&quot;my string&quot;)
+ischar (&quot;my string&quot;) &amp;&amp; isrow (&quot;my string&quot;)
      &rArr; 1
 </pre></div>
 
@@ -109,9 +128,9 @@ string.  It is possible to use a different character than the
 blank character using the <code>string_fill_char</code> function.
 </p>
 <a name="XREFstring_005ffill_005fchar"></a><dl>
-<dt><a name="index-string_005ffill_005fchar"></a>: <em><var>val</var> =</em> <strong>string_fill_char</strong> <em>()</em></dt>
-<dt><a name="index-string_005ffill_005fchar-1"></a>: <em><var>old_val</var> =</em> <strong>string_fill_char</strong> <em>(<var>new_val</var>)</em></dt>
-<dt><a name="index-string_005ffill_005fchar-2"></a>: <em></em> <strong>string_fill_char</strong> <em>(<var>new_val</var>, &quot;local&quot;)</em></dt>
+<dt><a name="index-string_005ffill_005fchar"></a><em><var>val</var> =</em> <strong>string_fill_char</strong> <em>()</em></dt>
+<dt><a name="index-string_005ffill_005fchar-1"></a><em><var>old_val</var> =</em> <strong>string_fill_char</strong> <em>(<var>new_val</var>)</em></dt>
+<dt><a name="index-string_005ffill_005fchar-2"></a><em></em> <strong>string_fill_char</strong> <em>(<var>new_val</var>, &quot;local&quot;)</em></dt>
 <dd><p>Query or set the internal variable used to pad all rows of a character
 matrix to the same length.
 </p>

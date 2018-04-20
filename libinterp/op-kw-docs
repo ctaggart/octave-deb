@@ -1,20 +1,20 @@
-## Copyright (C) 1993-2017 John W. Eaton
+## Copyright (C) 1993-2018 John W. Eaton
 ##
 ## This file is part of Octave.
 ##
-## Octave is free software; you can redistribute it and/or modify it
+## Octave is free software: you can redistribute it and/or modify it
 ## under the terms of the GNU General Public License as published by
-## the Free Software Foundation; either version 3 of the License, or (at
-## your option) any later version.
+## the Free Software Foundation, either version 3 of the License, or
+## (at your option) any later version.
 ##
 ## Octave is distributed in the hope that it will be useful, but
 ## WITHOUT ANY WARRANTY; without even the implied warranty of
-## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-## General Public License for more details.
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU General Public License for more details.
 ##
 ## You should have received a copy of the GNU General Public License
 ## along with Octave; see the file COPYING.  If not, see
-## <http://www.gnu.org/licenses/>.
+## <https://www.gnu.org/licenses/>.
 
 !
 @c libinterp/parse-tree/oct-parse.in.yy
@@ -122,7 +122,7 @@ and after @code{%@}}.  It is possible to nest block comments.
 @deftypefn {} {} ...
 Continuation marker.
 
-Joins current line with following line.
+Joins current line with following line before parsing.
 @end deftypefn
 &
 @c libinterp/parse-tree/oct-parse.in.yy
@@ -296,6 +296,9 @@ Element by element left division operator.
 -*- texinfo -*-
 @deftypefn {} {} \
 Left division operator.
+
+Within double-quoted strings, @samp{\} is the line continuation marker used
+to join the current line with the following line.
 @seealso{.\\, /, ldivide, mldivide}
 @end deftypefn
 :
@@ -379,6 +382,26 @@ Element by element logical 'or' operator.
 @deftypefn {} {} ||
 Logical 'or' (with short-circuit evaluation) operator.
 @seealso{|, or}
+@end deftypefn
+@
+@c libinterp/parse-tree/oct-parse.in.yy
+-*- texinfo -*-
+@deftypefn {} {} @@
+Return handle to a function.
+
+Example:
+
+@example
+@group
+f = @@plus;
+f (2, 2)
+@result{}  4
+@end group
+@end example
+
+(Note: @@ also finds use in creating classes.  See manual chapter titled
+Object Oriented Programming for detailed description.)
+@seealso{function, functions, func2str, str2func}
 @end deftypefn
 break
 @c libinterp/parse-tree/oct-parse.in.yy
@@ -575,11 +598,17 @@ endfor
 function
 @c libinterp/parse-tree/oct-parse.in.yy
 -*- texinfo -*-
-@deftypefn  {} {} function @var{outputs} = function (@var{input}, @dots{})
-@deftypefnx {} {} function {} function (@var{input}, @dots{})
-@deftypefnx {} {} function @var{outputs} = function
-Begin a function body with @var{outputs} as results and @var{inputs} as
-parameters.
+@deftypefn  {} {} function @var{outputs} = function_name (@var{input}, @dots{})
+@deftypefnx {} {} function {} function_name (@var{input}, @dots{})
+@deftypefnx {} {} function @var{outputs} = function_name
+Begin a function body with name @code{function_name}, with @var{outputs} as
+results, and with @var{inputs} as parameters.  The function can later be
+invoked in Octave using the syntax
+
+@example
+[@var{output1}, @var{output2}, @dots{}] = function_name (@var{input1}, @var{input2}, @dots{})
+@end example
+
 @seealso{return}
 @end deftypefn
 global
@@ -621,14 +650,14 @@ endif
 @end example
 @seealso{switch}
 @end deftypefn
-## FIXME: Can't have duplicate DOCSTRING entries.  The function methods
-##        already has a docstring which overrides this keyword definition.
-#methods
-#@c libinterp/parse-tree/oct-parse.in.yy
-#-*- texinfo -*-
-#@deftypefn {} {} methods
-#Begin a methods block in a classdef definition.
-#@end deftypefn
+@c ## FIXME: Can't have duplicate DOCSTRING entries.  The function methods
+@c ##        already has a docstring which overrides this keyword definition.
+@c #methods
+@c #@c libinterp/parse-tree/oct-parse.in.yy
+@c #-*- texinfo -*-
+@c #@deftypefn {} {} methods
+@c #Begin a methods block in a classdef definition.
+@c #@end deftypefn
 otherwise
 @c libinterp/parse-tree/oct-parse.in.yy
 -*- texinfo -*-
@@ -736,7 +765,7 @@ If an error occurs within the first part of an unwind_protect block the
 commands within the unwind_protect_cleanup block are executed before the error
 is thrown.  If an error is not thrown, then the unwind_protect_cleanup block is
 still executed.  In other words, the unwind_protect_cleanup code is guaranteed
-to execute regardless of success or failure in the unwind_protect block. 
+to execute regardless of success or failure in the unwind_protect block.
 @seealso{unwind_protect_cleanup, try}
 @end deftypefn
 unwind_protect_cleanup

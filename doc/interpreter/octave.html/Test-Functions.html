@@ -59,15 +59,15 @@ Next: <a href="Demonstration-Functions.html#Demonstration-Functions" accesskey="
 <h3 class="section">B.1 Test Functions</h3>
 
 <a name="XREFtest"></a><dl>
-<dt><a name="index-test"></a>: <em></em> <strong>test</strong> <em><var>name</var></em></dt>
-<dt><a name="index-test-1"></a>: <em></em> <strong>test</strong> <em><var>name</var> quiet|normal|verbose</em></dt>
-<dt><a name="index-test-2"></a>: <em></em> <strong>test</strong> <em>(&quot;<var>name</var>&quot;, &quot;quiet|normal|verbose&quot;, <var>fid</var>)</em></dt>
-<dt><a name="index-test-3"></a>: <em></em> <strong>test</strong> <em>(&quot;<var>name</var>&quot;, &quot;quiet|normal|verbose&quot;, <var>fname</var>)</em></dt>
-<dt><a name="index-test-4"></a>: <em><var>success</var> =</em> <strong>test</strong> <em>(&hellip;)</em></dt>
-<dt><a name="index-test-5"></a>: <em>[<var>n</var>, <var>nmax</var>, <var>nxfail</var>, <var>nskip</var>] =</em> <strong>test</strong> <em>(&hellip;)</em></dt>
-<dt><a name="index-test-6"></a>: <em>[<var>code</var>, <var>idx</var>] =</em> <strong>test</strong> <em>(&quot;<var>name</var>&quot;, &quot;grabdemo&quot;)</em></dt>
-<dt><a name="index-test-7"></a>: <em></em> <strong>test</strong> <em>([], &quot;explain&quot;, <var>fid</var>)</em></dt>
-<dt><a name="index-test-8"></a>: <em></em> <strong>test</strong> <em>([], &quot;explain&quot;, <var>fname</var>)</em></dt>
+<dt><a name="index-test"></a><em></em> <strong>test</strong> <em><var>name</var></em></dt>
+<dt><a name="index-test-1"></a><em></em> <strong>test</strong> <em><var>name</var> quiet|normal|verbose</em></dt>
+<dt><a name="index-test-2"></a><em></em> <strong>test</strong> <em>(&quot;<var>name</var>&quot;, &quot;quiet|normal|verbose&quot;, <var>fid</var>)</em></dt>
+<dt><a name="index-test-3"></a><em></em> <strong>test</strong> <em>(&quot;<var>name</var>&quot;, &quot;quiet|normal|verbose&quot;, <var>fname</var>)</em></dt>
+<dt><a name="index-test-4"></a><em><var>success</var> =</em> <strong>test</strong> <em>(&hellip;)</em></dt>
+<dt><a name="index-test-5"></a><em>[<var>n</var>, <var>nmax</var>, <var>nxfail</var>, <var>nbug</var>, <var>nskip</var>, <var>nrtskip</var>, <var>nregression</var>] =</em> <strong>test</strong> <em>(&hellip;)</em></dt>
+<dt><a name="index-test-6"></a><em>[<var>code</var>, <var>idx</var>] =</em> <strong>test</strong> <em>(&quot;<var>name</var>&quot;, &quot;grabdemo&quot;)</em></dt>
+<dt><a name="index-test-7"></a><em></em> <strong>test</strong> <em>([], &quot;explain&quot;, <var>fid</var>)</em></dt>
+<dt><a name="index-test-8"></a><em></em> <strong>test</strong> <em>([], &quot;explain&quot;, <var>fname</var>)</em></dt>
 <dd>
 <p>Perform built-in self-tests from the first file in the loadpath matching
 <var>name</var>.
@@ -126,8 +126,11 @@ processing, but still print the results to the screen, use <code>stdout</code> f
 returns true if all of the tests were successful.  If called with more
 than one output argument then the number of successful tests (<var>n</var>),
 the total number of tests in the file (<var>nmax</var>), the number of xtest
-failures (<var>nxfail</var>), and the number of skipped tests (<var>nskip</var>) are
-returned.
+failures (<var>nxfail</var>), the number of tests failed due known bugs
+(<var>nbug</var>), the number of tests skipped due to missing features
+(<var>nskip</var>), the number of tests skipped due to run-time
+conditions (<var>nrtskip</var>), and the number of regressions
+(<var>nregression</var>) are returned.
 </p>
 <p>Example
 </p>
@@ -425,10 +428,13 @@ test block is interpreted as for <code>xtest</code>.
 </dd>
 <dt><code>%!testif HAVE_XXX</code></dt>
 <dt><code>%!testif HAVE_XXX, HAVE_YYY, &hellip;</code></dt>
+<dt><code>%!testif HAVE_XXX, HAVE_YYY &hellip;; RUNTIME_COND</code></dt>
 <dt><code>%!testif &hellip; &lt;MESSAGE&gt;</code></dt>
-<dd><p>Check block only if Octave was compiled with feature HAVE_XXX.  If
-<code>&lt;MESSAGE&gt;</code> is present, the test block is interpreted as for
-<code>xtest</code>.
+<dd><p>Check block only if Octave was compiled with feature <code><span class="nolinebreak">HAVE_XXX</span></code><!-- /@w -->.
+<code><span class="nolinebreak">RUNTIME_COND</span></code><!-- /@w --> is an optional expression to evaluate to check
+whether some condition is met when the test is executed.  If
+<code><span class="nolinebreak">RUNTIME_COND</span></code><!-- /@w --> is false, the test is skipped.  If <code>&lt;MESSAGE&gt;</code>
+is present, the test block is interpreted as for <code>xtest</code>.
 </p>
 </dd>
 <dt><code>%!xtest</code></dt>
@@ -445,7 +451,7 @@ if the test fails, like this:
 Octave bug tracker and reported as
 </p>
 <div class="example">
-<pre class="example">!!!!! Known bug: http://octave.org/testfailure/?BUG-ID
+<pre class="example">!!!!! Known bug: https://octave.org/testfailure/?BUG-ID
 </pre></div>
 
 <p>in which BUG-ID is the integer bug number.  The intent is to allow
@@ -536,12 +542,12 @@ path and the user will have to remember to type
 <code>test (&quot;funcname.cc&quot;)</code>.
 </p>
 <a name="XREFassert"></a><dl>
-<dt><a name="index-assert"></a>: <em></em> <strong>assert</strong> <em>(<var>cond</var>)</em></dt>
-<dt><a name="index-assert-1"></a>: <em></em> <strong>assert</strong> <em>(<var>cond</var>, <var>errmsg</var>)</em></dt>
-<dt><a name="index-assert-2"></a>: <em></em> <strong>assert</strong> <em>(<var>cond</var>, <var>errmsg</var>, &hellip;)</em></dt>
-<dt><a name="index-assert-3"></a>: <em></em> <strong>assert</strong> <em>(<var>cond</var>, <var>msg_id</var>, <var>errmsg</var>, &hellip;)</em></dt>
-<dt><a name="index-assert-4"></a>: <em></em> <strong>assert</strong> <em>(<var>observed</var>, <var>expected</var>)</em></dt>
-<dt><a name="index-assert-5"></a>: <em></em> <strong>assert</strong> <em>(<var>observed</var>, <var>expected</var>, <var>tol</var>)</em></dt>
+<dt><a name="index-assert"></a><em></em> <strong>assert</strong> <em>(<var>cond</var>)</em></dt>
+<dt><a name="index-assert-1"></a><em></em> <strong>assert</strong> <em>(<var>cond</var>, <var>errmsg</var>)</em></dt>
+<dt><a name="index-assert-2"></a><em></em> <strong>assert</strong> <em>(<var>cond</var>, <var>errmsg</var>, &hellip;)</em></dt>
+<dt><a name="index-assert-3"></a><em></em> <strong>assert</strong> <em>(<var>cond</var>, <var>msg_id</var>, <var>errmsg</var>, &hellip;)</em></dt>
+<dt><a name="index-assert-4"></a><em></em> <strong>assert</strong> <em>(<var>observed</var>, <var>expected</var>)</em></dt>
+<dt><a name="index-assert-5"></a><em></em> <strong>assert</strong> <em>(<var>observed</var>, <var>expected</var>, <var>tol</var>)</em></dt>
 <dd>
 <p>Produce an error if the specified condition is not met.
 </p>
@@ -591,10 +597,10 @@ element-by-element basis.
 
 
 <a name="XREFfail"></a><dl>
-<dt><a name="index-fail"></a>: <em></em> <strong>fail</strong> <em>(<var>code</var>)</em></dt>
-<dt><a name="index-fail-1"></a>: <em></em> <strong>fail</strong> <em>(<var>code</var>, <var>pattern</var>)</em></dt>
-<dt><a name="index-fail-2"></a>: <em></em> <strong>fail</strong> <em>(<var>code</var>, &quot;warning&quot;)</em></dt>
-<dt><a name="index-fail-3"></a>: <em></em> <strong>fail</strong> <em>(<var>code</var>, &quot;warning&quot;, <var>pattern</var>)</em></dt>
+<dt><a name="index-fail"></a><em></em> <strong>fail</strong> <em>(<var>code</var>)</em></dt>
+<dt><a name="index-fail-1"></a><em></em> <strong>fail</strong> <em>(<var>code</var>, <var>pattern</var>)</em></dt>
+<dt><a name="index-fail-2"></a><em></em> <strong>fail</strong> <em>(<var>code</var>, &quot;warning&quot;)</em></dt>
+<dt><a name="index-fail-3"></a><em></em> <strong>fail</strong> <em>(<var>code</var>, &quot;warning&quot;, <var>pattern</var>)</em></dt>
 <dd>
 <p>Return true if <var>code</var> fails with an error message matching
 <var>pattern</var>, otherwise produce an error.

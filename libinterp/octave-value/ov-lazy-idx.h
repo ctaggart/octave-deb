@@ -1,22 +1,22 @@
 /*
 
-Copyright (C) 2010-2017 VZLU Prague
+Copyright (C) 2010-2018 VZLU Prague
 
 This file is part of Octave.
 
-Octave is free software; you can redistribute it and/or modify it
-under the terms of the GNU General Public License as published by the
-Free Software Foundation; either version 3 of the License, or (at your
-option) any later version.
+Octave is free software: you can redistribute it and/or modify it
+under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-Octave is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-for more details.
+Octave is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with Octave; see the file COPYING.  If not, see
-<http://www.gnu.org/licenses/>.
+<https://www.gnu.org/licenses/>.
 
 */
 
@@ -45,15 +45,15 @@ public:
   octave_lazy_index (const octave_lazy_index& i)
     : octave_base_value (), index (i.index), value (i.value) { }
 
-  ~octave_lazy_index (void) { }
+  ~octave_lazy_index (void) = default;
 
-  octave_base_value *clone (void) const
+  octave_base_value * clone (void) const
   { return new octave_lazy_index (*this); }
-  octave_base_value *empty_clone (void) const { return new octave_matrix (); }
+  octave_base_value * empty_clone (void) const { return new octave_matrix (); }
 
   type_conv_info numeric_conversion_function (void) const;
 
-  octave_base_value *try_narrowing_conversion (void);
+  octave_base_value * try_narrowing_conversion (void);
 
   octave_value fast_elem_extract (octave_idx_type n) const;
 
@@ -69,11 +69,11 @@ public:
 
   bool is_real_matrix (void) const { return true; }
 
-  bool is_real_type (void) const { return true; }
+  bool isreal (void) const { return true; }
 
   bool is_double_type (void) const { return true; }
 
-  bool is_float_type (void) const { return true; }
+  bool isfloat (void) const { return true; }
 
   octave_value subsref (const std::string& type,
                         const std::list<octave_value_list>& idx)
@@ -112,7 +112,7 @@ public:
   octave_value sort (Array<octave_idx_type> &sidx, octave_idx_type dim = 0,
                      sortmode mode = ASCENDING) const;
 
-  sortmode is_sorted (sortmode mode = UNSORTED) const;
+  sortmode issorted (sortmode mode = UNSORTED) const;
 
   Array<octave_idx_type> sort_rows_idx (sortmode mode = ASCENDING) const;
 
@@ -120,7 +120,7 @@ public:
 
   bool is_matrix_type (void) const { return true; }
 
-  bool is_numeric_type (void) const { return true; }
+  bool isnumeric (void) const { return true; }
 
   bool is_defined (void) const { return true; }
 
@@ -187,6 +187,19 @@ public:
     return make_value ().convert_to_str_internal (pad, force, type);
   }
 
+  octave_value as_double (void) const;
+  octave_value as_single (void) const;
+
+  octave_value as_int8 (void) const;
+  octave_value as_int16 (void) const;
+  octave_value as_int32 (void) const;
+  octave_value as_int64 (void) const;
+
+  octave_value as_uint8 (void) const;
+  octave_value as_uint16 (void) const;
+  octave_value as_uint32 (void) const;
+  octave_value as_uint64 (void) const;
+
   void print_raw (std::ostream& os, bool pr_as_read_syntax = false) const
   {
     return make_value ().print_raw (os, pr_as_read_syntax);
@@ -201,7 +214,7 @@ public:
   bool load_binary (std::istream& is, bool swap,
                     octave::mach_info::float_format fmt);
 
-  int write (octave_stream& os, int block_size,
+  int write (octave::stream& os, int block_size,
              oct_data_conv::data_type output_type, int skip,
              octave::mach_info::float_format flt_fmt) const
   {
@@ -210,12 +223,12 @@ public:
 
   // Unsafe.  This function exists to support the MEX interface.
   // You should not use it anywhere else.
-  void *mex_get_data (void) const
+  void * mex_get_data (void) const
   {
     return make_value ().mex_get_data ();
   }
 
-  mxArray *as_mxArray (void) const
+  mxArray * as_mxArray (void) const
   {
     return make_value ().as_mxArray ();
   }

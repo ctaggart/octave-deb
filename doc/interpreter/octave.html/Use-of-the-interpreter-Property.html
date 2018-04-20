@@ -65,8 +65,11 @@ which special control sequences in the text are rendered.
 <p>The interpreter property can take three values: <code>&quot;none&quot;</code>, <code>&quot;tex&quot;</code>,
 <code>&quot;latex&quot;</code>.  If the interpreter is set to <code>&quot;none&quot;</code> then no special
 rendering occurs&mdash;the displayed text is a verbatim copy of the specified text.
-Currently, the <code>&quot;latex&quot;</code> interpreter is not implemented and is equivalent
-to <code>&quot;none&quot;</code>.
+Currently, the <code>&quot;latex&quot;</code> interpreter is not implemented for on-screen
+display and is equivalent to <code>&quot;none&quot;</code>.  Note that Octave does not parse
+or validate the text strings when in <code>&quot;latex&quot;</code> mode&mdash;it is the
+responsibility of the programmer to generate valid strings which may include
+wrapping sections that should appear in Math mode with <code>'$'</code> characters.
 </p>
 <p>The <code>&quot;tex&quot;</code> option implements a subset of TeX functionality when
 rendering text.  This allows the insertion of special glyphs such as Greek
@@ -103,7 +106,7 @@ use</td><td width="10%"></td></tr>
 </table>
 
 <p>The color of the text may also be changed inline using either a string (e.g.,
-&quot;red&quot;) or numerically with a Red-Green-Blue (RGB) specification (.e.g.,
+&quot;red&quot;) or numerically with a Red-Green-Blue (RGB) specification (e.g.,
 [1 0 0], also red).
 </p>
 <table>
@@ -114,8 +117,8 @@ numerically</td><td width="10%"></td></tr>
 
 <p>Finally, superscripting and subscripting can be controlled with the <code>'^'</code>
 and <code>'_'</code> characters.  If the <code>'^'</code> or <code>'_'</code> is followed by a
-{ character, then all of the block surrounded by the { } pair is
-superscripted or subscripted.  Without the { } pair, only the character
+{ character, then all of the block surrounded by the {&nbsp;}<!-- /@w --> pair is
+superscripted or subscripted.  Without the {&nbsp;}<!-- /@w --> pair, only the character
 immediately following the <code>'^'</code> or <code>'_'</code> is changed.
 </p>
 <div class="float"><a name="tab_003aextended"></a>

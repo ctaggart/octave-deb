@@ -64,8 +64,8 @@ functions.  One can be used to extract vectors of data from a file, and
 the other is more &lsquo;C-like&rsquo;.
 </p>
 <a name="XREFfscanf"></a><dl>
-<dt><a name="index-fscanf"></a>: <em>[<var>val</var>, <var>count</var>, <var>errmsg</var>] =</em> <strong>fscanf</strong> <em>(<var>fid</var>, <var>template</var>, <var>size</var>)</em></dt>
-<dt><a name="index-fscanf-1"></a>: <em>[<var>v1</var>, <var>v2</var>, &hellip;, <var>count</var>, <var>errmsg</var>] =</em> <strong>fscanf</strong> <em>(<var>fid</var>, <var>template</var>, &quot;C&quot;)</em></dt>
+<dt><a name="index-fscanf"></a><em>[<var>val</var>, <var>count</var>, <var>errmsg</var>] =</em> <strong>fscanf</strong> <em>(<var>fid</var>, <var>template</var>, <var>size</var>)</em></dt>
+<dt><a name="index-fscanf-1"></a><em>[<var>v1</var>, <var>v2</var>, &hellip;, <var>count</var>, <var>errmsg</var>] =</em> <strong>fscanf</strong> <em>(<var>fid</var>, <var>template</var>, &quot;C&quot;)</em></dt>
 <dd><p>In the first form, read from <var>fid</var> according to <var>template</var>,
 returning the result in the matrix <var>val</var>.
 </p>
@@ -116,8 +116,8 @@ complete description of the syntax of the template string.
 
 
 <a name="XREFscanf"></a><dl>
-<dt><a name="index-scanf"></a>: <em>[<var>val</var>, <var>count</var>, <var>errmsg</var>] =</em> <strong>scanf</strong> <em>(<var>template</var>, <var>size</var>)</em></dt>
-<dt><a name="index-scanf-1"></a>: <em>[<var>v1</var>, <var>v2</var>, &hellip;, <var>count</var>, <var>errmsg</var>] =</em> <strong>scanf</strong> <em>(<var>template</var>, &quot;C&quot;)</em></dt>
+<dt><a name="index-scanf"></a><em>[<var>val</var>, <var>count</var>, <var>errmsg</var>] =</em> <strong>scanf</strong> <em>(<var>template</var>, <var>size</var>)</em></dt>
+<dt><a name="index-scanf-1"></a><em>[<var>v1</var>, <var>v2</var>, &hellip;, <var>count</var>, <var>errmsg</var>] =</em> <strong>scanf</strong> <em>(<var>template</var>, &quot;C&quot;)</em></dt>
 <dd><p>This is equivalent to calling <code>fscanf</code> with <var>fid</var> = <code>stdin</code>.
 </p>
 <p>It is currently not useful to call <code>scanf</code> in interactive programs.
@@ -127,8 +127,8 @@ complete description of the syntax of the template string.
 
 
 <a name="XREFsscanf"></a><dl>
-<dt><a name="index-sscanf"></a>: <em>[<var>val</var>, <var>count</var>, <var>errmsg</var>, <var>pos</var>] =</em> <strong>sscanf</strong> <em>(<var>string</var>, <var>template</var>, <var>size</var>)</em></dt>
-<dt><a name="index-sscanf-1"></a>: <em>[<var>v1</var>, <var>v2</var>, &hellip;, <var>count</var>, <var>errmsg</var>] =</em> <strong>sscanf</strong> <em>(<var>string</var>, <var>template</var>, &quot;C&quot;)</em></dt>
+<dt><a name="index-sscanf"></a><em>[<var>val</var>, <var>count</var>, <var>errmsg</var>, <var>pos</var>] =</em> <strong>sscanf</strong> <em>(<var>string</var>, <var>template</var>, <var>size</var>)</em></dt>
+<dt><a name="index-sscanf-1"></a><em>[<var>v1</var>, <var>v2</var>, &hellip;, <var>count</var>, <var>errmsg</var>] =</em> <strong>sscanf</strong> <em>(<var>string</var>, <var>template</var>, &quot;C&quot;)</em></dt>
 <dd><p>This is like <code>fscanf</code>, except that the characters are taken from the
 string <var>string</var> instead of from a stream.
 </p>

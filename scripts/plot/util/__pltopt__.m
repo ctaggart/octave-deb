@@ -1,27 +1,23 @@
-## Copyright (C) 1994-2017 John W. Eaton
+## Copyright (C) 1994-2018 John W. Eaton
 ##
 ## This file is part of Octave.
 ##
-## Octave is free software; you can redistribute it and/or modify it
+## Octave is free software: you can redistribute it and/or modify it
 ## under the terms of the GNU General Public License as published by
-## the Free Software Foundation; either version 3 of the License, or (at
-## your option) any later version.
+## the Free Software Foundation, either version 3 of the License, or
+## (at your option) any later version.
 ##
 ## Octave is distributed in the hope that it will be useful, but
 ## WITHOUT ANY WARRANTY; without even the implied warranty of
-## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-## General Public License for more details.
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU General Public License for more details.
 ##
 ## You should have received a copy of the GNU General Public License
 ## along with Octave; see the file COPYING.  If not, see
-## <http://www.gnu.org/licenses/>.
+## <https://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn {} {} __pltopt__ (@var{caller}, @var{opt})
-## Undocumented internal function.
-## @end deftypefn
-
-## @deftypefn {} {} __pltopt__ (@var{caller}, @var{opt})
+## @deftypefn {} {} __pltopt__ (@var{caller}, @var{opt}, @var{err_on_invalid})
 ##
 ## Decode plot option strings.
 ##
@@ -86,6 +82,7 @@
 ##
 ## The legend may be fixed to include the name of the variable
 ## plotted in some future version of Octave.
+## @end deftypefn
 
 ## Author: jwe
 

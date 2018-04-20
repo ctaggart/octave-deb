@@ -87,24 +87,27 @@ A
 </pre></div>
 
 <a name="XREFsave"></a><dl>
-<dt><a name="index-save"></a>: <em></em> <strong>save</strong> <em>file</em></dt>
-<dt><a name="index-save-1"></a>: <em></em> <strong>save</strong> <em>options file</em></dt>
-<dt><a name="index-save-2"></a>: <em></em> <strong>save</strong> <em>options file <var>v1</var> <var>v2</var> &hellip;</em></dt>
-<dt><a name="index-save-3"></a>: <em></em> <strong>save</strong> <em>options file -struct <var>STRUCT</var> <var>f1</var> <var>f2</var> &hellip;</em></dt>
-<dt><a name="index-save-4"></a>: <em></em> <strong>save</strong> <em>- <var>v1</var> <var>v2</var> &hellip;</em></dt>
-<dt><a name="index-save-5"></a>: <em><var>str</var> =</em> <strong>save</strong> <em>(&quot;-&quot;, <code>&quot;<var>v1</var>&quot;</code>, <code>&quot;<var>v2</var>&quot;</code>, &hellip;)</em></dt>
-<dd><p>Save the named variables <var>v1</var>, <var>v2</var>, &hellip;, in the file
-<var>file</var>.
+<dt><a name="index-save"></a><em></em> <strong>save</strong> <em>file</em></dt>
+<dt><a name="index-save-1"></a><em></em> <strong>save</strong> <em>options file</em></dt>
+<dt><a name="index-save-2"></a><em></em> <strong>save</strong> <em>options file <var>v1</var> <var>v2</var> &hellip;</em></dt>
+<dt><a name="index-save-3"></a><em></em> <strong>save</strong> <em>options file -struct <var>STRUCT</var></em></dt>
+<dt><a name="index-save-4"></a><em></em> <strong>save</strong> <em>options file -struct <var>STRUCT</var> <var>f1</var> <var>f2</var> &hellip;</em></dt>
+<dt><a name="index-save-5"></a><em></em> <strong>save</strong> <em>- <var>v1</var> <var>v2</var> &hellip;</em></dt>
+<dt><a name="index-save-6"></a><em><var>str</var> =</em> <strong>save</strong> <em>(&quot;-&quot;, <code>&quot;<var>v1</var>&quot;</code>, <code>&quot;<var>v2</var>&quot;</code>, &hellip;)</em></dt>
+<dd><p>Save the named variables <var>v1</var>, <var>v2</var>, &hellip;, in the file <var>file</var>.
 </p>
-<p>The special filename &lsquo;<samp>-</samp>&rsquo; may be used to return the
-content of the variables as a string.  If no variable names are listed,
-Octave saves all the variables in the current scope.  Otherwise, full
-variable names or pattern syntax can be used to specify the variables to
-save.  If the <samp>-struct</samp> modifier is used, fields <var>f1</var> <var>f2</var>
-&hellip; of the scalar structure <var>STRUCT</var> are saved as if they were
-variables with corresponding names.  Valid options for the <code>save</code>
-command are listed in the following table.  Options that modify the output
-format override the format specified by <code>save_default_options</code>.
+<p>The special filename &lsquo;<samp>-</samp>&rsquo; may be used to return the content of the
+variables as a string.  If no variable names are listed, Octave saves all the
+variables in the current scope.  Otherwise, full variable names or pattern
+syntax can be used to specify the variables to save.  If the <samp>-struct</samp>
+modifier is used then the fields of the <strong>scalar</strong> struct are saved as if
+they were variables with the corresponding field names.  The <samp>-struct</samp>
+option can be combined with specific field names <var>f1</var>, <var>f2</var>, &hellip; to
+write only certain fields to the file.
+</p>
+<p>Valid options for the <code>save</code> command are listed in the following table.
+Options that modify the output format override the format specified by
+<code>save_default_options</code>.
 </p>
 <p>If save is invoked using the functional form
 </p>
@@ -112,11 +115,11 @@ format override the format specified by <code>save_default_options</code>.
 <pre class="example">save (&quot;-option1&quot;, &hellip;, &quot;file&quot;, &quot;v1&quot;, &hellip;)
 </pre></div>
 
-<p>then the <var>options</var>, <var>file</var>, and variable name arguments
-(<var>v1</var>, &hellip;) must be specified as character strings.
+<p>then the <var>options</var>, <var>file</var>, and variable name arguments (<var>v1</var>,
+&hellip;) must be specified as character strings.
 </p>
-<p>If called with a filename of <code>&quot;-&quot;</code>, write the output to stdout
-if nargout is 0, otherwise return the output in a character string.
+<p>If called with a filename of <code>&quot;-&quot;</code>, write the output to stdout if nargout
+is 0, otherwise return the output in a character string.
 </p>
 <dl compact="compact">
 <dt><code>-append</code></dt>
@@ -124,31 +127,43 @@ if nargout is 0, otherwise return the output in a character string.
 </p>
 </dd>
 <dt><code>-ascii</code></dt>
-<dd><p>Save a single matrix in a text file without header or any other information.
+<dd><p>Save a matrix in a text file without a header or any other information.  The
+matrix must be 2-D and only the real part of any complex value is written to
+the file.  Numbers are stored in single-precision format and separated by
+spaces.  Additional options for the <samp>-ascii</samp> format are
 </p>
+<dl compact="compact">
+<dt><code>-double</code></dt>
+<dd><p>Store numbers in double-precision format.
+</p>
+</dd>
+<dt><code>-tabs</code></dt>
+<dd><p>Separate numbers with tabs.
+</p></dd>
+</dl>
+
 </dd>
 <dt><code>-binary</code></dt>
 <dd><p>Save the data in Octave&rsquo;s binary data format.
 </p>
 </dd>
 <dt><code>-float-binary</code></dt>
-<dd><p>Save the data in Octave&rsquo;s binary data format but only using single
-precision.  Only use this format if you know that all the
-values to be saved can be represented in single precision.
+<dd><p>Save the data in Octave&rsquo;s binary data format but using only single precision.
+Use this format <strong>only</strong> if you know that all the values to be saved can
+be represented in single precision.
 </p>
 </dd>
 <dt><code>-hdf5</code></dt>
 <dd><p>Save the data in <small>HDF5</small> format.
-(HDF5 is a free, portable binary format developed by the National
-Center for Supercomputing Applications at the University of Illinois.)
-This format is only available if Octave was built with a link to the
-<small>HDF5</small> libraries.
+(HDF5 is a free, portable, binary format developed by the National Center for
+Supercomputing Applications at the University of Illinois.) This format is only
+available if Octave was built with a link to the <small>HDF5</small> libraries.
 </p>
 </dd>
 <dt><code>-float-hdf5</code></dt>
-<dd><p>Save the data in <small>HDF5</small> format but only using single precision.
-Only use this format if you know that all the
-values to be saved can be represented in single precision.
+<dd><p>Save the data in <small>HDF5</small> format but using only single precision.  Use this
+format <strong>only</strong> if you know that all the values to be saved can be
+represented in single precision.
 </p>
 </dd>
 <dt><code>-V7</code></dt>
@@ -179,16 +194,15 @@ values to be saved can be represented in single precision.
 </dd>
 <dt><code>-zip</code></dt>
 <dt><code>-z</code></dt>
-<dd><p>Use the gzip algorithm to compress the file.  This works equally on files
-that are compressed with gzip outside of octave, and gzip can equally be
-used to convert the files for backward compatibility.
-This option is only available if Octave was built with a link to the zlib
-libraries.
+<dd><p>Use the gzip algorithm to compress the file.  This works on files that are
+compressed with gzip outside of Octave, and gzip can also be used to convert
+the files for backward compatibility.  This option is only available if Octave
+was built with a link to the zlib libraries.
 </p></dd>
 </dl>
 
-<p>The list of variables to save may use wildcard patterns containing
-the following special characters:
+<p>The list of variables to save may use wildcard patterns containing the
+following special characters:
 </p>
 <dl compact="compact">
 <dt><code>?</code></dt>
@@ -200,22 +214,21 @@ the following special characters:
 </p>
 </dd>
 <dt><code>[ <var>list</var> ]</code></dt>
-<dd><p>Match the list of characters specified by <var>list</var>.  If the first
-character is <code>!</code> or <code>^</code>, match all characters except those
-specified by <var>list</var>.  For example, the pattern <code>[a-zA-Z]</code> will
-match all lower and uppercase alphabetic characters.
+<dd><p>Match the list of characters specified by <var>list</var>.  If the first character
+is <code>!</code> or <code>^</code>, match all characters except those specified by
+<var>list</var>.  For example, the pattern <code>[a-zA-Z]</code> will match all lower and
+uppercase alphabetic characters.
 </p>
-<p>Wildcards may also be used in the field name specifications when using
-the <samp>-struct</samp> modifier (but not in the struct name itself).
+<p>Wildcards may also be used in the field name specifications when using the
+<samp>-struct</samp> modifier (but not in the struct name itself).
 </p>
 </dd>
 </dl>
 
-<p>Except when using the <small>MATLAB</small> binary data file format or the
-&lsquo;<samp>-ascii</samp>&rsquo; format, saving global
-variables also saves the global status of the variable.  If the variable
-is restored at a later time using &lsquo;<samp>load</samp>&rsquo;, it will be restored as a
-global variable.
+<p>Except when using the <small>MATLAB</small> binary data file format or the &lsquo;<samp>-ascii</samp>&rsquo;
+format, saving global variables also saves the global status of the variable.
+If the variable is restored at a later time using &lsquo;<samp>load</samp>&rsquo;, it will be
+restored as a global variable.
 </p>
 <p>The command
 </p>
@@ -223,55 +236,64 @@ global variable.
 <pre class="example">save -binary data a b*
 </pre></div>
 
-<p>saves the variable &lsquo;<samp>a</samp>&rsquo; and all variables beginning with &lsquo;<samp>b</samp>&rsquo; to
-the file <samp>data</samp> in Octave&rsquo;s binary format.
+<p>saves the variable &lsquo;<samp>a</samp>&rsquo; and all variables beginning with &lsquo;<samp>b</samp>&rsquo; to the
+file <samp>data</samp> in Octave&rsquo;s binary format.
 </p>
-<p><strong>See also:</strong> <a href="#XREFload">load</a>, <a href="#XREFsave_005fdefault_005foptions">save_default_options</a>, <a href="#XREFsave_005fheader_005fformat_005fstring">save_header_format_string</a>, <a href="#XREFdlmread">dlmread</a>, <a href="#XREFcsvread">csvread</a>, <a href="Binary-I_002fO.html#XREFfread">fread</a>.
+<p><strong>See also:</strong> <a href="#XREFload">load</a>, <a href="#XREFsave_005fdefault_005foptions">save_default_options</a>, <a href="#XREFsave_005fheader_005fformat_005fstring">save_header_format_string</a>, <a href="#XREFsave_005fprecision">save_precision</a>, <a href="#XREFdlmread">dlmread</a>, <a href="#XREFcsvread">csvread</a>, <a href="Binary-I_002fO.html#XREFfread">fread</a>.
 </p></dd></dl>
 
 
 <p>There are three functions that modify the behavior of <code>save</code>.
 </p>
 <a name="XREFsave_005fdefault_005foptions"></a><dl>
-<dt><a name="index-save_005fdefault_005foptions"></a>: <em><var>val</var> =</em> <strong>save_default_options</strong> <em>()</em></dt>
-<dt><a name="index-save_005fdefault_005foptions-1"></a>: <em><var>old_val</var> =</em> <strong>save_default_options</strong> <em>(<var>new_val</var>)</em></dt>
-<dt><a name="index-save_005fdefault_005foptions-2"></a>: <em></em> <strong>save_default_options</strong> <em>(<var>new_val</var>, &quot;local&quot;)</em></dt>
+<dt><a name="index-save_005fdefault_005foptions"></a><em><var>val</var> =</em> <strong>save_default_options</strong> <em>()</em></dt>
+<dt><a name="index-save_005fdefault_005foptions-1"></a><em><var>old_val</var> =</em> <strong>save_default_options</strong> <em>(<var>new_val</var>)</em></dt>
+<dt><a name="index-save_005fdefault_005foptions-2"></a><em></em> <strong>save_default_options</strong> <em>(<var>new_val</var>, &quot;local&quot;)</em></dt>
 <dd><p>Query or set the internal variable that specifies the default options
 for the <code>save</code> command, and defines the default format.
 </p>
-<p>Typical values include <code>&quot;-ascii&quot;</code>, <code>&quot;-text -zip&quot;</code>.
-The default value is <samp>-text</samp>.
+<p>The default value is <code>&quot;-text&quot;</code> (Octave&rsquo;s own text-based file format).
+See the documentation of the <code>save</code> command for other choices.
 </p>
 <p>When called from inside a function with the <code>&quot;local&quot;</code> option, the
 variable is changed locally for the function and any subroutines it calls.
 The original variable value is restored when exiting the function.
 </p>
-<p><strong>See also:</strong> <a href="#XREFsave">save</a>.
+<p><strong>See also:</strong> <a href="#XREFsave">save</a>, <a href="#XREFsave_005fheader_005fformat_005fstring">save_header_format_string</a>, <a href="#XREFsave_005fprecision">save_precision</a>.
 </p></dd></dl>
 
 
 <a name="XREFsave_005fprecision"></a><dl>
-<dt><a name="index-save_005fprecision"></a>: <em><var>val</var> =</em> <strong>save_precision</strong> <em>()</em></dt>
-<dt><a name="index-save_005fprecision-1"></a>: <em><var>old_val</var> =</em> <strong>save_precision</strong> <em>(<var>new_val</var>)</em></dt>
-<dt><a name="index-save_005fprecision-2"></a>: <em></em> <strong>save_precision</strong> <em>(<var>new_val</var>, &quot;local&quot;)</em></dt>
+<dt><a name="index-save_005fprecision"></a><em><var>val</var> =</em> <strong>save_precision</strong> <em>()</em></dt>
+<dt><a name="index-save_005fprecision-1"></a><em><var>old_val</var> =</em> <strong>save_precision</strong> <em>(<var>new_val</var>)</em></dt>
+<dt><a name="index-save_005fprecision-2"></a><em></em> <strong>save_precision</strong> <em>(<var>new_val</var>, &quot;local&quot;)</em></dt>
 <dd><p>Query or set the internal variable that specifies the number of digits to
 keep when saving data in text format.
+</p>
+<p>The default value is 17 which is the minimum necessary for the lossless saving
+and restoring of IEEE-754 double values; For IEEE-754 single values the minimum
+value is 9.  If file size is a concern, it is probably better to choose a
+binary format for saving data rather than to reduce the precision of the saved
+values.
 </p>
 <p>When called from inside a function with the <code>&quot;local&quot;</code> option, the
 variable is changed locally for the function and any subroutines it calls.
 The original variable value is restored when exiting the function.
+</p>
+
+<p><strong>See also:</strong> <a href="#XREFsave_005fdefault_005foptions">save_default_options</a>.
 </p></dd></dl>
 
 
 <a name="XREFsave_005fheader_005fformat_005fstring"></a><dl>
-<dt><a name="index-save_005fheader_005fformat_005fstring"></a>: <em><var>val</var> =</em> <strong>save_header_format_string</strong> <em>()</em></dt>
-<dt><a name="index-save_005fheader_005fformat_005fstring-1"></a>: <em><var>old_val</var> =</em> <strong>save_header_format_string</strong> <em>(<var>new_val</var>)</em></dt>
-<dt><a name="index-save_005fheader_005fformat_005fstring-2"></a>: <em></em> <strong>save_header_format_string</strong> <em>(<var>new_val</var>, &quot;local&quot;)</em></dt>
-<dd><p>Query or set the internal variable that specifies the format
-string used for the comment line written at the beginning of
-text-format data files saved by Octave.
+<dt><a name="index-save_005fheader_005fformat_005fstring"></a><em><var>val</var> =</em> <strong>save_header_format_string</strong> <em>()</em></dt>
+<dt><a name="index-save_005fheader_005fformat_005fstring-1"></a><em><var>old_val</var> =</em> <strong>save_header_format_string</strong> <em>(<var>new_val</var>)</em></dt>
+<dt><a name="index-save_005fheader_005fformat_005fstring-2"></a><em></em> <strong>save_header_format_string</strong> <em>(<var>new_val</var>, &quot;local&quot;)</em></dt>
+<dd><p>Query or set the internal variable that specifies the format string used for
+the comment line written at the beginning of text-format data files saved by
+Octave.
 </p>
-<p>The format string is passed to <code>strftime</code> and should begin with the
+<p>The format string is passed to <code>strftime</code> and must begin with the
 character &lsquo;<samp>#</samp>&rsquo; and contain no newline characters.  If the value of
 <code>save_header_format_string</code> is the empty string, the header comment is
 omitted from text-format data files.  The default value is
@@ -284,18 +306,18 @@ omitted from text-format data files.  The default value is
 variable is changed locally for the function and any subroutines it calls.
 The original variable value is restored when exiting the function.
 </p>
-<p><strong>See also:</strong> <a href="Timing-Utilities.html#XREFstrftime">strftime</a>, <a href="#XREFsave">save</a>.
+<p><strong>See also:</strong> <a href="Timing-Utilities.html#XREFstrftime">strftime</a>, <a href="#XREFsave_005fdefault_005foptions">save_default_options</a>.
 </p></dd></dl>
 
 
 <a name="XREFload"></a><dl>
-<dt><a name="index-load"></a>: <em></em> <strong>load</strong> <em>file</em></dt>
-<dt><a name="index-load-1"></a>: <em></em> <strong>load</strong> <em>options file</em></dt>
-<dt><a name="index-load-2"></a>: <em></em> <strong>load</strong> <em>options file v1 v2 &hellip;</em></dt>
-<dt><a name="index-load-3"></a>: <em>S =</em> <strong>load</strong> <em>(&quot;options&quot;, &quot;file&quot;, &quot;v1&quot;, &quot;v2&quot;, &hellip;)</em></dt>
-<dt><a name="index-load-4"></a>: <em></em> <strong>load</strong> <em>file options</em></dt>
-<dt><a name="index-load-5"></a>: <em></em> <strong>load</strong> <em>file options v1 v2 &hellip;</em></dt>
-<dt><a name="index-load-6"></a>: <em>S =</em> <strong>load</strong> <em>(&quot;file&quot;, &quot;options&quot;, &quot;v1&quot;, &quot;v2&quot;, &hellip;)</em></dt>
+<dt><a name="index-load"></a><em></em> <strong>load</strong> <em>file</em></dt>
+<dt><a name="index-load-1"></a><em></em> <strong>load</strong> <em>options file</em></dt>
+<dt><a name="index-load-2"></a><em></em> <strong>load</strong> <em>options file v1 v2 &hellip;</em></dt>
+<dt><a name="index-load-3"></a><em>S =</em> <strong>load</strong> <em>(&quot;options&quot;, &quot;file&quot;, &quot;v1&quot;, &quot;v2&quot;, &hellip;)</em></dt>
+<dt><a name="index-load-4"></a><em></em> <strong>load</strong> <em>file options</em></dt>
+<dt><a name="index-load-5"></a><em></em> <strong>load</strong> <em>file options v1 v2 &hellip;</em></dt>
+<dt><a name="index-load-6"></a><em>S =</em> <strong>load</strong> <em>(&quot;file&quot;, &quot;options&quot;, &quot;v1&quot;, &quot;v2&quot;, &hellip;)</em></dt>
 <dd><p>Load the named variables <var>v1</var>, <var>v2</var>, &hellip;, from the file
 <var>file</var>.
 </p>
@@ -396,7 +418,7 @@ format.
 
 
 <a name="XREFfileread"></a><dl>
-<dt><a name="index-fileread"></a>: <em><var>str</var> =</em> <strong>fileread</strong> <em>(<var>filename</var>)</em></dt>
+<dt><a name="index-fileread"></a><em><var>str</var> =</em> <strong>fileread</strong> <em>(<var>filename</var>)</em></dt>
 <dd><p>Read the contents of <var>filename</var> and return it as a string.
 </p>
 <p><strong>See also:</strong> <a href="Binary-I_002fO.html#XREFfread">fread</a>, <a href="#XREFtextread">textread</a>, <a href="Formatted-Input.html#XREFsscanf">sscanf</a>.
@@ -404,7 +426,7 @@ format.
 
 
 <a name="XREFnative_005ffloat_005fformat"></a><dl>
-<dt><a name="index-native_005ffloat_005fformat"></a>: <em></em> <strong>native_float_format</strong> <em>()</em></dt>
+<dt><a name="index-native_005ffloat_005fformat"></a><em></em> <strong>native_float_format</strong> <em>()</em></dt>
 <dd><p>Return the native floating point format as a string.
 </p></dd></dl>
 
@@ -426,7 +448,7 @@ fclose (fid);
 and <code>fclose</code>.
 </p>
 <a name="XREFfdisp"></a><dl>
-<dt><a name="index-fdisp"></a>: <em></em> <strong>fdisp</strong> <em>(<var>fid</var>, <var>x</var>)</em></dt>
+<dt><a name="index-fdisp"></a><em></em> <strong>fdisp</strong> <em>(<var>fid</var>, <var>x</var>)</em></dt>
 <dd><p>Display the value of <var>x</var> on the stream <var>fid</var>.
 </p>
 <p>For example:
@@ -448,11 +470,11 @@ and <code>fclose</code>.
 separated lists.
 </p>
 <a name="XREFdlmwrite"></a><dl>
-<dt><a name="index-dlmwrite"></a>: <em></em> <strong>dlmwrite</strong> <em>(<var>file</var>, <var>M</var>)</em></dt>
-<dt><a name="index-dlmwrite-1"></a>: <em></em> <strong>dlmwrite</strong> <em>(<var>file</var>, <var>M</var>, <var>delim</var>, <var>r</var>, <var>c</var>)</em></dt>
-<dt><a name="index-dlmwrite-2"></a>: <em></em> <strong>dlmwrite</strong> <em>(<var>file</var>, <var>M</var>, <var>key</var>, <var>val</var> &hellip;)</em></dt>
-<dt><a name="index-dlmwrite-3"></a>: <em></em> <strong>dlmwrite</strong> <em>(<var>file</var>, <var>M</var>, &quot;-append&quot;, &hellip;)</em></dt>
-<dt><a name="index-dlmwrite-4"></a>: <em></em> <strong>dlmwrite</strong> <em>(<var>fid</var>, &hellip;)</em></dt>
+<dt><a name="index-dlmwrite"></a><em></em> <strong>dlmwrite</strong> <em>(<var>file</var>, <var>M</var>)</em></dt>
+<dt><a name="index-dlmwrite-1"></a><em></em> <strong>dlmwrite</strong> <em>(<var>file</var>, <var>M</var>, <var>delim</var>, <var>r</var>, <var>c</var>)</em></dt>
+<dt><a name="index-dlmwrite-2"></a><em></em> <strong>dlmwrite</strong> <em>(<var>file</var>, <var>M</var>, <var>key</var>, <var>val</var> &hellip;)</em></dt>
+<dt><a name="index-dlmwrite-3"></a><em></em> <strong>dlmwrite</strong> <em>(<var>file</var>, <var>M</var>, &quot;-append&quot;, &hellip;)</em></dt>
+<dt><a name="index-dlmwrite-4"></a><em></em> <strong>dlmwrite</strong> <em>(<var>fid</var>, &hellip;)</em></dt>
 <dd><p>Write the numeric matrix <var>M</var> to the text file <var>file</var> using a
 delimiter.
 </p>
@@ -518,11 +540,11 @@ string (as used by fprintf) or a number of significant digits.
 
 
 <a name="XREFdlmread"></a><dl>
-<dt><a name="index-dlmread"></a>: <em><var>data</var> =</em> <strong>dlmread</strong> <em>(<var>file</var>)</em></dt>
-<dt><a name="index-dlmread-1"></a>: <em><var>data</var> =</em> <strong>dlmread</strong> <em>(<var>file</var>, <var>sep</var>)</em></dt>
-<dt><a name="index-dlmread-2"></a>: <em><var>data</var> =</em> <strong>dlmread</strong> <em>(<var>file</var>, <var>sep</var>, <var>r0</var>, <var>c0</var>)</em></dt>
-<dt><a name="index-dlmread-3"></a>: <em><var>data</var> =</em> <strong>dlmread</strong> <em>(<var>file</var>, <var>sep</var>, <var>range</var>)</em></dt>
-<dt><a name="index-dlmread-4"></a>: <em><var>data</var> =</em> <strong>dlmread</strong> <em>(&hellip;, &quot;emptyvalue&quot;, <var>EMPTYVAL</var>)</em></dt>
+<dt><a name="index-dlmread"></a><em><var>data</var> =</em> <strong>dlmread</strong> <em>(<var>file</var>)</em></dt>
+<dt><a name="index-dlmread-1"></a><em><var>data</var> =</em> <strong>dlmread</strong> <em>(<var>file</var>, <var>sep</var>)</em></dt>
+<dt><a name="index-dlmread-2"></a><em><var>data</var> =</em> <strong>dlmread</strong> <em>(<var>file</var>, <var>sep</var>, <var>r0</var>, <var>c0</var>)</em></dt>
+<dt><a name="index-dlmread-3"></a><em><var>data</var> =</em> <strong>dlmread</strong> <em>(<var>file</var>, <var>sep</var>, <var>range</var>)</em></dt>
+<dt><a name="index-dlmread-4"></a><em><var>data</var> =</em> <strong>dlmread</strong> <em>(&hellip;, &quot;emptyvalue&quot;, <var>EMPTYVAL</var>)</em></dt>
 <dd><p>Read numeric data from the text file <var>file</var> which uses the delimiter
 <var>sep</var> between data values.
 </p>
@@ -553,8 +575,8 @@ such as text, are also replaced by the <code>&quot;emptyvalue&quot;</code>.
 
 
 <a name="XREFcsvwrite"></a><dl>
-<dt><a name="index-csvwrite"></a>: <em></em> <strong>csvwrite</strong> <em>(<var>filename</var>, <var>x</var>)</em></dt>
-<dt><a name="index-csvwrite-1"></a>: <em></em> <strong>csvwrite</strong> <em>(<var>filename</var>, <var>x</var>, <var>dlm_opt1</var>, &hellip;)</em></dt>
+<dt><a name="index-csvwrite"></a><em></em> <strong>csvwrite</strong> <em>(<var>filename</var>, <var>x</var>)</em></dt>
+<dt><a name="index-csvwrite-1"></a><em></em> <strong>csvwrite</strong> <em>(<var>filename</var>, <var>x</var>, <var>dlm_opt1</var>, &hellip;)</em></dt>
 <dd><p>Write the numeric matrix <var>x</var> to the file <var>filename</var> in
 <span class="nolinebreak">comma-separated-value</span><!-- /@w --> (CSV) format.
 </p>
@@ -572,8 +594,8 @@ such as text, are also replaced by the <code>&quot;emptyvalue&quot;</code>.
 
 
 <a name="XREFcsvread"></a><dl>
-<dt><a name="index-csvread"></a>: <em><var>x</var> =</em> <strong>csvread</strong> <em>(<var>filename</var>)</em></dt>
-<dt><a name="index-csvread-1"></a>: <em><var>x</var> =</em> <strong>csvread</strong> <em>(<var>filename</var>, <var>dlm_opt1</var>, &hellip;)</em></dt>
+<dt><a name="index-csvread"></a><em><var>x</var> =</em> <strong>csvread</strong> <em>(<var>filename</var>)</em></dt>
+<dt><a name="index-csvread-1"></a><em><var>x</var> =</em> <strong>csvread</strong> <em>(<var>filename</var>, <var>dlm_opt1</var>, &hellip;)</em></dt>
 <dd><p>Read the comma-separated-value (CSV) file <var>filename</var> into the matrix
 <var>x</var>.
 </p>
@@ -595,11 +617,11 @@ such as text, are also replaced by the <code>&quot;emptyvalue&quot;</code>.
 <p>Formatted data from can be read from, or written to, text files as well.
 </p>
 <a name="XREFtextread"></a><dl>
-<dt><a name="index-textread"></a>: <em>[<var>a</var>, &hellip;] =</em> <strong>textread</strong> <em>(<var>filename</var>)</em></dt>
-<dt><a name="index-textread-1"></a>: <em>[<var>a</var>, &hellip;] =</em> <strong>textread</strong> <em>(<var>filename</var>, <var>format</var>)</em></dt>
-<dt><a name="index-textread-2"></a>: <em>[<var>a</var>, &hellip;] =</em> <strong>textread</strong> <em>(<var>filename</var>, <var>format</var>, <var>n</var>)</em></dt>
-<dt><a name="index-textread-3"></a>: <em>[<var>a</var>, &hellip;] =</em> <strong>textread</strong> <em>(<var>filename</var>, <var>format</var>, <var>prop1</var>, <var>value1</var>, &hellip;)</em></dt>
-<dt><a name="index-textread-4"></a>: <em>[<var>a</var>, &hellip;] =</em> <strong>textread</strong> <em>(<var>filename</var>, <var>format</var>, <var>n</var>, <var>prop1</var>, <var>value1</var>, &hellip;)</em></dt>
+<dt><a name="index-textread"></a><em>[<var>a</var>, &hellip;] =</em> <strong>textread</strong> <em>(<var>filename</var>)</em></dt>
+<dt><a name="index-textread-1"></a><em>[<var>a</var>, &hellip;] =</em> <strong>textread</strong> <em>(<var>filename</var>, <var>format</var>)</em></dt>
+<dt><a name="index-textread-2"></a><em>[<var>a</var>, &hellip;] =</em> <strong>textread</strong> <em>(<var>filename</var>, <var>format</var>, <var>n</var>)</em></dt>
+<dt><a name="index-textread-3"></a><em>[<var>a</var>, &hellip;] =</em> <strong>textread</strong> <em>(<var>filename</var>, <var>format</var>, <var>prop1</var>, <var>value1</var>, &hellip;)</em></dt>
+<dt><a name="index-textread-4"></a><em>[<var>a</var>, &hellip;] =</em> <strong>textread</strong> <em>(<var>filename</var>, <var>format</var>, <var>n</var>, <var>prop1</var>, <var>value1</var>, &hellip;)</em></dt>
 <dd><p>Read data from a text file.
 </p>
 <p>The file <var>filename</var> is read and parsed according to <var>format</var>.  The
@@ -681,12 +703,12 @@ the first data line of the file.  Empty fields are returned as zero values.
 
 
 <a name="XREFtextscan"></a><dl>
-<dt><a name="index-textscan"></a>: <em><var>C</var> =</em> <strong>textscan</strong> <em>(<var>fid</var>, <var>format</var>)</em></dt>
-<dt><a name="index-textscan-1"></a>: <em><var>C</var> =</em> <strong>textscan</strong> <em>(<var>fid</var>, <var>format</var>, <var>repeat</var>)</em></dt>
-<dt><a name="index-textscan-2"></a>: <em><var>C</var> =</em> <strong>textscan</strong> <em>(<var>fid</var>, <var>format</var>, <var>param</var>, <var>value</var>, &hellip;)</em></dt>
-<dt><a name="index-textscan-3"></a>: <em><var>C</var> =</em> <strong>textscan</strong> <em>(<var>fid</var>, <var>format</var>, <var>repeat</var>, <var>param</var>, <var>value</var>, &hellip;)</em></dt>
-<dt><a name="index-textscan-4"></a>: <em><var>C</var> =</em> <strong>textscan</strong> <em>(<var>str</var>, &hellip;)</em></dt>
-<dt><a name="index-textscan-5"></a>: <em>[<var>C</var>, <var>position</var>, <var>errmsg</var>] =</em> <strong>textscan</strong> <em>(&hellip;)</em></dt>
+<dt><a name="index-textscan"></a><em><var>C</var> =</em> <strong>textscan</strong> <em>(<var>fid</var>, <var>format</var>)</em></dt>
+<dt><a name="index-textscan-1"></a><em><var>C</var> =</em> <strong>textscan</strong> <em>(<var>fid</var>, <var>format</var>, <var>repeat</var>)</em></dt>
+<dt><a name="index-textscan-2"></a><em><var>C</var> =</em> <strong>textscan</strong> <em>(<var>fid</var>, <var>format</var>, <var>param</var>, <var>value</var>, &hellip;)</em></dt>
+<dt><a name="index-textscan-3"></a><em><var>C</var> =</em> <strong>textscan</strong> <em>(<var>fid</var>, <var>format</var>, <var>repeat</var>, <var>param</var>, <var>value</var>, &hellip;)</em></dt>
+<dt><a name="index-textscan-4"></a><em><var>C</var> =</em> <strong>textscan</strong> <em>(<var>str</var>, &hellip;)</em></dt>
+<dt><a name="index-textscan-5"></a><em>[<var>C</var>, <var>position</var>, <var>errmsg</var>] =</em> <strong>textscan</strong> <em>(&hellip;)</em></dt>
 <dd><p>Read data from a text file or string.
 </p>
 <p>The string <var>str</var> or file associated with <var>fid</var> is read from and
@@ -964,11 +986,11 @@ from the beginning of the file or string, where processing stopped.
 variety of data.
 </p>
 <a name="XREFimportdata"></a><dl>
-<dt><a name="index-importdata"></a>: <em><var>A</var> =</em> <strong>importdata</strong> <em>(<var>fname</var>)</em></dt>
-<dt><a name="index-importdata-1"></a>: <em><var>A</var> =</em> <strong>importdata</strong> <em>(<var>fname</var>, <var>delimiter</var>)</em></dt>
-<dt><a name="index-importdata-2"></a>: <em><var>A</var> =</em> <strong>importdata</strong> <em>(<var>fname</var>, <var>delimiter</var>, <var>header_rows</var>)</em></dt>
-<dt><a name="index-importdata-3"></a>: <em>[<var>A</var>, <var>delimiter</var>] =</em> <strong>importdata</strong> <em>(&hellip;)</em></dt>
-<dt><a name="index-importdata-4"></a>: <em>[<var>A</var>, <var>delimiter</var>, <var>header_rows</var>] =</em> <strong>importdata</strong> <em>(&hellip;)</em></dt>
+<dt><a name="index-importdata"></a><em><var>A</var> =</em> <strong>importdata</strong> <em>(<var>fname</var>)</em></dt>
+<dt><a name="index-importdata-1"></a><em><var>A</var> =</em> <strong>importdata</strong> <em>(<var>fname</var>, <var>delimiter</var>)</em></dt>
+<dt><a name="index-importdata-2"></a><em><var>A</var> =</em> <strong>importdata</strong> <em>(<var>fname</var>, <var>delimiter</var>, <var>header_rows</var>)</em></dt>
+<dt><a name="index-importdata-3"></a><em>[<var>A</var>, <var>delimiter</var>] =</em> <strong>importdata</strong> <em>(&hellip;)</em></dt>
+<dt><a name="index-importdata-4"></a><em>[<var>A</var>, <var>delimiter</var>, <var>header_rows</var>] =</em> <strong>importdata</strong> <em>(&hellip;)</em></dt>
 <dd><p>Import data from the file <var>fname</var>.
 </p>
 <p>Input parameters:

@@ -180,8 +180,8 @@ and ldiv (\) operators, and so no the user does not need to explicitly
 reorder the matrix to maximize performance.
 </p>
 <a name="XREFamd"></a><dl>
-<dt><a name="index-amd"></a>: <em><var>p</var> =</em> <strong>amd</strong> <em>(<var>S</var>)</em></dt>
-<dt><a name="index-amd-1"></a>: <em><var>p</var> =</em> <strong>amd</strong> <em>(<var>S</var>, <var>opts</var>)</em></dt>
+<dt><a name="index-amd"></a><em><var>p</var> =</em> <strong>amd</strong> <em>(<var>S</var>)</em></dt>
+<dt><a name="index-amd-1"></a><em><var>p</var> =</em> <strong>amd</strong> <em>(<var>S</var>, <var>opts</var>)</em></dt>
 <dd>
 <p>Return the approximate minimum degree permutation of a matrix.
 </p>
@@ -209,18 +209,17 @@ absorption.  The default is not to perform aggressive absorption.
 </dl>
 
 <p>The author of the code itself is Timothy A. Davis
-<a href="mailto:davis@cise.ufl.edu">davis@cise.ufl.edu</a>, University of Florida
-(see <a href="http://www.cise.ufl.edu/research/sparse/amd">http://www.cise.ufl.edu/research/sparse/amd</a>).
+(see <a href="http://faculty.cse.tamu.edu/davis/suitesparse.html">http://faculty.cse.tamu.edu/davis/suitesparse.html</a>).
 </p>
 <p><strong>See also:</strong> <a href="#XREFsymamd">symamd</a>, <a href="#XREFcolamd">colamd</a>.
 </p></dd></dl>
 
 
 <a name="XREFccolamd"></a><dl>
-<dt><a name="index-ccolamd"></a>: <em><var>p</var> =</em> <strong>ccolamd</strong> <em>(<var>S</var>)</em></dt>
-<dt><a name="index-ccolamd-1"></a>: <em><var>p</var> =</em> <strong>ccolamd</strong> <em>(<var>S</var>, <var>knobs</var>)</em></dt>
-<dt><a name="index-ccolamd-2"></a>: <em><var>p</var> =</em> <strong>ccolamd</strong> <em>(<var>S</var>, <var>knobs</var>, <var>cmember</var>)</em></dt>
-<dt><a name="index-ccolamd-3"></a>: <em>[<var>p</var>, <var>stats</var>] =</em> <strong>ccolamd</strong> <em>(&hellip;)</em></dt>
+<dt><a name="index-ccolamd"></a><em><var>p</var> =</em> <strong>ccolamd</strong> <em>(<var>S</var>)</em></dt>
+<dt><a name="index-ccolamd-1"></a><em><var>p</var> =</em> <strong>ccolamd</strong> <em>(<var>S</var>, <var>knobs</var>)</em></dt>
+<dt><a name="index-ccolamd-2"></a><em><var>p</var> =</em> <strong>ccolamd</strong> <em>(<var>S</var>, <var>knobs</var>, <var>cmember</var>)</em></dt>
+<dt><a name="index-ccolamd-3"></a><em>[<var>p</var>, <var>stats</var>] =</em> <strong>ccolamd</strong> <em>(&hellip;)</em></dt>
 <dd>
 <p>Constrained column approximate minimum degree permutation.
 </p>
@@ -302,23 +301,23 @@ such row index exists.  <code><var>stats</var>(7)</code> is the number of duplic
 or out-of-order row indices.  <code><var>stats</var>(8 : 20)</code> is always zero in
 the current version of <small>CCOLAMD</small> (reserved for future use).
 </p>
-<p>The authors of the code itself are S. Larimore, T. Davis
-(Univ. of Florida) and S. Rajamanickam in collaboration with
-J. Bilbert and E. Ng.  Supported by the National Science Foundation
+<p>The authors of the code itself are S. Larimore, T. Davis and
+S. Rajamanickam in collaboration with J. Bilbert and E. Ng.
+Supported by the National Science Foundation
 (DMS-9504974, DMS-9803599, CCR-0203270), and a grant from
 Sandia National Lab.
-See <a href="http://www.cise.ufl.edu/research/sparse">http://www.cise.ufl.edu/research/sparse</a> for
-ccolamd, csymamd, amd, colamd, symamd, and other related orderings.
+See <a href="http://faculty.cse.tamu.edu/davis/suitesparse.html">http://faculty.cse.tamu.edu/davis/suitesparse.html</a> for ccolamd,
+csymamd, amd, colamd, symamd, and other related orderings.
 </p>
 <p><strong>See also:</strong> <a href="#XREFcolamd">colamd</a>, <a href="#XREFcsymamd">csymamd</a>.
 </p></dd></dl>
 
 
 <a name="XREFcolamd"></a><dl>
-<dt><a name="index-colamd"></a>: <em><var>p</var> =</em> <strong>colamd</strong> <em>(<var>S</var>)</em></dt>
-<dt><a name="index-colamd-1"></a>: <em><var>p</var> =</em> <strong>colamd</strong> <em>(<var>S</var>, <var>knobs</var>)</em></dt>
-<dt><a name="index-colamd-2"></a>: <em>[<var>p</var>, <var>stats</var>] =</em> <strong>colamd</strong> <em>(<var>S</var>)</em></dt>
-<dt><a name="index-colamd-3"></a>: <em>[<var>p</var>, <var>stats</var>] =</em> <strong>colamd</strong> <em>(<var>S</var>, <var>knobs</var>)</em></dt>
+<dt><a name="index-colamd"></a><em><var>p</var> =</em> <strong>colamd</strong> <em>(<var>S</var>)</em></dt>
+<dt><a name="index-colamd-1"></a><em><var>p</var> =</em> <strong>colamd</strong> <em>(<var>S</var>, <var>knobs</var>)</em></dt>
+<dt><a name="index-colamd-2"></a><em>[<var>p</var>, <var>stats</var>] =</em> <strong>colamd</strong> <em>(<var>S</var>)</em></dt>
+<dt><a name="index-colamd-3"></a><em>[<var>p</var>, <var>stats</var>] =</em> <strong>colamd</strong> <em>(<var>S</var>, <var>knobs</var>)</em></dt>
 <dd>
 <p>Compute the column approximate minimum degree permutation.
 </p>
@@ -377,16 +376,16 @@ the current version of <small>COLAMD</small> (reserved for future use).
 <p>The ordering is followed by a column elimination tree post-ordering.
 </p>
 <p>The authors of the code itself are Stefan I. Larimore and
-Timothy A. Davis <a href="mailto:davis@cise.ufl.edu">davis@cise.ufl.edu</a>, University of Florida.  The algorithm was developed in collaboration with John Gilbert,
-Xerox PARC, and Esmond Ng, Oak Ridge National Laboratory.  (see
-<a href="http://www.cise.ufl.edu/research/sparse/colamd">http://www.cise.ufl.edu/research/sparse/colamd</a>)
+Timothy A. Davis.  The algorithm was developed in collaboration with
+John Gilbert, Xerox PARC, and Esmond Ng, Oak Ridge National
+Laboratory.  (see <a href="http://faculty.cse.tamu.edu/davis/suitesparse.html">http://faculty.cse.tamu.edu/davis/suitesparse.html</a>)
 </p>
 <p><strong>See also:</strong> <a href="#XREFcolperm">colperm</a>, <a href="#XREFsymamd">symamd</a>, <a href="#XREFccolamd">ccolamd</a>.
 </p></dd></dl>
 
 
 <a name="XREFcolperm"></a><dl>
-<dt><a name="index-colperm"></a>: <em><var>p</var> =</em> <strong>colperm</strong> <em>(<var>s</var>)</em></dt>
+<dt><a name="index-colperm"></a><em><var>p</var> =</em> <strong>colperm</strong> <em>(<var>s</var>)</em></dt>
 <dd><p>Return the column permutations such that the columns of
 <code><var>s</var> (:, <var>p</var>)</code> are ordered in terms of increasing number of
 nonzero elements.
@@ -398,10 +397,10 @@ increasing number of nonzeros elements.
 
 
 <a name="XREFcsymamd"></a><dl>
-<dt><a name="index-csymamd"></a>: <em><var>p</var> =</em> <strong>csymamd</strong> <em>(<var>S</var>)</em></dt>
-<dt><a name="index-csymamd-1"></a>: <em><var>p</var> =</em> <strong>csymamd</strong> <em>(<var>S</var>, <var>knobs</var>)</em></dt>
-<dt><a name="index-csymamd-2"></a>: <em><var>p</var> =</em> <strong>csymamd</strong> <em>(<var>S</var>, <var>knobs</var>, <var>cmember</var>)</em></dt>
-<dt><a name="index-csymamd-3"></a>: <em>[<var>p</var>, <var>stats</var>] =</em> <strong>csymamd</strong> <em>(&hellip;)</em></dt>
+<dt><a name="index-csymamd"></a><em><var>p</var> =</em> <strong>csymamd</strong> <em>(<var>S</var>)</em></dt>
+<dt><a name="index-csymamd-1"></a><em><var>p</var> =</em> <strong>csymamd</strong> <em>(<var>S</var>, <var>knobs</var>)</em></dt>
+<dt><a name="index-csymamd-2"></a><em><var>p</var> =</em> <strong>csymamd</strong> <em>(<var>S</var>, <var>knobs</var>, <var>cmember</var>)</em></dt>
+<dt><a name="index-csymamd-3"></a><em>[<var>p</var>, <var>stats</var>] =</em> <strong>csymamd</strong> <em>(&hellip;)</em></dt>
 <dd>
 <p>For a symmetric positive definite matrix <var>S</var>, return the permutation
 vector <var>p</var> such that <code><var>S</var>(<var>p</var>,<var>p</var>)</code> tends to have a
@@ -455,21 +454,21 @@ such row index exists.  <code><var>stats</var>(7)</code> is the number of duplic
 or out-of-order row indices.  <code><var>stats</var>(8:20)</code> is always zero in
 the current version of <small>CCOLAMD</small> (reserved for future use).
 </p>
-<p>The authors of the code itself are S. Larimore, T. Davis
-(Univ. of Florida) and S. Rajamanickam in collaboration with
-J. Bilbert and E. Ng.  Supported by the National Science Foundation
+<p>The authors of the code itself are S. Larimore, T. Davis and
+S. Rajamanickam in collaboration with J. Bilbert and E. Ng.
+Supported by the National Science Foundation
 (DMS-9504974, DMS-9803599, CCR-0203270), and a grant from
 Sandia National Lab.
-See <a href="http://www.cise.ufl.edu/research/sparse">http://www.cise.ufl.edu/research/sparse</a> for
-ccolamd, csymamd, amd, colamd, symamd, and other related orderings.
+See <a href="http://faculty.cse.tamu.edu/davis/suitesparse.html">http://faculty.cse.tamu.edu/davis/suitesparse.html</a> for ccolamd,
+colamd, csymamd, amd, colamd, symamd, and other related orderings.
 </p>
 <p><strong>See also:</strong> <a href="#XREFsymamd">symamd</a>, <a href="#XREFccolamd">ccolamd</a>.
 </p></dd></dl>
 
 
 <a name="XREFdmperm"></a><dl>
-<dt><a name="index-dmperm"></a>: <em><var>p</var> =</em> <strong>dmperm</strong> <em>(<var>S</var>)</em></dt>
-<dt><a name="index-dmperm-1"></a>: <em>[<var>p</var>, <var>q</var>, <var>r</var>, <var>S</var>] =</em> <strong>dmperm</strong> <em>(<var>S</var>)</em></dt>
+<dt><a name="index-dmperm"></a><em><var>p</var> =</em> <strong>dmperm</strong> <em>(<var>S</var>)</em></dt>
+<dt><a name="index-dmperm-1"></a><em>[<var>p</var>, <var>q</var>, <var>r</var>, <var>S</var>] =</em> <strong>dmperm</strong> <em>(<var>S</var>)</em></dt>
 <dd>
 <a name="index-Dulmage_002dMendelsohn-decomposition"></a>
 <p>Perform a Dulmage-Mendelsohn permutation of the sparse matrix
@@ -493,10 +492,10 @@ ACM Trans. Math. Software, 16(4):303-324, 1990.
 
 
 <a name="XREFsymamd"></a><dl>
-<dt><a name="index-symamd"></a>: <em><var>p</var> =</em> <strong>symamd</strong> <em>(<var>S</var>)</em></dt>
-<dt><a name="index-symamd-1"></a>: <em><var>p</var> =</em> <strong>symamd</strong> <em>(<var>S</var>, <var>knobs</var>)</em></dt>
-<dt><a name="index-symamd-2"></a>: <em>[<var>p</var>, <var>stats</var>] =</em> <strong>symamd</strong> <em>(<var>S</var>)</em></dt>
-<dt><a name="index-symamd-3"></a>: <em>[<var>p</var>, <var>stats</var>] =</em> <strong>symamd</strong> <em>(<var>S</var>, <var>knobs</var>)</em></dt>
+<dt><a name="index-symamd"></a><em><var>p</var> =</em> <strong>symamd</strong> <em>(<var>S</var>)</em></dt>
+<dt><a name="index-symamd-1"></a><em><var>p</var> =</em> <strong>symamd</strong> <em>(<var>S</var>, <var>knobs</var>)</em></dt>
+<dt><a name="index-symamd-2"></a><em>[<var>p</var>, <var>stats</var>] =</em> <strong>symamd</strong> <em>(<var>S</var>)</em></dt>
+<dt><a name="index-symamd-3"></a><em>[<var>p</var>, <var>stats</var>] =</em> <strong>symamd</strong> <em>(<var>S</var>, <var>knobs</var>)</em></dt>
 <dd>
 <p>For a symmetric positive definite matrix <var>S</var>, returns the permutation
 vector p such that <code><var>S</var>(<var>p</var>, <var>p</var>)</code> tends to have a
@@ -550,16 +549,16 @@ always zero in the current version of SYMAMD (reserved for future use).
 <p>The ordering is followed by a column elimination tree post-ordering.
 </p>
 <p>The authors of the code itself are Stefan I. Larimore and
-Timothy A. Davis <a href="mailto:davis@cise.ufl.edu">davis@cise.ufl.edu</a>, University of Florida.  The algorithm was developed in collaboration with John Gilbert,
-Xerox PARC, and Esmond Ng, Oak Ridge National Laboratory.  (see
-<a href="http://www.cise.ufl.edu/research/sparse/colamd">http://www.cise.ufl.edu/research/sparse/colamd</a>)
+Timothy A. Davis.  The algorithm was developed in collaboration with
+John Gilbert, Xerox PARC, and Esmond Ng, Oak Ridge National
+Laboratory.  (see <a href="http://faculty.cse.tamu.edu/davis/suitesparse.html">http://faculty.cse.tamu.edu/davis/suitesparse.html</a>)
 </p>
 <p><strong>See also:</strong> <a href="#XREFcolperm">colperm</a>, <a href="#XREFcolamd">colamd</a>.
 </p></dd></dl>
 
 
 <a name="XREFsymrcm"></a><dl>
-<dt><a name="index-symrcm"></a>: <em><var>p</var> =</em> <strong>symrcm</strong> <em>(<var>S</var>)</em></dt>
+<dt><a name="index-symrcm"></a><em><var>p</var> =</em> <strong>symrcm</strong> <em>(<var>S</var>)</em></dt>
 <dd><p>Return the symmetric reverse Cuthill-McKee permutation of <var>S</var>.
 </p>
 <p><var>p</var> is a permutation vector such that
@@ -572,8 +571,9 @@ problems.  It works for both symmetric and asymmetric <var>S</var>.
 minimization problem.  The implementation is based in the descriptions found
 in
 </p>
-<p>E. Cuthill, J. McKee. <cite>Reducing the Bandwidth of Sparse
-Symmetric Matrices</cite>. Proceedings of the 24th ACM National Conference,
+<p>E. Cuthill, J. McKee.
+<cite>Reducing the Bandwidth of Sparse Symmetric Matrices</cite>.
+Proceedings of the 24th ACM National Conference,
 157&ndash;172 1969, Brandon Press, New Jersey.
 </p>
 <p>A. George, J.W.H. Liu. <cite>Computer Solution of Large Sparse

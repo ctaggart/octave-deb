@@ -65,17 +65,17 @@ Cartesian product of the index elements.
 </p>
 <p>For the ordinary and most common case, the number of indices
 (<code>nidx = numel (<var>idx</var>)</code>) matches the number of dimensions &lsquo;<samp>nd</samp>&rsquo;.
-In this case, each element of <var>idx</var> corresponds to its respective dimension,
-i.e., <code><var>idx</var>(1)</code> refers to dimension 1, <code><var>idx</var>(2)</code> refers to
-dimension 2, etc.  If <code>nidx&nbsp;&lt;&nbsp;nd</code><!-- /@w -->, and every index is less than the
-size of the array in the <em>i^{th}</em> dimension
+In this case, each element of <var>idx</var> corresponds to its respective
+dimension, i.e., <code><var>idx</var>(1)</code> refers to dimension 1,
+<code><var>idx</var>(2)</code> refers to dimension 2, etc.  If <code>nidx&nbsp;&lt;&nbsp;nd</code><!-- /@w -->, and
+every index is less than the size of the array in the <em>i^{th}</em> dimension
 (<code><var>idx</var>(i) &lt; size (<var>array</var>, i)</code>), then the index expression is
 padded with <code>nd&nbsp;<span class="nolinebreak">-</span>&nbsp;nidx</code><!-- /@w --> trailing singleton dimensions.  If
 <code>nidx&nbsp;&lt;&nbsp;nd</code><!-- /@w --> but one of the indices <code><var>idx</var>(i)</code> is outside the
 size of the current array, then the last <code>nd&nbsp;<span class="nolinebreak">-</span>&nbsp;nidx&nbsp;+&nbsp;1</code><!-- /@w --> dimensions
 are folded into a single dimension with an extent equal to the product of
 extents of the original dimensions.  This is easiest to understand with an
-example.  
+example.
 </p>
 <div class="example">
 <pre class="example">A = reshape (1:8, 2, 2, 2)  # Create 3-D array
@@ -215,8 +215,8 @@ endfor
 result.
 </p>
 <a name="XREFsub2ind"></a><dl>
-<dt><a name="index-sub2ind"></a>: <em><var>ind</var> =</em> <strong>sub2ind</strong> <em>(<var>dims</var>, <var>i</var>, <var>j</var>)</em></dt>
-<dt><a name="index-sub2ind-1"></a>: <em><var>ind</var> =</em> <strong>sub2ind</strong> <em>(<var>dims</var>, <var>s1</var>, <var>s2</var>, &hellip;, <var>sN</var>)</em></dt>
+<dt><a name="index-sub2ind"></a><em><var>ind</var> =</em> <strong>sub2ind</strong> <em>(<var>dims</var>, <var>i</var>, <var>j</var>)</em></dt>
+<dt><a name="index-sub2ind-1"></a><em><var>ind</var> =</em> <strong>sub2ind</strong> <em>(<var>dims</var>, <var>s1</var>, <var>s2</var>, &hellip;, <var>sN</var>)</em></dt>
 <dd><p>Convert subscripts to linear indices.
 </p>
 <p>The input <var>dims</var> is a dimension vector where each element is the size of
@@ -231,8 +231,8 @@ be specified with subscripts for the row, column, page, etc.  The functions
 <code>ind2sub</code> and <code>sub2ind</code> interconvert between the two forms.
 </p>
 <p>The linear index traverses dimension 1 (rows), then dimension 2 (columns), then
-dimension 3 (pages), etc. until it has numbered all of the elements.  Consider
-the following 3-by-3 matrices:
+dimension 3 (pages), etc. until it has numbered all of the elements.
+Consider the following 3-by-3 matrices:
 </p>
 <div class="example">
 <pre class="example">[(1,1), (1,2), (1,3)]     [1, 4, 7]
@@ -259,7 +259,7 @@ ind = sub2ind ([3, 3], s1, s2)
 
 
 <a name="XREFind2sub"></a><dl>
-<dt><a name="index-ind2sub"></a>: <em>[<var>s1</var>, <var>s2</var>, &hellip;, <var>sN</var>] =</em> <strong>ind2sub</strong> <em>(<var>dims</var>, <var>ind</var>)</em></dt>
+<dt><a name="index-ind2sub"></a><em>[<var>s1</var>, <var>s2</var>, &hellip;, <var>sN</var>] =</em> <strong>ind2sub</strong> <em>(<var>dims</var>, <var>ind</var>)</em></dt>
 <dd><p>Convert linear indices to subscripts.
 </p>
 <p>The input <var>dims</var> is a dimension vector where each element is the size of
@@ -274,8 +274,8 @@ be specified with subscripts for the row, column, page, etc.  The functions
 <code>ind2sub</code> and <code>sub2ind</code> interconvert between the two forms.
 </p>
 <p>The linear index traverses dimension 1 (rows), then dimension 2 (columns), then
-dimension 3 (pages), etc. until it has numbered all of the elements.  Consider
-the following 3-by-3 matrices:
+dimension 3 (pages), etc. until it has numbered all of the elements.
+Consider the following 3-by-3 matrices:
 </p>
 <div class="example">
 <pre class="example">[1, 4, 7]     [(1,1), (1,2), (1,3)]
@@ -324,8 +324,8 @@ r = ind2sub (dims, ind)
 
 
 <a name="XREFisindex"></a><dl>
-<dt><a name="index-isindex"></a>: <em></em> <strong>isindex</strong> <em>(<var>ind</var>)</em></dt>
-<dt><a name="index-isindex-1"></a>: <em></em> <strong>isindex</strong> <em>(<var>ind</var>, <var>n</var>)</em></dt>
+<dt><a name="index-isindex"></a><em></em> <strong>isindex</strong> <em>(<var>ind</var>)</em></dt>
+<dt><a name="index-isindex-1"></a><em></em> <strong>isindex</strong> <em>(<var>ind</var>, <var>n</var>)</em></dt>
 <dd><p>Return true if <var>ind</var> is a valid index.
 </p>
 <p>Valid indices are either positive integers (although possibly of real data
@@ -338,23 +338,6 @@ indexing using <var>ind</var> will not perform the check again.
 <p>Implementation Note: Strings are first converted to double values before the
 checks for valid indices are made.  Unless a string contains the NULL
 character &quot;\0&quot;, it will always be a valid index.
-</p></dd></dl>
-
-
-<a name="XREFallow_005fnoninteger_005frange_005fas_005findex"></a><dl>
-<dt><a name="index-allow_005fnoninteger_005frange_005fas_005findex"></a>: <em><var>val</var> =</em> <strong>allow_noninteger_range_as_index</strong> <em>()</em></dt>
-<dt><a name="index-allow_005fnoninteger_005frange_005fas_005findex-1"></a>: <em><var>old_val</var> =</em> <strong>allow_noninteger_range_as_index</strong> <em>(<var>new_val</var>)</em></dt>
-<dt><a name="index-allow_005fnoninteger_005frange_005fas_005findex-2"></a>: <em></em> <strong>allow_noninteger_range_as_index</strong> <em>(<var>new_val</var>, &quot;local&quot;)</em></dt>
-<dd><p>Query or set the internal variable that controls whether non-integer
-ranges are allowed as indices.
-</p>
-<p>This might be useful for <small>MATLAB</small> compatibility; however, it is still not
-entirely compatible because <small>MATLAB</small> treats the range expression
-differently in different contexts.
-</p>
-<p>When called from inside a function with the <code>&quot;local&quot;</code> option, the
-variable is changed locally for the function and any subroutines it calls.
-The original variable value is restored when exiting the function.
 </p></dd></dl>
 
 

@@ -1,20 +1,20 @@
-@c Copyright (C) 2004-2017 David Bateman
+@c Copyright (C) 2004-2018 David Bateman
 @c
 @c This file is part of Octave.
 @c
-@c Octave is free software; you can redistribute it and/or modify it
-@c under the terms of the GNU General Public License as published by the
-@c Free Software Foundation; either version 3 of the License, or (at
-@c your option) any later version.
+@c Octave is free software: you can redistribute it and/or modify it
+@c under the terms of the GNU General Public License as published by
+@c the Free Software Foundation, either version 3 of the License, or
+@c (at your option) any later version.
 @c
-@c Octave is distributed in the hope that it will be useful, but WITHOUT
-@c ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-@c FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-@c for more details.
+@c Octave is distributed in the hope that it will be useful, but
+@c WITHOUT ANY WARRANTY; without even the implied warranty of
+@c MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+@c GNU General Public License for more details.
 @c
 @c You should have received a copy of the GNU General Public License
 @c along with Octave; see the file COPYING.  If not, see
-@c <http://www.gnu.org/licenses/>.
+@c <https://www.gnu.org/licenses/>.
 
 @ifhtml
 @set htmltex
@@ -77,7 +77,7 @@ and storage given a priori knowledge of the particular class of problems
 that will be solved.  A good summary of the available techniques for storing
 sparse matrix is given by @nospell{Saad} @footnote{Y. Saad "SPARSKIT: A basic
 toolkit for sparse matrix computation", 1994,
-@url{http://www-users.cs.umn.edu/~saad/software/SPARSKIT/paper.ps}}.
+@url{https://www-users.cs.umn.edu/~saad/software/SPARSKIT/paper.ps}}.
 With full matrices, knowledge of the point of an element of the matrix
 within the matrix is implied by its position in the computers memory.
 However, this is not the case for sparse matrices, and so the positions
@@ -90,7 +90,7 @@ easy to grasp, but requires more storage than is strictly needed.
 
 The storage technique used within Octave is the compressed column
 format.  It is similar to the Yale format.
-@footnote{@url{http://en.wikipedia.org/wiki/Sparse_matrix#Yale_format}}
+@footnote{@url{https://en.wikipedia.org/wiki/Sparse_matrix#Yale_format}}
 In this format the position of each element in a row and the data are
 stored as previously.  However, if we assume that all elements in the
 same column are stored adjacent in the computers memory, then we only
@@ -788,14 +788,14 @@ or backward substitution, and goto 8
 sparse Cholesky@tie{}factorization using @sc{cholmod}.
 
 @item If the sparse Cholesky@tie{}factorization failed or the matrix is not
-Hermitian with a real positive diagonal, and the matrix is square, factorize
-using @sc{umfpack}.
+Hermitian with a real positive diagonal, and the matrix is square, factorize,
+solve, and perform one refinement iteration using @sc{umfpack}.
 
 @item If the matrix is not square, or any of the previous solvers flags
 a singular or near singular matrix, find a minimum norm solution using
 @sc{cxsparse}@footnote{The @sc{cholmod}, @sc{umfpack} and @sc{cxsparse}
 packages were written by Tim Davis and are available at
-@url{http://www.cise.ufl.edu/research/sparse/}}.
+@url{http://faculty.cse.tamu.edu/davis/suitesparse.html}}.
 @end enumerate
 
 The band density is defined as the number of nonzero values in the band
@@ -900,7 +900,7 @@ Omega.
 @end ifnottex
 Boundary conditions may specify the potential (Dirichlet
 boundary condition), its normal derivative across the boundary
-(Neumann boundary condition), or a weighted sum of the potential and
+(@nospell{Neumann} boundary condition), or a weighted sum of the potential and
 its derivative (Cauchy boundary condition).
 
 In a thermal model, we want to calculate the temperature in
@@ -911,7 +911,7 @@ $\Omega$
 Omega
 @end ifnottex
 and know the boundary temperature (Dirichlet condition)
-or heat flux (from which we can calculate the Neumann condition
+or heat flux (from which we can calculate the @nospell{Neumann} condition
 by dividing by the thermal conductivity at the boundary).  Similarly,
 in an electrical model, we want to calculate the voltage in
 @tex
@@ -921,9 +921,9 @@ $\Omega$
 Omega
 @end ifnottex
 and know the boundary voltage (Dirichlet) or current
-(Neumann condition after diving by the electrical conductivity).
+(@nospell{Neumann} condition after diving by the electrical conductivity).
 In an electrical model, it is common for much of the boundary
-to be electrically isolated; this is a Neumann boundary condition
+to be electrically isolated; this is a @nospell{Neumann} boundary condition
 with the current equal to zero.
 
 The simplest finite element models will divide
@@ -1047,8 +1047,8 @@ $SV = I$.
 @ifnottex
 @code{S * V = I}.
 @end ifnottex
-Based on the Dirichlet and Neumann boundary conditions, we are able to
-solve for the voltages at each vertex @code{V}.
+Based on the Dirichlet and @nospell{Neumann} boundary conditions, we are able
+to solve for the voltages at each vertex @code{V}.
 
 @example
   ## Dirichlet boundary conditions

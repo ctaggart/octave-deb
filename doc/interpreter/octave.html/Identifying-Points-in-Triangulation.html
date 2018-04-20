@@ -96,7 +96,7 @@ solution for the values of <var>beta</var> an additional criteria of
 <p>Solving for <var>beta</var> we can then write
 </p>
 <div class="example">
-<pre class="example"><var>beta</var>(1:end-1) = (<var>p</var> - <var>t</var>(end, :)) / 
+<pre class="example"><var>beta</var>(1:end-1) = (<var>p</var> - <var>t</var>(end, :)) /
                 (<var>t</var>(1:end-1, :) - ones (<var>N</var>, 1) * <var>t</var>(end, :))
 <var>beta</var>(end) = sum (<var>beta</var>(1:end-1))
 </pre></div>
@@ -118,7 +118,7 @@ of each of the simplices of the N-simplex and test the values of
 Barycentric coordinates are not explicitly formed.
 </p>
 <a name="XREFtsearch"></a><dl>
-<dt><a name="index-tsearch"></a>: <em><var>idx</var> =</em> <strong>tsearch</strong> <em>(<var>x</var>, <var>y</var>, <var>t</var>, <var>xi</var>, <var>yi</var>)</em></dt>
+<dt><a name="index-tsearch"></a><em><var>idx</var> =</em> <strong>tsearch</strong> <em>(<var>x</var>, <var>y</var>, <var>t</var>, <var>xi</var>, <var>yi</var>)</em></dt>
 <dd><p>Search for the enclosing Delaunay convex hull.
 </p>
 <p>For <code><var>t</var> = delaunay (<var>x</var>, <var>y</var>)</code>, finds the index in <var>t</var>
@@ -130,8 +130,8 @@ convex hull, <var>idx</var> is NaN.
 
 
 <a name="XREFtsearchn"></a><dl>
-<dt><a name="index-tsearchn"></a>: <em><var>idx</var> =</em> <strong>tsearchn</strong> <em>(<var>x</var>, <var>t</var>, <var>xi</var>)</em></dt>
-<dt><a name="index-tsearchn-1"></a>: <em>[<var>idx</var>, <var>p</var>] =</em> <strong>tsearchn</strong> <em>(<var>x</var>, <var>t</var>, <var>xi</var>)</em></dt>
+<dt><a name="index-tsearchn"></a><em><var>idx</var> =</em> <strong>tsearchn</strong> <em>(<var>x</var>, <var>t</var>, <var>xi</var>)</em></dt>
+<dt><a name="index-tsearchn-1"></a><em>[<var>idx</var>, <var>p</var>] =</em> <strong>tsearchn</strong> <em>(<var>x</var>, <var>t</var>, <var>xi</var>)</em></dt>
 <dd><p>Search for the enclosing Delaunay convex hull.
 </p>
 <p>For <code><var>t</var> = delaunayn (<var>x</var>)</code>, finds the index in <var>t</var>
@@ -178,8 +178,8 @@ point of the tessellation does not have to be one of the vertexes of the
 N-simplex within which the desired point is found.
 </p>
 <a name="XREFdsearch"></a><dl>
-<dt><a name="index-dsearch"></a>: <em><var>idx</var> =</em> <strong>dsearch</strong> <em>(<var>x</var>, <var>y</var>, <var>tri</var>, <var>xi</var>, <var>yi</var>)</em></dt>
-<dt><a name="index-dsearch-1"></a>: <em><var>idx</var> =</em> <strong>dsearch</strong> <em>(<var>x</var>, <var>y</var>, <var>tri</var>, <var>xi</var>, <var>yi</var>, <var>s</var>)</em></dt>
+<dt><a name="index-dsearch"></a><em><var>idx</var> =</em> <strong>dsearch</strong> <em>(<var>x</var>, <var>y</var>, <var>tri</var>, <var>xi</var>, <var>yi</var>)</em></dt>
+<dt><a name="index-dsearch-1"></a><em><var>idx</var> =</em> <strong>dsearch</strong> <em>(<var>x</var>, <var>y</var>, <var>tri</var>, <var>xi</var>, <var>yi</var>, <var>s</var>)</em></dt>
 <dd><p>Return the index <var>idx</var> of the closest point in <code><var>x</var>, <var>y</var></code>
 to the elements <code>[<var>xi</var>(:), <var>yi</var>(:)]</code>.
 </p>
@@ -190,10 +190,10 @@ to the elements <code>[<var>xi</var>(:), <var>yi</var>(:)]</code>.
 
 
 <a name="XREFdsearchn"></a><dl>
-<dt><a name="index-dsearchn"></a>: <em><var>idx</var> =</em> <strong>dsearchn</strong> <em>(<var>x</var>, <var>tri</var>, <var>xi</var>)</em></dt>
-<dt><a name="index-dsearchn-1"></a>: <em><var>idx</var> =</em> <strong>dsearchn</strong> <em>(<var>x</var>, <var>tri</var>, <var>xi</var>, <var>outval</var>)</em></dt>
-<dt><a name="index-dsearchn-2"></a>: <em><var>idx</var> =</em> <strong>dsearchn</strong> <em>(<var>x</var>, <var>xi</var>)</em></dt>
-<dt><a name="index-dsearchn-3"></a>: <em>[<var>idx</var>, <var>d</var>] =</em> <strong>dsearchn</strong> <em>(&hellip;)</em></dt>
+<dt><a name="index-dsearchn"></a><em><var>idx</var> =</em> <strong>dsearchn</strong> <em>(<var>x</var>, <var>tri</var>, <var>xi</var>)</em></dt>
+<dt><a name="index-dsearchn-1"></a><em><var>idx</var> =</em> <strong>dsearchn</strong> <em>(<var>x</var>, <var>tri</var>, <var>xi</var>, <var>outval</var>)</em></dt>
+<dt><a name="index-dsearchn-2"></a><em><var>idx</var> =</em> <strong>dsearchn</strong> <em>(<var>x</var>, <var>xi</var>)</em></dt>
+<dt><a name="index-dsearchn-3"></a><em>[<var>idx</var>, <var>d</var>] =</em> <strong>dsearchn</strong> <em>(&hellip;)</em></dt>
 <dd><p>Return the index <var>idx</var> of the closest point in <var>x</var> to the elements
 <var>xi</var>.
 </p>

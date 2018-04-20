@@ -60,12 +60,12 @@ Next: <a href="Functions-of-a-Matrix.html#Functions-of-a-Matrix" accesskey="n" r
 <a name="index-matrix-factorizations"></a>
 
 <a name="XREFchol"></a><dl>
-<dt><a name="index-chol"></a>: <em><var>R</var> =</em> <strong>chol</strong> <em>(<var>A</var>)</em></dt>
-<dt><a name="index-chol-1"></a>: <em>[<var>R</var>, <var>p</var>] =</em> <strong>chol</strong> <em>(<var>A</var>)</em></dt>
-<dt><a name="index-chol-2"></a>: <em>[<var>R</var>, <var>p</var>, <var>Q</var>] =</em> <strong>chol</strong> <em>(<var>A</var>)</em></dt>
-<dt><a name="index-chol-3"></a>: <em>[<var>R</var>, <var>p</var>, <var>Q</var>] =</em> <strong>chol</strong> <em>(<var>A</var>, &quot;vector&quot;)</em></dt>
-<dt><a name="index-chol-4"></a>: <em>[<var>L</var>, &hellip;] =</em> <strong>chol</strong> <em>(&hellip;, &quot;lower&quot;)</em></dt>
-<dt><a name="index-chol-5"></a>: <em>[<var>R</var>, &hellip;] =</em> <strong>chol</strong> <em>(&hellip;, &quot;upper&quot;)</em></dt>
+<dt><a name="index-chol"></a><em><var>R</var> =</em> <strong>chol</strong> <em>(<var>A</var>)</em></dt>
+<dt><a name="index-chol-1"></a><em>[<var>R</var>, <var>p</var>] =</em> <strong>chol</strong> <em>(<var>A</var>)</em></dt>
+<dt><a name="index-chol-2"></a><em>[<var>R</var>, <var>p</var>, <var>Q</var>] =</em> <strong>chol</strong> <em>(<var>A</var>)</em></dt>
+<dt><a name="index-chol-3"></a><em>[<var>R</var>, <var>p</var>, <var>Q</var>] =</em> <strong>chol</strong> <em>(<var>A</var>, &quot;vector&quot;)</em></dt>
+<dt><a name="index-chol-4"></a><em>[<var>L</var>, &hellip;] =</em> <strong>chol</strong> <em>(&hellip;, &quot;lower&quot;)</em></dt>
+<dt><a name="index-chol-5"></a><em>[<var>R</var>, &hellip;] =</em> <strong>chol</strong> <em>(&hellip;, &quot;upper&quot;)</em></dt>
 <dd><a name="index-Cholesky-factorization"></a>
 <p>Compute the upper Cholesky&nbsp;factor, <var>R</var>, of the real symmetric
 or complex Hermitian positive definite matrix <var>A</var>.
@@ -126,7 +126,7 @@ sparse matrices.
 
 
 <a name="XREFcholinv"></a><dl>
-<dt><a name="index-cholinv"></a>: <em></em> <strong>cholinv</strong> <em>(<var>A</var>)</em></dt>
+<dt><a name="index-cholinv"></a><em></em> <strong>cholinv</strong> <em>(<var>A</var>)</em></dt>
 <dd><p>Compute the inverse of the symmetric positive definite matrix <var>A</var> using
 the Cholesky&nbsp;factorization.
 </p>
@@ -135,7 +135,7 @@ the Cholesky&nbsp;factorization.
 
 
 <a name="XREFchol2inv"></a><dl>
-<dt><a name="index-chol2inv"></a>: <em></em> <strong>chol2inv</strong> <em>(<var>U</var>)</em></dt>
+<dt><a name="index-chol2inv"></a><em></em> <strong>chol2inv</strong> <em>(<var>U</var>)</em></dt>
 <dd><p>Invert a symmetric, positive definite square matrix from its Cholesky
 decomposition, <var>U</var>.
 </p>
@@ -148,7 +148,7 @@ diagonal elements.  <code>chol2inv (<var>U</var>)</code> provides
 
 
 <a name="XREFcholupdate"></a><dl>
-<dt><a name="index-cholupdate"></a>: <em>[<var>R1</var>, <var>info</var>] =</em> <strong>cholupdate</strong> <em>(<var>R</var>, <var>u</var>, <var>op</var>)</em></dt>
+<dt><a name="index-cholupdate"></a><em>[<var>R1</var>, <var>info</var>] =</em> <strong>cholupdate</strong> <em>(<var>R</var>, <var>u</var>, <var>op</var>)</em></dt>
 <dd><p>Update or downdate a Cholesky&nbsp;factorization.
 </p>
 <p>Given an upper triangular matrix <var>R</var> and a column vector <var>u</var>,
@@ -179,9 +179,11 @@ if <var>op</var> is <code>&quot;-&quot;</code>
 
 
 <a name="XREFcholinsert"></a><dl>
-<dt><a name="index-cholinsert"></a>: <em><var>R1</var> =</em> <strong>cholinsert</strong> <em>(<var>R</var>, <var>j</var>, <var>u</var>)</em></dt>
-<dt><a name="index-cholinsert-1"></a>: <em>[<var>R1</var>, <var>info</var>] =</em> <strong>cholinsert</strong> <em>(<var>R</var>, <var>j</var>, <var>u</var>)</em></dt>
-<dd><p>Given a Cholesky&nbsp;factorization of a real symmetric or complex Hermitian
+<dt><a name="index-cholinsert"></a><em><var>R1</var> =</em> <strong>cholinsert</strong> <em>(<var>R</var>, <var>j</var>, <var>u</var>)</em></dt>
+<dt><a name="index-cholinsert-1"></a><em>[<var>R1</var>, <var>info</var>] =</em> <strong>cholinsert</strong> <em>(<var>R</var>, <var>j</var>, <var>u</var>)</em></dt>
+<dd><p>Update a Cholesky factorization given a row or column to insert in the original factored matrix.
+</p>
+<p>Given a Cholesky&nbsp;factorization of a real symmetric or complex Hermitian
 positive definite matrix <var>A</var>&nbsp;=&nbsp;<var>R</var>&rsquo;*<var>R</var><!-- /@w -->, <var>R</var>&nbsp;upper
 triangular, return the Cholesky&nbsp;factorization of
 <var>A1</var>, where A1(p,p)&nbsp;=&nbsp;A<!-- /@w -->, A1(:,j)&nbsp;=&nbsp;A1(j,:)&rsquo;&nbsp;=&nbsp;u<!-- /@w --> and
@@ -204,8 +206,10 @@ p&nbsp;=&nbsp;<span class="nolinebreak">[1:j-1,j+1:n+1]</span><!-- /@w -->.  u(j
 
 
 <a name="XREFcholdelete"></a><dl>
-<dt><a name="index-choldelete"></a>: <em><var>R1</var> =</em> <strong>choldelete</strong> <em>(<var>R</var>, <var>j</var>)</em></dt>
-<dd><p>Given a Cholesky&nbsp;factorization of a real symmetric or complex Hermitian
+<dt><a name="index-choldelete"></a><em><var>R1</var> =</em> <strong>choldelete</strong> <em>(<var>R</var>, <var>j</var>)</em></dt>
+<dd><p>Update a Cholesky factorization given a row or column to delete from the original factored matrix.
+</p>
+<p>Given a Cholesky&nbsp;factorization of a real symmetric or complex Hermitian
 positive definite matrix <var>A</var>&nbsp;=&nbsp;<var>R</var>&rsquo;*<var>R</var><!-- /@w -->, <var>R</var>&nbsp;upper
 triangular, return the Cholesky&nbsp;factorization of A(p,p)<!-- /@w -->, where
 p&nbsp;=&nbsp;<span class="nolinebreak">[1:j-1,j+1:n+1]</span><!-- /@w -->.
@@ -215,8 +219,10 @@ p&nbsp;=&nbsp;<span class="nolinebreak">[1:j-1,j+1:n+1]</span><!-- /@w -->.
 
 
 <a name="XREFcholshift"></a><dl>
-<dt><a name="index-cholshift"></a>: <em><var>R1</var> =</em> <strong>cholshift</strong> <em>(<var>R</var>, <var>i</var>, <var>j</var>)</em></dt>
-<dd><p>Given a Cholesky&nbsp;factorization of a real symmetric or complex Hermitian
+<dt><a name="index-cholshift"></a><em><var>R1</var> =</em> <strong>cholshift</strong> <em>(<var>R</var>, <var>i</var>, <var>j</var>)</em></dt>
+<dd><p>Update a Cholesky factorization given a range of columns to shift in the original factored matrix.
+</p>
+<p>Given a Cholesky&nbsp;factorization of a real symmetric or complex Hermitian
 positive definite matrix <var>A</var>&nbsp;=&nbsp;<var>R</var>&rsquo;*<var>R</var><!-- /@w -->, <var>R</var>&nbsp;upper
 triangular, return the Cholesky&nbsp;factorization of
 <var>A</var>(p,p)<!-- /@w -->, where p<!-- /@w --> is the permutation <br>
@@ -230,8 +236,8 @@ triangular, return the Cholesky&nbsp;factorization of
 
 
 <a name="XREFhess"></a><dl>
-<dt><a name="index-hess"></a>: <em><var>H</var> =</em> <strong>hess</strong> <em>(<var>A</var>)</em></dt>
-<dt><a name="index-hess-1"></a>: <em>[<var>P</var>, <var>H</var>] =</em> <strong>hess</strong> <em>(<var>A</var>)</em></dt>
+<dt><a name="index-hess"></a><em><var>H</var> =</em> <strong>hess</strong> <em>(<var>A</var>)</em></dt>
+<dt><a name="index-hess-1"></a><em>[<var>P</var>, <var>H</var>] =</em> <strong>hess</strong> <em>(<var>A</var>)</em></dt>
 <dd><a name="index-Hessenberg-decomposition"></a>
 <p>Compute the Hessenberg decomposition of the matrix <var>A</var>.
 </p>
@@ -251,13 +257,13 @@ IEEE Transactions on Automatic Control, 1979).
 
 
 <a name="XREFlu"></a><dl>
-<dt><a name="index-lu"></a>: <em>[<var>L</var>, <var>U</var>] =</em> <strong>lu</strong> <em>(<var>A</var>)</em></dt>
-<dt><a name="index-lu-1"></a>: <em>[<var>L</var>, <var>U</var>, <var>P</var>] =</em> <strong>lu</strong> <em>(<var>A</var>)</em></dt>
-<dt><a name="index-lu-2"></a>: <em>[<var>L</var>, <var>U</var>, <var>P</var>, <var>Q</var>] =</em> <strong>lu</strong> <em>(<var>S</var>)</em></dt>
-<dt><a name="index-lu-3"></a>: <em>[<var>L</var>, <var>U</var>, <var>P</var>, <var>Q</var>, <var>R</var>] =</em> <strong>lu</strong> <em>(<var>S</var>)</em></dt>
-<dt><a name="index-lu-4"></a>: <em>[&hellip;] =</em> <strong>lu</strong> <em>(<var>S</var>, <var>thres</var>)</em></dt>
-<dt><a name="index-lu-5"></a>: <em><var>y</var> =</em> <strong>lu</strong> <em>(&hellip;)</em></dt>
-<dt><a name="index-lu-6"></a>: <em>[&hellip;] =</em> <strong>lu</strong> <em>(&hellip;, &quot;vector&quot;)</em></dt>
+<dt><a name="index-lu"></a><em>[<var>L</var>, <var>U</var>] =</em> <strong>lu</strong> <em>(<var>A</var>)</em></dt>
+<dt><a name="index-lu-1"></a><em>[<var>L</var>, <var>U</var>, <var>P</var>] =</em> <strong>lu</strong> <em>(<var>A</var>)</em></dt>
+<dt><a name="index-lu-2"></a><em>[<var>L</var>, <var>U</var>, <var>P</var>, <var>Q</var>] =</em> <strong>lu</strong> <em>(<var>S</var>)</em></dt>
+<dt><a name="index-lu-3"></a><em>[<var>L</var>, <var>U</var>, <var>P</var>, <var>Q</var>, <var>R</var>] =</em> <strong>lu</strong> <em>(<var>S</var>)</em></dt>
+<dt><a name="index-lu-4"></a><em>[&hellip;] =</em> <strong>lu</strong> <em>(<var>S</var>, <var>thres</var>)</em></dt>
+<dt><a name="index-lu-5"></a><em><var>y</var> =</em> <strong>lu</strong> <em>(&hellip;)</em></dt>
+<dt><a name="index-lu-6"></a><em>[&hellip;] =</em> <strong>lu</strong> <em>(&hellip;, &quot;vector&quot;)</em></dt>
 <dd><a name="index-LU-decomposition"></a>
 <p>Compute the LU&nbsp;decomposition of <var>A</var>.
 </p>
@@ -293,14 +299,14 @@ p =
 <p>The matrix is not required to be square.
 </p>
 <p>When called with two or three output arguments and a sparse input matrix,
-<code>lu</code> does not attempt to perform sparsity preserving column
-permutations.  Called with a fourth output argument, the sparsity
-preserving column transformation <var>Q</var> is returned, such that
-<code><var>P</var> * <var>A</var> * <var>Q</var> = <var>L</var> * <var>U</var></code>.
+<code>lu</code> does not attempt to perform sparsity preserving column permutations.
+Called with a fourth output argument, the sparsity preserving column
+transformation <var>Q</var> is returned, such that
+<code><var>P</var> * <var>A</var> * <var>Q</var> = <var>L</var> * <var>U</var></code>.  This is the
+<strong>preferred</strong> way to call <code>lu</code> with sparse input matrices.
 </p>
-<p>Called with a fifth output argument and a sparse input matrix,
-<code>lu</code> attempts to use a scaling factor <var>R</var> on the input matrix
-such that
+<p>Called with a fifth output argument and a sparse input matrix, <code>lu</code>
+attempts to use a scaling factor <var>R</var> on the input matrix such that
 <code><var>P</var> * (<var>R</var> \ <var>A</var>) * <var>Q</var> = <var>L</var> * <var>U</var></code>.
 This typically leads to a sparser and more stable factorization.
 </p>
@@ -330,8 +336,8 @@ permutation information.
 
 
 <a name="XREFluupdate"></a><dl>
-<dt><a name="index-luupdate"></a>: <em>[<var>L</var>, <var>U</var>] =</em> <strong>luupdate</strong> <em>(<var>L</var>, <var>U</var>, <var>x</var>, <var>y</var>)</em></dt>
-<dt><a name="index-luupdate-1"></a>: <em>[<var>L</var>, <var>U</var>, <var>P</var>] =</em> <strong>luupdate</strong> <em>(<var>L</var>, <var>U</var>, <var>P</var>, <var>x</var>, <var>y</var>)</em></dt>
+<dt><a name="index-luupdate"></a><em>[<var>L</var>, <var>U</var>] =</em> <strong>luupdate</strong> <em>(<var>L</var>, <var>U</var>, <var>x</var>, <var>y</var>)</em></dt>
+<dt><a name="index-luupdate-1"></a><em>[<var>L</var>, <var>U</var>, <var>P</var>] =</em> <strong>luupdate</strong> <em>(<var>L</var>, <var>U</var>, <var>P</var>, <var>x</var>, <var>y</var>)</em></dt>
 <dd><p>Given an LU&nbsp;factorization of a real or complex matrix
 <var>A</var>&nbsp;=&nbsp;<var>L</var>*<var>U</var><!-- /@w -->, <var>L</var>&nbsp;lower unit trapezoidal and
 <var>U</var>&nbsp;upper trapezoidal, return the LU&nbsp;factorization
@@ -374,20 +380,25 @@ factorization from scratch.
 
 
 <a name="XREFqr"></a><dl>
-<dt><a name="index-qr"></a>: <em>[<var>Q</var>, <var>R</var>] =</em> <strong>qr</strong> <em>(<var>A</var>)</em></dt>
-<dt><a name="index-qr-1"></a>: <em>[<var>Q</var>, <var>R</var>, <var>P</var>] =</em> <strong>qr</strong> <em>(<var>A</var>) # non-sparse A</em></dt>
-<dt><a name="index-qr-2"></a>: <em><var>X</var> =</em> <strong>qr</strong> <em>(<var>A</var>)</em></dt>
-<dt><a name="index-qr-3"></a>: <em><var>R</var> =</em> <strong>qr</strong> <em>(<var>A</var>) # sparse A</em></dt>
-<dt><a name="index-qr-4"></a>: <em>[<var>C</var>, <var>R</var>] =</em> <strong>qr</strong> <em>(<var>A</var>, <var>B</var>)</em></dt>
-<dt><a name="index-qr-5"></a>: <em>[&hellip;] =</em> <strong>qr</strong> <em>(&hellip;, 0)</em></dt>
-<dt><a name="index-qr-6"></a>: <em>[&hellip;] =</em> <strong>qr</strong> <em>(&hellip;, 'vector')</em></dt>
-<dt><a name="index-qr-7"></a>: <em>[&hellip;] =</em> <strong>qr</strong> <em>(&hellip;, 'matrix')</em></dt>
+<dt><a name="index-qr"></a><em>[<var>Q</var>, <var>R</var>] =</em> <strong>qr</strong> <em>(<var>A</var>)</em></dt>
+<dt><a name="index-qr-1"></a><em>[<var>Q</var>, <var>R</var>, <var>P</var>] =</em> <strong>qr</strong> <em>(<var>A</var>)  # non-sparse A</em></dt>
+<dt><a name="index-qr-2"></a><em><var>X</var> =</em> <strong>qr</strong> <em>(<var>A</var>)  # non-sparse A</em></dt>
+<dt><a name="index-qr-3"></a><em><var>R</var> =</em> <strong>qr</strong> <em>(<var>A</var>)  # sparse A</em></dt>
+<dt><a name="index-qr-4"></a><em>[<var>C</var>, <var>R</var>] =</em> <strong>qr</strong> <em>(<var>A</var>, <var>B</var>)</em></dt>
+<dt><a name="index-qr-5"></a><em>[&hellip;] =</em> <strong>qr</strong> <em>(&hellip;, 0)</em></dt>
+<dt><a name="index-qr-6"></a><em>[&hellip;] =</em> <strong>qr</strong> <em>(&hellip;, &quot;vector&quot;)</em></dt>
+<dt><a name="index-qr-7"></a><em>[&hellip;] =</em> <strong>qr</strong> <em>(&hellip;, &quot;matrix&quot;)</em></dt>
 <dd><a name="index-QR-factorization"></a>
 <p>Compute the QR&nbsp;factorization of <var>A</var>, using standard <small>LAPACK</small>
 subroutines.
-The QR&nbsp;factorization is
-<code><var>Q</var> * <var>R</var> = <var>A</var></code> where <var>Q</var> is an orthogonal matrix and
-<var>R</var> is upper triangular.
+</p>
+<p>The QR&nbsp;factorization is
+</p>
+<div class="example">
+<pre class="example"><var>Q</var> * <var>R</var> = <var>A</var>
+</pre></div>
+
+<p>where <var>Q</var> is an orthogonal matrix and <var>R</var> is upper triangular.
 </p>
 <p>For example, given the matrix <code><var>A</var> = [1, 2; 3, 4]</code>,
 </p>
@@ -409,29 +420,35 @@ The QR&nbsp;factorization is
    0.00000  -0.63246
 </pre></div>
 
-<p>The <code>qr</code> factorization has applications in the solution of least
-squares problems
+<p>which multiplied together return the original matrix
 </p>
 <div class="example">
-<pre class="example">min norm(A x - b)
+<pre class="example"><var>Q</var> * <var>R</var>
+  &rArr;
+     1.0000   2.0000
+     3.0000   4.0000
 </pre></div>
 
-<p>for overdetermined systems of equations (i.e.,
-<var>A</var>
-is a tall, thin matrix).
+<p>If just a single return value is requested then it is either <var>R</var>, if
+<var>A</var> is sparse, or <var>X</var>, such that <code><var>R</var> = triu (<var>X</var>)</code> if
+<var>A</var> is full.  (Note: unlike most commands, the single return value is not
+the first return value when multiple values are requested.)
 </p>
-<p>If only a single return value is requested, then it is either <var>R</var> if
-<var>A</var> is sparse, or <var>X</var> such that <code><var>R</var> = triu (<var>X</var>)</code> if
-<var>A</var> is full.
-(Note: Unlike most commands, the single return value is not
-the first return value when multiple are requested.)
+<p>If the matrix <var>A</var> is full, and a third output <var>P</var> is requested, then
+<code>qr</code> calculates the permuted QR&nbsp;factorization
 </p>
+<div class="example">
+<pre class="example"><var>Q</var> * <var>R</var> = <var>A</var> * <var>P</var>
+</pre></div>
 
-<p>If the matrix <var>A</var> is full, the permuted QR&nbsp;factorization
-<code>[<var>Q</var>, <var>R</var>, <var>P</var>] = qr (<var>A</var>)</code> forms the
-QR&nbsp;factorization such that the diagonal entries of <var>R</var> are
-decreasing in magnitude order.  For example, given the matrix
-<code>a = [1, 2; 3, 4]</code>,
+<p>where <var>Q</var> is an orthogonal matrix, <var>R</var> is upper triangular, and
+<var>P</var> is a permutation matrix.
+</p>
+<p>The permuted QR&nbsp;factorization has the additional property that the
+diagonal entries of <var>R</var> are ordered by decreasing magnitude.  In other
+words, <code>abs (diag (<var>R</var>))</code> will be ordered from largest to smallest.
+</p>
+<p>For example, given the matrix <code><var>A</var> = [1, 2; 3, 4]</code>,
 </p>
 <div class="example">
 <pre class="example">[<var>Q</var>, <var>R</var>, <var>P</var>] = qr (<var>A</var>)
@@ -456,36 +473,55 @@ decreasing in magnitude order.  For example, given the matrix
    1  0
 </pre></div>
 
-<p>The permuted <code>qr</code> factorization
-<code>[<var>Q</var>, <var>R</var>, <var>P</var>] = qr (<var>A</var>)</code> factorization allows the
-construction of an orthogonal basis of <code>span (A)</code>.
-</p>
-<p>If the matrix <var>A</var> is sparse, then the sparse QR&nbsp;factorization
-of <var>A</var> is computed using <small>CSPARSE</small>.
-As the matrix <var>Q</var> is in general a full matrix,
-it is recommended to request only one return value,
-which is the <var>Q</var>-less factorization <var>R</var> of <var>A</var>, such that
-<code><var>R</var> = chol (<var>A</var>' * <var>A</var>)</code>.
+<p>If the input matrix <var>A</var> is sparse then the sparse QR&nbsp;factorization
+is computed using <small>CSPARSE</small>.  Because the matrix <var>Q</var> is, in general, a
+full matrix, it is recommended to request only one return value <var>R</var>.  In
+that case, the computation avoids the construction of <var>Q</var> and returns
+<var>R</var> such that <code><var>R</var> = chol (<var>A</var>' * <var>A</var>)</code>.
 </p>
 <p>If an additional matrix <var>B</var> is supplied and two return values are
-requested, then <code>qr</code> returns
-<var>C</var>, where <code><var>C</var> = <var>Q</var>' * <var>B</var></code>.  This allows the
-least squares approximation of <code><var>A</var> \ <var>B</var></code> to be calculated
-as
+requested, then <code>qr</code> returns <var>C</var>, where
+<code><var>C</var> = <var>Q</var>' * <var>B</var></code>.  This allows the least squares
+approximation of <code><var>A</var> \ <var>B</var></code> to be calculated as
 </p>
 <div class="example">
 <pre class="example">[<var>C</var>, <var>R</var>] = qr (<var>A</var>, <var>B</var>)
-x = <var>R</var> \ <var>C</var>
+<var>x</var> = <var>R</var> \ <var>C</var>
 </pre></div>
 
-<p>If the final argument is the scalar 0 and the number of rows is larger
-than the number of columns, then an <code>&quot;economy&quot;</code> factorization is
-returned, omitting zeroes of <var>R</var> and the corresponding columns of <var>Q</var>.
-That is, <var>R</var> will have only <code>size (<var>A</var>,1)</code> rows.  In this case,
-<var>P</var> is a vector rather than a matrix.
-</p>
 <p>If the final argument is the string <code>&quot;vector&quot;</code> then <var>P</var> is a
-permutation vector instead of a permutation matrix.
+permutation vector (of the columns of <var>A</var>) instead of a permutation matrix.
+In this case, the defining relationship is
+</p>
+<div class="example">
+<pre class="example"><var>Q</var> * <var>R</var> = <var>A</var>(:, <var>P</var>)
+</pre></div>
+
+<p>The default, however, is to return a permutation matrix and this may be
+explicitly specified by using a final argument of <code>&quot;matrix&quot;</code>.
+</p>
+<p>If the final argument is the scalar 0 an <code>&quot;economy&quot;</code> factorization is
+returned.  When the original matrix <var>A</var> has size MxN and M &gt; N then the
+<code>&quot;economy&quot;</code> factorization will calculate just N rows in <var>R</var> and N
+columns in <var>Q</var> and omit the zeros in <var>R</var>.  If M &le; N there is no
+difference between the economy and standard factorizations.  When calculating
+an <code>&quot;economy&quot;</code> factorization the output <var>P</var> is always a vector
+rather than a matrix.
+</p>
+<p>Background: The QR factorization has applications in the solution of least
+squares problems
+</p>
+<div class="example">
+<pre class="example">min norm (A*x - b)
+</pre></div>
+
+<p>for overdetermined systems of equations (i.e.,
+<var>A</var>
+is a tall, thin matrix).
+</p>
+<p>The permuted QR&nbsp;factorization
+<code>[<var>Q</var>, <var>R</var>, <var>P</var>] = qr (<var>A</var>)</code> allows the construction of an
+orthogonal basis of <code>span (A)</code>.
 </p>
 
 <p><strong>See also:</strong> <a href="#XREFchol">chol</a>, <a href="#XREFhess">hess</a>, <a href="#XREFlu">lu</a>, <a href="#XREFqz">qz</a>, <a href="#XREFschur">schur</a>, <a href="#XREFsvd">svd</a>, <a href="#XREFqrupdate">qrupdate</a>, <a href="#XREFqrinsert">qrinsert</a>, <a href="#XREFqrdelete">qrdelete</a>, <a href="#XREFqrshift">qrshift</a>.
@@ -493,8 +529,10 @@ permutation vector instead of a permutation matrix.
 
 
 <a name="XREFqrupdate"></a><dl>
-<dt><a name="index-qrupdate"></a>: <em>[<var>Q1</var>, <var>R1</var>] =</em> <strong>qrupdate</strong> <em>(<var>Q</var>, <var>R</var>, <var>u</var>, <var>v</var>)</em></dt>
-<dd><p>Given a QR&nbsp;factorization of a real or complex matrix
+<dt><a name="index-qrupdate"></a><em>[<var>Q1</var>, <var>R1</var>] =</em> <strong>qrupdate</strong> <em>(<var>Q</var>, <var>R</var>, <var>u</var>, <var>v</var>)</em></dt>
+<dd><p>Update a QR factorization given update vectors or matrices.
+</p>
+<p>Given a QR&nbsp;factorization of a real or complex matrix
 <var>A</var>&nbsp;=&nbsp;<var>Q</var>*<var>R</var><!-- /@w -->, <var>Q</var>&nbsp;unitary and
 <var>R</var>&nbsp;upper trapezoidal, return the QR&nbsp;factorization of
 <var>A</var>&nbsp;+&nbsp;<var>u</var>*<var>v</var>&rsquo;<!-- /@w -->, where <var>u</var> and <var>v</var> are column vectors
@@ -512,8 +550,11 @@ economized (R is square).
 
 
 <a name="XREFqrinsert"></a><dl>
-<dt><a name="index-qrinsert"></a>: <em>[<var>Q1</var>, <var>R1</var>] =</em> <strong>qrinsert</strong> <em>(<var>Q</var>, <var>R</var>, <var>j</var>, <var>x</var>, <var>orient</var>)</em></dt>
-<dd><p>Given a QR&nbsp;factorization of a real or complex matrix
+<dt><a name="index-qrinsert"></a><em>[<var>Q1</var>, <var>R1</var>] =</em> <strong>qrinsert</strong> <em>(<var>Q</var>, <var>R</var>, <var>j</var>, <var>x</var>, <var>orient</var>)</em></dt>
+<dd><p>Update a QR factorization given a row or column to insert in the original factored matrix.
+</p>
+
+<p>Given a QR&nbsp;factorization of a real or complex matrix
 <var>A</var>&nbsp;=&nbsp;<var>Q</var>*<var>R</var><!-- /@w -->, <var>Q</var>&nbsp;unitary and
 <var>R</var>&nbsp;upper trapezoidal, return the QR&nbsp;factorization of
 <span class="nolinebreak">[A(:,1:j-1)</span>&nbsp;x&nbsp;A(:,j:n)]<!-- /@w -->, where <var>u</var> is a column vector to be inserted
@@ -539,8 +580,10 @@ be either full (Q is square) or economized (R is square).
 
 
 <a name="XREFqrdelete"></a><dl>
-<dt><a name="index-qrdelete"></a>: <em>[<var>Q1</var>, <var>R1</var>] =</em> <strong>qrdelete</strong> <em>(<var>Q</var>, <var>R</var>, <var>j</var>, <var>orient</var>)</em></dt>
-<dd><p>Given a QR&nbsp;factorization of a real or complex matrix
+<dt><a name="index-qrdelete"></a><em>[<var>Q1</var>, <var>R1</var>] =</em> <strong>qrdelete</strong> <em>(<var>Q</var>, <var>R</var>, <var>j</var>, <var>orient</var>)</em></dt>
+<dd><p>Update a QR factorization given a row or column to delete from the original factored matrix.
+</p>
+<p>Given a QR&nbsp;factorization of a real or complex matrix
 <var>A</var>&nbsp;=&nbsp;<var>Q</var>*<var>R</var><!-- /@w -->, <var>Q</var>&nbsp;unitary and
 <var>R</var>&nbsp;upper trapezoidal, return the QR&nbsp;factorization of
 <span class="nolinebreak">[A(:,1:j-1),</span>&nbsp;U,&nbsp;A(:,j:n)]<!-- /@w -->,
@@ -566,8 +609,10 @@ be either full (Q is square) or economized (R is square).
 
 
 <a name="XREFqrshift"></a><dl>
-<dt><a name="index-qrshift"></a>: <em>[<var>Q1</var>, <var>R1</var>] =</em> <strong>qrshift</strong> <em>(<var>Q</var>, <var>R</var>, <var>i</var>, <var>j</var>)</em></dt>
-<dd><p>Given a QR&nbsp;factorization of a real or complex matrix
+<dt><a name="index-qrshift"></a><em>[<var>Q1</var>, <var>R1</var>] =</em> <strong>qrshift</strong> <em>(<var>Q</var>, <var>R</var>, <var>i</var>, <var>j</var>)</em></dt>
+<dd><p>Update a QR factorization given a range of columns to shift in the original factored matrix.
+</p>
+<p>Given a QR&nbsp;factorization of a real or complex matrix
 <var>A</var>&nbsp;=&nbsp;<var>Q</var>*<var>R</var><!-- /@w -->, <var>Q</var>&nbsp;unitary and
 <var>R</var>&nbsp;upper trapezoidal, return the QR&nbsp;factorization
 of <var>A</var>(:,p)<!-- /@w -->, where p<!-- /@w --> is the permutation <br>
@@ -581,12 +626,15 @@ of <var>A</var>(:,p)<!-- /@w -->, where p<!-- /@w --> is the permutation <br>
 
 
 <a name="XREFqz"></a><dl>
-<dt><a name="index-qz"></a>: <em><var>lambda</var> =</em> <strong>qz</strong> <em>(<var>A</var>, <var>B</var>)</em></dt>
-<dt><a name="index-qz-1"></a>: <em>[<var>AA</var>, <var>BB</var>, <var>Q</var>, <var>Z</var>, <var>V</var>, <var>W</var>, <var>lambda</var>] =</em> <strong>qz</strong> <em>(<var>A</var>, <var>B</var>)</em></dt>
-<dt><a name="index-qz-2"></a>: <em>[<var>AA</var>, <var>BB</var>, <var>Z</var>] =</em> <strong>qz</strong> <em>(<var>A</var>, <var>B</var>, <var>opt</var>)</em></dt>
-<dt><a name="index-qz-3"></a>: <em>[<var>AA</var>, <var>BB</var>, <var>Z</var>, <var>lambda</var>] =</em> <strong>qz</strong> <em>(<var>A</var>, <var>B</var>, <var>opt</var>)</em></dt>
-<dd><p>QZ&nbsp;decomposition of the generalized eigenvalue problem
+<dt><a name="index-qz"></a><em><var>lambda</var> =</em> <strong>qz</strong> <em>(<var>A</var>, <var>B</var>)</em></dt>
+<dt><a name="index-qz-1"></a><em>[<var>AA</var>, <var>BB</var>, <var>Q</var>, <var>Z</var>, <var>V</var>, <var>W</var>, <var>lambda</var>] =</em> <strong>qz</strong> <em>(<var>A</var>, <var>B</var>)</em></dt>
+<dt><a name="index-qz-2"></a><em>[<var>AA</var>, <var>BB</var>, <var>Z</var>] =</em> <strong>qz</strong> <em>(<var>A</var>, <var>B</var>, <var>opt</var>)</em></dt>
+<dt><a name="index-qz-3"></a><em>[<var>AA</var>, <var>BB</var>, <var>Z</var>, <var>lambda</var>] =</em> <strong>qz</strong> <em>(<var>A</var>, <var>B</var>, <var>opt</var>)</em></dt>
+<dd><p>Compute the QZ&nbsp;decomposition of a generalized eigenvalue problem.
 </p>
+<p>The generalized eigenvalue problem is defined as
+</p>
+
 <p><em>A x = <var>lambda</var> B x</em>
 </p>
 
@@ -617,9 +665,9 @@ eigenvalues.
 </li><li> <code>[<var>AA</var>, <var>BB</var>, <var>Z</var> {, <var>lambda</var>}] = qz (<var>A</var>, <var>B</var>, <var>opt</var>)</code>
 
 <p>As in form 2 above, but allows ordering of generalized eigenpairs for, e.g.,
-solution of discrete time algebraic Riccati equations.  Form 3 is not available
-for complex matrices, and does not compute the generalized eigenvectors
-<var>V</var>, <var>W</var>, nor the orthogonal matrix <var>Q</var>.
+solution of discrete time algebraic Riccati equations.  Form 3 is not
+available for complex matrices, and does not compute the generalized
+eigenvectors <var>V</var>, <var>W</var>, nor the orthogonal matrix <var>Q</var>.
 </p>
 <dl compact="compact">
 <dt><var>opt</var></dt>
@@ -665,7 +713,7 @@ half-plane
 
 
 <a name="XREFqzhess"></a><dl>
-<dt><a name="index-qzhess"></a>: <em>[<var>aa</var>, <var>bb</var>, <var>q</var>, <var>z</var>] =</em> <strong>qzhess</strong> <em>(<var>A</var>, <var>B</var>)</em></dt>
+<dt><a name="index-qzhess"></a><em>[<var>aa</var>, <var>bb</var>, <var>q</var>, <var>z</var>] =</em> <strong>qzhess</strong> <em>(<var>A</var>, <var>B</var>)</em></dt>
 <dd><p>Compute the Hessenberg-triangular decomposition of the matrix pencil
 <code>(<var>A</var>, <var>B</var>)</code>, returning
 <code><var>aa</var> = <var>q</var> * <var>A</var> * <var>z</var></code>,
@@ -694,11 +742,11 @@ Moler and Stewart&rsquo;s QZ&nbsp;decomposition algorithm.
 
 
 <a name="XREFschur"></a><dl>
-<dt><a name="index-schur"></a>: <em><var>S</var> =</em> <strong>schur</strong> <em>(<var>A</var>)</em></dt>
-<dt><a name="index-schur-1"></a>: <em><var>S</var> =</em> <strong>schur</strong> <em>(<var>A</var>, &quot;real&quot;)</em></dt>
-<dt><a name="index-schur-2"></a>: <em><var>S</var> =</em> <strong>schur</strong> <em>(<var>A</var>, &quot;complex&quot;)</em></dt>
-<dt><a name="index-schur-3"></a>: <em><var>S</var> =</em> <strong>schur</strong> <em>(<var>A</var>, <var>opt</var>)</em></dt>
-<dt><a name="index-schur-4"></a>: <em>[<var>U</var>, <var>S</var>] =</em> <strong>schur</strong> <em>(&hellip;)</em></dt>
+<dt><a name="index-schur"></a><em><var>S</var> =</em> <strong>schur</strong> <em>(<var>A</var>)</em></dt>
+<dt><a name="index-schur-1"></a><em><var>S</var> =</em> <strong>schur</strong> <em>(<var>A</var>, &quot;real&quot;)</em></dt>
+<dt><a name="index-schur-2"></a><em><var>S</var> =</em> <strong>schur</strong> <em>(<var>A</var>, &quot;complex&quot;)</em></dt>
+<dt><a name="index-schur-3"></a><em><var>S</var> =</em> <strong>schur</strong> <em>(<var>A</var>, <var>opt</var>)</em></dt>
+<dt><a name="index-schur-4"></a><em>[<var>U</var>, <var>S</var>] =</em> <strong>schur</strong> <em>(&hellip;)</em></dt>
 <dd><a name="index-Schur-decomposition"></a>
 <p>Compute the Schur&nbsp;decomposition of <var>A</var>.
 </p>
@@ -736,15 +784,15 @@ leading <var>k</var> columns of <var>U</var> always span the <var>A</var>-invari
 subspace corresponding to the <var>k</var> leading eigenvalues of <var>S</var>.
 </p>
 <p>The Schur&nbsp;decomposition is used to compute eigenvalues of a square
-matrix, and has applications in the solution of algebraic Riccati equations
-in control (see <code>are</code> and <code>dare</code>).
+matrix, and has applications in the solution of algebraic Riccati
+equations in control (see <code>are</code> and <code>dare</code>).
 </p>
 <p><strong>See also:</strong> <a href="#XREFrsf2csf">rsf2csf</a>, <a href="#XREFordschur">ordschur</a>, <a href="#XREFlu">lu</a>, <a href="#XREFchol">chol</a>, <a href="#XREFhess">hess</a>, <a href="#XREFqr">qr</a>, <a href="#XREFqz">qz</a>, <a href="#XREFsvd">svd</a>.
 </p></dd></dl>
 
 
 <a name="XREFrsf2csf"></a><dl>
-<dt><a name="index-rsf2csf"></a>: <em>[<var>U</var>, <var>T</var>] =</em> <strong>rsf2csf</strong> <em>(<var>UR</var>, <var>TR</var>)</em></dt>
+<dt><a name="index-rsf2csf"></a><em>[<var>U</var>, <var>T</var>] =</em> <strong>rsf2csf</strong> <em>(<var>UR</var>, <var>TR</var>)</em></dt>
 <dd><p>Convert a real, upper quasi-triangular Schur&nbsp;form <var>TR</var> to a
 complex, upper triangular Schur&nbsp;form <var>T</var>.
 </p>
@@ -760,7 +808,7 @@ complex, upper triangular Schur&nbsp;form <var>T</var>.
 
 
 <a name="XREFordschur"></a><dl>
-<dt><a name="index-ordschur"></a>: <em>[<var>UR</var>, <var>SR</var>] =</em> <strong>ordschur</strong> <em>(<var>U</var>, <var>S</var>, <var>select</var>)</em></dt>
+<dt><a name="index-ordschur"></a><em>[<var>UR</var>, <var>SR</var>] =</em> <strong>ordschur</strong> <em>(<var>U</var>, <var>S</var>, <var>select</var>)</em></dt>
 <dd><p>Reorders the real Schur factorization (<var>U</var>,<var>S</var>) obtained with the
 <code>schur</code> function, so that selected eigenvalues appear in the upper left
 diagonal blocks of the quasi triangular Schur matrix.
@@ -803,19 +851,23 @@ is in the upper left corner, by doing:
 
 
 <a name="XREFsubspace"></a><dl>
-<dt><a name="index-subspace"></a>: <em><var>angle</var> =</em> <strong>subspace</strong> <em>(<var>A</var>, <var>B</var>)</em></dt>
+<dt><a name="index-subspace"></a><em><var>angle</var> =</em> <strong>subspace</strong> <em>(<var>A</var>, <var>B</var>)</em></dt>
 <dd><p>Determine the largest principal angle between two subspaces
 spanned by the columns of matrices <var>A</var> and <var>B</var>.
 </p></dd></dl>
 
 
 <a name="XREFsvd"></a><dl>
-<dt><a name="index-svd"></a>: <em><var>s</var> =</em> <strong>svd</strong> <em>(<var>A</var>)</em></dt>
-<dt><a name="index-svd-1"></a>: <em>[<var>U</var>, <var>S</var>, <var>V</var>] =</em> <strong>svd</strong> <em>(<var>A</var>)</em></dt>
-<dt><a name="index-svd-2"></a>: <em>[<var>U</var>, <var>S</var>, <var>V</var>] =</em> <strong>svd</strong> <em>(<var>A</var>, <var>econ</var>)</em></dt>
+<dt><a name="index-svd"></a><em><var>s</var> =</em> <strong>svd</strong> <em>(<var>A</var>)</em></dt>
+<dt><a name="index-svd-1"></a><em>[<var>U</var>, <var>S</var>, <var>V</var>] =</em> <strong>svd</strong> <em>(<var>A</var>)</em></dt>
+<dt><a name="index-svd-2"></a><em>[<var>U</var>, <var>S</var>, <var>V</var>] =</em> <strong>svd</strong> <em>(<var>A</var>, &quot;econ&quot;)</em></dt>
+<dt><a name="index-svd-3"></a><em>[<var>U</var>, <var>S</var>, <var>V</var>] =</em> <strong>svd</strong> <em>(<var>A</var>, 0)</em></dt>
 <dd><a name="index-singular-value-decomposition"></a>
-<p>Compute the singular value decomposition of <var>A</var>
+<p>Compute the singular value decomposition of <var>A</var>.
 </p>
+<p>The singular value decomposition is defined by the relation
+</p>
+
 <div class="example">
 <pre class="example">A = U*S*V'
 </pre></div>
@@ -868,34 +920,71 @@ v =
   -0.32330  -0.64901   0.68867
 </pre></div>
 
-<p>If given a second argument, <code>svd</code> returns an economy-sized
+<p>When given a second argument that is not 0, <code>svd</code> returns an economy-sized
 decomposition, eliminating the unnecessary rows or columns of <var>U</var> or
 <var>V</var>.
+</p>
+<p>If the second argument is exactly 0, then the choice of decomposition is based
+on the matrix <var>A</var>.  If <var>A</var> has more rows than columns then an
+economy-sized decomposition is returned, otherwise a regular decomposition
+is calculated.
+</p>
+<p>Algorithm Notes: When calculating the full decomposition (left and right
+singular matrices in addition to singular values) there is a choice of two
+routines in <small>LAPACK</small>.  The default routine used by Octave is <code>gesdd</code>
+which is 5X faster than the alternative <code>gesvd</code>, but may use more memory
+and may be less accurate for some matrices.  See the documentation for
+<code>svd_driver</code> for more information.
 </p>
 <p><strong>See also:</strong> <a href="#XREFsvd_005fdriver">svd_driver</a>, <a href="Sparse-Linear-Algebra.html#XREFsvds">svds</a>, <a href="Basic-Matrix-Functions.html#XREFeig">eig</a>, <a href="#XREFlu">lu</a>, <a href="#XREFchol">chol</a>, <a href="#XREFhess">hess</a>, <a href="#XREFqr">qr</a>, <a href="#XREFqz">qz</a>.
 </p></dd></dl>
 
 
 <a name="XREFsvd_005fdriver"></a><dl>
-<dt><a name="index-svd_005fdriver"></a>: <em><var>val</var> =</em> <strong>svd_driver</strong> <em>()</em></dt>
-<dt><a name="index-svd_005fdriver-1"></a>: <em><var>old_val</var> =</em> <strong>svd_driver</strong> <em>(<var>new_val</var>)</em></dt>
-<dt><a name="index-svd_005fdriver-2"></a>: <em></em> <strong>svd_driver</strong> <em>(<var>new_val</var>, &quot;local&quot;)</em></dt>
+<dt><a name="index-svd_005fdriver"></a><em><var>val</var> =</em> <strong>svd_driver</strong> <em>()</em></dt>
+<dt><a name="index-svd_005fdriver-1"></a><em><var>old_val</var> =</em> <strong>svd_driver</strong> <em>(<var>new_val</var>)</em></dt>
+<dt><a name="index-svd_005fdriver-2"></a><em></em> <strong>svd_driver</strong> <em>(<var>new_val</var>, &quot;local&quot;)</em></dt>
 <dd><p>Query or set the underlying <small>LAPACK</small> driver used by <code>svd</code>.
 </p>
-<p>Currently recognized values are <code>&quot;gesvd&quot;</code> and <code>&quot;gesdd&quot;</code>.
-The default is <code>&quot;gesvd&quot;</code>.
+<p>Currently recognized values are <code>&quot;gesdd&quot;</code> and <code>&quot;gesvd&quot;</code>.
+The default is <code>&quot;gesdd&quot;</code>.
 </p>
 <p>When called from inside a function with the <code>&quot;local&quot;</code> option, the
 variable is changed locally for the function and any subroutines it calls.
 The original variable value is restored when exiting the function.
 </p>
+<p>Algorithm Notes: The <small>LAPACK</small> library provides two routines for calculating
+the full singular value decomposition (left and right singular matrices as
+well as singular values).  When calculating just the singular values the
+following discussion is not relevant.
+</p>
+<p>The default routine use by Octave is the newer <code>gesdd</code> which is based on a
+Divide-and-Conquer algorithm that is 5X faster than the alternative
+<code>gesvd</code>, which is based on QR factorization.  However, the new algorithm
+can use significantly more memory.  For an MxN input matrix the
+memory usage is of order O(min(M,N) ^ 2), whereas the alternative is of order
+O(max(M,N)).  In general, modern computers have abundant memory so Octave has
+chosen to prioritize speed.
+</p>
+<p>In addition, there have been instances in the past where some input matrices
+were not accurately decomposed by <code>gesdd</code>.  This appears to have been
+resolved with modern versions of <small>LAPACK</small>.  However, if certainty is
+required the accuracy of the decomposition can always be tested after the fact
+with
+</p>
+<div class="example">
+<pre class="example">[<var>u</var>, <var>s</var>, <var>v</var>] = svd (<var>x</var>);
+norm (<var>x</var> - <var>u</var>*<var>s</var>*<var>v'</var>, &quot;fro&quot;)
+</pre></div>
+
+
 <p><strong>See also:</strong> <a href="#XREFsvd">svd</a>.
 </p></dd></dl>
 
 
 
 <a name="XREFhoush"></a><dl>
-<dt><a name="index-housh"></a>: <em>[<var>housv</var>, <var>beta</var>, <var>zer</var>] =</em> <strong>housh</strong> <em>(<var>x</var>, <var>j</var>, <var>z</var>)</em></dt>
+<dt><a name="index-housh"></a><em>[<var>housv</var>, <var>beta</var>, <var>zer</var>] =</em> <strong>housh</strong> <em>(<var>x</var>, <var>j</var>, <var>z</var>)</em></dt>
 <dd><p>Compute Householder reflection vector <var>housv</var> to reflect <var>x</var> to be
 the j-th column of identity, i.e.,
 </p>
@@ -935,14 +1024,17 @@ the j-th column of identity, i.e.,
 
 
 <a name="XREFkrylov"></a><dl>
-<dt><a name="index-krylov"></a>: <em>[<var>u</var>, <var>h</var>, <var>nu</var>] =</em> <strong>krylov</strong> <em>(<var>A</var>, <var>V</var>, <var>k</var>, <var>eps1</var>, <var>pflg</var>)</em></dt>
-<dd><p>Construct an orthogonal basis <var>u</var> of block Krylov subspace
+<dt><a name="index-krylov"></a><em>[<var>u</var>, <var>h</var>, <var>nu</var>] =</em> <strong>krylov</strong> <em>(<var>A</var>, <var>V</var>, <var>k</var>, <var>eps1</var>, <var>pflg</var>)</em></dt>
+<dd><p>Construct an orthogonal basis <var>u</var> of a block Krylov subspace.
+</p>
+<p>The block Krylov subspace has the following form:
 </p>
 <div class="example">
 <pre class="example">[v a*v a^2*v &hellip; a^(k+1)*v]
 </pre></div>
 
-<p>using Householder reflections to guard against loss of orthogonality.
+<p>The construction is made with Householder reflections to guard against loss
+of orthogonality.
 </p>
 <p>If <var>V</var> is a vector, then <var>h</var> contains the Hessenberg matrix
 such that <code>a*u == u*h+rk*ek'</code>, in which

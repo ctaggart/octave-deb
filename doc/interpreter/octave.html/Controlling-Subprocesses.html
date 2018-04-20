@@ -69,10 +69,10 @@ use them if you can&rsquo;t find any way to do what you need with the
 higher-level functions.
 </p>
 <a name="XREFsystem"></a><dl>
-<dt><a name="index-system"></a>: <em></em> <strong>system</strong> <em>(&quot;<var>string</var>&quot;)</em></dt>
-<dt><a name="index-system-1"></a>: <em></em> <strong>system</strong> <em>(&quot;<var>string</var>&quot;, <var>return_output</var>)</em></dt>
-<dt><a name="index-system-2"></a>: <em></em> <strong>system</strong> <em>(&quot;<var>string</var>&quot;, <var>return_output</var>, <var>type</var>)</em></dt>
-<dt><a name="index-system-3"></a>: <em>[<var>status</var>, <var>output</var>] =</em> <strong>system</strong> <em>(&hellip;)</em></dt>
+<dt><a name="index-system"></a><em></em> <strong>system</strong> <em>(&quot;<var>string</var>&quot;)</em></dt>
+<dt><a name="index-system-1"></a><em></em> <strong>system</strong> <em>(&quot;<var>string</var>&quot;, <var>return_output</var>)</em></dt>
+<dt><a name="index-system-2"></a><em></em> <strong>system</strong> <em>(&quot;<var>string</var>&quot;, <var>return_output</var>, <var>type</var>)</em></dt>
+<dt><a name="index-system-3"></a><em>[<var>status</var>, <var>output</var>] =</em> <strong>system</strong> <em>(&hellip;)</em></dt>
 <dd><p>Execute a shell command specified by <var>string</var>.
 </p>
 <p>If the optional argument <var>type</var> is <code>&quot;async&quot;</code>, the process is
@@ -90,13 +90,15 @@ to the standard output.  To send the output of a command executed with
 </p>
 <div class="example">
 <pre class="example">[~, text] = system (&quot;cmd&quot;);
+more on;
 disp (text);
 </pre></div>
 
 <p>or
 </p>
 <div class="example">
-<pre class="example">printf (&quot;%s\n&quot;, nthargout (2, &quot;system&quot;, &quot;cmd&quot;));
+<pre class="example">more on;
+printf (&quot;%s\n&quot;, nthargout (2, &quot;system&quot;, &quot;cmd&quot;));
 </pre></div>
 
 <p>The <code>system</code> function can return two values.  The first is the
@@ -104,7 +106,7 @@ exit status of the command and the second is any output from the
 command that was written to the standard output stream.  For example,
 </p>
 <div class="example">
-<pre class="example">[status, output] = system (&quot;echo foo; exit 2&quot;);
+<pre class="example">[status, output] = system (&quot;echo foo &amp; exit 2&quot;);
 </pre></div>
 
 <p>will set the variable <code>output</code> to the string &lsquo;<samp>foo</samp>&rsquo;, and the
@@ -113,15 +115,20 @@ variable <code>status</code> to the integer &lsquo;<samp>2</samp>&rsquo;.
 <p>For commands run asynchronously, <var>status</var> is the process id of the
 command shell that is started to run the command.
 </p>
+<p>The shell used for executing commands varies with operating system and is
+typically <samp>/bin/sh</samp> for UNIX systems and <samp>cmd.exe</samp> for
+Windows
+systems.
+</p>
 <p><strong>See also:</strong> <a href="#XREFunix">unix</a>, <a href="#XREFdos">dos</a>.
 </p></dd></dl>
 
 
 <a name="XREFunix"></a><dl>
-<dt><a name="index-unix"></a>: <em></em> <strong>unix</strong> <em>(&quot;<var>command</var>&quot;)</em></dt>
-<dt><a name="index-unix-1"></a>: <em><var>status</var> =</em> <strong>unix</strong> <em>(&quot;<var>command</var>&quot;)</em></dt>
-<dt><a name="index-unix-2"></a>: <em>[<var>status</var>, <var>text</var>] =</em> <strong>unix</strong> <em>(&quot;<var>command</var>&quot;)</em></dt>
-<dt><a name="index-unix-3"></a>: <em>[&hellip;] =</em> <strong>unix</strong> <em>(&quot;<var>command</var>&quot;, &quot;-echo&quot;)</em></dt>
+<dt><a name="index-unix"></a><em></em> <strong>unix</strong> <em>(&quot;<var>command</var>&quot;)</em></dt>
+<dt><a name="index-unix-1"></a><em><var>status</var> =</em> <strong>unix</strong> <em>(&quot;<var>command</var>&quot;)</em></dt>
+<dt><a name="index-unix-2"></a><em>[<var>status</var>, <var>text</var>] =</em> <strong>unix</strong> <em>(&quot;<var>command</var>&quot;)</em></dt>
+<dt><a name="index-unix-3"></a><em>[&hellip;] =</em> <strong>unix</strong> <em>(&quot;<var>command</var>&quot;, &quot;-echo&quot;)</em></dt>
 <dd><p>Execute a system command if running under a Unix-like operating system,
 otherwise do nothing.
 </p>
@@ -136,10 +143,10 @@ given, then <var>text</var> is also sent to standard output.
 
 
 <a name="XREFdos"></a><dl>
-<dt><a name="index-dos"></a>: <em></em> <strong>dos</strong> <em>(&quot;<var>command</var>&quot;)</em></dt>
-<dt><a name="index-dos-1"></a>: <em><var>status</var> =</em> <strong>dos</strong> <em>(&quot;<var>command</var>&quot;)</em></dt>
-<dt><a name="index-dos-2"></a>: <em>[<var>status</var>, <var>text</var>] =</em> <strong>dos</strong> <em>(&quot;<var>command&quot;</var>)</em></dt>
-<dt><a name="index-dos-3"></a>: <em>[&hellip;] =</em> <strong>dos</strong> <em>(&quot;<var>command</var>&quot;, &quot;-echo&quot;)</em></dt>
+<dt><a name="index-dos"></a><em></em> <strong>dos</strong> <em>(&quot;<var>command</var>&quot;)</em></dt>
+<dt><a name="index-dos-1"></a><em><var>status</var> =</em> <strong>dos</strong> <em>(&quot;<var>command</var>&quot;)</em></dt>
+<dt><a name="index-dos-2"></a><em>[<var>status</var>, <var>text</var>] =</em> <strong>dos</strong> <em>(&quot;<var>command&quot;</var>)</em></dt>
+<dt><a name="index-dos-3"></a><em>[&hellip;] =</em> <strong>dos</strong> <em>(&quot;<var>command</var>&quot;, &quot;-echo&quot;)</em></dt>
 <dd><p>Execute a system command if running under a Windows-like operating system,
 otherwise do nothing.
 </p>
@@ -154,8 +161,8 @@ given, then <var>text</var> is also sent to standard output.
 
 
 <a name="XREFopen"></a><dl>
-<dt><a name="index-open"></a>: <em></em> <strong>open</strong> <em><var>file</var></em></dt>
-<dt><a name="index-open-1"></a>: <em><var>output</var> =</em> <strong>open</strong> <em>(<var>file</var>)</em></dt>
+<dt><a name="index-open"></a><em></em> <strong>open</strong> <em><var>file</var></em></dt>
+<dt><a name="index-open-1"></a><em><var>output</var> =</em> <strong>open</strong> <em>(<var>file</var>)</em></dt>
 <dd><p>Open the file <var>file</var> in Octave or in an external application based on
 the file type as determined by the filename extension.
 </p>
@@ -180,9 +187,9 @@ the file type as determined by the filename extension.
 
 
 <a name="XREFperl"></a><dl>
-<dt><a name="index-perl"></a>: <em><var>output</var> =</em> <strong>perl</strong> <em>(<var>scriptfile</var>)</em></dt>
-<dt><a name="index-perl-1"></a>: <em><var>output</var> =</em> <strong>perl</strong> <em>(<var>scriptfile</var>, <var>argument1</var>, <var>argument2</var>, &hellip;)</em></dt>
-<dt><a name="index-perl-2"></a>: <em>[<var>output</var>, <var>status</var>] =</em> <strong>perl</strong> <em>(&hellip;)</em></dt>
+<dt><a name="index-perl"></a><em><var>output</var> =</em> <strong>perl</strong> <em>(<var>scriptfile</var>)</em></dt>
+<dt><a name="index-perl-1"></a><em><var>output</var> =</em> <strong>perl</strong> <em>(<var>scriptfile</var>, <var>argument1</var>, <var>argument2</var>, &hellip;)</em></dt>
+<dt><a name="index-perl-2"></a><em>[<var>output</var>, <var>status</var>] =</em> <strong>perl</strong> <em>(&hellip;)</em></dt>
 <dd><p>Invoke Perl script <var>scriptfile</var>, possibly with a list of command line
 arguments.
 </p>
@@ -195,9 +202,9 @@ current directory and then in the Octave loadpath.
 
 
 <a name="XREFpython"></a><dl>
-<dt><a name="index-python"></a>: <em><var>output</var> =</em> <strong>python</strong> <em>(<var>scriptfile</var>)</em></dt>
-<dt><a name="index-python-1"></a>: <em><var>output</var> =</em> <strong>python</strong> <em>(<var>scriptfile</var>, <var>argument1</var>, <var>argument2</var>, &hellip;)</em></dt>
-<dt><a name="index-python-2"></a>: <em>[<var>output</var>, <var>status</var>] =</em> <strong>python</strong> <em>(&hellip;)</em></dt>
+<dt><a name="index-python"></a><em><var>output</var> =</em> <strong>python</strong> <em>(<var>scriptfile</var>)</em></dt>
+<dt><a name="index-python-1"></a><em><var>output</var> =</em> <strong>python</strong> <em>(<var>scriptfile</var>, <var>argument1</var>, <var>argument2</var>, &hellip;)</em></dt>
+<dt><a name="index-python-2"></a><em>[<var>output</var>, <var>status</var>] =</em> <strong>python</strong> <em>(&hellip;)</em></dt>
 <dd><p>Invoke Python script <var>scriptfile</var>, possibly with a list of command line
 arguments.
 </p>
@@ -210,7 +217,7 @@ current directory and then in the Octave loadpath.
 
 
 <a name="XREFpopen"></a><dl>
-<dt><a name="index-popen"></a>: <em><var>fid</var> =</em> <strong>popen</strong> <em>(<var>command</var>, <var>mode</var>)</em></dt>
+<dt><a name="index-popen"></a><em><var>fid</var> =</em> <strong>popen</strong> <em>(<var>command</var>, <var>mode</var>)</em></dt>
 <dd><p>Start a process and create a pipe.
 </p>
 <p>The name of the command to run is given by <var>command</var>.  The argument
@@ -249,7 +256,7 @@ endwhile
 
 
 <a name="XREFpclose"></a><dl>
-<dt><a name="index-pclose"></a>: <em></em> <strong>pclose</strong> <em>(<var>fid</var>)</em></dt>
+<dt><a name="index-pclose"></a><em></em> <strong>pclose</strong> <em>(<var>fid</var>)</em></dt>
 <dd><p>Close a file identifier that was opened by <code>popen</code>.
 </p>
 <p>The function <code>fclose</code> may also be used for the same purpose.
@@ -259,7 +266,7 @@ endwhile
 
 
 <a name="XREFpopen2"></a><dl>
-<dt><a name="index-popen2"></a>: <em>[<var>in</var>, <var>out</var>, <var>pid</var>] =</em> <strong>popen2</strong> <em>(<var>command</var>, <var>args</var>)</em></dt>
+<dt><a name="index-popen2"></a><em>[<var>in</var>, <var>out</var>, <var>pid</var>] =</em> <strong>popen2</strong> <em>(<var>command</var>, <var>args</var>)</em></dt>
 <dd><p>Start a subprocess with two-way communication.
 </p>
 <p>The name of the process is given by <var>command</var>, and <var>args</var> is an
@@ -307,9 +314,9 @@ exit status, it will linger until Octave exits.
 
 
 <a name="XREFEXEC_005fPATH"></a><dl>
-<dt><a name="index-EXEC_005fPATH"></a>: <em><var>val</var> =</em> <strong>EXEC_PATH</strong> <em>()</em></dt>
-<dt><a name="index-EXEC_005fPATH-1"></a>: <em><var>old_val</var> =</em> <strong>EXEC_PATH</strong> <em>(<var>new_val</var>)</em></dt>
-<dt><a name="index-EXEC_005fPATH-2"></a>: <em></em> <strong>EXEC_PATH</strong> <em>(<var>new_val</var>, &quot;local&quot;)</em></dt>
+<dt><a name="index-EXEC_005fPATH"></a><em><var>val</var> =</em> <strong>EXEC_PATH</strong> <em>()</em></dt>
+<dt><a name="index-EXEC_005fPATH-1"></a><em><var>old_val</var> =</em> <strong>EXEC_PATH</strong> <em>(<var>new_val</var>)</em></dt>
+<dt><a name="index-EXEC_005fPATH-2"></a><em></em> <strong>EXEC_PATH</strong> <em>(<var>new_val</var>, &quot;local&quot;)</em></dt>
 <dd><p>Query or set the internal variable that specifies a colon separated
 list of directories to append to the shell PATH when executing external
 programs.
@@ -323,7 +330,7 @@ variable is changed locally for the function and any subroutines it calls.
 The original variable value is restored when exiting the function.
 </p>
 
-<p><strong>See also:</strong> <a href="Loading-and-Saving-Images.html#XREFIMAGE_005fPATH">IMAGE_PATH</a>, <a href="System-Information.html#XREFOCTAVE_005fHOME">OCTAVE_HOME</a>.
+<p><strong>See also:</strong> <a href="Loading-and-Saving-Images.html#XREFIMAGE_005fPATH">IMAGE_PATH</a>, <a href="System-Information.html#XREFOCTAVE_005fHOME">OCTAVE_HOME</a>, <a href="System-Information.html#XREFOCTAVE_005fEXEC_005fHOME">OCTAVE_EXEC_HOME</a>.
 </p></dd></dl>
 
 
@@ -332,7 +339,7 @@ make the corresponding Unix system calls.  For a complete example of how
 they can be used, look at the definition of the function <code>popen2</code>.
 </p>
 <a name="XREFfork"></a><dl>
-<dt><a name="index-fork"></a>: <em>[<var>pid</var>, <var>msg</var>] =</em> <strong>fork</strong> <em>()</em></dt>
+<dt><a name="index-fork"></a><em>[<var>pid</var>, <var>msg</var>] =</em> <strong>fork</strong> <em>()</em></dt>
 <dd><p>Create a copy of the current process.
 </p>
 <p>Fork can return one of the following values:
@@ -358,7 +365,7 @@ action.  A system dependent error message will be waiting in <var>msg</var>.
 
 
 <a name="XREFexec"></a><dl>
-<dt><a name="index-exec"></a>: <em>[<var>err</var>, <var>msg</var>] =</em> <strong>exec</strong> <em>(<var>file</var>, <var>args</var>)</em></dt>
+<dt><a name="index-exec"></a><em>[<var>err</var>, <var>msg</var>] =</em> <strong>exec</strong> <em>(<var>file</var>, <var>args</var>)</em></dt>
 <dd><p>Replace current process with a new process.
 </p>
 <p>Calling <code>exec</code> without first calling <code>fork</code> will terminate your
@@ -378,7 +385,7 @@ error message.
 
 
 <a name="XREFpipe"></a><dl>
-<dt><a name="index-pipe"></a>: <em>[<var>read_fd</var>, <var>write_fd</var>, <var>err</var>, <var>msg</var>] =</em> <strong>pipe</strong> <em>()</em></dt>
+<dt><a name="index-pipe"></a><em>[<var>read_fd</var>, <var>write_fd</var>, <var>err</var>, <var>msg</var>] =</em> <strong>pipe</strong> <em>()</em></dt>
 <dd><p>Create a pipe and return the reading and writing ends of the pipe into
 <var>read_fd</var> and <var>write_fd</var> respectively.
 </p>
@@ -391,7 +398,7 @@ error message.
 
 
 <a name="XREFdup2"></a><dl>
-<dt><a name="index-dup2"></a>: <em>[<var>fid</var>, <var>msg</var>] =</em> <strong>dup2</strong> <em>(<var>old</var>, <var>new</var>)</em></dt>
+<dt><a name="index-dup2"></a><em>[<var>fid</var>, <var>msg</var>] =</em> <strong>dup2</strong> <em>(<var>old</var>, <var>new</var>)</em></dt>
 <dd><p>Duplicate a file descriptor.
 </p>
 <p>If successful, <var>fid</var> is greater than zero and contains the new file ID.
@@ -403,7 +410,7 @@ error message.
 
 
 <a name="XREFwaitpid"></a><dl>
-<dt><a name="index-waitpid"></a>: <em>[<var>pid</var>, <var>status</var>, <var>msg</var>] =</em> <strong>waitpid</strong> <em>(<var>pid</var>, <var>options</var>)</em></dt>
+<dt><a name="index-waitpid"></a><em>[<var>pid</var>, <var>status</var>, <var>msg</var>] =</em> <strong>waitpid</strong> <em>(<var>pid</var>, <var>options</var>)</em></dt>
 <dd><p>Wait for process <var>pid</var> to terminate.
 </p>
 <p>The <var>pid</var> argument can be:
@@ -458,17 +465,19 @@ about the subprocess that exited.
 
 
 <a name="XREFWCONTINUE"></a><dl>
-<dt><a name="index-WCONTINUE"></a>: <em></em> <strong>WCONTINUE</strong> <em>()</em></dt>
-<dd><p>Return the numerical value of the option argument that may be
-passed to <code>waitpid</code> to indicate that it should also return if a stopped
-child has been resumed by delivery of a <code>SIGCONT</code> signal.
+<dt><a name="index-WCONTINUE"></a><em></em> <strong>WCONTINUE</strong> <em>()</em></dt>
+<dd><p>Return the numerical value of the <code>WCONTINUE</code> macro.
+</p>
+<p><code>WCONTINUE</code> is the option argument that may be passed to
+<code>waitpid</code> to indicate that it should also return if a stopped child
+has been resumed by delivery of a <code>SIGCONT</code> signal.
 </p>
 <p><strong>See also:</strong> <a href="#XREFwaitpid">waitpid</a>, <a href="#XREFWNOHANG">WNOHANG</a>, <a href="#XREFWUNTRACED">WUNTRACED</a>.
 </p></dd></dl>
 
 
 <a name="XREFWCOREDUMP"></a><dl>
-<dt><a name="index-WCOREDUMP"></a>: <em></em> <strong>WCOREDUMP</strong> <em>(<var>status</var>)</em></dt>
+<dt><a name="index-WCOREDUMP"></a><em></em> <strong>WCOREDUMP</strong> <em>(<var>status</var>)</em></dt>
 <dd><p>Given <var>status</var> from a call to <code>waitpid</code>, return
 true if the child produced a core dump.
 </p>
@@ -481,7 +490,7 @@ and is not available on some Unix implementations (e.g., AIX, SunOS).
 
 
 <a name="XREFWEXITSTATUS"></a><dl>
-<dt><a name="index-WEXITSTATUS"></a>: <em></em> <strong>WEXITSTATUS</strong> <em>(<var>status</var>)</em></dt>
+<dt><a name="index-WEXITSTATUS"></a><em></em> <strong>WEXITSTATUS</strong> <em>(<var>status</var>)</em></dt>
 <dd><p>Given <var>status</var> from a call to <code>waitpid</code>, return
 the exit status of the child.
 </p>
@@ -492,7 +501,7 @@ the exit status of the child.
 
 
 <a name="XREFWIFCONTINUED"></a><dl>
-<dt><a name="index-WIFCONTINUED"></a>: <em></em> <strong>WIFCONTINUED</strong> <em>(<var>status</var>)</em></dt>
+<dt><a name="index-WIFCONTINUED"></a><em></em> <strong>WIFCONTINUED</strong> <em>(<var>status</var>)</em></dt>
 <dd><p>Given <var>status</var> from a call to <code>waitpid</code>, return
 true if the child process was resumed by delivery of <code>SIGCONT</code>.
 </p>
@@ -501,7 +510,7 @@ true if the child process was resumed by delivery of <code>SIGCONT</code>.
 
 
 <a name="XREFWIFSIGNALED"></a><dl>
-<dt><a name="index-WIFSIGNALED"></a>: <em></em> <strong>WIFSIGNALED</strong> <em>(<var>status</var>)</em></dt>
+<dt><a name="index-WIFSIGNALED"></a><em></em> <strong>WIFSIGNALED</strong> <em>(<var>status</var>)</em></dt>
 <dd><p>Given <var>status</var> from a call to <code>waitpid</code>, return
 true if the child process was terminated by a signal.
 </p>
@@ -510,7 +519,7 @@ true if the child process was terminated by a signal.
 
 
 <a name="XREFWIFSTOPPED"></a><dl>
-<dt><a name="index-WIFSTOPPED"></a>: <em></em> <strong>WIFSTOPPED</strong> <em>(<var>status</var>)</em></dt>
+<dt><a name="index-WIFSTOPPED"></a><em></em> <strong>WIFSTOPPED</strong> <em>(<var>status</var>)</em></dt>
 <dd><p>Given <var>status</var> from a call to <code>waitpid</code>, return
 true if the child process was stopped by delivery of a signal.
 </p>
@@ -522,7 +531,7 @@ the child is being traced (see ptrace(2)).
 
 
 <a name="XREFWIFEXITED"></a><dl>
-<dt><a name="index-WIFEXITED"></a>: <em></em> <strong>WIFEXITED</strong> <em>(<var>status</var>)</em></dt>
+<dt><a name="index-WIFEXITED"></a><em></em> <strong>WIFEXITED</strong> <em>(<var>status</var>)</em></dt>
 <dd><p>Given <var>status</var> from a call to <code>waitpid</code>, return
 true if the child terminated normally.
 </p>
@@ -531,17 +540,19 @@ true if the child terminated normally.
 
 
 <a name="XREFWNOHANG"></a><dl>
-<dt><a name="index-WNOHANG"></a>: <em></em> <strong>WNOHANG</strong> <em>()</em></dt>
-<dd><p>Return the numerical value of the option argument that may be
-passed to <code>waitpid</code> to indicate that it should return its status
-immediately instead of waiting for a process to exit.
+<dt><a name="index-WNOHANG"></a><em></em> <strong>WNOHANG</strong> <em>()</em></dt>
+<dd><p>Return the numerical value of the <code>WNOHANG</code> macro.
+</p>
+<p><code>WNOHANG</code> is the option argument that may be passed to
+<code>waitpid</code> to indicate that it should return its status immediately
+instead of waiting for a process to exit.
 </p>
 <p><strong>See also:</strong> <a href="#XREFwaitpid">waitpid</a>, <a href="#XREFWUNTRACED">WUNTRACED</a>, <a href="#XREFWCONTINUE">WCONTINUE</a>.
 </p></dd></dl>
 
 
 <a name="XREFWSTOPSIG"></a><dl>
-<dt><a name="index-WSTOPSIG"></a>: <em></em> <strong>WSTOPSIG</strong> <em>(<var>status</var>)</em></dt>
+<dt><a name="index-WSTOPSIG"></a><em></em> <strong>WSTOPSIG</strong> <em>(<var>status</var>)</em></dt>
 <dd><p>Given <var>status</var> from a call to <code>waitpid</code>, return
 the number of the signal which caused the child to stop.
 </p>
@@ -552,7 +563,7 @@ the number of the signal which caused the child to stop.
 
 
 <a name="XREFWTERMSIG"></a><dl>
-<dt><a name="index-WTERMSIG"></a>: <em></em> <strong>WTERMSIG</strong> <em>(<var>status</var>)</em></dt>
+<dt><a name="index-WTERMSIG"></a><em></em> <strong>WTERMSIG</strong> <em>(<var>status</var>)</em></dt>
 <dd><p>Given <var>status</var> from a call to <code>waitpid</code>, return
 the number of the signal that caused the child process to terminate.
 </p>
@@ -563,9 +574,11 @@ the number of the signal that caused the child process to terminate.
 
 
 <a name="XREFWUNTRACED"></a><dl>
-<dt><a name="index-WUNTRACED"></a>: <em></em> <strong>WUNTRACED</strong> <em>()</em></dt>
-<dd><p>Return the numerical value of the option argument that may be
-passed to <code>waitpid</code> to indicate that it should also return if the child
+<dt><a name="index-WUNTRACED"></a><em></em> <strong>WUNTRACED</strong> <em>()</em></dt>
+<dd><p>Return the numerical value of the <code>WUNTRACED</code> macro.
+</p>
+<p><code>WUNTRACED</code> is the option argument that may be passed to
+<code>waitpid</code> to indicate that it should also return if the child
 process has stopped but is not traced via the <code>ptrace</code> system call
 </p>
 <p><strong>See also:</strong> <a href="#XREFwaitpid">waitpid</a>, <a href="#XREFWNOHANG">WNOHANG</a>, <a href="#XREFWCONTINUE">WCONTINUE</a>.
@@ -573,7 +586,7 @@ process has stopped but is not traced via the <code>ptrace</code> system call
 
 
 <a name="XREFfcntl"></a><dl>
-<dt><a name="index-fcntl"></a>: <em>[<var>err</var>, <var>msg</var>] =</em> <strong>fcntl</strong> <em>(<var>fid</var>, <var>request</var>, <var>arg</var>)</em></dt>
+<dt><a name="index-fcntl"></a><em>[<var>err</var>, <var>msg</var>] =</em> <strong>fcntl</strong> <em>(<var>fid</var>, <var>request</var>, <var>arg</var>)</em></dt>
 <dd><p>Change the properties of the open file <var>fid</var>.
 </p>
 <p>The following values may be passed as <var>request</var>:
@@ -672,7 +685,7 @@ message.
 
 
 <a name="XREFkill"></a><dl>
-<dt><a name="index-kill"></a>: <em>[<var>err</var>, <var>msg</var>] =</em> <strong>kill</strong> <em>(<var>pid</var>, <var>sig</var>)</em></dt>
+<dt><a name="index-kill"></a><em>[<var>err</var>, <var>msg</var>] =</em> <strong>kill</strong> <em>(<var>pid</var>, <var>sig</var>)</em></dt>
 <dd><p>Send signal <var>sig</var> to process <var>pid</var>.
 </p>
 <p>If <var>pid</var> is positive, then signal <var>sig</var> is sent to <var>pid</var>.
@@ -694,7 +707,7 @@ performed.
 
 
 <a name="XREFSIG"></a><dl>
-<dt><a name="index-SIG"></a>: <em></em> <strong>SIG</strong> <em>()</em></dt>
+<dt><a name="index-SIG"></a><em></em> <strong>SIG</strong> <em>()</em></dt>
 <dd><p>Return a structure containing Unix signal names and their defined values.
 </p></dd></dl>
 

@@ -1,23 +1,23 @@
 /*
 
-Copyright (C) 2007-2017 David Bateman
+Copyright (C) 2007-2018 David Bateman
 Copyright (C) 2009 VZLU Prague
 
 This file is part of Octave.
 
-Octave is free software; you can redistribute it and/or modify it
-under the terms of the GNU General Public License as published by the
-Free Software Foundation; either version 3 of the License, or (at your
-option) any later version.
+Octave is free software: you can redistribute it and/or modify it
+under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-Octave is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-for more details.
+Octave is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with Octave; see the file COPYING.  If not, see
-<http://www.gnu.org/licenses/>.
+<https://www.gnu.org/licenses/>.
 
 */
 
@@ -25,19 +25,20 @@ along with Octave; see the file COPYING.  If not, see
 #  include "config.h"
 #endif
 
+#include <list>
 #include <string>
 #include <vector>
-#include <list>
 
 #include "lo-mappers.h"
 
-#include "oct-map.h"
 #include "defun.h"
-#include "parse.h"
-#include "variables.h"
+#include "interpreter.h"
+#include "oct-map.h"
 #include "ov-colon.h"
-#include "unwind-prot.h"
 #include "ov-fcn-handle.h"
+#include "parse.h"
+#include "unwind-prot.h"
+#include "variables.h"
 
 // Optimized bsxfun operations
 enum bsxfun_builtin_op
@@ -86,6 +87,7 @@ bsxfun_builtin_lookup (const std::string& name)
   for (int i = 0; i < bsxfun_num_builtin_ops; i++)
     if (name == bsxfun_builtin_names[i])
       return static_cast<bsxfun_builtin_op> (i);
+
   return bsxfun_builtin_unknown;
 }
 
@@ -230,7 +232,7 @@ maybe_optimized_builtin (const std::string& name,
 static bool
 maybe_update_column (octave_value& Ac, const octave_value& A,
                      const dim_vector& dva, const dim_vector& dvc,
-                     octave_idx_type i, octave_value_list &idx)
+                     octave_idx_type i, octave_value_list& idx)
 {
   octave_idx_type nd = dva.ndims ();
 
@@ -316,22 +318,21 @@ update_index (Array<int>& idx, const dim_vector& dv, octave_idx_type i)
     }
 }
 
-DEFUN (bsxfun, args, ,
-       doc: /* -*- texinfo -*-
+DEFMETHOD (bsxfun, interp,args, ,
+           doc: /* -*- texinfo -*-
 @deftypefn {} {} bsxfun (@var{f}, @var{A}, @var{B})
-The binary singleton expansion function performs broadcasting,
-that is, it applies a binary function @var{f} element-by-element to two
-array arguments @var{A} and @var{B}, and expands as necessary
-singleton dimensions in either input argument.
+Apply a binary function @var{f} element-by-element to two array arguments
+@var{A} and @var{B}, expanding singleton dimensions in either input argument as
+necessary.
 
 @var{f} is a function handle, inline function, or string containing the name
-of the function to evaluate.  The function @var{f} must be capable of
-accepting two column-vector arguments of equal length, or one column vector
-argument and a scalar.
+of the function to evaluate.  The function @var{f} must be capable of accepting
+two column-vector arguments of equal length, or one column vector argument and
+a scalar.
 
 The dimensions of @var{A} and @var{B} must be equal or singleton.  The
-singleton dimensions of the arrays will be expanded to the same
-dimensionality as the other array.
+singleton dimensions of the arrays will be expanded to the same dimensionality
+as the other array.
 @seealso{arrayfun, cellfun}
 @end deftypefn */)
 {
@@ -342,7 +343,11 @@ dimensionality as the other array.
   if (func.is_string ())
     {
       std::string name = func.string_value ();
-      func = symbol_table::find_function (name);
+
+      octave::symbol_table& symtab = interp.get_symbol_table ();
+
+      func = symtab.find_function (name);
+
       if (func.is_undefined ())
         error ("bsxfun: invalid function name: %s", name.c_str ());
     }
@@ -355,7 +360,7 @@ dimensionality as the other array.
   const octave_value B = args(2);
 
   if (func.is_builtin_function ()
-      || (func.is_function_handle () && ! A.is_object () && ! B.is_object ()))
+      || (func.is_function_handle () && ! A.isobject () && ! B.isobject ()))
     {
       // This may break if the default behavior is overridden.  But if you
       // override arithmetic operators for builtin classes, you should expect
@@ -396,23 +401,23 @@ dimensionality as the other array.
 
       for (octave_idx_type i = 0; i < nd; i++)
         dvc(i) = (dva(i) < 1 ? dva(i)
-                  : (dvb(i) < 1 ? dvb(i)
-                     : (dva(i) > dvb(i)
-                        ? dva(i) : dvb(i))));
+                             : (dvb(i) < 1 ? dvb(i)
+                                           : (dva(i) > dvb(i) ? dva(i)
+                                                              : dvb(i))));
 
       if (dva == dvb || dva.numel () == 1 || dvb.numel () == 1)
         {
           octave_value_list inputs (2);
           inputs(0) = A;
           inputs(1) = B;
-          retval = func.do_multi_index_op (1, inputs);
+          retval = octave::feval (func, inputs, 1);
         }
       else if (dvc.numel () < 1)
         {
           octave_value_list inputs (2);
           inputs(0) = A.resize (dvc);
           inputs(1) = B.resize (dvc);
-          retval = func.do_multi_index_op (1, inputs);
+          retval = octave::feval (func, inputs, 1);
         }
       else
         {
@@ -454,7 +459,7 @@ dimensionality as the other array.
               if (maybe_update_column (Bc, B, dvb, dvc, i, idxB))
                 inputs(1) = Bc;
 
-              octave_value_list tmp = func.do_multi_index_op (1, inputs);
+              octave_value_list tmp = octave::feval (func, inputs, 1);
 
 #define BSXINIT(T, CLS, EXTRACTOR)                                      \
               (result_type == CLS)                                      \
@@ -466,12 +471,12 @@ dimensionality as the other array.
 
               if (i == 0)
                 {
-                  if (! tmp(0).is_sparse_type ())
+                  if (! tmp(0).issparse ())
                     {
                       std::string result_type = tmp(0).class_name ();
                       if (result_type == "double")
                         {
-                          if (tmp(0).is_real_type ())
+                          if (tmp(0).isreal ())
                             {
                               have_NDArray = true;
                               result_NDArray = tmp(0).array_value ();
@@ -487,19 +492,19 @@ dimensionality as the other array.
                         }
                       else if (result_type == "single")
                         {
-                          if (tmp(0).is_real_type ())
+                          if (tmp(0).isreal ())
                             {
                               have_FloatNDArray = true;
-                              result_FloatNDArray
-                                = tmp(0).float_array_value ();
+                              result_FloatNDArray =
+                                tmp(0).float_array_value ();
                               result_FloatNDArray.resize (dvc);
                             }
                           else
                             {
-                              have_ComplexNDArray = true;
-                              result_ComplexNDArray =
-                                tmp(0).complex_array_value ();
-                              result_ComplexNDArray.resize (dvc);
+                              have_FloatComplexNDArray = true;
+                              result_FloatComplexNDArray =
+                                tmp(0).float_complex_array_value ();
+                              result_FloatComplexNDArray.resize (dvc);
                             }
                         }
                       else if BSXINIT(boolNDArray, "logical", bool)
@@ -527,70 +532,16 @@ dimensionality as the other array.
                 {
                   update_index (ra_idx, dvc, i);
 
-                  if (have_FloatNDArray
-                      || have_FloatComplexNDArray)
+                  if (have_NDArray)
                     {
-                      if (! tmp(0).is_float_type ())
-                        {
-                          if (have_FloatNDArray)
-                            {
-                              have_FloatNDArray = false;
-                              C = result_FloatNDArray;
-                            }
-                          else
-                            {
-                              have_FloatComplexNDArray = false;
-                              C = result_FloatComplexNDArray;
-                            }
-                          C = do_cat_op (C, tmp(0), ra_idx);
-                        }
-                      else if (tmp(0).is_double_type ())
-                        {
-                          if (tmp(0).is_complex_type ()
-                              && have_FloatNDArray)
-                            {
-                              result_ComplexNDArray =
-                                ComplexNDArray (result_FloatNDArray);
-                              result_ComplexNDArray.insert
-                                (tmp(0).complex_array_value (), ra_idx);
-                              have_FloatComplexNDArray = false;
-                              have_ComplexNDArray = true;
-                            }
-                          else
-                            {
-                              result_NDArray =
-                                NDArray (result_FloatNDArray);
-                              result_NDArray.insert
-                                (tmp(0).array_value (), ra_idx);
-                              have_FloatNDArray = false;
-                              have_NDArray = true;
-                            }
-                        }
-                      else if (tmp(0).is_real_type ())
-                        result_FloatNDArray.insert
-                          (tmp(0).float_array_value (), ra_idx);
-                      else
-                        {
-                          result_FloatComplexNDArray =
-                            FloatComplexNDArray (result_FloatNDArray);
-                          result_FloatComplexNDArray.insert
-                            (tmp(0).float_complex_array_value (),
-                             ra_idx);
-                          have_FloatNDArray = false;
-                          have_FloatComplexNDArray = true;
-                        }
-                    }
-                  else if (have_NDArray)
-                    {
-                      if (! tmp(0).is_float_type ())
+                      if (! tmp(0).isfloat ())
                         {
                           have_NDArray = false;
                           C = result_NDArray;
                           C = do_cat_op (C, tmp(0), ra_idx);
                         }
-                      else if (tmp(0).is_real_type ())
-                        result_NDArray.insert (tmp(0).array_value (),
-                                               ra_idx);
+                      else if (tmp(0).isreal ())
+                        result_NDArray.insert (tmp(0).array_value (), ra_idx);
                       else
                         {
                           result_ComplexNDArray =
@@ -599,6 +550,27 @@ dimensionality as the other array.
                             (tmp(0).complex_array_value (), ra_idx);
                           have_NDArray = false;
                           have_ComplexNDArray = true;
+                        }
+                    }
+                  else if (have_FloatNDArray)
+                    {
+                      if (! tmp(0).isfloat ())
+                        {
+                          have_FloatNDArray = false;
+                          C = result_FloatNDArray;
+                          C = do_cat_op (C, tmp(0), ra_idx);
+                        }
+                      else if (tmp(0).isreal ())
+                        result_FloatNDArray.insert
+                          (tmp(0).float_array_value (), ra_idx);
+                      else
+                        {
+                          result_FloatComplexNDArray =
+                            FloatComplexNDArray (result_FloatNDArray);
+                          result_FloatComplexNDArray.insert
+                            (tmp(0).float_complex_array_value (), ra_idx);
+                          have_FloatNDArray = false;
+                          have_FloatComplexNDArray = true;
                         }
                     }
 
@@ -616,6 +588,7 @@ dimensionality as the other array.
                     }
 
                   else if BSXLOOP(ComplexNDArray, "double", complex)
+                  else if BSXLOOP(FloatComplexNDArray, "single", float_complex)
                   else if BSXLOOP(boolNDArray, "logical", bool)
                   else if BSXLOOP(int8NDArray, "int8", int8)
                   else if BSXLOOP(int16NDArray, "int16", int16)
@@ -744,10 +717,14 @@ dimensionality as the other array.
 %!assert (bsxfun (f, a, d), a - repmat (d, [1, 1, 4]))
 %!assert (bsxfun ("minus", ones ([4, 0, 4]), ones ([4, 1, 4])), zeros ([4, 0, 4]))
 
-%% The test below is a very hard case to treat
+## The test below is a very hard case to treat
 %!assert (bsxfun (f, ones ([4, 1, 4, 1]), ones ([1, 4, 1, 4])), zeros ([4, 4, 4, 4]))
 
 %!shared a, b, aa, bb
+%! ## FIXME: Set a known "good" random seed.  See bug #51779.
+%! old_nstate = randn ("state");
+%! restore_nstate = onCleanup (@() randn ("state", old_nstate));
+%! randn ("state", 42); # initialize generator to make behavior reproducible
 %! a = randn (3, 1, 3);
 %! aa = a(:, ones (1, 3), :, ones (1, 3));
 %! b = randn (1, 3, 3, 3);
@@ -770,7 +747,7 @@ dimensionality as the other array.
 %!assert (bsxfun (@and, a > 0, b > 0), (aa > 0) & (bb > 0))
 %!assert (bsxfun (@or, a > 0, b > 0), (aa > 0) | (bb > 0))
 
-%% Test automatic bsxfun
+## Test automatic bsxfun
 %
 %!test
 %! funs = {@plus, @minus, @times, @rdivide, @ldivide, @power, @max, @min, ...
@@ -780,6 +757,11 @@ dimensionality as the other array.
 %! float_types = {@single, @double};
 %! int_types = {@int8, @int16, @int32, @int64, ...
 %!              @uint8, @uint16, @uint32, @uint64};
+%!
+%! ## FIXME: Set a known "good" random seed.  See bug #51779.
+%! old_state = rand ("state");
+%! restore_state = onCleanup (@() rand ("state", old_state));
+%! rand ("state", 42);  # initialize generator to make behavior reproducible
 %!
 %! x = rand (3) * 10-5;
 %! y = rand (3,1) * 10-5;
@@ -811,13 +793,20 @@ dimensionality as the other array.
 %! endfor
 
 ## Automatic broadcasting with zero length dimensions
-%!assert <47085> ([1 2 3] .+ zeros (0, 3), zeros (0, 3))
-%!assert <47085> (rand (3, 3, 1) .+ rand (3, 3, 0), zeros (3, 3, 0))
+%!assert <*47085> ([1 2 3] .+ zeros (0, 3), zeros (0, 3))
+%!assert <*47085> (rand (3, 3, 1) .+ rand (3, 3, 0), zeros (3, 3, 0))
 
 ## In-place broadcasting with zero length dimensions
-%!test <47085>
+%!test <*47085>
 %! a = zeros (0, 3);
 %! a .+= [1 2 3];
 %! assert (a, zeros (0, 3));
+
+%!test <*53179>
+%! im = ones (4,4,2) + single (i);
+%! mask = true (4,4);
+%! mask(:,1:2) = false;
+%! r = bsxfun (@times, im, mask);
+%! assert (r(:,:,1), repmat (single ([0, 0, 1+i, 1+i]), [4, 1]));
 
 */

@@ -2,7 +2,7 @@
 %%Title: gl2ps_renderer figure
 %%Creator: GL2PS 1.4.0, (C) 1999-2017 C. Geuzaine
 %%For: Octave
-%%CreationDate: Tue Mar 13 09:37:26 2018
+%%CreationDate: Thu Apr 19 16:24:37 2018
 %%LanguageLevel: 3
 %%DocumentData: Clean7Bit
 %%Pages: 1
@@ -33,6 +33,7 @@
 /STR{ FC moveto SW neg SH neg rmoveto show } BD
 /FCT { FC translate 0 0 } BD
 /SR  { gsave FCT moveto rotate show grestore } BD
+/SRX  { gsave FCT moveto rotate xshow grestore } BD
 /SBCR{ gsave FCT moveto rotate SW -2 div 0 rmoveto show grestore } BD
 /SBRR{ gsave FCT moveto rotate SW neg 0 rmoveto show grestore } BD
 /SCLR{ gsave FCT moveto rotate 0 SH -2 div rmoveto show grestore} BD
@@ -124,7 +125,7 @@ gl2psdict begin
 mark
 gsave
 1.0 1.0 scale
-0 0 0 C
+1 1 1 C
 newpath 0 0 moveto 360 0 lineto 360 252 lineto 0 252 lineto
 closepath fill
 gsave
@@ -159,13 +160,31 @@ closepath clip
 324.412 30.5152 LE
 324.412 233.1 LS
 324.412 230.305 LE
+gsave
 0.14902 0.14902 0.14902 C
-(0) 46.8 22.7107 10 /Helvetica STC
-(50) 116.203 22.7107 10 /Helvetica STC
-(100) 185.606 22.7107 10 /Helvetica STC
-(150) 255.009 22.7107 10 /Helvetica STC
-(200) 324.412 22.7107 10 /Helvetica STC
-0.15 0.15 0.15 C
+(0) [10] 0 43.8 12.7107 10 /Helvetica SRX
+grestore
+
+gsave
+0.14902 0.14902 0.14902 C
+(50) [6 10] 0 110.203 12.7107 10 /Helvetica SRX
+grestore
+
+gsave
+0.14902 0.14902 0.14902 C
+(100) [6 6 10] 0 176.606 12.7107 10 /Helvetica SRX
+grestore
+
+gsave
+0.14902 0.14902 0.14902 C
+(150) [6 6 10] 0 246.009 12.7107 10 /Helvetica SRX
+grestore
+
+gsave
+0.14902 0.14902 0.14902 C
+(200) [6 6 10] 0 315.412 12.7107 10 /Helvetica SRX
+grestore
+
 46.8 233.1 LS
 49.59 233.1 LE
 325.8 233.1 LS
@@ -186,14 +205,33 @@ closepath clip
 49.59 28.7418 LE
 325.8 28.7418 LS
 323.01 28.7418 LE
+gsave
 0.14902 0.14902 0.14902 C
-(0) 41.8 233.1 10 /Helvetica SCR
-(50) 41.8 182.01 10 /Helvetica SCR
-(100) 41.8 130.921 10 /Helvetica SCR
-(150) 41.8 79.8313 10 /Helvetica SCR
-(200) 41.8 28.7418 10 /Helvetica SCR
+(0) [10] 0 35.8 228.6 10 /Helvetica SRX
+grestore
+
+gsave
+0.14902 0.14902 0.14902 C
+(50) [6 10] 0 29.8 177.51 10 /Helvetica SRX
+grestore
+
+gsave
+0.14902 0.14902 0.14902 C
+(100) [6 6 10] 0 23.8 126.421 10 /Helvetica SRX
+grestore
+
+gsave
+0.14902 0.14902 0.14902 C
+(150) [6 6 10] 0 23.8 75.3313 10 /Helvetica SRX
+grestore
+
+gsave
+0.14902 0.14902 0.14902 C
+(200) [6 6 10] 0 23.8 24.2418 10 /Helvetica SRX
+grestore
+
+2 LC
 [16 0] 0 setdash
-0.15 0.15 0.15 C
 46.8 27.72 LS
 325.8 27.72 LE
 46.8 233.1 LS
@@ -249,9 +287,9 @@ closepath clip
 52.3522 232.013 LS
 52.3522 226.013 LE
 50.2309 231.134 LS
-54.4735 226.892 LE
+54.4736 226.892 LE
 50.2309 226.892 LS
-54.4735 231.134 LE
+54.4736 231.134 LE
 50.7403 227.991 LS
 56.7403 227.991 LE
 53.7403 230.991 LS
@@ -2716,8 +2754,8 @@ closepath clip
 268.235 69.5357 LE
 263.992 69.5357 LS
 268.235 73.7783 LE
-264.502 70.6352 LS
-270.502 70.6352 LE
+264.501 70.6352 LS
+270.501 70.6352 LE
 267.502 73.6352 LS
 267.502 67.6352 LE
 265.38 72.7565 LS
@@ -2993,8 +3031,8 @@ closepath clip
 292.487 55.243 LS
 292.487 49.243 LE
 290.365 54.3643 LS
-294.608 50.1217 LE
-290.365 50.1217 LS
+294.608 50.1216 LE
+290.365 50.1216 LS
 294.608 54.3643 LE
 290.875 51.2212 LS
 296.875 51.2212 LE
@@ -3009,8 +3047,8 @@ closepath clip
 295.263 55.243 LS
 295.263 49.243 LE
 293.141 54.3643 LS
-297.384 50.1217 LE
-293.141 50.1217 LS
+297.384 50.1216 LE
+293.141 50.1216 LS
 297.384 54.3643 LE
 292.263 51.2212 LS
 298.263 51.2212 LE
@@ -3094,7 +3132,7 @@ closepath clip
 302.936 48.2336 LE
 299.203 45.0904 LS
 305.203 45.0904 LE
-302.203 48.0904 LS
+302.203 48.0905 LS
 302.203 42.0904 LE
 300.082 47.2118 LS
 304.324 42.9691 LE
@@ -3110,7 +3148,7 @@ closepath clip
 305.712 46.19 LE
 301.979 45.0904 LS
 307.979 45.0904 LE
-304.979 48.0904 LS
+304.979 48.0905 LS
 304.979 42.0904 LE
 302.858 47.2118 LS
 307.1 42.9691 LE
@@ -3124,8 +3162,8 @@ closepath clip
 307.1 41.9473 LE
 302.858 41.9473 LS
 307.1 46.19 LE
-301.979 43.0469 LS
-307.979 43.0469 LE
+301.979 43.0468 LS
+307.979 43.0468 LE
 304.979 46.0469 LS
 304.979 40.0468 LE
 302.858 45.1682 LS
@@ -3140,8 +3178,8 @@ closepath clip
 308.488 43.9909 LE
 304.246 43.9909 LS
 308.488 48.2336 LE
-303.367 43.0469 LS
-309.367 43.0469 LE
+303.367 43.0468 LS
+309.367 43.0468 LE
 306.367 46.0469 LS
 306.367 40.0468 LE
 304.246 45.1682 LS
@@ -3278,7 +3316,7 @@ closepath clip
 319.593 36.9938 LE
 314.472 33.8507 LS
 320.472 33.8507 LE
-317.472 36.8508 LS
+317.472 36.8507 LS
 317.472 30.8507 LE
 315.35 35.9721 LS
 319.593 31.7294 LE
@@ -3294,7 +3332,7 @@ closepath clip
 320.981 43.1246 LE
 315.86 33.8507 LS
 321.86 33.8507 LE
-318.86 36.8508 LS
+318.86 36.8507 LS
 318.86 30.8507 LE
 316.738 35.9721 LS
 320.981 31.7294 LE

@@ -59,19 +59,21 @@ Next: <a href="Utility-Functions.html#Utility-Functions" accesskey="n" rel="next
 <h3 class="section">17.4 Sums and Products</h3>
 
 <a name="XREFsum"></a><dl>
-<dt><a name="index-sum"></a>: <em></em> <strong>sum</strong> <em>(<var>x</var>)</em></dt>
-<dt><a name="index-sum-1"></a>: <em></em> <strong>sum</strong> <em>(<var>x</var>, <var>dim</var>)</em></dt>
-<dt><a name="index-sum-2"></a>: <em></em> <strong>sum</strong> <em>(&hellip;, &quot;native&quot;)</em></dt>
-<dt><a name="index-sum-3"></a>: <em></em> <strong>sum</strong> <em>(&hellip;, &quot;double&quot;)</em></dt>
-<dt><a name="index-sum-4"></a>: <em></em> <strong>sum</strong> <em>(&hellip;, &quot;extra&quot;)</em></dt>
+<dt><a name="index-sum"></a><em></em> <strong>sum</strong> <em>(<var>x</var>)</em></dt>
+<dt><a name="index-sum-1"></a><em></em> <strong>sum</strong> <em>(<var>x</var>, <var>dim</var>)</em></dt>
+<dt><a name="index-sum-2"></a><em></em> <strong>sum</strong> <em>(&hellip;, &quot;native&quot;)</em></dt>
+<dt><a name="index-sum-3"></a><em></em> <strong>sum</strong> <em>(&hellip;, &quot;double&quot;)</em></dt>
+<dt><a name="index-sum-4"></a><em></em> <strong>sum</strong> <em>(&hellip;, &quot;extra&quot;)</em></dt>
 <dd><p>Sum of elements along dimension <var>dim</var>.
 </p>
 <p>If <var>dim</var> is omitted, it defaults to the first non-singleton dimension.
 </p>
 <p>The optional <code>&quot;type&quot;</code> input determines the class of the variable
-used for calculations.  If the argument <code>&quot;native&quot;</code> is given, then
-the operation is performed in the same type as the original argument, rather
-than the default double type.
+used for calculations.  By default, operations on floating point inputs (double
+or single) are performed in their native data type, while operations on
+integer, logical, and character data types are performed using doubles.  If the
+argument <code>&quot;native&quot;</code> is given, then the operation is performed in the same
+type as the original argument.
 </p>
 <p>For example:
 </p>
@@ -82,23 +84,23 @@ sum ([true, true], &quot;native&quot;)
    &rArr; true
 </pre></div>
 
-<p>On the contrary, if <code>&quot;double&quot;</code> is given, the sum is performed in
-double precision even for single precision inputs.
+<p>If <code>&quot;double&quot;</code> is given the sum is performed in double precision even for
+single precision inputs.
 </p>
 <p>For double precision inputs, the <code>&quot;extra&quot;</code> option will use a more
 accurate algorithm than straightforward summation.  For single precision
-inputs, <code>&quot;extra&quot;</code> is the same as <code>&quot;double&quot;</code>.  Otherwise,
-<code>&quot;extra&quot;</code> has no effect.
+inputs, <code>&quot;extra&quot;</code> is the same as <code>&quot;double&quot;</code>.  For all other data
+type <code>&quot;extra&quot;</code> has no effect.
 </p>
 <p><strong>See also:</strong> <a href="#XREFcumsum">cumsum</a>, <a href="#XREFsumsq">sumsq</a>, <a href="#XREFprod">prod</a>.
 </p></dd></dl>
 
 
 <a name="XREFprod"></a><dl>
-<dt><a name="index-prod"></a>: <em></em> <strong>prod</strong> <em>(<var>x</var>)</em></dt>
-<dt><a name="index-prod-1"></a>: <em></em> <strong>prod</strong> <em>(<var>x</var>, <var>dim</var>)</em></dt>
-<dt><a name="index-prod-2"></a>: <em></em> <strong>prod</strong> <em>(&hellip;, &quot;native&quot;)</em></dt>
-<dt><a name="index-prod-3"></a>: <em></em> <strong>prod</strong> <em>(&hellip;, &quot;double&quot;)</em></dt>
+<dt><a name="index-prod"></a><em></em> <strong>prod</strong> <em>(<var>x</var>)</em></dt>
+<dt><a name="index-prod-1"></a><em></em> <strong>prod</strong> <em>(<var>x</var>, <var>dim</var>)</em></dt>
+<dt><a name="index-prod-2"></a><em></em> <strong>prod</strong> <em>(&hellip;, &quot;native&quot;)</em></dt>
+<dt><a name="index-prod-3"></a><em></em> <strong>prod</strong> <em>(&hellip;, &quot;double&quot;)</em></dt>
 <dd><p>Product of elements along dimension <var>dim</var>.
 </p>
 <p>If <var>dim</var> is omitted, it defaults to the first non-singleton dimension.
@@ -125,10 +127,10 @@ in double precision even for single precision inputs.
 
 
 <a name="XREFcumsum"></a><dl>
-<dt><a name="index-cumsum"></a>: <em></em> <strong>cumsum</strong> <em>(<var>x</var>)</em></dt>
-<dt><a name="index-cumsum-1"></a>: <em></em> <strong>cumsum</strong> <em>(<var>x</var>, <var>dim</var>)</em></dt>
-<dt><a name="index-cumsum-2"></a>: <em></em> <strong>cumsum</strong> <em>(&hellip;, &quot;native&quot;)</em></dt>
-<dt><a name="index-cumsum-3"></a>: <em></em> <strong>cumsum</strong> <em>(&hellip;, &quot;double&quot;)</em></dt>
+<dt><a name="index-cumsum"></a><em></em> <strong>cumsum</strong> <em>(<var>x</var>)</em></dt>
+<dt><a name="index-cumsum-1"></a><em></em> <strong>cumsum</strong> <em>(<var>x</var>, <var>dim</var>)</em></dt>
+<dt><a name="index-cumsum-2"></a><em></em> <strong>cumsum</strong> <em>(&hellip;, &quot;native&quot;)</em></dt>
+<dt><a name="index-cumsum-3"></a><em></em> <strong>cumsum</strong> <em>(&hellip;, &quot;double&quot;)</em></dt>
 <dd><p>Cumulative sum of elements along dimension <var>dim</var>.
 </p>
 <p>If <var>dim</var> is omitted, it defaults to the first non-singleton dimension.
@@ -149,8 +151,8 @@ and <code>&quot;double&quot;</code>.
 
 
 <a name="XREFcumprod"></a><dl>
-<dt><a name="index-cumprod"></a>: <em></em> <strong>cumprod</strong> <em>(<var>x</var>)</em></dt>
-<dt><a name="index-cumprod-1"></a>: <em></em> <strong>cumprod</strong> <em>(<var>x</var>, <var>dim</var>)</em></dt>
+<dt><a name="index-cumprod"></a><em></em> <strong>cumprod</strong> <em>(<var>x</var>)</em></dt>
+<dt><a name="index-cumprod-1"></a><em></em> <strong>cumprod</strong> <em>(<var>x</var>, <var>dim</var>)</em></dt>
 <dd><p>Cumulative product of elements along dimension <var>dim</var>.
 </p>
 <p>If <var>dim</var> is omitted, it defaults to the first non-singleton dimension.
@@ -168,8 +170,8 @@ For example:
 
 
 <a name="XREFsumsq"></a><dl>
-<dt><a name="index-sumsq"></a>: <em></em> <strong>sumsq</strong> <em>(<var>x</var>)</em></dt>
-<dt><a name="index-sumsq-1"></a>: <em></em> <strong>sumsq</strong> <em>(<var>x</var>, <var>dim</var>)</em></dt>
+<dt><a name="index-sumsq"></a><em></em> <strong>sumsq</strong> <em>(<var>x</var>)</em></dt>
+<dt><a name="index-sumsq-1"></a><em></em> <strong>sumsq</strong> <em>(<var>x</var>, <var>dim</var>)</em></dt>
 <dd><p>Sum of squares of elements along dimension <var>dim</var>.
 </p>
 <p>If <var>dim</var> is omitted, it defaults to the first non-singleton dimension.

@@ -1,22 +1,22 @@
 @c DO NOT EDIT!  Generated automatically by munge-texi.pl.
 
-@c Copyright (C) 1996-2017 John W. Eaton
+@c Copyright (C) 1996-2018 John W. Eaton
 @c
 @c This file is part of Octave.
 @c
-@c Octave is free software; you can redistribute it and/or modify it
-@c under the terms of the GNU General Public License as published by the
-@c Free Software Foundation; either version 3 of the License, or (at
-@c your option) any later version.
+@c Octave is free software: you can redistribute it and/or modify it
+@c under the terms of the GNU General Public License as published by
+@c the Free Software Foundation, either version 3 of the License, or
+@c (at your option) any later version.
 @c
-@c Octave is distributed in the hope that it will be useful, but WITHOUT
-@c ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-@c FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-@c for more details.
+@c Octave is distributed in the hope that it will be useful, but
+@c WITHOUT ANY WARRANTY; without even the implied warranty of
+@c MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+@c GNU General Public License for more details.
 @c
 @c You should have received a copy of the GNU General Public License
 @c along with Octave; see the file COPYING.  If not, see
-@c <http://www.gnu.org/licenses/>.
+@c <https://www.gnu.org/licenses/>.
 
 @node Polynomial Manipulations
 @chapter Polynomial Manipulations
@@ -64,8 +64,8 @@ val = dot (x.^(N:-1:0), c);
 @noindent
 While the above example shows how easy it is to compute the value of a
 polynomial, it isn't the most stable algorithm.  With larger polynomials
-you should use more elegant algorithms, such as Horner's Method, which
-is exactly what the Octave function @code{polyval} does.
+you should use more elegant algorithms, such as @nospell{Horner's} Method,
+which is exactly what the Octave function @code{polyval} does.
 
 In the case where @var{x} is a square matrix, the polynomial given by
 @var{c} is still well-defined.  As when @var{x} is a scalar the obvious
@@ -287,19 +287,25 @@ p = [2 3 1 1 2];
 @deftypefnx {} {} conv (@var{a}, @var{b}, @var{shape})
 Convolve two vectors @var{a} and @var{b}.
 
-The output convolution is a vector with length equal to
-@code{length (@var{a}) + length (@var{b}) - 1}.
 When @var{a} and @var{b} are the coefficient vectors of two polynomials, the
 convolution represents the coefficient vector of the product polynomial.
 
-The optional @var{shape} argument may be
+The size of the result is determined by the optional @var{shape} argument
+which takes the following values
 
 @table @asis
 @item @var{shape} = @qcode{"full"}
 Return the full convolution.  (default)
+The result is a vector with length equal to
+@code{length (@var{a}) + length (@var{b}) - 1}.
 
 @item @var{shape} = @qcode{"same"}
 Return the central part of the convolution with the same size as @var{a}.
+
+@item @var{shape} = @qcode{"valid"}
+Return only the parts which do not include zero-padded edges.
+The size of the result is
+@code{max (size (@var{a}) - size (@var{b}) + 1, 0)}.
 @end table
 
 @seealso{@ref{XREFdeconv,,deconv}, @ref{XREFconv2,,conv2}, @ref{XREFconvn,,convn}, @ref{XREFfftconv,,fftconv}}
@@ -335,11 +341,12 @@ The size of the result is @code{max (size (A) - size (B) + 1, 0)}.
 
 @c deconv scripts/polynomial/deconv.m
 @anchor{XREFdeconv}
-@deftypefn {} {} deconv (@var{y}, @var{a})
-Deconvolve two vectors.
+@deftypefn  {} {@var{b} =} deconv (@var{y}, @var{a})
+@deftypefnx {} {[@var{b}, @var{r}] =} deconv (@var{y}, @var{a})
+Deconvolve two vectors (polynomial division).
 
-@code{[b, r] = deconv (y, a)} solves for @var{b} and @var{r} such that
-@code{y = conv (a, b) + r}.
+@code{[@var{b}, @var{r}] = deconv (@var{y}, @var{a})} solves for @var{b} and
+@var{r} such that @code{@var{y} = conv (@var{a}, @var{b}) + @var{r}}.
 
 If @var{y} and @var{a} are polynomial coefficient vectors, @var{b} will
 contain the coefficients of the polynomial quotient and @var{r} will be
@@ -632,7 +639,8 @@ The optional output @var{s} is a structure containing the following fields:
 Triangular factor R from the QR@tie{}decomposition.
 
 @item X
-The Vandermonde matrix used to compute the polynomial coefficients.
+The @nospell{Vandermonde} matrix used to compute the polynomial
+coefficients.
 
 @item C
 The unscaled covariance matrix, formally equal to the inverse of

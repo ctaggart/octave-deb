@@ -1,22 +1,22 @@
 @c DO NOT EDIT!  Generated automatically by munge-texi.pl.
 
-@c Copyright (C) 1996-2017 John W. Eaton
+@c Copyright (C) 1996-2018 John W. Eaton
 @c
 @c This file is part of Octave.
 @c
-@c Octave is free software; you can redistribute it and/or modify it
-@c under the terms of the GNU General Public License as published by the
-@c Free Software Foundation; either version 3 of the License, or (at
-@c your option) any later version.
+@c Octave is free software: you can redistribute it and/or modify it
+@c under the terms of the GNU General Public License as published by
+@c the Free Software Foundation, either version 3 of the License, or
+@c (at your option) any later version.
 @c
-@c Octave is distributed in the hope that it will be useful, but WITHOUT
-@c ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-@c FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-@c for more details.
+@c Octave is distributed in the hope that it will be useful, but
+@c WITHOUT ANY WARRANTY; without even the implied warranty of
+@c MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+@c GNU General Public License for more details.
 @c
 @c You should have received a copy of the GNU General Public License
 @c along with Octave; see the file COPYING.  If not, see
-@c <http://www.gnu.org/licenses/>.
+@c <https://www.gnu.org/licenses/>.
 
 @node Numerical Integration
 @chapter Numerical Integration
@@ -34,14 +34,14 @@ of a function numerically (termed quadrature).  These functions all solve
 @node Functions of One Variable
 @section Functions of One Variable
 
-Octave supports five different algorithms for computing the integral
+Octave supports five different adaptive quadrature algorithms for computing
+the integral
 @tex
 $$
  \int_a^b f(x) d x
 $$
 @end tex
-of a function @math{f} over the interval from @math{a} to @math{b}.
-These are
+of a function @math{f} over the interval from @math{a} to @math{b}.  These are
 
 @table @code
 @item quad
@@ -51,13 +51,19 @@ Numerical integration based on Gaussian quadrature.
 Numerical integration using an adaptive vectorized Simpson's rule.
 
 @item quadl
-Numerical integration using an adaptive Lobatto rule.
+Numerical integration using an adaptive @nospell{Lobatto} rule.
 
 @item quadgk
-Numerical integration using an adaptive Gauss-Konrod rule.
+Numerical integration using an adaptive @nospell{Gauss-Konrod} rule.
 
 @item quadcc
 Numerical integration using adaptive @nospell{Clenshaw-Curtis} rules.
+
+In addition, the following functions are also provided:
+
+@item integral
+A compatibility wrapper function that will choose between @code{quadv} and
+@code{quadgk} depending on the integrand and options chosen.
 
 @item trapz, cumtrapz
 Numerical integration of data using the trapezoidal method.
@@ -281,7 +287,7 @@ evaluations performed.
 Note: @code{quadv} is written in Octave's scripting language and can be
 used recursively in @code{dblquad} and @code{triplequad}, unlike the
 @code{quad} function.
-@seealso{@ref{XREFquad,,quad}, @ref{XREFquadl,,quadl}, @ref{XREFquadgk,,quadgk}, @ref{XREFquadcc,,quadcc}, @ref{XREFtrapz,,trapz}, @ref{XREFdblquad,,dblquad}, @ref{XREFtriplequad,,triplequad}}
+@seealso{@ref{XREFquad,,quad}, @ref{XREFquadl,,quadl}, @ref{XREFquadgk,,quadgk}, @ref{XREFquadcc,,quadcc}, @ref{XREFtrapz,,trapz}, @ref{XREFdblquad,,dblquad}, @ref{XREFtriplequad,,triplequad}, @ref{XREFintegral,,integral}, @ref{XREFintegral2,,integral2}, @ref{XREFintegral3,,integral3}}
 @end deftypefn
 
 
@@ -294,7 +300,7 @@ used recursively in @code{dblquad} and @code{triplequad}, unlike the
 @deftypefnx {} {[@var{q}, @var{nfun}] =} quadl (@dots{})
 
 Numerically evaluate the integral of @var{f} from @var{a} to @var{b} using
-an adaptive Lobatto rule.
+an adaptive @nospell{Lobatto} rule.
 
 @var{f} is a function handle, inline function, or string containing the name
 of the function to evaluate.  The function @var{f} must be vectorized and
@@ -323,8 +329,8 @@ evaluations performed.
 
 Reference: @nospell{W. Gander and W. Gautschi}, @cite{Adaptive Quadrature -
 Revisited}, BIT Vol. 40, No. 1, March 2000, pp. 84--101.
-@url{http://www.inf.ethz.ch/personal/gander/}
-@seealso{@ref{XREFquad,,quad}, @ref{XREFquadv,,quadv}, @ref{XREFquadgk,,quadgk}, @ref{XREFquadcc,,quadcc}, @ref{XREFtrapz,,trapz}, @ref{XREFdblquad,,dblquad}, @ref{XREFtriplequad,,triplequad}}
+@url{https://www.inf.ethz.ch/personal/gander/}
+@seealso{@ref{XREFquad,,quad}, @ref{XREFquadv,,quadv}, @ref{XREFquadgk,,quadgk}, @ref{XREFquadcc,,quadcc}, @ref{XREFtrapz,,trapz}, @ref{XREFdblquad,,dblquad}, @ref{XREFtriplequad,,triplequad}, @ref{XREFintegral,,integral}, @ref{XREFintegral2,,integral2}, @ref{XREFintegral3,,integral3}}
 @end deftypefn
 
 
@@ -337,7 +343,7 @@ Revisited}, BIT Vol. 40, No. 1, March 2000, pp. 84--101.
 @deftypefnx {} {[@var{q}, @var{err}] =} quadgk (@dots{})
 
 Numerically evaluate the integral of @var{f} from @var{a} to @var{b}
-using adaptive Gauss-Konrod quadrature.
+using adaptive @nospell{Gauss-Konrod} quadrature.
 
 @var{f} is a function handle, inline function, or string containing the name
 of the function to evaluate.  The function @var{f} must be vectorized and
@@ -358,7 +364,7 @@ operator @code{./} and all user functions to @code{quadgk} should do the
 same.
 
 The optional argument @var{tol} defines the absolute tolerance used to stop
-the integration procedure.  The default value is 1e-10.
+the integration procedure.  The default value is 1e-10 (1e-5 for single).
 
 The algorithm used by @code{quadgk} involves subdividing the integration
 interval and evaluating each subinterval.  If @var{trace} is true then after
@@ -433,7 +439,7 @@ Reference: @nospell{L.F. Shampine},
 Computational and Applied Mathematics, pp. 131--140, Vol 211, Issue 2,
 Feb 2008.
 
-@seealso{@ref{XREFquad,,quad}, @ref{XREFquadv,,quadv}, @ref{XREFquadl,,quadl}, @ref{XREFquadcc,,quadcc}, @ref{XREFtrapz,,trapz}, @ref{XREFdblquad,,dblquad}, @ref{XREFtriplequad,,triplequad}}
+@seealso{@ref{XREFquad,,quad}, @ref{XREFquadv,,quadv}, @ref{XREFquadl,,quadl}, @ref{XREFquadcc,,quadcc}, @ref{XREFtrapz,,trapz}, @ref{XREFdblquad,,dblquad}, @ref{XREFtriplequad,,triplequad}, @ref{XREFintegral,,integral}, @ref{XREFintegral2,,integral2}, @ref{XREFintegral3,,integral3}}
 @end deftypefn
 
 
@@ -443,8 +449,8 @@ Feb 2008.
 @deftypefnx {} {@var{q} =} quadcc (@var{f}, @var{a}, @var{b}, @var{tol})
 @deftypefnx {} {@var{q} =} quadcc (@var{f}, @var{a}, @var{b}, @var{tol}, @var{sing})
 @deftypefnx {} {[@var{q}, @var{err}, @var{nr_points}] =} quadcc (@dots{})
-Numerically evaluate the integral of @var{f} from @var{a} to @var{b}
-using doubly-adaptive @nospell{Clenshaw-Curtis} quadrature.
+Numerically evaluate the integral of @var{f} from @var{a} to @var{b} using
+doubly-adaptive @nospell{Clenshaw-Curtis} quadrature.
 
 @var{f} is a function handle, inline function, or string containing the name
 of the function to evaluate.  The function @var{f} must be vectorized and
@@ -458,38 +464,41 @@ f = @@(x) x .* sin (1./x) .* sqrt (abs (1 - x));
 @noindent
 which uses the element-by-element ``dot'' form for all operators.
 
-@var{a} and @var{b} are the lower and upper limits of integration.  Either
-or both limits may be infinite.  @code{quadcc} handles an inifinite limit
-by substituting the variable of integration with @code{x = tan (pi/2*u)}.
+@var{a} and @var{b} are the lower and upper limits of integration.  Either or
+both limits may be infinite.  @code{quadcc} handles an infinite limit by
+substituting the variable of integration with @code{x = tan (pi/2*u)}.
 
-The optional argument @var{tol} defines the relative tolerance used to stop
-the integration procedure.  The default value is 1e-6.
+The optional argument @var{tol} is a 1- or 2-element vector that specifies the
+desired accuracy of the result.  The first element of the vector is the desired
+absolute tolerance, and the second element is the desired relative tolerance.
+To choose a relative test only, set the absolute tolerance to zero.  To choose
+an absolute test only, set the relative tolerance to zero.  The default
+absolute tolerance is 1e-10 (1e-5 for single), and the default relative
+tolerance is 1e-6 (1e-4 for single).
 
-The optional argument @var{sing} contains a list of points where the
-integrand has known singularities, or discontinuities
-in any of its derivatives, inside the integration interval.
-For the example above, which has a discontinuity at x=1, the call to
-@code{quadcc} would be as follows
+The optional argument @var{sing} contains a list of points where the integrand
+has known singularities, or discontinuities in any of its derivatives, inside
+the integration interval.  For the example above, which has a discontinuity at
+x=1, the call to @code{quadcc} would be as follows
 
 @example
-int = quadcc (f, a, b, 1.0e-6, [ 1 ]);
+int = quadcc (f, a, b, [], [ 1 ]);
 @end example
 
 The result of the integration is returned in @var{q}.
 
 @var{err} is an estimate of the absolute integration error.
 
-@var{nr_points} is the number of points at which the integrand was
-evaluated.
+@var{nr_points} is the number of points at which the integrand was evaluated.
 
 If the adaptive integration did not converge, the value of @var{err} will be
 larger than the requested tolerance.  Therefore, it is recommended to verify
 this value for difficult integrands.
 
 @code{quadcc} is capable of dealing with non-numeric values of the integrand
-such as @code{NaN} or @code{Inf}.  If the integral diverges, and
-@code{quadcc} detects this, then a warning is issued and @code{Inf} or
-@code{-Inf} is returned.
+such as @code{NaN} or @code{Inf}.  If the integral diverges, and @code{quadcc}
+detects this, then a warning is issued and @code{Inf} or @code{-Inf} is
+returned.
 
 Note: @code{quadcc} is a general purpose quadrature algorithm and, as such,
 may be less efficient for a smooth or otherwise well-behaved integrand than
@@ -502,10 +511,106 @@ error estimate is computed from the L2-norm of the difference between two
 successive interpolations of the integrand over the nodes of the respective
 quadrature rules.
 
+@c FIXME: DEPRECATED: Remove in Octave version 6.
+Implementation Note: For Octave versions @leq{} 4.2, @code{quadcc} accepted a
+single tolerance argument which specified the relative tolerance.  For
+versions 4.4 and 5, @code{quadcc} will issue a warning when called with a
+single tolerance argument indicating that the meaning of this input has
+changed from relative tolerance to absolute tolerance.  The warning ID for this
+message is @qcode{"Octave:quadcc:RelTol-conversion"}.  The warning may be
+disabled with @code{warning ("off", "Octave:quadcc:RelTol-conversion")}.
+
 Reference: @nospell{P. Gonnet}, @cite{Increasing the Reliability of Adaptive
-Quadrature Using Explicit Interpolants}, ACM Transactions on
+Quadrature Using Explicit Interpolants}, @nospell{ACM} Transactions on
 Mathematical Software, Vol. 37, Issue 3, Article No. 3, 2010.
 @seealso{@ref{XREFquad,,quad}, @ref{XREFquadv,,quadv}, @ref{XREFquadl,,quadl}, @ref{XREFquadgk,,quadgk}, @ref{XREFtrapz,,trapz}, @ref{XREFdblquad,,dblquad}, @ref{XREFtriplequad,,triplequad}}
+@end deftypefn
+
+
+@c integral scripts/general/integral.m
+@anchor{XREFintegral}
+@deftypefn  {} {@var{q} =} integral (@var{f}, @var{a}, @var{b})
+@deftypefnx {} {@var{q} =} integral (@var{f}, @var{a}, @var{b}, @var{prop}, @var{val}, @dots{})
+
+Numerically evaluate the integral of @var{f} from @var{a} to @var{b} using
+adaptive quadrature.
+
+@code{integral} is a wrapper for @code{quadcc} (general scalar integrands),
+@code{quadgk} (integrals with specified integration paths), and @code{quadv}
+(array-valued integrands) that is intended to provide @sc{matlab}
+compatibility.  More control of the numerical integration may be achievable
+by calling the various quadrature functions directly.
+
+@var{f} is a function handle, inline function, or string containing the name
+of the function to evaluate.  The function @var{f} must be vectorized and
+return a vector of output values when given a vector of input values.
+
+@var{a} and @var{b} are the lower and upper limits of integration.  Either
+or both limits may be infinite or contain weak end singularities.  If either
+or both limits are complex, @code{integral} will perform a straight line
+path integral.  Alternatively, a complex domain path can be specified using
+the @qcode{"Waypoints"} option (see below).
+
+Additional optional parameters can be specified using
+@qcode{"@var{property}", @var{value}} pairs.  Valid properties are:
+
+@table @code
+@item Waypoints
+Specifies points to be used in defining subintervals of the quadrature
+algorithm, or if @var{a}, @var{b}, or @var{waypoints} are complex then
+the quadrature is calculated as a contour integral along a piecewise
+continuous path.  For more detail see @code{quadgk}.
+
+@item ArrayValued
+@code{integral} expects @var{f} to return a scalar value unless
+@var{arrayvalued} is specified as true.  This option will cause
+@code{integral} to perform the integration over the entire array and return
+@var{q} with the same dimensions as returned by @var{f}.  For more detail
+see @code{quadv}.
+
+@item AbsTol
+Define the absolute error tolerance for the quadrature.  The default
+absolute tolerance is 1e-10 (1e-5 for single).
+
+@item RelTol
+Define the relative error tolerance for the quadrature.  The default
+relative tolerance is 1e-6 (1e-4 for single).
+@end table
+
+Adaptive quadrature is used to minimize the estimate of error until the
+following is satisfied:
+@tex
+$$error \leq \max \left( AbsTol, RelTol\cdot\vert q\vert \right)$$
+@end tex
+@ifnottex
+
+@example
+@group
+  @var{error} <= max (@var{AbsTol}, @var{RelTol}*|@var{q}|).
+@end group
+@end example
+
+@end ifnottex
+
+Known @sc{matlab} incompatibilities:
+
+@enumerate
+@item
+If tolerances are left unspecified, and any integration limits or waypoints
+are of type @code{single}, then Octave's integral functions automatically
+reduce the default absolute and relative error tolerances as specified
+above.  If tighter tolerances are desired they must be specified.
+@sc{matlab} leaves the tighter tolerances appropriate for @code{double}
+inputs in place regardless of the class of the integration limits.
+
+@item
+As a consequence of using @code{quadcc}, @code{quadgk}, and @code{quadv},
+certain option combinations are not supported.  Currently,
+@qcode{"ArrayValued"} cannot be combined with @qcode{"RelTol"} or
+@qcode{"Waypoints"}.
+@end enumerate
+
+@seealso{@ref{XREFintegral2,,integral2}, @ref{XREFintegral3,,integral3}, @ref{XREFquad,,quad}, @ref{XREFquadgk,,quadgk}, @ref{XREFquadv,,quadv}, @ref{XREFquadl,,quadl}, @ref{XREFquadcc,,quadcc}, @ref{XREFtrapz,,trapz}, @ref{XREFdblquad,,dblquad}, @ref{XREFtriplequad,,triplequad}}
 @end deftypefn
 
 
@@ -683,13 +788,12 @@ u = [ 0; (at - alpha * bt) \ rhs; 1]
 @node Functions of Multiple Variables
 @section Functions of Multiple Variables
 
-Octave does not have built-in functions for computing the integral of
-functions of multiple variables directly.  It is possible, however, to
-compute the integral of a function of multiple variables using the
-existing functions for one-dimensional integrals.
+Octave includes several functions for computing the integral of functions of
+multiple variables.  This procedure can generally be performed by creating a
+function that integrates @math{f} with respect to @math{x}, and then integrates
+that function with respect to @math{y}.  This procedure can be performed
+manually using the following example which integrates the function:
 
-To illustrate how the integration can be performed, we will integrate
-the function
 @tex
 $$
   f(x, y) = \sin(\pi x y)\sqrt{x y}
@@ -698,19 +802,16 @@ $$
 @ifnottex
 
 @example
-f(x, y) = sin(pi*x*y)*sqrt(x*y)
+f(x, y) = sin(pi*x*y) * sqrt(x*y)
 @end example
 
 @end ifnottex
 for @math{x} and @math{y} between 0 and 1.
 
-The first approach creates a function that integrates @math{f} with
-respect to @math{x}, and then integrates that function with respect to
-@math{y}.  Because @code{quad} is written in Fortran it cannot be called
-recursively.  This means that @code{quad} cannot integrate a function
-that calls @code{quad}, and hence cannot be used to perform the double
-integration.  Any of the other integrators, however, can be used which is
-what the following code demonstrates.
+Using @code{quadgk} in the example below, a double integration can be
+performed.  (Note that any of the 1-D quadrature functions can be used in this
+fashion except for @code{quad} since it is written in Fortran and cannot be
+called recursively.)
 
 @example
 @group
@@ -727,9 +828,10 @@ I = quadgk ("g", 0, 1)
 @end group
 @end example
 
-The above process can be simplified with the @code{dblquad} and
-@code{triplequad} functions for integrals over two and three
-variables.  For example:
+The algorithm above is implemented in the function @code{dblquad} for integrals
+over two variables.  The 3-D equivalent of this process is implemented in
+@code{triplequad} for integrals over three variables.  As an example, the
+result above can be replicated with a call to @code{dblquad} as shown below.
 
 @example
 @group
@@ -765,7 +867,7 @@ is @code{quadcc}.
 Additional arguments, are passed directly to @var{f}.  To use the default
 value for @var{tol} or @var{quadf} one may pass @qcode{':'} or an empty
 matrix ([]).
-@seealso{@ref{XREFtriplequad,,triplequad}, @ref{XREFquad,,quad}, @ref{XREFquadv,,quadv}, @ref{XREFquadl,,quadl}, @ref{XREFquadgk,,quadgk}, @ref{XREFquadcc,,quadcc}, @ref{XREFtrapz,,trapz}}
+@seealso{@ref{XREFintegral2,,integral2}, @ref{XREFintegral3,,integral3}, @ref{XREFtriplequad,,triplequad}, @ref{XREFquad,,quad}, @ref{XREFquadv,,quadv}, @ref{XREFquadl,,quadl}, @ref{XREFquadgk,,quadgk}, @ref{XREFquadcc,,quadcc}, @ref{XREFtrapz,,trapz}}
 @end deftypefn
 
 
@@ -797,16 +899,366 @@ is @code{quadcc}.
 Additional arguments, are passed directly to @var{f}.  To use the default
 value for @var{tol} or @var{quadf} one may pass @qcode{':'} or an empty
 matrix ([]).
-@seealso{@ref{XREFdblquad,,dblquad}, @ref{XREFquad,,quad}, @ref{XREFquadv,,quadv}, @ref{XREFquadl,,quadl}, @ref{XREFquadgk,,quadgk}, @ref{XREFquadcc,,quadcc}, @ref{XREFtrapz,,trapz}}
+@seealso{@ref{XREFintegral3,,integral3}, @ref{XREFintegral2,,integral2}, @ref{XREFdblquad,,dblquad}, @ref{XREFquad,,quad}, @ref{XREFquadv,,quadv}, @ref{XREFquadl,,quadl}, @ref{XREFquadgk,,quadgk}, @ref{XREFquadcc,,quadcc}, @ref{XREFtrapz,,trapz}}
 @end deftypefn
 
 
-The above mentioned approach works, but is fairly slow, and that problem
-increases exponentially with the dimensionality of the integral.  Another
-possible solution is to use Orthogonal Collocation as described in the
-previous section (@pxref{Orthogonal Collocation}).  The integral of a function
-@math{f(x,y)} for @math{x} and @math{y} between 0 and 1 can be approximated
-using @math{n} points by
+The recursive algorithm for quadrature presented above is referred to as
+@qcode{"iterated"}.  A separate 2-D integration method is implemented in the
+function @code{quad2d}.  This function performs a @qcode{"tiled"} integration
+by subdividing the integration domain into rectangular regions and performing
+separate integrations over those domains.  The domains are further subdivided
+in areas requiring refinement to reach the desired numerical accuracy.  For
+certain functions this method can be faster than the 2-D iteration used in the
+other functions above.
+
+@c quad2d scripts/general/quad2d.m
+@anchor{XREFquad2d}
+@deftypefn  {} {@var{q} =} quad2d (@var{f}, @var{xa}, @var{xb}, @var{ya}, @var{yb})
+@deftypefnx {} {@var{q} =} quad2d (@var{f}, @var{xa}, @var{xb}, @var{ya}, @var{yb}, @var{prop}, @var{val}, @dots{})
+@deftypefnx {} {[@var{q}, @var{err}, @var{iter}] =} quad2d (@dots{})
+
+Numerically evaluate the two-dimensional integral of @var{f} using adaptive
+quadrature over the two-dimensional domain defined by @var{xa}, @var{xb},
+@var{ya}, @var{yb} using tiled integration.  Additionally, @var{ya} and
+@var{yb} may be scalar functions of @var{x}, allowing for the integration
+over non-rectangular domains.
+
+@var{f} is a function handle, inline function, or string containing the name
+of the function to evaluate.  The function @var{f} must be of the form
+@math{z = f(x,y)} where @var{x} is a vector and @var{y} is a scalar.  It
+should return a vector of the same length and orientation as @var{x}.
+
+Additional optional parameters can be specified using
+@qcode{"@var{property}", @var{value}} pairs.  Valid properties are:
+
+@table @code
+@item AbsTol
+Define the absolute error tolerance for the quadrature.  The default
+value is 1e-10 (1e-5 for single).
+
+@item RelTol
+Define the relative error tolerance for the quadrature.  The default
+value is 1e-6 (1e-4 for single).
+
+@item MaxFunEvals
+The maximum number of function calls to the vectorized function @var{f}.
+The default value is 5000.
+
+@item Singular
+Enable/disable transforms to weaken singularities on the edge of the
+integration domain.  The default value is @var{true}.
+
+@item Vectorized
+Option to disable vectorized integration, forcing Octave to use only scalar
+inputs when calling the integrand.  The default value is @var{false}.
+
+@item FailurePlot
+If @code{quad2d} fails to converge to the desired error tolerance before
+MaxFunEvals is reached, a plot of the areas that still need refinement
+is created.  The default value is @var{false}.
+@end table
+
+Adaptive quadrature is used to minimize the estimate of error until the
+following is satisfied:
+@tex
+$$error \leq \max \left( AbsTol, RelTol\cdot\vert q\vert \right)$$
+@end tex
+@ifnottex
+
+@example
+@group
+        @var{error} <= max (@var{AbsTol}, @var{RelTol}*|@var{q}|)
+@end group
+@end example
+
+@end ifnottex
+
+The optional output @var{err} is an approximate bound on the error in the
+integral @code{abs (@var{q} - @var{I})}, where @var{I} is the exact value
+of the integral.  The optional output @var{iter} is the number of vectorized
+function calls to the function @var{f} that were used.
+
+Example 1 : integrate a rectangular region in x-y plane
+
+@example
+@group
+@var{f} = @@(@var{x},@var{y}) 2*ones (size (@var{x}));
+@var{q} = quad2d (@var{f}, 0, 1, 0, 1)
+  @result{} @var{q} =  2
+@end group
+@end example
+
+The result is a volume, which for this constant-value integrand, is just
+@code{@var{Length} * @var{Width} x @var{Height}}.
+
+Example 2 : integrate a triangular region in x-y plane
+
+@example
+@group
+@var{f} = @@(@var{x},@var{y}) 2*ones (size (@var{x}));
+@var{ymax} = @@(@var{x}) 1 - @var{x};
+@var{q} = quad2d (@var{f}, 0, 1, 0, @var{ymax})
+  @result{} @var{q} =  1
+@end group
+@end example
+
+The result is a volume, which for this constant-value integrand, is the
+Triangle Area x Height or
+@code{1/2 * @var{Base} * @var{Width} * @var{Height}}.
+
+Programming Notes: If there are singularities within the integration region
+it is best to split the integral and place the singularities on the
+boundary.
+
+Known @sc{matlab} incompatibility: If tolerances are left unspecified, and
+any integration limits are of type @code{single}, then Octave's integral
+functions automatically reduce the default absolute and relative error
+tolerances as specified above.  If tighter tolerances are desired they
+must be specified.  @sc{matlab} leaves the tighter tolerances appropriate
+for @code{double} inputs in place regardless of the class of the
+integration limits.
+
+Reference: @nospell{L.F. Shampine},
+@cite{@sc{matlab} program for quadrature in 2D}, Applied Mathematics and
+Computation, pp. 266--274, Vol 1, 2008.
+
+@seealso{@ref{XREFintegral2,,integral2}, @ref{XREFdblquad,,dblquad}, @ref{XREFintegral,,integral}, @ref{XREFquad,,quad}, @ref{XREFquadgk,,quadgk}, @ref{XREFquadv,,quadv}, @ref{XREFquadl,,quadl}, @ref{XREFquadcc,,quadcc}, @ref{XREFtrapz,,trapz}, @ref{XREFintegral3,,integral3}, @ref{XREFtriplequad,,triplequad}}
+@end deftypefn
+
+
+Finally, the functions @code{integral2} and @code{integral3} are provided
+as general 2-D and 3-D integration functions.  They will auto-select between
+iterated and tiled integration methods and, unlike @code{dblquad} and
+@code{triplequad}, will work with non-rectangular integration domains.
+
+@c integral2 scripts/general/integral2.m
+@anchor{XREFintegral2}
+@deftypefn  {} {@var{q} =} integral2 (@var{f}, @var{xa}, @var{xb}, @var{ya}, @var{yb})
+@deftypefnx {} {@var{q} =} integral2 (@var{f}, @var{xa}, @var{xb}, @var{ya}, @var{yb}, @var{prop}, @var{val}, @dots{})
+@deftypefnx {} {[@var{q}, @var{err}] =} integral2 (@dots{})
+
+Numerically evaluate the two-dimensional integral of @var{f} using adaptive
+quadrature over the two-dimensional domain defined by @var{xa}, @var{xb},
+@var{ya}, @var{yb} (scalars may be finite or infinite).  Additionally,
+@var{ya} and @var{yb} may be scalar functions of @var{x}, allowing for
+integration over non-rectangular domains.
+
+@var{f} is a function handle, inline function, or string containing the name
+of the function to evaluate.  The function @var{f} must be of the form
+@math{z = f(x,y)} where @var{x} is a vector and @var{y} is a scalar.  It
+should return a vector of the same length and orientation as @var{x}.
+
+Additional optional parameters can be specified using
+@qcode{"@var{property}", @var{value}} pairs.  Valid properties are:
+
+@table @code
+@item AbsTol
+Define the absolute error tolerance for the quadrature.  The default
+value is 1e-10 (1e-5 for single).
+
+@item RelTol
+Define the relative error tolerance for the quadrature.  The default
+value is 1e-6 (1e-4 for single).
+
+@item Method
+Specify the two-dimensional integration method to be used, with valid
+options being @qcode{"auto"} (default), @qcode{"tiled"}, or
+@qcode{"iterated"}.  When using @qcode{"auto"}, Octave will choose the
+@qcode{"tiled"} method unless any of the integration limits are infinite.
+
+@item Vectorized
+Enable or disable vectorized integration.  A value of @code{false} forces
+Octave to use only scalar inputs when calling the integrand, which enables
+integrands @math{f(x,y)} that have not been vectorized and only accept
+@var{x} and @var{y} as scalars to be used.  The default value is
+@code{true}.
+@end table
+
+Adaptive quadrature is used to minimize the estimate of error until the
+following is satisfied:
+@tex
+$$error \leq \max \left( AbsTol, RelTol\cdot\vert q\vert \right)$$
+@end tex
+@ifnottex
+
+@example
+@group
+        @var{error} <= max (@var{AbsTol}, @var{RelTol}*|@var{q}|)
+@end group
+@end example
+
+@end ifnottex
+
+@var{err} is an approximate bound on the error in the integral
+@code{abs (@var{q} - @var{I})}, where @var{I} is the exact value of the
+integral.
+
+Example 1 : integrate a rectangular region in x-y plane
+
+@example
+@group
+@var{f} = @@(@var{x},@var{y}) 2*ones (size (@var{x}));
+@var{q} = integral2 (@var{f}, 0, 1, 0, 1)
+  @result{} @var{q} =  2
+@end group
+@end example
+
+The result is a volume, which for this constant-value integrand, is just
+@code{@var{Length} * @var{Width} x @var{Height}}.
+
+Example 2 : integrate a triangular region in x-y plane
+
+@example
+@group
+@var{f} = @@(@var{x},@var{y}) 2*ones (size (@var{x}));
+@var{ymax} = @@(@var{x}) 1 - @var{x};
+@var{q} = integral2 (@var{f}, 0, 1, 0, @var{ymax})
+  @result{} @var{q} =  1
+@end group
+@end example
+
+The result is a volume, which for this constant-value integrand, is the
+Triangle Area x Height or
+@code{1/2 * @var{Base} * @var{Width} * @var{Height}}.
+
+Programming Notes: If there are singularities within the integration region
+it is best to split the integral and place the singularities on the
+boundary.
+
+Known @sc{matlab} incompatibility: If tolerances are left unspecified, and
+any integration limits are of type @code{single}, then Octave's integral
+functions automatically reduce the default absolute and relative error
+tolerances as specified above.  If tighter tolerances are desired they
+must be specified.  @sc{matlab} leaves the tighter tolerances appropriate
+for @code{double} inputs in place regardless of the class of the
+integration limits.
+
+Reference: @nospell{L.F. Shampine},
+@cite{@sc{matlab} program for quadrature in 2D}, Applied Mathematics and
+Computation, pp. 266--274, Vol 1, 2008.
+
+@seealso{@ref{XREFquad2d,,quad2d}, @ref{XREFdblquad,,dblquad}, @ref{XREFintegral,,integral}, @ref{XREFquad,,quad}, @ref{XREFquadgk,,quadgk}, @ref{XREFquadv,,quadv}, @ref{XREFquadl,,quadl}, @ref{XREFquadcc,,quadcc}, @ref{XREFtrapz,,trapz}, @ref{XREFintegral3,,integral3}, @ref{XREFtriplequad,,triplequad}}
+@end deftypefn
+
+
+@c integral3 scripts/general/integral3.m
+@anchor{XREFintegral3}
+@deftypefn  {} {@var{q} =} integral3 (@var{f}, @var{xa}, @var{xb}, @var{ya}, @var{yb}, @var{za}, @var{zb})
+@deftypefnx {} {@var{q} =} integral3 (@var{f}, @var{xa}, @var{xb}, @var{ya}, @var{yb}, @var{za}, @var{zb}, @var{prop}, @var{val}, @dots{})
+
+Numerically evaluate the three-dimensional integral of @var{f} using
+adaptive quadrature over the three-dimensional domain defined by
+@var{xa}, @var{xb}, @var{ya}, @var{yb}, @var{za}, @var{zb} (scalars may
+be finite or infinite).  Additionally, @var{ya} and @var{yb} may be
+scalar functions of @var{x} and @var{za}, and @var{zb} maybe be scalar
+functions of @var{x} and @var{y}, allowing for integration over
+non-rectangular domains.
+
+@var{f} is a function handle, inline function, or string containing the name
+of the function to evaluate.  The function @var{f} must be of the form
+@math{z = f(x,y)} where @var{x} is a vector and @var{y} is a scalar.  It
+should return a vector of the same length and orientation as @var{x}.
+
+Additional optional parameters can be specified using
+@qcode{"@var{property}", @var{value}} pairs.  Valid properties are:
+
+@table @code
+@item AbsTol
+Define the absolute error tolerance for the quadrature.  The default
+value is 1e-10 (1e-5 for single).
+
+@item RelTol
+Define the relative error tolerance for the quadrature.  The default
+value is 1e-6 (1e-4 for single).
+
+@item Method
+Specify the two-dimensional integration method to be used, with valid
+options being @qcode{"auto"} (default), @qcode{"tiled"}, or
+@qcode{"iterated"}.  When using @qcode{"auto"}, Octave will choose the
+@qcode{"tiled"} method unless any of the integration limits are infinite.
+
+@item Vectorized
+Enable or disable vectorized integration.  A value of @code{false} forces
+Octave to use only scalar inputs when calling the integrand, which enables
+integrands @math{f(x,y)} that have not been vectorized and only accept
+@var{x} and @var{y} as scalars to be used.  The default value is
+@code{true}.
+@end table
+
+Adaptive quadrature is used to minimize the estimate of error until the
+following is satisfied:
+@tex
+$$error \leq \max \left( AbsTol, RelTol\cdot\vert q\vert \right)$$
+@end tex
+@ifnottex
+
+@example
+@group
+        @var{error} <= max (@var{AbsTol}, @var{RelTol}*|@var{q}|)
+@end group
+@end example
+
+@end ifnottex
+
+@var{err} is an approximate bound on the error in the integral
+@code{abs (@var{q} - @var{I})}, where @var{I} is the exact value of the
+integral.
+
+Example 1 : integrate over a rectangular volume
+
+@example
+@group
+@var{f} = @@(@var{x},@var{y},@var{z}) ones (size (@var{x}));
+@var{q} = integral3 (@var{f}, 0, 1, 0, 1, 0, 1)
+  @result{} @var{q} =  1
+@end group
+@end example
+
+For this constant-value integrand, the result is a volume which is just
+@code{@var{Length} * @var{Width} x @var{Height}}.
+
+Example 2 : integrate over a spherical volume
+
+@example
+@group
+@var{f} = @@(@var{x},@var{y}) ones (size (@var{x}));
+@var{ymax} = @@(@var{x}) sqrt (1 - @var{x}.^2);
+@var{zmax} = @@(@var{x}) sqrt (1 - @var{x}.^2 - @var{y}.^2);
+@var{q} = integral3 (@var{f}, 0, 1, 0, @var{ymax})
+  @result{} @var{q} =  0.52360
+@end group
+@end example
+
+For this constant-value integrand, the result is a volume which is 1/8th
+of a unit sphere or @code{1/8 * 4/3 * pi}.
+
+Programming Notes: If there are singularities within the integration region
+it is best to split the integral and place the singularities on the
+boundary.
+
+Known @sc{matlab} incompatibility: If tolerances are left unspecified, and
+any integration limits are of type @code{single}, then Octave's integral
+functions automatically reduce the default absolute and relative error
+tolerances as specified above.  If tighter tolerances are desired they
+must be specified.  @sc{matlab} leaves the tighter tolerances appropriate
+for @code{double} inputs in place regardless of the class of the
+integration limits.
+
+Reference: @nospell{L.F. Shampine},
+@cite{@sc{matlab} program for quadrature in 2D}, Applied Mathematics and
+Computation, pp. 266--274, Vol 1, 2008.
+
+@seealso{@ref{XREFtriplequad,,triplequad}, @ref{XREFintegral,,integral}, @ref{XREFquad,,quad}, @ref{XREFquadgk,,quadgk}, @ref{XREFquadv,,quadv}, @ref{XREFquadl,,quadl}, @ref{XREFquadcc,,quadcc}, @ref{XREFtrapz,,trapz}, @ref{XREFintegral2,,integral2}, @ref{XREFquad2d,,quad2d}, @ref{XREFdblquad,,dblquad}}
+@end deftypefn
+
+
+The above integrations can be fairly slow, and that problem increases
+exponentially with the dimensionality of the integral.  Another possible
+solution for 2-D integration is to use Orthogonal Collocation as described in
+the previous section (@pxref{Orthogonal Collocation}).  The integral of a
+function @math{f(x,y)} for @math{x} and @math{y} between 0 and 1 can be
+approximated using @math{n} points by
 @tex
 $$
  \int_0^1 \int_0^1 f(x,y) d x d y \approx \sum_{i=1}^n \sum_{j=1}^n q_i q_j f(r_i, r_j),

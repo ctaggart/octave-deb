@@ -80,10 +80,10 @@ highlight parts of a plot using the <code>annotation</code> function.  Those obj
 are drawn in an invisible axes, on top of every other axes.
 </p>
 <a name="XREFtitle"></a><dl>
-<dt><a name="index-title"></a>: <em></em> <strong>title</strong> <em>(<var>string</var>)</em></dt>
-<dt><a name="index-title-1"></a>: <em></em> <strong>title</strong> <em>(<var>string</var>, <var>prop</var>, <var>val</var>, &hellip;)</em></dt>
-<dt><a name="index-title-2"></a>: <em></em> <strong>title</strong> <em>(<var>hax</var>, &hellip;)</em></dt>
-<dt><a name="index-title-3"></a>: <em><var>h</var> =</em> <strong>title</strong> <em>(&hellip;)</em></dt>
+<dt><a name="index-title"></a><em></em> <strong>title</strong> <em>(<var>string</var>)</em></dt>
+<dt><a name="index-title-1"></a><em></em> <strong>title</strong> <em>(<var>string</var>, <var>prop</var>, <var>val</var>, &hellip;)</em></dt>
+<dt><a name="index-title-2"></a><em></em> <strong>title</strong> <em>(<var>hax</var>, &hellip;)</em></dt>
+<dt><a name="index-title-3"></a><em><var>h</var> =</em> <strong>title</strong> <em>(&hellip;)</em></dt>
 <dd><p>Specify the string used as a title for the current axis.
 </p>
 <p>An optional list of <var>property</var>/<var>value</var> pairs can be used to change
@@ -100,30 +100,37 @@ object.
 
 
 <a name="XREFlegend"></a><dl>
-<dt><a name="index-legend"></a>: <em></em> <strong>legend</strong> <em>(<var>str1</var>, <var>str2</var>, &hellip;)</em></dt>
-<dt><a name="index-legend-1"></a>: <em></em> <strong>legend</strong> <em>(<var>matstr</var>)</em></dt>
-<dt><a name="index-legend-2"></a>: <em></em> <strong>legend</strong> <em>(<var>cellstr</var>)</em></dt>
-<dt><a name="index-legend-3"></a>: <em></em> <strong>legend</strong> <em>(&hellip;, &quot;location&quot;, <var>pos</var>)</em></dt>
-<dt><a name="index-legend-4"></a>: <em></em> <strong>legend</strong> <em>(&hellip;, &quot;orientation&quot;, <var>orient</var>)</em></dt>
-<dt><a name="index-legend-5"></a>: <em></em> <strong>legend</strong> <em>(<var>hax</var>, &hellip;)</em></dt>
-<dt><a name="index-legend-6"></a>: <em></em> <strong>legend</strong> <em>(<var>hobjs</var>, &hellip;)</em></dt>
-<dt><a name="index-legend-7"></a>: <em></em> <strong>legend</strong> <em>(<var>hax</var>, <var>hobjs</var>, &hellip;)</em></dt>
-<dt><a name="index-legend-8"></a>: <em></em> <strong>legend</strong> <em>(&quot;<var>option</var>&quot;)</em></dt>
-<dt><a name="index-legend-9"></a>: <em>[<var>hleg</var>, <var>hleg_obj</var>, <var>hplot</var>, <var>labels</var>] =</em> <strong>legend</strong> <em>(&hellip;)</em></dt>
+<dt><a name="index-legend"></a><em></em> <strong>legend</strong> <em>()</em></dt>
+<dt><a name="index-legend-1"></a><em></em> <strong>legend</strong> <em>(<var>str1</var>, <var>str2</var>, &hellip;)</em></dt>
+<dt><a name="index-legend-2"></a><em></em> <strong>legend</strong> <em>(<var>charmat</var>)</em></dt>
+<dt><a name="index-legend-3"></a><em></em> <strong>legend</strong> <em>({<var>cellstr</var>})</em></dt>
+<dt><a name="index-legend-4"></a><em></em> <strong>legend</strong> <em>(&hellip;, &quot;location&quot;, <var>pos</var>)</em></dt>
+<dt><a name="index-legend-5"></a><em></em> <strong>legend</strong> <em>(&hellip;, &quot;orientation&quot;, <var>orient</var>)</em></dt>
+<dt><a name="index-legend-6"></a><em></em> <strong>legend</strong> <em>(<var>hax</var>, &hellip;)</em></dt>
+<dt><a name="index-legend-7"></a><em></em> <strong>legend</strong> <em>(<var>hobjs</var>, &hellip;)</em></dt>
+<dt><a name="index-legend-8"></a><em></em> <strong>legend</strong> <em>(<var>hax</var>, <var>hobjs</var>, &hellip;)</em></dt>
+<dt><a name="index-legend-9"></a><em></em> <strong>legend</strong> <em>(&quot;<var>option</var>&quot;)</em></dt>
+<dt><a name="index-legend-10"></a><em></em> <strong>legend</strong> <em>(&hellip;, {<var>cellstr</var>}, <var>property</var>, <var>value</var>, &hellip;)</em></dt>
+<dt><a name="index-legend-11"></a><em>[<var>hleg</var>, <var>hleg_obj</var>, <var>hplot</var>, <var>labels</var>] =</em> <strong>legend</strong> <em>(&hellip;)</em></dt>
 <dd>
 <p>Display a legend for the current axes using the specified strings as labels.
 </p>
 <p>Legend entries may be specified as individual character string arguments,
-a character array, or a cell array of character strings.
+a character array, or a cell array of character strings.  When label names
+might be confused with options to <code>legend</code>, the labels should be
+protected by specifying them as a cell array of strings.
 </p>
-<p>If the first argument <var>hax</var> is an axes handle, then plot into this axes,
-rather than the current axes returned by <code>gca</code>.  If the handles,
-<var>hobjs</var>, are not specified then the legend&rsquo;s strings will be associated
-with the axes&rsquo; descendants.  <code>legend</code> works on line graphs,
-bar graphs, etc.  A plot must exist before legend is called.
+<p>If the first argument <var>hax</var> is an axes handle, then add a legend to this
+axes, rather than the current axes returned by <code>gca</code>.
 </p>
-<p>The optional parameter <var>pos</var> specifies the location of the legend
-as follows:
+<p>Legend labels are associated with the axes&rsquo; children; The first label is
+assigned to the first object that was plotted in the axes, the second label
+to the next object plotted, etc.  To label specific data objects, without
+labeling all objects, provide their graphic handles in the input
+<var>hobjs</var>.
+</p>
+<p>The optional parameter <var>pos</var> specifies the location of the legend as
+follows:
 </p>
 <table>
 <thead><tr><th width="6%"></th><th width="14%">pos</th><th width="80%">location of the legend</th></tr></thead>
@@ -134,12 +141,13 @@ as follows:
 <tr><td width="6%"></td><td width="14%">northeast</td><td width="80%">right top (default)</td></tr>
 <tr><td width="6%"></td><td width="14%">northwest</td><td width="80%">left top</td></tr>
 <tr><td width="6%"></td><td width="14%">southeast</td><td width="80%">right bottom</td></tr>
-<tr><td width="6%"></td><td width="14%">southwest</td><td width="80%">left bottom</td></tr>
-<tr><td width="6%"></td></tr>
-<tr><td width="6%"></td><td width="14%">outside</td><td width="80%">can be appended to any location string</td></tr>
+<tr><td width="6%"></td><td width="14%">southwest</td><td width="80%">left bottom
+<br></td></tr>
+<tr><td width="6%"></td><td width="14%">outside</td><td width="80%">can be appended to any location string <br></td></tr>
+<tr><td width="6%"></td><td width="14%"></td><td width="80%">which will place the legend outside the axes</td></tr>
 </table>
 
-<p>The optional parameter <var>orient</var> determines if the key elements are
+<p>The optional parameter <var>orient</var> determines if the legend elements are
 placed vertically or horizontally.  The allowed values are
 <code>&quot;vertical&quot;</code> (default) or <code>&quot;horizontal&quot;</code>.
 </p>
@@ -155,7 +163,7 @@ placed vertically or horizontally.  The allowed values are
 </p>
 </dd>
 <dt><code>&quot;toggle&quot;</code></dt>
-<dd><p>Toggles between <code>&quot;hide&quot;</code> and <code>&quot;show&quot;</code>
+<dd><p>Toggle between <code>&quot;hide&quot;</code> and <code>&quot;show&quot;</code>
 </p>
 </dd>
 <dt><code>&quot;boxon&quot;</code></dt>
@@ -179,6 +187,12 @@ placed vertically or horizontally.  The allowed values are
 </p></dd>
 </dl>
 
+<p>The <code>legend</code> function creates a graphics object which has various
+properties that can be manipulated with <code>get</code>/<code>set</code>.
+Alternatively, properties can be set directly when calling <code>legend</code> by
+including <var>property</var>/<var>value</var> pairs.  If using this calling form, the
+labels must be specified as a cell array of strings.
+</p>
 <p>The optional output values are
 </p>
 <dl compact="compact">
@@ -187,7 +201,8 @@ placed vertically or horizontally.  The allowed values are
 </p>
 </dd>
 <dt><var>hleg_obj</var></dt>
-<dd><p>Graphics handles to the text and line objects which make up the legend.
+<dd><p>Graphics handles to the text, patch, and line objects which form the
+  legend.
 </p>
 </dd>
 <dt><var>hplot</var></dt>
@@ -199,23 +214,31 @@ placed vertically or horizontally.  The allowed values are
 </p></dd>
 </dl>
 
-<p>The legend label text is either provided in the call to <code>legend</code> or
-is taken from the DisplayName property of graphics objects.  If no
-labels or DisplayNames are available, then the label text is simply
-<code>&quot;data1&quot;</code>, <code>&quot;data2&quot;</code>, &hellip;, <code>&quot;dataN&quot;</code>.
+<p>Implementation Note: The legend label text is either provided in the call to
+<code>legend</code> or is taken from the <code>DisplayName</code> property of the
+graphics objects.  Only data objects, such as line, patch, and surface, have
+this property whereas axes, figures, etc. do not so they are never present
+in a legend.  If no labels or <code>DisplayName</code> properties are available,
+then the label text is simply <code>&quot;data1&quot;</code>, <code>&quot;data2&quot;</code>, &hellip;,
+<code>&quot;dataN&quot;</code>.  No more than 20 data labels will be
+automatically generated.  To label more, call <code>legend</code> explicitly and
+provide all labels.
 </p>
-<p>Implementation Note: A legend is implemented as an additional axes object
-of the current figure with the <code>&quot;tag&quot;</code> set to <code>&quot;legend&quot;</code>.
-Properties of the legend object may be manipulated directly by using
-<code>set</code>.
+<p>The legend <code>FontSize</code> property is initially set to 90% of the axes
+<code>FontSize</code> to which it is attached.  Use <code>set</code> to override this
+if necessary.
+</p>
+<p>A legend is implemented as an additional axes object with the <code>tag</code>
+property set to <code>&quot;legend&quot;</code>.  Properties of the legend object may be
+manipulated directly by using <code>set</code>.
 </p></dd></dl>
 
 
 <a name="XREFtext"></a><dl>
-<dt><a name="index-text"></a>: <em></em> <strong>text</strong> <em>(<var>x</var>, <var>y</var>, <var>string</var>)</em></dt>
-<dt><a name="index-text-1"></a>: <em></em> <strong>text</strong> <em>(<var>x</var>, <var>y</var>, <var>z</var>, <var>string</var>)</em></dt>
-<dt><a name="index-text-2"></a>: <em></em> <strong>text</strong> <em>(&hellip;, <var>prop</var>, <var>val</var>, &hellip;)</em></dt>
-<dt><a name="index-text-3"></a>: <em><var>h</var> =</em> <strong>text</strong> <em>(&hellip;)</em></dt>
+<dt><a name="index-text"></a><em></em> <strong>text</strong> <em>(<var>x</var>, <var>y</var>, <var>string</var>)</em></dt>
+<dt><a name="index-text-1"></a><em></em> <strong>text</strong> <em>(<var>x</var>, <var>y</var>, <var>z</var>, <var>string</var>)</em></dt>
+<dt><a name="index-text-2"></a><em></em> <strong>text</strong> <em>(&hellip;, <var>prop</var>, <var>val</var>, &hellip;)</em></dt>
+<dt><a name="index-text-3"></a><em><var>h</var> =</em> <strong>text</strong> <em>(&hellip;)</em></dt>
 <dd><p>Create a text object with text <var>string</var> at position <var>x</var>, <var>y</var>,
 (<var>z</var>) on the current axes.
 </p>
@@ -229,17 +252,22 @@ text.
 <p>The optional return value <var>h</var> is a vector of graphics handles to the
 created text objects.
 </p>
+<p>Programming Note: The full list of properties is documented at
+<a href="Text-Properties.html#Text-Properties">Text Properties</a>.
+</p>
 <p><strong>See also:</strong> <a href="Interacting-with-Plots.html#XREFgtext">gtext</a>, <a href="#XREFtitle">title</a>, <a href="#XREFxlabel">xlabel</a>, <a href="#XREFylabel">ylabel</a>, <a href="#XREFzlabel">zlabel</a>.
 </p></dd></dl>
 
 
 <p>See <a href="Text-Properties.html#Text-Properties">Text Properties</a> for the properties that you can set.
 </p>
-<a name="XREFylabel"></a><a name="XREFzlabel"></a><a name="XREFxlabel"></a><dl>
-<dt><a name="index-xlabel"></a>: <em></em> <strong>xlabel</strong> <em>(<var>string</var>)</em></dt>
-<dt><a name="index-xlabel-1"></a>: <em></em> <strong>xlabel</strong> <em>(<var>string</var>, <var>property</var>, <var>val</var>, &hellip;)</em></dt>
-<dt><a name="index-xlabel-2"></a>: <em></em> <strong>xlabel</strong> <em>(<var>hax</var>, &hellip;)</em></dt>
-<dt><a name="index-xlabel-3"></a>: <em><var>h</var> =</em> <strong>xlabel</strong> <em>(&hellip;)</em></dt>
+<a name="XREFylabel"></a><a name="XREFzlabel"></a><a name="index-ylabel"></a>
+<a name="index-zlabel"></a>
+<a name="XREFxlabel"></a><dl>
+<dt><a name="index-xlabel"></a><em></em> <strong>xlabel</strong> <em>(<var>string</var>)</em></dt>
+<dt><a name="index-xlabel-1"></a><em></em> <strong>xlabel</strong> <em>(<var>string</var>, <var>property</var>, <var>val</var>, &hellip;)</em></dt>
+<dt><a name="index-xlabel-2"></a><em></em> <strong>xlabel</strong> <em>(<var>hax</var>, &hellip;)</em></dt>
+<dt><a name="index-xlabel-3"></a><em><var>h</var> =</em> <strong>xlabel</strong> <em>(&hellip;)</em></dt>
 <dd><p>Specify the string used to label the x-axis of the current axis.
 </p>
 <p>An optional list of <var>property</var>/<var>value</var> pairs can be used to change
@@ -256,12 +284,12 @@ object.
 
 
 <a name="XREFclabel"></a><dl>
-<dt><a name="index-clabel"></a>: <em></em> <strong>clabel</strong> <em>(<var>c</var>, <var>h</var>)</em></dt>
-<dt><a name="index-clabel-1"></a>: <em></em> <strong>clabel</strong> <em>(<var>c</var>, <var>h</var>, <var>v</var>)</em></dt>
-<dt><a name="index-clabel-2"></a>: <em></em> <strong>clabel</strong> <em>(<var>c</var>, <var>h</var>, &quot;manual&quot;)</em></dt>
-<dt><a name="index-clabel-3"></a>: <em></em> <strong>clabel</strong> <em>(<var>c</var>)</em></dt>
-<dt><a name="index-clabel-4"></a>: <em></em> <strong>clabel</strong> <em>(&hellip;, <var>prop</var>, <var>val</var>, &hellip;)</em></dt>
-<dt><a name="index-clabel-5"></a>: <em><var>h</var> =</em> <strong>clabel</strong> <em>(&hellip;)</em></dt>
+<dt><a name="index-clabel"></a><em></em> <strong>clabel</strong> <em>(<var>c</var>, <var>h</var>)</em></dt>
+<dt><a name="index-clabel-1"></a><em></em> <strong>clabel</strong> <em>(<var>c</var>, <var>h</var>, <var>v</var>)</em></dt>
+<dt><a name="index-clabel-2"></a><em></em> <strong>clabel</strong> <em>(<var>c</var>, <var>h</var>, &quot;manual&quot;)</em></dt>
+<dt><a name="index-clabel-3"></a><em></em> <strong>clabel</strong> <em>(<var>c</var>)</em></dt>
+<dt><a name="index-clabel-4"></a><em></em> <strong>clabel</strong> <em>(&hellip;, <var>prop</var>, <var>val</var>, &hellip;)</em></dt>
+<dt><a name="index-clabel-5"></a><em><var>h</var> =</em> <strong>clabel</strong> <em>(&hellip;)</em></dt>
 <dd><p>Add labels to the contours of a contour plot.
 </p>
 <p>The contour levels are specified by the contour matrix <var>c</var> which is
@@ -301,10 +329,10 @@ clabel (c, h, -4:2:6, &quot;fontsize&quot;, 12);
 
 
 <a name="XREFbox"></a><dl>
-<dt><a name="index-box"></a>: <em></em> <strong>box</strong></dt>
-<dt><a name="index-box-1"></a>: <em></em> <strong>box</strong> <em>on</em></dt>
-<dt><a name="index-box-2"></a>: <em></em> <strong>box</strong> <em>off</em></dt>
-<dt><a name="index-box-3"></a>: <em></em> <strong>box</strong> <em>(<var>hax</var>, &hellip;)</em></dt>
+<dt><a name="index-box"></a><em></em> <strong>box</strong></dt>
+<dt><a name="index-box-1"></a><em></em> <strong>box</strong> <em>on</em></dt>
+<dt><a name="index-box-2"></a><em></em> <strong>box</strong> <em>off</em></dt>
+<dt><a name="index-box-3"></a><em></em> <strong>box</strong> <em>(<var>hax</var>, &hellip;)</em></dt>
 <dd><p>Control display of the axes border.
 </p>
 <p>The argument may be either <code>&quot;on&quot;</code> or <code>&quot;off&quot;</code>.  If it is
@@ -318,13 +346,13 @@ axes rather than the current axes returned by <code>gca</code>.
 
 
 <a name="XREFgrid"></a><dl>
-<dt><a name="index-grid"></a>: <em></em> <strong>grid</strong></dt>
-<dt><a name="index-grid-1"></a>: <em></em> <strong>grid</strong> <em>on</em></dt>
-<dt><a name="index-grid-2"></a>: <em></em> <strong>grid</strong> <em>off</em></dt>
-<dt><a name="index-grid-3"></a>: <em></em> <strong>grid</strong> <em>minor</em></dt>
-<dt><a name="index-grid-4"></a>: <em></em> <strong>grid</strong> <em>minor on</em></dt>
-<dt><a name="index-grid-5"></a>: <em></em> <strong>grid</strong> <em>minor off</em></dt>
-<dt><a name="index-grid-6"></a>: <em></em> <strong>grid</strong> <em>(<var>hax</var>, &hellip;)</em></dt>
+<dt><a name="index-grid"></a><em></em> <strong>grid</strong></dt>
+<dt><a name="index-grid-1"></a><em></em> <strong>grid</strong> <em>on</em></dt>
+<dt><a name="index-grid-2"></a><em></em> <strong>grid</strong> <em>off</em></dt>
+<dt><a name="index-grid-3"></a><em></em> <strong>grid</strong> <em>minor</em></dt>
+<dt><a name="index-grid-4"></a><em></em> <strong>grid</strong> <em>minor on</em></dt>
+<dt><a name="index-grid-5"></a><em></em> <strong>grid</strong> <em>minor off</em></dt>
+<dt><a name="index-grid-6"></a><em></em> <strong>grid</strong> <em>(<var>hax</var>, &hellip;)</em></dt>
 <dd><p>Control the display of plot grid lines.
 </p>
 <p>The function state input may be either <code>&quot;on&quot;</code> or <code>&quot;off&quot;</code>.
@@ -348,22 +376,23 @@ function.  For example:
 
 
 <a name="XREFcolorbar"></a><dl>
-<dt><a name="index-colorbar"></a>: <em></em> <strong>colorbar</strong></dt>
-<dt><a name="index-colorbar-1"></a>: <em></em> <strong>colorbar</strong> <em>(<var>loc</var>)</em></dt>
-<dt><a name="index-colorbar-2"></a>: <em></em> <strong>colorbar</strong> <em>(<var>delete_option</var>)</em></dt>
-<dt><a name="index-colorbar-3"></a>: <em></em> <strong>colorbar</strong> <em>(<var>hcb</var>, &hellip;)</em></dt>
-<dt><a name="index-colorbar-4"></a>: <em></em> <strong>colorbar</strong> <em>(<var>hax</var>, &hellip;)</em></dt>
-<dt><a name="index-colorbar-5"></a>: <em></em> <strong>colorbar</strong> <em>(&hellip;, &quot;peer&quot;, <var>hax</var>, &hellip;)</em></dt>
-<dt><a name="index-colorbar-6"></a>: <em></em> <strong>colorbar</strong> <em>(&hellip;, &quot;location&quot;, <var>loc</var>, &hellip;)</em></dt>
-<dt><a name="index-colorbar-7"></a>: <em></em> <strong>colorbar</strong> <em>(&hellip;, <var>prop</var>, <var>val</var>, &hellip;)</em></dt>
-<dt><a name="index-colorbar-8"></a>: <em><var>h</var> =</em> <strong>colorbar</strong> <em>(&hellip;)</em></dt>
+<dt><a name="index-colorbar"></a><em></em> <strong>colorbar</strong></dt>
+<dt><a name="index-colorbar-1"></a><em></em> <strong>colorbar</strong> <em>(&hellip;, <var>loc</var>)</em></dt>
+<dt><a name="index-colorbar-2"></a><em></em> <strong>colorbar</strong> <em>(<var>delete_option</var>)</em></dt>
+<dt><a name="index-colorbar-3"></a><em></em> <strong>colorbar</strong> <em>(<var>hcb</var>, &hellip;)</em></dt>
+<dt><a name="index-colorbar-4"></a><em></em> <strong>colorbar</strong> <em>(<var>hax</var>, &hellip;)</em></dt>
+<dt><a name="index-colorbar-5"></a><em></em> <strong>colorbar</strong> <em>(&hellip;, &quot;peer&quot;, <var>hax</var>, &hellip;)</em></dt>
+<dt><a name="index-colorbar-6"></a><em></em> <strong>colorbar</strong> <em>(&hellip;, &quot;location&quot;, <var>loc</var>, &hellip;)</em></dt>
+<dt><a name="index-colorbar-7"></a><em></em> <strong>colorbar</strong> <em>(&hellip;, <var>prop</var>, <var>val</var>, &hellip;)</em></dt>
+<dt><a name="index-colorbar-8"></a><em><var>h</var> =</em> <strong>colorbar</strong> <em>(&hellip;)</em></dt>
 <dd><p>Add a colorbar to the current axes.
 </p>
 <p>A colorbar displays the current colormap along with numerical rulings
 so that the color scale can be interpreted.
 </p>
-<p>The optional input <var>loc</var> determines the location of the colorbar.
-Valid values for <var>loc</var> are
+<p>The optional input <var>loc</var> determines the location of the colorbar.  If
+present, it must be the last argument to <code>colorbar</code>.  Valid values for
+<var>loc</var> are
 </p>
 <dl compact="compact">
 <dt><code>&quot;EastOutside&quot;</code></dt>
@@ -400,12 +429,14 @@ Valid values for <var>loc</var> are
 </dl>
 
 <p>To remove a colorbar from a plot use any one of the following keywords for
-the <var>delete_option</var>: <code>&quot;delete&quot;</code>, <code>&quot;hide&quot;</code>, <code>&quot;off&quot;</code>.
+the <var>delete_option</var>: <code>&quot;off&quot;</code>, <code>&quot;delete&quot;</code>, <code>&quot;hide&quot;</code>.
 </p>
-<p>If the argument <code>&quot;peer&quot;</code> is given, then the following argument is
-treated as the axes handle in which to add the colorbar.  Alternatively,
-If the first argument <var>hax</var> is an axes handle, then the colorbar is
+<p>If the first argument <var>hax</var> is an axes handle, then the colorbar is
 added to this axes, rather than the current axes returned by <code>gca</code>.
+Alternatively, If the argument <code>&quot;peer&quot;</code> is given, then the following
+argument is treated as the axes handle in which to add the colorbar.  The
+<code>&quot;peer&quot;</code> calling syntax may be removed in the future and is not
+recommended.
 </p>
 <p>If the first argument <var>hcb</var> is a handle to a colorbar object, then
 operate on this colorbar directly.
@@ -416,27 +447,27 @@ object.
 <p>The optional return value <var>h</var> is a graphics handle to the created
 colorbar object.
 </p>
-<p>Implementation Note: A colorbar is created as an additional axes to the
-current figure with the <code>&quot;tag&quot;</code> property set to <code>&quot;colorbar&quot;</code>.
-The created axes object has the extra property <code>&quot;location&quot;</code> which
-controls the positioning of the colorbar.
+<p>Implementation Note: A colorbar is created as an additional axes object
+with the <code>&quot;tag&quot;</code> property set to <code>&quot;colorbar&quot;</code>.  The created
+object has the extra property <code>&quot;location&quot;</code> which controls the
+positioning of the colorbar.
 </p>
 <p><strong>See also:</strong> <a href="Representing-Images.html#XREFcolormap">colormap</a>.
 </p></dd></dl>
 
 
 <a name="XREFannotation"></a><dl>
-<dt><a name="index-annotation"></a>: <em></em> <strong>annotation</strong> <em>(<var>type</var>)</em></dt>
-<dt><a name="index-annotation-1"></a>: <em></em> <strong>annotation</strong> <em>(&quot;line&quot;, <var>x</var>, <var>y</var>)</em></dt>
-<dt><a name="index-annotation-2"></a>: <em></em> <strong>annotation</strong> <em>(&quot;arrow&quot;, <var>x</var>, <var>y</var>)</em></dt>
-<dt><a name="index-annotation-3"></a>: <em></em> <strong>annotation</strong> <em>(&quot;doublearrow&quot;, <var>x</var>, <var>y</var>)</em></dt>
-<dt><a name="index-annotation-4"></a>: <em></em> <strong>annotation</strong> <em>(&quot;textarrow&quot;, <var>x</var>, <var>y</var>)</em></dt>
-<dt><a name="index-annotation-5"></a>: <em></em> <strong>annotation</strong> <em>(&quot;textbox&quot;, <var>pos</var>)</em></dt>
-<dt><a name="index-annotation-6"></a>: <em></em> <strong>annotation</strong> <em>(&quot;rectangle&quot;, <var>pos</var>)</em></dt>
-<dt><a name="index-annotation-7"></a>: <em></em> <strong>annotation</strong> <em>(&quot;ellipse&quot;, <var>pos</var>)</em></dt>
-<dt><a name="index-annotation-8"></a>: <em></em> <strong>annotation</strong> <em>(&hellip;, <var>prop</var>, <var>val</var>)</em></dt>
-<dt><a name="index-annotation-9"></a>: <em></em> <strong>annotation</strong> <em>(<var>hf</var>, &hellip;)</em></dt>
-<dt><a name="index-annotation-10"></a>: <em><var>h</var> =</em> <strong>annotation</strong> <em>(&hellip;)</em></dt>
+<dt><a name="index-annotation"></a><em></em> <strong>annotation</strong> <em>(<var>type</var>)</em></dt>
+<dt><a name="index-annotation-1"></a><em></em> <strong>annotation</strong> <em>(&quot;line&quot;, <var>x</var>, <var>y</var>)</em></dt>
+<dt><a name="index-annotation-2"></a><em></em> <strong>annotation</strong> <em>(&quot;arrow&quot;, <var>x</var>, <var>y</var>)</em></dt>
+<dt><a name="index-annotation-3"></a><em></em> <strong>annotation</strong> <em>(&quot;doublearrow&quot;, <var>x</var>, <var>y</var>)</em></dt>
+<dt><a name="index-annotation-4"></a><em></em> <strong>annotation</strong> <em>(&quot;textarrow&quot;, <var>x</var>, <var>y</var>)</em></dt>
+<dt><a name="index-annotation-5"></a><em></em> <strong>annotation</strong> <em>(&quot;textbox&quot;, <var>pos</var>)</em></dt>
+<dt><a name="index-annotation-6"></a><em></em> <strong>annotation</strong> <em>(&quot;rectangle&quot;, <var>pos</var>)</em></dt>
+<dt><a name="index-annotation-7"></a><em></em> <strong>annotation</strong> <em>(&quot;ellipse&quot;, <var>pos</var>)</em></dt>
+<dt><a name="index-annotation-8"></a><em></em> <strong>annotation</strong> <em>(&hellip;, <var>prop</var>, <var>val</var>)</em></dt>
+<dt><a name="index-annotation-9"></a><em></em> <strong>annotation</strong> <em>(<var>hf</var>, &hellip;)</em></dt>
+<dt><a name="index-annotation-10"></a><em><var>h</var> =</em> <strong>annotation</strong> <em>(&hellip;)</em></dt>
 <dd><p>Draw annotations to emphasize parts of a figure.
 </p>
 <p>You may build a default annotation by specifying only the <var>type</var>

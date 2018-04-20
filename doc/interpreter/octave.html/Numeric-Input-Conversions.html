@@ -78,8 +78,9 @@ integers in octal, decimal, and hexadecimal radices, respectively.
 <p>The &lsquo;<samp>%X</samp>&rsquo; conversion is identical to the &lsquo;<samp>%x</samp>&rsquo; conversion.  They
 both permit either uppercase or lowercase letters to be used as digits.
 </p>
-<p>Unlike the C language <code>scanf</code>, Octave ignores the &lsquo;<samp>h</samp>&rsquo;,
-&lsquo;<samp>l</samp>&rsquo;, and &lsquo;<samp>L</samp>&rsquo; modifiers.
+<p>By default, integers are read as 32-bit quantities.  With the &lsquo;<samp>h</samp>&rsquo;
+modifier, 16-bit integers are used, and with the &lsquo;<samp>l</samp>&rsquo; modifier,
+64-bit integers are used.
 </p>
 
 

@@ -1,4 +1,4 @@
-# Copyright (C) 2002-2016 Free Software Foundation, Inc.
+# Copyright (C) 2002-2018 Free Software Foundation, Inc.
 #
 # This file is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -11,7 +11,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this file.  If not, see <http://www.gnu.org/licenses/>.
+# along with this file.  If not, see <https://www.gnu.org/licenses/>.
 #
 # As a special exception to the GNU General Public License,
 # this file may be distributed as part of a program that
@@ -27,7 +27,7 @@
 
 
 # Specification in the form of a command-line invocation:
-#   gnulib-tool --import --local-dir=gl --lib=libgnu --source-base=libgnu --m4-base=m4 --doc-base=doc --tests-base=tests --aux-dir=build-aux --no-conditional-dependencies --libtool --macro-prefix=gl areadlink base64 canonicalize chdir close closedir crypto/md2 crypto/md4 crypto/md5 crypto/sha1 crypto/sha256 crypto/sha512 dup2 fcntl filemode fnmatch fpucw frexp frexpf fseek ftell ftruncate getcwd gethostname getopt-gnu getrusage gettimeofday glob isatty largefile link lstat malloc-gnu mkdir mkfifo mkostemp mktime nanosleep nproc open opendir pipe-posix progname putenv readdir rmdir select sigaction signal sigprocmask stat std-gnu11 stddef stdio strdup strerror strftime strptime strsignal symlink sys_stat sys_time sys_times sys_wait tempname tmpfile uname unistd unlink unsetenv vasprintf waitpid
+#   gnulib-tool --import --local-dir=gl --lib=libgnu --source-base=libgnu --m4-base=m4 --doc-base=doc --tests-base=tests --aux-dir=build-aux --no-conditional-dependencies --libtool --macro-prefix=gl areadlink base64 canonicalize chdir clock-time close closedir crypto/md2 crypto/md4 crypto/md5 crypto/sha1 crypto/sha256 crypto/sha512 dup2 fcntl filemode fnmatch fpucw frexp frexpf fseek ftell ftruncate getcwd gethostname getopt-gnu getrusage gettimeofday glob isatty largefile link localcharset lstat malloc-gnu mkdir mkfifo mkostemp mktime nanosleep nproc open opendir pipe-posix progname putenv readdir rewinddir rmdir select sigaction signal sigprocmask stat std-gnu11 stddef stdio strdup-posix strerror strftime strptime strsignal symlink sys_stat sys_time sys_times sys_wait tempname tmpfile uname uniconv/u8-conv-from-enc uniconv/u8-conv-to-enc unistd unlink unsetenv vasprintf waitpid
 
 # Specification in the form of a few gnulib-tool.m4 macro invocations:
 gl_LOCAL_DIR([gl])
@@ -36,6 +36,7 @@ gl_MODULES([
   base64
   canonicalize
   chdir
+  clock-time
   close
   closedir
   crypto/md2
@@ -63,6 +64,7 @@ gl_MODULES([
   isatty
   largefile
   link
+  localcharset
   lstat
   malloc-gnu
   mkdir
@@ -77,6 +79,7 @@ gl_MODULES([
   progname
   putenv
   readdir
+  rewinddir
   rmdir
   select
   sigaction
@@ -86,7 +89,7 @@ gl_MODULES([
   std-gnu11
   stddef
   stdio
-  strdup
+  strdup-posix
   strerror
   strftime
   strptime
@@ -99,6 +102,8 @@ gl_MODULES([
   tempname
   tmpfile
   uname
+  uniconv/u8-conv-from-enc
+  uniconv/u8-conv-to-enc
   unistd
   unlink
   unsetenv

@@ -1,22 +1,22 @@
 /*
 
-Copyright (C) 2011-2017 Jacob Dawid
+Copyright (C) 2011-2018 Jacob Dawid
 
 This file is part of Octave.
 
-Octave is free software; you can redistribute it and/or modify it
-under the terms of the GNU General Public License as published by the
-Free Software Foundation; either version 3 of the License, or (at your
-option) any later version.
+Octave is free software: you can redistribute it and/or modify it
+under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-Octave is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-for more details.
+Octave is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with Octave; see the file COPYING.  If not, see
-<http://www.gnu.org/licenses/>.
+<https://www.gnu.org/licenses/>.
 
 */
 
@@ -26,45 +26,76 @@ along with Octave; see the file COPYING.  If not, see
 
 #include "documentation-dock-widget.h"
 
-documentation_dock_widget::documentation_dock_widget (QWidget *p)
-  : octave_dock_widget (p)
+#include "help.h"
+#include "interpreter-private.h"
+
+namespace octave
 {
-  setObjectName ("DocumentationDockWidget");
-  setWindowIcon (QIcon (":/actions/icons/logo.png"));
-  set_title (tr ("Documentation"));
-  setStatusTip (tr ("See the documentation for help."));
+  documentation_dock_widget::documentation_dock_widget (QWidget *p)
+    : octave_dock_widget (p)
+  {
+    setObjectName ("DocumentationDockWidget");
+    setWindowIcon (QIcon (":/actions/icons/logo.png"));
+    set_title (tr ("Documentation"));
+    setStatusTip (tr ("See the documentation for help."));
 
-  _webinfo = new webinfo (this);
-  setWidget (_webinfo);
+    m_docs = new octave::documentation (this);
+    setWidget (m_docs);
 
-  connect (p, SIGNAL (show_doc_signal (const QString &)),
-           this, SLOT (showDoc (const QString &)));
-}
+    connect (p, SIGNAL (show_doc_signal (const QString&)),
+             this, SLOT (showDoc (const QString&)));
 
-void
-documentation_dock_widget::copyClipboard ()
-{
-  _webinfo->copyClipboard ();
-}
-void
-documentation_dock_widget::pasteClipboard ()
-{
-  _webinfo->pasteClipboard ();
-}
-void
-documentation_dock_widget::selectAll ()
-{
-  _webinfo->selectAll ();
-}
+    connect (p, SIGNAL (register_doc_signal (const QString&)),
+             this, SLOT (registerDoc (const QString&)));
 
-void
-documentation_dock_widget::showDoc (const QString &name)
-{
-  // show the doc pane without focus for carrying on typing in the console
-  if (! isVisible ())
-    setVisible (true);
-  raise ();
+    connect (p, SIGNAL (unregister_doc_signal (const QString&)),
+             this, SLOT (unregisterDoc (const QString&)));
+  }
 
-  _webinfo->load_ref (name);
+  documentation_dock_widget::~documentation_dock_widget (void)
+  {
+    if (m_docs)
+      delete m_docs;
+  }
 
+  void documentation_dock_widget::notice_settings (const QSettings *settings)
+  {
+    m_docs->notice_settings (settings);
+  }
+
+  void documentation_dock_widget::copyClipboard (void)
+  {
+    m_docs->copyClipboard ();
+  }
+
+  void documentation_dock_widget::pasteClipboard (void)
+  {
+    m_docs->pasteClipboard ();
+  }
+
+  void documentation_dock_widget::selectAll (void)
+  {
+    m_docs->selectAll ();
+  }
+
+  void documentation_dock_widget::showDoc (const QString& name)
+  {
+    // show the doc pane without focus for carrying on typing in the console
+    if (! isVisible ())
+      setVisible (true);
+
+    raise ();
+
+    m_docs->load_ref (name);
+  }
+
+  void documentation_dock_widget::registerDoc (const QString& name)
+  {
+    m_docs->registerDoc (name);
+  }
+
+  void documentation_dock_widget::unregisterDoc (const QString& name)
+  {
+    m_docs->unregisterDoc (name);
+  }
 }

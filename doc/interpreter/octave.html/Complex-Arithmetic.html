@@ -63,7 +63,7 @@ Next: <a href="Trigonometry.html#Trigonometry" accesskey="n" rel="next">Trigonom
 defined as <code>sqrt (-1)</code>.
 </p>
 <a name="XREFabs"></a><dl>
-<dt><a name="index-abs"></a>: <em></em> <strong>abs</strong> <em>(<var>z</var>)</em></dt>
+<dt><a name="index-abs"></a><em></em> <strong>abs</strong> <em>(<var>z</var>)</em></dt>
 <dd><p>Compute the magnitude of <var>z</var>.
 </p>
 <p>The magnitude is defined as
@@ -81,8 +81,8 @@ defined as <code>sqrt (-1)</code>.
 
 
 <a name="XREFarg"></a><dl>
-<dt><a name="index-arg"></a>: <em></em> <strong>arg</strong> <em>(<var>z</var>)</em></dt>
-<dt><a name="index-angle"></a>: <em></em> <strong>angle</strong> <em>(<var>z</var>)</em></dt>
+<dt><a name="index-arg"></a><em></em> <strong>arg</strong> <em>(<var>z</var>)</em></dt>
+<dt><a name="index-angle"></a><em></em> <strong>angle</strong> <em>(<var>z</var>)</em></dt>
 <dd><p>Compute the argument, i.e., angle of <var>z</var>.
 </p>
 <p>This is defined as,
@@ -101,7 +101,7 @@ in radians.
 
 
 <a name="XREFconj"></a><dl>
-<dt><a name="index-conj"></a>: <em></em> <strong>conj</strong> <em>(<var>z</var>)</em></dt>
+<dt><a name="index-conj"></a><em></em> <strong>conj</strong> <em>(<var>z</var>)</em></dt>
 <dd><p>Return the complex conjugate of <var>z</var>.
 </p>
 <p>The complex conjugate is defined as
@@ -112,20 +112,21 @@ in radians.
 
 
 <a name="XREFcplxpair"></a><dl>
-<dt><a name="index-cplxpair"></a>: <em></em> <strong>cplxpair</strong> <em>(<var>z</var>)</em></dt>
-<dt><a name="index-cplxpair-1"></a>: <em></em> <strong>cplxpair</strong> <em>(<var>z</var>, <var>tol</var>)</em></dt>
-<dt><a name="index-cplxpair-2"></a>: <em></em> <strong>cplxpair</strong> <em>(<var>z</var>, <var>tol</var>, <var>dim</var>)</em></dt>
+<dt><a name="index-cplxpair"></a><em></em> <strong>cplxpair</strong> <em>(<var>z</var>)</em></dt>
+<dt><a name="index-cplxpair-1"></a><em></em> <strong>cplxpair</strong> <em>(<var>z</var>, <var>tol</var>)</em></dt>
+<dt><a name="index-cplxpair-2"></a><em></em> <strong>cplxpair</strong> <em>(<var>z</var>, <var>tol</var>, <var>dim</var>)</em></dt>
 <dd><p>Sort the numbers <var>z</var> into complex conjugate pairs ordered by increasing
 real part.
 </p>
 <p>The negative imaginary complex numbers are placed first within each pair.
 All real numbers (those with
-<code>abs (imag (<var>z</var>) / <var>z</var>) &lt; <var>tol</var></code>) are placed after the
-complex pairs.
+<code>abs (imag (<var>z</var>)) / abs (<var>z</var>) &lt; <var>tol</var></code>) are placed after
+the complex pairs.
 </p>
-<p><var>tol</var> is a weighting factor which determines the tolerance of matching.
-The default value is 100 and the resulting tolerance for a given complex
-pair is <code>100 * eps (abs (<var>z</var>(i)))</code>.
+<p><var>tol</var> is a weighting factor in the range [0, 1) which determines the
+tolerance of the matching.  The default value is <code>100 * eps</code> and the
+resulting tolerance for a given complex pair is
+<code><var>tol</var> * abs (<var>z</var>(i)))</code>.
 </p>
 <p>By default the complex pairs are sorted along the first non-singleton
 dimension of <var>z</var>.  If <var>dim</var> is specified, then the complex pairs are
@@ -143,7 +144,7 @@ differing imaginary parts.
 
 
 <a name="XREFimag"></a><dl>
-<dt><a name="index-imag"></a>: <em></em> <strong>imag</strong> <em>(<var>z</var>)</em></dt>
+<dt><a name="index-imag"></a><em></em> <strong>imag</strong> <em>(<var>z</var>)</em></dt>
 <dd><p>Return the imaginary part of <var>z</var> as a real number.
 </p>
 <p><strong>See also:</strong> <a href="#XREFreal">real</a>, <a href="#XREFconj">conj</a>.
@@ -151,7 +152,7 @@ differing imaginary parts.
 
 
 <a name="XREFreal"></a><dl>
-<dt><a name="index-real"></a>: <em></em> <strong>real</strong> <em>(<var>z</var>)</em></dt>
+<dt><a name="index-real"></a><em></em> <strong>real</strong> <em>(<var>z</var>)</em></dt>
 <dd><p>Return the real part of <var>z</var>.
 </p>
 <p><strong>See also:</strong> <a href="#XREFimag">imag</a>, <a href="#XREFconj">conj</a>.

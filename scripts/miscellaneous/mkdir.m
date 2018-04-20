@@ -1,27 +1,30 @@
-## Copyright (C) 2016-2017 Lachlan Andrew
+## Copyright (C) 2016-2018 Lachlan Andrew
 ## Copyright (C) 2012 Carnë Draug
 ##
-## This program is free software; you can redistribute it and/or modify it
+## Octave is free software: you can redistribute it and/or modify it
 ## under the terms of the GNU General Public License as published by
-## the Free Software Foundation; either version 3 of the License, or
+## the Free Software Foundation, either version 3 of the License, or
 ## (at your option) any later version.
 ##
-## This program is distributed in the hope that it will be useful,
-## but WITHOUT ANY WARRANTY; without even the implied warranty of
+## Octave is distributed in the hope that it will be useful, but
+## WITHOUT ANY WARRANTY; without even the implied warranty of
 ## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 ## GNU General Public License for more details.
 ##
 ## You should have received a copy of the GNU General Public License
-## along with this program.  If not, see <http://www.gnu.org/licenses/>.
+## along with Octave; see the file COPYING.  If not, see
+## <https://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn  {} {} mkdir @var{dir}
-## @deftypefnx {} {} mkdir (@var{parent}, @var{dir})
+## @deftypefn  {} {} mkdir @var{dirname}
+## @deftypefnx {} {} mkdir @var{parent} @var{dirname}
+## @deftypefnx {} {} mkdir (@var{dirname})
+## @deftypefnx {} {} mkdir (@var{parent}, @var{dirname})
 ## @deftypefnx {} {[@var{status}, @var{msg}, @var{msgid}] =} mkdir (@dots{})
-## Create a directory named @var{dir} in the directory @var{parent},
+## Create a directory named @var{dirname} in the directory @var{parent},
 ## creating any intermediate directories if necessary.
 ##
-## If @var{dir} is a relative path and no @var{parent} directory is specified
+## If @var{dir} is a relative path, and no @var{parent} directory is specified,
 ## then the present working directory is used.
 ##
 ## If successful, @var{status} is 1, and @var{msg} and @var{msgid} are empty
@@ -47,7 +50,7 @@ function [status, msg, msgid] = mkdir (parent, dirname)
   if (nargin == 1)
     dirname = parent;
 
-    if (is_absolute_filename (dirname))
+    if (is_absolute_filename (tilde_expand (dirname)))
       parent = "";
     else
       parent = [pwd(), filesep];
@@ -91,6 +94,25 @@ endfunction
 %! unwind_protect_cleanup
 %!   confirm_recursive_rmdir (false, "local");
 %!   rmdir (dir1, "s");
+%! end_unwind_protect
+
+%!test <*53031>
+%! HOME = getenv ("HOME");
+%! tmp_dir = tempname ();
+%! unwind_protect
+%!   mkdir (tmp_dir);
+%!   setenv ("HOME", tmp_dir);
+%!   status = mkdir ("~/subdir");
+%!   assert (status);
+%!   assert (isdir (fullfile (tmp_dir, "subdir")));
+%! unwind_protect_cleanup
+%!   rmdir (fullfile (tmp_dir, "subdir"));
+%!   rmdir (tmp_dir);
+%!   if (isempty (HOME))
+%!     unsetenv ("HOME");
+%!   else
+%!     setenv ("HOME", HOME);
+%!   endif
 %! end_unwind_protect
 
 ## Test input validation

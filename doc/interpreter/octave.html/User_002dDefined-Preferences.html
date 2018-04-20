@@ -59,11 +59,11 @@ Previous: <a href="GUI-Utility-Functions.html#GUI-Utility-Functions" accesskey="
 <h3 class="section">35.5 User-Defined Preferences</h3>
 
 <a name="XREFgetpref"></a><dl>
-<dt><a name="index-getpref"></a>: <em><var>val</var> =</em> <strong>getpref</strong> <em>(&quot;<var>group</var>&quot;, &quot;<var>pref</var>&quot;)</em></dt>
-<dt><a name="index-getpref-1"></a>: <em><var>val</var> =</em> <strong>getpref</strong> <em>(&quot;<var>group</var>&quot;, &quot;<var>pref</var>&quot;, <var>default</var>)</em></dt>
-<dt><a name="index-getpref-2"></a>: <em>{<var>val1</var>, <var>val2</var>, &hellip;} =</em> <strong>getpref</strong> <em>(&quot;<var>group</var>&quot;, {&quot;<var>pref1</var>&quot;, &quot;<var>pref2&quot;</var>, &hellip;})</em></dt>
-<dt><a name="index-getpref-3"></a>: <em><var>prefstruct</var> =</em> <strong>getpref</strong> <em>(&quot;<var>group</var>&quot;)</em></dt>
-<dt><a name="index-getpref-4"></a>: <em><var>prefstruct</var> =</em> <strong>getpref</strong> <em>()</em></dt>
+<dt><a name="index-getpref"></a><em><var>val</var> =</em> <strong>getpref</strong> <em>(&quot;<var>group</var>&quot;, &quot;<var>pref</var>&quot;)</em></dt>
+<dt><a name="index-getpref-1"></a><em><var>val</var> =</em> <strong>getpref</strong> <em>(&quot;<var>group</var>&quot;, &quot;<var>pref</var>&quot;, <var>default</var>)</em></dt>
+<dt><a name="index-getpref-2"></a><em>{<var>val1</var>, <var>val2</var>, &hellip;} =</em> <strong>getpref</strong> <em>(&quot;<var>group</var>&quot;, {&quot;<var>pref1</var>&quot;, &quot;<var>pref2&quot;</var>, &hellip;})</em></dt>
+<dt><a name="index-getpref-3"></a><em><var>prefstruct</var> =</em> <strong>getpref</strong> <em>(&quot;<var>group</var>&quot;)</em></dt>
+<dt><a name="index-getpref-4"></a><em><var>prefstruct</var> =</em> <strong>getpref</strong> <em>()</em></dt>
 <dd><p>Return the preference value corresponding to the named preference <var>pref</var>
 in the preference group <var>group</var>.
 </p>
@@ -91,8 +91,8 @@ preferences and their values.
 
 
 <a name="XREFsetpref"></a><dl>
-<dt><a name="index-setpref"></a>: <em></em> <strong>setpref</strong> <em>(&quot;<var>group</var>&quot;, &quot;<var>pref</var>&quot;, <var>val</var>)</em></dt>
-<dt><a name="index-setpref-1"></a>: <em></em> <strong>setpref</strong> <em>(&quot;<var>group</var>&quot;, {&quot;<var>pref1</var>&quot;, &quot;<var>pref2</var>&quot;, &hellip;}, {<var>val1</var>, <var>val2</var>, &hellip;})</em></dt>
+<dt><a name="index-setpref"></a><em></em> <strong>setpref</strong> <em>(&quot;<var>group</var>&quot;, &quot;<var>pref</var>&quot;, <var>val</var>)</em></dt>
+<dt><a name="index-setpref-1"></a><em></em> <strong>setpref</strong> <em>(&quot;<var>group</var>&quot;, {&quot;<var>pref1</var>&quot;, &quot;<var>pref2</var>&quot;, &hellip;}, {<var>val1</var>, <var>val2</var>, &hellip;})</em></dt>
 <dd><p>Set the preference <var>pref</var> to the given <var>val</var> in the named preference
 group <var>group</var>.
 </p>
@@ -112,8 +112,8 @@ strings then <var>val</var> must be a cell array of values with the same size as
 
 
 <a name="XREFaddpref"></a><dl>
-<dt><a name="index-addpref"></a>: <em></em> <strong>addpref</strong> <em>(&quot;<var>group</var>&quot;, &quot;<var>pref</var>&quot;, <var>val</var>)</em></dt>
-<dt><a name="index-addpref-1"></a>: <em></em> <strong>addpref</strong> <em>(&quot;<var>group</var>&quot;, {&quot;<var>pref1</var>&quot;, &quot;<var>pref2</var>&quot;, &hellip;}, {<var>val1</var>, <var>val2</var>, &hellip;})</em></dt>
+<dt><a name="index-addpref"></a><em></em> <strong>addpref</strong> <em>(&quot;<var>group</var>&quot;, &quot;<var>pref</var>&quot;, <var>val</var>)</em></dt>
+<dt><a name="index-addpref-1"></a><em></em> <strong>addpref</strong> <em>(&quot;<var>group</var>&quot;, {&quot;<var>pref1</var>&quot;, &quot;<var>pref2</var>&quot;, &hellip;}, {<var>val1</var>, <var>val2</var>, &hellip;})</em></dt>
 <dd><p>Add the preference <var>pref</var> and associated value <var>val</var> to the named
 preference group <var>group</var>.
 </p>
@@ -132,9 +132,9 @@ strings then <var>val</var> must be a cell array of values with the same size as
 
 
 <a name="XREFrmpref"></a><dl>
-<dt><a name="index-rmpref"></a>: <em></em> <strong>rmpref</strong> <em>(&quot;<var>group</var>&quot;, &quot;<var>pref</var>&quot;)</em></dt>
-<dt><a name="index-rmpref-1"></a>: <em></em> <strong>rmpref</strong> <em>(&quot;<var>group</var>&quot;, {&quot;<var>pref1</var>&quot;, &quot;<var>pref2</var>&quot;, &hellip;})</em></dt>
-<dt><a name="index-rmpref-2"></a>: <em></em> <strong>rmpref</strong> <em>(&quot;<var>group</var>&quot;)</em></dt>
+<dt><a name="index-rmpref"></a><em></em> <strong>rmpref</strong> <em>(&quot;<var>group</var>&quot;, &quot;<var>pref</var>&quot;)</em></dt>
+<dt><a name="index-rmpref-1"></a><em></em> <strong>rmpref</strong> <em>(&quot;<var>group</var>&quot;, {&quot;<var>pref1</var>&quot;, &quot;<var>pref2</var>&quot;, &hellip;})</em></dt>
+<dt><a name="index-rmpref-2"></a><em></em> <strong>rmpref</strong> <em>(&quot;<var>group</var>&quot;)</em></dt>
 <dd><p>Remove the named preference <var>pref</var> from the preference group
 <var>group</var>.
 </p>
@@ -151,9 +151,9 @@ strings then <var>val</var> must be a cell array of values with the same size as
 
 
 <a name="XREFispref"></a><dl>
-<dt><a name="index-ispref"></a>: <em></em> <strong>ispref</strong> <em>(&quot;<var>group</var>&quot;, &quot;<var>pref</var>&quot;)</em></dt>
-<dt><a name="index-ispref-1"></a>: <em></em> <strong>ispref</strong> <em>(&quot;<var>group</var>&quot;, {&quot;<var>pref1</var>&quot;, &quot;<var>pref2&quot;</var>, &hellip;})</em></dt>
-<dt><a name="index-ispref-2"></a>: <em></em> <strong>ispref</strong> <em>(&quot;<var>group</var>&quot;)</em></dt>
+<dt><a name="index-ispref"></a><em></em> <strong>ispref</strong> <em>(&quot;<var>group</var>&quot;, &quot;<var>pref</var>&quot;)</em></dt>
+<dt><a name="index-ispref-1"></a><em></em> <strong>ispref</strong> <em>(&quot;<var>group</var>&quot;, {&quot;<var>pref1</var>&quot;, &quot;<var>pref2&quot;</var>, &hellip;})</em></dt>
+<dt><a name="index-ispref-2"></a><em></em> <strong>ispref</strong> <em>(&quot;<var>group</var>&quot;)</em></dt>
 <dd><p>Return true if the named preference <var>pref</var> exists in the preference
 group <var>group</var>.
 </p>
@@ -169,9 +169,9 @@ group <var>group</var>.
 
 
 <a name="XREFprefdir"></a><dl>
-<dt><a name="index-prefdir"></a>: <em></em> <strong>prefdir</strong></dt>
-<dt><a name="index-prefdir-1"></a>: <em></em> <strong>prefdir</strong> <em>(1)</em></dt>
-<dt><a name="index-prefdir-2"></a>: <em><var>dir</var> =</em> <strong>prefdir</strong></dt>
+<dt><a name="index-prefdir"></a><em></em> <strong>prefdir</strong></dt>
+<dt><a name="index-prefdir-1"></a><em></em> <strong>prefdir</strong> <em>(1)</em></dt>
+<dt><a name="index-prefdir-2"></a><em><var>dir</var> =</em> <strong>prefdir</strong></dt>
 <dd><p>Return the directory that holds the preferences for Octave.
 </p>
 <p>Examples:
@@ -196,7 +196,7 @@ doesn&rsquo;t already exist.
 
 
 <a name="XREFpreferences"></a><dl>
-<dt><a name="index-preferences"></a>: <em></em> <strong>preferences</strong></dt>
+<dt><a name="index-preferences"></a><em></em> <strong>preferences</strong></dt>
 <dd><p>Display the GUI preferences dialog window for Octave.
 </p></dd></dl>
 

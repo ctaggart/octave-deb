@@ -109,9 +109,9 @@ end_try_catch
 </pre></div>
 
 <a name="XREFlasterror"></a><dl>
-<dt><a name="index-lasterror"></a>: <em><var>lasterr</var> =</em> <strong>lasterror</strong> <em>()</em></dt>
-<dt><a name="index-lasterror-1"></a>: <em></em> <strong>lasterror</strong> <em>(<var>err</var>)</em></dt>
-<dt><a name="index-lasterror-2"></a>: <em></em> <strong>lasterror</strong> <em>(&quot;reset&quot;)</em></dt>
+<dt><a name="index-lasterror"></a><em><var>lasterr</var> =</em> <strong>lasterror</strong> <em>()</em></dt>
+<dt><a name="index-lasterror-1"></a><em></em> <strong>lasterror</strong> <em>(<var>err</var>)</em></dt>
+<dt><a name="index-lasterror-2"></a><em></em> <strong>lasterror</strong> <em>(&quot;reset&quot;)</em></dt>
 <dd><p>Query or set the last error message structure.
 </p>
 <p>When called without arguments, return a structure containing the last error
@@ -164,9 +164,9 @@ fields are set to their default values.
 
 
 <a name="XREFlasterr"></a><dl>
-<dt><a name="index-lasterr"></a>: <em>[<var>msg</var>, <var>msgid</var>] =</em> <strong>lasterr</strong> <em>()</em></dt>
-<dt><a name="index-lasterr-1"></a>: <em></em> <strong>lasterr</strong> <em>(<var>msg</var>)</em></dt>
-<dt><a name="index-lasterr-2"></a>: <em></em> <strong>lasterr</strong> <em>(<var>msg</var>, <var>msgid</var>)</em></dt>
+<dt><a name="index-lasterr"></a><em>[<var>msg</var>, <var>msgid</var>] =</em> <strong>lasterr</strong> <em>()</em></dt>
+<dt><a name="index-lasterr-1"></a><em></em> <strong>lasterr</strong> <em>(<var>msg</var>)</em></dt>
+<dt><a name="index-lasterr-2"></a><em></em> <strong>lasterr</strong> <em>(<var>msg</var>, <var>msgid</var>)</em></dt>
 <dd><p>Query or set the last error message.
 </p>
 <p>When called without input arguments, return the last error message and
@@ -260,7 +260,7 @@ endfor
 </pre></div>
 
 <a name="XREFrethrow"></a><dl>
-<dt><a name="index-rethrow"></a>: <em></em> <strong>rethrow</strong> <em>(<var>err</var>)</em></dt>
+<dt><a name="index-rethrow"></a><em></em> <strong>rethrow</strong> <em>(<var>err</var>)</em></dt>
 <dd><p>Reissue a previous error as defined by <var>err</var>.
 </p>
 <p><var>err</var> is a structure that must contain at least the <code>&quot;message&quot;</code>
@@ -274,20 +274,27 @@ error.  Typically <var>err</var> is returned from <code>lasterror</code>.
 
 
 <a name="XREFerrno"></a><dl>
-<dt><a name="index-errno"></a>: <em><var>err</var> =</em> <strong>errno</strong> <em>()</em></dt>
-<dt><a name="index-errno-1"></a>: <em><var>err</var> =</em> <strong>errno</strong> <em>(<var>val</var>)</em></dt>
-<dt><a name="index-errno-2"></a>: <em><var>err</var> =</em> <strong>errno</strong> <em>(<var>name</var>)</em></dt>
-<dd><p>Return the current value of the system-dependent variable errno,
-set its value to <var>val</var> and return the previous value, or return
-the named error code given <var>name</var> as a character string, or -1
-if <var>name</var> is not found.
+<dt><a name="index-errno"></a><em><var>err</var> =</em> <strong>errno</strong> <em>()</em></dt>
+<dt><a name="index-errno-1"></a><em><var>err</var> =</em> <strong>errno</strong> <em>(<var>val</var>)</em></dt>
+<dt><a name="index-errno-2"></a><em><var>err</var> =</em> <strong>errno</strong> <em>(<var>name</var>)</em></dt>
+<dd><p>Query or set the system-dependent variable errno.
 </p>
+<p>When called with no inputs, return the current value of errno.
+</p>
+<p>When called with a numeric input <var>val</var>, set the current value of errno
+to the specified value.  The previous value of errno is returned as <var>err</var>.
+</p>
+<p>When called with a character string <var>name</var>, return the numeric value of
+errno which corresponds to the specified error code.  If <var>name</var> is not
+a recognized error code then -1 is returned.
+</p>
+
 <p><strong>See also:</strong> <a href="#XREFerrno_005flist">errno_list</a>.
 </p></dd></dl>
 
 
 <a name="XREFerrno_005flist"></a><dl>
-<dt><a name="index-errno_005flist"></a>: <em></em> <strong>errno_list</strong> <em>()</em></dt>
+<dt><a name="index-errno_005flist"></a><em></em> <strong>errno_list</strong> <em>()</em></dt>
 <dd><p>Return a structure containing the system-dependent errno values.
 </p>
 <p><strong>See also:</strong> <a href="#XREFerrno">errno</a>.

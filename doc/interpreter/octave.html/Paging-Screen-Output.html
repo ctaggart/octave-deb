@@ -58,30 +58,29 @@ Up: <a href="Terminal-Output.html#Terminal-Output" accesskey="u" rel="up">Termin
 <a name="Paging-Screen-Output-1"></a>
 <h4 class="subsubsection">14.1.1.1 Paging Screen Output</h4>
 
-<p>When running interactively, Octave normally sends any output intended
-for your terminal that is more than one screen long to a paging program,
-such as <code>less</code> or <code>more</code>.  This avoids the problem of having a
-large volume of output stream by before you can read it.  With
-<code>less</code> (and some versions of <code>more</code>) you can also scan forward
-and backward, and search for specific items.
+<p>When running interactively, Octave normally sends all output directly to the
+Command Window.  However, when using the CLI version of Octave this can create
+a problem because large volumes of data will stream by before you can read
+them.  In such cases, it is better to use a paging program such as <code>less</code>
+or <code>more</code> which displays just one screenful at a time.  With <code>less</code>
+(and some versions of <code>more</code>) you can also scan forward and backward, and
+search for specific items.  The pager is enabled by the command <code>more on</code>.
 </p>
-<p>Normally, no output is displayed by the pager until just before Octave
-is ready to print the top level prompt, or read from the standard input
-(for example, by using the <code>fscanf</code> or <code>scanf</code> functions).
-This means that there may be some delay before any output appears on
-your screen if you have asked Octave to perform a significant amount of
-work with a single command statement.  The function <code>fflush</code> may be
-used to force output to be sent to the pager (or any other stream)
-immediately.
+<p>Normally, no output is displayed by the pager until just before Octave is ready
+to print the top level prompt, or read from the standard input (for example, by
+using the <code>fscanf</code> or <code>scanf</code> functions).  This means that there may
+be some delay before any output appears on your screen if you have asked Octave
+to perform a significant amount of work with a single command statement.  The
+function <code>fflush</code> may be used to force output to be sent to the pager (or
+any other stream) immediately.
 </p>
-<p>You can select the program to run as the pager using the <code>PAGER</code>
-function, and you can turn paging off by using the function
-<code>more</code>.
+<p>You can select the program to run as the pager with the <code>PAGER</code> function,
+and configure the pager itself with the <code>PAGER_FLAGS</code> function.
 </p>
 <a name="XREFmore"></a><dl>
-<dt><a name="index-more"></a>: <em></em> <strong>more</strong></dt>
-<dt><a name="index-more-1"></a>: <em></em> <strong>more</strong> <em>on</em></dt>
-<dt><a name="index-more-2"></a>: <em></em> <strong>more</strong> <em>off</em></dt>
+<dt><a name="index-more"></a><em></em> <strong>more</strong></dt>
+<dt><a name="index-more-1"></a><em></em> <strong>more</strong> <em>on</em></dt>
+<dt><a name="index-more-2"></a><em></em> <strong>more</strong> <em>off</em></dt>
 <dd><p>Turn output pagination on or off.
 </p>
 <p>Without an argument, <code>more</code> toggles the current state.
@@ -93,9 +92,9 @@ function, and you can turn paging off by using the function
 
 
 <a name="XREFPAGER"></a><dl>
-<dt><a name="index-PAGER"></a>: <em><var>val</var> =</em> <strong>PAGER</strong> <em>()</em></dt>
-<dt><a name="index-PAGER-1"></a>: <em><var>old_val</var> =</em> <strong>PAGER</strong> <em>(<var>new_val</var>)</em></dt>
-<dt><a name="index-PAGER-2"></a>: <em></em> <strong>PAGER</strong> <em>(<var>new_val</var>, &quot;local&quot;)</em></dt>
+<dt><a name="index-PAGER"></a><em><var>val</var> =</em> <strong>PAGER</strong> <em>()</em></dt>
+<dt><a name="index-PAGER-1"></a><em><var>old_val</var> =</em> <strong>PAGER</strong> <em>(<var>new_val</var>)</em></dt>
+<dt><a name="index-PAGER-2"></a><em></em> <strong>PAGER</strong> <em>(<var>new_val</var>, &quot;local&quot;)</em></dt>
 <dd><p>Query or set the internal variable that specifies the program to use
 to display terminal output on your system.
 </p>
@@ -112,9 +111,9 @@ The original variable value is restored when exiting the function.
 
 
 <a name="XREFPAGER_005fFLAGS"></a><dl>
-<dt><a name="index-PAGER_005fFLAGS"></a>: <em><var>val</var> =</em> <strong>PAGER_FLAGS</strong> <em>()</em></dt>
-<dt><a name="index-PAGER_005fFLAGS-1"></a>: <em><var>old_val</var> =</em> <strong>PAGER_FLAGS</strong> <em>(<var>new_val</var>)</em></dt>
-<dt><a name="index-PAGER_005fFLAGS-2"></a>: <em></em> <strong>PAGER_FLAGS</strong> <em>(<var>new_val</var>, &quot;local&quot;)</em></dt>
+<dt><a name="index-PAGER_005fFLAGS"></a><em><var>val</var> =</em> <strong>PAGER_FLAGS</strong> <em>()</em></dt>
+<dt><a name="index-PAGER_005fFLAGS-1"></a><em><var>old_val</var> =</em> <strong>PAGER_FLAGS</strong> <em>(<var>new_val</var>)</em></dt>
+<dt><a name="index-PAGER_005fFLAGS-2"></a><em></em> <strong>PAGER_FLAGS</strong> <em>(<var>new_val</var>, &quot;local&quot;)</em></dt>
 <dd><p>Query or set the internal variable that specifies the options to pass
 to the pager.
 </p>
@@ -127,9 +126,9 @@ The original variable value is restored when exiting the function.
 
 
 <a name="XREFpage_005fscreen_005foutput"></a><dl>
-<dt><a name="index-page_005fscreen_005foutput"></a>: <em><var>val</var> =</em> <strong>page_screen_output</strong> <em>()</em></dt>
-<dt><a name="index-page_005fscreen_005foutput-1"></a>: <em><var>old_val</var> =</em> <strong>page_screen_output</strong> <em>(<var>new_val</var>)</em></dt>
-<dt><a name="index-page_005fscreen_005foutput-2"></a>: <em></em> <strong>page_screen_output</strong> <em>(<var>new_val</var>, &quot;local&quot;)</em></dt>
+<dt><a name="index-page_005fscreen_005foutput"></a><em><var>val</var> =</em> <strong>page_screen_output</strong> <em>()</em></dt>
+<dt><a name="index-page_005fscreen_005foutput-1"></a><em><var>old_val</var> =</em> <strong>page_screen_output</strong> <em>(<var>new_val</var>)</em></dt>
+<dt><a name="index-page_005fscreen_005foutput-2"></a><em></em> <strong>page_screen_output</strong> <em>(<var>new_val</var>, &quot;local&quot;)</em></dt>
 <dd><p>Query or set the internal variable that controls whether output intended
 for the terminal window that is longer than one page is sent through a
 pager.
@@ -147,9 +146,9 @@ The original variable value is restored when exiting the function.
 
 
 <a name="XREFpage_005foutput_005fimmediately"></a><dl>
-<dt><a name="index-page_005foutput_005fimmediately"></a>: <em><var>val</var> =</em> <strong>page_output_immediately</strong> <em>()</em></dt>
-<dt><a name="index-page_005foutput_005fimmediately-1"></a>: <em><var>old_val</var> =</em> <strong>page_output_immediately</strong> <em>(<var>new_val</var>)</em></dt>
-<dt><a name="index-page_005foutput_005fimmediately-2"></a>: <em></em> <strong>page_output_immediately</strong> <em>(<var>new_val</var>, &quot;local&quot;)</em></dt>
+<dt><a name="index-page_005foutput_005fimmediately"></a><em><var>val</var> =</em> <strong>page_output_immediately</strong> <em>()</em></dt>
+<dt><a name="index-page_005foutput_005fimmediately-1"></a><em><var>old_val</var> =</em> <strong>page_output_immediately</strong> <em>(<var>new_val</var>)</em></dt>
+<dt><a name="index-page_005foutput_005fimmediately-2"></a><em></em> <strong>page_output_immediately</strong> <em>(<var>new_val</var>, &quot;local&quot;)</em></dt>
 <dd><p>Query or set the internal variable that controls whether Octave sends
 output to the pager as soon as it is available.
 </p>
@@ -165,7 +164,7 @@ The original variable value is restored when exiting the function.
 
 
 <a name="XREFfflush"></a><dl>
-<dt><a name="index-fflush"></a>: <em></em> <strong>fflush</strong> <em>(<var>fid</var>)</em></dt>
+<dt><a name="index-fflush"></a><em></em> <strong>fflush</strong> <em>(<var>fid</var>)</em></dt>
 <dd><p>Flush output to file descriptor <var>fid</var>.
 </p>
 <p><code>fflush</code> returns 0 on success and an OS dependent error value

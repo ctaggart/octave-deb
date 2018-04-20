@@ -59,12 +59,12 @@ Next: <a href="Audio-Player.html#Audio-Player" accesskey="n" rel="next">Audio Pl
 <h3 class="section">33.2 Audio Device Information</h3>
 
 <a name="XREFaudiodevinfo"></a><dl>
-<dt><a name="index-audiodevinfo"></a>: <em><var>devinfo</var> =</em> <strong>audiodevinfo</strong> <em>()</em></dt>
-<dt><a name="index-audiodevinfo-1"></a>: <em><var>devs</var> =</em> <strong>audiodevinfo</strong> <em>(<var>io</var>)</em></dt>
-<dt><a name="index-audiodevinfo-2"></a>: <em><var>name</var> =</em> <strong>audiodevinfo</strong> <em>(<var>io</var>, <var>id</var>)</em></dt>
-<dt><a name="index-audiodevinfo-3"></a>: <em><var>id</var> =</em> <strong>audiodevinfo</strong> <em>(<var>io</var>, <var>name</var>)</em></dt>
-<dt><a name="index-audiodevinfo-4"></a>: <em><var>id</var> =</em> <strong>audiodevinfo</strong> <em>(<var>io</var>, <var>rate</var>, <var>bits</var>, <var>chans</var>)</em></dt>
-<dt><a name="index-audiodevinfo-5"></a>: <em><var>supports</var> =</em> <strong>audiodevinfo</strong> <em>(<var>io</var>, <var>id</var>, <var>rate</var>, <var>bits</var>, <var>chans</var>)</em></dt>
+<dt><a name="index-audiodevinfo"></a><em><var>devinfo</var> =</em> <strong>audiodevinfo</strong> <em>()</em></dt>
+<dt><a name="index-audiodevinfo-1"></a><em><var>devs</var> =</em> <strong>audiodevinfo</strong> <em>(<var>io</var>)</em></dt>
+<dt><a name="index-audiodevinfo-2"></a><em><var>name</var> =</em> <strong>audiodevinfo</strong> <em>(<var>io</var>, <var>id</var>)</em></dt>
+<dt><a name="index-audiodevinfo-3"></a><em><var>id</var> =</em> <strong>audiodevinfo</strong> <em>(<var>io</var>, <var>name</var>)</em></dt>
+<dt><a name="index-audiodevinfo-4"></a><em><var>id</var> =</em> <strong>audiodevinfo</strong> <em>(<var>io</var>, <var>rate</var>, <var>bits</var>, <var>chans</var>)</em></dt>
+<dt><a name="index-audiodevinfo-5"></a><em><var>supports</var> =</em> <strong>audiodevinfo</strong> <em>(<var>io</var>, <var>id</var>, <var>rate</var>, <var>bits</var>, <var>chans</var>)</em></dt>
 <dd>
 <p>Return a structure describing the available audio input and output devices.
 </p>
@@ -74,7 +74,9 @@ fields <code>&quot;Name&quot;</code>, &quot;DriverVersion&quot; and <code>&quot;
 describing an audio device.
 </p>
 <p>If the optional argument <var>io</var> is 1, return information about input
-devices only.  If it is 0, return information about output devices only.
+devices only.  If it is 0, return information about output devices
+only.  If <var>io</var> is the only argument supplied, return the number of
+input or output devices available.
 </p>
 <p>If the optional argument <var>id</var> is provided, return information about
 the corresponding device.

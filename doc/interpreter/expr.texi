@@ -1,22 +1,22 @@
 @c DO NOT EDIT!  Generated automatically by munge-texi.pl.
 
-@c Copyright (C) 1996-2017 John W. Eaton
+@c Copyright (C) 1996-2018 John W. Eaton
 @c
 @c This file is part of Octave.
 @c
-@c Octave is free software; you can redistribute it and/or modify it
-@c under the terms of the GNU General Public License as published by the
-@c Free Software Foundation; either version 3 of the License, or (at
-@c your option) any later version.
+@c Octave is free software: you can redistribute it and/or modify it
+@c under the terms of the GNU General Public License as published by
+@c the Free Software Foundation, either version 3 of the License, or
+@c (at your option) any later version.
 @c
-@c Octave is distributed in the hope that it will be useful, but WITHOUT
-@c ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-@c FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-@c for more details.
+@c Octave is distributed in the hope that it will be useful, but
+@c WITHOUT ANY WARRANTY; without even the implied warranty of
+@c MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+@c GNU General Public License for more details.
 @c
 @c You should have received a copy of the GNU General Public License
 @c along with Octave; see the file COPYING.  If not, see
-@c <http://www.gnu.org/licenses/>.
+@c <https://www.gnu.org/licenses/>.
 
 @node Expressions
 @chapter Expressions
@@ -108,7 +108,7 @@ a(1, :)       # row 1, all columns
 @end example
 
 @cindex @code{end}, indexing
-@cindex :end
+@cindex @sortas{end:} @code{end:} and @code{:end}
 
 In index expressions the keyword @code{end} automatically refers to
 the last entry for a particular dimension.  This magic index can also
@@ -143,17 +143,17 @@ Cartesian product of the index elements.
 
 For the ordinary and most common case, the number of indices
 (@code{nidx = numel (@var{idx})}) matches the number of dimensions @samp{nd}.
-In this case, each element of @var{idx} corresponds to its respective dimension,
-i.e., @code{@var{idx}(1)} refers to dimension 1, @code{@var{idx}(2)} refers to
-dimension 2, etc.  If @w{@code{nidx < nd}}, and every index is less than the
-size of the array in the @math{i^{th}} dimension
+In this case, each element of @var{idx} corresponds to its respective
+dimension, i.e., @code{@var{idx}(1)} refers to dimension 1,
+@code{@var{idx}(2)} refers to dimension 2, etc.  If @w{@code{nidx < nd}}, and
+every index is less than the size of the array in the @math{i^{th}} dimension
 (@code{@var{idx}(i) < size (@var{array}, i)}), then the index expression is
 padded with @w{@code{nd - nidx}} trailing singleton dimensions.  If
 @w{@code{nidx < nd}} but one of the indices @code{@var{idx}(i)} is outside the
 size of the current array, then the last @w{@code{nd - nidx + 1}} dimensions
 are folded into a single dimension with an extent equal to the product of
 extents of the original dimensions.  This is easiest to understand with an
-example.  
+example.
 
 @example
 A = reshape (1:8, 2, 2, 2)  # Create 3-D array
@@ -336,8 +336,8 @@ be specified with subscripts for the row, column, page, etc.  The functions
 @code{ind2sub} and @code{sub2ind} interconvert between the two forms.
 
 The linear index traverses dimension 1 (rows), then dimension 2 (columns), then
-dimension 3 (pages), etc. until it has numbered all of the elements.  Consider
-the following 3-by-3 matrices:
+dimension 3 (pages), etc.@: until it has numbered all of the elements.
+Consider the following 3-by-3 matrices:
 
 @example
 @group
@@ -384,8 +384,8 @@ be specified with subscripts for the row, column, page, etc.  The functions
 @code{ind2sub} and @code{sub2ind} interconvert between the two forms.
 
 The linear index traverses dimension 1 (rows), then dimension 2 (columns), then
-dimension 3 (pages), etc. until it has numbered all of the elements.  Consider
-the following 3-by-3 matrices:
+dimension 3 (pages), etc.@: until it has numbered all of the elements.
+Consider the following 3-by-3 matrices:
 
 @example
 @group
@@ -458,24 +458,6 @@ character @nospell{"@xbackslashchar{}0"}, it will always be a valid index.
 @end deftypefn
 
 
-@c allow_noninteger_range_as_index libinterp/octave-value/ov-range.cc
-@anchor{XREFallow_noninteger_range_as_index}
-@deftypefn  {} {@var{val} =} allow_noninteger_range_as_index ()
-@deftypefnx {} {@var{old_val} =} allow_noninteger_range_as_index (@var{new_val})
-@deftypefnx {} {} allow_noninteger_range_as_index (@var{new_val}, "local")
-Query or set the internal variable that controls whether non-integer
-ranges are allowed as indices.
-
-This might be useful for @sc{matlab} compatibility; however, it is still not
-entirely compatible because @sc{matlab} treats the range expression
-differently in different contexts.
-
-When called from inside a function with the @qcode{"local"} option, the
-variable is changed locally for the function and any subroutines it calls.
-The original variable value is restored when exiting the function.
-@end deftypefn
-
-
 @node Calling Functions
 @section Calling Functions
 
@@ -542,6 +524,7 @@ expressions.  See also @ref{Index Expressions}, and @ref{Assignment Ops}.
 @menu
 * Call by Value::
 * Recursion::
+* Access via Handle::
 @end menu
 
 @node Call by Value
@@ -637,6 +620,7 @@ endfunction
 @end group
 @end example
 
+@noindent
 This function is recursive because it calls itself directly.  It
 eventually terminates because each time it calls itself, it uses an
 argument that is one less than was used for the previous call.  Once the
@@ -645,6 +629,11 @@ the recursion ends.
 
 The built-in variable @code{max_recursion_depth} specifies a limit to
 the recursion depth and prevents Octave from recursing infinitely.
+Similarly, the variable @code{max_stack_depth} specifies a limit to the
+depth of function calls, whether recursive or not.  These limits help
+prevent stack overflow on the computer Octave is running on, so that
+instead of exiting with a signal, the interpreter will throw an error
+and return to the command prompt.
 
 @c max_recursion_depth libinterp/parse-tree/pt-eval.cc
 @anchor{XREFmax_recursion_depth}
@@ -660,8 +649,77 @@ the top level.
 When called from inside a function with the @qcode{"local"} option, the
 variable is changed locally for the function and any subroutines it calls.
 The original variable value is restored when exiting the function.
+
+@seealso{@ref{XREFmax_stack_depth,,max_stack_depth}}
 @end deftypefn
 
+
+@c max_stack_depth libinterp/corefcn/call-stack.cc
+@anchor{XREFmax_stack_depth}
+@deftypefn  {} {@var{val} =} max_stack_depth ()
+@deftypefnx {} {@var{old_val} =} max_stack_depth (@var{new_val})
+@deftypefnx {} {} max_stack_depth (@var{new_val}, "local")
+Query or set the internal limit on the number of times a function may
+be called recursively.
+
+If the limit is exceeded, an error message is printed and control returns to
+the top level.
+
+When called from inside a function with the @qcode{"local"} option, the
+variable is changed locally for the function and any subroutines it calls.
+The original variable value is restored when exiting the function.
+
+@seealso{@ref{XREFmax_recursion_depth,,max_recursion_depth}}
+@end deftypefn
+
+
+@node Access via Handle
+@subsection Access via Handle
+@cindex function handle
+@cindex indirect function call
+
+@opindex @@ function handle
+A function may be abstracted and referenced via a function handle acquired
+using the special operator @samp{@@}.  For example,
+
+@example
+@group
+f = @@plus;
+f (2, 2)
+@result{}  4
+@end group
+@end example
+
+@noindent
+is equivalent to calling @code{plus (2, 2)} directly.  Beyond abstraction for
+general programming, function handles find use in callback methods for figures
+and graphics by adding listeners to properties or assigning pre-existing
+actions, such as in the following example:
+
+@cindex figure deletefcn
+
+@example
+@group
+function mydeletefcn (h, ~, msg)
+  printf (msg);
+endfunction
+sombrero;
+set (gcf, "deletefcn", @{@@mydeletefcn, "Bye!\n"@});
+close;
+@end group
+@end example
+
+@noindent
+The above will print @qcode{"Bye!"} to the terminal upon the closing
+(deleting) of the figure.  There are many graphics property actions for which
+a callback function may be assigned, including, @code{buttondownfcn},
+@code{windowscrollwheelfcn}, @code{createfcn}, @code{deletefcn},
+@code{keypressfcn}, etc.
+
+Note that the @samp{@@} character also plays a role in defining class
+functions, i.e., methods, but not as a syntactical element.  Rather it begins a
+directory name containing methods for a class that shares the directory name
+sans the @samp{@@} character.  See @ref{Object Oriented Programming}.
 
 @node Arithmetic Ops
 @section Arithmetic Operators
@@ -787,7 +845,7 @@ Negation.
 Unary plus.  This operator has no effect on the operand.
 
 @item @var{x}'
-@opindex '
+@opindex @code{'}
 Complex conjugate transpose.  For real arguments, this operator is the
 same as the transpose operator.  For complex arguments, this operator is
 equivalent to the expression
@@ -797,7 +855,7 @@ conj (x.')
 @end example
 
 @item @var{x}.'
-@opindex .'
+@opindex @code{.'}
 Transpose.
 @end table
 
@@ -830,7 +888,7 @@ lexer, which usually prefers to break the input into tokens by
 preferring the longest possible match at any given point, it is more
 useful in this case.
 
-@opindex '
+@opindex @code{'}
 @c ctranspose libinterp/corefcn/data.cc
 @anchor{XREFctranspose}
 @deftypefn {} {} ctranspose (@var{x})
@@ -984,7 +1042,7 @@ At least one argument is required.
 @end deftypefn
 
 
-@opindex .'
+@opindex @code{.'}
 @c transpose libinterp/corefcn/data.cc
 @anchor{XREFtranspose}
 @deftypefn {} {} transpose (@var{x})
@@ -1413,31 +1471,10 @@ operands for the operator @samp{&}.
 
 @sc{matlab} has special behavior that allows the operators @samp{&} and
 @samp{|} to short-circuit when used in the truth expression for @code{if} and
-@code{while} statements.  Octave also behaves the same way by default,
-though the use of the @samp{&} and @samp{|} operators in this way is
-strongly discouraged.  Instead, you should use the @samp{&&} and @samp{||}
-operators that always have short-circuit behavior.
-
-@c do_braindead_shortcircuit_evaluation libinterp/parse-tree/pt-binop.cc
-@anchor{XREFdo_braindead_shortcircuit_evaluation}
-@deftypefn  {} {@var{val} =} do_braindead_shortcircuit_evaluation ()
-@deftypefnx {} {@var{old_val} =} do_braindead_shortcircuit_evaluation (@var{new_val})
-@deftypefnx {} {} do_braindead_shortcircuit_evaluation (@var{new_val}, "local")
-Query or set the internal variable that controls whether Octave will
-do short-circuit evaluation of @samp{|} and @samp{&} operators inside the
-conditions of if or while statements.
-
-This feature is only provided for compatibility with @sc{matlab} and should
-not be used unless you are porting old code that relies on this feature.
-
-To obtain short-circuit behavior for logical expressions in new programs,
-you should always use the @samp{&&} and @samp{||} operators.
-
-When called from inside a function with the @qcode{"local"} option, the
-variable is changed locally for the function and any subroutines it calls.
-The original variable value is restored when exiting the function.
-@end deftypefn
-
+@code{while} statements.  Octave behaves the same way for compatibility,
+however, the use of the @samp{&} and @samp{|} operators in this way is
+strongly discouraged and a warning will be issued.  Instead, you should use
+the @samp{&&} and @samp{||} operators that always have short-circuit behavior.
 
 Finally, the ternary operator (?:) is not supported in Octave.  If
 short-circuiting is not important, it can be replaced by the @code{ifelse}

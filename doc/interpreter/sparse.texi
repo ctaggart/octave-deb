@@ -1,22 +1,22 @@
 @c DO NOT EDIT!  Generated automatically by munge-texi.pl.
 
-@c Copyright (C) 2004-2017 David Bateman
+@c Copyright (C) 2004-2018 David Bateman
 @c
 @c This file is part of Octave.
 @c
-@c Octave is free software; you can redistribute it and/or modify it
-@c under the terms of the GNU General Public License as published by the
-@c Free Software Foundation; either version 3 of the License, or (at
-@c your option) any later version.
+@c Octave is free software: you can redistribute it and/or modify it
+@c under the terms of the GNU General Public License as published by
+@c the Free Software Foundation, either version 3 of the License, or
+@c (at your option) any later version.
 @c
-@c Octave is distributed in the hope that it will be useful, but WITHOUT
-@c ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-@c FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-@c for more details.
+@c Octave is distributed in the hope that it will be useful, but
+@c WITHOUT ANY WARRANTY; without even the implied warranty of
+@c MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+@c GNU General Public License for more details.
 @c
 @c You should have received a copy of the GNU General Public License
 @c along with Octave; see the file COPYING.  If not, see
-@c <http://www.gnu.org/licenses/>.
+@c <https://www.gnu.org/licenses/>.
 
 @ifhtml
 @set htmltex
@@ -79,7 +79,7 @@ and storage given a priori knowledge of the particular class of problems
 that will be solved.  A good summary of the available techniques for storing
 sparse matrix is given by @nospell{Saad} @footnote{Y. Saad "SPARSKIT: A basic
 toolkit for sparse matrix computation", 1994,
-@url{http://www-users.cs.umn.edu/~saad/software/SPARSKIT/paper.ps}}.
+@url{https://www-users.cs.umn.edu/~saad/software/SPARSKIT/paper.ps}}.
 With full matrices, knowledge of the point of an element of the matrix
 within the matrix is implied by its position in the computers memory.
 However, this is not the case for sparse matrices, and so the positions
@@ -92,7 +92,7 @@ easy to grasp, but requires more storage than is strictly needed.
 
 The storage technique used within Octave is the compressed column
 format.  It is similar to the Yale format.
-@footnote{@url{http://en.wikipedia.org/wiki/Sparse_matrix#Yale_format}}
+@footnote{@url{https://en.wikipedia.org/wiki/Sparse_matrix#Yale_format}}
 In this format the position of each element in a row and the data are
 stored as previously.  However, if we assume that all elements in the
 same column are stored adjacent in the computers memory, then we only
@@ -1148,8 +1148,7 @@ absorption.  The default is not to perform aggressive absorption.
 @end table
 
 The author of the code itself is Timothy A. Davis
-@email{davis@@cise.ufl.edu}, University of Florida
-(see @url{http://www.cise.ufl.edu/research/sparse/amd}).
+(see @url{http://faculty.cse.tamu.edu/davis/suitesparse.html}).
 @seealso{@ref{XREFsymamd,,symamd}, @ref{XREFcolamd,,colamd}}
 @end deftypefn
 
@@ -1236,13 +1235,13 @@ such row index exists.  @code{@var{stats}(7)} is the number of duplicate
 or out-of-order row indices.  @code{@var{stats}(8 : 20)} is always zero in
 the current version of @sc{ccolamd} (reserved for future use).
 
-The authors of the code itself are @nospell{S. Larimore, T. Davis}
-(Univ. of Florida) and @nospell{S. Rajamanickam} in collaboration with
-@nospell{J. Bilbert and E. Ng}.  Supported by the National Science Foundation
+The authors of the code itself are @nospell{S. Larimore, T. Davis} and
+@nospell{S. Rajamanickam} in collaboration with @nospell{J. Bilbert and E. Ng}.
+Supported by the National Science Foundation
 @nospell{(DMS-9504974, DMS-9803599, CCR-0203270)}, and a grant from
 @nospell{Sandia} National Lab.
-See @url{http://www.cise.ufl.edu/research/sparse} for
-ccolamd, csymamd, amd, colamd, symamd, and other related orderings.
+See @url{http://faculty.cse.tamu.edu/davis/suitesparse.html} for ccolamd,
+csymamd, amd, colamd, symamd, and other related orderings.
 @seealso{@ref{XREFcolamd,,colamd}, @ref{XREFcsymamd,,csymamd}}
 @end deftypefn
 
@@ -1311,9 +1310,9 @@ the current version of @sc{colamd} (reserved for future use).
 The ordering is followed by a column elimination tree post-ordering.
 
 The authors of the code itself are @nospell{Stefan I. Larimore} and
-@nospell{Timothy A. Davis @email{davis@@cise.ufl.edu}}, University of Florida.  The algorithm was developed in collaboration with @nospell{John Gilbert},
-Xerox PARC, and @nospell{Esmond Ng}, Oak Ridge National Laboratory.  (see
-@url{http://www.cise.ufl.edu/research/sparse/colamd})
+@nospell{Timothy A. Davis}.  The algorithm was developed in collaboration with
+@nospell{John Gilbert}, Xerox PARC, and @nospell{Esmond Ng}, Oak Ridge National
+Laboratory.  (see @url{http://faculty.cse.tamu.edu/davis/suitesparse.html})
 @seealso{@ref{XREFcolperm,,colperm}, @ref{XREFsymamd,,symamd}, @ref{XREFccolamd,,ccolamd}}
 @end deftypefn
 
@@ -1387,13 +1386,13 @@ such row index exists.  @code{@var{stats}(7)} is the number of duplicate
 or out-of-order row indices.  @code{@var{stats}(8:20)} is always zero in
 the current version of @sc{ccolamd} (reserved for future use).
 
-The authors of the code itself are @nospell{S. Larimore, T. Davis}
-(Univ. of Florida) and @nospell{S. Rajamanickam} in collaboration with
-@nospell{J. Bilbert and E. Ng}.  Supported by the National Science Foundation
+The authors of the code itself are @nospell{S. Larimore, T. Davis} and
+@nospell{S. Rajamanickam} in collaboration with @nospell{J. Bilbert and E. Ng}.
+Supported by the National Science Foundation
 @nospell{(DMS-9504974, DMS-9803599, CCR-0203270)}, and a grant from
 @nospell{Sandia} National Lab.
-See @url{http://www.cise.ufl.edu/research/sparse} for
-ccolamd, csymamd, amd, colamd, symamd, and other related orderings.
+See @url{http://faculty.cse.tamu.edu/davis/suitesparse.html} for ccolamd,
+colamd, csymamd, amd, colamd, symamd, and other related orderings.
 @seealso{@ref{XREFsymamd,,symamd}, @ref{XREFccolamd,,ccolamd}}
 @end deftypefn
 
@@ -1403,7 +1402,7 @@ ccolamd, csymamd, amd, colamd, symamd, and other related orderings.
 @deftypefn  {} {@var{p} =} dmperm (@var{S})
 @deftypefnx {} {[@var{p}, @var{q}, @var{r}, @var{S}] =} dmperm (@var{S})
 
-@cindex Dulmage-Mendelsohn decomposition
+@cindex @nospell{Dulmage-Mendelsohn} decomposition
 Perform a @nospell{Dulmage-Mendelsohn} permutation of the sparse matrix
 @var{S}.
 
@@ -1418,7 +1417,7 @@ of the blocks.  If @var{S} is square then @code{@var{r} == @var{S}}.
 
 The method used is described in: @nospell{A. Pothen & C.-J. Fan.}
 @cite{Computing the Block Triangular Form of a Sparse Matrix}.
-ACM Trans. Math. Software, 16(4):303-324, 1990.
+@nospell{ACM} Trans. Math. Software, 16(4):303-324, 1990.
 @seealso{@ref{XREFcolamd,,colamd}, @ref{XREFccolamd,,ccolamd}}
 @end deftypefn
 
@@ -1482,9 +1481,9 @@ always zero in the current version of SYMAMD (reserved for future use).
 The ordering is followed by a column elimination tree post-ordering.
 
 The authors of the code itself are @nospell{Stefan I. Larimore} and
-@nospell{Timothy A. Davis @email{davis@@cise.ufl.edu}}, University of Florida.  The algorithm was developed in collaboration with @nospell{John Gilbert},
-Xerox PARC, and @nospell{Esmond Ng}, Oak Ridge National Laboratory.  (see
-@url{http://www.cise.ufl.edu/research/sparse/colamd})
+@nospell{Timothy A. Davis}.  The algorithm was developed in collaboration with
+@nospell{John Gilbert}, Xerox PARC, and @nospell{Esmond Ng}, Oak Ridge National
+Laboratory.  (see @url{http://faculty.cse.tamu.edu/davis/suitesparse.html})
 @seealso{@ref{XREFcolperm,,colperm}, @ref{XREFcolamd,,colamd}}
 @end deftypefn
 
@@ -1504,8 +1503,9 @@ The algorithm represents a heuristic approach to the NP-complete bandwidth
 minimization problem.  The implementation is based in the descriptions found
 in
 
-@nospell{E. Cuthill, J. McKee}. @cite{Reducing the Bandwidth of Sparse
-Symmetric Matrices}. Proceedings of the 24th ACM National Conference,
+@nospell{E. Cuthill, J. McKee}.
+@cite{Reducing the Bandwidth of Sparse Symmetric Matrices}.
+Proceedings of the 24th @nospell{ACM} National Conference,
 157--172 1969, Brandon Press, New Jersey.
 
 @nospell{A. George, J.W.H. Liu}. @cite{Computer Solution of Large Sparse
@@ -1569,14 +1569,14 @@ or backward substitution, and goto 8
 sparse Cholesky@tie{}factorization using @sc{cholmod}.
 
 @item If the sparse Cholesky@tie{}factorization failed or the matrix is not
-Hermitian with a real positive diagonal, and the matrix is square, factorize
-using @sc{umfpack}.
+Hermitian with a real positive diagonal, and the matrix is square, factorize,
+solve, and perform one refinement iteration using @sc{umfpack}.
 
 @item If the matrix is not square, or any of the previous solvers flags
 a singular or near singular matrix, find a minimum norm solution using
 @sc{cxsparse}@footnote{The @sc{cholmod}, @sc{umfpack} and @sc{cxsparse}
 packages were written by Tim Davis and are available at
-@url{http://www.cise.ufl.edu/research/sparse/}}.
+@url{http://faculty.cse.tamu.edu/davis/suitesparse.html}}.
 @end enumerate
 
 The band density is defined as the number of nonzero values in the band
@@ -1783,12 +1783,12 @@ References:
 @nospell{N.J. Higham and F. Tisseur}, @cite{A Block Algorithm
 for Matrix 1-Norm Estimation, with an Application to 1-Norm
 Pseudospectra}. SIMAX vol 21, no 4, pp 1185-1201.
-@url{http://dx.doi.org/10.1137/S0895479899356080}
+@url{https://dx.doi.org/10.1137/S0895479899356080}
 
 @item
 @nospell{N.J. Higham and F. Tisseur}, @cite{A Block Algorithm
 for Matrix 1-Norm Estimation, with an Application to 1-Norm
-Pseudospectra}. @url{http://citeseer.ist.psu.edu/223007.html}
+Pseudospectra}. @url{https://citeseer.ist.psu.edu/223007.html}
 @end itemize
 
 @seealso{@ref{XREFcond,,cond}, @ref{XREFnorm,,norm}, @ref{XREFnormest1,,normest1}, @ref{XREFnormest,,normest}}
@@ -2073,32 +2073,32 @@ scalar, the @var{k} eigenvalues closest to @var{sigma} are returned.  If
 @var{sigma} is a string, it must have one of the following values.
 
 @table @asis
-@item @qcode{"lm"}
+@item @nospell{@qcode{"lm"}}
 Largest Magnitude (default).
 
-@item @qcode{"sm"}
+@item @nospell{@qcode{"sm"}}
 Smallest Magnitude.
 
 @item @qcode{"la"}
 Largest Algebraic (valid only for real symmetric problems).
 
-@item @qcode{"sa"}
+@item @nospell{@qcode{"sa"}}
 Smallest Algebraic (valid only for real symmetric problems).
 
 @item @qcode{"be"}
 Both Ends, with one more from the high-end if @var{k} is odd (valid only for
 real symmetric problems).
 
-@item @qcode{"lr"}
+@item @nospell{@qcode{"lr"}}
 Largest Real part (valid only for complex or unsymmetric problems).
 
-@item @qcode{"sr"}
+@item @nospell{@qcode{"sr"}}
 Smallest Real part (valid only for complex or unsymmetric problems).
 
-@item @qcode{"li"}
+@item @nospell{@qcode{"li"}}
 Largest Imaginary part (valid only for complex or unsymmetric problems).
 
-@item @qcode{"si"}
+@item @nospell{@qcode{"si"}}
 Smallest Imaginary part (valid only for complex or unsymmetric problems).
 @end table
 
@@ -2125,8 +2125,8 @@ The maximum number of iterations.  The default is 300.
 @item p
 The number of Lanzcos basis vectors to use.  More vectors will result in
 faster convergence, but a greater use of memory.  The optimal value of
-@code{p} is problem dependent and should be in the range @var{k} to @var{n}.
-The default value is @code{2 * @var{k}}.
+@code{p} is problem dependent and should be in the range @code{@var{k} + 1}
+to @var{n}.  The default value is @code{2 * @var{k}}.
 
 @item v0
 The starting vector for the algorithm.  An initial vector close to the
@@ -2145,7 +2145,7 @@ false.
 @item permB
 The permutation vector of the Cholesky@tie{}factorization of @var{B} if
 @code{cholB} is true.  It is obtained by @code{[R, ~, permB] =
-chol (@var{B}, @qcode{"vector"})}. The default is @code{1:@var{n}}.
+chol (@var{B}, @qcode{"vector"})}.  The default is @code{1:@var{n}}.
 
 @end table
 
@@ -2268,8 +2268,8 @@ norm (@var{A}*@var{v} - @var{u}*@var{s}, 1) <= @var{tol} * norm (@var{A}, 1)
 @code{svds} is best for finding only a few singular values from a large
 sparse matrix.  Otherwise, @code{svd (full (@var{A}))} will likely be more
 efficient.
-@end deftypefn
 @seealso{@ref{XREFsvd,,svd}, @ref{XREFeigs,,eigs}}
+@end deftypefn
 
 
 @node Iterative Techniques
@@ -2284,21 +2284,23 @@ functions to solve sparse linear equations using iterative techniques.
 @c pcg scripts/sparse/pcg.m
 @anchor{XREFpcg}
 @deftypefn  {} {@var{x} =} pcg (@var{A}, @var{b}, @var{tol}, @var{maxit}, @var{m1}, @var{m2}, @var{x0}, @dots{})
-@deftypefnx {} {[@var{x}, @var{flag}, @var{relres}, @var{iter}, @var{resvec}, @var{eigest}] =} pcg (@dots{})
+@deftypefnx {} {@var{x} =} pcg (@var{A}, @var{b}, @var{tol}, @var{maxit}, @var{M}, [], @var{x0}, @dots{})
+@deftypefnx {} {[@var{x}, @var{flag}, @var{relres}, @var{iter}, @var{resvec}, @var{eigest}] =} pcg (@var{A}, @var{b}, @dots{})
 
 Solve the linear system of equations @w{@code{@var{A} * @var{x} = @var{b}}}
 by means of the Preconditioned Conjugate Gradient iterative method.
 
-The input arguments are
+The input arguments are:
 
 @itemize
-@item
-@var{A} can be either a square (preferably sparse) matrix or a function
-handle, inline function or string containing the name of a function which
-computes @w{@code{@var{A} * @var{x}}}.  In principle, @var{A} should be
-symmetric and positive definite; if @code{pcg} finds @var{A} not to be
-positive definite, a warning is printed and the @var{flag} output will be
-set.
+@item @var{A} is the matrix of the linear system and it must be square.
+@var{A} can be passed as a matrix, function handle, or inline function
+@code{Afun} such that @code{Afun(x) = A * x}.  Additional parameters to
+@code{Afun} may be passed after @var{x0}.
+
+@var{A} has to be Hermitian and Positive Definite (@nospell{HPD})@.  If
+@code{pcg} detects @var{A} not to be positive definite, a warning is printed
+and the @var{flag} output is set.
 
 @item
 @var{b} is the right-hand side vector.
@@ -2307,25 +2309,36 @@ set.
 @var{tol} is the required relative tolerance for the residual error,
 @w{@code{@var{b} - @var{A} * @var{x}}}.  The iteration stops if
 @w{@code{norm (@var{b} - @var{A} * @var{x})} @leq{}
-@w{@var{tol} * norm (@var{b})}}.
-If @var{tol} is omitted or empty then a tolerance of 1e-6 is used.
+@w{@code{@var{tol} * norm (@var{b})}}}.
+If @var{tol} is omitted or empty, then a tolerance of 1e-6 is used.
 
 @item
-@var{maxit} is the maximum allowable number of iterations; if @var{maxit}
+@var{maxit} is the maximum allowed number of iterations; if @var{maxit}
 is omitted or empty then a value of 20 is used.
 
 @item
-@var{m} = @var{m1} * @var{m2} is the (left) preconditioning matrix, so that
-the iteration is (theoretically) equivalent to solving by @code{pcg}
-@w{@code{@var{P} * @var{x} = @var{m} \ @var{b}}}, with
-@w{@code{@var{P} = @var{m} \ @var{A}}}.
+@var{m} is a @nospell{HPD} preconditioning matrix.  For any decomposition
+@code{@var{m} = @var{p1} * @var{p2}} such that
+@w{@code{inv (@var{p1}) * @var{A} * inv (@var{p2})}} is @nospell{HPD}, the
+conjugate gradient method is formally applied to the linear system
+@w{@code{inv (@var{p1}) * @var{A} * inv (@var{p2}) * @var{y} = inv
+(@var{p1}) * @var{b}}},
+with @code{@var{x} = inv (@var{p2}) * @var{y}} (split preconditioning).
+In practice, at each iteration of the conjugate gradient method a
+linear system with matrix @var{m} is solved with @code{mldivide}.
+If a particular factorization
+@code{@var{m} = @var{m1} * @var{m2}} is available (for instance, an
+incomplete Cholesky factorization of @var{a}), the two matrices
+@var{m1} and @var{m2} can be passed and the relative linear systems
+are solved with the @code{mldivide} operator.
 Note that a proper choice of the preconditioner may dramatically improve
 the overall performance of the method.  Instead of matrices @var{m1} and
 @var{m2}, the user may pass two functions which return the results of
-applying the inverse of @var{m1} and @var{m2} to a vector (usually this is
-the preferred way of using the preconditioner).  If @var{m1} is omitted or
-empty @code{[]} then no preconditioning is applied.  If @var{m2} is
-omitted, @var{m} = @var{m1} will be used as a preconditioner.
+applying the inverse of @var{m1} and @var{m2} to a vector.
+If @var{m1} is omitted or empty @code{[]}, then no preconditioning
+is applied.  If no factorization of @var{m} is available, @var{m2}
+can be omitted or left [], and the input variable @var{m1} can be
+used to pass the preconditioner @var{m}.
 
 @item
 @var{x0} is the initial guess.  If @var{x0} is omitted or empty then the
@@ -2333,39 +2346,58 @@ function sets @var{x0} to a zero vector by default.
 @end itemize
 
 The arguments which follow @var{x0} are treated as parameters, and passed in
-a proper way to any of the functions (@var{A} or @var{m}) which are passed
-to @code{pcg}.  See the examples below for further details.  The output
-arguments are
+an appropriate manner to any of the functions (@var{A} or @var{m1} or
+@var{m2}) that have been given to @code{pcg}.
+See the examples below for further details.
+
+The output arguments are:
 
 @itemize
 @item
 @var{x} is the computed approximation to the solution of
-@w{@code{@var{A} * @var{x} = @var{b}}}.
+@w{@code{@var{A} * @var{x} = @var{b}}}.  If the algorithm did not converge,
+then @var{x} is the iteration which has the minimum residual.
 
 @item
-@var{flag} reports on the convergence.  A value of 0 means the solution
-converged and the tolerance criterion given by @var{tol} is satisfied.
-A value of 1 means that the @var{maxit} limit for the iteration count was
-reached.  A value of 3 indicates that the (preconditioned) matrix was found
-not to be positive definite.
+@var{flag} reports on the convergence:
+
+@itemize
+@item 0: The algorithm converged to within the prescribed tolerance.
+
+@item 1: The algorithm did not converge and it reached the maximum
+number of iterations.
+
+@item 2: The preconditioner matrix is singular.
+
+@item 3: The algorithm stagnated, i.e., the absolute value of the
+difference between the current iteration @var{x} and the previous is less
+than @code{@var{eps} * norm (@var{x},2)}.
+
+@item 4: The algorithm detects that the input (preconditioned) matrix is not
+@nospell{HPD}.
+@end itemize
 
 @item
 @var{relres} is the ratio of the final residual to its initial value,
 measured in the Euclidean norm.
 
 @item
-@var{iter} is the actual number of iterations performed.
+@var{iter} indicates the iteration of @var{x} which it was
+computed.  Since the output @var{x} corresponds to the minimal
+residual solution, the total number of iterations that
+the method performed is given by @code{length(resvec) - 1}.
 
 @item
 @var{resvec} describes the convergence history of the method.
-@code{@var{resvec}(i,1)} is the Euclidean norm of the residual, and
-@code{@var{resvec}(i,2)} is the preconditioned residual norm, after the
+@code{@var{resvec} (@var{i}, 1)} is the Euclidean norm of the residual, and
+@code{@var{resvec} (@var{i}, 2)} is the preconditioned residual
+norm, after the
 (@var{i}-1)-th iteration, @code{@var{i} = 1, 2, @dots{}, @var{iter}+1}.
 The preconditioned residual norm is defined as
-@code{norm (@var{r}) ^ 2 = @var{r}' * (@var{m} \ @var{r})} where
+@code{@var{r}' * (@var{m} \ @var{r})} where
 @code{@var{r} = @var{b} - @var{A} * @var{x}}, see also the
 description of @var{m}.  If @var{eigest} is not required, only
-@code{@var{resvec}(:,1)} is returned.
+@code{@var{resvec} (:, 1)} is returned.
 
 @item
 @var{eigest} returns the estimate for the smallest @code{@var{eigest}(1)}
@@ -2377,20 +2409,23 @@ preconditioning is used, the estimates for the extreme eigenvalues of
 @code{@var{eigest}(2) / @var{eigest}(1)} is a lower bound for
 @code{cond (@var{P}, 2)}, which nevertheless in the limit should
 theoretically be equal to the actual value of the condition number.
-The method which computes @var{eigest} works only for symmetric positive
-definite @var{A} and @var{m}, and the user is responsible for verifying this
-assumption.
 @end itemize
 
-Let us consider a trivial problem with a diagonal matrix (we exploit the
-sparsity of A)
+
+Let us consider a trivial problem with a tridiagonal matrix
 
 @example
 @group
 n = 10;
-A = diag (sparse (1:n));
-b = rand (n, 1);
-[l, u, p] = ilu (A, struct ("droptol", 1.e-3));
+A = toeplitz (sparse ([1, 1], [1, 2], [2, 1], 1, n));
+b = A * ones (n, 1);
+M1 = ichol (A); # in this tridiagonal case it corresponds to chol (A)'
+M2 = M1';
+M = M1 * M2;
+Afun = @@(x) A * x;
+Mfun = @@(x) M \ x;
+M1fun = @@(x) M1 \ x;
+M2fun = @@(x) M2 \ x;
 @end group
 @end example
 
@@ -2404,60 +2439,65 @@ x = pcg (A, b)
 @code{@var{A} * @var{x}}
 
 @example
-@group
-function y = apply_a (x)
-  y = [1:N]' .* x;
-endfunction
+x = pcg (Afun, b)
+@end example
 
-x = pcg ("apply_a", b)
+@sc{Example 3:} @code{pcg} with a preconditioner matrix @var{M}
+
+@example
+x = pcg (A, b, 1e-06, 100, M)
+@end example
+
+@sc{Example 4:} @code{pcg} with a function as preconditioner
+
+@example
+x = pcg (Afun, b, 1e-6, 100, Mfun)
+@end example
+
+@sc{Example 5:} @code{pcg} with preconditioner matrices @var{M1}
+and @var{M2}
+
+@example
+x = pcg (A, b, 1e-6, 100, M1, M2)
+@end example
+
+@sc{Example 6:} @code{pcg} with functions as preconditioners
+
+@example
+x = pcg (Afun, b, 1e-6, 100, M1fun, M2fun)
+@end example
+
+@sc{Example 7:} @code{pcg} with as input a function requiring an argument
+
+@example
+@group
+  function y = Ap (A, x, p) # compute A^p * x
+     y = x;
+     for i = 1:p
+       y = A * y;
+     endfor
+  endfunction
+Apfun = @@(x, p) Ap (A, x, p);
+x = pcg (Apfun, b, [], [], [], [], [], 2);
 @end group
 @end example
 
-@sc{Example 3:} @code{pcg} with a preconditioner: @var{l} * @var{u}
-
-@example
-x = pcg (A, b, 1.e-6, 500, l*u)
-@end example
-
-@sc{Example 4:} @code{pcg} with a preconditioner: @var{l} * @var{u}.
-Faster than @sc{Example 3} since lower and upper triangular matrices are
-easier to invert
-
-@example
-x = pcg (A, b, 1.e-6, 500, l, u)
-@end example
-
-@sc{Example 5:} Preconditioned iteration, with full diagnostics.  The
-preconditioner (quite strange, because even the original matrix @var{A} is
-trivial) is defined as a function
+@sc{Example 8:} explicit example to show that @code{pcg} uses a
+split preconditioner
 
 @example
 @group
-function y = apply_m (x)
-  k = floor (length (x) - 2);
-  y = x;
-  y(1:k) = x(1:k) ./ [1:k]';
-endfunction
+M1 = ichol (A + 0.1 * eye (n)); # factorization of A perturbed
+M2 = M1';
+M = M1 * M2;
 
-[x, flag, relres, iter, resvec, eigest] = ...
-                   pcg (A, b, [], [], "apply_m");
-semilogy (1:iter+1, resvec);
-@end group
-@end example
+## reference solution computed by pcg after two iterations
+[x_ref, fl] = pcg (A, b, [], 2, M)
 
-@sc{Example 6:} Finally, a preconditioner which depends on a parameter
-@var{k}.
+## split preconditioning
+[y, fl] = pcg ((M1 \ A) / M2, M1 \ b, [], 2)
+x = M2 \ y # compare x and x_ref
 
-@example
-@group
-function y = apply_M (x, varargin)
-  K = varargin@{1@};
-  y = x;
-  y(1:K) = x(1:K) ./ [1:K]';
-endfunction
-
-[x, flag, relres, iter, resvec, eigest] = ...
-     pcg (A, b, [], [], "apply_m", [], [], 3)
 @end group
 @end example
 
@@ -2472,10 +2512,10 @@ SIAM, 1995. (the base PCG algorithm)
 @nospell{Y. Saad}, @cite{Iterative Methods for Sparse Linear Systems},
 @nospell{PWS} 1996. (condition number estimate from PCG)
 Revised version of this book is available online at
-@url{http://www-users.cs.umn.edu/~saad/books.html}
+@url{https://www-users.cs.umn.edu/~saad/books.html}
 @end enumerate
 
-@seealso{@ref{XREFsparse,,sparse}, @ref{XREFpcr,,pcr}}
+@seealso{@ref{XREFsparse,,sparse}, @ref{XREFpcr,,pcr}, @ref{XREFgmres,,gmres}, @ref{XREFbicg,,bicg}, @ref{XREFbicgstab,,bicgstab}, @ref{XREFcgs,,cgs}}
 @end deftypefn
 
 
@@ -2804,7 +2844,7 @@ is the value of field.  Names and specifiers are case sensitive.
 Type of factorization.
 
 @table @asis
-@item @qcode{"nofill"}
+@item @qcode{"nofill"} (default)
 ILU factorization with no fill-in (ILU(0)).
 
 Additional supported options: @code{milu}.
@@ -2814,7 +2854,7 @@ Crout version of ILU factorization (@nospell{ILUC}).
 
 Additional supported options: @code{milu}, @code{droptol}.
 
-@item @qcode{"ilutp"} (default)
+@item @qcode{"ilutp"}
 ILU factorization with threshold and pivoting.
 
 Additional supported options: @code{milu}, @code{droptol}, @code{udiag},
@@ -2899,7 +2939,7 @@ ans = 7840
 This shows that @var{A} has 7,840 nonzeros, the complete LU factorization
 has 126,478 nonzeros, and the incomplete LU factorization, with 0 level of
 fill-in, has 7,840 nonzeros, the same amount as @var{A}.  Taken from:
-http://www.mathworks.com/help/matlab/ref/ilu.html
+@url{http://www.mathworks.com/help/matlab/ref/ilu.html}
 
 @example
 @group
@@ -2946,7 +2986,7 @@ Omega.
 @end ifnottex
 Boundary conditions may specify the potential (Dirichlet
 boundary condition), its normal derivative across the boundary
-(Neumann boundary condition), or a weighted sum of the potential and
+(@nospell{Neumann} boundary condition), or a weighted sum of the potential and
 its derivative (Cauchy boundary condition).
 
 In a thermal model, we want to calculate the temperature in
@@ -2957,7 +2997,7 @@ $\Omega$
 Omega
 @end ifnottex
 and know the boundary temperature (Dirichlet condition)
-or heat flux (from which we can calculate the Neumann condition
+or heat flux (from which we can calculate the @nospell{Neumann} condition
 by dividing by the thermal conductivity at the boundary).  Similarly,
 in an electrical model, we want to calculate the voltage in
 @tex
@@ -2967,9 +3007,9 @@ $\Omega$
 Omega
 @end ifnottex
 and know the boundary voltage (Dirichlet) or current
-(Neumann condition after diving by the electrical conductivity).
+(@nospell{Neumann} condition after diving by the electrical conductivity).
 In an electrical model, it is common for much of the boundary
-to be electrically isolated; this is a Neumann boundary condition
+to be electrically isolated; this is a @nospell{Neumann} boundary condition
 with the current equal to zero.
 
 The simplest finite element models will divide
@@ -3093,8 +3133,8 @@ $SV = I$.
 @ifnottex
 @code{S * V = I}.
 @end ifnottex
-Based on the Dirichlet and Neumann boundary conditions, we are able to
-solve for the voltages at each vertex @code{V}.
+Based on the Dirichlet and @nospell{Neumann} boundary conditions, we are able
+to solve for the voltages at each vertex @code{V}.
 
 @example
   ## Dirichlet boundary conditions

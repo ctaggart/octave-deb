@@ -79,6 +79,7 @@ Thus the polynomial can be represented by a vector
 <pre class="example">a = [a0, a1, a2, &hellip;, an];
 </pre></div>
 
+<a name="index-_0040-class-methods"></a>
 <p>This is a sufficient specification to begin writing the constructor for the
 polynomial class.  All object oriented classes in Octave must be located in a
 directory that is the name of the class prepended with the &lsquo;<samp>@</samp>&rsquo; symbol.
@@ -111,10 +112,10 @@ function p = polynomial (a)
   endif
 
   if (nargin == 0)
-    p.poly = [0];
+    p.poly = 0;
     p = class (p, &quot;polynomial&quot;);
   else
-    if (strcmp (class (a), &quot;polynomial&quot;))
+    if (isa (a, &quot;polynomial&quot;))
       p = a;
     elseif (isreal (a) &amp;&amp; isvector (a))
       p.poly = a(:).';  # force row vector
@@ -147,10 +148,10 @@ means is the only way to obtain help for the overloaded methods and functions
 of a class.
 </p>
 <p>The same specification mechanism can be used wherever Octave expects a function
-name.  For example <code>type @polynomial/display</code> will print the code of the
-display method of the polynomial class to the screen, and
-<code>dbstop @polynomial/display</code> will set a breakpoint at the first
-executable line of the display method of the polynomial class.
+name.  For example <code>type @polynomial/disp</code> will print the code of the
+<code>disp</code> method of the polynomial class to the screen, and
+<code>dbstop @polynomial/disp</code> will set a breakpoint at the first executable
+line of the <code>disp</code> method of the polynomial class.
 </p>
 <p>To check whether a variable belongs to a user class, the <code>isobject</code> and
 <code>isa</code> functions can be used.  For example:
@@ -164,7 +165,7 @@ isa (p, &quot;polynomial&quot;)
 </pre></div>
 
 <a name="XREFisobject"></a><dl>
-<dt><a name="index-isobject"></a>: <em></em> <strong>isobject</strong> <em>(<var>x</var>)</em></dt>
+<dt><a name="index-isobject"></a><em></em> <strong>isobject</strong> <em>(<var>x</var>)</em></dt>
 <dd><p>Return true if <var>x</var> is a class object.
 </p>
 <p><strong>See also:</strong> <a href="Built_002din-Data-Types.html#XREFclass">class</a>, <a href="Data-Types.html#XREFtypeinfo">typeinfo</a>, <a href="Built_002din-Data-Types.html#XREFisa">isa</a>, <a href="#XREFismethod">ismethod</a>, <a href="Introduction-to-Graphics-Structures.html#XREFisprop">isprop</a>.
@@ -175,9 +176,9 @@ isa (p, &quot;polynomial&quot;)
 function.
 </p>
 <a name="XREFmethods"></a><dl>
-<dt><a name="index-methods"></a>: <em></em> <strong>methods</strong> <em>(<var>obj</var>)</em></dt>
-<dt><a name="index-methods-1"></a>: <em></em> <strong>methods</strong> <em>(&quot;<var>classname</var>&quot;)</em></dt>
-<dt><a name="index-methods-2"></a>: <em><var>mtds</var> =</em> <strong>methods</strong> <em>(&hellip;)</em></dt>
+<dt><a name="index-methods"></a><em></em> <strong>methods</strong> <em>(<var>obj</var>)</em></dt>
+<dt><a name="index-methods-1"></a><em></em> <strong>methods</strong> <em>(&quot;<var>classname</var>&quot;)</em></dt>
+<dt><a name="index-methods-2"></a><em><var>mtds</var> =</em> <strong>methods</strong> <em>(&hellip;)</em></dt>
 <dd><p>List the names of the public methods for the object <var>obj</var> or the
 named class <var>classname</var>.
 </p>
@@ -196,8 +197,8 @@ contains the list in a cell array of strings.
 <code>ismethod</code> function can be used.
 </p>
 <a name="XREFismethod"></a><dl>
-<dt><a name="index-ismethod"></a>: <em></em> <strong>ismethod</strong> <em>(<var>obj</var>, <var>method</var>)</em></dt>
-<dt><a name="index-ismethod-1"></a>: <em></em> <strong>ismethod</strong> <em>(<var>clsname</var>, <var>method</var>)</em></dt>
+<dt><a name="index-ismethod"></a><em></em> <strong>ismethod</strong> <em>(<var>obj</var>, <var>method</var>)</em></dt>
+<dt><a name="index-ismethod-1"></a><em></em> <strong>ismethod</strong> <em>(<var>clsname</var>, <var>method</var>)</em></dt>
 <dd><p>Return true if the string <var>method</var> is a valid method of the object
 <var>obj</var> or of the class <var>clsname</var>.
 </p>

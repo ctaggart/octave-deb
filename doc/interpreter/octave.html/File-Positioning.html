@@ -62,7 +62,7 @@ Previous: <a href="EOF-and-Errors.html#EOF-and-Errors" accesskey="p" rel="prev">
 the file pointer for a given file.
 </p>
 <a name="XREFftell"></a><dl>
-<dt><a name="index-ftell"></a>: <em><var>pos</var> =</em> <strong>ftell</strong> <em>(<var>fid</var>)</em></dt>
+<dt><a name="index-ftell"></a><em><var>pos</var> =</em> <strong>ftell</strong> <em>(<var>fid</var>)</em></dt>
 <dd><p>Return the position of the file pointer as the number of characters from the
 beginning of the file specified by file descriptor <var>fid</var>.
 </p>
@@ -71,53 +71,55 @@ beginning of the file specified by file descriptor <var>fid</var>.
 
 
 <a name="XREFfseek"></a><dl>
-<dt><a name="index-fseek"></a>: <em></em> <strong>fseek</strong> <em>(<var>fid</var>, <var>offset</var>)</em></dt>
-<dt><a name="index-fseek-1"></a>: <em></em> <strong>fseek</strong> <em>(<var>fid</var>, <var>offset</var>, <var>origin</var>)</em></dt>
-<dt><a name="index-fseek-2"></a>: <em><var>status</var> =</em> <strong>fseek</strong> <em>(&hellip;)</em></dt>
+<dt><a name="index-fseek"></a><em></em> <strong>fseek</strong> <em>(<var>fid</var>, <var>offset</var>)</em></dt>
+<dt><a name="index-fseek-1"></a><em></em> <strong>fseek</strong> <em>(<var>fid</var>, <var>offset</var>, <var>origin</var>)</em></dt>
+<dt><a name="index-fseek-2"></a><em><var>status</var> =</em> <strong>fseek</strong> <em>(&hellip;)</em></dt>
 <dd><p>Set the file pointer to the location <var>offset</var> within the file <var>fid</var>.
 </p>
-<p>The pointer is positioned <var>offset</var> characters from the <var>origin</var>,
-which may be one of the predefined variables <code><span class="nolinebreak">SEEK_CUR</span></code><!-- /@w --> (current
-position), <code><span class="nolinebreak">SEEK_SET</span></code><!-- /@w --> (beginning), or <code><span class="nolinebreak">SEEK_END</span></code><!-- /@w --> (end of
-file) or strings <code>&quot;cof&quot;</code>, <code>&quot;bof&quot;</code> or <code>&quot;eof&quot;</code>.  If
-<var>origin</var> is omitted, <code><span class="nolinebreak">SEEK_SET</span></code><!-- /@w --> is assumed.  <var>offset</var> may
-be positive, negative, or zero but not all combinations of <var>origin</var> and
-<var>offset</var> can be realized.
+<p>The pointer is positioned <var>offset</var> characters from the <var>origin</var>, which
+may be one of the predefined variables <code><span class="nolinebreak">SEEK_SET</span></code><!-- /@w --> (beginning),
+<code><span class="nolinebreak">SEEK_CUR</span></code><!-- /@w --> (current position), or <code><span class="nolinebreak">SEEK_END</span></code><!-- /@w --> (end of file) or
+strings <code>&quot;bof&quot;</code>, <code>&quot;cof&quot;</code>, or
+<code>&quot;eof&quot;</code>.  If <var>origin</var> is omitted, <code><span class="nolinebreak">SEEK_SET</span></code><!-- /@w --> is
+assumed.  <var>offset</var> may be positive, negative, or zero but not all
+combinations of <var>origin</var> and <var>offset</var> can be realized.
 </p>
 <p><code>fseek</code> returns 0 on success and -1 on error.
 </p>
-<p><strong>See also:</strong> <a href="Line_002dOriented-Input.html#XREFfskipl">fskipl</a>, <a href="#XREFfrewind">frewind</a>, <a href="#XREFftell">ftell</a>, <a href="Opening-and-Closing-Files.html#XREFfopen">fopen</a>.
+<p><strong>See also:</strong> <a href="Line_002dOriented-Input.html#XREFfskipl">fskipl</a>, <a href="#XREFfrewind">frewind</a>, <a href="#XREFftell">ftell</a>, <a href="Opening-and-Closing-Files.html#XREFfopen">fopen</a>, <a href="#XREFSEEK_005fSET">SEEK_SET</a>, <a href="#XREFSEEK_005fCUR">SEEK_CUR</a>, <a href="#XREFSEEK_005fEND">SEEK_END</a>.
 </p></dd></dl>
 
 
 <a name="XREFSEEK_005fSET"></a><dl>
-<dt><a name="index-SEEK_005fSET"></a>: <em></em> <strong>SEEK_SET</strong> <em>()</em></dt>
-<dt><a name="index-SEEK_005fCUR"></a>: <em></em> <strong>SEEK_CUR</strong> <em>()</em></dt>
-<dt><a name="index-SEEK_005fEND"></a>: <em></em> <strong>SEEK_END</strong> <em>()</em></dt>
-<dd><p>Return the numerical value to pass to <code>fseek</code> to perform one of the
-following actions:
+<dt><a name="index-SEEK_005fSET"></a><em></em> <strong>SEEK_SET</strong> <em>()</em></dt>
+<dd><p>Return the numerical value to pass to <code>fseek</code> to position the file pointer
+relative to the beginning of the file.
 </p>
-<dl compact="compact">
-<dt><code>SEEK_SET</code></dt>
-<dd><p>Position file relative to the beginning.
-</p>
-</dd>
-<dt><code>SEEK_CUR</code></dt>
-<dd><p>Position file relative to the current position.
-</p>
-</dd>
-<dt><code>SEEK_END</code></dt>
-<dd><p>Position file relative to the end.
-</p></dd>
-</dl>
+<p><strong>See also:</strong> <a href="#XREFSEEK_005fCUR">SEEK_CUR</a>, <a href="#XREFSEEK_005fEND">SEEK_END</a>, <a href="#XREFfseek">fseek</a>.
+</p></dd></dl>
 
-<p><strong>See also:</strong> <a href="#XREFfseek">fseek</a>.
+
+<a name="XREFSEEK_005fCUR"></a><dl>
+<dt><a name="index-SEEK_005fCUR"></a><em></em> <strong>SEEK_CUR</strong> <em>()</em></dt>
+<dd><p>Return the numerical value to pass to <code>fseek</code> to position the file pointer
+relative to the current position.
+</p>
+<p><strong>See also:</strong> <a href="#XREFSEEK_005fSET">SEEK_SET</a>, <a href="#XREFSEEK_005fEND">SEEK_END</a>, <a href="#XREFfseek">fseek</a>.
+</p></dd></dl>
+
+
+<a name="XREFSEEK_005fEND"></a><dl>
+<dt><a name="index-SEEK_005fEND"></a><em></em> <strong>SEEK_END</strong> <em>()</em></dt>
+<dd><p>Return the numerical value to pass to <code>fseek</code> to position the file pointer
+relative to the end of the file.
+</p>
+<p><strong>See also:</strong> <a href="#XREFSEEK_005fSET">SEEK_SET</a>, <a href="#XREFSEEK_005fCUR">SEEK_CUR</a>, <a href="#XREFfseek">fseek</a>.
 </p></dd></dl>
 
 
 <a name="XREFfrewind"></a><dl>
-<dt><a name="index-frewind"></a>: <em></em> <strong>frewind</strong> <em>(<var>fid</var>)</em></dt>
-<dt><a name="index-frewind-1"></a>: <em><var>status</var> =</em> <strong>frewind</strong> <em>(<var>fid</var>)</em></dt>
+<dt><a name="index-frewind"></a><em></em> <strong>frewind</strong> <em>(<var>fid</var>)</em></dt>
+<dt><a name="index-frewind-1"></a><em><var>status</var> =</em> <strong>frewind</strong> <em>(<var>fid</var>)</em></dt>
 <dd><p>Move the file pointer to the beginning of the file specified by file
 descriptor <var>fid</var>.
 </p>

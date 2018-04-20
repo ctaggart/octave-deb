@@ -1,20 +1,20 @@
-## Copyright (C) 2008-2017 VZLU Prague, a.s.
+## Copyright (C) 2008-2018 VZLU Prague, a.s.
 ##
 ## This file is part of Octave.
 ##
-## Octave is free software; you can redistribute it and/or modify it
+## Octave is free software: you can redistribute it and/or modify it
 ## under the terms of the GNU General Public License as published by
-## the Free Software Foundation; either version 3 of the License, or (at
-## your option) any later version.
+## the Free Software Foundation, either version 3 of the License, or
+## (at your option) any later version.
 ##
 ## Octave is distributed in the hope that it will be useful, but
 ## WITHOUT ANY WARRANTY; without even the implied warranty of
-## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-## General Public License for more details.
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU General Public License for more details.
 ##
 ## You should have received a copy of the GNU General Public License
 ## along with Octave; see the file COPYING.  If not, see
-## <http://www.gnu.org/licenses/>.
+## <https://www.gnu.org/licenses/>.
 ##
 ## Author: Jaroslav Hajek <highegg@gmail.com>
 
@@ -72,7 +72,7 @@
 ## @item iterations
 ##  Number of iterations through loop.
 ##
-## @item nfev
+## @item @nospell{nfev}
 ##  Number of function evaluations.
 ##
 ## @item bracketx
@@ -86,10 +86,10 @@
 ## @seealso{optimset, fsolve}
 ## @end deftypefn
 
-## This is essentially the ACM algorithm 748: Enclosing Zeros of
-## Continuous Functions due to Alefeld, Potra and Shi, ACM Transactions
-## on Mathematical Software, Vol. 21, No. 3, September 1995. Although
-## the workflow should be the same, the structure of the algorithm has
+## This is essentially the @nospell{ACM} algorithm 748: Enclosing Zeros of
+## Continuous Functions due to Alefeld, Potra and Shi, @nospell{ACM}
+## Transactions on Mathematical Software, Vol. 21, No. 3, September 1995.
+## Although the workflow should be the same, the structure of the algorithm has
 ## been transformed non-trivially; instead of the authors' approach of
 ## sequentially calling building blocks subprograms we implement here a
 ## FSM version using one interior point determination and one bracketing
@@ -149,14 +149,15 @@ function [x, fval, info, output] = fzero (fun, x0, options = struct ())
     fb = fun (b);
     nfev += 1;
   else
-    ## Try to get b.
-    if (a == 0)
-      aa = 1;
-    else
-      aa = a;
-    endif
-    for b = [0.9*aa, 1.1*aa, aa-1, aa+1, 0.5*aa 1.5*aa, -aa, 2*aa, -10*aa, 10*aa]
-      fb = fun (b); nfev += 1;
+    ## Try to find a value for b which brackets a zero-crossing
+
+    ## For very small values, switch to absolute rather than relative search
+    ifelse (abs (a) < .001, aa = sign (a) * 0.1, aa = a);
+    ## Search in an ever-widening range around the initial point.
+    for srch = [-.01 +.025 -.05 +.10 -.25 +.50 -1 +2.5 -5 +10 -50 +100 -500 +1000] 
+      b = aa + aa*srch; 
+      fb = fun (b);
+      nfev += 1;
       if (sign (fa) * sign (fb) <= 0)
         break;
       endif

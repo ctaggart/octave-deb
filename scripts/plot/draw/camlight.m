@@ -1,20 +1,20 @@
-## Copyright (C) 2016-2017 Colin B. Macdonald
+## Copyright (C) 2016-2018 Colin B. Macdonald
 ##
 ## This file is part of Octave.
 ##
-## Octave is free software; you can redistribute it and/or modify it
+## Octave is free software: you can redistribute it and/or modify it
 ## under the terms of the GNU General Public License as published by
-## the Free Software Foundation; either version 3 of the License, or (at
-## your option) any later version.
+## the Free Software Foundation, either version 3 of the License, or
+## (at your option) any later version.
 ##
-## This software is distributed in the hope that it will be useful,
-## but WITHOUT ANY WARRANTY; without even the implied warranty
-## of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-## General Public License for more details.
+## Octave is distributed in the hope that it will be useful, but
+## WITHOUT ANY WARRANTY; without even the implied warranty of
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU General Public License for more details.
 ##
-## You should have received a copy of the GNU General Public
-## License along with this software; see the file COPYING.
-## If not, see <http://www.gnu.org/licenses/>.
+## You should have received a copy of the GNU General Public License
+## along with Octave; see the file COPYING.  If not, see
+## <https://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
 ## @deftypefn  {} {} camlight {}
@@ -69,9 +69,10 @@
 ## @end group
 ## @end example
 ##
-## Here the light is first pitched upwards from the camera position by 30
-## degrees.  It is then yawed by 45 degrees to the right.  Both rotations are
-## centered around the camera target.
+## Here the light is first pitched upwards (@pxref{XREFcamup,,camup}) from the
+## camera position (@pxref{XREFcampos,,campos}) by 30 degrees.  It is then
+## yawed by 45 degrees to the right.  Both rotations are centered around the
+## camera target (@pxref{XREFcamtarget,,camtarget}).
 ##
 ## Return a handle to further manipulate the light object
 ##
@@ -98,9 +99,9 @@ function h = camlight (varargin)
   ## specifying azimuth and a light handle object (also a numeric double).
   ## We don't worry about that.
   if (numel (varargin) > 0 && numel (varargin{1}) == 1
-      && ishandle (varargin{1}))
+      && ishghandle (varargin{1}))
     hl = varargin{1};
-    if (! ishghandle (hl, "light"))
+    if (! isgraphics (hl, "light"))
       error ("camlight: HL must be a handle to a light object");
     endif
     varargin(1) = [];
@@ -198,6 +199,7 @@ endfunction
 
 
 %!demo
+%! clf;
 %! ## Adding lights to a scene
 %! sphere (64);
 %! camlight
@@ -208,6 +210,7 @@ endfunction
 %! title ({"camlight()", "lights are left and right"});
 
 %!demo
+%! clf;
 %! sphere (48);
 %! title ({"camlight()", "light in fixed position ignores camera change"});
 %! axis equal;
@@ -223,6 +226,7 @@ endfunction
 %! endfor
 
 %!demo
+%! clf;
 %! sphere (48);
 %! title ({"camlight()", "update light position with camera change"});
 %! axis equal;  shading flat
@@ -246,13 +250,13 @@ endfunction
 %!   set (gca (), "cameratarget", [0.5 -0.3 -0.3]);
 %!   h = camlight (45, 20);
 %!   A = get (h, "position");
-%!   ## From maillist, someone tested on Matlab R2015b for OSX:
-%!   B = [-3.301207088157029 15.474861455795917 1.115828634895176];
+%!   ## From  Matlab R2016a for Windows:
+%!   B = [-3.3012070881570281 15.474861455795915 1.1158286348951763];
 %!   assert (A, B, -20*eps);
 %!
 %!   h = camlight (300, -190);
 %!   A = get (h, "position");
-%!   B = [-11.054849015640563 2.931330143100648 -11.315623892092518];
+%!   B = [-11.054849015640565 2.9313301431006460 -11.315623892092516];
 %!   assert (A, B, -20*eps);
 %! unwind_protect_cleanup
 %!   close (hf);

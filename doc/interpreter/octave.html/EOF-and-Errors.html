@@ -79,7 +79,7 @@ line.  This has the potential advantage of removing the loop in the
 above code.
 </p>
 <a name="XREFfeof"></a><dl>
-<dt><a name="index-feof"></a>: <em><var>status</var> =</em> <strong>feof</strong> <em>(<var>fid</var>)</em></dt>
+<dt><a name="index-feof"></a><em><var>status</var> =</em> <strong>feof</strong> <em>(<var>fid</var>)</em></dt>
 <dd><p>Return 1 if an end-of-file condition has been encountered for the file
 specified by file descriptor <var>fid</var> and 0 otherwise.
 </p>
@@ -92,10 +92,10 @@ end-of-file condition.
 
 
 <a name="XREFferror"></a><dl>
-<dt><a name="index-ferror"></a>: <em><var>msg</var> =</em> <strong>ferror</strong> <em>(<var>fid</var>)</em></dt>
-<dt><a name="index-ferror-1"></a>: <em>[<var>msg</var>, <var>err</var>] =</em> <strong>ferror</strong> <em>(<var>fid</var>)</em></dt>
-<dt><a name="index-ferror-2"></a>: <em>[&hellip;] =</em> <strong>ferror</strong> <em>(<var>fid</var>, &quot;clear&quot;)</em></dt>
-<dd><p>Query the error status of the stream specified by file descriptor <var>fid</var>
+<dt><a name="index-ferror"></a><em><var>msg</var> =</em> <strong>ferror</strong> <em>(<var>fid</var>)</em></dt>
+<dt><a name="index-ferror-1"></a><em>[<var>msg</var>, <var>err</var>] =</em> <strong>ferror</strong> <em>(<var>fid</var>)</em></dt>
+<dt><a name="index-ferror-2"></a><em>[&hellip;] =</em> <strong>ferror</strong> <em>(<var>fid</var>, &quot;clear&quot;)</em></dt>
+<dd><p>Query the error status of the stream specified by file descriptor <var>fid</var>.
 </p>
 <p>If an error condition exists then return a string <var>msg</var> describing the
 error.  Otherwise, return an empty string <code>&quot;&quot;</code>.
@@ -114,7 +114,7 @@ whether the next operation will result in an error condition.
 
 
 <a name="XREFfclear"></a><dl>
-<dt><a name="index-fclear"></a>: <em></em> <strong>fclear</strong> <em>(<var>fid</var>)</em></dt>
+<dt><a name="index-fclear"></a><em></em> <strong>fclear</strong> <em>(<var>fid</var>)</em></dt>
 <dd><p>Clear the stream state for the file specified by the file descriptor
 <var>fid</var>.
 </p>
@@ -123,7 +123,7 @@ whether the next operation will result in an error condition.
 
 
 <a name="XREFfreport"></a><dl>
-<dt><a name="index-freport"></a>: <em></em> <strong>freport</strong> <em>()</em></dt>
+<dt><a name="index-freport"></a><em></em> <strong>freport</strong> <em>()</em></dt>
 <dd><p>Print a list of which files have been opened, and whether they are open
 for reading, writing, or both.
 </p>

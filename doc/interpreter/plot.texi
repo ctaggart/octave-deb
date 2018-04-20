@@ -1,22 +1,22 @@
 @c DO NOT EDIT!  Generated automatically by munge-texi.pl.
 
-@c Copyright (C) 1996-2017 John W. Eaton
+@c Copyright (C) 1996-2018 John W. Eaton
 @c
 @c This file is part of Octave.
 @c
-@c Octave is free software; you can redistribute it and/or modify it
-@c under the terms of the GNU General Public License as published by the
-@c Free Software Foundation; either version 3 of the License, or (at
-@c your option) any later version.
+@c Octave is free software: you can redistribute it and/or modify it
+@c under the terms of the GNU General Public License as published by
+@c the Free Software Foundation, either version 3 of the License, or
+@c (at your option) any later version.
 @c
-@c Octave is distributed in the hope that it will be useful, but WITHOUT
-@c ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-@c FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-@c for more details.
+@c Octave is distributed in the hope that it will be useful, but
+@c WITHOUT ANY WARRANTY; without even the implied warranty of
+@c MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+@c GNU General Public License for more details.
 @c
 @c You should have received a copy of the GNU General Public License
 @c along with Octave; see the file COPYING.  If not, see
-@c <http://www.gnu.org/licenses/>.
+@c <https://www.gnu.org/licenses/>.
 
 @node Plotting
 @chapter Plotting
@@ -588,8 +588,8 @@ bar series, @pxref{XREFbar,,bar}.
 @c hist scripts/plot/draw/hist.m
 @anchor{XREFhist}
 @deftypefn  {} {} hist (@var{y})
-@deftypefnx {} {} hist (@var{y}, @var{x})
 @deftypefnx {} {} hist (@var{y}, @var{nbins})
+@deftypefnx {} {} hist (@var{y}, @var{x})
 @deftypefnx {} {} hist (@var{y}, @var{x}, @var{norm})
 @deftypefnx {} {} hist (@dots{}, @var{prop}, @var{val}, @dots{})
 @deftypefnx {} {} hist (@var{hax}, @dots{})
@@ -598,22 +598,23 @@ Produce histogram counts or plots.
 
 With one vector input argument, @var{y}, plot a histogram of the values
 with 10 bins.  The range of the histogram bins is determined by the
-range of the data.  With one matrix input argument, @var{y}, plot a
-histogram where each bin contains a bar per input column.
+range of the data (difference between maximum and minimum value in @var{y}).
+Extreme values are lumped into the first and last bins.  If @var{y} is a
+matrix then plot a histogram where each bin contains one bar per input
+column of @var{y}.
 
-Given a second vector argument, @var{x}, use that as the centers of
-the bins, with the width of the bins determined from the adjacent
-values in the vector.
+If the optional second argument is a scalar, @var{nbins}, it defines the
+number of bins.
 
-If scalar, the second argument, @var{nbins}, defines the number of bins.
+If the optional second argument is a vector, @var{x}, it defines the centers
+of the bins.  The width of the bins is determined from the adjacent values
+in the vector.  The total number of bins is @code{numel (@var{x})}.
 
 If a third argument is provided, the histogram is normalized such that
 the sum of the bars is equal to @var{norm}.
 
-Extreme values are lumped into the first and last bins.
-
 The histogram's appearance may be modified by specifying property/value
-pairs.  For example the face and edge color may be modified.
+pairs.  For example, the face and edge color may be modified:
 
 @example
 @group
@@ -634,9 +635,9 @@ colormap (summer ());
 If the first argument @var{hax} is an axes handle, then plot into this axes,
 rather than the current axes returned by @code{gca}.
 
-With two output arguments, produce the values @var{nn} (numbers of elements)
-and @var{xx} (bin centers) such that @code{bar (@var{xx}, @var{nn})} will
-plot the histogram.
+If an output is requested then no plot is made.  Instead, return the values
+@var{nn} (numbers of elements) and @var{xx} (bin centers) such that
+@code{bar (@var{xx}, @var{nn})} will plot the histogram.
 
 @seealso{@ref{XREFhistc,,histc}, @ref{XREFbar,,bar}, @ref{XREFpie,,pie}, @ref{XREFrose,,rose}}
 @end deftypefn
@@ -695,8 +696,8 @@ The leaf digits are not sorted.  If sorted leaf values are desired, use
 @code{@var{xs} = sort (@var{x})} before calling @code{stemleaf (@var{xs})}.
 
 The stem and leaf plot and associated displays are described in:
-Chapter 3, @cite{Exploratory Data Analysis} by J. W. Tukey, Addison-Wesley,
-1977.
+Chapter 3, @cite{Exploratory Data Analysis} by @nospell{J. W. Tukey},
+Addison-Wesley, 1977.
 @seealso{@ref{XREFhist,,hist}, @ref{XREFprintd,,printd}}
 @end deftypefn
 
@@ -1591,8 +1592,10 @@ polar coordinates.  However, the display coordinates remain rectangular
 and linear.  For example,
 
 @example
+@group
 polar (0:0.1:10*pi, 0:0.1:10*pi);
 title ("Example polar plot from 0 to 10*pi");
+@end group
 @end example
 
 @noindent
@@ -2127,6 +2130,9 @@ Fix axes to the limits of the data.
 
 @item @qcode{"image"}
 Equivalent to @qcode{"tight"} and @qcode{"equal"}.
+
+@item @nospell{@qcode{"vis3d"}}
+Set aspect ratio modes to @qcode{"manual"} for rotation without stretching.
 @end table
 
 @noindent
@@ -2247,8 +2253,8 @@ Query or set the limits of the x-axis for the current plot.
 Called without arguments @code{xlim} returns the x-axis limits of the
 current plot.
 
-With the input query @qcode{"mode"}, return the current x-limit
-calculation mode which is either @qcode{"auto"} or @qcode{"manual"}.
+With the input query @qcode{"mode"}, return the current x-limit calculation
+mode which is either @qcode{"auto"} or @qcode{"manual"}.
 
 If passed a 2-element vector [@var{x_lo} @var{x_hi}], the limits of the
 x-axis are set to these values and the mode is set to @qcode{"manual"}.
@@ -2263,9 +2269,101 @@ this axes rather than the current axes returned by @code{gca}.
 
 Programming Note: The @code{xlim} function operates by modifying the
 @qcode{"xlim"} and @qcode{"xlimmode"} properties of an axes object.  These
-properties can be be directly inspected and altered with
-@code{get}/@code{set}.
+properties can be directly inspected and altered with @code{get}/@code{set}.
 @seealso{@ref{XREFylim,,ylim}, @ref{XREFzlim,,zlim}, @ref{XREFaxis,,axis}, @ref{XREFset,,set}, @ref{XREFget,,get}, @ref{XREFgca,,gca}}
+@end deftypefn
+
+
+The @code{xticks}, @code{yticks}, @code{zticks}, @code{rticks}, and
+@code{thetaticks} functions may be used to get or set the tick mark locations
+and modes on the respective axis.  Each has the same form, although mode
+options are not currently available for @code{rticks}, and @code{thetaticks}.
+
+@c FIXME: Update this section if polarplot and polar axes changes change the
+@c        associated axis properties.
+@anchor{XREFyticks}
+@anchor{XREFzticks}
+@anchor{XREFrticks}
+@anchor{XREFthetaticks}
+@findex yticks
+@findex zticks
+@findex rticks
+@findex thetaticks
+@c xticks scripts/plot/appearance/xticks.m
+@anchor{XREFxticks}
+@deftypefn  {} {@var{tickval} =} xticks
+@deftypefnx {} {@var{mode} =} xticks ("mode")
+@deftypefnx {} {} xticks (@var{tickval})
+@deftypefnx {} {} xticks ("auto")
+@deftypefnx {} {} xticks ("manual")
+@deftypefnx {} {@dots{} =} xticks (@var{hax}, @dots{})
+Query or set the tick values on the x-axis of the current axis.
+
+When called without an argument, return the current tick locations as
+specified in the @qcode{"xtick"} axes property.  These locations can be
+changed by calling @code{xticks} with a vector of tick values.  Note:
+ascending order is not required.
+
+When called with argument @qcode{"mode"}, @code{xticks} returns the current
+value of the axes property @qcode{"xtickmode"}.  This property can be
+changed by calling @code{xticks} with either @qcode{"auto"} (algorithm
+determines tick positions) or @qcode{"manual"} (tick values remain fixed
+regardless of axes resizing or rotation).  Note: Specifying xtick values
+will also set the property @qcode{"xtickmode"} to @qcode{"manual"}.
+
+If the first argument @var{hax} is an axes handle, then operate on
+this axis rather than the current axes returned by @code{gca}.
+
+Requesting a return value when calling @code{xticks} to set a property value
+will result in an error.
+
+@seealso{@ref{XREFxticklabels,,xticklabels}, @ref{XREFyticks,,yticks}, @ref{XREFzticks,,zticks}, @ref{XREFrticks,,rticks}, @ref{XREFthetaticks,,thetaticks}, @ref{XREFget,,get}, @ref{XREFset,,set}}
+@end deftypefn
+
+
+The @code{xticklabels}, @code{yticklabels}, and @code{zticklabels} functions
+may be used to get or set the label assigned to each tick location and the
+labeling mode on the respective axis.  Each has the same form.
+
+@c FIXME: Update this section if polarplot and polar axes changes change the
+@c        associated axis properties.
+@c        Matlab also implements rticklabels and thetaticklabels.
+@anchor{XREFyticklabels}
+@anchor{XREFzticklabels}
+@findex yticklabels
+@findex zticklabels
+@c xticklabels scripts/plot/appearance/xticklabels.m
+@anchor{XREFxticklabels}
+@deftypefn  {} {@var{tickval} =} xticklabels
+@deftypefnx {} {@var{mode} =} xticklabels ("mode")
+@deftypefnx {} {} xticklabels (@var{tickval})
+@deftypefnx {} {} xticklabels ("auto")
+@deftypefnx {} {} xticklabels ("manual")
+@deftypefnx {} {@dots{} =} xticklabels (@var{hax}, @dots{})
+Query or set the tick labels on the x-axis of the current axis.
+
+When called without an argument, return a cell array of strings of the
+current tick labels as specified in the @qcode{"xticklabel"} axes property.
+These labels can be changed by calling @code{xticklabels} with a cell array
+of strings.  Note: a vector of numbers will be mapped to a cell array of
+strings.  If fewer labels are specified than the current number of ticks,
+blank labels will be appended to the array.
+
+When called with argument @qcode{"mode"}, @code{xticklabels} returns the
+current value of the axes property @qcode{"xticklabelmode"}.  This property
+can be changed by calling @code{xticklabels} with either @qcode{"auto"}
+(algorithm determines tick labels) or @qcode{"manual"} (tick labels remain
+fixed).  Note: Specifying xticklabel values will also set the
+@qcode{"xticklabelmode"} and @qcode{"xticks"} properties to
+@qcode{"manual"}.
+
+If the first argument @var{hax} is an axes handle, then operate on
+this axis rather than the current axes returned by @code{gca}.
+
+Requesting a return value when calling @code{xticklabels} to set a property
+value will result in an error.
+
+@seealso{@ref{XREFxticks,,xticks}, @ref{XREFyticklabels,,yticklabels}, @ref{XREFzticklabels,,zticklabels}, @ref{XREFget,,get}, @ref{XREFset,,set}}
 @end deftypefn
 
 
@@ -2341,10 +2439,11 @@ Programming Notes:
 discontinuities are unlikely to plot well.  This restriction may be removed
 in the future.
 
-@code{fplot} requires that the function accept and return a vector argument.
-Consider this when writing user-defined functions and use @code{.*},
-@code{./}, etc.  See the function @code{vectorize} for potentially
-converting inline or anonymous functions to vectorized versions.
+@code{fplot} performance is better when the function accepts and returns a
+vector argument.  Consider this when writing user-defined functions and use
+element-by-element operators such as @code{.*}, @code{./}, etc.  See the
+function @code{vectorize} for potentially converting inline or anonymous
+functions to vectorized versions.
 
 @seealso{@ref{XREFezplot,,ezplot}, @ref{XREFplot,,plot}, @ref{XREFvectorize,,vectorize}}
 @end deftypefn
@@ -2564,8 +2663,8 @@ rather than the current axes returned by @code{gca}.
 
 The optional return value @var{h} is a graphics handle to the created
 rectangle object.
-@end deftypefn
 @seealso{@ref{XREFpatch,,patch}, @ref{XREFline,,line}, @ref{XREFcylinder,,cylinder}, @ref{XREFellipsoid,,ellipsoid}, @ref{XREFsphere,,sphere}}
+@end deftypefn
 
 
 @node Three-Dimensional Plots
@@ -2722,7 +2821,7 @@ rectangles [@var{x}, @var{y}] are typically the output of @code{meshgrid}.
 over a 2-D rectangular region in the x-y plane.  @var{z} determines the
 height above the plane of each vertex.  If only a single @var{z} matrix is
 given, then it is plotted over the meshgrid
-@code{@var{x} = 0:(columns (@var{z}) - 1), @var{y} = 0:(rows (@var{z}) - 1}).
+@code{@var{x} = 1:columns (@var{z}), @var{y} = 1:rows (@var{z})}.
 Thus, columns of @var{z} correspond to different @var{x} values and rows
 of @var{z} correspond to different @var{y} values.
 
@@ -3101,11 +3200,11 @@ light ("Position", [1 1 5]);
 
 @c isonormals scripts/plot/draw/isonormals.m
 @anchor{XREFisonormals}
-@deftypefn  {} {[@var{vn}] =} isonormals (@var{val}, @var{vert})
-@deftypefnx {} {[@var{vn}] =} isonormals (@var{val}, @var{hp})
-@deftypefnx {} {[@var{vn}] =} isonormals (@var{x}, @var{y}, @var{z}, @var{val}, @var{vert})
-@deftypefnx {} {[@var{vn}] =} isonormals (@var{x}, @var{y}, @var{z}, @var{val}, @var{hp})
-@deftypefnx {} {[@var{vn}] =} isonormals (@dots{}, "negate")
+@deftypefn  {} {@var{vn} =} isonormals (@var{val}, @var{vert})
+@deftypefnx {} {@var{vn} =} isonormals (@var{val}, @var{hp})
+@deftypefnx {} {@var{vn} =} isonormals (@var{x}, @var{y}, @var{z}, @var{val}, @var{vert})
+@deftypefnx {} {@var{vn} =} isonormals (@var{x}, @var{y}, @var{z}, @var{val}, @var{hp})
+@deftypefnx {} {@var{vn} =} isonormals (@dots{}, "negate")
 @deftypefnx {} {} isonormals (@var{val}, @var{hp})
 @deftypefnx {} {} isonormals (@var{x}, @var{y}, @var{z}, @var{val}, @var{hp})
 @deftypefnx {} {} isonormals (@dots{}, "negate")
@@ -3113,24 +3212,24 @@ light ("Position", [1 1 5]);
 Calculate normals to an isosurface.
 
 The vertex normals @var{vn} are calculated from the gradient of the
-3-dimensional array @var{val} (size: lxmxn) with the data for an
-isosurface geometry.  The normals point towards lower values in @var{val}.
+3-dimensional array @var{val} (size: lxmxn) containing the data for an
+isosurface geometry.  The normals point towards smaller values in @var{val}.
 
-If called with one output argument @var{vn} and the second input argument
-@var{vert} holds the vertices of an isosurface, the normals @var{vn} are
-calculated at the vertices @var{vert} on a grid given by
+If called with one output argument @var{vn}, and the second input argument
+@var{vert} holds the vertices of an isosurface, then the normals @var{vn}
+are calculated at the vertices @var{vert} on a grid given by
 @code{[x, y, z] = meshgrid (1:l, 1:m, 1:n)}.  The output argument
 @var{vn} has the same size as @var{vert} and can be used to set the
 @qcode{"VertexNormals"} property of the corresponding patch.
 
-If called with further input arguments @var{x}, @var{y}, and @var{z}
+If called with additional input arguments @var{x}, @var{y}, and @var{z},
 which are 3-dimensional arrays with the same size as @var{val},
-the volume data is taken at these points.  Instead of the vertex data
-@var{vert}, a patch handle @var{hp} can be passed to this function.
+then the volume data is taken at these points.  Instead of the vertex data
+@var{vert}, a patch handle @var{hp} can be passed to the function.
 
 If the last input argument is the string @qcode{"negate"}, compute the
 reverse vector normals of an isosurface geometry (i.e., pointed towards
-higher values in @var{val}).
+larger values in @var{val}).
 
 If no output argument is given, the property @qcode{"VertexNormals"} of
 the patch associated with the patch handle @var{hp} is changed directly.
@@ -3230,82 +3329,36 @@ current figure with the @code{patch} command.
 
 @c isocolors scripts/plot/draw/isocolors.m
 @anchor{XREFisocolors}
-@deftypefn  {} {[@var{cd}] =} isocolors (@var{c}, @var{v})
-@deftypefnx {} {[@var{cd}] =} isocolors (@var{x}, @var{y}, @var{z}, @var{c}, @var{v})
-@deftypefnx {} {[@var{cd}] =} isocolors (@var{x}, @var{y}, @var{z}, @var{r}, @var{g}, @var{b}, @var{v})
-@deftypefnx {} {[@var{cd}] =} isocolors (@var{r}, @var{g}, @var{b}, @var{v})
-@deftypefnx {} {[@var{cd}] =} isocolors (@dots{}, @var{p})
+@deftypefn  {} {@var{cdat} =} isocolors (@var{c}, @var{v})
+@deftypefnx {} {@var{cdat} =} isocolors (@var{x}, @var{y}, @var{z}, @var{c}, @var{v})
+@deftypefnx {} {@var{cdat} =} isocolors (@var{x}, @var{y}, @var{z}, @var{r}, @var{g}, @var{b}, @var{v})
+@deftypefnx {} {@var{cdat} =} isocolors (@var{r}, @var{g}, @var{b}, @var{v})
+@deftypefnx {} {@var{cdat} =} isocolors (@dots{}, @var{p})
 @deftypefnx {} {} isocolors (@dots{})
 
 Compute isosurface colors.
 
-If called with one output argument and the first input argument
-@var{c} is a three-dimensional array that contains color values and
-the second input argument @var{v} keeps the vertices of a geometry
-then return a matrix @var{cd} with color data information for the
-geometry at computed points
-@code{[x, y, z] = meshgrid (1:l, 1:m, 1:n)}.  The output argument
-@var{cd} can be taken to manually set FaceVertexCData of a patch.
+If called with one output argument, and the first input argument @var{c}
+is a three-dimensional array that contains indexed color values, and the
+second input argument @var{v} are the vertices of an isosurface geometry,
+then return a matrix @var{cdat} with color data information for the geometry
+at computed points @code{[x, y, z] = meshgrid (1:l, 1:m, 1:n)}.  The output
+argument @var{cdat} can be used to manually set the
+@qcode{"FaceVertexCData"} property of an isosurface patch object.
 
-If called with further input arguments @var{x}, @var{y} and @var{z}
-which are three--dimensional arrays of the same size than @var{c}
-then the color data is taken at those given points.  Instead of the
-color data @var{c} this function can also be called with RGB values
-@var{r}, @var{g}, @var{b}.  If input argumnets @var{x}, @var{y},
-@var{z} are not given then again @code{meshgrid} computed values
-are taken.
+If called with additional input arguments @var{x}, @var{y} and @var{z} which
+are three-dimensional arrays of the same size as @var{c} then the
+color data is taken at those specified points.
 
-Optionally, the patch handle @var{p} can be given as the last input
-argument to all variations of function calls instead of the vertices
-data @var{v}.  Finally, if no output argument is given then directly
-change the colors of a patch that is given by the patch handle
-@var{p}.
+Instead of indexed color data @var{c}, @code{isocolors} can also be called
+with RGB values @var{r}, @var{g}, @var{b}.  If input arguments @var{x},
+@var{y}, @var{z} are not given then @code{meshgrid} computed values are
+used.
 
-For example:
-
-@example
-function isofinish (p)
-  set (gca, "PlotBoxAspectRatioMode", "manual", ...
-            "PlotBoxAspectRatio", [1 1 1]);
-  set (p, "FaceColor", "interp");
-  ## set (p, "FaceLighting", "flat");
-  ## light ("Position", [1 1 5]);  # Available with JHandles
-endfunction
-
-N = 15;    # Increase number of vertices in each direction
-iso = .4;  # Change isovalue to .1 to display a sphere
-lin = linspace (0, 2, N);
-[x, y, z] = meshgrid (lin, lin, lin);
-c = abs ((x-.5).^2 + (y-.5).^2 + (z-.5).^2);
-figure (); # Open another figure window
-
-subplot (2,2,1); view (-38, 20);
-[f, v] = isosurface (x, y, z, c, iso);
-p = patch ("Faces", f, "Vertices", v, "EdgeColor", "none");
-cdat = rand (size (c));       # Compute random patch color data
-isocolors (x, y, z, cdat, p); # Directly set colors of patch
-isofinish (p);                # Call user function isofinish
-
-subplot (2,2,2); view (-38, 20);
-p = patch ("Faces", f, "Vertices", v, "EdgeColor", "none");
-[r, g, b] = meshgrid (lin, 2-lin, 2-lin);
-cdat = isocolors (x, y, z, c, v); # Compute color data vertices
-set (p, "FaceVertexCData", cdat); # Set color data manually
-isofinish (p);
-
-subplot (2,2,3); view (-38, 20);
-p = patch ("Faces", f, "Vertices", v, "EdgeColor", "none");
-cdat = isocolors (r, g, b, c, p); # Compute color data patch
-set (p, "FaceVertexCData", cdat); # Set color data manually
-isofinish (p);
-
-subplot (2,2,4); view (-38, 20);
-p = patch ("Faces", f, "Vertices", v, "EdgeColor", "none");
-r = g = b = repmat ([1:N] / N, [N, 1, N]); # Black to white
-cdat = isocolors (x, y, z, r, g, b, v);
-set (p, "FaceVertexCData", cdat);
-isofinish (p);
-@end example
+Optionally, a patch handle @var{p} can be given as the last input argument
+to all function call variations and the vertex data will be extracted
+from the isosurface patch object.  Finally, if no output argument is given
+then the colors of the patch given by the patch handle @var{p} are changed.
 
 @seealso{@ref{XREFisosurface,,isosurface}, @ref{XREFisonormals,,isonormals}}
 @end deftypefn
@@ -3427,7 +3480,7 @@ handle to a patch object @var{patch_handle} (@pxref{XREFpatch,,patch}).
 The number of faces and vertices in the patch is reduced by iteratively
 collapsing the shortest edge of the patch to its midpoint (as discussed,
 e.g., here:
-@url{http://libigl.github.io/libigl/tutorial/tutorial.html#meshdecimation}).
+@url{https://libigl.github.io/libigl/tutorial/tutorial.html#meshdecimation}).
 
 Currently, only patches consisting of triangles are supported.  The
 resulting patch also consists only of triangles.
@@ -3689,9 +3742,10 @@ camlight (45, 30);
 @end group
 @end example
 
-Here the light is first pitched upwards from the camera position by 30
-degrees.  It is then yawed by 45 degrees to the right.  Both rotations are
-centered around the camera target.
+Here the light is first pitched upwards (@pxref{XREFcamup,,camup}) from the
+camera position (@pxref{XREFcampos,,campos}) by 30 degrees.  It is then
+yawed by 45 degrees to the right.  Both rotations are centered around the
+camera target (@pxref{XREFcamtarget,,camtarget}).
 
 Return a handle to further manipulate the light object
 
@@ -3723,7 +3777,8 @@ copies of @var{y}.  If @var{y} is omitted, then it is assumed to be the same
 as @var{x}.
 
 If the optional @var{z} input is given, or @var{zz} is requested, then the
-output will be a full 3-D grid.
+output will be a full 3-D grid.  If @var{z} is omitted and @var{zz} is
+requested, it is assumed to be the same as @var{y}.
 
 @code{meshgrid} is most frequently used to produce input for a 2-D or 3-D
 function that will be plotted.  The following example creates a surface
@@ -3885,6 +3940,460 @@ this axes rather than the current axes returned by @code{gca}.
 
 If no inputs are given, return the current @var{azimuth} and
 @var{elevation}.
+@end deftypefn
+
+
+@c camlookat scripts/plot/appearance/camlookat.m
+@anchor{XREFcamlookat}
+@deftypefn  {} {} camlookat ()
+@deftypefnx {} {} camlookat (@var{h})
+@deftypefnx {} {} camlookat (@var{handle_list})
+@deftypefnx {} {} camlookat (@var{hax})
+Move the camera and adjust its properties to look at objects.
+
+When the input is a handle @var{h}, the camera is set to point toward the
+center of the bounding box of @var{h}.  The camera's position is adjusted so
+the bounding box approximately fills the field of view.
+
+This command fixes the camera's viewing direction
+(@code{camtarget() - campos()}), camera up vector (@pxref{XREFcamup,,camup})
+and viewing angle (@pxref{XREFcamva,,camva}).  The camera target
+(@pxref{XREFcamtarget,,camtarget}) and camera position
+(@pxref{XREFcampos,,campos}) are changed.
+
+
+If the argument is a list @var{handle_list}, then a single bounding box for
+all the objects is computed and the camera is then adjusted as above.
+
+If the argument is an axis object @var{hax}, then the children of the axis
+are used as @var{handle_list}.  When called with no inputs, it uses the
+current axis (@pxref{XREFgca,,gca}).
+
+@seealso{@ref{XREFcamorbit,,camorbit}, @ref{XREFcamzoom,,camzoom}, @ref{XREFcamroll,,camroll}}
+@end deftypefn
+
+
+@c campos scripts/plot/appearance/campos.m
+@anchor{XREFcampos}
+@deftypefn  {} {@var{P} =} campos ()
+@deftypefnx {} {} campos ([@var{x} @var{y} @var{z}])
+@deftypefnx {} {@var{mode} =} campos ("mode")
+@deftypefnx {} {} campos (@var{mode})
+@deftypefnx {} {} campos (@var{ax}, @dots{})
+Set or get the camera position.
+
+The default camera position is determined automatically based on the scene.
+For example, to get the camera position:
+
+@example
+@group
+hf = figure();
+peaks()
+p = campos ()
+  @result{} p =
+      -27.394  -35.701   64.079
+@end group
+@end example
+
+We can then move the camera further up the z-axis:
+
+@example
+@group
+campos (p + [0 0 10])
+campos ()
+  @result{} ans =
+      -27.394  -35.701   74.079
+@end group
+@end example
+
+Having made that change, the camera position @var{mode} is now manual:
+
+@example
+@group
+campos ("mode")
+  @result{} manual
+@end group
+@end example
+
+We can set it back to automatic:
+
+@example
+@group
+campos ("auto")
+campos ()
+  @result{} ans =
+      -27.394  -35.701   64.079
+close (hf)
+@end group
+@end example
+
+By default, these commands affect the current axis; alternatively, an axis
+can be specified by the optional argument @var{ax}.
+
+@seealso{@ref{XREFcamup,,camup}, @ref{XREFcamtarget,,camtarget}, @ref{XREFcamva,,camva}}
+@end deftypefn
+
+
+@c camorbit scripts/plot/appearance/camorbit.m
+@anchor{XREFcamorbit}
+@deftypefn  {} {} camorbit (@var{theta}, @var{phi})
+@deftypefnx {} {} camorbit (@var{theta}, @var{phi}, @var{coorsys})
+@deftypefnx {} {} camorbit (@var{theta}, @var{phi}, @var{coorsys}, @var{dir})
+@deftypefnx {} {} camorbit (@var{theta}, @var{phi}, "data")
+@deftypefnx {} {} camorbit (@var{theta}, @var{phi}, "data", "z")
+@deftypefnx {} {} camorbit (@var{theta}, @var{phi}, "data", "x")
+@deftypefnx {} {} camorbit (@var{theta}, @var{phi}, "data", "y")
+@deftypefnx {} {} camorbit (@var{theta}, @var{phi}, "data", [@var{x} @var{y} @var{z}])
+@deftypefnx {} {} camorbit (@var{theta}, @var{phi}, "camera")
+@deftypefnx {} {} camorbit (@var{hax}, @dots{})
+Rotate the camera up/down and left/right around its target.
+
+Move the camera @var{phi} degrees up and @var{theta} degrees to the right,
+as if it were in an orbit around its target.
+Example:
+
+@example
+@group
+@c doctest: +SKIP
+sphere ()
+camorbit (30, 20)
+@end group
+@end example
+
+These rotations are centered around the camera target
+(@pxref{XREFcamtarget,,camtarget}).
+First the camera position is pitched up or down by rotating it @var{phi}
+degrees around an axis orthogonal to both the viewing direction
+(specifically @code{camtarget() - campos()}) and the camera ``up vector''
+(@pxref{XREFcamup,,camup}).
+Example:
+
+@example
+@group
+@c doctest: +SKIP
+camorbit (0, 20)
+@end group
+@end example
+
+The second rotation depends on the coordinate system @var{coorsys} and
+direction @var{dir} inputs.
+The default for @var{coorsys} is @qcode{"data"}.  In this case, the camera
+is yawed left or right by rotating it @var{theta} degrees around an axis
+specified by @var{dir}.
+The default for @var{dir} is @qcode{"z"}, corresponding to the vector
+@code{[0, 0, 1]}.
+Example:
+
+@example
+@group
+@c doctest: +SKIP
+camorbit (30, 0)
+@end group
+@end example
+
+When @var{coorsys} is set to @qcode{"camera"}, the camera is moved left or
+right by rotating it around an axis parallel to the camera up vector
+(@pxref{XREFcamup,,camup}).
+The input @var{dir} should not be specified in this case.
+Example:
+
+@example
+@group
+@c doctest: +SKIP
+camorbit (30, 0, "camera")
+@end group
+@end example
+
+(Note: the rotation by @var{phi} is unaffected by @qcode{"camera"}.)
+
+The @code{camorbit} command modifies two camera properties:
+@pxref{XREFcampos,,campos} and @pxref{XREFcamup,,camup}.
+
+By default, this command affects the current axis; alternatively, an axis
+can be specified by the optional argument @var{hax}.
+
+@seealso{@ref{XREFcamzoom,,camzoom}, @ref{XREFcamroll,,camroll}, @ref{XREFcamlookat,,camlookat}}
+@end deftypefn
+
+
+@c camroll scripts/plot/appearance/camroll.m
+@anchor{XREFcamroll}
+@deftypefn  {} {} camroll (@var{theta})
+@deftypefnx {} {} camroll (@var{ax}, @var{theta})
+Roll the camera.
+
+Roll the camera clockwise by @var{theta} degrees.
+For example, the following command will roll the camera by
+30 degrees clockwise (to the right); this will cause the scene
+to appear to roll by 30 degrees to the left:
+
+@example
+@group
+@c doctest: +SKIP
+peaks ()
+camroll (30)
+@end group
+@end example
+
+Roll the camera back:
+
+@example
+@group
+@c doctest: +SKIP
+camroll (-30)
+@end group
+@end example
+
+The following command restores the default camera roll:
+
+@example
+@group
+@c doctest: +SKIP
+camup ("auto")
+@end group
+@end example
+
+By default, these commands affect the current axis; alternatively, an axis
+can be specified by the optional argument @var{ax}.
+
+@seealso{@ref{XREFcamzoom,,camzoom}, @ref{XREFcamorbit,,camorbit}, @ref{XREFcamlookat,,camlookat}, @ref{XREFcamup,,camup}}
+@end deftypefn
+
+
+@c camtarget scripts/plot/appearance/camtarget.m
+@anchor{XREFcamtarget}
+@deftypefn  {} {@var{T} =} camtarget ()
+@deftypefnx {} {} camtarget ([@var{x} @var{y} @var{z}])
+@deftypefnx {} {@var{mode} =} camtarget ("mode")
+@deftypefnx {} {} camtarget (@var{mode})
+@deftypefnx {} {} camtarget (@var{ax}, @dots{})
+Set or get where the camera is pointed.
+
+The camera target is a point in space where the camera is pointing.
+Usually, it is determined automatically based on the scene:
+
+@example
+@group
+hf = figure();
+sphere (36)
+v = camtarget ()
+  @result{} v =
+      0   0   0
+@end group
+@end example
+
+We can turn the camera to point at a new target:
+
+@example
+@group
+camtarget ([1 1 1])
+camtarget ()
+  @result{}   1   1   1
+@end group
+@end example
+
+Having done so, the camera target @var{mode} is manual:
+
+@example
+@group
+camtarget ("mode")
+  @result{} manual
+@end group
+@end example
+
+This means, for example, adding new objects to the scene will not retarget
+the camera:
+
+@example
+@group
+hold on;
+peaks ()
+camtarget ()
+  @result{}   1   1   1
+@end group
+@end example
+
+We can reset it to be automatic:
+
+@example
+@group
+@c doctest: +XFAIL
+@c https://savannah.gnu.org/bugs/?44503
+camtarget ("auto")
+camtarget ()
+  @result{}   0   0   0.76426
+close (hf)
+@end group
+@end example
+
+By default, these commands affect the current axis; alternatively, an axis
+can be specified by the optional argument @var{ax}.
+
+@seealso{@ref{XREFcampos,,campos}, @ref{XREFcamup,,camup}, @ref{XREFcamva,,camva}}
+@end deftypefn
+
+
+@c camup scripts/plot/appearance/camup.m
+@anchor{XREFcamup}
+@deftypefn  {} {@var{up} =} camup ()
+@deftypefnx {} {} camup ([@var{x} @var{y} @var{z}])
+@deftypefnx {} {@var{mode} =} camup ("mode")
+@deftypefnx {} {} camup (@var{mode})
+@deftypefnx {} {} camup (@var{ax}, @dots{})
+Set or get the camera up vector.
+
+By default, the camera is oriented so that ``up'' corresponds to the
+positive z-axis:
+
+@example
+@group
+hf = figure ();
+sphere (36)
+v = camup ()
+  @result{} v =
+      0   0   1
+@end group
+@end example
+
+Specifying a new ``up vector'' rolls the camera and sets the mode to manual:
+
+@example
+@group
+camup ([1 1 0])
+camup ()
+  @result{}   1   1   0
+camup ("mode")
+  @result{} manual
+@end group
+@end example
+
+Modifying the up vector does not modify the camera target
+(@pxref{XREFcamtarget,,camtarget}).  Thus, the camera up vector might not be
+orthogonal to the direction of the camera's view:
+
+@example
+@group
+camup ([1 2 3])
+dot (camup (), camtarget () - campos ())
+  @result{} 6...
+@end group
+@end example
+
+A consequence is that ``pulling back'' on the up vector does not pitch the
+camera view (as that would require changing the target).  Setting the up
+vector is thus typically used only to roll the camera.  A more intuitive
+command for this purpose is @pxref{XREFcamroll,,camroll}.
+
+Finally, we can reset the up vector to automatic mode:
+
+@example
+@group
+camup ("auto")
+camup ()
+  @result{}   0   0   1
+close (hf)
+@end group
+@end example
+
+By default, these commands affect the current axis; alternatively, an axis
+can be specified by the optional argument @var{ax}.
+
+@seealso{@ref{XREFcampos,,campos}, @ref{XREFcamtarget,,camtarget}, @ref{XREFcamva,,camva}}
+@end deftypefn
+
+
+@c camva scripts/plot/appearance/camva.m
+@anchor{XREFcamva}
+@deftypefn  {} {@var{a} =} camva ()
+@deftypefnx {} {} camva (@var{a})
+@deftypefnx {} {@var{mode} =} camva ("mode")
+@deftypefnx {} {} camva (@var{mode})
+@deftypefnx {} {} camva (@var{ax}, @dots{})
+Set or get the camera viewing angle.
+
+The camera has a viewing angle which determines how much can be seen.  By
+default this is:
+
+@example
+@group
+hf = figure();
+sphere (36)
+a = camva ()
+  @result{} a =  10.340
+@end group
+@end example
+
+To get a wider-angle view, we could double the viewing angle.  This will
+also set the mode to manual:
+
+@example
+@group
+camva (2*a)
+camva ("mode")
+  @result{} manual
+@end group
+@end example
+
+We can set it back to automatic:
+
+@example
+@group
+camva ("auto")
+camva ("mode")
+  @result{} auto
+camva ()
+  @result{} ans =  10.340
+close (hf)
+@end group
+@end example
+
+By default, these commands affect the current axis; alternatively, an axis
+can be specified by the optional argument @var{ax}.
+
+@seealso{@ref{XREFcampos,,campos}, @ref{XREFcamtarget,,camtarget}, @ref{XREFcamup,,camup}}
+@end deftypefn
+
+
+@c camzoom scripts/plot/appearance/camzoom.m
+@anchor{XREFcamzoom}
+@deftypefn  {} {} camzoom (@var{zf})
+@deftypefnx {} {} camzoom (@var{ax}, @var{zf})
+Zoom the camera in or out.
+
+A value of @var{zf} larger than 1 ``zooms in'' such that the scene appears
+magnified:
+
+@example
+@group
+hf = figure ();
+sphere (36)
+camzoom (1.2)
+@end group
+@end example
+
+A value smaller than 1 ``zooms out'' so the camera can see more of the
+scene:
+
+@example
+@group
+camzoom (0.5)
+@end group
+@end example
+
+Technically speaking, zooming affects the ``viewing angle''.  The following
+command resets to the default zoom:
+
+@example
+@group
+camva ("auto")
+close (hf)
+@end group
+@end example
+
+By default, these commands affect the current axis; alternatively, an axis
+can be specified by the optional argument @var{ax}.
+
+@seealso{@ref{XREFcamroll,,camroll}, @ref{XREFcamorbit,,camorbit}, @ref{XREFcamlookat,,camlookat}, @ref{XREFcamva,,camva}}
 @end deftypefn
 
 
@@ -4577,30 +5086,37 @@ object.
 
 @c legend scripts/plot/appearance/legend.m
 @anchor{XREFlegend}
-@deftypefn  {} {} legend (@var{str1}, @var{str2}, @dots{})
-@deftypefnx {} {} legend (@var{matstr})
-@deftypefnx {} {} legend (@var{cellstr})
+@deftypefn  {} {} legend ()
+@deftypefnx {} {} legend (@var{str1}, @var{str2}, @dots{})
+@deftypefnx {} {} legend (@var{charmat})
+@deftypefnx {} {} legend (@{@var{cellstr}@})
 @deftypefnx {} {} legend (@dots{}, "location", @var{pos})
 @deftypefnx {} {} legend (@dots{}, "orientation", @var{orient})
 @deftypefnx {} {} legend (@var{hax}, @dots{})
 @deftypefnx {} {} legend (@var{hobjs}, @dots{})
 @deftypefnx {} {} legend (@var{hax}, @var{hobjs}, @dots{})
 @deftypefnx {} {} legend ("@var{option}")
+@deftypefnx {} {} legend (@dots{}, @{@var{cellstr}@}, @var{property}, @var{value}, @dots{})
 @deftypefnx {} {[@var{hleg}, @var{hleg_obj}, @var{hplot}, @var{labels}] =} legend (@dots{})
 
 Display a legend for the current axes using the specified strings as labels.
 
 Legend entries may be specified as individual character string arguments,
-a character array, or a cell array of character strings.
+a character array, or a cell array of character strings.  When label names
+might be confused with options to @code{legend}, the labels should be
+protected by specifying them as a cell array of strings.
 
-If the first argument @var{hax} is an axes handle, then plot into this axes,
-rather than the current axes returned by @code{gca}.  If the handles,
-@var{hobjs}, are not specified then the legend's strings will be associated
-with the axes' descendants.  @code{legend} works on line graphs,
-bar graphs, etc.  A plot must exist before legend is called.
+If the first argument @var{hax} is an axes handle, then add a legend to this
+axes, rather than the current axes returned by @code{gca}.
 
-The optional parameter @var{pos} specifies the location of the legend
-as follows:
+Legend labels are associated with the axes' children; The first label is
+assigned to the first object that was plotted in the axes, the second label
+to the next object plotted, etc.  To label specific data objects, without
+labeling all objects, provide their graphic handles in the input
+@var{hobjs}.
+
+The optional parameter @var{pos} specifies the location of the legend as
+follows:
 
 @multitable @columnfractions 0.06 0.14 0.80
 @headitem @tab pos @tab location of the legend
@@ -4612,11 +5128,12 @@ as follows:
 @item @tab northwest @tab left top
 @item @tab southeast @tab right bottom
 @item @tab southwest @tab left bottom
-@item
-@item @tab outside @tab can be appended to any location string
+@sp 1
+@item @tab outside @tab can be appended to any location string @*
+@item @tab         @tab which will place the legend outside the axes
 @end multitable
 
-The optional parameter @var{orient} determines if the key elements are
+The optional parameter @var{orient} determines if the legend elements are
 placed vertically or horizontally.  The allowed values are
 @qcode{"vertical"} (default) or @qcode{"horizontal"}.
 
@@ -4630,7 +5147,7 @@ The following customizations are available using @var{option}:
   Hide legend on the plot
 
 @item @qcode{"toggle"}
-  Toggles between @qcode{"hide"} and @qcode{"show"}
+  Toggle between @qcode{"hide"} and @qcode{"show"}
 
 @item @qcode{"boxon"}
   Show a box around legend (default)
@@ -4648,6 +5165,12 @@ The following customizations are available using @var{option}:
   Delete the legend object
 @end table
 
+The @code{legend} function creates a graphics object which has various
+properties that can be manipulated with @code{get}/@code{set}.
+Alternatively, properties can be set directly when calling @code{legend} by
+including @var{property}/@var{value} pairs.  If using this calling form, the
+labels must be specified as a cell array of strings.
+
 The optional output values are
 
 @table @var
@@ -4655,7 +5178,8 @@ The optional output values are
   The graphics handle of the legend object.
 
 @item hleg_obj
-  Graphics handles to the text and line objects which make up the legend.
+  Graphics handles to the text, patch, and line objects which form the
+  legend.
 
 @item hplot
   Graphics handles to the plot objects which were used in making the legend.
@@ -4664,15 +5188,23 @@ The optional output values are
   A cell array of strings of the labels in the legend.
 @end table
 
-The legend label text is either provided in the call to @code{legend} or
-is taken from the DisplayName property of graphics objects.  If no
-labels or DisplayNames are available, then the label text is simply
-@qcode{"data1"}, @qcode{"data2"}, @dots{}, @nospell{@qcode{"dataN"}}.
+Implementation Note: The legend label text is either provided in the call to
+@code{legend} or is taken from the @code{DisplayName} property of the
+graphics objects.  Only data objects, such as line, patch, and surface, have
+this property whereas axes, figures, etc.@: do not so they are never present
+in a legend.  If no labels or @code{DisplayName} properties are available,
+then the label text is simply @qcode{"data1"}, @qcode{"data2"}, @dots{},
+@nospell{@qcode{"dataN"}}.  No more than 20 data labels will be
+automatically generated.  To label more, call @code{legend} explicitly and
+provide all labels.
 
-Implementation Note: A legend is implemented as an additional axes object
-of the current figure with the @qcode{"tag"} set to @qcode{"legend"}.
-Properties of the legend object may be manipulated directly by using
-@code{set}.
+The legend @code{FontSize} property is initially set to 90% of the axes
+@code{FontSize} to which it is attached.  Use @code{set} to override this
+if necessary.
+
+A legend is implemented as an additional axes object with the @code{tag}
+property set to @qcode{"legend"}.  Properties of the legend object may be
+manipulated directly by using @code{set}.
 @end deftypefn
 
 
@@ -4694,14 +5226,20 @@ text.
 
 The optional return value @var{h} is a vector of graphics handles to the
 created text objects.
+
+Programming Note: The full list of properties is documented at
+@ref{Text Properties,,Text Properties}.
 @seealso{@ref{XREFgtext,,gtext}, @ref{XREFtitle,,title}, @ref{XREFxlabel,,xlabel}, @ref{XREFylabel,,ylabel}, @ref{XREFzlabel,,zlabel}}
 @end deftypefn
 
 
 See @ref{Text Properties} for the properties that you can set.
 
+@c Add cross-references and function index entries for other label functions.
 @anchor{XREFylabel}
 @anchor{XREFzlabel}
+@findex ylabel
+@findex zlabel
 @c xlabel scripts/plot/appearance/xlabel.m
 @anchor{XREFxlabel}
 @deftypefn  {} {} xlabel (@var{string})
@@ -4819,7 +5357,7 @@ set (gca, "ygrid", "on");
 @c colorbar scripts/plot/draw/colorbar.m
 @anchor{XREFcolorbar}
 @deftypefn  {} {} colorbar
-@deftypefnx {} {} colorbar (@var{loc})
+@deftypefnx {} {} colorbar (@dots{}, @var{loc})
 @deftypefnx {} {} colorbar (@var{delete_option})
 @deftypefnx {} {} colorbar (@var{hcb}, @dots{})
 @deftypefnx {} {} colorbar (@var{hax}, @dots{})
@@ -4832,8 +5370,9 @@ Add a colorbar to the current axes.
 A colorbar displays the current colormap along with numerical rulings
 so that the color scale can be interpreted.
 
-The optional input @var{loc} determines the location of the colorbar.
-Valid values for @var{loc} are
+The optional input @var{loc} determines the location of the colorbar.  If
+present, it must be the last argument to @code{colorbar}.  Valid values for
+@var{loc} are
 
 @table @asis
 @item @qcode{"EastOutside"}
@@ -4862,12 +5401,14 @@ Place the colorbar at the bottom of the plot.
 @end table
 
 To remove a colorbar from a plot use any one of the following keywords for
-the @var{delete_option}: @qcode{"delete"}, @qcode{"hide"}, @qcode{"off"}.
+the @var{delete_option}: @qcode{"off"}, @qcode{"delete"}, @qcode{"hide"}.
 
-If the argument @qcode{"peer"} is given, then the following argument is
-treated as the axes handle in which to add the colorbar.  Alternatively,
 If the first argument @var{hax} is an axes handle, then the colorbar is
 added to this axes, rather than the current axes returned by @code{gca}.
+Alternatively, If the argument @qcode{"peer"} is given, then the following
+argument is treated as the axes handle in which to add the colorbar.  The
+@qcode{"peer"} calling syntax may be removed in the future and is not
+recommended.
 
 If the first argument @var{hcb} is a handle to a colorbar object, then
 operate on this colorbar directly.
@@ -4878,10 +5419,10 @@ object.
 The optional return value @var{h} is a graphics handle to the created
 colorbar object.
 
-Implementation Note: A colorbar is created as an additional axes to the
-current figure with the @qcode{"tag"} property set to @qcode{"colorbar"}.
-The created axes object has the extra property @qcode{"location"} which
-controls the positioning of the colorbar.
+Implementation Note: A colorbar is created as an additional axes object
+with the @qcode{"tag"} property set to @qcode{"colorbar"}.  The created
+object has the extra property @qcode{"location"} which controls the
+positioning of the colorbar.
 @seealso{@ref{XREFcolormap,,colormap}}
 @end deftypefn
 
@@ -5047,6 +5588,7 @@ figure.
 @c subplot scripts/plot/util/subplot.m
 @anchor{XREFsubplot}
 @deftypefn  {} {} subplot (@var{rows}, @var{cols}, @var{index})
+@deftypefnx {} {} subplot (@var{rows}, @var{cols}, @var{index}, @var{hax})
 @deftypefnx {} {} subplot (@var{rcn})
 @deftypefnx {} {} subplot (@var{hax})
 @deftypefnx {} {} subplot (@dots{}, "align")
@@ -5056,6 +5598,10 @@ figure.
 @deftypefnx {} {@var{hax} =} subplot (@dots{})
 Set up a plot grid with @var{rows} by @var{cols} subwindows and set the
 current axes for plotting (@code{gca}) to the location given by @var{index}.
+
+If an axes handle @var{hax} is provided after the (@var{rows}, @var{cols},
+@var{index}) arguments, the corresponding axes is turned into a
+subplot.
 
 If only one numeric argument is supplied, then it must be a three digit
 value specifying the number of rows in digit 1, the number of columns in
@@ -5160,6 +5706,9 @@ they must appear in pairs.
 
 The optional return value @var{h} is a graphics handle to the created figure
 object.
+
+Programming Note: The full list of properties is documented at
+@ref{Figure Properties,,Figure Properties}.
 @seealso{@ref{XREFaxes,,axes}, @ref{XREFgcf,,gcf}, @ref{XREFclf,,clf}, @ref{XREFclose,,close}}
 @end deftypefn
 
@@ -5195,10 +5744,10 @@ figure rather than the current figure as returned by @code{gcf}.
 
 @c rotate scripts/plot/util/rotate.m
 @anchor{XREFrotate}
-@deftypefn  {} {} rotate (@var{h}, @var{dir}, @var{alpha})
+@deftypefn  {} {} rotate (@var{h}, @var{direction}, @var{alpha})
 @deftypefnx {} {} rotate (@dots{}, @var{origin})
 Rotate the plot object @var{h} through @var{alpha} degrees around the line
-with direction @var{dir} and origin @var{origin}.
+with direction @var{direction} and origin @var{origin}.
 
 The default value of @var{origin} is the center of the axes object that is
 the parent of @var{h}.
@@ -5478,15 +6027,19 @@ window that was cleared.
 @deftypefnx {} {} cla reset
 @deftypefnx {} {} cla (@var{hax})
 @deftypefnx {} {} cla (@var{hax}, "reset")
-Clear the current axes.
+Clear the current or specified (@var{hax}) axes object.
 
 @code{cla} operates by deleting child graphic objects with visible
-handles (HandleVisibility = @qcode{"on"}).
+handles (@code{HandleVisibility} = @qcode{"on"}).  This typically clears the
+axes of any visual objects, but leaves in place axes limits, tick marks and
+labels, camera view, etc.  In addition, the automatic coloring and styling
+of lines is reset by changing the axes properties @code{ColorOrderIndex},
+@code{LinestyleOrderIndex} to 1.
 
 If the optional argument @qcode{"reset"} is specified, delete all child
-objects including those with hidden handles and reset all axes properties
+objects, including those with hidden handles, and reset all axes properties
 to their defaults.  However, the following properties are not reset:
-Position, Units.
+@code{Position}, @code{Units}.
 
 If the first argument @var{hax} is an axes handle, then operate on
 this axes rather than the current axes returned by @code{gca}.
@@ -5525,9 +6078,8 @@ features from a plot without clearing the entire figure.
 @c close scripts/plot/util/close.m
 @anchor{XREFclose}
 @deftypefn  {} {} close
-@deftypefnx {} {} close @var{h}
 @deftypefnx {} {} close (@var{h})
-@deftypefnx {} {} close (@var{h}, "force")
+@deftypefnx {} {} close @var{figname}
 @deftypefnx {} {} close all
 @deftypefnx {} {} close all hidden
 @deftypefnx {} {} close all force
@@ -5535,23 +6087,27 @@ Close figure window(s).
 
 When called with no arguments, close the current figure.  This is equivalent
 to @code{close (gcf)}.  If the input @var{h} is a graphic handle, or vector
-of graphics handles, then close each figure in @var{h}.
+of graphics handles, then close each figure in @var{h}.  The figure to
+close may also be specified by name @var{figname} which is matched against
+the @qcode{"Name"} property of all figures.
 
 If the argument @qcode{"all"} is given then all figures with visible handles
 (HandleVisibility = @qcode{"on"}) are closed.
 
-If the argument @qcode{"all hidden"} is given then all figures, including
-hidden ones, are closed.
+If the additional argument @qcode{"hidden"} is given then all figures,
+including hidden ones, are closed.
 
-If the argument @qcode{"force"} is given then figures are closed even when
-@qcode{"closerequestfcn"} has been altered to prevent closing the window.
+If the additional argument @qcode{"force"} is given then figures are closed
+even when @qcode{"closerequestfcn"} has been altered to prevent closing the
+window.
 
-Implementation Note: @code{close} operates by calling the function specified
-by the @qcode{"closerequestfcn"} property for each figure.  By default, the
-function @code{closereq} is used.  It is possible that the function invoked
-will delay or abort removing the figure.  To remove a figure without
-executing any callback functions use @code{delete}.  When writing a callback
-function to close a window do not use @code{close} to avoid recursion.
+Implementation Note: @code{close} operates by making the handle @var{h} the
+current figure, and then calling the function specified by the
+@qcode{"closerequestfcn"} property of the figure.  By default, the function
+@code{closereq} is used.  It is possible that the function invoked will
+delay or abort removing the figure.  To remove a figure without executing
+any callback functions use @code{delete}.  When writing a callback function
+to close a window do not use @code{close} to avoid recursion.
 
 @seealso{@ref{XREFclosereq,,closereq}, @ref{XREFdelete,,delete}}
 @end deftypefn
@@ -5579,8 +6135,11 @@ which special control sequences in the text are rendered.
 The interpreter property can take three values: @qcode{"none"}, @qcode{"tex"},
 @qcode{"latex"}.  If the interpreter is set to @qcode{"none"} then no special
 rendering occurs---the displayed text is a verbatim copy of the specified text.
-Currently, the @qcode{"latex"} interpreter is not implemented and is equivalent
-to @qcode{"none"}.
+Currently, the @qcode{"latex"} interpreter is not implemented for on-screen
+display and is equivalent to @qcode{"none"}.  Note that Octave does not parse
+or validate the text strings when in @qcode{"latex"} mode---it is the
+responsibility of the programmer to generate valid strings which may include
+wrapping sections that should appear in Math mode with @qcode{'$'} characters.
 
 The @qcode{"tex"} option implements a subset of @TeX{} functionality when
 rendering text.  This allows the insertion of special glyphs such as Greek
@@ -5618,7 +6177,7 @@ use @tab
 @end multitable
 
 The color of the text may also be changed inline using either a string (e.g.,
-"red") or numerically with a Red-Green-Blue (RGB) specification (.e.g.,
+"red") or numerically with a Red-Green-Blue (RGB) specification (e.g.,
 [1 0 0], also red).
 
 @multitable @columnfractions .1 .4 .6 .1
@@ -5629,8 +6188,8 @@ numerically @tab
 
 Finally, superscripting and subscripting can be controlled with the @qcode{'^'}
 and @qcode{'_'} characters.  If the @qcode{'^'} or @qcode{'_'} is followed by a
-@{ character, then all of the block surrounded by the @{ @} pair is
-superscripted or subscripted.  Without the @{ @} pair, only the character
+@{ character, then all of the block surrounded by the @w{@{ @}} pair is
+superscripted or subscripted.  Without the @w{@{ @}} pair, only the character
 immediately following the @qcode{'^'} or @qcode{'_'} is changed.
 
 @float Table,tab:extended
@@ -5906,15 +6465,14 @@ print -deps foo.eps
 saves the current figure to an encapsulated PostScript file called
 @file{foo.eps}.
 
-The current graphic toolkits produce very similar graphic displays but differ
-in their capability to display text and in print capabilities.  In particular,
-the OpenGL based toolkits such as @code{fltk} and @code{qt} do not support the
-@qcode{"interpreter"} property of text objects.  This means that when using
-OpenGL toolkits special symbols drawn with the @qcode{"tex"} interpreter will
-appear correctly on-screen but will be rendered with interpreter @qcode{"none"}
-when printing unless one of the @code{standalone} (see below) modes is used.
-These modes provide access to the pdflatex processor and therefore allow full
-use of @LaTeX{} commands.
+The current graphic toolkits produce very similar graphic displays, but differ
+in their capability to display unusual text and in their ability to print
+such text.  In general, the @qcode{"tex"} interpreter (default) is the best
+all-around performer for both on-screen display and printing.  However, for the
+reproduction of complicated text formulas the @qcode{"latex"} interpreter is
+preferred.  The @qcode{"latex"} interpreter will not display symbols on-screen,
+but the printed output will be correct.  When printing, use one of the
+@code{standalone} options which provide full access to @LaTeX{} commands.
 
 A complete example showing the capabilities of text printing using the
 @option{-dpdflatexstandalone} option is:
@@ -5927,16 +6485,15 @@ plot (x, erf (x));
 hold on;
 plot (x, x, "r");
 axis ([0, 3, 0, 1]);
-text (0.65, 0.6175, ['$\displaystyle\leftarrow x = @{2\over\sqrt@{\pi@}@}'...
-                     '\int_@{0@}^@{x@}e^@{-t^2@} dt = 0.6175$']);
+text (0.65, 0.6175, ['$\displaystyle\leftarrow x = @{2 \over \sqrt@{\pi@}@}'...
+                     '\int_@{0@}^@{x@} e^@{-t^2@} dt = 0.6175$'],
+      "interpreter", "latex");
 xlabel ("x");
 ylabel ("erf (x)");
 title ("erf (x) with text annotation");
-set (hf, "visible", "off");
 print (hf, "plot15_7.pdf", "-dpdflatexstandalone");
-set (hf, "visible", "on");
 system ("pdflatex plot15_7");
-open ("plot15_7.pdf");
+open plot15_7.pdf
 @end group
 @end example
 
@@ -6075,7 +6632,7 @@ The @samp{standalone} variants behave as described for
 @samp{epslatexstandalone} above.
 
 @item  ill
-@itemx aifm
+@itemx @nospell{aifm}
     Adobe Illustrator (Obsolete for Gnuplot versions > 4.2)
 
 @item canvas
@@ -6084,7 +6641,7 @@ The @samp{standalone} variants behave as described for
 
 @item  cdr
 @itemx @nospell{corel}
-    CorelDraw
+@nospell{CorelDraw}
 
 @item dxf
     AutoCAD
@@ -6124,7 +6681,6 @@ toolkit).
 
 @item pdf
     Portable document format
-@end table
 
 @item svg
     Scalable vector graphics
@@ -6136,6 +6692,7 @@ toolkits create a PGF file while Gnuplot creates a TikZ file.  The
 @samp{tikzstandalone} device produces a @LaTeX{} document which includes the
 TikZ file (@samp{tikzstandalone} and is only available for the Gnuplot
 graphics toolkit).
+@end table
 
   If the device is omitted, it is inferred from the file extension,
 or if there is no filename it is sent to the printer as PostScript.
@@ -6254,7 +6811,8 @@ print -dpswrite -PPS_printer
 Save graphic object @var{h} to the file @var{filename} in graphic format
 @var{fmt}.
 
-@var{fmt} should be one of the following formats:
+All device formats accepted by @code{print} may be used.  Common formats
+are:
 
 @table @code
 @item ps
@@ -6262,6 +6820,9 @@ Save graphic object @var{h} to the file @var{filename} in graphic format
 
 @item eps
     Encapsulated PostScript
+
+@item pdf
+    Portable Document Format
 
 @item jpg
     JPEG Image
@@ -6272,13 +6833,11 @@ Save graphic object @var{h} to the file @var{filename} in graphic format
 @item emf
     Enhanced Meta File
 
-@item pdf
-    Portable Document Format
 @end table
 
-All device formats specified in @code{print} may also be used.  If
-@var{fmt} is omitted it is extracted from the extension of @var{filename}.
-The default format is @qcode{"pdf"}.
+If @var{fmt} is omitted it is extracted from the extension of
+@var{filename}.  The default format when there is no extension is
+@qcode{"pdf"}.
 
 @example
 @group
@@ -6349,9 +6908,9 @@ If present, @var{fmt} should be one of the following:
 
 @item @option{-hdf5}, @option{-float-hdf5}
 
-@item @option{-V7}, @option{-v7}, @code{-7}, @option{-mat7-binary}
+@item @option{-V7}, @option{-v7}, @option{-7}, @option{-mat7-binary}
 
-@item @option{-V6}, @option{-v6}, @code{-6}, @option{-mat6-binary}
+@item @option{-V6}, @option{-v6}, @option{-6}, @option{-mat6-binary}
 
 @item @option{-text}
 
@@ -6565,22 +7124,25 @@ to a complex data structure as documented in
 
 The graphics objects are arranged in a hierarchy:
 
-1. The root is at 0.  In other words, @code{get (0)} returns the properties of
+1. The root object is returned by @code{groot} (historically, equivalent to
+the handle 0).  In other words, @code{get (groot)} returns the properties of
 the root object.
 
 2. Below the root are @code{figure} objects.
 
-3. Below the @code{figure} objects are @code{axes} objects.
+3. Below the @code{figure} objects are @code{axes} or @code{hggroup} objects.
 
 4. Below the @code{axes} objects are @code{line}, @code{text}, @code{patch},
 @code{surface}, @code{image}, and @code{light} objects.
 
 Graphics handles may be distinguished from function handles
-(@pxref{Function Handles}) by means of the function @code{ishandle}.
-@code{ishandle} returns true if its argument is a handle of a graphics object.
-In addition, a figure or axes object may be tested using @code{isfigure} or
-@code{isaxes} respectively.  The test functions return true only if the
-argument is both a handle and of the correct type (figure or axes).
+(@pxref{Function Handles}) by means of the function @code{ishghandle}.
+@code{ishghandle} returns true if its argument is a handle of a graphics
+object.  In addition, a figure or axes object may be tested using
+@code{isfigure} or @code{isaxes} respectively.  To test for a specific type of
+graphics handle, such as a patch or line object, use @code{isgraphics}.  The
+more specific test functions return true only if the argument is both a
+graphics handle and of the correct type (figure, axes, specified object type).
 
 The @code{whos} function can be used to show the object type of each currently
 defined graphics handle.  (Note: this is not true today, but it is, I hope,
@@ -6614,35 +7176,38 @@ ans = figure
 get (h, "");
 error: get: ambiguous figure property name ; possible matches:
 
-__enhanced__           hittest                resize
-__graphics_toolkit__   integerhandle          resizefcn
-__guidata__            interruptible          selected
-__modified__           inverthardcopy         selectionhighlight
-__myhandle__           keypressfcn            selectiontype
-__plot_stream__        keyreleasefcn          tag
-alphamap               menubar                toolbar
-beingdeleted           mincolormap            type
-busyaction             name                   uicontextmenu
-buttondownfcn          nextplot               units
-children               numbertitle            userdata
-clipping               outerposition          visible
-closerequestfcn        paperorientation       windowbuttondownfcn
-color                  paperposition          windowbuttonmotionfcn
-colormap               paperpositionmode      windowbuttonupfcn
-createfcn              papersize              windowkeypressfcn
-currentaxes            papertype              windowkeyreleasefcn
-currentcharacter       paperunits             windowscrollwheelfcn
-currentobject          parent                 windowstyle
-currentpoint           pointer                wvisual
-deletefcn              pointershapecdata      wvisualmode
-dockcontrols           pointershapehotspot    xdisplay
-doublebuffer           position               xvisual
-filename               renderer               xvisualmode
-handlevisibility       renderermode
+__gl_extensions__      dockcontrols           renderer
+__gl_renderer__        doublebuffer           renderermode
+__gl_vendor__          filename               resize
+__gl_version__         graphicssmoothing      resizefcn
+__graphics_toolkit__   handlevisibility       selected
+__guidata__            hittest                selectionhighlight
+__modified__           integerhandle          selectiontype
+__mouse_mode__         interruptible          sizechangedfcn
+__myhandle__           inverthardcopy         tag
+__pan_mode__           keypressfcn            toolbar
+__plot_stream__        keyreleasefcn          type
+__rotate_mode__        menubar                uicontextmenu
+__zoom_mode__          mincolormap            units
+alphamap               name                   userdata
+beingdeleted           nextplot               visible
+busyaction             numbertitle            windowbuttondownfcn
+buttondownfcn          outerposition          windowbuttonmotionfcn
+children               paperorientation       windowbuttonupfcn
+clipping               paperposition          windowkeypressfcn
+closerequestfcn        paperpositionmode      windowkeyreleasefcn
+color                  papersize              windowscrollwheelfcn
+colormap               papertype              windowstyle
+createfcn              paperunits             wvisual
+currentaxes            parent                 wvisualmode
+currentcharacter       pointer                xdisplay
+currentobject          pointershapecdata      xvisual
+currentpoint           pointershapehotspot    xvisualmode
+deletefcn              position
 @end smallexample
 
-The root figure has index 0.  Its properties may be displayed by:
-@code{get (0, "")}.
+The properties of the root figure may be displayed by:
+@code{get (groot, "")}.
 
 The uses of @code{get} and @code{set} are further explained in
 @ref{XREFget,,get}, @ref{XREFset,,set}.
@@ -6677,8 +7242,8 @@ graphics objects are always referenced by @dfn{handle}.
 @item root figure
 @cindex root figure graphics object
 @cindex graphics object, root figure
-the top level of the hierarchy and the parent of all figure objects.
-The handle index of the root figure is 0.
+The top level of the hierarchy and the parent of all figure objects.
+Use @code{groot} to obtain the handle of the root graphics object.
 
 @item figure
 @cindex figure graphics object
@@ -6732,7 +7297,7 @@ same name as the object; In other words, @code{figure}, @code{axes},
 @code{light} functions.  These fundamental graphic objects automatically become
 children of the current axes object as if @code{hold on} was in place.
 Separately, axes will automatically become children of the current figure
-object and figures will become children of the root object 0.
+object and figures will become children of the root object.
 
 If this auto-joining feature is not desired then it is important to call
 @code{newplot} first to prepare a new figure and axes for plotting.
@@ -6747,19 +7312,23 @@ Instead of calling @code{line}, use @code{plot}.  Or use @code{surf} instead of
 @deftypefnx {} {} axes (@var{property}, @var{value}, @dots{})
 @deftypefnx {} {} axes (@var{hax})
 @deftypefnx {} {@var{h} =} axes (@dots{})
-Create an axes object and return a handle to it, or set the current axes
-to @var{hax}.
+Create a Cartesian axes object and return a handle to it, or set the current
+axes to @var{hax}.
 
 Called without any arguments, or with @var{property}/@var{value} pairs,
-construct a new axes.  For accepted properties and corresponding values,
-@pxref{XREFset,,set}.
+construct a new axes.
 
 Called with a single axes handle argument @var{hax}, the function makes
-@var{hax} the current axes.  It also restacks the axes in the corresponding
-figure so that @var{hax} is the first entry in the list of children.  This
-causes @var{hax} to be displayed on top of any other axes objects (Z-order
-stacking).
+@var{hax} the current axes (as returned by @code{gca}).  It also makes
+the figure which contains @var{hax} the current figure (as returned by
+@code{gcf}).  Finally, it restacks the parent object's @code{children}
+property so that the axes @var{hax} appears before all other axes handles
+in the list.  This causes @var{hax} to be displayed on top of any other axes
+objects (Z-order stacking).  In addition it restacks any legend or colorbar
+objects associated with @var{hax} so that they are also visible.
 
+Programming Note: The full list of properties is documented at
+@ref{Axes Properties,,Axes Properties}.
 @seealso{@ref{XREFgca,,gca}, @ref{XREFset,,set}, @ref{XREFget,,get}}
 @end deftypefn
 
@@ -6786,6 +7355,8 @@ rather than the current axes returned by @code{gca}.
 The optional return value @var{h} is a graphics handle (or vector of
 handles) to the line objects created.
 
+Programming Note: The full list of properties is documented at
+@ref{Line Properties,,Line Properties}.
 @seealso{@ref{XREFimage,,image}, @ref{XREFpatch,,patch}, @ref{XREFrectangle,,rectangle}, @ref{XREFsurface,,surface}, @ref{XREFtext,,text}}
 @end deftypefn
 
@@ -6839,10 +7410,10 @@ rather than the current axes returned by @code{gca}.
 The optional return value @var{h} is a graphics handle to the created patch
 object.
 
-Implementation Note: Patches are highly configurable objects.  To truly
-customize them requires setting patch properties directly.  Useful patch
-properties are: @qcode{"cdata"}, @qcode{"edgecolor"},
-@qcode{"facecolor"}, @qcode{"faces"}, @qcode{"facevertexcdata"}.
+Programming Note: The full list of properties is documented at
+@ref{Patch Properties,,Patch Properties}.  Useful patch properties include:
+@qcode{"cdata"}, @qcode{"edgecolor"}, @qcode{"facecolor"}, @qcode{"faces"},
+and @qcode{"facevertexcdata"}.
 @seealso{@ref{XREFfill,,fill}, @ref{XREFget,,get}, @ref{XREFset,,set}}
 @end deftypefn
 
@@ -6874,6 +7445,9 @@ rather than the current axes returned by @code{gca}.
 
 The optional return value @var{h} is a graphics handle to the created
 surface object.
+
+Programming Note: The full list of properties is documented at
+@ref{Surface Properties,,Surface Properties}.
 @seealso{@ref{XREFsurf,,surf}, @ref{XREFmesh,,mesh}, @ref{XREFpatch,,patch}, @ref{XREFline,,line}}
 @end deftypefn
 
@@ -6922,6 +7496,8 @@ to this axes, rather than the current axes returned by @code{gca}.
 The optional return value @var{h} is a graphics handle to the created light
 object.
 
+Programming Note: The full list of properties is documented at
+@ref{Light Properties,,Light Properties}.
 @seealso{@ref{XREFlighting,,lighting}, @ref{XREFmaterial,,material}, @ref{XREFpatch,,patch}, @ref{XREFsurface,,surface}}
 @end deftypefn
 
@@ -6930,31 +7506,49 @@ object.
 @cindex handle functions
 
 To determine whether a variable is a graphics object index, or an index
-to an axes or figure, use the functions @code{ishandle}, @code{isaxes}, and
-@code{isfigure}.
+to an axes or figure, use the functions @code{ishghandle}, @code{isgraphics},
+@code{isaxes}, and @code{isfigure}.
 
-@c ishandle libinterp/corefcn/graphics.cc
-@anchor{XREFishandle}
-@deftypefn {} {} ishandle (@var{h})
+@c ishghandle libinterp/corefcn/graphics.cc
+@anchor{XREFishghandle}
+@deftypefn {} {} ishghandle (@var{h})
 Return true if @var{h} is a graphics handle and false otherwise.
 
 @var{h} may also be a matrix of handles in which case a logical array is
 returned that is true where the elements of @var{h} are graphics handles and
 false where they are not.
-@seealso{@ref{XREFisaxes,,isaxes}, @ref{XREFisfigure,,isfigure}}
+@seealso{@ref{XREFisgraphics,,isgraphics}, @ref{XREFisaxes,,isaxes}, @ref{XREFisfigure,,isfigure}, @ref{XREFishandle,,ishandle}}
 @end deftypefn
 
 
-@c ishghandle scripts/plot/util/ishghandle.m
-@anchor{XREFishghandle}
-@deftypefn  {} {} ishghandle (@var{h})
-@deftypefnx {} {} ishghandle (@var{h}, @var{type})
+@c isgraphics scripts/plot/util/isgraphics.m
+@anchor{XREFisgraphics}
+@deftypefn  {} {} isgraphics (@var{h})
+@deftypefnx {} {} isgraphics (@var{h}, @var{type})
 Return true if @var{h} is a graphics handle (of type @var{type}) and false
 otherwise.
 
 When no @var{type} is specified the function is equivalent to
-@code{ishandle}.
-@seealso{@ref{XREFishandle,,ishandle}}
+@code{ishghandle}.
+@seealso{@ref{XREFishghandle,,ishghandle}, @ref{XREFishandle,,ishandle}, @ref{XREFisaxes,,isaxes}, @ref{XREFisfigure,,isfigure}}
+@end deftypefn
+
+
+@c ishandle scripts/plot/util/ishandle.m
+@anchor{XREFishandle}
+@deftypefn {} {} ishandle (@var{h})
+Return true if @var{h} is a handle to a graphics or Java object and false
+otherwise.
+
+@var{h} may also be a matrix of handles in which case a logical array is
+returned that is true where the elements of @var{h} are handles to graphics
+or Java objects and false where they are not.
+
+Programming Note: It is often more useful to test for a specific object
+type.  To determine if a handle belongs to a graphics object use
+@code{ishghandle} or @code{isgraphics}.  To determine if a handle belongs
+to a Java object use @code{isjava}.
+@seealso{@ref{XREFishghandle,,ishghandle}, @ref{XREFisgraphics,,isgraphics}, @ref{XREFisjava,,isjava}}
 @end deftypefn
 
 
@@ -6965,7 +7559,7 @@ Return true if @var{h} is an axes graphics handle and false otherwise.
 
 If @var{h} is a matrix then return a logical array which is true where the
 elements of @var{h} are axes graphics handles and false where they are not.
-@seealso{@ref{XREFisaxes,,isaxes}, @ref{XREFishandle,,ishandle}}
+@seealso{@ref{XREFisfigure,,isfigure}, @ref{XREFishghandle,,ishghandle}, @ref{XREFisgraphics,,isgraphics}}
 @end deftypefn
 
 
@@ -6977,7 +7571,7 @@ Return true if @var{h} is a figure graphics handle and false otherwise.
 If @var{h} is a matrix then return a logical array which is true where the
 elements of @var{h} are figure graphics handles and false where they are
 not.
-@seealso{@ref{XREFisaxes,,isaxes}, @ref{XREFishandle,,ishandle}}
+@seealso{@ref{XREFisaxes,,isaxes}, @ref{XREFishghandle,,ishghandle}, @ref{XREFisgraphics,,isgraphics}}
 @end deftypefn
 
 
@@ -6985,6 +7579,41 @@ The function @code{gcf} returns an index to the current figure object,
 or creates one if none exists.  Similarly, @code{gca} returns the
 current axes object, or creates one (and its parent figure object) if
 none exists.
+
+@c groot scripts/plot/util/groot.m
+@anchor{XREFgroot}
+@deftypefn {} {@var{h} =} groot ()
+Return a handle to the root graphics object.
+
+The root graphics object is the ultimate parent of all graphics objects.
+
+In addition, the root object contains information about the graphics
+system as a whole such as the @code{ScreenSize}.  Use @w{@code{get (groot)}}
+to find out what information is available.
+
+Defaults for the graphic system as a whole are specified by setting
+properties of the root graphics object that begin with @qcode{"Default"}.
+For example, to set the default font for all text objects to FreeSans use
+
+@example
+set (groot, "DefaultTextFontName", "FreeSans")
+@end example
+
+Default properties can be deleted by using @code{set} with the special
+property value of @qcode{"remove"}.  To undo the default font assignment
+above use
+
+@example
+set (groot, "DefaultTextFontName", "remove")
+@end example
+
+Programming Note: The root graphics object is identified by the special
+handle value of 0.  At some point this unique value may change, but code can
+be made resistant to future changes by using @code{groot} which is
+guaranteed to always return the root graphics object.
+@seealso{@ref{XREFgcf,,gcf}, @ref{XREFgca,,gca}, @ref{XREFget,,get}, @ref{XREFset,,set}}
+@end deftypefn
+
 
 @c gcf scripts/plot/util/gcf.m
 @anchor{XREFgcf}
@@ -7016,7 +7645,7 @@ exist, query the @qcode{"CurrentFigure"} property of the root graphics
 object.
 
 @example
-get (0, "currentfigure");
+get (groot, "currentfigure");
 @end example
 
 @seealso{@ref{XREFgca,,gca}, @ref{XREFgco,,gco}, @ref{XREFgcbf,,gcbf}, @ref{XREFgcbo,,gcbo}, @ref{XREFget,,get}, @ref{XREFset,,set}}
@@ -7087,7 +7716,7 @@ properties for graphics objects.  For example,
 
 @example
 @group
-get (0)
+get (groot)
     @result{} ans =
        @{
          type = root
@@ -7383,7 +8012,7 @@ In the following documentation, default values are enclosed in @{ @}.
 
 @node Root Figure Properties
 @subsubsection Root Figure Properties
-@cindex root figure properties
+@prindex @sortas{@ Root Figure Properties} Root Figure Properties
 
 The @code{root figure} properties are:
 
@@ -7392,7 +8021,7 @@ The @code{root figure} properties are:
 
 @node Figure Properties
 @subsubsection Figure Properties
-@cindex figure properties
+@prindex @sortas{@ Figure Properties} Figure Properties
 
 The @code{figure} properties are:
 
@@ -7401,7 +8030,7 @@ The @code{figure} properties are:
 
 @node Axes Properties
 @subsubsection Axes Properties
-@cindex axes properties
+@prindex @sortas{@ Axes Properties} Axes Properties
 
 The @code{axes} properties are:
 
@@ -7410,7 +8039,7 @@ The @code{axes} properties are:
 
 @node Line Properties
 @subsubsection Line Properties
-@cindex line properties
+@prindex @sortas{@ Line Properties} Line Properties
 
 The @code{line} properties are:
 
@@ -7419,7 +8048,7 @@ The @code{line} properties are:
 
 @node Text Properties
 @subsubsection Text Properties
-@cindex text properties
+@prindex @sortas{@ Text Properties} Text Properties
 
 The @code{text} properties are:
 
@@ -7428,7 +8057,7 @@ The @code{text} properties are:
 
 @node Image Properties
 @subsubsection Image Properties
-@cindex image properties
+@prindex @sortas{@ Image Properties} Image Properties
 
 The @code{image} properties are:
 
@@ -7437,7 +8066,7 @@ The @code{image} properties are:
 
 @node Patch Properties
 @subsubsection Patch Properties
-@cindex patch properties
+@prindex @sortas{@ Patch Properties} Patch Properties
 
 The @code{patch} properties are:
 
@@ -7446,7 +8075,7 @@ The @code{patch} properties are:
 
 @node Surface Properties
 @subsubsection Surface Properties
-@cindex surface properties
+@prindex @sortas{@ Surface Properties} Surface Properties
 
 The @code{surface} properties are:
 
@@ -7455,7 +8084,7 @@ The @code{surface} properties are:
 
 @node Light Properties
 @subsubsection Light Properties
-@cindex light properties
+@prindex @sortas{@ Light Properties} Light Properties
 
 The @code{light} properties are:
 
@@ -7463,7 +8092,7 @@ The @code{light} properties are:
 
 @node Uimenu Properties
 @subsubsection Uimenu Properties
-@cindex uimenu properties
+@prindex @sortas{@ Uimenu Properties} Uimenu Properties
 
 The @code{uimenu} properties are:
 
@@ -7471,7 +8100,7 @@ The @code{uimenu} properties are:
 
 @node Uibuttongroup Properties
 @subsubsection Uibuttongroup Properties
-@cindex uibuttongroup properties
+@prindex @sortas{@ Uibuttongroup Properties} Uibuttongroup Properties
 
 The @code{uibuttongroup} properties are:
 
@@ -7479,7 +8108,7 @@ The @code{uibuttongroup} properties are:
 
 @node Uicontextmenu Properties
 @subsubsection Uicontextmenu Properties
-@cindex uicontextmenu properties
+@prindex @sortas{@ Uicontextmenu Properties} Uicontextmenu Properties
 
 The @code{uicontextmenu} properties are:
 
@@ -7487,7 +8116,7 @@ The @code{uicontextmenu} properties are:
 
 @node Uipanel Properties
 @subsubsection Uipanel Properties
-@cindex uipanel properties
+@prindex @sortas{@ Uipanel Properties} Uipanel Properties
 
 The @code{uipanel} properties are:
 
@@ -7495,7 +8124,7 @@ The @code{uipanel} properties are:
 
 @node Uicontrol Properties
 @subsubsection Uicontrol Properties
-@cindex uicontrol properties
+@prindex @sortas{@ Uicontrol Properties} Uicontrol Properties
 
 The @code{uicontrol} properties are:
 
@@ -7503,7 +8132,7 @@ The @code{uicontrol} properties are:
 
 @node Uitoolbar Properties
 @subsubsection Uitoolbar Properties
-@cindex uitoolbar properties
+@prindex @sortas{@ Uitoolbar Properties} Uitoolbar Properties
 
 The @code{uitoolbar} properties are:
 
@@ -7511,7 +8140,7 @@ The @code{uitoolbar} properties are:
 
 @node Uipushtool Properties
 @subsubsection Uipushtool Properties
-@cindex uipushtool properties
+@prindex @sortas{@ Uipushtool Properties} Uipushtool Properties
 
 The @code{uipushtool} properties are:
 
@@ -7519,7 +8148,7 @@ The @code{uipushtool} properties are:
 
 @node Uitoggletool Properties
 @subsubsection Uitoggletool Properties
-@cindex uitoggletool properties
+@prindex @sortas{@ Uitoggletool Properties} Uitoggletool Properties
 
 The @code{uitoggletool} properties are:
 
@@ -7573,9 +8202,9 @@ passed in @var{hlist}.  A depth of 0 is also equivalent to the
 includes all descendants.
 
 A specified logical operator may be used between @var{prop_name},
-@var{prop_value} pairs.  The supported logical operators are: @qcode{"-and"},
-@qcode{"-or"}, @qcode{"-xor"}, @qcode{"-not"}.  Example code to locate all
-figure and axes objects is
+@var{prop_value} pairs.  The supported logical operators are:
+@qcode{"-and"}, @qcode{"-or"}, @qcode{"-xor"}, @qcode{"-not"}.  Example code
+to locate all figure and axes objects is
 
 @example
 findobj ("type", "figure", "-or", "type", "axes")
@@ -7585,7 +8214,7 @@ Objects may also be matched by comparing a regular expression to the
 property values, where property values that match
 @code{regexp (@var{prop_value}, @var{pattern})} are returned.
 
-Finally, objects which have a property name can be found with the 
+Finally, objects which have a property name can be found with the
 @qcode{"-property"} option.  For example, code to locate objects with a
 @qcode{"meshstyle"} property is
 
@@ -7637,7 +8266,7 @@ objects to @qcode{"green"}, for the @code{root} object, will result in all
 value.
 
 @example
-set (0, "defaultlinecolor", "green");
+set (groot, "defaultlinecolor", "green");
 @end example
 
 @noindent
@@ -7652,7 +8281,7 @@ This rule can lead to some strange looking names, for example
 @code{defaultlinelinewidth"} specifies the default @code{linewidth}
 property for @code{line} objects.
 
-The example above used the root figure object, 0, so the default
+The example above used the root figure object so the default
 property value will apply to all line objects.  However, default values
 are hierarchical, so defaults set in a figure objects override those
 set in the root figure object.  Likewise, defaults set in axes objects
@@ -7661,7 +8290,7 @@ override those set in figure or root figure objects.  For example,
 @example
 @group
 subplot (2, 1, 1);
-set (0, "defaultlinecolor", "red");
+set (groot, "defaultlinecolor", "red");
 set (1, "defaultlinecolor", "green");
 set (gca (), "defaultlinecolor", "blue");
 line (1:10, rand (1, 10));
@@ -7723,7 +8352,7 @@ Factory default values are stored in the root figure object.  The
 command
 
 @example
-get (0, "factory");
+get (groot, "factory");
 @end example
 
 @noindent
@@ -7740,6 +8369,7 @@ returns a list of factory defaults.
 * Callbacks::
 * Application-defined Data::
 * Object Groups::
+* Transform Groups::
 * Graphics Toolkits::
 @end menu
 
@@ -7825,8 +8455,9 @@ and will return the color, line, and marker values that would result.
 
 @c colstyle scripts/plot/util/colstyle.m
 @anchor{XREFcolstyle}
-@deftypefn {} {[@var{style}, @var{color}, @var{marker}, @var{msg}] =} colstyle (@var{linespec})
-Parse @var{linespec} and return the line style, color, and markers given.
+@deftypefn {} {[@var{style}, @var{color}, @var{marker}, @var{msg}] =} colstyle (@var{style})
+Parse the line specification @var{style} and return the line style, color,
+and markers given.
 
 In the case of an error, the string @var{msg} will return the text of the
 error.
@@ -7844,80 +8475,107 @@ is
 @example
 @group
 function mycallback (hsrc, evt)
-@dots{}
+  @dots{}
 endfunction
 @end group
 @end example
 
 @noindent
-where @code{hsrc} is a handle to the source of the callback, and @code{evt} 
-gives some event specific data.  
+where @code{hsrc} is a handle to the source of the callback, and @code{evt}
+gives some event specific data.
 
-The function can be provided as a function handle to a plain Octave function, 
-as an anonymous function or as a string representing an Octvae command. The 
-latter syntax is not recommended since syntax errors will only occur when the 
-string is evaluated.  
+The function can be provided as a function handle to a plain Octave function,
+as an anonymous function, or as a string representing an Octave command.  The
+latter syntax is not recommended since syntax errors will only occur when the
+string is evaluated.
 @xref{Function Handles Anonymous Functions Inline Functions, , Function Handles section}.
 
-This can then be associated
-with an object either at the objects creation or later with the
-@code{set} function.  For example,
+This can then be associated with an object either at the object's creation, or
+later with the @code{set} function.  For example,
 
 @example
 plot (x, "DeleteFcn", @@(h, e) disp ("Window Deleted"))
 @end example
 
 @noindent
-where at the moment that the plot is deleted, the message "Window
-Deleted" will be displayed.
+where at the moment that the plot is deleted, the message
+@qcode{"Window Deleted"} will be displayed.
 
-Additional user arguments can be passed to callback functions, and will
-be passed after the 2 default arguments.  For example:
+Additional user arguments can be passed to callback functions, and will be
+passed after the two default arguments.  For example:
 
 @example
 @group
 plot (x, "DeleteFcn", @{@@mycallback, "1"@})
 @dots{}
-function mycallback (h, e, a1)
-  fprintf ("Closing plot %d\n", a1);
+function mycallback (h, evt, arg1)
+  fprintf ("Closing plot %d\n", arg1);
 endfunction
 @end group
 @end example
 
-The basic callback functions that are available for all graphics objects
-are
-
-@itemize @bullet
-@item CreateFcn: 
-called at the moment of the objects creation.  It is not called if the object is altered in any way, and so it only makes sense to define this callback in the function call that defines the object.  Callbacks that are added to @code{CreateFcn} later with the @code{set} function will never be executed.
-
-@item DeleteFcn: 
-called at the moment an object is deleted.
-
-@item ButtonDownFcn: 
-called if a mouse button is pressed while the pointer is over this object.  Note, that the gnuplot interface does not respect this callback.
-@end itemize
-
-@strong{Caution:} the second @code{evt} argument in callback functions is only 
-loosely implemented in the Qt graphics toolkit:
+@strong{Caution:} The second argument in callback functions---@code{evt}---is
+only partially implemented in the Qt graphics toolkit:
 
 @itemize @bullet
 @item Mouse click events:
-@code{evt} is a class @code{double} value, 1 for left, 2 for middle and 3 
-for right click.
+@code{evt} is a class @code{double} value: 1 for left, 2 for middle, and 3 for
+right click.
 
 @item Key press events:
-@code{evt} is a structure with fields @code{Key} (string), @code{Character} 
-(string) and @code{Modifier} (cell array of strings).
+@code{evt} is a structure with fields @code{Key} (string), @code{Character}
+(string), and @code{Modifier} (cell array of strings).
 
 @item Other events:
 @code{evt} is a class @code{double} empty matrix.
 @end itemize
 
+The basic callback functions that are available for all graphics objects are
 
-The object and figure that the event occurred in that resulted in the
-callback being called can be found with the @code{gcbo} and @code{gcbf}
-functions.
+@itemize @bullet
+@item CreateFcn:
+called at the moment of the objects creation.  It is not called if the
+object is altered in any way, and so it only makes sense to define this
+callback in the function call that defines the object.  Callbacks that
+are added to @code{CreateFcn} later with the @code{set} function will
+never be executed.
+
+@item DeleteFcn:
+called at the moment an object is deleted.
+
+@item ButtonDownFcn:
+called if a mouse button is pressed while the pointer is over this
+object.  Note, that the gnuplot interface does not implement this
+callback.
+@end itemize
+
+By default callback functions are queued (they are executed one after the other
+in the event queue) unless the @code{drawnow}, @code{figure}, @code{waitfor},
+@code{getframe}, or @code{pause} functions are used.  If an executing callback
+invokes one of those functions, it causes Octave to flush the event queue,
+which results in the executing callback being interrupted.
+
+It is possible to specify that an object's callbacks should not be interrupted
+by setting the object's @code{interruptible} property to @qcode{"off"}.  In
+this case, Octave decides what to do based on the @code{busyaction} property of
+the @strong{interrupting} callback object:
+
+@table @asis
+@item @code{queue} (the default)
+The interrupting callback is executed after the executing callback has
+returned.
+
+@item @code{cancel}
+The interrupting callback is discarded.
+@end table
+
+The @code{interruptible} property has no effect when the interrupting callback
+is a @code{deletefcn}, or a figure @code{resizefcn} or @code{closerequestfcn}.
+Those callbacks always interrupt the executing callback.
+
+The handle to the object that holds the callback being executed can be
+obtained with the @code{gcbo} function.  The handle to the ancestor figure
+of this object may be obtained using the @code{gcbf} function.
 
 @c gcbo scripts/plot/util/gcbo.m
 @anchor{XREFgcbo}
@@ -7961,22 +8619,26 @@ Octave has a provision for attaching application-defined data to a graphics
 handle.  The data can be anything which is meaningful to the application, and
 will be completely ignored by Octave.
 
-@c setappdata scripts/miscellaneous/setappdata.m
+@c setappdata scripts/gui/setappdata.m
 @anchor{XREFsetappdata}
 @deftypefn  {} {} setappdata (@var{h}, @var{name}, @var{value})
 @deftypefnx {} {} setappdata (@var{h}, @var{name1}, @var{value1}, @var{name2}, @var{value3}, @dots{})
+@deftypefnx {} {} setappdata (@var{h}, @{@var{name1}, @var{name2}, @dots{}@}, @{@var{value1}, @var{value2}, @dots{}@})
 Set the application data @var{name} to @var{value} for the graphics object
 with handle @var{h}.
 
 @var{h} may also be a vector of graphics handles.  If the application data
-with the specified @var{name} does not exist, it is created.  Multiple
-@var{name}/@var{value} pairs can be specified at a time.
+with the specified @var{name} does not exist, it is created.
+
+Multiple @var{name}/@var{value} pairs can be specified.  Alternatively, a
+cell array of @var{names} and a corresponding cell array of @var{values} can
+be specified.
 
 @seealso{@ref{XREFgetappdata,,getappdata}, @ref{XREFisappdata,,isappdata}, @ref{XREFrmappdata,,rmappdata}, @ref{XREFguidata,,guidata}, @ref{XREFget,,get}, @ref{XREFset,,set}, @ref{XREFgetpref,,getpref}, @ref{XREFsetpref,,setpref}}
 @end deftypefn
 
 
-@c getappdata scripts/miscellaneous/getappdata.m
+@c getappdata scripts/gui/getappdata.m
 @anchor{XREFgetappdata}
 @deftypefn  {} {@var{value} =} getappdata (@var{h}, @var{name})
 @deftypefnx {} {@var{appdata} =} getappdata (@var{h})
@@ -7991,7 +8653,7 @@ object with handle @var{h}.
 @end deftypefn
 
 
-@c rmappdata scripts/miscellaneous/rmappdata.m
+@c rmappdata scripts/gui/rmappdata.m
 @anchor{XREFrmappdata}
 @deftypefn  {} {} rmappdata (@var{h}, @var{name})
 @deftypefnx {} {} rmappdata (@var{h}, @var{name1}, @var{name2}, @dots{})
@@ -8005,7 +8667,7 @@ names may be supplied to delete several properties at once.
 @end deftypefn
 
 
-@c isappdata scripts/miscellaneous/isappdata.m
+@c isappdata scripts/gui/isappdata.m
 @anchor{XREFisappdata}
 @deftypefn {} {@var{valid} =} isappdata (@var{h}, @var{name})
 Return true if the named application data, @var{name}, exists for the
@@ -8267,10 +8929,10 @@ properties in @var{prop} will initially be set to the values that exist on
 the first object in the list @var{h}.
 
 The function returns @var{hlink} which is a special object describing the
-link.  As long as the reference @var{hlink} exists the link between graphic
+link.  As long as the reference @var{hlink} exists, the link between graphic
 objects will be active.  This means that @var{hlink} must be preserved in
 a workspace variable, a global variable, or otherwise stored using a
-function such as @code{setappdata}, @code{guidata}.  To unlink properties,
+function such as @code{setappdata} or @code{guidata}.  To unlink properties,
 execute @code{clear @var{hlink}}.
 
 An example of the use of @code{linkprop} is
@@ -8288,7 +8950,7 @@ set (h2, "linestyle", "--");
 @end group
 @end example
 
-@seealso{@ref{XREFlinkaxes,,linkaxes}}
+@seealso{@ref{XREFlinkaxes,,linkaxes}, @ref{XREFaddlistener,,addlistener}}
 @end deftypefn
 
 
@@ -8641,7 +9303,7 @@ The line and fill color of the markers on the error bars.  @xref{Colors}.
 @itemx udata
 @itemx xldata
 @itemx xudata
-The original x, y, l, u, xl, xu data of the error bars.
+The original x, y, l, u, @nospell{xl, xu} data of the error bars.
 
 @item  xdatasource
 @itemx ydatasource
@@ -8908,6 +9570,28 @@ The original x, y, z and c data.
 Data source variables.
 @end table
 
+@node Transform Groups
+@subsection Transform Groups
+@cindex transform groups
+
+@c FIXME: Need to add documentation on transforms.
+
+@c hgtransform scripts/plot/util/hgtransform.m
+@anchor{XREFhgtransform}
+@deftypefn  {} {@var{h} =} hgtransform ()
+@deftypefnx {} {@var{h} =} hgtransform (@var{property}, @var{value}, @dots{})
+@deftypefnx {} {@var{h} =} hgtransform (@var{hax}, @dots{})
+
+Create a graphics transform object.
+
+FIXME: Need to write documentation.
+FIXME: Add 'makehgtform' to seealso list when it is implemented.
+@seealso{@ref{XREFhggroup,,hggroup}}
+@end deftypefn
+
+
+@c @DOCSTRING(makehgtform)
+
 @node Graphics Toolkits
 @subsection Graphics Toolkits
 @cindex graphics toolkits
@@ -8974,6 +9658,7 @@ graphics toolkit.
 @c gnuplot_binary scripts/plot/util/gnuplot_binary.in.m
 @anchor{XREFgnuplot_binary}
 @deftypefn  {} {[@var{prog}, @var{args}] =} gnuplot_binary ()
+@deftypefnx {} {[@var{old_prog}, @var{old_args}] =} gnuplot_binary (@var{new_prog})
 @deftypefnx {} {[@var{old_prog}, @var{old_args}] =} gnuplot_binary (@var{new_prog}, @var{arg1}, @dots{})
 Query or set the name of the program invoked by the plot command when the
 graphics toolkit is set to @qcode{"gnuplot"}.

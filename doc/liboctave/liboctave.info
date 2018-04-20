@@ -5,7 +5,7 @@ START-INFO-DIR-ENTRY
 * liboctave: (liboctave). Octave C++ Classes
 END-INFO-DIR-ENTRY
 
-   Copyright (C) 1996-2016 John W. Eaton.
+   Copyright (C) 1996-2018 John W. Eaton.
 
    Permission is granted to make and distribute verbatim copies of this
 manual provided the copyright notice and this permission notice are
@@ -28,7 +28,7 @@ Octave C++ Classes
 
 This manual documents how to use, install and port Octave's C++ class
 library, and how to report bugs.  It corresponds to Octave version
-4.2.2.
+4.3.91.
 
 * Menu:
 
@@ -102,7 +102,7 @@ GNU GENERAL PUBLIC LICENSE
 
                         Version 3, 29 June 2007
 
-     Copyright (C) 2007 Free Software Foundation, Inc. <http://fsf.org/>
+     Copyright (C) 2007 Free Software Foundation, Inc. <https://fsf.org/>
 
      Everyone is permitted to copy and distribute verbatim copies of this
      license document, but changing it is not allowed.
@@ -719,11 +719,11 @@ TERMS AND CONDITIONS
   15. Disclaimer of Warranty.
 
      THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY
-     APPLICABLE LAW. EXCEPT WHEN OTHERWISE STATED IN WRITING THE
+     APPLICABLE LAW.  EXCEPT WHEN OTHERWISE STATED IN WRITING THE
      COPYRIGHT HOLDERS AND/OR OTHER PARTIES PROVIDE THE PROGRAM "AS IS"
      WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESSED OR IMPLIED,
      INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
-     MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. THE ENTIRE
+     MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.  THE ENTIRE
      RISK AS TO THE QUALITY AND PERFORMANCE OF THE PROGRAM IS WITH YOU.
      SHOULD THE PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF ALL
      NECESSARY SERVICING, REPAIR OR CORRECTION.
@@ -780,7 +780,7 @@ state the exclusion of warranty; and each file should have at least the
      General Public License for more details.
 
      You should have received a copy of the GNU General Public License
-     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
    Also add information on how to contact you by electronic and paper
 mail.
@@ -801,14 +801,14 @@ use an "about box".
    You should also get your employer (if you work as a programmer) or
 school, if any, to sign a "copyright disclaimer" for the program, if
 necessary.  For more information on this, and how to apply and follow
-the GNU GPL, see <http://www.gnu.org/licenses/>.
+the GNU GPL, see <https://www.gnu.org/licenses/>.
 
    The GNU General Public License does not permit incorporating your
 program into proprietary programs.  If your program is a subroutine
 library, you may consider it more useful to permit linking proprietary
 applications with the library.  If this is what you want to do, use the
 GNU Lesser General Public License instead of this License.  But first,
-please read <http://www.gnu.org/philosophy/why-not-lgpl.html>.
+please read <https://www.gnu.org/licenses/why-not-lgpl.html>.
 
 
 File: liboctave.info,  Node: Introduction,  Next: Arrays,  Prev: Copying,  Up: Top
@@ -4509,32 +4509,32 @@ Function Index
 
 Tag Table:
 Node: Top774
-Node: Acknowledgements1783
-Node: Contributors1999
-Node: Copying2299
-Node: Introduction39833
-Node: Arrays40084
-Node: Constructors and Assignment40252
-Node: Matrix and Vector Operations48597
-Node: Matrix Factorizations80084
-Node: Ranges86390
-Node: Nonlinear Functions87084
-Node: Nonlinear Equations87628
-Node: Optimization88558
-Node: Objective Functions88837
-Node: Bounds89430
-Node: Linear Constraints90541
-Node: Nonlinear Constraints91528
-Node: Quadratic Programming91921
-Node: Nonlinear Programming93514
-Node: Quadrature95033
-Node: Collocation Weights96725
-Node: Ordinary Differential Equations98018
-Node: Differential Algebraic Equations99554
-Node: Error Handling100356
-Node: Installation100512
-Node: Bugs100636
-Node: Concept Index100743
-Node: Function Index104107
+Node: Acknowledgements1784
+Node: Contributors2000
+Node: Copying2300
+Node: Introduction39838
+Node: Arrays40089
+Node: Constructors and Assignment40257
+Node: Matrix and Vector Operations48602
+Node: Matrix Factorizations80089
+Node: Ranges86395
+Node: Nonlinear Functions87089
+Node: Nonlinear Equations87633
+Node: Optimization88563
+Node: Objective Functions88842
+Node: Bounds89435
+Node: Linear Constraints90546
+Node: Nonlinear Constraints91533
+Node: Quadratic Programming91926
+Node: Nonlinear Programming93519
+Node: Quadrature95038
+Node: Collocation Weights96730
+Node: Ordinary Differential Equations98023
+Node: Differential Algebraic Equations99559
+Node: Error Handling100361
+Node: Installation100517
+Node: Bugs100641
+Node: Concept Index100748
+Node: Function Index104112
 
 End Tag Table

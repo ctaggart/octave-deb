@@ -58,12 +58,13 @@ Previous: <a href="Plotting-on-top-of-Images.html#Plotting-on-top-of-Images" acc
 <a name="Color-Conversion-1"></a>
 <h3 class="section">32.5 Color Conversion</h3>
 
-<p>Octave supports conversion from the RGB color system to NTSC and HSV
-and vice versa.
+<p>Octave supports conversion from the RGB color system to the HSV color system
+and vice versa.  It is also possible to convert from a color RGB image to a
+grayscale image.
 </p>
 <a name="XREFrgb2hsv"></a><dl>
-<dt><a name="index-rgb2hsv"></a>: <em><var>hsv_map</var> =</em> <strong>rgb2hsv</strong> <em>(<var>rgb_map</var>)</em></dt>
-<dt><a name="index-rgb2hsv-1"></a>: <em><var>hsv_img</var> =</em> <strong>rgb2hsv</strong> <em>(<var>rgb_img</var>)</em></dt>
+<dt><a name="index-rgb2hsv"></a><em><var>hsv_map</var> =</em> <strong>rgb2hsv</strong> <em>(<var>rgb_map</var>)</em></dt>
+<dt><a name="index-rgb2hsv-1"></a><em><var>hsv_img</var> =</em> <strong>rgb2hsv</strong> <em>(<var>rgb_img</var>)</em></dt>
 <dd><p>Transform a colormap or image from RGB to HSV color space.
 </p>
 <p>A color in the RGB space consists of red, green, and blue intensities.
@@ -77,13 +78,13 @@ the height and is the amount of light in the color.
 <p>Output class and size will be the same as input.
 </p>
 
-<p><strong>See also:</strong> <a href="#XREFhsv2rgb">hsv2rgb</a>, <a href="Representing-Images.html#XREFrgb2ind">rgb2ind</a>, <a href="#XREFrgb2ntsc">rgb2ntsc</a>.
+<p><strong>See also:</strong> <a href="#XREFhsv2rgb">hsv2rgb</a>, <a href="Representing-Images.html#XREFrgb2ind">rgb2ind</a>, <a href="#XREFrgb2gray">rgb2gray</a>.
 </p></dd></dl>
 
 
 <a name="XREFhsv2rgb"></a><dl>
-<dt><a name="index-hsv2rgb"></a>: <em><var>rgb_map</var> =</em> <strong>hsv2rgb</strong> <em>(<var>hsv_map</var>)</em></dt>
-<dt><a name="index-hsv2rgb-1"></a>: <em><var>rgb_img</var> =</em> <strong>hsv2rgb</strong> <em>(<var>hsv_img</var>)</em></dt>
+<dt><a name="index-hsv2rgb"></a><em><var>rgb_map</var> =</em> <strong>hsv2rgb</strong> <em>(<var>hsv_map</var>)</em></dt>
+<dt><a name="index-hsv2rgb-1"></a><em><var>rgb_img</var> =</em> <strong>hsv2rgb</strong> <em>(<var>hsv_img</var>)</em></dt>
 <dd><p>Transform a colormap or image from HSV to RGB color space.
 </p>
 <p>A color in HSV space is represented by hue, saturation and value
@@ -111,52 +112,30 @@ of hue (azimuth), since the value corresponds to an angle,
 <p>Output class and size will be the same as input.
 </p>
 
-<p><strong>See also:</strong> <a href="#XREFrgb2hsv">rgb2hsv</a>, <a href="Representing-Images.html#XREFind2rgb">ind2rgb</a>, <a href="#XREFntsc2rgb">ntsc2rgb</a>.
+<p><strong>See also:</strong> <a href="#XREFrgb2hsv">rgb2hsv</a>, <a href="Representing-Images.html#XREFind2rgb">ind2rgb</a>.
 </p></dd></dl>
 
 
-<a name="XREFrgb2ntsc"></a><dl>
-<dt><a name="index-rgb2ntsc"></a>: <em><var>yiq_map</var> =</em> <strong>rgb2ntsc</strong> <em>(<var>rgb_map</var>)</em></dt>
-<dt><a name="index-rgb2ntsc-1"></a>: <em><var>yiq_img</var> =</em> <strong>rgb2ntsc</strong> <em>(<var>rgb_img</var>)</em></dt>
-<dd><p>Transform a colormap or image from red-green-blue (RGB) color space to
-luminance-chrominance (NTSC) space.  The input may be of class uint8,
-uint16, single, or double.  The output is of class double.
+<a name="XREFrgb2gray"></a><dl>
+<dt><a name="index-rgb2gray"></a><em><var>I</var> =</em> <strong>rgb2gray</strong> <em>(<var>rgb_img</var>)</em></dt>
+<dt><a name="index-rgb2gray-1"></a><em><var>gray_map</var> =</em> <strong>rgb2gray</strong> <em>(<var>rgb_map</var>)</em></dt>
+<dd><p>Transform an image or colormap from red-green-blue (RGB) color space to
+a grayscale intensity image.
+</p>
+<p>The input may be of class uint8, int8, uint16, int16, single, or double.
+The output is of the same class as the input.
 </p>
 <p>Implementation Note:
-The reference matrix for the transformation is
+The grayscale intensity is calculated as
 </p>
 <div class="example">
-<pre class="example">/Y\     0.299  0.587  0.114  /R\
-|I|  =  0.596 -0.274 -0.322  |G|
-\Q/     0.211 -0.523  0.312  \B/
+<pre class="example"><var>I</var> = 0.298936*<var>R</var> + 0.587043*<var>G</var> + 0.114021*<var>B</var>
 </pre></div>
 
-<p>as documented in <a href="http://en.wikipedia.org/wiki/YIQ">http://en.wikipedia.org/wiki/YIQ</a> and truncated to 3
-significant figures.  Note: The FCC version of NTSC uses only 2 significant
-digits and is slightly different.
+<p>which corresponds to the luminance channel when RGB is translated to
+YIQ as documented in <a href="https://en.wikipedia.org/wiki/YIQ">https://en.wikipedia.org/wiki/YIQ</a>.
 </p>
-<p><strong>See also:</strong> <a href="#XREFntsc2rgb">ntsc2rgb</a>, <a href="#XREFrgb2hsv">rgb2hsv</a>, <a href="Representing-Images.html#XREFrgb2ind">rgb2ind</a>.
-</p></dd></dl>
-
-
-<a name="XREFntsc2rgb"></a><dl>
-<dt><a name="index-ntsc2rgb"></a>: <em><var>rgb_map</var> =</em> <strong>ntsc2rgb</strong> <em>(<var>yiq_map</var>)</em></dt>
-<dt><a name="index-ntsc2rgb-1"></a>: <em><var>rgb_img</var> =</em> <strong>ntsc2rgb</strong> <em>(<var>yiq_img</var>)</em></dt>
-<dd><p>Transform a colormap or image from luminance-chrominance (NTSC) space to
-red-green-blue (RGB) color space.
-</p>
-<p>Implementation Note:
-The conversion matrix is chosen to be the inverse of the matrix used for
-rgb2ntsc such that
-</p>
-<div class="example">
-<pre class="example">x == ntsc2rgb (rgb2ntsc (x))
-</pre></div>
-
-<p><small>MATLAB</small> uses a slightly different matrix where rounding means the
-equality above does not hold.
-</p>
-<p><strong>See also:</strong> <a href="#XREFrgb2ntsc">rgb2ntsc</a>, <a href="#XREFhsv2rgb">hsv2rgb</a>, <a href="Representing-Images.html#XREFind2rgb">ind2rgb</a>.
+<p><strong>See also:</strong> <a href="#XREFrgb2hsv">rgb2hsv</a>, <a href="Representing-Images.html#XREFrgb2ind">rgb2ind</a>.
 </p></dd></dl>
 
 

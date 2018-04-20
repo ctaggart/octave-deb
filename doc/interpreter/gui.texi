@@ -1,22 +1,22 @@
 @c DO NOT EDIT!  Generated automatically by munge-texi.pl.
 
-@c Copyright (C) 2012-2017 Rik Wehbring
+@c Copyright (C) 2012-2018 Rik Wehbring
 @c
 @c This file is part of Octave.
 @c
-@c Octave is free software; you can redistribute it and/or modify it
-@c under the terms of the GNU General Public License as published by the
-@c Free Software Foundation; either version 3 of the License, or (at
-@c your option) any later version.
+@c Octave is free software: you can redistribute it and/or modify it
+@c under the terms of the GNU General Public License as published by
+@c the Free Software Foundation, either version 3 of the License, or
+@c (at your option) any later version.
 @c
-@c Octave is distributed in the hope that it will be useful, but WITHOUT
-@c ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-@c FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-@c for more details.
+@c Octave is distributed in the hope that it will be useful, but
+@c WITHOUT ANY WARRANTY; without even the implied warranty of
+@c MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+@c GNU General Public License for more details.
 @c
 @c You should have received a copy of the GNU General Public License
 @c along with Octave; see the file COPYING.  If not, see
-@c <http://www.gnu.org/licenses/>.
+@c <https://www.gnu.org/licenses/>.
 
 @node GUI Development
 @chapter GUI Development
@@ -499,9 +499,10 @@ For creating new dialog types, there is a dialog function.
 @cindex dialog, displaying a modal dialog
 @c dialog scripts/gui/dialog.m
 @anchor{XREFdialog}
-@deftypefn {} {@var{h} =} dialog (@dots{}, "@var{property}", @var{value}, @dots{})
+@deftypefn  {} {@var{h} =} dialog ()
+@deftypefnx {} {@var{h} =} dialog ("@var{property}", @var{value}, @dots{})
 
-Create an empty modal dialog window that other uicontrols can be added to.
+Create an empty modal dialog window to which other uicontrols can be added.
 
 The dialog box is a figure object with properties as recommended for a
 dialog box.
@@ -510,7 +511,7 @@ The default properties differing from a figure are:
 
 @table @asis
 @item buttondownfcn
-@code{if isempty(allchild(gcbf)), close(gcbf), end}
+@code{if isempty (allchild(gcbf)), close (gcbf), endif}
 
 @item colormap
 []
@@ -542,9 +543,6 @@ auto
 @item resize
 off
 
-@item visible
-on
-
 @item windowstyle
 modal
 
@@ -555,27 +553,25 @@ Multiple property-value pairs may be specified for the dialog object, but
 they must appear in pairs.
 
 The return value @var{h} is a graphics handle to the created figure.
-object.
 
-Examples:
+Example:
 
 @example
 @group
-
-% create an empty dialog window titled 'Dialog Example'
+## create an empty dialog window titled "Dialog Example"
 h = dialog ("name", "Dialog Example");
 
-% create a button (default style)
-b = uicontrol (h, "string", "OK", "position",[10 10 150 40], "callback","delete(gcf)");
+## create a button (default style)
+b = uicontrol (h, "string", "OK",
+                  "position", [10 10 150 40],
+                  "callback", "delete (gcf)");
 
-% wait for dialog to resume or close
+## wait for dialog to resume or close
 uiwait (h);
-
 @end group
 @end example
 
-@seealso{@ref{XREFfigure,,figure}, @ref{XREFuiwait,,uiwait}}
-
+@seealso{@ref{XREFerrordlg,,errordlg}, @ref{XREFmsgbox,,msgbox}, @ref{XREFquestdlg,,questdlg}, @ref{XREFwarndlg,,warndlg}, @ref{XREFfigure,,figure}, @ref{XREFuiwait,,uiwait}}
 @end deftypefn
 
 
@@ -669,6 +665,9 @@ Can be set @qcode{"on"} or @qcode{"off"}.  If enabled it draws a separator
 line above the current position.  It is ignored for top level entries.
 
 @end table
+
+The full list of properties is documented at
+@ref{Uimenu Properties,,Uimenu Properties}.
 
 Examples:
 
@@ -853,10 +852,11 @@ c1 = uicontrol (f, "style", "checkbox", "string", "a checkbox", "position",[10 1
 
 @c uipanel scripts/gui/uipanel.m
 @anchor{XREFuipanel}
-@deftypefn  {} {@var{hui} =} uipanel (@var{property}, @var{value}, @dots{})
-@deftypefnx {} {@var{hui} =} uipanel (@var{parent}, "@var{property}, @var{value}, @dots{})
+@deftypefn  {} {} uipanel (@var{property}, @var{value}, @dots{})
+@deftypefnx {} {} uipanel (@var{parent}, "@var{property}, @var{value}, @dots{})
+@deftypefnx {} {@var{hui} =} uipanel (@dots{})
 
-Create a uipanel object and return a handle to it.
+Create a uipanel object.
 
 uipanels are used as containers to group other uicontrol objects.
 
@@ -869,6 +869,9 @@ Any provided property value pairs will override the default values of the
 created uipanel object.
 
 Uipanel properties are documented at @ref{Uipanel Properties}.
+
+The optional return value @var{hui} is a graphics handle to the created
+uipanel object.
 
 Examples:
 
@@ -890,10 +893,11 @@ b2 = uicontrol ("parent", p, "string", "Another Button", "position",[18 60 150 3
 
 @c uipushtool scripts/gui/uipushtool.m
 @anchor{XREFuipushtool}
-@deftypefn  {} {@var{hui} =} uipushtool (@var{property}, @var{value}, @dots{})
-@deftypefnx {} {@var{hui} =} uipushtool (@var{parent}, @var{property}, @var{value}, @dots{})
+@deftypefn  {} {} uipushtool (@var{property}, @var{value}, @dots{})
+@deftypefnx {} {} uipushtool (@var{parent}, @var{property}, @var{value}, @dots{})
+@deftypefnx {} {@var{hui} =} uipushtool (@dots{})
 
-Create a uipushtool object and return a handle to it.
+Create a uipushtool object.
 
 uipushtools are buttons that appear on a figure toolbar.  The button is
 created with a border that is shown when the user hovers over the button.
@@ -904,13 +908,16 @@ created.  If no figure is available, a new figure is created first.  If a
 figure is available, but does not contain a uitoolbar, a uitoolbar will be
 created.
 
-If @var{parent} is given then an uipushtools is created on the
-@var{parent} uitoolbar.
+If @var{parent} is given then a uipushtool is created on the @var{parent}
+uitoolbar.
 
 Any provided property value pairs will override the default values of the
 created uipushtool object.
 
 Uipushtool properties are documented at @ref{Uipushtool Properties}.
+
+The optional return value @var{hui} is a graphics handle to the created
+uipushtool object.
 
 Examples:
 
@@ -932,10 +939,11 @@ b = uipushtool (t, "cdata", img);
 
 @c uitoggletool scripts/gui/uitoggletool.m
 @anchor{XREFuitoggletool}
-@deftypefn  {} {@var{hui} =} uitoggletool (@var{property}, @var{value}, @dots{})
-@deftypefnx {} {@var{hui} =} uitoggletool (@var{parent}, @var{property}, @var{value}, @dots{})
+@deftypefn  {} {} uitoggletool (@var{property}, @var{value}, @dots{})
+@deftypefnx {} {} uitoggletool (@var{parent}, @var{property}, @var{value}, @dots{})
+@deftypefnx {} {@var{hui} =} uitoggletool (@dots{})
 
-Create a uitoggletool object and return a handle to it.
+Create a uitoggletool object.
 
 uitoggletool are togglebuttons that appear on a figure toolbar.  The
 button is created with a border that is shown when the user hovers over
@@ -953,6 +961,9 @@ Any provided property value pairs will override the default values of the
 created uitoggletool object.
 
 Uitoggletool properties are documented at @ref{Uitoggletool Properties}.
+
+The optional return value @var{hui} is a graphics handle to the created
+uitoggletool object.
 
 Examples:
 
@@ -974,11 +985,12 @@ b = uitoggletool (t, "cdata", img);
 
 @c uitoolbar scripts/gui/uitoolbar.m
 @anchor{XREFuitoolbar}
-@deftypefn  {} {@var{hui} =} uitoolbar (@var{property}, @var{value}, @dots{})
-@deftypefnx {} {@var{hui} =} uitoolbar (@var{parent}, @var{property}, @var{value}, @dots{})
+@deftypefn  {} {} uitoolbar (@var{property}, @var{value}, @dots{})
+@deftypefnx {} {} uitoolbar (@var{parent}, @var{property}, @var{value}, @dots{})
+@deftypefnx {} {@var{hui} =} uitoolbar (@dots{})
 
-Create a uitoolbar object and return a handle to it.  A uitoolbar displays
-uitoggletool and uipushtool buttons.
+Create a uitoolbar object.  A uitoolbar displays uitoggletool and uipushtool
+buttons.
 
 If @var{parent} is omitted then a uitoolbar for the current figure is
 created.  If no figure is available, a new figure is created first.
@@ -990,6 +1002,9 @@ Any provided property value pairs will override the default values of the
 created uitoolbar object.
 
 Uitoolbar properties are documented at @ref{Uitoolbar Properties}.
+
+The optional return value @var{hui} is a graphics handle to the created
+uitoolbar object.
 
 Examples:
 
@@ -1011,14 +1026,6 @@ t = uitoolbar (f);
 These functions do not implement a GUI element but are useful when developing
 programs that do.  The functions @code{uiwait}, @code{uiresume}, and
 @code{waitfor} are only available with the @code{qt} or @code{fltk} toolkits.
-
-@c desktop scripts/miscellaneous/desktop.m
-@anchor{XREFdesktop}
-@deftypefn {} {@var{used} =} desktop ("-inuse")
-Return true if the desktop (GUI) is currently in use.
-@seealso{@ref{XREFisguirunning,,isguirunning}}
-@end deftypefn
-
 
 @c guidata scripts/gui/guidata.m
 @anchor{XREFguidata}
@@ -1056,7 +1063,7 @@ which @qcode{"HandleVisibility"} is @qcode{"off"}.
 @end deftypefn
 
 
-@c have_window_system libinterp/corefcn/sysdep.cc
+@c have_window_system libinterp/corefcn/display.cc
 @anchor{XREFhave_window_system}
 @deftypefn {} {} have_window_system ()
 Return true if a window system is available (X11, Windows, or Apple OS X)
@@ -1070,6 +1077,14 @@ and false otherwise.
 @deftypefn {} {} isguirunning ()
 Return true if Octave is running in GUI mode and false otherwise.
 @seealso{@ref{XREFhave_window_system,,have_window_system}}
+@end deftypefn
+
+
+@c Not sure where this should go...
+@c openvar libinterp/corefcn/octave-link.cc
+@anchor{XREFopenvar}
+@deftypefn {} {} openvar (@var{name})
+Open the variable @var{name} in the graphical Variable Editor.
 @end deftypefn
 
 

@@ -68,7 +68,7 @@ a hexadecimal number to a floating point number.
 </pre></div>
 
 <a name="XREFbin2dec"></a><dl>
-<dt><a name="index-bin2dec"></a>: <em></em> <strong>bin2dec</strong> <em>(<var>s</var>)</em></dt>
+<dt><a name="index-bin2dec"></a><em></em> <strong>bin2dec</strong> <em>(<var>s</var>)</em></dt>
 <dd><p>Return the decimal number corresponding to the binary number represented
 by the string <var>s</var>.
 </p>
@@ -98,7 +98,7 @@ converted number per cell element in <var>s</var>.
 
 
 <a name="XREFdec2bin"></a><dl>
-<dt><a name="index-dec2bin"></a>: <em></em> <strong>dec2bin</strong> <em>(<var>d</var>, <var>len</var>)</em></dt>
+<dt><a name="index-dec2bin"></a><em></em> <strong>dec2bin</strong> <em>(<var>d</var>, <var>len</var>)</em></dt>
 <dd><p>Return a binary number corresponding to the non-negative integer <var>d</var>,
 as a string of ones and zeros.
 </p>
@@ -121,7 +121,7 @@ digits in the result.
 
 
 <a name="XREFdec2hex"></a><dl>
-<dt><a name="index-dec2hex"></a>: <em></em> <strong>dec2hex</strong> <em>(<var>d</var>, <var>len</var>)</em></dt>
+<dt><a name="index-dec2hex"></a><em></em> <strong>dec2hex</strong> <em>(<var>d</var>, <var>len</var>)</em></dt>
 <dd><p>Return the hexadecimal string corresponding to the non-negative integer
 <var>d</var>.
 </p>
@@ -144,7 +144,7 @@ digits in the result.
 
 
 <a name="XREFhex2dec"></a><dl>
-<dt><a name="index-hex2dec"></a>: <em></em> <strong>hex2dec</strong> <em>(<var>s</var>)</em></dt>
+<dt><a name="index-hex2dec"></a><em></em> <strong>hex2dec</strong> <em>(<var>s</var>)</em></dt>
 <dd><p>Return the integer corresponding to the hexadecimal number represented by
 the string <var>s</var>.
 </p>
@@ -169,8 +169,8 @@ converted number per cell element in <var>s</var>.
 
 
 <a name="XREFdec2base"></a><dl>
-<dt><a name="index-dec2base"></a>: <em></em> <strong>dec2base</strong> <em>(<var>d</var>, <var>base</var>)</em></dt>
-<dt><a name="index-dec2base-1"></a>: <em></em> <strong>dec2base</strong> <em>(<var>d</var>, <var>base</var>, <var>len</var>)</em></dt>
+<dt><a name="index-dec2base"></a><em></em> <strong>dec2base</strong> <em>(<var>d</var>, <var>base</var>)</em></dt>
+<dt><a name="index-dec2base-1"></a><em></em> <strong>dec2base</strong> <em>(<var>d</var>, <var>base</var>, <var>len</var>)</em></dt>
 <dd><p>Return a string of symbols in base <var>base</var> corresponding to the
 non-negative integer <var>d</var>.
 </p>
@@ -200,7 +200,7 @@ digits in the result.
 
 
 <a name="XREFbase2dec"></a><dl>
-<dt><a name="index-base2dec"></a>: <em></em> <strong>base2dec</strong> <em>(<var>s</var>, <var>base</var>)</em></dt>
+<dt><a name="index-base2dec"></a><em></em> <strong>base2dec</strong> <em>(<var>s</var>, <var>base</var>)</em></dt>
 <dd><p>Convert <var>s</var> from a string of digits in base <var>base</var> to a decimal
 integer (base 10).
 </p>
@@ -229,9 +229,9 @@ symbols for the digits of <var>s</var>.  Space (&rsquo; &rsquo;) may not be used
 
 
 <a name="XREFnum2hex"></a><dl>
-<dt><a name="index-num2hex"></a>: <em><var>s</var> =</em> <strong>num2hex</strong> <em>(<var>n</var>)</em></dt>
-<dd><p>Typecast a double or single precision number or vector to a 8 or 16
-character hexadecimal string of the IEEE 754 representation of the number.
+<dt><a name="index-num2hex"></a><em><var>s</var> =</em> <strong>num2hex</strong> <em>(<var>n</var>)</em></dt>
+<dt><a name="index-num2hex-1"></a><em><var>s</var> =</em> <strong>num2hex</strong> <em>(<var>n</var>, &quot;cell&quot;)</em></dt>
+<dd><p>Convert a numeric array to an array of hexadecimal strings.
 </p>
 <p>For example:
 </p>
@@ -254,18 +254,22 @@ string has a length of 8.  For example:
     7f800000&quot;
 </pre></div>
 
+<p>With the optional second argument <code>&quot;cell</code>, return a cell array of
+strings instead of a character array.
+</p>
 <p><strong>See also:</strong> <a href="#XREFhex2num">hex2num</a>, <a href="#XREFhex2dec">hex2dec</a>, <a href="#XREFdec2hex">dec2hex</a>.
 </p></dd></dl>
 
 
 <a name="XREFhex2num"></a><dl>
-<dt><a name="index-hex2num"></a>: <em><var>n</var> =</em> <strong>hex2num</strong> <em>(<var>s</var>)</em></dt>
-<dt><a name="index-hex2num-1"></a>: <em><var>n</var> =</em> <strong>hex2num</strong> <em>(<var>s</var>, <var>class</var>)</em></dt>
-<dd><p>Typecast the 16 character hexadecimal character string to an IEEE 754
-double precision number.
+<dt><a name="index-hex2num"></a><em><var>n</var> =</em> <strong>hex2num</strong> <em>(<var>s</var>)</em></dt>
+<dt><a name="index-hex2num-1"></a><em><var>n</var> =</em> <strong>hex2num</strong> <em>(<var>s</var>, <var>class</var>)</em></dt>
+<dd><p>Typecast a hexadecimal character array or cell array of strings to an
+array of numbers.
 </p>
-<p>If fewer than 16 characters are given the strings are right padded with
-<code>'0'</code> characters.
+<p>By default, the input array is interpreted as a hexadecimal number
+representing a double precision value.  If fewer than 16 characters are
+given the strings are right padded with <code>'0'</code> characters.
 </p>
 <p>Given a string matrix, <code>hex2num</code> treats each row as a separate number.
 </p>
@@ -274,10 +278,25 @@ double precision number.
    &rArr; [2.7183; 10.000]
 </pre></div>
 
-<p>The optional argument <var>class</var> can be passed as the string
-<code>&quot;single&quot;</code> to specify that the given string should be interpreted as
-a single precision number.  In this case, <var>s</var> should be an 8 character
-hexadecimal string.  For example:
+<p>The optional second argument <var>class</var> may be used to cause the input
+array to be interpreted as a different value type.  Possible values are
+</p>
+<table>
+<thead><tr><th>Option</th><th>Characters</th></tr></thead>
+<tr><td><code>&quot;int8&quot;</code></td><td>2</td></tr>
+<tr><td><code>&quot;uint8&quot;</code></td><td>2</td></tr>
+<tr><td><code>&quot;int16&quot;</code></td><td>4</td></tr>
+<tr><td><code>&quot;uint16&quot;</code></td><td>4</td></tr>
+<tr><td><code>&quot;int32&quot;</code></td><td>8</td></tr>
+<tr><td><code>&quot;uint32&quot;</code></td><td>8</td></tr>
+<tr><td><code>&quot;int64&quot;</code></td><td>16</td></tr>
+<tr><td><code>&quot;uint64&quot;</code></td><td>16</td></tr>
+<tr><td><code>&quot;char&quot;</code></td><td>2</td></tr>
+<tr><td><code>&quot;single&quot;</code></td><td>8</td></tr>
+<tr><td><code>&quot;double&quot;</code></td><td>16</td></tr>
+</table>
+
+<p>For example:
 </p>
 <div class="example">
 <pre class="example">hex2num ([&quot;402df854&quot;; &quot;41200000&quot;], &quot;single&quot;)
@@ -289,7 +308,7 @@ hexadecimal string.  For example:
 
 
 <a name="XREFstr2double"></a><dl>
-<dt><a name="index-str2double"></a>: <em></em> <strong>str2double</strong> <em>(<var>s</var>)</em></dt>
+<dt><a name="index-str2double"></a><em></em> <strong>str2double</strong> <em>(<var>s</var>)</em></dt>
 <dd><p>Convert a string to a real or complex number.
 </p>
 <p>The string must be in one of the following formats where a and b are real
@@ -337,8 +356,8 @@ risk of using <code>eval</code> on unknown data.
 
 
 <a name="XREFstrjust"></a><dl>
-<dt><a name="index-strjust"></a>: <em></em> <strong>strjust</strong> <em>(<var>s</var>)</em></dt>
-<dt><a name="index-strjust-1"></a>: <em></em> <strong>strjust</strong> <em>(<var>s</var>, <var>pos</var>)</em></dt>
+<dt><a name="index-strjust"></a><em></em> <strong>strjust</strong> <em>(<var>s</var>)</em></dt>
+<dt><a name="index-strjust-1"></a><em></em> <strong>strjust</strong> <em>(<var>s</var>, <var>pos</var>)</em></dt>
 <dd><p>Return the text, <var>s</var>, justified according to <var>pos</var>, which may
 be <code>&quot;left&quot;</code>, <code>&quot;center&quot;</code>, or <code>&quot;right&quot;</code>.
 </p>
@@ -363,8 +382,8 @@ treated as non-white space.
 
 
 <a name="XREFstr2num"></a><dl>
-<dt><a name="index-str2num"></a>: <em><var>x</var> =</em> <strong>str2num</strong> <em>(<var>s</var>)</em></dt>
-<dt><a name="index-str2num-1"></a>: <em>[<var>x</var>, <var>state</var>] =</em> <strong>str2num</strong> <em>(<var>s</var>)</em></dt>
+<dt><a name="index-str2num"></a><em><var>x</var> =</em> <strong>str2num</strong> <em>(<var>s</var>)</em></dt>
+<dt><a name="index-str2num-1"></a><em>[<var>x</var>, <var>state</var>] =</em> <strong>str2num</strong> <em>(<var>s</var>)</em></dt>
 <dd><p>Convert the string (or character array) <var>s</var> to a number (or an array).
 </p>
 <p>Examples:
@@ -392,26 +411,9 @@ conversion, <code>str2num</code> will execute any code contained in the string
 </p></dd></dl>
 
 
-<a name="XREFtoascii"></a><dl>
-<dt><a name="index-toascii"></a>: <em></em> <strong>toascii</strong> <em>(<var>s</var>)</em></dt>
-<dd><p>Return ASCII representation of <var>s</var> in a matrix.
-</p>
-<p>For example:
-</p>
-<div class="example">
-<pre class="example">toascii (&quot;ASCII&quot;)
-     &rArr; [ 65, 83, 67, 73, 73 ]
-</pre><pre class="example">
-
-</pre></div>
-
-<p><strong>See also:</strong> <a href="Concatenating-Strings.html#XREFchar">char</a>.
-</p></dd></dl>
-
-
 <a name="XREFtolower"></a><dl>
-<dt><a name="index-tolower"></a>: <em></em> <strong>tolower</strong> <em>(<var>s</var>)</em></dt>
-<dt><a name="index-lower"></a>: <em></em> <strong>lower</strong> <em>(<var>s</var>)</em></dt>
+<dt><a name="index-tolower"></a><em></em> <strong>tolower</strong> <em>(<var>s</var>)</em></dt>
+<dt><a name="index-lower"></a><em></em> <strong>lower</strong> <em>(<var>s</var>)</em></dt>
 <dd><p>Return a copy of the string or cell string <var>s</var>, with each uppercase
 character replaced by the corresponding lowercase one; non-alphabetic
 characters are left unchanged.
@@ -428,8 +430,8 @@ characters are left unchanged.
 
 
 <a name="XREFtoupper"></a><dl>
-<dt><a name="index-toupper"></a>: <em></em> <strong>toupper</strong> <em>(<var>s</var>)</em></dt>
-<dt><a name="index-upper"></a>: <em></em> <strong>upper</strong> <em>(<var>s</var>)</em></dt>
+<dt><a name="index-toupper"></a><em></em> <strong>toupper</strong> <em>(<var>s</var>)</em></dt>
+<dt><a name="index-upper"></a><em></em> <strong>upper</strong> <em>(<var>s</var>)</em></dt>
 <dd><p>Return a copy of the string or cell string <var>s</var>, with each lowercase
 character replaced by the corresponding uppercase one; non-alphabetic
 characters are left unchanged.
@@ -445,8 +447,52 @@ characters are left unchanged.
 </p></dd></dl>
 
 
+<a name="XREFunicode2native"></a><dl>
+<dt><a name="index-unicode2native"></a><em><var>native_bytes</var> =</em> <strong>unicode2native</strong> <em>(<var>utf8_str</var>, <var>codepage</var>)</em></dt>
+<dt><a name="index-unicode2native-1"></a><em><var>native_bytes</var> =</em> <strong>unicode2native</strong> <em>(<var>utf8_str</var>)</em></dt>
+<dd><p>Convert UTF-8 string <var>utf8_str</var> to byte stream using <var>codepage</var>.
+</p>
+<p>The character vector <var>utf8_str</var> is converted to a byte stream
+<var>native_bytes</var> using the code page given by <var>codepage</var>.  The
+string <var>codepage</var> must be an identifier of a valid code page.
+Examples for valid code pages are <code>&quot;ISO-8859-1&quot;</code>,
+<code>&quot;Shift-JIS&quot;</code>, or <code>&quot;UTF-16&quot;</code>.  For a list of supported code
+pages, see <a href="https://www.gnu.org/software/libiconv">https://www.gnu.org/software/libiconv</a>.  If <var>codepage</var>
+is omitted or empty, the system default codepage is used.
+</p>
+<p>If any of the characters cannot be mapped into the codepage <var>codepage</var>,
+they are replaced with the appropriate substitution sequence for that
+codepage.
+</p>
+
+<p><strong>See also:</strong> <a href="#XREFnative2unicode">native2unicode</a>.
+</p></dd></dl>
+
+
+<a name="XREFnative2unicode"></a><dl>
+<dt><a name="index-native2unicode"></a><em><var>utf8_str</var> =</em> <strong>native2unicode</strong> <em>(<var>native_bytes</var>, <var>codepage</var>)</em></dt>
+<dt><a name="index-native2unicode-1"></a><em><var>utf8_str</var> =</em> <strong>native2unicode</strong> <em>(<var>native_bytes</var>)</em></dt>
+<dd><p>Convert byte stream <var>native_bytes</var> to UTF-8 using <var>codepage</var>.
+</p>
+<p>The numbers in the vector <var>native_bytes</var> are rounded and clipped to
+integers between 0 and 255.  This byte stream is then mapped into the
+code page given by the string <var>codepage</var> and returned in the string
+<var>utf8_str</var>.  Octave uses UTF-8 as its internal encoding.  The string
+<var>codepage</var> must be an identifier of a valid code page.  Examples for
+valid code pages are <code>&quot;ISO-8859-1&quot;</code>, <code>&quot;Shift-JIS&quot;</code>, or
+<code>&quot;UTF-16&quot;</code>.  For a list of supported code pages, see
+<a href="https://www.gnu.org/software/libiconv">https://www.gnu.org/software/libiconv</a>.  If <var>codepage</var> is omitted
+or empty, the system default codepage is used.
+</p>
+<p>If <var>native_bytes</var> is a string vector, it is returned as is.
+</p>
+
+<p><strong>See also:</strong> <a href="#XREFunicode2native">unicode2native</a>.
+</p></dd></dl>
+
+
 <a name="XREFdo_005fstring_005fescapes"></a><dl>
-<dt><a name="index-do_005fstring_005fescapes"></a>: <em></em> <strong>do_string_escapes</strong> <em>(<var>string</var>)</em></dt>
+<dt><a name="index-do_005fstring_005fescapes"></a><em></em> <strong>do_string_escapes</strong> <em>(<var>string</var>)</em></dt>
 <dd><p>Convert escape sequences in <var>string</var> to the characters they represent.
 </p>
 <p>Escape sequences begin with a leading backslash
@@ -458,7 +504,7 @@ characters are left unchanged.
 
 
 <a name="XREFundo_005fstring_005fescapes"></a><dl>
-<dt><a name="index-undo_005fstring_005fescapes"></a>: <em></em> <strong>undo_string_escapes</strong> <em>(<var>s</var>)</em></dt>
+<dt><a name="index-undo_005fstring_005fescapes"></a><em></em> <strong>undo_string_escapes</strong> <em>(<var>s</var>)</em></dt>
 <dd><p>Convert special characters in strings back to their escaped forms.
 </p>
 <p>For example, the expression

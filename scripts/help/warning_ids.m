@@ -1,20 +1,20 @@
-## Copyright (C) 2006-2017 John W. Eaton
+## Copyright (C) 2006-2018 John W. Eaton
 ##
 ## This file is part of Octave.
 ##
-## Octave is free software; you can redistribute it and/or modify it
+## Octave is free software: you can redistribute it and/or modify it
 ## under the terms of the GNU General Public License as published by
-## the Free Software Foundation; either version 3 of the License, or (at
-## your option) any later version.
+## the Free Software Foundation, either version 3 of the License, or
+## (at your option) any later version.
 ##
 ## Octave is distributed in the hope that it will be useful, but
 ## WITHOUT ANY WARRANTY; without even the implied warranty of
-## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-## General Public License for more details.
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU General Public License for more details.
 ##
 ## You should have received a copy of the GNU General Public License
 ## along with Octave; see the file COPYING.  If not, see
-## <http://www.gnu.org/licenses/>.
+## <https://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
 ## @cindex warning ids
@@ -22,6 +22,13 @@
 ## @table @code
 ## @item Octave:abbreviated-property-match
 ## By default, the @code{Octave:abbreviated-property-match} warning is enabled.
+##
+## @item Octave:addpath-pkg
+## If the @code{Octave:addpath-pkg} warning is enabled,
+## Octave will warn when a package directory (i.e., +package_name) is added
+## to the @code{path}.  Typically, only the parent directory which contains the
+## package directory should be added to the load path.
+## By default, the @code{Octave:addpath-pkg} warning is enabled.
 ##
 ## @item Octave:array-as-logical
 ## If the @code{Octave:array-as-logical} warning is enabled,
@@ -156,8 +163,27 @@
 ## warning is issued when Octave encounters a division by zero.
 ## By default, the @code{Octave:divide-by-zero} warning is enabled.
 ##
-## @item Octave:fopen-file-in-path
-## By default, the @code{Octave:fopen-file-in-path} warning is enabled.
+## @item Octave:eigs:UnconvergedEigenvalues
+## If the @code{Octave:eigs:UnconvergedEigenvalues} warning is enabled then
+## the eigs function will issue a warning if the number of calculated
+## eigenvalues is less than the number of requested eigenvalues.
+## By default, the @code{Octave:eigs:UnconvergedEigenvalues} warning is
+## enabled.
+##
+## @item Octave:erase:chararray
+## If the @code{Octave:erase:chararray} warning is enabled then the erase
+## function will issue a warning if the input pattern is a character array
+## rather than a string or cell array of strings.
+## By default, the @code{Octave:eigs:UnconvergedEigenvalues} warning is
+## enabled.
+##
+## @item Octave:data-file-in-path
+## If the @code{Octave:data-file-in-path} warning is enabled, a warning is
+## issued when Octave does not find the target of a file operation such as
+## @code{load} or @code{fopen} directly, but is able to locate the file in
+## Octave's search @code{path} for files.  The warning could indicate that a
+## different file target than the programmer intended is being used.
+## By default, the @code{Octave:data-file-in-path} warning is enabled.
 ##
 ## @item Octave:function-name-clash
 ## If the @code{Octave:function-name-clash} warning is enabled, a
@@ -187,11 +213,15 @@
 ## The @option{--traditional} or @option{--braindead} startup options for
 ## Octave may also be of use, @pxref{Command Line Options}.
 ##
-## @item Octave:load-file-in-path
-## By default, the @code{Octave:load-file-in-path} warning is enabled.
-##
 ## @item Octave:logical-conversion
 ## By default, the @code{Octave:logical-conversion} warning is enabled.
+##
+## @item Octave:lu:sparse_input
+## If the @code{Octave:lu:sparse_input} warning is enabled, Octave
+## will warn when the lu function is called with a sparse input and less than
+## four output arguments.  In this case, sparsity-preserving column
+## permutations are not performed and the result may be inaccurate.
+## By default, the @code{Octave:lu:sparse_input} warning is enabled.
 ##
 ## @item Octave:missing-glyph
 ## By default, the @code{Octave:missing-glyph} warning is enabled.
@@ -206,6 +236,11 @@
 ## If the @code{Octave:mixed-string-concat} warning is enabled, print a
 ## warning when concatenating a mixture of double and single quoted strings.
 ## By default, the @code{Octave:mixed-string-concat} warning is disabled.
+##
+## @item  Octave:nearly-singular-matrix
+## @itemx Octave:singular-matrix
+## By default, the @code{Octave:nearly-singular-matrix} and
+## @code{Octave:singular-matrix} warnings are enabled.
 ##
 ## @item Octave:neg-dim-as-zero
 ## If the @code{Octave:neg-dim-as-zero} warning is enabled, print a warning
@@ -245,22 +280,8 @@
 ## If the @code{Octave:possible-matlab-short-circuit-operator} warning
 ## is enabled, Octave will warn about using the not short circuiting
 ## operators @code{&} and @code{|} inside @code{if} or @code{while}
-## conditions.  They normally never short circuit, but @sc{matlab} always
-## short circuits if any logical operators are used in a condition.  You
-## can turn on the option
-##
-## @example
-## @group
-## do_braindead_shortcircuit_evaluation (1)
-## @end group
-## @end example
-##
-## @noindent
-## if you would like to enable this short-circuit evaluation in
-## Octave.  Note that the @code{&&} and @code{||} operators always short
-## circuit in both Octave and @sc{matlab}, so it's only necessary to
-## enable @sc{matlab}-style short-circuiting if it's too arduous to modify
-## existing code that relies on this behavior.
+## conditions.  They normally never short circuit, but they do short
+## circuit when used in a condition.
 ## By default, the @code{Octave:possible-matlab-short-circuit-operator} warning
 ## is enabled.
 ##
@@ -310,11 +331,6 @@
 ## string constant.
 ## By default, the @code{Octave:single-quote-string} warning is disabled.
 ##
-## @item  Octave:nearly-singular-matrix
-## @itemx Octave:singular-matrix
-## By default, the @code{Octave:nearly-singular-matrix} and
-## @code{Octave:singular-matrix} warnings are enabled.
-##
 ## @item Octave:sqrtm:SingularMatrix
 ## By default, the @code{Octave:sqrtm:SingularMatrix} warning is enabled.
 ##
@@ -333,12 +349,6 @@
 ## @noindent
 ## elicits a warning if the @code{Octave:str-to-num} warning is enabled.
 ## By default, the @code{Octave:str-to-num} warning is disabled.
-##
-## @item Octave:undefined-return-values
-## If the @code{Octave:undefined-return-values} warning is disabled,
-## print a warning if a function does not define all the values in
-## the return list which are expected.
-## By default, the @code{Octave:undefined-return-values} warning is enabled.
 ##
 ## @item Octave:variable-switch-label
 ## If the @code{Octave:variable-switch-label} warning is enabled, Octave

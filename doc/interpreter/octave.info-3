@@ -60,6 +60,18 @@ is reasonable it can be changed through the following functions.
      calls.  The original variable value is restored when exiting the
      function.
 
+ -- : VAL = sigquit_dumps_octave_core ()
+ -- : OLD_VAL = sigquit_dumps_octave_core (NEW_VAL)
+ -- : sigquit_dumps_octave_core (NEW_VAL, "local")
+     Query or set the internal variable that controls whether Octave
+     tries to save all current variables to the file ‘octave-workspace’
+     if it receives a quit signal.
+
+     When called from inside a function with the "local" option, the
+     variable is changed locally for the function and any subroutines it
+     calls.  The original variable value is restored when exiting the
+     function.
+
  -- : VAL = sigterm_dumps_octave_core ()
  -- : OLD_VAL = sigterm_dumps_octave_core (NEW_VAL)
  -- : sigterm_dumps_octave_core (NEW_VAL, "local")
@@ -96,14 +108,17 @@ is reasonable it can be changed through the following functions.
  -- : OLD_VAL = octave_core_file_limit (NEW_VAL)
  -- : octave_core_file_limit (NEW_VAL, "local")
      Query or set the internal variable that specifies the maximum
-     amount of memory (in kilobytes) of the top-level workspace that
-     Octave will attempt to save when writing data to the crash dump
-     file (the name of the file is specified by OCTAVE_CORE_FILE_NAME).
+     amount of memory that Octave will save when writing a crash dump
+     file.
+
+     The limit is measured in kilobytes and is applied to the top-level
+     workspace.  The name of the crash dump file is is specified by
+     OCTAVE_CORE_FILE_NAME).
 
      If OCTAVE_CORE_FILE_OPTIONS flags specify a binary format, then
      OCTAVE_CORE_FILE_LIMIT will be approximately the maximum size of
      the file.  If a text file format is used, then the file could be
-     much larger than the limit.  The default value is -1 (unlimited)
+     much larger than the limit.  The default value is -1 (unlimited).
 
      When called from inside a function with the "local" option, the
      variable is changed locally for the function and any subroutines it
@@ -166,10 +181,11 @@ will make your programs easier to understand.
      Return the numeric value corresponding to the standard output
      stream.
 
-     Data written to the standard output is normally filtered through
-     the pager.
+     Data written to the standard output may be filtered through the
+     pager.
 
-     See also: *note stdin: XREFstdin, *note stderr: XREFstderr.
+     See also: *note stdin: XREFstdin, *note stderr: XREFstderr, *note
+     page_screen_output: XREFpage_screen_output.
 
  -- : stderr ()
      Return the numeric value corresponding to the standard error
@@ -231,7 +247,7 @@ reading a file.
      descriptors.
 
      The first form of the ‘fopen’ function opens the named file with
-     the specified mode (read-write, read-only, etc.)  and architecture
+     the specified mode (read-write, read-only, etc.) and architecture
      interpretation (IEEE big endian, IEEE little endian, etc.), and
      returns an integer value that may be used to refer to the file
      later.  If an error occurs, FID is set to −1 and MSG contains the
@@ -1121,8 +1137,9 @@ octal, decimal, and hexadecimal radices, respectively.
    The ‘%X’ conversion is identical to the ‘%x’ conversion.  They both
 permit either uppercase or lowercase letters to be used as digits.
 
-   Unlike the C language ‘scanf’, Octave ignores the ‘h’, ‘l’, and ‘L’
-modifiers.
+   By default, integers are read as 32-bit quantities.  With the ‘h’
+modifier, 16-bit integers are used, and with the ‘l’ modifier, 64-bit
+integers are used.
 
 
 File: octave.info,  Node: String Input Conversions,  Next: Binary I/O,  Prev: Numeric Input Conversions,  Up: C-Style I/O Functions
@@ -1195,44 +1212,45 @@ the data are read.
      The optional argument PRECISION is a string specifying the type of
      data to read and may be one of
 
-     "schar"
-     "signed char"
-          Signed character.
-
-     "uchar"
-     "unsigned char"
-          Unsigned character.
+     "uint8" (default)
+          8-bit unsigned integer.
 
      "int8"
      "integer*1"
-
           8-bit signed integer.
+
+     "uint16"
+     "ushort"
+     "unsigned short"
+          16-bit unsigned integer.
 
      "int16"
      "integer*2"
+     "short"
           16-bit signed integer.
 
+     "uint"
+     "uint32"
+     "unsigned int"
+     "ulong"
+     "unsigned long"
+          32-bit unsigned integer.
+
+     "int"
      "int32"
      "integer*4"
+     "long"
           32-bit signed integer.
+
+     "uint64"
+          64-bit unsigned integer.
 
      "int64"
      "integer*8"
           64-bit signed integer.
 
-     "uint8"
-          8-bit unsigned integer.
-
-     "uint16"
-          16-bit unsigned integer.
-
-     "uint32"
-          32-bit unsigned integer.
-
-     "uint64"
-          64-bit unsigned integer.
-
      "single"
+     "float"
      "float32"
      "real*4"
           32-bit floating point number.
@@ -1244,34 +1262,17 @@ the data are read.
 
      "char"
      "char*1"
-          Single character.
+          8-bit single character.
 
-     "short"
-          Short integer (size is platform dependent).
+     "uchar"
+     "unsigned char"
+          8-bit unsigned character.
 
-     "int"
-          Integer (size is platform dependent).
+     "schar"
+     "signed char"
+          8-bit signed character.
 
-     "long"
-          Long integer (size is platform dependent).
-
-     "ushort"
-     "unsigned short"
-          Unsigned short integer (size is platform dependent).
-
-     "uint"
-     "unsigned int"
-          Unsigned integer (size is platform dependent).
-
-     "ulong"
-     "unsigned long"
-          Unsigned long integer (size is platform dependent).
-
-     "float"
-          Single precision floating point number (size is platform
-          dependent).
-
-     The default precision is "uchar".
+     The default precision is "uint8".
 
      The PRECISION argument may also specify an optional repeat count.
      For example, ‘32*single’ causes ‘fread’ to read a block of 32
@@ -1475,7 +1476,7 @@ above code.
  -- : [MSG, ERR] = ferror (FID)
  -- : [...] = ferror (FID, "clear")
      Query the error status of the stream specified by file descriptor
-     FID
+     FID.
 
      If an error condition exists then return a string MSG describing
      the error.  Otherwise, return an empty string "".
@@ -1538,33 +1539,39 @@ of the file pointer for a given file.
      Set the file pointer to the location OFFSET within the file FID.
 
      The pointer is positioned OFFSET characters from the ORIGIN, which
-     may be one of the predefined variables ‘SEEK_CUR’ (current
-     position), ‘SEEK_SET’ (beginning), or ‘SEEK_END’ (end of file) or
-     strings "cof", "bof" or "eof".  If ORIGIN is omitted, ‘SEEK_SET’ is
-     assumed.  OFFSET may be positive, negative, or zero but not all
+     may be one of the predefined variables ‘SEEK_SET’ (beginning),
+     ‘SEEK_CUR’ (current position), or ‘SEEK_END’ (end of file) or
+     strings "bof", "cof", or "eof".  If ORIGIN is omitted, ‘SEEK_SET’
+     is assumed.  OFFSET may be positive, negative, or zero but not all
      combinations of ORIGIN and OFFSET can be realized.
 
      ‘fseek’ returns 0 on success and -1 on error.
 
      See also: *note fskipl: XREFfskipl, *note frewind: XREFfrewind,
-     *note ftell: XREFftell, *note fopen: XREFfopen.
+     *note ftell: XREFftell, *note fopen: XREFfopen, *note SEEK_SET:
+     XREFSEEK_SET, *note SEEK_CUR: XREFSEEK_CUR, *note SEEK_END:
+     XREFSEEK_END.
 
  -- : SEEK_SET ()
+     Return the numerical value to pass to ‘fseek’ to position the file
+     pointer relative to the beginning of the file.
+
+     See also: *note SEEK_CUR: XREFSEEK_CUR, *note SEEK_END:
+     XREFSEEK_END, *note fseek: XREFfseek.
+
  -- : SEEK_CUR ()
+     Return the numerical value to pass to ‘fseek’ to position the file
+     pointer relative to the current position.
+
+     See also: *note SEEK_SET: XREFSEEK_SET, *note SEEK_END:
+     XREFSEEK_END, *note fseek: XREFfseek.
+
  -- : SEEK_END ()
-     Return the numerical value to pass to ‘fseek’ to perform one of the
-     following actions:
+     Return the numerical value to pass to ‘fseek’ to position the file
+     pointer relative to the end of the file.
 
-     ‘SEEK_SET’
-          Position file relative to the beginning.
-
-     ‘SEEK_CUR’
-          Position file relative to the current position.
-
-     ‘SEEK_END’
-          Position file relative to the end.
-
-     See also: *note fseek: XREFfseek.
+     See also: *note SEEK_SET: XREFSEEK_SET, *note SEEK_CUR:
+     XREFSEEK_CUR, *note fseek: XREFfseek.
 
  -- : frewind (FID)
  -- : STATUS = frewind (FID)
@@ -2089,8 +2096,8 @@ Figure 15.2: Histogram.
      XREFpie, *note plot: XREFplot, *note patch: XREFpatch.
 
  -- : hist (Y)
- -- : hist (Y, X)
  -- : hist (Y, NBINS)
+ -- : hist (Y, X)
  -- : hist (Y, X, NORM)
  -- : hist (..., PROP, VAL, ...)
  -- : hist (HAX, ...)
@@ -2099,23 +2106,25 @@ Figure 15.2: Histogram.
 
      With one vector input argument, Y, plot a histogram of the values
      with 10 bins.  The range of the histogram bins is determined by the
-     range of the data.  With one matrix input argument, Y, plot a
-     histogram where each bin contains a bar per input column.
+     range of the data (difference between maximum and minimum value in
+     Y).  Extreme values are lumped into the first and last bins.  If Y
+     is a matrix then plot a histogram where each bin contains one bar
+     per input column of Y.
 
-     Given a second vector argument, X, use that as the centers of the
-     bins, with the width of the bins determined from the adjacent
-     values in the vector.
+     If the optional second argument is a scalar, NBINS, it defines the
+     number of bins.
 
-     If scalar, the second argument, NBINS, defines the number of bins.
+     If the optional second argument is a vector, X, it defines the
+     centers of the bins.  The width of the bins is determined from the
+     adjacent values in the vector.  The total number of bins is ‘numel
+     (X)’.
 
      If a third argument is provided, the histogram is normalized such
      that the sum of the bars is equal to NORM.
 
-     Extreme values are lumped into the first and last bins.
-
      The histogram’s appearance may be modified by specifying
-     property/value pairs.  For example the face and edge color may be
-     modified.
+     property/value pairs.  For example, the face and edge color may be
+     modified:
 
           hist (randn (1, 100), 25, "facecolor", "r", "edgecolor", "b");
 
@@ -2127,9 +2136,9 @@ Figure 15.2: Histogram.
      If the first argument HAX is an axes handle, then plot into this
      axes, rather than the current axes returned by ‘gca’.
 
-     With two output arguments, produce the values NN (numbers of
-     elements) and XX (bin centers) such that ‘bar (XX, NN)’ will plot
-     the histogram.
+     If an output is requested then no plot is made.  Instead, return
+     the values NN (numbers of elements) and XX (bin centers) such that
+     ‘bar (XX, NN)’ will plot the histogram.
 
      See also: *note histc: XREFhistc, *note bar: XREFbar, *note pie:
      XREFpie, *note rose: XREFrose.
@@ -3423,6 +3432,10 @@ appearance of tic marks.
      "image"
           Equivalent to "tight" and "equal".
 
+     "vis3d"
+          Set aspect ratio modes to "manual" for rotation without
+          stretching.
+
      The following options affect the appearance of tick marks.
 
      "tic[xyz]"
@@ -3538,12 +3551,84 @@ individual axis limits.  Each has the same form.
 
      Programming Note: The ‘xlim’ function operates by modifying the
      "xlim" and "xlimmode" properties of an axes object.  These
-     properties can be be directly inspected and altered with
-     ‘get’/‘set’.
+     properties can be directly inspected and altered with ‘get’/‘set’.
 
      See also: *note ylim: XREFylim, *note zlim: XREFzlim, *note axis:
      XREFaxis, *note set: XREFset, *note get: XREFget, *note gca:
      XREFgca.
+
+   The ‘xticks’, ‘yticks’, ‘zticks’, ‘rticks’, and ‘thetaticks’
+functions may be used to get or set the tick mark locations and modes on
+the respective axis.  Each has the same form, although mode options are
+not currently available for ‘rticks’, and ‘thetaticks’.
+
+ -- : TICKVAL = xticks
+ -- : MODE = xticks ("mode")
+ -- : xticks (TICKVAL)
+ -- : xticks ("auto")
+ -- : xticks ("manual")
+ -- : ... = xticks (HAX, ...)
+     Query or set the tick values on the x-axis of the current axis.
+
+     When called without an argument, return the current tick locations
+     as specified in the "xtick" axes property.  These locations can be
+     changed by calling ‘xticks’ with a vector of tick values.  Note:
+     ascending order is not required.
+
+     When called with argument "mode", ‘xticks’ returns the current
+     value of the axes property "xtickmode".  This property can be
+     changed by calling ‘xticks’ with either "auto" (algorithm
+     determines tick positions) or "manual" (tick values remain fixed
+     regardless of axes resizing or rotation).  Note: Specifying xtick
+     values will also set the property "xtickmode" to "manual".
+
+     If the first argument HAX is an axes handle, then operate on this
+     axis rather than the current axes returned by ‘gca’.
+
+     Requesting a return value when calling ‘xticks’ to set a property
+     value will result in an error.
+
+     See also: *note xticklabels: XREFxticklabels, *note yticks:
+     XREFyticks, *note zticks: XREFzticks, *note rticks: XREFrticks,
+     *note thetaticks: XREFthetaticks, *note get: XREFget, *note set:
+     XREFset.
+
+   The ‘xticklabels’, ‘yticklabels’, and ‘zticklabels’ functions may be
+used to get or set the label assigned to each tick location and the
+labeling mode on the respective axis.  Each has the same form.
+
+ -- : TICKVAL = xticklabels
+ -- : MODE = xticklabels ("mode")
+ -- : xticklabels (TICKVAL)
+ -- : xticklabels ("auto")
+ -- : xticklabels ("manual")
+ -- : ... = xticklabels (HAX, ...)
+     Query or set the tick labels on the x-axis of the current axis.
+
+     When called without an argument, return a cell array of strings of
+     the current tick labels as specified in the "xticklabel" axes
+     property.  These labels can be changed by calling ‘xticklabels’
+     with a cell array of strings.  Note: a vector of numbers will be
+     mapped to a cell array of strings.  If fewer labels are specified
+     than the current number of ticks, blank labels will be appended to
+     the array.
+
+     When called with argument "mode", ‘xticklabels’ returns the current
+     value of the axes property "xticklabelmode".  This property can be
+     changed by calling ‘xticklabels’ with either "auto" (algorithm
+     determines tick labels) or "manual" (tick labels remain fixed).
+     Note: Specifying xticklabel values will also set the
+     "xticklabelmode" and "xticks" properties to "manual".
+
+     If the first argument HAX is an axes handle, then operate on this
+     axis rather than the current axes returned by ‘gca’.
+
+     Requesting a return value when calling ‘xticklabels’ to set a
+     property value will result in an error.
+
+     See also: *note xticks: XREFxticks, *note yticklabels:
+     XREFyticklabels, *note zticklabels: XREFzticklabels, *note get:
+     XREFget, *note set: XREFset.
 
 
 File: octave.info,  Node: Two-dimensional Function Plotting,  Next: Two-dimensional Geometric Shapes,  Prev: Axis Configuration,  Up: Two-Dimensional Plots
@@ -3607,10 +3692,11 @@ legend displaying the name of the plotted function.
      discontinuities are unlikely to plot well.  This restriction may be
      removed in the future.
 
-     ‘fplot’ requires that the function accept and return a vector
-     argument.  Consider this when writing user-defined functions and
-     use ‘.*’, ‘./’, etc.  See the function ‘vectorize’ for potentially
-     converting inline or anonymous functions to vectorized versions.
+     ‘fplot’ performance is better when the function accepts and returns
+     a vector argument.  Consider this when writing user-defined
+     functions and use element-by-element operators such as ‘.*’, ‘./’,
+     etc.  See the function ‘vectorize’ for potentially converting
+     inline or anonymous functions to vectorized versions.
 
      See also: *note ezplot: XREFezplot, *note plot: XREFplot, *note
      vectorize: XREFvectorize.
@@ -3811,8 +3897,9 @@ File: octave.info,  Node: Two-dimensional Geometric Shapes,  Prev: Two-dimension
      The optional return value H is a graphics handle to the created
      rectangle object.
 
-See also: *note patch: XREFpatch, *note line: XREFline, *note cylinder:
-XREFcylinder, *note ellipsoid: XREFellipsoid, *note sphere: XREFsphere.
+     See also: *note patch: XREFpatch, *note line: XREFline, *note
+     cylinder: XREFcylinder, *note ellipsoid: XREFellipsoid, *note
+     sphere: XREFsphere.
 
 
 File: octave.info,  Node: Three-Dimensional Plots,  Next: Plot Annotations,  Prev: Two-Dimensional Plots,  Up: High-Level Plotting
@@ -3962,9 +4049,9 @@ three-dimensional plots.
      the rectangles [X, Y] are typically the output of ‘meshgrid’.  over
      a 2-D rectangular region in the x-y plane.  Z determines the height
      above the plane of each vertex.  If only a single Z matrix is
-     given, then it is plotted over the meshgrid ‘X = 0:(columns (Z) -
-     1), Y = 0:(rows (Z) - 1’).  Thus, columns of Z correspond to
-     different X values and rows of Z correspond to different Y values.
+     given, then it is plotted over the meshgrid ‘X = 1:columns (Z), Y =
+     1:rows (Z)’.  Thus, columns of Z correspond to different X values
+     and rows of Z correspond to different Y values.
 
      The color of the mesh is computed by linearly scaling the Z values
      to fit the range of the current colormap.  Use ‘caxis’ and/or
@@ -4320,11 +4407,11 @@ three-dimensional plots.
      XREFsmooth3, *note reducevolume: XREFreducevolume, *note
      reducepatch: XREFreducepatch, *note patch: XREFpatch.
 
- -- : [VN] = isonormals (VAL, VERT)
- -- : [VN] = isonormals (VAL, HP)
- -- : [VN] = isonormals (X, Y, Z, VAL, VERT)
- -- : [VN] = isonormals (X, Y, Z, VAL, HP)
- -- : [VN] = isonormals (..., "negate")
+ -- : VN = isonormals (VAL, VERT)
+ -- : VN = isonormals (VAL, HP)
+ -- : VN = isonormals (X, Y, Z, VAL, VERT)
+ -- : VN = isonormals (X, Y, Z, VAL, HP)
+ -- : VN = isonormals (..., "negate")
  -- : isonormals (VAL, HP)
  -- : isonormals (X, Y, Z, VAL, HP)
  -- : isonormals (..., "negate")
@@ -4332,25 +4419,25 @@ three-dimensional plots.
      Calculate normals to an isosurface.
 
      The vertex normals VN are calculated from the gradient of the
-     3-dimensional array VAL (size: lxmxn) with the data for an
-     isosurface geometry.  The normals point towards lower values in
+     3-dimensional array VAL (size: lxmxn) containing the data for an
+     isosurface geometry.  The normals point towards smaller values in
      VAL.
 
-     If called with one output argument VN and the second input argument
-     VERT holds the vertices of an isosurface, the normals VN are
-     calculated at the vertices VERT on a grid given by ‘[x, y, z] =
-     meshgrid (1:l, 1:m, 1:n)’.  The output argument VN has the same
-     size as VERT and can be used to set the "VertexNormals" property of
-     the corresponding patch.
+     If called with one output argument VN, and the second input
+     argument VERT holds the vertices of an isosurface, then the normals
+     VN are calculated at the vertices VERT on a grid given by ‘[x, y,
+     z] = meshgrid (1:l, 1:m, 1:n)’.  The output argument VN has the
+     same size as VERT and can be used to set the "VertexNormals"
+     property of the corresponding patch.
 
-     If called with further input arguments X, Y, and Z which are
-     3-dimensional arrays with the same size as VAL, the volume data is
-     taken at these points.  Instead of the vertex data VERT, a patch
-     handle HP can be passed to this function.
+     If called with additional input arguments X, Y, and Z, which are
+     3-dimensional arrays with the same size as VAL, then the volume
+     data is taken at these points.  Instead of the vertex data VERT, a
+     patch handle HP can be passed to the function.
 
      If the last input argument is the string "negate", compute the
      reverse vector normals of an isosurface geometry (i.e., pointed
-     towards higher values in VAL).
+     towards larger values in VAL).
 
      If no output argument is given, the property "VertexNormals" of the
      patch associated with the patch handle HP is changed directly.
@@ -4438,79 +4525,36 @@ three-dimensional plots.
      See also: *note isosurface: XREFisosurface, *note isonormals:
      XREFisonormals, *note patch: XREFpatch.
 
- -- : [CD] = isocolors (C, V)
- -- : [CD] = isocolors (X, Y, Z, C, V)
- -- : [CD] = isocolors (X, Y, Z, R, G, B, V)
- -- : [CD] = isocolors (R, G, B, V)
- -- : [CD] = isocolors (..., P)
+ -- : CDAT = isocolors (C, V)
+ -- : CDAT = isocolors (X, Y, Z, C, V)
+ -- : CDAT = isocolors (X, Y, Z, R, G, B, V)
+ -- : CDAT = isocolors (R, G, B, V)
+ -- : CDAT = isocolors (..., P)
  -- : isocolors (...)
 
      Compute isosurface colors.
 
-     If called with one output argument and the first input argument C
-     is a three-dimensional array that contains color values and the
-     second input argument V keeps the vertices of a geometry then
-     return a matrix CD with color data information for the geometry at
-     computed points ‘[x, y, z] = meshgrid (1:l, 1:m, 1:n)’.  The output
-     argument CD can be taken to manually set FaceVertexCData of a
-     patch.
+     If called with one output argument, and the first input argument C
+     is a three-dimensional array that contains indexed color values,
+     and the second input argument V are the vertices of an isosurface
+     geometry, then return a matrix CDAT with color data information for
+     the geometry at computed points ‘[x, y, z] = meshgrid (1:l, 1:m,
+     1:n)’.  The output argument CDAT can be used to manually set the
+     "FaceVertexCData" property of an isosurface patch object.
 
-     If called with further input arguments X, Y and Z which are
-     three–dimensional arrays of the same size than C then the color
-     data is taken at those given points.  Instead of the color data C
-     this function can also be called with RGB values R, G, B.  If input
-     argumnets X, Y, Z are not given then again ‘meshgrid’ computed
-     values are taken.
+     If called with additional input arguments X, Y and Z which are
+     three-dimensional arrays of the same size as C then the color data
+     is taken at those specified points.
 
-     Optionally, the patch handle P can be given as the last input
-     argument to all variations of function calls instead of the
-     vertices data V.  Finally, if no output argument is given then
-     directly change the colors of a patch that is given by the patch
-     handle P.
+     Instead of indexed color data C, ‘isocolors’ can also be called
+     with RGB values R, G, B.  If input arguments X, Y, Z are not given
+     then ‘meshgrid’ computed values are used.
 
-     For example:
-
-          function isofinish (p)
-            set (gca, "PlotBoxAspectRatioMode", "manual", ...
-                      "PlotBoxAspectRatio", [1 1 1]);
-            set (p, "FaceColor", "interp");
-            ## set (p, "FaceLighting", "flat");
-            ## light ("Position", [1 1 5]);  # Available with JHandles
-          endfunction
-
-          N = 15;    # Increase number of vertices in each direction
-          iso = .4;  # Change isovalue to .1 to display a sphere
-          lin = linspace (0, 2, N);
-          [x, y, z] = meshgrid (lin, lin, lin);
-          c = abs ((x-.5).^2 + (y-.5).^2 + (z-.5).^2);
-          figure (); # Open another figure window
-
-          subplot (2,2,1); view (-38, 20);
-          [f, v] = isosurface (x, y, z, c, iso);
-          p = patch ("Faces", f, "Vertices", v, "EdgeColor", "none");
-          cdat = rand (size (c));       # Compute random patch color data
-          isocolors (x, y, z, cdat, p); # Directly set colors of patch
-          isofinish (p);                # Call user function isofinish
-
-          subplot (2,2,2); view (-38, 20);
-          p = patch ("Faces", f, "Vertices", v, "EdgeColor", "none");
-          [r, g, b] = meshgrid (lin, 2-lin, 2-lin);
-          cdat = isocolors (x, y, z, c, v); # Compute color data vertices
-          set (p, "FaceVertexCData", cdat); # Set color data manually
-          isofinish (p);
-
-          subplot (2,2,3); view (-38, 20);
-          p = patch ("Faces", f, "Vertices", v, "EdgeColor", "none");
-          cdat = isocolors (r, g, b, c, p); # Compute color data patch
-          set (p, "FaceVertexCData", cdat); # Set color data manually
-          isofinish (p);
-
-          subplot (2,2,4); view (-38, 20);
-          p = patch ("Faces", f, "Vertices", v, "EdgeColor", "none");
-          r = g = b = repmat ([1:N] / N, [N, 1, N]); # Black to white
-          cdat = isocolors (x, y, z, r, g, b, v);
-          set (p, "FaceVertexCData", cdat);
-          isofinish (p);
+     Optionally, a patch handle P can be given as the last input
+     argument to all function call variations and the vertex data will
+     be extracted from the isosurface patch object.  Finally, if no
+     output argument is given then the colors of the patch given by the
+     patch handle P are changed.
 
      See also: *note isosurface: XREFisosurface, *note isonormals:
      XREFisonormals.
@@ -4613,7 +4657,7 @@ three-dimensional plots.
      The number of faces and vertices in the patch is reduced by
      iteratively collapsing the shortest edge of the patch to its
      midpoint (as discussed, e.g., here:
-     <http://libigl.github.io/libigl/tutorial/tutorial.html#meshdecimation>).
+     <https://libigl.github.io/libigl/tutorial/tutorial.html#meshdecimation>).
 
      Currently, only patches consisting of triangles are supported.  The
      resulting patch also consists only of triangles.
@@ -4849,9 +4893,11 @@ three-dimensional plots.
 
           camlight (45, 30);
 
-     Here the light is first pitched upwards from the camera position by
-     30 degrees.  It is then yawed by 45 degrees to the right.  Both
-     rotations are centered around the camera target.
+     Here the light is first pitched upwards (*note camup: XREFcamup.)
+     from the camera position (*note campos: XREFcampos.) by 30 degrees.
+     It is then yawed by 45 degrees to the right.  Both rotations are
+     centered around the camera target (*note camtarget:
+     XREFcamtarget.).
 
      Return a handle to further manipulate the light object
 
@@ -4873,7 +4919,8 @@ three-dimensional plots.
      Y.  If Y is omitted, then it is assumed to be the same as X.
 
      If the optional Z input is given, or ZZ is requested, then the
-     output will be a full 3-D grid.
+     output will be a full 3-D grid.  If Z is omitted and ZZ is
+     requested, it is assumed to be the same as Y.
 
      ‘meshgrid’ is most frequently used to produce input for a 2-D or
      3-D function that will be plotted.  The following example creates a
@@ -5006,6 +5053,318 @@ three-dimensional plots.
      axes rather than the current axes returned by ‘gca’.
 
      If no inputs are given, return the current AZIMUTH and ELEVATION.
+
+ -- : camlookat ()
+ -- : camlookat (H)
+ -- : camlookat (HANDLE_LIST)
+ -- : camlookat (HAX)
+     Move the camera and adjust its properties to look at objects.
+
+     When the input is a handle H, the camera is set to point toward the
+     center of the bounding box of H.  The camera’s position is adjusted
+     so the bounding box approximately fills the field of view.
+
+     This command fixes the camera’s viewing direction (‘camtarget() -
+     campos()’), camera up vector (*note camup: XREFcamup.) and viewing
+     angle (*note camva: XREFcamva.).  The camera target (*note
+     camtarget: XREFcamtarget.) and camera position (*note campos:
+     XREFcampos.) are changed.
+
+     If the argument is a list HANDLE_LIST, then a single bounding box
+     for all the objects is computed and the camera is then adjusted as
+     above.
+
+     If the argument is an axis object HAX, then the children of the
+     axis are used as HANDLE_LIST.  When called with no inputs, it uses
+     the current axis (*note gca: XREFgca.).
+
+     See also: *note camorbit: XREFcamorbit, *note camzoom: XREFcamzoom,
+     *note camroll: XREFcamroll.
+
+ -- : P = campos ()
+ -- : campos ([X Y Z])
+ -- : MODE = campos ("mode")
+ -- : campos (MODE)
+ -- : campos (AX, ...)
+     Set or get the camera position.
+
+     The default camera position is determined automatically based on
+     the scene.  For example, to get the camera position:
+
+          hf = figure();
+          peaks()
+          p = campos ()
+            ⇒ p =
+                -27.394  -35.701   64.079
+
+     We can then move the camera further up the z-axis:
+
+          campos (p + [0 0 10])
+          campos ()
+            ⇒ ans =
+                -27.394  -35.701   74.079
+
+     Having made that change, the camera position MODE is now manual:
+
+          campos ("mode")
+            ⇒ manual
+
+     We can set it back to automatic:
+
+          campos ("auto")
+          campos ()
+            ⇒ ans =
+                -27.394  -35.701   64.079
+          close (hf)
+
+     By default, these commands affect the current axis; alternatively,
+     an axis can be specified by the optional argument AX.
+
+     See also: *note camup: XREFcamup, *note camtarget: XREFcamtarget,
+     *note camva: XREFcamva.
+
+ -- : camorbit (THETA, PHI)
+ -- : camorbit (THETA, PHI, COORSYS)
+ -- : camorbit (THETA, PHI, COORSYS, DIR)
+ -- : camorbit (THETA, PHI, "data")
+ -- : camorbit (THETA, PHI, "data", "z")
+ -- : camorbit (THETA, PHI, "data", "x")
+ -- : camorbit (THETA, PHI, "data", "y")
+ -- : camorbit (THETA, PHI, "data", [X Y Z])
+ -- : camorbit (THETA, PHI, "camera")
+ -- : camorbit (HAX, ...)
+     Rotate the camera up/down and left/right around its target.
+
+     Move the camera PHI degrees up and THETA degrees to the right, as
+     if it were in an orbit around its target.  Example:
+
+          sphere ()
+          camorbit (30, 20)
+
+     These rotations are centered around the camera target (*note
+     camtarget: XREFcamtarget.).  First the camera position is pitched
+     up or down by rotating it PHI degrees around an axis orthogonal to
+     both the viewing direction (specifically ‘camtarget() - campos()’)
+     and the camera “up vector” (*note camup: XREFcamup.).  Example:
+
+          camorbit (0, 20)
+
+     The second rotation depends on the coordinate system COORSYS and
+     direction DIR inputs.  The default for COORSYS is "data".  In this
+     case, the camera is yawed left or right by rotating it THETA
+     degrees around an axis specified by DIR.  The default for DIR is
+     "z", corresponding to the vector ‘[0, 0, 1]’.  Example:
+
+          camorbit (30, 0)
+
+     When COORSYS is set to "camera", the camera is moved left or right
+     by rotating it around an axis parallel to the camera up vector
+     (*note camup: XREFcamup.).  The input DIR should not be specified
+     in this case.  Example:
+
+          camorbit (30, 0, "camera")
+
+     (Note: the rotation by PHI is unaffected by "camera".)
+
+     The ‘camorbit’ command modifies two camera properties: *note
+     campos: XREFcampos. and *note camup: XREFcamup.
+
+     By default, this command affects the current axis; alternatively,
+     an axis can be specified by the optional argument HAX.
+
+     See also: *note camzoom: XREFcamzoom, *note camroll: XREFcamroll,
+     *note camlookat: XREFcamlookat.
+
+ -- : camroll (THETA)
+ -- : camroll (AX, THETA)
+     Roll the camera.
+
+     Roll the camera clockwise by THETA degrees.  For example, the
+     following command will roll the camera by 30 degrees clockwise (to
+     the right); this will cause the scene to appear to roll by 30
+     degrees to the left:
+
+          peaks ()
+          camroll (30)
+
+     Roll the camera back:
+
+          camroll (-30)
+
+     The following command restores the default camera roll:
+
+          camup ("auto")
+
+     By default, these commands affect the current axis; alternatively,
+     an axis can be specified by the optional argument AX.
+
+     See also: *note camzoom: XREFcamzoom, *note camorbit: XREFcamorbit,
+     *note camlookat: XREFcamlookat, *note camup: XREFcamup.
+
+ -- : T = camtarget ()
+ -- : camtarget ([X Y Z])
+ -- : MODE = camtarget ("mode")
+ -- : camtarget (MODE)
+ -- : camtarget (AX, ...)
+     Set or get where the camera is pointed.
+
+     The camera target is a point in space where the camera is pointing.
+     Usually, it is determined automatically based on the scene:
+
+          hf = figure();
+          sphere (36)
+          v = camtarget ()
+            ⇒ v =
+                0   0   0
+
+     We can turn the camera to point at a new target:
+
+          camtarget ([1 1 1])
+          camtarget ()
+            ⇒   1   1   1
+
+     Having done so, the camera target MODE is manual:
+
+          camtarget ("mode")
+            ⇒ manual
+
+     This means, for example, adding new objects to the scene will not
+     retarget the camera:
+
+          hold on;
+          peaks ()
+          camtarget ()
+            ⇒   1   1   1
+
+     We can reset it to be automatic:
+
+          camtarget ("auto")
+          camtarget ()
+            ⇒   0   0   0.76426
+          close (hf)
+
+     By default, these commands affect the current axis; alternatively,
+     an axis can be specified by the optional argument AX.
+
+     See also: *note campos: XREFcampos, *note camup: XREFcamup, *note
+     camva: XREFcamva.
+
+ -- : UP = camup ()
+ -- : camup ([X Y Z])
+ -- : MODE = camup ("mode")
+ -- : camup (MODE)
+ -- : camup (AX, ...)
+     Set or get the camera up vector.
+
+     By default, the camera is oriented so that “up” corresponds to the
+     positive z-axis:
+
+          hf = figure ();
+          sphere (36)
+          v = camup ()
+            ⇒ v =
+                0   0   1
+
+     Specifying a new “up vector” rolls the camera and sets the mode to
+     manual:
+
+          camup ([1 1 0])
+          camup ()
+            ⇒   1   1   0
+          camup ("mode")
+            ⇒ manual
+
+     Modifying the up vector does not modify the camera target (*note
+     camtarget: XREFcamtarget.).  Thus, the camera up vector might not
+     be orthogonal to the direction of the camera’s view:
+
+          camup ([1 2 3])
+          dot (camup (), camtarget () - campos ())
+            ⇒ 6...
+
+     A consequence is that “pulling back” on the up vector does not
+     pitch the camera view (as that would require changing the target).
+     Setting the up vector is thus typically used only to roll the
+     camera.  A more intuitive command for this purpose is *note
+     camroll: XREFcamroll.
+
+     Finally, we can reset the up vector to automatic mode:
+
+          camup ("auto")
+          camup ()
+            ⇒   0   0   1
+          close (hf)
+
+     By default, these commands affect the current axis; alternatively,
+     an axis can be specified by the optional argument AX.
+
+     See also: *note campos: XREFcampos, *note camtarget: XREFcamtarget,
+     *note camva: XREFcamva.
+
+ -- : A = camva ()
+ -- : camva (A)
+ -- : MODE = camva ("mode")
+ -- : camva (MODE)
+ -- : camva (AX, ...)
+     Set or get the camera viewing angle.
+
+     The camera has a viewing angle which determines how much can be
+     seen.  By default this is:
+
+          hf = figure();
+          sphere (36)
+          a = camva ()
+            ⇒ a =  10.340
+
+     To get a wider-angle view, we could double the viewing angle.  This
+     will also set the mode to manual:
+
+          camva (2*a)
+          camva ("mode")
+            ⇒ manual
+
+     We can set it back to automatic:
+
+          camva ("auto")
+          camva ("mode")
+            ⇒ auto
+          camva ()
+            ⇒ ans =  10.340
+          close (hf)
+
+     By default, these commands affect the current axis; alternatively,
+     an axis can be specified by the optional argument AX.
+
+     See also: *note campos: XREFcampos, *note camtarget: XREFcamtarget,
+     *note camup: XREFcamup.
+
+ -- : camzoom (ZF)
+ -- : camzoom (AX, ZF)
+     Zoom the camera in or out.
+
+     A value of ZF larger than 1 “zooms in” such that the scene appears
+     magnified:
+
+          hf = figure ();
+          sphere (36)
+          camzoom (1.2)
+
+     A value smaller than 1 “zooms out” so the camera can see more of
+     the scene:
+
+          camzoom (0.5)
+
+     Technically speaking, zooming affects the “viewing angle”.  The
+     following command resets to the default zoom:
+
+          camva ("auto")
+          close (hf)
+
+     By default, these commands affect the current axis; alternatively,
+     an axis can be specified by the optional argument AX.
+
+     See also: *note camroll: XREFcamroll, *note camorbit: XREFcamorbit,
+     *note camlookat: XREFcamlookat, *note camva: XREFcamva.
 
  -- : slice (X, Y, Z, V, SX, SY, SZ)
  -- : slice (X, Y, Z, V, XI, YI, ZI)
@@ -5624,15 +5983,17 @@ objects are drawn in an invisible axes, on top of every other axes.
      See also: *note xlabel: XREFxlabel, *note ylabel: XREFylabel, *note
      zlabel: XREFzlabel, *note text: XREFtext.
 
+ -- : legend ()
  -- : legend (STR1, STR2, ...)
- -- : legend (MATSTR)
- -- : legend (CELLSTR)
+ -- : legend (CHARMAT)
+ -- : legend ({CELLSTR})
  -- : legend (..., "location", POS)
  -- : legend (..., "orientation", ORIENT)
  -- : legend (HAX, ...)
  -- : legend (HOBJS, ...)
  -- : legend (HAX, HOBJS, ...)
  -- : legend ("OPTION")
+ -- : legend (..., {CELLSTR}, PROPERTY, VALUE, ...)
  -- : [HLEG, HLEG_OBJ, HPLOT, LABELS] = legend (...)
 
      Display a legend for the current axes using the specified strings
@@ -5640,13 +6001,18 @@ objects are drawn in an invisible axes, on top of every other axes.
 
      Legend entries may be specified as individual character string
      arguments, a character array, or a cell array of character strings.
+     When label names might be confused with options to ‘legend’, the
+     labels should be protected by specifying them as a cell array of
+     strings.
 
-     If the first argument HAX is an axes handle, then plot into this
-     axes, rather than the current axes returned by ‘gca’.  If the
-     handles, HOBJS, are not specified then the legend’s strings will be
-     associated with the axes’ descendants.  ‘legend’ works on line
-     graphs, bar graphs, etc.  A plot must exist before legend is
-     called.
+     If the first argument HAX is an axes handle, then add a legend to
+     this axes, rather than the current axes returned by ‘gca’.
+
+     Legend labels are associated with the axes’ children; The first
+     label is assigned to the first object that was plotted in the axes,
+     the second label to the next object plotted, etc.  To label
+     specific data objects, without labeling all objects, provide their
+     graphic handles in the input HOBJS.
 
      The optional parameter POS specifies the location of the legend as
      follows:
@@ -5661,9 +6027,11 @@ objects are drawn in an invisible axes, on top of every other axes.
           northwest  left top
           southeast  right bottom
           southwest  left bottom
+                     
           outside    can be appended to any location string
+                     which will place the legend outside the axes
 
-     The optional parameter ORIENT determines if the key elements are
+     The optional parameter ORIENT determines if the legend elements are
      placed vertically or horizontally.  The allowed values are
      "vertical" (default) or "horizontal".
 
@@ -5676,7 +6044,7 @@ objects are drawn in an invisible axes, on top of every other axes.
           Hide legend on the plot
 
      "toggle"
-          Toggles between "hide" and "show"
+          Toggle between "hide" and "show"
 
      "boxon"
           Show a box around legend (default)
@@ -5693,14 +6061,20 @@ objects are drawn in an invisible axes, on top of every other axes.
      "off"
           Delete the legend object
 
+     The ‘legend’ function creates a graphics object which has various
+     properties that can be manipulated with ‘get’/‘set’.
+     Alternatively, properties can be set directly when calling ‘legend’
+     by including PROPERTY/VALUE pairs.  If using this calling form, the
+     labels must be specified as a cell array of strings.
+
      The optional output values are
 
      HLEG
           The graphics handle of the legend object.
 
      HLEG_OBJ
-          Graphics handles to the text and line objects which make up
-          the legend.
+          Graphics handles to the text, patch, and line objects which
+          form the legend.
 
      HPLOT
           Graphics handles to the plot objects which were used in making
@@ -5709,15 +6083,23 @@ objects are drawn in an invisible axes, on top of every other axes.
      LABELS
           A cell array of strings of the labels in the legend.
 
-     The legend label text is either provided in the call to ‘legend’ or
-     is taken from the DisplayName property of graphics objects.  If no
-     labels or DisplayNames are available, then the label text is simply
-     "data1", "data2", ..., "dataN".
+     Implementation Note: The legend label text is either provided in
+     the call to ‘legend’ or is taken from the ‘DisplayName’ property of
+     the graphics objects.  Only data objects, such as line, patch, and
+     surface, have this property whereas axes, figures, etc. do not so
+     they are never present in a legend.  If no labels or ‘DisplayName’
+     properties are available, then the label text is simply "data1",
+     "data2", ..., "dataN". No more than 20 data labels will be
+     automatically generated.  To label more, call ‘legend’ explicitly
+     and provide all labels.
 
-     Implementation Note: A legend is implemented as an additional axes
-     object of the current figure with the "tag" set to "legend".
-     Properties of the legend object may be manipulated directly by
-     using ‘set’.
+     The legend ‘FontSize’ property is initially set to 90% of the axes
+     ‘FontSize’ to which it is attached.  Use ‘set’ to override this if
+     necessary.
+
+     A legend is implemented as an additional axes object with the ‘tag’
+     property set to "legend".  Properties of the legend object may be
+     manipulated directly by using ‘set’.
 
  -- : text (X, Y, STRING)
  -- : text (X, Y, Z, STRING)
@@ -5735,6 +6117,9 @@ objects are drawn in an invisible axes, on top of every other axes.
 
      The optional return value H is a vector of graphics handles to the
      created text objects.
+
+     Programming Note: The full list of properties is documented at
+     *note Text Properties: Text Properties.
 
      See also: *note gtext: XREFgtext, *note title: XREFtitle, *note
      xlabel: XREFxlabel, *note ylabel: XREFylabel, *note zlabel:
@@ -5842,7 +6227,7 @@ objects are drawn in an invisible axes, on top of every other axes.
      See also: *note axis: XREFaxis, *note box: XREFbox.
 
  -- : colorbar
- -- : colorbar (LOC)
+ -- : colorbar (..., LOC)
  -- : colorbar (DELETE_OPTION)
  -- : colorbar (HCB, ...)
  -- : colorbar (HAX, ...)
@@ -5855,8 +6240,9 @@ objects are drawn in an invisible axes, on top of every other axes.
      A colorbar displays the current colormap along with numerical
      rulings so that the color scale can be interpreted.
 
-     The optional input LOC determines the location of the colorbar.
-     Valid values for LOC are
+     The optional input LOC determines the location of the colorbar.  If
+     present, it must be the last argument to ‘colorbar’.  Valid values
+     for LOC are
 
      "EastOutside"
           Place the colorbar outside the plot to the right.  This is the
@@ -5884,13 +6270,14 @@ objects are drawn in an invisible axes, on top of every other axes.
           Place the colorbar at the bottom of the plot.
 
      To remove a colorbar from a plot use any one of the following
-     keywords for the DELETE_OPTION: "delete", "hide", "off".
+     keywords for the DELETE_OPTION: "off", "delete", "hide".
 
-     If the argument "peer" is given, then the following argument is
-     treated as the axes handle in which to add the colorbar.
-     Alternatively, If the first argument HAX is an axes handle, then
-     the colorbar is added to this axes, rather than the current axes
-     returned by ‘gca’.
+     If the first argument HAX is an axes handle, then the colorbar is
+     added to this axes, rather than the current axes returned by ‘gca’.
+     Alternatively, If the argument "peer" is given, then the following
+     argument is treated as the axes handle in which to add the
+     colorbar.  The "peer" calling syntax may be removed in the future
+     and is not recommended.
 
      If the first argument HCB is a handle to a colorbar object, then
      operate on this colorbar directly.
@@ -5901,10 +6288,10 @@ objects are drawn in an invisible axes, on top of every other axes.
      The optional return value H is a graphics handle to the created
      colorbar object.
 
-     Implementation Note: A colorbar is created as an additional axes to
-     the current figure with the "tag" property set to "colorbar".  The
-     created axes object has the extra property "location" which
-     controls the positioning of the colorbar.
+     Implementation Note: A colorbar is created as an additional axes
+     object with the "tag" property set to "colorbar".  The created
+     object has the extra property "location" which controls the
+     positioning of the colorbar.
 
      See also: *note colormap: XREFcolormap.
 
@@ -6058,6 +6445,7 @@ plotting a sine wave, the next call to subplot activates the second
 subplot area, but does not re-partition the figure.
 
  -- : subplot (ROWS, COLS, INDEX)
+ -- : subplot (ROWS, COLS, INDEX, HAX)
  -- : subplot (RCN)
  -- : subplot (HAX)
  -- : subplot (..., "align")
@@ -6067,6 +6455,9 @@ subplot area, but does not re-partition the figure.
  -- : HAX = subplot (...)
      Set up a plot grid with ROWS by COLS subwindows and set the current
      axes for plotting (‘gca’) to the location given by INDEX.
+
+     If an axes handle HAX is provided after the (ROWS, COLS, INDEX)
+     arguments, the corresponding axes is turned into a subplot.
 
      If only one numeric argument is supplied, then it must be a three
      digit value specifying the number of rows in digit 1, the number of
@@ -6154,6 +6545,9 @@ second a cosine wave.  Figure numbers must be positive integers.
      The optional return value H is a graphics handle to the created
      figure object.
 
+     Programming Note: The full list of properties is documented at
+     *note Figure Properties: Figure Properties.
+
      See also: *note axes: XREFaxes, *note gcf: XREFgcf, *note clf:
      XREFclf, *note close: XREFclose.
 
@@ -6184,10 +6578,10 @@ File: octave.info,  Node: Manipulation of Plot Objects,  Next: Manipulation of P
 
      See also: *note rotate3d: XREFrotate3d, *note zoom: XREFzoom.
 
- -- : rotate (H, DIR, ALPHA)
+ -- : rotate (H, DIRECTION, ALPHA)
  -- : rotate (..., ORIGIN)
      Rotate the plot object H through ALPHA degrees around the line with
-     direction DIR and origin ORIGIN.
+     direction DIRECTION and origin ORIGIN.
 
      The default value of ORIGIN is the center of the axes object that
      is the parent of H.
@@ -6437,15 +6831,19 @@ window, call the ‘close’ function.
  -- : cla reset
  -- : cla (HAX)
  -- : cla (HAX, "reset")
-     Clear the current axes.
+     Clear the current or specified (HAX) axes object.
 
      ‘cla’ operates by deleting child graphic objects with visible
-     handles (HandleVisibility = "on").
+     handles (‘HandleVisibility’ = "on").  This typically clears the
+     axes of any visual objects, but leaves in place axes limits, tick
+     marks and labels, camera view, etc.  In addition, the automatic
+     coloring and styling of lines is reset by changing the axes
+     properties ‘ColorOrderIndex’, ‘LinestyleOrderIndex’ to 1.
 
      If the optional argument "reset" is specified, delete all child
-     objects including those with hidden handles and reset all axes
+     objects, including those with hidden handles, and reset all axes
      properties to their defaults.  However, the following properties
-     are not reset: Position, Units.
+     are not reset: ‘Position’, ‘Units’.
 
      If the first argument HAX is an axes handle, then operate on this
      axes rather than the current axes returned by ‘gca’.
@@ -6477,9 +6875,8 @@ window, call the ‘close’ function.
      XREFunlink, *note rmdir: XREFrmdir.
 
  -- : close
- -- : close H
  -- : close (H)
- -- : close (H, "force")
+ -- : close FIGNAME
  -- : close all
  -- : close all hidden
  -- : close all force
@@ -6487,24 +6884,28 @@ window, call the ‘close’ function.
 
      When called with no arguments, close the current figure.  This is
      equivalent to ‘close (gcf)’.  If the input H is a graphic handle,
-     or vector of graphics handles, then close each figure in H.
+     or vector of graphics handles, then close each figure in H.  The
+     figure to close may also be specified by name FIGNAME which is
+     matched against the "Name" property of all figures.
 
      If the argument "all" is given then all figures with visible
      handles (HandleVisibility = "on") are closed.
 
-     If the argument "all hidden" is given then all figures, including
-     hidden ones, are closed.
+     If the additional argument "hidden" is given then all figures,
+     including hidden ones, are closed.
 
-     If the argument "force" is given then figures are closed even when
-     "closerequestfcn" has been altered to prevent closing the window.
+     If the additional argument "force" is given then figures are closed
+     even when "closerequestfcn" has been altered to prevent closing the
+     window.
 
-     Implementation Note: ‘close’ operates by calling the function
-     specified by the "closerequestfcn" property for each figure.  By
-     default, the function ‘closereq’ is used.  It is possible that the
-     function invoked will delay or abort removing the figure.  To
-     remove a figure without executing any callback functions use
-     ‘delete’.  When writing a callback function to close a window do
-     not use ‘close’ to avoid recursion.
+     Implementation Note: ‘close’ operates by making the handle H the
+     current figure, and then calling the function specified by the
+     "closerequestfcn" property of the figure.  By default, the function
+     ‘closereq’ is used.  It is possible that the function invoked will
+     delay or abort removing the figure.  To remove a figure without
+     executing any callback functions use ‘delete’.  When writing a
+     callback function to close a window do not use ‘close’ to avoid
+     recursion.
 
      See also: *note closereq: XREFclosereq, *note delete: XREFdelete.
 
@@ -6530,8 +6931,11 @@ control sequences in the text are rendered.
    The interpreter property can take three values: "none", "tex",
 "latex".  If the interpreter is set to "none" then no special rendering
 occurs—the displayed text is a verbatim copy of the specified text.
-Currently, the "latex" interpreter is not implemented and is equivalent
-to "none".
+Currently, the "latex" interpreter is not implemented for on-screen
+display and is equivalent to "none".  Note that Octave does not parse or
+validate the text strings when in "latex" mode—it is the responsibility
+of the programmer to generate valid strings which may include wrapping
+sections that should appear in Math mode with ’$’ characters.
 
    The "tex" option implements a subset of TeX functionality when
 rendering text.  This allows the insertion of special glyphs such as
@@ -6563,7 +6967,7 @@ the strings themselves should be in single quotes.
 
    The color of the text may also be changed inline using either a
 string (e.g., "red") or numerically with a Red-Green-Blue (RGB)
-specification (.e.g., [1 0 0], also red).
+specification (e.g., [1 0 0], also red).
 
         \color{COLOR}                 Specify the color as a string
         \color[rgb]{R G B}            Specify the color numerically
@@ -6657,15 +7061,15 @@ prints the current figure to a color PostScript printer.  And,
 saves the current figure to an encapsulated PostScript file called
 ‘foo.eps’.
 
-   The current graphic toolkits produce very similar graphic displays
-but differ in their capability to display text and in print
-capabilities.  In particular, the OpenGL based toolkits such as ‘fltk’
-and ‘qt’ do not support the "interpreter" property of text objects.
-This means that when using OpenGL toolkits special symbols drawn with
-the "tex" interpreter will appear correctly on-screen but will be
-rendered with interpreter "none" when printing unless one of the
-‘standalone’ (see below) modes is used.  These modes provide access to
-the pdflatex processor and therefore allow full use of LaTeX commands.
+   The current graphic toolkits produce very similar graphic displays,
+but differ in their capability to display unusual text and in their
+ability to print such text.  In general, the "tex" interpreter (default)
+is the best all-around performer for both on-screen display and
+printing.  However, for the reproduction of complicated text formulas
+the "latex" interpreter is preferred.  The "latex" interpreter will not
+display symbols on-screen, but the printed output will be correct.  When
+printing, use one of the ‘standalone’ options which provide full access
+to LaTeX commands.
 
    A complete example showing the capabilities of text printing using
 the ‘-dpdflatexstandalone’ option is:
@@ -6676,16 +7080,15 @@ the ‘-dpdflatexstandalone’ option is:
      hold on;
      plot (x, x, "r");
      axis ([0, 3, 0, 1]);
-     text (0.65, 0.6175, ['$\displaystyle\leftarrow x = {2\over\sqrt{\pi}}'...
-                          '\int_{0}^{x}e^{-t^2} dt = 0.6175$']);
+     text (0.65, 0.6175, ['$\displaystyle\leftarrow x = {2 \over \sqrt{\pi}}'...
+                          '\int_{0}^{x} e^{-t^2} dt = 0.6175$'],
+           "interpreter", "latex");
      xlabel ("x");
      ylabel ("erf (x)");
      title ("erf (x) with text annotation");
-     set (hf, "visible", "off");
      print (hf, "plot15_7.pdf", "-dpdflatexstandalone");
-     set (hf, "visible", "on");
      system ("pdflatex plot15_7");
-     open ("plot15_7.pdf");
+     open plot15_7.pdf
 
  -- : print ()
  -- : print (OPTIONS)
@@ -6867,16 +7270,17 @@ the ‘-dpdflatexstandalone’ option is:
           ‘pdf’
                Portable document format
 
-     ‘svg’
-          Scalable vector graphics
+          ‘svg’
+               Scalable vector graphics
 
-     ‘tikz’
-     ‘tikzstandalone’
-          Generate a LaTeX file using PGF/TikZ format.  The OpenGL-based
-          toolkits create a PGF file while Gnuplot creates a TikZ file.
-          The ‘tikzstandalone’ device produces a LaTeX document which
-          includes the TikZ file (‘tikzstandalone’ and is only available
-          for the Gnuplot graphics toolkit).
+          ‘tikz’
+          ‘tikzstandalone’
+               Generate a LaTeX file using PGF/TikZ format.  The
+               OpenGL-based toolkits create a PGF file while Gnuplot
+               creates a TikZ file.  The ‘tikzstandalone’ device
+               produces a LaTeX document which includes the TikZ file
+               (‘tikzstandalone’ and is only available for the Gnuplot
+               graphics toolkit).
 
           If the device is omitted, it is inferred from the file
           extension, or if there is no filename it is sent to the
@@ -6978,13 +7382,17 @@ the ‘-dpdflatexstandalone’ option is:
  -- : saveas (H, FILENAME, FMT)
      Save graphic object H to the file FILENAME in graphic format FMT.
 
-     FMT should be one of the following formats:
+     All device formats accepted by ‘print’ may be used.  Common formats
+     are:
 
      ‘ps’
           PostScript
 
      ‘eps’
           Encapsulated PostScript
+
+     ‘pdf’
+          Portable Document Format
 
      ‘jpg’
           JPEG Image
@@ -6995,12 +7403,8 @@ the ‘-dpdflatexstandalone’ option is:
      ‘emf’
           Enhanced Meta File
 
-     ‘pdf’
-          Portable Document Format
-
-     All device formats specified in ‘print’ may also be used.  If FMT
-     is omitted it is extracted from the extension of FILENAME.  The
-     default format is "pdf".
+     If FMT is omitted it is extracted from the extension of FILENAME.
+     The default format when there is no extension is "pdf".
 
           clf ();
           surf (peaks);
@@ -7084,837 +7488,4 @@ object.
 
      See also: *note hgsave: XREFhgsave, *note struct2hdl:
      XREFstruct2hdl.
-
-
-File: octave.info,  Node: Interacting with Plots,  Next: Test Plotting Functions,  Prev: Printing and Saving Plots,  Up: High-Level Plotting
-
-15.2.10 Interacting with Plots
-------------------------------
-
-The user can select points on a plot with the ‘ginput’ function or
-select the position at which to place text on the plot with the ‘gtext’
-function using the mouse.
-
- -- : [X, Y, BUTTONS] = ginput (N)
- -- : [X, Y, BUTTONS] = ginput ()
-     Return the position and type of mouse button clicks and/or key
-     strokes in the current figure window.
-
-     If N is defined, then capture N events before returning.  When N is
-     not defined ‘ginput’ will loop until the return key <RET> is
-     pressed.
-
-     The return values X, Y are the coordinates where the mouse was
-     clicked in the units of the current axes.  The return value BUTTON
-     is 1, 2, or 3 for the left, middle, or right button.  If a key is
-     pressed the ASCII value is returned in BUTTON.
-
-     Implementation Note: ‘ginput’ is intenteded for 2-D plots.  For 3-D
-     plots see the CURRENTPOINT property of the current axes which can
-     be transformed with knowledge of the current ‘view’ into data
-     units.
-
-     See also: *note gtext: XREFgtext, *note waitforbuttonpress:
-     XREFwaitforbuttonpress.
-
- -- : waitforbuttonpress ()
- -- : B = waitforbuttonpress ()
-     Wait for mouse click or key press over the current figure window.
-
-     The return value of B is 0 if a mouse button was pressed or 1 if a
-     key was pressed.
-
-     See also: *note waitfor: XREFwaitfor, *note ginput: XREFginput,
-     *note kbhit: XREFkbhit.
-
- -- : gtext (S)
- -- : gtext ({S1, S2, ...})
- -- : gtext ({S1; S2; ...})
- -- : gtext (..., PROP, VAL, ...)
- -- : H = gtext (...)
-     Place text on the current figure using the mouse.
-
-     The text is defined by the string S.  If S is a cell string
-     organized as a row vector then each string of the cell array is
-     written to a separate line.  If S is organized as a column vector
-     then one string element of the cell array is placed for every mouse
-     click.
-
-     Optional property/value pairs are passed directly to the underlying
-     text objects.
-
-     The optional return value H is a graphics handle to the created
-     text object(s).
-
-     See also: *note ginput: XREFginput, *note text: XREFtext.
-
-   More sophisticated user interaction mechanisms can be obtained using
-the ui* family of functions, *note UI Elements::.
-
-
-File: octave.info,  Node: Test Plotting Functions,  Prev: Interacting with Plots,  Up: High-Level Plotting
-
-15.2.11 Test Plotting Functions
--------------------------------
-
-The functions ‘sombrero’ and ‘peaks’ provide a way to check that
-plotting is working.  Typing either ‘sombrero’ or ‘peaks’ at the Octave
-prompt should display a three-dimensional plot.
-
- -- : sombrero ()
- -- : sombrero (N)
- -- : Z = sombrero (...)
- -- : [X, Y, Z] = sombrero (...)
-     Plot the familiar 3-D sombrero function.
-
-     The function plotted is
-
-          z = sin (sqrt (x^2 + y^2)) / (sqrt (x^2 + y^2))
-
-     Called without a return argument, ‘sombrero’ plots the surface of
-     the above function over the meshgrid [-8,8] using ‘surf’.
-
-     If N is a scalar the plot is made with N grid lines.  The default
-     value for N is 41.
-
-     When called with output arguments, return the data for the function
-     evaluated over the meshgrid.  This can subsequently be plotted with
-     ‘surf (X, Y, Z)’.
-
-     See also: *note peaks: XREFpeaks, *note meshgrid: XREFmeshgrid,
-     *note mesh: XREFmesh, *note surf: XREFsurf.
-
- -- : peaks ()
- -- : peaks (N)
- -- : peaks (X, Y)
- -- : Z = peaks (...)
- -- : [X, Y, Z] = peaks (...)
-     Plot a function with lots of local maxima and minima.
-
-     The function has the form
-
-     f(x,y) = 3*(1-x)^2*exp(-x^2 - (y+1)^2) ...
-              - 10*(x/5 - x^3 - y^5)*exp(-x^2-y^2) ...
-              - 1/3*exp(-(x+1)^2 - y^2)
-
-     Called without a return argument, ‘peaks’ plots the surface of the
-     above function using ‘surf’.
-
-     If N is a scalar, ‘peaks’ plots the value of the above function on
-     an N-by-N mesh over the range [-3,3].  The default value for N is
-     49.
-
-     If N is a vector, then it represents the grid values over which to
-     calculate the function.  If X and Y are specified then the function
-     value is calculated over the specified grid of vertices.
-
-     When called with output arguments, return the data for the function
-     evaluated over the meshgrid.  This can subsequently be plotted with
-     ‘surf (X, Y, Z)’.
-
-     See also: *note sombrero: XREFsombrero, *note meshgrid:
-     XREFmeshgrid, *note mesh: XREFmesh, *note surf: XREFsurf.
-
-
-File: octave.info,  Node: Graphics Data Structures,  Next: Advanced Plotting,  Prev: High-Level Plotting,  Up: Plotting
-
-15.3 Graphics Data Structures
-=============================
-
-* Menu:
-
-* Introduction to Graphics Structures::
-* Graphics Objects::
-* Graphics Object Properties::
-* Searching Properties::
-* Managing Default Properties::
-
-
-File: octave.info,  Node: Introduction to Graphics Structures,  Next: Graphics Objects,  Up: Graphics Data Structures
-
-15.3.1 Introduction to Graphics Structures
-------------------------------------------
-
-The graphics functions use pointers, which are of class graphics_handle,
-in order to address the data structures which control visual display.  A
-graphics handle may point to any one of a number of different base
-object types and these objects are the graphics data structures
-themselves.  The primitive graphic object types are: ‘figure’, ‘axes’,
-‘line’, ‘text’, ‘patch’, ‘surface’, ‘text’, ‘image’, and ‘light’.
-
-   Each of these objects has a function by the same name, and, each of
-these functions returns a graphics handle pointing to an object of the
-corresponding type.  In addition there are several functions which
-operate on properties of the graphics objects and which also return
-handles: the functions ‘plot’ and ‘plot3’ return a handle pointing to an
-object of type line, the function ‘subplot’ returns a handle pointing to
-an object of type axes, the function ‘fill’ returns a handle pointing to
-an object of type patch, the functions ‘area’, ‘bar’, ‘barh’, ‘contour’,
-‘contourf’, ‘contour3’, ‘surf’, ‘mesh’, ‘surfc’, ‘meshc’, ‘errorbar’,
-‘quiver’, ‘quiver3’, ‘scatter’, ‘scatter3’, ‘stair’, ‘stem’, ‘stem3’
-each return a handle to a complex data structure as documented in *note
-Data Sources: XREFdatasources.
-
-   The graphics objects are arranged in a hierarchy:
-
-   1.  The root is at 0.  In other words, ‘get (0)’ returns the
-properties of the root object.
-
-   2.  Below the root are ‘figure’ objects.
-
-   3.  Below the ‘figure’ objects are ‘axes’ objects.
-
-   4.  Below the ‘axes’ objects are ‘line’, ‘text’, ‘patch’, ‘surface’,
-‘image’, and ‘light’ objects.
-
-   Graphics handles may be distinguished from function handles (*note
-Function Handles::) by means of the function ‘ishandle’.  ‘ishandle’
-returns true if its argument is a handle of a graphics object.  In
-addition, a figure or axes object may be tested using ‘isfigure’ or
-‘isaxes’ respectively.  The test functions return true only if the
-argument is both a handle and of the correct type (figure or axes).
-
-   The ‘whos’ function can be used to show the object type of each
-currently defined graphics handle.  (Note: this is not true today, but
-it is, I hope, considered an error in whos.  It may be better to have
-whos just show graphics_handle as the class, and provide a new function
-which, given a graphics handle, returns its object type.  This could
-generalize the ishandle() functions and, in fact, replace them.)
-
-   The ‘get’ and ‘set’ commands are used to obtain and set the values of
-properties of graphics objects.  In addition, the ‘get’ command may be
-used to obtain property names.
-
-   For example, the property "type" of the graphics object pointed to by
-the graphics handle h may be displayed by:
-
-     get (h, "type")
-
-   The properties and their current values are returned by ‘get (h)’
-where h is a handle of a graphics object.  If only the names of the
-allowed properties are wanted they may be displayed by: ‘get (h, "")’.
-
-   Thus, for example:
-
-     h = figure ();
-     get (h, "type")
-     ans = figure
-     get (h, "");
-     error: get: ambiguous figure property name ; possible matches:
-
-     __enhanced__           hittest                resize
-     __graphics_toolkit__   integerhandle          resizefcn
-     __guidata__            interruptible          selected
-     __modified__           inverthardcopy         selectionhighlight
-     __myhandle__           keypressfcn            selectiontype
-     __plot_stream__        keyreleasefcn          tag
-     alphamap               menubar                toolbar
-     beingdeleted           mincolormap            type
-     busyaction             name                   uicontextmenu
-     buttondownfcn          nextplot               units
-     children               numbertitle            userdata
-     clipping               outerposition          visible
-     closerequestfcn        paperorientation       windowbuttondownfcn
-     color                  paperposition          windowbuttonmotionfcn
-     colormap               paperpositionmode      windowbuttonupfcn
-     createfcn              papersize              windowkeypressfcn
-     currentaxes            papertype              windowkeyreleasefcn
-     currentcharacter       paperunits             windowscrollwheelfcn
-     currentobject          parent                 windowstyle
-     currentpoint           pointer                wvisual
-     deletefcn              pointershapecdata      wvisualmode
-     dockcontrols           pointershapehotspot    xdisplay
-     doublebuffer           position               xvisual
-     filename               renderer               xvisualmode
-     handlevisibility       renderermode
-
-   The root figure has index 0.  Its properties may be displayed by:
-‘get (0, "")’.
-
-   The uses of ‘get’ and ‘set’ are further explained in *note get:
-XREFget, *note set: XREFset.
-
- -- : RES = isprop (OBJ, "PROP")
-     Return true if PROP is a property of the object OBJ.
-
-     OBJ may also be an array of objects in which case RES will be a
-     logical array indicating whether each handle has the property PROP.
-
-     For plotting, OBJ is a handle to a graphics object.  Otherwise, OBJ
-     should be an instance of a class.
-
-     See also: *note get: XREFget, *note set: XREFset, *note ismethod:
-     XREFismethod, *note isobject: XREFisobject.
-
-
-File: octave.info,  Node: Graphics Objects,  Next: Graphics Object Properties,  Prev: Introduction to Graphics Structures,  Up: Graphics Data Structures
-
-15.3.2 Graphics Objects
------------------------
-
-The hierarchy of graphics objects was explained above.  *Note
-Introduction to Graphics Structures::.  Here the specific objects are
-described, and the properties contained in these objects are discussed.
-Keep in mind that graphics objects are always referenced by “handle”.
-
-root figure
-     the top level of the hierarchy and the parent of all figure
-     objects.  The handle index of the root figure is 0.
-
-figure
-     A figure window.
-
-axes
-     A set of axes.  This object is a child of a figure object and may
-     be a parent of line, text, image, patch, surface, or light objects.
-
-line
-     A line in two or three dimensions.
-
-text
-     Text annotations.
-
-image
-     A bitmap image.
-
-patch
-     A filled polygon, currently limited to two dimensions.
-
-surface
-     A three-dimensional surface.
-
-light
-     A light object used for lighting effects on patches and surfaces.
-
-15.3.2.1 Creating Graphics Objects
-..................................
-
-You can create any graphics object primitive by calling the function of
-the same name as the object; In other words, ‘figure’, ‘axes’, ‘line’,
-‘text’, ‘image’, ‘patch’, ‘surface’, and ‘light’ functions.  These
-fundamental graphic objects automatically become children of the current
-axes object as if ‘hold on’ was in place.  Separately, axes will
-automatically become children of the current figure object and figures
-will become children of the root object 0.
-
-   If this auto-joining feature is not desired then it is important to
-call ‘newplot’ first to prepare a new figure and axes for plotting.
-Alternatively, the easier way is to call a high-level graphics routine
-which will both create the plot and then populate it with low-level
-graphics objects.  Instead of calling ‘line’, use ‘plot’.  Or use ‘surf’
-instead of ‘surface’.  Or use ‘fill’ instead of ‘patch’.
-
- -- : axes ()
- -- : axes (PROPERTY, VALUE, ...)
- -- : axes (HAX)
- -- : H = axes (...)
-     Create an axes object and return a handle to it, or set the current
-     axes to HAX.
-
-     Called without any arguments, or with PROPERTY/VALUE pairs,
-     construct a new axes.  For accepted properties and corresponding
-     values, *note set: XREFset.
-
-     Called with a single axes handle argument HAX, the function makes
-     HAX the current axes.  It also restacks the axes in the
-     corresponding figure so that HAX is the first entry in the list of
-     children.  This causes HAX to be displayed on top of any other axes
-     objects (Z-order stacking).
-
-     See also: *note gca: XREFgca, *note set: XREFset, *note get:
-     XREFget.
-
- -- : line ()
- -- : line (X, Y)
- -- : line (X, Y, PROPERTY, VALUE, ...)
- -- : line (X, Y, Z)
- -- : line (X, Y, Z, PROPERTY, VALUE, ...)
- -- : line (PROPERTY, VALUE, ...)
- -- : line (HAX, ...)
- -- : H = line (...)
-     Create line object from X and Y (and possibly Z) and insert in the
-     current axes.
-
-     Multiple property-value pairs may be specified for the line object,
-     but they must appear in pairs.
-
-     If the first argument HAX is an axes handle, then plot into this
-     axes, rather than the current axes returned by ‘gca’.
-
-     The optional return value H is a graphics handle (or vector of
-     handles) to the line objects created.
-
-     See also: *note image: XREFimage, *note patch: XREFpatch, *note
-     rectangle: XREFrectangle, *note surface: XREFsurface, *note text:
-     XREFtext.
-
- -- : patch ()
- -- : patch (X, Y, C)
- -- : patch (X, Y, Z, C)
- -- : patch ("Faces", FACES, "Vertices", VERTS, ...)
- -- : patch (..., PROP, VAL, ...)
- -- : patch (..., PROPSTRUCT, ...)
- -- : patch (HAX, ...)
- -- : H = patch (...)
-     Create patch object in the current axes with vertices at locations
-     (X, Y) and of color C.
-
-     If the vertices are matrices of size MxN then each polygon patch
-     has M vertices and a total of N polygons will be created.  If some
-     polygons do not have M vertices use NaN to represent "no vertex".
-     If the Z input is present then 3-D patches will be created.
-
-     The color argument C can take many forms.  To create polygons which
-     all share a single color use a string value (e.g., "r" for red), a
-     scalar value which is scaled by ‘caxis’ and indexed into the
-     current colormap, or a 3-element RGB vector with the precise
-     TrueColor.
-
-     If C is a vector of length N then the ith polygon will have a color
-     determined by scaling entry C(i) according to ‘caxis’ and then
-     indexing into the current colormap.  More complicated coloring
-     situations require directly manipulating patch property/value
-     pairs.
-
-     Instead of specifying polygons by matrices X and Y, it is possible
-     to present a unique list of vertices and then a list of polygon
-     faces created from those vertices.  In this case the "Vertices"
-     matrix will be an Nx2 (2-D patch) or Nx3 (3-D patch).  The MxN
-     "Faces" matrix describes M polygons having N vertices—each row
-     describes a single polygon and each column entry is an index into
-     the "Vertices" matrix to identify a vertex.  The patch object can
-     be created by directly passing the property/value pairs
-     "Vertices"/VERTS, "Faces"/FACES as inputs.
-
-     Instead of using property/value pairs, any property can be set by
-     passing a structure PROPSTRUCT with the respective field names.
-
-     If the first argument HAX is an axes handle, then plot into this
-     axes, rather than the current axes returned by ‘gca’.
-
-     The optional return value H is a graphics handle to the created
-     patch object.
-
-     Implementation Note: Patches are highly configurable objects.  To
-     truly customize them requires setting patch properties directly.
-     Useful patch properties are: "cdata", "edgecolor", "facecolor",
-     "faces", "facevertexcdata".
-
-     See also: *note fill: XREFfill, *note get: XREFget, *note set:
-     XREFset.
-
- -- : surface (X, Y, Z, C)
- -- : surface (X, Y, Z)
- -- : surface (Z, C)
- -- : surface (Z)
- -- : surface (..., PROP, VAL, ...)
- -- : surface (HAX, ...)
- -- : H = surface (...)
-     Create a surface graphic object given matrices X and Y from
-     ‘meshgrid’ and a matrix of values Z corresponding to the X and Y
-     coordinates of the surface.
-
-     If X and Y are vectors, then a typical vertex is (X(j), Y(i),
-     Z(i,j)).  Thus, columns of Z correspond to different X values and
-     rows of Z correspond to different Y values.  If only a single input
-     Z is given then X is taken to be ‘1:columns (Z)’ and Y is ‘1:rows
-     (Z)’.
-
-     Any property/value input pairs are assigned to the surface object.
-
-     If the first argument HAX is an axes handle, then plot into this
-     axes, rather than the current axes returned by ‘gca’.
-
-     The optional return value H is a graphics handle to the created
-     surface object.
-
-     See also: *note surf: XREFsurf, *note mesh: XREFmesh, *note patch:
-     XREFpatch, *note line: XREFline.
-
- -- : light ()
- -- : light (..., "PROP", VAL, ...)
- -- : light (HAX, ...)
- -- : H = light (...)
-     Create a light object in the current axes or for axes HAX.
-
-     When a light object is present in an axes object, and the
-     properties "EdgeLighting" or "FaceLighting" of a ‘patch’ or
-     ‘surface’ object are set to a value other than "none", these
-     objects are drawn with light and shadow effects.  Supported values
-     for Lighting properties are "none" (no lighting effects), "flat"
-     (faceted look of the objects), and "gouraud" (linear interpolation
-     of the lighting effects between the vertices).  For ‘patch’
-     objects, the normals must be set manually (property
-     "VertexNormals").
-
-     Up to eight light objects are supported per axes.
-
-     Lighting is only supported for OpenGL graphic toolkits (i.e.,
-     "fltk" and "qt").
-
-     A light object has the following properties which alter the
-     appearance of the plot.
-
-     "Color": The color of the light can be passed as an
-          RGB-vector (e.g., ‘[1 0 0]’ for red) or as a string (e.g., "r"
-          for red).  The default color is white (‘[1 1 1]’).
-
-     "Position": The direction from which the light emanates as a
-          1x3-vector.  The default direction is ‘[1 0 1]’.
-
-     "Style": This string defines whether the light emanates from a
-          light source at infinite distance ("infinite") or from a local
-          point source ("local").  The default is "infinite".
-
-     If the first argument HAX is an axes handle, then add the light
-     object to this axes, rather than the current axes returned by
-     ‘gca’.
-
-     The optional return value H is a graphics handle to the created
-     light object.
-
-     See also: *note lighting: XREFlighting, *note material:
-     XREFmaterial, *note patch: XREFpatch, *note surface: XREFsurface.
-
-15.3.2.2 Handle Functions
-.........................
-
-To determine whether a variable is a graphics object index, or an index
-to an axes or figure, use the functions ‘ishandle’, ‘isaxes’, and
-‘isfigure’.
-
- -- : ishandle (H)
-     Return true if H is a graphics handle and false otherwise.
-
-     H may also be a matrix of handles in which case a logical array is
-     returned that is true where the elements of H are graphics handles
-     and false where they are not.
-
-     See also: *note isaxes: XREFisaxes, *note isfigure: XREFisfigure.
-
- -- : ishghandle (H)
- -- : ishghandle (H, TYPE)
-     Return true if H is a graphics handle (of type TYPE) and false
-     otherwise.
-
-     When no TYPE is specified the function is equivalent to ‘ishandle’.
-
-     See also: *note ishandle: XREFishandle.
-
- -- : isaxes (H)
-     Return true if H is an axes graphics handle and false otherwise.
-
-     If H is a matrix then return a logical array which is true where
-     the elements of H are axes graphics handles and false where they
-     are not.
-
-     See also: *note isaxes: XREFisaxes, *note ishandle: XREFishandle.
-
- -- : isfigure (H)
-     Return true if H is a figure graphics handle and false otherwise.
-
-     If H is a matrix then return a logical array which is true where
-     the elements of H are figure graphics handles and false where they
-     are not.
-
-     See also: *note isaxes: XREFisaxes, *note ishandle: XREFishandle.
-
-   The function ‘gcf’ returns an index to the current figure object, or
-creates one if none exists.  Similarly, ‘gca’ returns the current axes
-object, or creates one (and its parent figure object) if none exists.
-
- -- : H = gcf ()
-     Return a handle to the current figure.
-
-     The current figure is the default target for graphics output.  If
-     multiple figures exist, ‘gcf’ returns the last created figure or
-     the last figure that was clicked on with the mouse.
-
-     If a current figure does not exist, create one and return its
-     handle.  The handle may then be used to examine or set properties
-     of the figure.  For example,
-
-          fplot (@sin, [-10, 10]);
-          fig = gcf ();
-          set (fig, "numbertitle", "off", "name", "sin plot")
-
-     plots a sine wave, finds the handle of the current figure, and then
-     renames the figure window to describe the contents.
-
-     Note: To find the current figure without creating a new one if it
-     does not exist, query the "CurrentFigure" property of the root
-     graphics object.
-
-          get (0, "currentfigure");
-
-     See also: *note gca: XREFgca, *note gco: XREFgco, *note gcbf:
-     XREFgcbf, *note gcbo: XREFgcbo, *note get: XREFget, *note set:
-     XREFset.
-
- -- : H = gca ()
-     Return a handle to the current axes object.
-
-     The current axes is the default target for graphics output.  In the
-     case of a figure with multiple axes, ‘gca’ returns the last created
-     axes or the last axes that was clicked on with the mouse.
-
-     If no current axes object exists, create one and return its handle.
-     The handle may then be used to examine or set properties of the
-     axes.  For example,
-
-          ax = gca ();
-          set (ax, "position", [0.5, 0.5, 0.5, 0.5]);
-
-     creates an empty axes object and then changes its location and size
-     in the figure window.
-
-     Note: To find the current axes without creating a new axes object
-     if it does not exist, query the "CurrentAxes" property of a figure.
-
-          get (gcf, "currentaxes");
-
-     See also: *note gcf: XREFgcf, *note gco: XREFgco, *note gcbf:
-     XREFgcbf, *note gcbo: XREFgcbo, *note get: XREFget, *note set:
-     XREFset.
-
- -- : H = gco ()
- -- : H = gco (FIG)
-     Return a handle to the current object of the current figure, or a
-     handle to the current object of the figure with handle FIG.
-
-     The current object of a figure is the object that was last clicked
-     on.  It is stored in the "CurrentObject" property of the target
-     figure.
-
-     If the last mouse click did not occur on any child object of the
-     figure, then the current object is the figure itself.
-
-     If no mouse click occurred in the target figure, this function
-     returns an empty matrix.
-
-     Programming Note: The value returned by this function is not
-     necessarily the same as the one returned by ‘gcbo’ during callback
-     execution.  An executing callback can be interrupted by another
-     callback and the current object may be changed.
-
-     See also: *note gcbo: XREFgcbo, *note gca: XREFgca, *note gcf:
-     XREFgcf, *note gcbf: XREFgcbf, *note get: XREFget, *note set:
-     XREFset.
-
-   The ‘get’ and ‘set’ functions may be used to examine and set
-properties for graphics objects.  For example,
-
-     get (0)
-         ⇒ ans =
-            {
-              type = root
-              currentfigure = [](0x0)
-              children = [](0x0)
-              visible = on
-              ...
-            }
-
-returns a structure containing all the properties of the root figure.
-As with all functions in Octave, the structure is returned by value, so
-modifying it will not modify the internal root figure plot object.  To
-do that, you must use the ‘set’ function.  Also, note that in this case,
-the ‘currentfigure’ property is empty, which indicates that there is no
-current figure window.
-
-   The ‘get’ function may also be used to find the value of a single
-property.  For example,
-
-     get (gca (), "xlim")
-         ⇒ [ 0 1 ]
-
-returns the range of the x-axis for the current axes object in the
-current figure.
-
-   To set graphics object properties, use the set function.  For
-example,
-
-     set (gca (), "xlim", [-10, 10]);
-
-sets the range of the x-axis for the current axes object in the current
-figure to ‘[-10, 10]’.
-
-   Default property values can also be queried if the ‘set’ function is
-called without a value argument.  When only one argument is given (a
-graphic handle) then a structure with defaults for all properties of the
-given object type is returned.  For example,
-
-     set (gca ())
-
-returns a structure containing the default property values for axes
-objects.  If ‘set’ is called with two arguments (a graphic handle and a
-property name) then only the defaults for the requested property are
-returned.
-
- -- : VAL = get (H)
- -- : VAL = get (H, P)
-     Return the value of the named property P from the graphics handle
-     H.
-
-     If P is omitted, return the complete property list for H.
-
-     If H is a vector, return a cell array including the property values
-     or lists respectively.
-
-     See also: *note set: XREFset.
-
- -- : set (H, PROPERTY, VALUE, ...)
- -- : set (H, PROPERTIES, VALUES)
- -- : set (H, PV)
- -- : VALUE_LIST = set (H, PROPERTY)
- -- : ALL_VALUE_LIST = set (H)
-     Set named property values for the graphics handle (or vector of
-     graphics handles) H.
-
-     There are three ways to give the property names and values:
-
-        • as a comma separated list of PROPERTY, VALUE pairs
-
-          Here, each PROPERTY is a string containing the property name,
-          each VALUE is a value of the appropriate type for the
-          property.
-
-        • as a cell array of strings PROPERTIES containing property
-          names and a cell array VALUES containing property values.
-
-          In this case, the number of columns of VALUES must match the
-          number of elements in PROPERTIES.  The first column of VALUES
-          contains values for the first entry in PROPERTIES, etc.  The
-          number of rows of VALUES must be 1 or match the number of
-          elements of H.  In the first case, each handle in H will be
-          assigned the same values.  In the latter case, the first
-          handle in H will be assigned the values from the first row of
-          VALUES and so on.
-
-        • as a structure array PV
-
-          Here, the field names of PV represent the property names, and
-          the field values give the property values.  In contrast to the
-          previous case, all elements of PV will be set in all handles
-          in H independent of the dimensions of PV.
-
-     ‘set’ is also used to query the list of values a named property
-     will take.  ‘CLIST = set (H, "property")’ will return the list of
-     possible values for "property" in the cell list CLIST.  If no
-     output variable is used then the list is formatted and printed to
-     the screen.
-
-     If no property is specified (‘SLIST = set (H)’) then a structure
-     SLIST is returned where the fieldnames are the properties of the
-     object H and the fields are the list of possible values for each
-     property.  If no output variable is used then the list is formatted
-     and printed to the screen.
-
-     For example,
-
-          hf = figure ();
-          set (hf, "paperorientation")
-          ⇒  paperorientation:  [ landscape | {portrait} | rotated ]
-
-     shows the paperorientation property can take three values with the
-     default being "portrait".
-
-     See also: *note get: XREFget.
-
- -- : PARENT = ancestor (H, TYPE)
- -- : PARENT = ancestor (H, TYPE, "toplevel")
-     Return the first ancestor of handle object H whose type matches
-     TYPE, where TYPE is a character string.
-
-     If TYPE is a cell array of strings, return the first parent whose
-     type matches any of the given type strings.
-
-     If the handle object H itself is of type TYPE, return H.
-
-     If "toplevel" is given as a third argument, return the highest
-     parent in the object hierarchy that matches the condition, instead
-     of the first (nearest) one.
-
-     See also: *note findobj: XREFfindobj, *note findall: XREFfindall,
-     *note allchild: XREFallchild.
-
- -- : H = allchild (HANDLES)
-     Find all children, including hidden children, of a graphics object.
-
-     This function is similar to ‘get (h, "children")’, but also returns
-     hidden objects (HandleVisibility = "off").
-
-     If HANDLES is a scalar, H will be a vector.  Otherwise, H will be a
-     cell matrix of the same size as HANDLES and each cell will contain
-     a vector of handles.
-
-     See also: *note findall: XREFfindall, *note findobj: XREFfindobj,
-     *note get: XREFget, *note set: XREFset.
-
- -- : findfigs ()
-     Find all visible figures that are currently off the screen and move
-     them onto the screen.
-
-     See also: *note allchild: XREFallchild, *note figure: XREFfigure,
-     *note get: XREFget, *note set: XREFset.
-
-   Figures can be printed or saved in many graphics formats with ‘print’
-and ‘saveas’.  Occasionally, however, it may be useful to save the
-original Octave handle graphic directly so that further modifications
-can be made such as modifying a title or legend.
-
-   This can be accomplished with the following functions by
-
-     fig_struct = hdl2struct (gcf);
-     save myplot.fig -struct fig_struct;
-     ...
-     fig_struct = load ("myplot.fig");
-     struct2hdl (fig_struct);
-
- -- : S = hdl2struct (H)
-     Return a structure, S, whose fields describe the properties of the
-     object, and its children, associated with the handle, H.
-
-     The fields of the structure S are "type", "handle", "properties",
-     "children", and "special".
-
-     See also: *note struct2hdl: XREFstruct2hdl, *note hgsave:
-     XREFhgsave, *note findobj: XREFfindobj.
-
- -- : H = struct2hdl (S)
- -- : H = struct2hdl (S, P)
- -- : H = struct2hdl (S, P, HILEV)
-     Construct a graphics handle object H from the structure S.
-
-     The structure must contain the fields "handle", "type", "children",
-     "properties", and "special".
-
-     If the handle of an existing figure or axes is specified, P, the
-     new object will be created as a child of that object.  If no parent
-     handle is provided then a new figure and the necessary children
-     will be constructed using the default values from the root figure.
-
-     A third boolean argument HILEV can be passed to specify whether the
-     function should preserve listeners/callbacks, e.g., for legends or
-     hggroups.  The default is false.
-
-     See also: *note hdl2struct: XREFhdl2struct, *note hgload:
-     XREFhgload, *note findobj: XREFfindobj.
-
- -- : HNEW = copyobj (HORIG)
- -- : HNEW = copyobj (HORIG, HPARENT)
-     Construct a copy of the graphic objects associated with the handles
-     HORIG and return new handles HNEW to the new objects.
-
-     If a parent handle HPARENT (root, figure, axes, or hggroup) is
-     specified, the copied object will be created as a child of HPARENT.
-
-     If HORIG is a vector of handles, and HPARENT is a scalar, then each
-     handle in the vector HNEW has its "Parent" property set to HPARENT.
-     Conversely, if HORIG is a scalar and HPARENT a vector, then each
-     parent object will receive a copy of HORIG.  If HORIG and HPARENT
-     are both vectors with the same number of elements then ‘HNEW(i)’
-     will have parent ‘HPARENT(i)’.
-
-     See also: *note struct2hdl: XREFstruct2hdl, *note hdl2struct:
-     XREFhdl2struct, *note findobj: XREFfindobj.
 

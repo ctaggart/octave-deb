@@ -14,7 +14,7 @@
 <link href="Concept-Index.html#Concept-Index" rel="index" title="Concept Index">
 <link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
 <link href="Calling-Functions.html#Calling-Functions" rel="up" title="Calling Functions">
-<link href="Arithmetic-Ops.html#Arithmetic-Ops" rel="next" title="Arithmetic Ops">
+<link href="Access-via-Handle.html#Access-via-Handle" rel="next" title="Access via Handle">
 <link href="Call-by-Value.html#Call-by-Value" rel="prev" title="Call by Value">
 <style type="text/css">
 <!--
@@ -52,7 +52,7 @@ ul.no-bullet {list-style: none}
 <a name="Recursion"></a>
 <div class="header">
 <p>
-Previous: <a href="Call-by-Value.html#Call-by-Value" accesskey="p" rel="prev">Call by Value</a>, Up: <a href="Calling-Functions.html#Calling-Functions" accesskey="u" rel="up">Calling Functions</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Concept-Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+Next: <a href="Access-via-Handle.html#Access-via-Handle" accesskey="n" rel="next">Access via Handle</a>, Previous: <a href="Call-by-Value.html#Call-by-Value" accesskey="p" rel="prev">Call by Value</a>, Up: <a href="Calling-Functions.html#Calling-Functions" accesskey="u" rel="up">Calling Functions</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Concept-Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
 </div>
 <hr>
 <a name="Recursion-1"></a>
@@ -81,11 +81,16 @@ the recursion ends.
 </p>
 <p>The built-in variable <code>max_recursion_depth</code> specifies a limit to
 the recursion depth and prevents Octave from recursing infinitely.
+Similarly, the variable <code>max_stack_depth</code> specifies a limit to the
+depth of function calls, whether recursive or not.  These limits help
+prevent stack overflow on the computer Octave is running on, so that
+instead of exiting with a signal, the interpreter will throw an error
+and return to the command prompt.
 </p>
 <a name="XREFmax_005frecursion_005fdepth"></a><dl>
-<dt><a name="index-max_005frecursion_005fdepth"></a>: <em><var>val</var> =</em> <strong>max_recursion_depth</strong> <em>()</em></dt>
-<dt><a name="index-max_005frecursion_005fdepth-1"></a>: <em><var>old_val</var> =</em> <strong>max_recursion_depth</strong> <em>(<var>new_val</var>)</em></dt>
-<dt><a name="index-max_005frecursion_005fdepth-2"></a>: <em></em> <strong>max_recursion_depth</strong> <em>(<var>new_val</var>, &quot;local&quot;)</em></dt>
+<dt><a name="index-max_005frecursion_005fdepth"></a><em><var>val</var> =</em> <strong>max_recursion_depth</strong> <em>()</em></dt>
+<dt><a name="index-max_005frecursion_005fdepth-1"></a><em><var>old_val</var> =</em> <strong>max_recursion_depth</strong> <em>(<var>new_val</var>)</em></dt>
+<dt><a name="index-max_005frecursion_005fdepth-2"></a><em></em> <strong>max_recursion_depth</strong> <em>(<var>new_val</var>, &quot;local&quot;)</em></dt>
 <dd><p>Query or set the internal limit on the number of times a function may
 be called recursively.
 </p>
@@ -95,6 +100,28 @@ the top level.
 <p>When called from inside a function with the <code>&quot;local&quot;</code> option, the
 variable is changed locally for the function and any subroutines it calls.
 The original variable value is restored when exiting the function.
+</p>
+
+<p><strong>See also:</strong> <a href="#XREFmax_005fstack_005fdepth">max_stack_depth</a>.
+</p></dd></dl>
+
+
+<a name="XREFmax_005fstack_005fdepth"></a><dl>
+<dt><a name="index-max_005fstack_005fdepth"></a><em><var>val</var> =</em> <strong>max_stack_depth</strong> <em>()</em></dt>
+<dt><a name="index-max_005fstack_005fdepth-1"></a><em><var>old_val</var> =</em> <strong>max_stack_depth</strong> <em>(<var>new_val</var>)</em></dt>
+<dt><a name="index-max_005fstack_005fdepth-2"></a><em></em> <strong>max_stack_depth</strong> <em>(<var>new_val</var>, &quot;local&quot;)</em></dt>
+<dd><p>Query or set the internal limit on the number of times a function may
+be called recursively.
+</p>
+<p>If the limit is exceeded, an error message is printed and control returns to
+the top level.
+</p>
+<p>When called from inside a function with the <code>&quot;local&quot;</code> option, the
+variable is changed locally for the function and any subroutines it calls.
+The original variable value is restored when exiting the function.
+</p>
+
+<p><strong>See also:</strong> <a href="#XREFmax_005frecursion_005fdepth">max_recursion_depth</a>.
 </p></dd></dl>
 
 
@@ -115,6 +142,11 @@ in an error.</p>
 much better to use <code>prod (1:n)</code>, or <code>gamma (n+1)</code> instead,
 after first checking to ensure that the value <code>n</code> is actually a
 positive integer.</p>
+</div>
+<hr>
+<div class="header">
+<p>
+Next: <a href="Access-via-Handle.html#Access-via-Handle" accesskey="n" rel="next">Access via Handle</a>, Previous: <a href="Call-by-Value.html#Call-by-Value" accesskey="p" rel="prev">Call by Value</a>, Up: <a href="Calling-Functions.html#Calling-Functions" accesskey="u" rel="up">Calling Functions</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Concept-Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
 </div>
 
 

@@ -1,20 +1,20 @@
-## Copyright (C) 2000-2017 Paul Kienzle
+## Copyright (C) 2000-2018 Paul Kienzle
 ##
 ## This file is part of Octave.
 ##
-## Octave is free software; you can redistribute it and/or modify it
+## Octave is free software: you can redistribute it and/or modify it
 ## under the terms of the GNU General Public License as published by
-## the Free Software Foundation; either version 3 of the License, or (at
-## your option) any later version.
+## the Free Software Foundation, either version 3 of the License, or
+## (at your option) any later version.
 ##
 ## Octave is distributed in the hope that it will be useful, but
 ## WITHOUT ANY WARRANTY; without even the implied warranty of
-## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-## General Public License for more details.
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU General Public License for more details.
 ##
 ## You should have received a copy of the GNU General Public License
 ## along with Octave; see the file COPYING.  If not, see
-## <http://www.gnu.org/licenses/>.
+## <https://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
 ## @deftypefn  {} {} speed (@var{f}, @var{init}, @var{max_n}, @var{f2}, @var{tol})
@@ -143,6 +143,10 @@
 ## Type @kbd{example ("speed")} to see some real examples or
 ## @kbd{demo ("speed")} to run them.
 ## @end deftypefn
+
+## Programming Note: All variables for speed() must use the internal prefix "__".
+## Shared variables are eval'ed into the current workspace and therefore might
+## collide with the names used in the speed.m function itself.
 
 ## FIXME: consider two dimensional speedup surfaces for functions like kron.
 function [__order, __test_n, __tnew, __torig] = speed (__f1, __init, __max_n = 100, __f2 = "", __tol = eps)
@@ -410,11 +414,10 @@ endfunction
 %! disp ("This time, the for loop is done away with entirely.");
 %! disp ("Notice how much bigger the speedup is than in example 1.");
 
-## FIXME: Tests are known to fail on operating systems with low resolution
-##        timers such as MinGW.  Therefore, tests are made xtests so that false
-##        failures are not reported.  However, it might be better to either
+## FIXME: Tests may fail on operating systems with low resolution timers such
+##        as MinGW.  If a failure is reported, it might be better to either
 ##        force the tests to do more work, or use %!testif to check the OS.
-%!xtest
+%!test
 %! [order, n, T_f1, T_f2] = speed ("airy (x)", "x = rand (n, 10)", [100, 1000]);
 %! assert (isstruct (order));
 %! assert (size (order), [1, 1]);
@@ -426,7 +429,7 @@ endfunction
 %! assert (isnumeric (T_f2));
 %! assert (length (T_f2) > 10);
 
-%!xtest
+%!test
 %! [order, n, T_f1, T_f2] = speed ("sum (x)", "", [100, 1000], "v = 0; for i = 1:length (x), v += x(i); endfor");
 %! assert (isstruct (order));
 %! assert (size (order), [1, 1]);

@@ -74,27 +74,39 @@ The options for this class of methods are set using the functions.
 <li> Runge-Kutta methods
 
 <ul>
-<li> <code>ode45</code> Integrates a system of non&ndash;stiff ordinary differential equations
-    (non&ndash;stiff ODEs and DAEs) using second order Dormand-Prince
-    method.  This is a fourth&ndash;order accurate integrator therefore the local
-    error normally expected is <em>O(h^5)</em>.  This solver requires six
-    function evaluations per integration step.
+<li> <code>ode23</code> integrates a system of non-stiff ordinary differential
+    equations (ODEs) or index-1 differential-algebraic equations (DAEs).  It
+    uses the third-order Bogacki-Shampine method and adapts the local
+    step size in order to satisfy a user-specified tolerance.  The solver
+    requires three function evaluations per integration step.
 
-</li><li> <code>ode23</code> Integrates a system of non&ndash;stiff ordinary differential equations
-    (non-stiff ODEs and DAEs) using second order Bogacki-Shampine
-    method.  This is a second-order accurate integrator therefore the local
-    error normally expected is <em>O(h^3)</em>.  This solver requires three
-    function evaluations per integration step.
+</li><li> <code>ode45</code> integrates a system of non-stiff ODEs (or index-1 DAEs)
+    using the high-order, variable-step Dormand-Prince method.  It
+    requires six function evaluations per integration step, but may
+    take larger steps on smooth problems than <code>ode23</code>: potentially
+    offering improved efficiency at smaller tolerances.
+  </li></ul>
+
+</li><li> Linear multistep methods
+
+<ul>
+<li> <code>ode15s</code> integrates a system of stiff ODEs (or index-1 DAEs)
+    using a variable step, variable order method based on Backward Difference
+    Formulas (BDF).
+
+</li><li> <code>ode15i</code> integrates a system of fully-implicit ODEs (or index-1
+    DAEs) using the same variable step, variable order method as <code>ode15s</code>.
+    The function <code>decic</code> can be used to compute consistent initial
+    conditions.
   </li></ul>
 </li></ul>
 
-
 <a name="XREFode45"></a><dl>
-<dt><a name="index-ode45"></a>: <em>[<var>t</var>, <var>y</var>] =</em> <strong>ode45</strong> <em>(<var>fun</var>, <var>trange</var>, <var>init</var>)</em></dt>
-<dt><a name="index-ode45-1"></a>: <em>[<var>t</var>, <var>y</var>] =</em> <strong>ode45</strong> <em>(<var>fun</var>, <var>trange</var>, <var>init</var>, <var>ode_opt</var>)</em></dt>
-<dt><a name="index-ode45-2"></a>: <em>[<var>t</var>, <var>y</var>, <var>te</var>, <var>ye</var>, <var>ie</var>] =</em> <strong>ode45</strong> <em>(&hellip;)</em></dt>
-<dt><a name="index-ode45-3"></a>: <em><var>solution</var> =</em> <strong>ode45</strong> <em>(&hellip;)</em></dt>
-<dt><a name="index-ode45-4"></a>: <em></em> <strong>ode45</strong> <em>(&hellip;)</em></dt>
+<dt><a name="index-ode45"></a><em>[<var>t</var>, <var>y</var>] =</em> <strong>ode45</strong> <em>(<var>fun</var>, <var>trange</var>, <var>init</var>)</em></dt>
+<dt><a name="index-ode45-1"></a><em>[<var>t</var>, <var>y</var>] =</em> <strong>ode45</strong> <em>(<var>fun</var>, <var>trange</var>, <var>init</var>, <var>ode_opt</var>)</em></dt>
+<dt><a name="index-ode45-2"></a><em>[<var>t</var>, <var>y</var>, <var>te</var>, <var>ye</var>, <var>ie</var>] =</em> <strong>ode45</strong> <em>(&hellip;)</em></dt>
+<dt><a name="index-ode45-3"></a><em><var>solution</var> =</em> <strong>ode45</strong> <em>(&hellip;)</em></dt>
+<dt><a name="index-ode45-4"></a><em></em> <strong>ode45</strong> <em>(&hellip;)</em></dt>
 <dd>
 <p>Solve a set of non-stiff Ordinary Differential Equations (non-stiff ODEs)
 with the well known explicit Dormand-Prince method of order 4.
@@ -112,8 +124,8 @@ instances.
 </p>
 <p>By default, <code>ode45</code> uses an adaptive timestep with the
 <code>integrate_adaptive</code> algorithm.  The tolerance for the timestep
-computation may be changed by using the options <code>&quot;RelTol&quot;</code>
-and <code>&quot;AbsTol&quot;</code>.
+computation may be changed by using the options <code>&quot;RelTol&quot;</code> and
+<code>&quot;AbsTol&quot;</code>.
 </p>
 <p><var>init</var> contains the initial value for the unknowns.  If it is a row
 vector then the solution <var>y</var> will be a matrix in which each column is
@@ -127,20 +139,20 @@ column vector and contains the times where the solution was found.  The
 output <var>y</var> is a matrix in which each column refers to a different
 unknown of the problem and each row corresponds to a time in <var>t</var>.
 </p>
-<p>The output can also be returned as a structure <var>solution</var> which
-has a field <var>x</var> containing a row vector of times where the solution
-was evaluated and a field <var>y</var> containing the solution matrix such
-that each column corresponds to a time in <var>x</var>.
-Use <code>fieldnames (<var>solution</var>)</code> to see the other fields and
+<p>The output can also be returned as a structure <var>solution</var> which has a
+field <var>x</var> containing a row vector of times where the solution was
+evaluated and a field <var>y</var> containing the solution matrix such that each
+column corresponds to a time in <var>x</var>.  Use
+<code>fieldnames&nbsp;(<var>solution</var>)</code><!-- /@w --> to see the other fields and
 additional information returned.
 </p>
-<p>If no output arguments are requested, and no <code>OutputFcn</code> is
-specified in <var>ode_opt</var>, then the <code>OutputFcn</code> is set to
-<code>odeplot</code> and the results of the solver are plotted immediately.
+<p>If no output arguments are requested, and no <code>OutputFcn</code> is specified
+in <var>ode_opt</var>, then the <code>OutputFcn</code> is set to <code>odeplot</code> and the
+results of the solver are plotted immediately.
 </p>
-<p>If using the <code>&quot;Events&quot;</code> option then three additional outputs may
-be returned.  <var>te</var> holds the time when an Event function returned a
-zero.  <var>ye</var> holds the value of the solution at time <var>te</var>.  <var>ie</var>
+<p>If using the <code>&quot;Events&quot;</code> option then three additional outputs may be
+returned.  <var>te</var> holds the time when an Event function returned a zero.
+<var>ye</var> holds the value of the solution at time <var>te</var>.  <var>ie</var>
 contains an index indicating which Event function was triggered in the case
 of multiple Event functions.
 </p>
@@ -151,21 +163,19 @@ of multiple Event functions.
 [<var>t</var>,<var>y</var>] = ode45 (fvdp, [0, 20], [2, 0]);
 </pre></div>
 
-<p><strong>See also:</strong> <a href="#XREFodeset">odeset</a>, <a href="#XREFodeget">odeget</a>, <a href="#XREFode23">ode23</a>.
+<p><strong>See also:</strong> <a href="#XREFodeset">odeset</a>, <a href="#XREFodeget">odeget</a>, <a href="#XREFode23">ode23</a>, <a href="#XREFode15s">ode15s</a>.
 </p></dd></dl>
 
 
 <a name="XREFode23"></a><dl>
-<dt><a name="index-ode23"></a>: <em>[<var>t</var>, <var>y</var>] =</em> <strong>ode23</strong> <em>(<var>fun</var>, <var>trange</var>, <var>init</var>)</em></dt>
-<dt><a name="index-ode23-1"></a>: <em>[<var>t</var>, <var>y</var>] =</em> <strong>ode23</strong> <em>(<var>fun</var>, <var>trange</var>, <var>init</var>, <var>ode_opt</var>)</em></dt>
-<dt><a name="index-ode23-2"></a>: <em>[<var>t</var>, <var>y</var>, <var>te</var>, <var>ye</var>, <var>ie</var>] =</em> <strong>ode23</strong> <em>(&hellip;)</em></dt>
-<dt><a name="index-ode23-3"></a>: <em><var>solution</var> =</em> <strong>ode23</strong> <em>(&hellip;)</em></dt>
-<dt><a name="index-ode23-4"></a>: <em></em> <strong>ode23</strong> <em>(&hellip;)</em></dt>
+<dt><a name="index-ode23"></a><em>[<var>t</var>, <var>y</var>] =</em> <strong>ode23</strong> <em>(<var>fun</var>, <var>trange</var>, <var>init</var>)</em></dt>
+<dt><a name="index-ode23-1"></a><em>[<var>t</var>, <var>y</var>] =</em> <strong>ode23</strong> <em>(<var>fun</var>, <var>trange</var>, <var>init</var>, <var>ode_opt</var>)</em></dt>
+<dt><a name="index-ode23-2"></a><em>[<var>t</var>, <var>y</var>, <var>te</var>, <var>ye</var>, <var>ie</var>] =</em> <strong>ode23</strong> <em>(&hellip;)</em></dt>
+<dt><a name="index-ode23-3"></a><em><var>solution</var> =</em> <strong>ode23</strong> <em>(&hellip;)</em></dt>
+<dt><a name="index-ode23-4"></a><em></em> <strong>ode23</strong> <em>(&hellip;)</em></dt>
 <dd>
 <p>Solve a set of non-stiff Ordinary Differential Equations (non-stiff ODEs)
 with the well known explicit Bogacki-Shampine method of order 3.
-For the definition of this method see
-<a href="http://en.wikipedia.org/wiki/List_of_Runge%E2%80%93Kutta_methods">http://en.wikipedia.org/wiki/List_of_Runge%E2%80%93Kutta_methods</a>.
 </p>
 <p><var>fun</var> is a function handle, inline function, or string containing the
 name of the function that defines the ODE: <code>y' = f(t,y)</code>.  The function
@@ -180,8 +190,8 @@ instances.
 </p>
 <p>By default, <code>ode23</code> uses an adaptive timestep with the
 <code>integrate_adaptive</code> algorithm.  The tolerance for the timestep
-computation may be changed by using the options <code>&quot;RelTol&quot;</code>
-and <code>&quot;AbsTol&quot;</code>.
+computation may be changed by using the options <code>&quot;RelTol&quot;</code> and
+<code>&quot;AbsTol&quot;</code>.
 </p>
 <p><var>init</var> contains the initial value for the unknowns.  If it is a row
 vector then the solution <var>y</var> will be a matrix in which each column is
@@ -195,20 +205,20 @@ column vector and contains the times where the solution was found.  The
 output <var>y</var> is a matrix in which each column refers to a different
 unknown of the problem and each row corresponds to a time in <var>t</var>.
 </p>
-<p>The output can also be returned as a structure <var>solution</var> which
-has a field <var>x</var> containing a row vector of times where the solution
-was evaluated and a field <var>y</var> containing the solution matrix such
-that each column corresponds to a time in <var>x</var>.
-Use <code>fieldnames (<var>solution</var>)</code> to see the other fields and
+<p>The output can also be returned as a structure <var>solution</var> which has a
+field <var>x</var> containing a row vector of times where the solution was
+evaluated and a field <var>y</var> containing the solution matrix such that each
+column corresponds to a time in <var>x</var>.  Use
+<code>fieldnames&nbsp;(<var>solution</var>)</code><!-- /@w --> to see the other fields and
 additional information returned.
 </p>
-<p>If no output arguments are requested, and no <code>OutputFcn</code> is
-specified in <var>ode_opt</var>, then the <code>OutputFcn</code> is set to
-<code>odeplot</code> and the results of the solver are plotted immediately.
+<p>If no output arguments are requested, and no <code>OutputFcn</code> is specified
+in <var>ode_opt</var>, then the <code>OutputFcn</code> is set to <code>odeplot</code> and the
+results of the solver are plotted immediately.
 </p>
-<p>If using the <code>&quot;Events&quot;</code> option then three additional outputs may
-be returned.  <var>te</var> holds the time when an Event function returned a
-zero.  <var>ye</var> holds the value of the solution at time <var>te</var>.  <var>ie</var>
+<p>If using the <code>&quot;Events&quot;</code> option then three additional outputs may be
+returned.  <var>te</var> holds the time when an Event function returned a zero.
+<var>ye</var> holds the value of the solution at time <var>te</var>.  <var>ie</var>
 contains an index indicating which Event function was triggered in the case
 of multiple Event functions.
 </p>
@@ -219,16 +229,230 @@ of multiple Event functions.
 [<var>t</var>,<var>y</var>] = ode23 (fvdp, [0, 20], [2, 0]);
 </pre></div>
 
-<p><strong>See also:</strong> <a href="#XREFodeset">odeset</a>, <a href="#XREFodeget">odeget</a>, <a href="#XREFode45">ode45</a>.
+<p>Reference: For the definition of this method see
+<a href="https://en.wikipedia.org/wiki/List_of_Runge%E2%80%93Kutta_methods">https://en.wikipedia.org/wiki/List_of_Runge%E2%80%93Kutta_methods</a>.
+</p>
+<p><strong>See also:</strong> <a href="#XREFodeset">odeset</a>, <a href="#XREFodeget">odeget</a>, <a href="#XREFode45">ode45</a>, <a href="#XREFode15s">ode15s</a>.
+</p></dd></dl>
+
+
+<a name="XREFode15s"></a><dl>
+<dt><a name="index-ode15s"></a><em>[<var>t</var>, <var>y</var>] =</em> <strong>ode15s</strong> <em>(<var>fun</var>, <var>trange</var>, <var>y0</var>)</em></dt>
+<dt><a name="index-ode15s-1"></a><em>[<var>t</var>, <var>y</var>] =</em> <strong>ode15s</strong> <em>(<var>fun</var>, <var>trange</var>, <var>y0</var>, <var>ode_opt</var>)</em></dt>
+<dt><a name="index-ode15s-2"></a><em>[<var>t</var>, <var>y</var>, <var>te</var>, <var>ye</var>, <var>ie</var>] =</em> <strong>ode15s</strong> <em>(&hellip;)</em></dt>
+<dt><a name="index-ode15s-3"></a><em><var>solution</var> =</em> <strong>ode15s</strong> <em>(&hellip;)</em></dt>
+<dt><a name="index-ode15s-4"></a><em></em> <strong>ode15s</strong> <em>(&hellip;)</em></dt>
+<dd><p>Solve a set of stiff Ordinary Differential Equations (ODEs) or stiff
+semi-explicit index 1 Differential Algebraic Equations (DAEs).
+</p>
+<p><code>ode15s</code> uses a variable step, variable order BDF (Backward
+Differentiation Formula) method that ranges from order 1 to 5.
+</p>
+<p><var>fun</var> is a function handle, inline function, or string containing the
+name of the function that defines the ODE: <code>y' = f(t,y)</code>.  The function
+must accept two inputs where the first is time <var>t</var> and the second is a
+column vector of unknowns <var>y</var>.
+</p>
+<p><var>trange</var> specifies the time interval over which the ODE will be
+evaluated.  Typically, it is a two-element vector specifying the initial and
+final times (<code>[tinit, tfinal]</code>).  If there are more than two elements
+then the solution will also be evaluated at these intermediate time
+instances.
+</p>
+<p><var>init</var> contains the initial value for the unknowns.  If it is a row
+vector then the solution <var>y</var> will be a matrix in which each column is
+the solution for the corresponding initial value in <var>init</var>.
+</p>
+<p>The optional fourth argument <var>ode_opt</var> specifies non-default options to
+the ODE solver.  It is a structure generated by <code>odeset</code>.
+</p>
+<p>The function typically returns two outputs.  Variable <var>t</var> is a
+column vector and contains the times where the solution was found.  The
+output <var>y</var> is a matrix in which each column refers to a different
+unknown of the problem and each row corresponds to a time in <var>t</var>.
+</p>
+<p>The output can also be returned as a structure <var>solution</var> which has a
+field <var>x</var> containing a row vector of times where the solution was
+evaluated and a field <var>y</var> containing the solution matrix such that each
+column corresponds to a time in <var>x</var>.  Use
+<code>fieldnames&nbsp;(<var>solution</var>)</code><!-- /@w --> to see the other fields and
+additional information returned.
+</p>
+<p>If no output arguments are requested, and no <code>OutputFcn</code> is specified
+in <var>ode_opt</var>, then the <code>OutputFcn</code> is set to <code>odeplot</code> and the
+results of the solver are plotted immediately.
+</p>
+<p>If using the <code>&quot;Events&quot;</code> option then three additional outputs may be
+returned.  <var>te</var> holds the time when an Event function returned a zero.
+<var>ye</var> holds the value of the solution at time <var>te</var>.  <var>ie</var>
+contains an index indicating which Event function was triggered in the case
+of multiple Event functions.
+</p>
+<p>Example: Solve Robertson&rsquo;s equations:
+</p>
+<div class="smallexample">
+<pre class="smallexample">function r = robertson_dae (<var>t</var>, <var>y</var>)
+  r = [ -0.04*<var>y</var>(1) + 1e4*<var>y</var>(2)*<var>y</var>(3)
+         0.04*<var>y</var>(1) - 1e4*<var>y</var>(2)*<var>y</var>(3) - 3e7*<var>y</var>(2)^2
+<var>y</var>(1) + <var>y</var>(2) + <var>y</var>(3) - 1 ];
+endfunction
+opt = odeset (&quot;Mass&quot;, [1 0 0; 0 1 0; 0 0 0], &quot;MStateDependence&quot;, &quot;none&quot;);
+[<var>t</var>,<var>y</var>] = ode15s (@robertson_dae, [0, 1e3], [1; 0; 0], opt);
+</pre></div>
+
+<p><strong>See also:</strong> <a href="#XREFdecic">decic</a>, <a href="#XREFodeset">odeset</a>, <a href="#XREFodeget">odeget</a>, <a href="#XREFode23">ode23</a>, <a href="#XREFode45">ode45</a>.
+</p></dd></dl>
+
+
+<a name="XREFode15i"></a><dl>
+<dt><a name="index-ode15i"></a><em>[<var>t</var>, <var>y</var>] =</em> <strong>ode15i</strong> <em>(<var>fun</var>, <var>trange</var>, <var>y0</var>, <var>yp0</var>)</em></dt>
+<dt><a name="index-ode15i-1"></a><em>[<var>t</var>, <var>y</var>] =</em> <strong>ode15i</strong> <em>(<var>fun</var>, <var>trange</var>, <var>y0</var>, <var>yp0</var>, <var>ode_opt</var>)</em></dt>
+<dt><a name="index-ode15i-2"></a><em>[<var>t</var>, <var>y</var>, <var>te</var>, <var>ye</var>, <var>ie</var>] =</em> <strong>ode15i</strong> <em>(&hellip;)</em></dt>
+<dt><a name="index-ode15i-3"></a><em><var>solution</var> =</em> <strong>ode15i</strong> <em>(&hellip;)</em></dt>
+<dt><a name="index-ode15i-4"></a><em></em> <strong>ode15i</strong> <em>(&hellip;)</em></dt>
+<dd><p>Solve a set of fully-implicit Ordinary Differential Equations (ODEs) or
+index 1 Differential Algebraic Equations (DAEs).
+</p>
+<p><code>ode15i</code> uses a variable step, variable order BDF (Backward
+Differentiation Formula) method that ranges from order 1 to 5.
+</p>
+<p><var>fun</var> is a function handle, inline function, or string containing the
+name of the function that defines the ODE: <code>0 = f(t,y,yp)</code>.  The
+function must accept three inputs where the first is time <var>t</var>, the
+second is the function value <var>y</var> (a column vector), and the third
+is the derivative value <var>yp</var> (a column vector).
+</p>
+<p><var>trange</var> specifies the time interval over which the ODE will be
+evaluated.  Typically, it is a two-element vector specifying the initial and
+final times (<code>[tinit, tfinal]</code>).  If there are more than two elements
+then the solution will also be evaluated at these intermediate time
+instances.
+</p>
+<p><var>y0</var> and <var>yp0</var> contain the initial values for the unknowns <var>y</var>
+and <var>yp</var>.  If they are row vectors then the solution <var>y</var> will be a
+matrix in which each column is the solution for the corresponding initial
+value in <var>y0</var> and <var>yp0</var>.
+</p>
+<p><var>y0</var> and <var>yp0</var> must be consistent initial conditions, meaning that
+<code>f(t,y0,yp0) = 0</code> is satisfied.  The function <code>decic</code> may be used
+to compute consistent initial conditions given initial guesses.
+</p>
+<p>The optional fifth argument <var>ode_opt</var> specifies non-default options to
+the ODE solver.  It is a structure generated by <code>odeset</code>.
+</p>
+<p>The function typically returns two outputs.  Variable <var>t</var> is a
+column vector and contains the times where the solution was found.  The
+output <var>y</var> is a matrix in which each column refers to a different
+unknown of the problem and each row corresponds to a time in <var>t</var>.
+</p>
+<p>The output can also be returned as a structure <var>solution</var> which has a
+field <var>x</var> containing a row vector of times where the solution was
+evaluated and a field <var>y</var> containing the solution matrix such that each
+column corresponds to a time in <var>x</var>.  Use
+<code>fieldnames&nbsp;(<var>solution</var>)</code><!-- /@w --> to see the other fields and
+additional information returned.
+</p>
+<p>If no output arguments are requested, and no <code>OutputFcn</code> is specified
+in <var>ode_opt</var>, then the <code>OutputFcn</code> is set to <code>odeplot</code> and the
+results of the solver are plotted immediately.
+</p>
+<p>If using the <code>&quot;Events&quot;</code> option then three additional outputs may be
+returned.  <var>te</var> holds the time when an Event function returned a zero.
+<var>ye</var> holds the value of the solution at time <var>te</var>.  <var>ie</var>
+contains an index indicating which Event function was triggered in the case
+of multiple Event functions.
+</p>
+<p>Example: Solve Robertson&rsquo;s equations:
+</p>
+<div class="smallexample">
+<pre class="smallexample">function r = robertson_dae (<var>t</var>, <var>y</var>, <var>yp</var>)
+  r = [ -(<var>yp</var>(1) + 0.04*<var>y</var>(1) - 1e4*<var>y</var>(2)*<var>y</var>(3))
+        -(<var>yp</var>(2) - 0.04*<var>y</var>(1) + 1e4*<var>y</var>(2)*<var>y</var>(3) + 3e7*<var>y</var>(2)^2)
+<var>y</var>(1) + <var>y</var>(2) + <var>y</var>(3) - 1 ];
+endfunction
+[<var>t</var>,<var>y</var>] = ode15i (@robertson_dae, [0, 1e3], [1; 0; 0], [-1e-4; 1e-4; 0]);
+</pre></div>
+
+<p><strong>See also:</strong> <a href="#XREFdecic">decic</a>, <a href="#XREFodeset">odeset</a>, <a href="#XREFodeget">odeget</a>.
+</p></dd></dl>
+
+
+<a name="XREFdecic"></a><dl>
+<dt><a name="index-decic"></a><em>[<var>y0_new</var>, <var>yp0_new</var>] =</em> <strong>decic</strong> <em>(<var>fun</var>, <var>t0</var>, <var>y0</var>, <var>fixed_y0</var>, <var>yp0</var>, <var>fixed_yp0</var>)</em></dt>
+<dt><a name="index-decic-1"></a><em>[<var>y0_new</var>, <var>yp0_new</var>] =</em> <strong>decic</strong> <em>(<var>fun</var>, <var>t0</var>, <var>y0</var>, <var>fixed_y0</var>, <var>yp0</var>, <var>fixed_yp0</var>, <var>options</var>)</em></dt>
+<dt><a name="index-decic-2"></a><em>[<var>y0_new</var>, <var>yp0_new</var>, <var>resnorm</var>] =</em> <strong>decic</strong> <em>(&hellip;)</em></dt>
+<dd>
+<p>Compute consistent implicit ODE initial conditions <var>y0_new</var> and
+<var>yp0_new</var> given initial guesses <var>y0</var> and <var>yp0</var>.
+</p>
+<p>A maximum of <code>length (<var>y0</var>)</code> components between <var>fixed_y0</var> and
+<var>fixed_yp0</var> may be chosen as fixed values.
+</p>
+<p><var>fun</var> is a function handle.  The function must accept three inputs where
+the first is time <var>t</var>, the second is a column vector of unknowns
+<var>y</var>, and the third is a column vector of unknowns <var>yp</var>.
+</p>
+<p><var>t0</var> is the initial time such that
+<code><var>fun</var>(<var>t0</var>, <var>y0_new</var>, <var>yp0_new</var>) = 0</code>, specified as a
+scalar.
+</p>
+<p><var>y0</var> is a vector used as the initial guess for <var>y</var>.
+</p>
+<p><var>fixed_y0</var> is a vector which specifies the components of <var>y0</var> to
+hold fixed.  Choose a maximum of <code>length (<var>y0</var>)</code> components between
+<var>fixed_y0</var> and <var>fixed_yp0</var> as fixed values.
+Set <var>fixed_y0</var>(i) component to 1 if you want to fix the value of
+<var>y0</var>(i).
+Set <var>fixed_y0</var>(i) component to 0 if you want to allow the value of
+<var>y0</var>(i) to change.
+</p>
+<p><var>yp0</var> is a vector used as the initial guess for <var>yp</var>.
+</p>
+<p><var>fixed_yp0</var> is a vector which specifies the components of <var>yp0</var> to
+hold fixed.  Choose a maximum of <code>length (<var>yp0</var>)</code> components
+between <var>fixed_y0</var> and <var>fixed_yp0</var> as fixed values.
+Set <var>fixed_yp0</var>(i) component to 1 if you want to fix the value of
+<var>yp0</var>(i).
+Set <var>fixed_yp0</var>(i) component to 0 if you want to allow the value of
+<var>yp0</var>(i) to change.
+</p>
+<p>The optional seventh argument <var>options</var> is a structure array.  Use
+<code>odeset</code> to generate this structure.  The relevant options are
+<code>RelTol</code> and <code>AbsTol</code> which specify the error thresholds used to
+compute the initial conditions.
+</p>
+<p>The function typically returns two outputs.  Variable <var>y0_new</var> is a
+column vector and contains the consistent initial value of y.  The output
+<var>yp0_new</var> is a column vector and contains the consistent initial value
+of yp.
+</p>
+<p>The optional third output <var>resnorm</var> is the norm of the vector of
+residuals.  If <var>resnorm</var> is small, <code>decic</code> has successfully
+computed the initial conditions.  If the value of <var>resnorm</var> is large,
+use <code>RelTol</code> and <code>AbsTol</code> to adjust it.
+</p>
+<p>Example: Compute initial conditions for Robertson&rsquo;s equations:
+</p>
+<div class="smallexample">
+<pre class="smallexample">function r = robertson_dae (<var>t</var>, <var>y</var>, <var>yp</var>)
+  r = [ -(<var>yp</var>(1) + 0.04*<var>y</var>(1) - 1e4*<var>y</var>(2)*<var>y</var>(3))
+        -(<var>yp</var>(2) - 0.04*<var>y</var>(1) + 1e4*<var>y</var>(2)*<var>y</var>(3) + 3e7*<var>y</var>(2)^2)
+<var>y</var>(1) + <var>y</var>(2) + <var>y</var>(3) - 1 ];
+endfunction
+</pre><pre class="smallexample">[<var>y0_new</var>,<var>yp0_new</var>] = decic (@robertson_dae, 0, [1; 0; 0], [1; 1; 0],
+[-1e-4; 1; 0], [0; 0; 0]);
+</pre></div>
+
+<p><strong>See also:</strong> <a href="#XREFode15i">ode15i</a>, <a href="#XREFodeset">odeset</a>.
 </p></dd></dl>
 
 
 <a name="XREFodeset"></a><dl>
-<dt><a name="index-odeset"></a>: <em><var>odestruct</var> =</em> <strong>odeset</strong> <em>()</em></dt>
-<dt><a name="index-odeset-1"></a>: <em><var>odestruct</var> =</em> <strong>odeset</strong> <em>(<var>&quot;field1&quot;</var>, <var>value1</var>, <var>&quot;field2&quot;</var>, <var>value2</var>, &hellip;)</em></dt>
-<dt><a name="index-odeset-2"></a>: <em><var>odestruct</var> =</em> <strong>odeset</strong> <em>(<var>oldstruct</var>, <var>&quot;field1&quot;</var>, <var>value1</var>, <var>&quot;field2&quot;</var>, <var>value2</var>, &hellip;)</em></dt>
-<dt><a name="index-odeset-3"></a>: <em><var>odestruct</var> =</em> <strong>odeset</strong> <em>(<var>oldstruct</var>, <var>newstruct</var>)</em></dt>
-<dt><a name="index-odeset-4"></a>: <em></em> <strong>odeset</strong> <em>()</em></dt>
+<dt><a name="index-odeset"></a><em><var>odestruct</var> =</em> <strong>odeset</strong> <em>()</em></dt>
+<dt><a name="index-odeset-1"></a><em><var>odestruct</var> =</em> <strong>odeset</strong> <em>(<var>&quot;field1&quot;</var>, <var>value1</var>, <var>&quot;field2&quot;</var>, <var>value2</var>, &hellip;)</em></dt>
+<dt><a name="index-odeset-2"></a><em><var>odestruct</var> =</em> <strong>odeset</strong> <em>(<var>oldstruct</var>, <var>&quot;field1&quot;</var>, <var>value1</var>, <var>&quot;field2&quot;</var>, <var>value2</var>, &hellip;)</em></dt>
+<dt><a name="index-odeset-3"></a><em><var>odestruct</var> =</em> <strong>odeset</strong> <em>(<var>oldstruct</var>, <var>newstruct</var>)</em></dt>
+<dt><a name="index-odeset-4"></a><em></em> <strong>odeset</strong> <em>()</em></dt>
 <dd>
 <p>Create or modify an ODE options structure.
 </p>
@@ -265,11 +489,11 @@ by <code>odeset</code>, are the following:
 </dd>
 <dt>BDF</dt>
 <dd><p>Use BDF formulas in implicit multistep methods.
-<strong>Note:</strong> This option is not yet implemented.
+<em>Note</em>: This option is not yet implemented.
 </p>
 </dd>
 <dt>Events</dt>
-<dd><p>Event function. An event function must have the form
+<dd><p>Event function.  An event function must have the form
 <code>[value, isterminal, direction] = my_events_f (t, y)</code>
 </p>
 </dd>
@@ -302,7 +526,7 @@ time and state.
 </p>
 </dd>
 <dt>MassSingular</dt>
-<dd><p>Specify whether the mass matrix is singular. Accepted values include
+<dd><p>Specify whether the mass matrix is singular.  Accepted values include
 <code>&quot;yes&quot;</code>, <code>&quot;no&quot;</code>, <code>&quot;maybe&quot;</code>.
 </p>
 </dd>
@@ -321,12 +545,12 @@ time and state.
 <dt>MvPattern</dt>
 <dd><p>If the mass matrix is sparse and non-constant but maintains a
 constant sparsity pattern, specify the sparsity pattern.
-<strong>Note:</strong> This option is not yet implemented.
+<em>Note</em>: This option is not yet implemented.
 </p>
 </dd>
 <dt>NonNegative</dt>
 <dd><p>Specify elements of the state vector that are expected to remain
-nonnegative during the simulation.
+non-negative during the simulation.
 </p>
 </dd>
 <dt>NormControl</dt>
@@ -335,7 +559,7 @@ absolute value.
 </p>
 </dd>
 <dt>OutputFcn</dt>
-<dd><p>Function to monitor the state during the simulation. For the form of
+<dd><p>Function to monitor the state during the simulation.  For the form of
 the function to use see <code>odeplot</code>.
 </p>
 </dd>
@@ -346,10 +570,10 @@ monitoring function.
 </dd>
 <dt>Refine</dt>
 <dd><p>Specify whether output should be returned only at the end of each
-time step or also at intermediate time instances. The value should be
+time step or also at intermediate time instances.  The value should be
 a scalar indicating the number of equally spaced time points to use
 within each timestep at which to return output.
-<strong>Note:</strong> This option is not yet implemented.
+<em>Note</em>: This option is not yet implemented.
 </p>
 </dd>
 <dt>RelTol</dt>
@@ -376,8 +600,8 @@ added to the result structure.
 
 
 <a name="XREFodeget"></a><dl>
-<dt><a name="index-odeget"></a>: <em><var>val</var> =</em> <strong>odeget</strong> <em>(<var>ode_opt</var>, <var>field</var>)</em></dt>
-<dt><a name="index-odeget-1"></a>: <em><var>val</var> =</em> <strong>odeget</strong> <em>(<var>ode_opt</var>, <var>field</var>, <var>default</var>)</em></dt>
+<dt><a name="index-odeget"></a><em><var>val</var> =</em> <strong>odeget</strong> <em>(<var>ode_opt</var>, <var>field</var>)</em></dt>
+<dt><a name="index-odeget-1"></a><em><var>val</var> =</em> <strong>odeget</strong> <em>(<var>ode_opt</var>, <var>field</var>, <var>default</var>)</em></dt>
 <dd>
 <p>Query the value of the property <var>field</var> in the ODE options structure
 <var>ode_opt</var>.
@@ -396,7 +620,7 @@ not set in the structure <var>ode_opt</var>, then return the default value
 
 
 <a name="XREFodeplot"></a><dl>
-<dt><a name="index-odeplot"></a>: <em><var>stop_solve</var> =</em> <strong>odeplot</strong> <em>(<var>t</var>, <var>y</var>, <var>flag</var>)</em></dt>
+<dt><a name="index-odeplot"></a><em><var>stop_solve</var> =</em> <strong>odeplot</strong> <em>(<var>t</var>, <var>y</var>, <var>flag</var>)</em></dt>
 <dd>
 <p>Open a new figure window and plot the solution of an ode problem at each
 time step during the integration.

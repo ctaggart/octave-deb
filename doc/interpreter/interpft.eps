@@ -2,7 +2,7 @@
 %%Title: gl2ps_renderer figure
 %%Creator: GL2PS 1.4.0, (C) 1999-2017 C. Geuzaine
 %%For: Octave
-%%CreationDate: Tue Mar 13 09:35:25 2018
+%%CreationDate: Thu Apr 19 16:24:34 2018
 %%LanguageLevel: 3
 %%DocumentData: Clean7Bit
 %%Pages: 1
@@ -33,6 +33,7 @@
 /STR{ FC moveto SW neg SH neg rmoveto show } BD
 /FCT { FC translate 0 0 } BD
 /SR  { gsave FCT moveto rotate show grestore } BD
+/SRX  { gsave FCT moveto rotate xshow grestore } BD
 /SBCR{ gsave FCT moveto rotate SW -2 div 0 rmoveto show grestore } BD
 /SBRR{ gsave FCT moveto rotate SW neg 0 rmoveto show grestore } BD
 /SCLR{ gsave FCT moveto rotate 0 SH -2 div rmoveto show grestore} BD
@@ -124,7 +125,7 @@ gl2psdict begin
 mark
 gsave
 1.0 1.0 scale
-0 0 0 C
+1 1 1 C
 newpath 0 0 moveto 576 0 lineto 576 432 lineto 0 432 lineto
 closepath fill
 gsave
@@ -171,16 +172,46 @@ closepath clip
 521.28 51.985 LE
 521.28 399.6 LS
 521.28 395.135 LE
+gsave
 0.14902 0.14902 0.14902 C
-(0) 74.88 42.5189 10 /Helvetica STC
-(0.5) 138.651 42.5189 10 /Helvetica STC
-(1) 202.423 42.5189 10 /Helvetica STC
-(1.5) 266.194 42.5189 10 /Helvetica STC
-(2) 329.966 42.5189 10 /Helvetica STC
-(2.5) 393.737 42.5189 10 /Helvetica STC
-(3) 457.509 42.5189 10 /Helvetica STC
-(3.5) 521.28 42.5189 10 /Helvetica STC
-0.15 0.15 0.15 C
+(0) [10] 0 71.88 32.5189 10 /Helvetica SRX
+grestore
+
+gsave
+0.14902 0.14902 0.14902 C
+(0.5) [6 3 10] 0 131.151 32.5189 10 /Helvetica SRX
+grestore
+
+gsave
+0.14902 0.14902 0.14902 C
+(1) [10] 0 199.423 32.5189 10 /Helvetica SRX
+grestore
+
+gsave
+0.14902 0.14902 0.14902 C
+(1.5) [6 3 10] 0 258.694 32.5189 10 /Helvetica SRX
+grestore
+
+gsave
+0.14902 0.14902 0.14902 C
+(2) [10] 0 326.966 32.5189 10 /Helvetica SRX
+grestore
+
+gsave
+0.14902 0.14902 0.14902 C
+(2.5) [6 3 10] 0 386.237 32.5189 10 /Helvetica SRX
+grestore
+
+gsave
+0.14902 0.14902 0.14902 C
+(3) [10] 0 454.509 32.5189 10 /Helvetica SRX
+grestore
+
+gsave
+0.14902 0.14902 0.14902 C
+(3.5) [6 3 10] 0 513.78 32.5189 10 /Helvetica SRX
+grestore
+
 74.88 47.52 LS
 79.348 47.52 LE
 521.28 47.52 LS
@@ -205,15 +236,38 @@ closepath clip
 79.348 399.6 LE
 521.28 399.6 LS
 516.812 399.6 LE
+gsave
 0.14902 0.14902 0.14902 C
-(-1) 69.8755 47.52 10 /Helvetica SCR
-(-0.5) 69.8755 117.936 10 /Helvetica SCR
-(0) 69.8755 188.352 10 /Helvetica SCR
-(0.5) 69.8755 258.768 10 /Helvetica SCR
-(1) 69.8755 329.184 10 /Helvetica SCR
-(1.5) 69.8755 399.6 10 /Helvetica SCR
+(-1) [3 10] 0 60.8755 43.02 10 /Helvetica SRX
+grestore
+
+gsave
+0.14902 0.14902 0.14902 C
+(-0.5) [3 6 3 10] 0 51.8755 113.436 10 /Helvetica SRX
+grestore
+
+gsave
+0.14902 0.14902 0.14902 C
+(0) [10] 0 63.8755 183.852 10 /Helvetica SRX
+grestore
+
+gsave
+0.14902 0.14902 0.14902 C
+(0.5) [6 3 10] 0 54.8755 254.268 10 /Helvetica SRX
+grestore
+
+gsave
+0.14902 0.14902 0.14902 C
+(1) [10] 0 63.8755 324.684 10 /Helvetica SRX
+grestore
+
+gsave
+0.14902 0.14902 0.14902 C
+(1.5) [6 3 10] 0 54.8755 395.1 10 /Helvetica SRX
+grestore
+
+2 LC
 [16 0] 0 setdash
-0.15 0.15 0.15 C
 74.88 47.52 LS
 521.28 47.52 LE
 74.88 399.6 LS
@@ -222,6 +276,8 @@ closepath clip
 74.88 399.6 LE
 521.28 47.52 LS
 521.28 399.6 LE
+0 LC
+1 LJ
 [] 0 setdash
 0 1 0 C
 74.88 229.763 LS
@@ -250,7 +306,7 @@ closepath clip
 171.685 203.853 L
 175.894 217.622 L
 180.103 233.24 L
-184.312 249.922 L
+184.312 249.921 L
 188.521 266.818 L
 192.73 283.068 L
 196.939 297.839 L
@@ -517,6 +573,8 @@ closepath clip
 483.145 205.561 L
 487.354 211.395 L
 491.562 219.618 LE
+2 LC
+0 LJ
 1 0 0 C
 71.88 229.763 LS
 77.88 229.763 LE
@@ -568,39 +626,59 @@ gsave
 newpath 0 0 moveto 576 0 lineto 576 432 lineto 0 432 lineto
 closepath clip
 1 1 1 C
-381.627 396.935 518.615 334.272 381.627 334.272 T
-381.627 396.935 518.615 396.935 518.615 334.272 T
+407.047 397.058 518.738 342.89 407.047 342.89 T
+407.047 397.058 518.738 397.058 518.738 342.89 T
 0.5 W
+2 LC
 [16 0] 0 setdash
 0.15 0.15 0.15 C
-381.627 334.272 LS
-518.615 334.272 LE
-381.627 396.935 LS
-518.615 396.935 LE
-381.627 334.272 LS
-381.627 396.935 LE
-518.615 334.272 LS
-518.615 396.935 LE
+407.047 342.89 LS
+518.738 342.89 LE
+407.047 397.058 LS
+518.738 397.058 LE
+407.047 342.89 LS
+407.047 397.058 LE
+518.738 342.89 LS
+518.738 397.058 LE
+gsave
 0 0 0 C
-(sin\(4t+0.3\)cos\(3t-0.1\)) 406.949 389.102 10 /Helvetica SCL
-(spline) 406.949 373.436 10 /Helvetica SCL
-(interpft) 406.949 357.771 10 /Helvetica SCL
-(data) 406.949 342.105 10 /Helvetica SCL
+(sin\(4t+0.3\)cos\(3t-0.1\)) [4 2 5 3 5 3 5 5 2 5 3 5 5 4 3 5 3 3 5 2 5 10] 0 431.196 385.787 9 /Helvetica SRX
+grestore
+
+gsave
+0 0 0 C
+(spline) [4 5 2 2 5 10] 0 431.196 372.245 9 /Helvetica SRX
+grestore
+
+gsave
+0 0 0 C
+(interpft) [2 5 3 5 3 5 3 10] 0 431.196 358.703 9 /Helvetica SRX
+grestore
+
+gsave
+0 0 0 C
+(data) [5 5 3 10] 0 431.196 345.161 9 /Helvetica SRX
+grestore
+
+0 LC
+1 LJ
 [] 0 setdash
 0 1 0 C
-384.292 389.102 LS
-404.283 389.102 LE
+409.589 390.287 LS
+428.654 390.287 LE
 0 0 1 C
-384.292 373.436 LS
-404.283 373.436 LE
+409.589 376.745 LS
+428.654 376.745 LE
 0 1 1 C
-384.292 357.771 LS
-404.283 357.771 LE
+409.589 363.203 LS
+428.654 363.203 LE
+2 LC
+0 LJ
 1 0 0 C
-391.288 342.105 LS
-397.288 342.105 LE
-394.288 345.105 LS
-394.288 339.105 LE
+416.122 349.661 LS
+422.122 349.661 LE
+419.122 352.661 LS
+419.122 346.661 LE
 grestore
 grestore
 showpage

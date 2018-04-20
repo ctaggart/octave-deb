@@ -65,12 +65,12 @@ of integer data and convert among the supported floating point formats
 as the data are read.
 </p>
 <a name="XREFfread"></a><dl>
-<dt><a name="index-fread"></a>: <em><var>val</var> =</em> <strong>fread</strong> <em>(<var>fid</var>)</em></dt>
-<dt><a name="index-fread-1"></a>: <em><var>val</var> =</em> <strong>fread</strong> <em>(<var>fid</var>, <var>size</var>)</em></dt>
-<dt><a name="index-fread-2"></a>: <em><var>val</var> =</em> <strong>fread</strong> <em>(<var>fid</var>, <var>size</var>, <var>precision</var>)</em></dt>
-<dt><a name="index-fread-3"></a>: <em><var>val</var> =</em> <strong>fread</strong> <em>(<var>fid</var>, <var>size</var>, <var>precision</var>, <var>skip</var>)</em></dt>
-<dt><a name="index-fread-4"></a>: <em><var>val</var> =</em> <strong>fread</strong> <em>(<var>fid</var>, <var>size</var>, <var>precision</var>, <var>skip</var>, <var>arch</var>)</em></dt>
-<dt><a name="index-fread-5"></a>: <em>[<var>val</var>, <var>count</var>] =</em> <strong>fread</strong> <em>(&hellip;)</em></dt>
+<dt><a name="index-fread"></a><em><var>val</var> =</em> <strong>fread</strong> <em>(<var>fid</var>)</em></dt>
+<dt><a name="index-fread-1"></a><em><var>val</var> =</em> <strong>fread</strong> <em>(<var>fid</var>, <var>size</var>)</em></dt>
+<dt><a name="index-fread-2"></a><em><var>val</var> =</em> <strong>fread</strong> <em>(<var>fid</var>, <var>size</var>, <var>precision</var>)</em></dt>
+<dt><a name="index-fread-3"></a><em><var>val</var> =</em> <strong>fread</strong> <em>(<var>fid</var>, <var>size</var>, <var>precision</var>, <var>skip</var>)</em></dt>
+<dt><a name="index-fread-4"></a><em><var>val</var> =</em> <strong>fread</strong> <em>(<var>fid</var>, <var>size</var>, <var>precision</var>, <var>skip</var>, <var>arch</var>)</em></dt>
+<dt><a name="index-fread-5"></a><em>[<var>val</var>, <var>count</var>] =</em> <strong>fread</strong> <em>(&hellip;)</em></dt>
 <dd><p>Read binary data from the file specified by the file descriptor <var>fid</var>.
 </p>
 <p>The optional argument <var>size</var> specifies the amount of data to read
@@ -104,30 +104,44 @@ of <var>nr</var>, the last column is padded with zeros.
 data to read and may be one of
 </p>
 <dl compact="compact">
-<dt><code>&quot;schar&quot;</code></dt>
-<dt><code>&quot;signed char&quot;</code></dt>
-<dd><p>Signed character.
-</p>
-</dd>
-<dt><code>&quot;uchar&quot;</code></dt>
-<dt><code>&quot;unsigned char&quot;</code></dt>
-<dd><p>Unsigned character.
+<dt><code>&quot;uint8&quot;</code> (default)</dt>
+<dd><p>8-bit unsigned integer.
 </p>
 </dd>
 <dt><code>&quot;int8&quot;</code></dt>
 <dt><code>&quot;integer*1&quot;</code></dt>
-<dd>
-<p>8-bit signed integer.
+<dd><p>8-bit signed integer.
+</p>
+</dd>
+<dt><code>&quot;uint16&quot;</code></dt>
+<dt><code>&quot;ushort&quot;</code></dt>
+<dt><code>&quot;unsigned short&quot;</code></dt>
+<dd><p>16-bit unsigned integer.
 </p>
 </dd>
 <dt><code>&quot;int16&quot;</code></dt>
 <dt><code>&quot;integer*2&quot;</code></dt>
+<dt><code>&quot;short&quot;</code></dt>
 <dd><p>16-bit signed integer.
 </p>
 </dd>
+<dt><code>&quot;uint&quot;</code></dt>
+<dt><code>&quot;uint32&quot;</code></dt>
+<dt><code>&quot;unsigned int&quot;</code></dt>
+<dt><code>&quot;ulong&quot;</code></dt>
+<dt><code>&quot;unsigned long&quot;</code></dt>
+<dd><p>32-bit unsigned integer.
+</p>
+</dd>
+<dt><code>&quot;int&quot;</code></dt>
 <dt><code>&quot;int32&quot;</code></dt>
 <dt><code>&quot;integer*4&quot;</code></dt>
+<dt><code>&quot;long&quot;</code></dt>
 <dd><p>32-bit signed integer.
+</p>
+</dd>
+<dt><code>&quot;uint64&quot;</code></dt>
+<dd><p>64-bit unsigned integer.
 </p>
 </dd>
 <dt><code>&quot;int64&quot;</code></dt>
@@ -135,23 +149,8 @@ data to read and may be one of
 <dd><p>64-bit signed integer.
 </p>
 </dd>
-<dt><code>&quot;uint8&quot;</code></dt>
-<dd><p>8-bit unsigned integer.
-</p>
-</dd>
-<dt><code>&quot;uint16&quot;</code></dt>
-<dd><p>16-bit unsigned integer.
-</p>
-</dd>
-<dt><code>&quot;uint32&quot;</code></dt>
-<dd><p>32-bit unsigned integer.
-</p>
-</dd>
-<dt><code>&quot;uint64&quot;</code></dt>
-<dd><p>64-bit unsigned integer.
-</p>
-</dd>
 <dt><code>&quot;single&quot;</code></dt>
+<dt><code>&quot;float&quot;</code></dt>
 <dt><code>&quot;float32&quot;</code></dt>
 <dt><code>&quot;real*4&quot;</code></dt>
 <dd><p>32-bit floating point number.
@@ -165,42 +164,22 @@ data to read and may be one of
 </dd>
 <dt><code>&quot;char&quot;</code></dt>
 <dt><code>&quot;char*1&quot;</code></dt>
-<dd><p>Single character.
+<dd><p>8-bit single character.
 </p>
 </dd>
-<dt><code>&quot;short&quot;</code></dt>
-<dd><p>Short integer (size is platform dependent).
+<dt><code>&quot;uchar&quot;</code></dt>
+<dt><code>&quot;unsigned char&quot;</code></dt>
+<dd><p>8-bit unsigned character.
 </p>
 </dd>
-<dt><code>&quot;int&quot;</code></dt>
-<dd><p>Integer (size is platform dependent).
+<dt><code>&quot;schar&quot;</code></dt>
+<dt><code>&quot;signed char&quot;</code></dt>
+<dd><p>8-bit signed character.
 </p>
 </dd>
-<dt><code>&quot;long&quot;</code></dt>
-<dd><p>Long integer (size is platform dependent).
-</p>
-</dd>
-<dt><code>&quot;ushort&quot;</code></dt>
-<dt><code>&quot;unsigned short&quot;</code></dt>
-<dd><p>Unsigned short integer (size is platform dependent).
-</p>
-</dd>
-<dt><code>&quot;uint&quot;</code></dt>
-<dt><code>&quot;unsigned int&quot;</code></dt>
-<dd><p>Unsigned integer (size is platform dependent).
-</p>
-</dd>
-<dt><code>&quot;ulong&quot;</code></dt>
-<dt><code>&quot;unsigned long&quot;</code></dt>
-<dd><p>Unsigned long integer (size is platform dependent).
-</p>
-</dd>
-<dt><code>&quot;float&quot;</code></dt>
-<dd><p>Single precision floating point number (size is platform dependent).
-</p></dd>
 </dl>
 
-<p>The default precision is <code>&quot;uchar&quot;</code>.
+<p>The default precision is <code>&quot;uint8&quot;</code>.
 </p>
 <p>The <var>precision</var> argument may also specify an optional repeat
 count.  For example, &lsquo;<samp>32*single</samp>&rsquo; causes <code>fread</code> to read
@@ -261,11 +240,11 @@ created the file descriptor is used.  Otherwise, the value specified with
 
 
 <a name="XREFfwrite"></a><dl>
-<dt><a name="index-fwrite"></a>: <em></em> <strong>fwrite</strong> <em>(<var>fid</var>, <var>data</var>)</em></dt>
-<dt><a name="index-fwrite-1"></a>: <em></em> <strong>fwrite</strong> <em>(<var>fid</var>, <var>data</var>, <var>precision</var>)</em></dt>
-<dt><a name="index-fwrite-2"></a>: <em></em> <strong>fwrite</strong> <em>(<var>fid</var>, <var>data</var>, <var>precision</var>, <var>skip</var>)</em></dt>
-<dt><a name="index-fwrite-3"></a>: <em></em> <strong>fwrite</strong> <em>(<var>fid</var>, <var>data</var>, <var>precision</var>, <var>skip</var>, <var>arch</var>)</em></dt>
-<dt><a name="index-fwrite-4"></a>: <em><var>count</var> =</em> <strong>fwrite</strong> <em>(&hellip;)</em></dt>
+<dt><a name="index-fwrite"></a><em></em> <strong>fwrite</strong> <em>(<var>fid</var>, <var>data</var>)</em></dt>
+<dt><a name="index-fwrite-1"></a><em></em> <strong>fwrite</strong> <em>(<var>fid</var>, <var>data</var>, <var>precision</var>)</em></dt>
+<dt><a name="index-fwrite-2"></a><em></em> <strong>fwrite</strong> <em>(<var>fid</var>, <var>data</var>, <var>precision</var>, <var>skip</var>)</em></dt>
+<dt><a name="index-fwrite-3"></a><em></em> <strong>fwrite</strong> <em>(<var>fid</var>, <var>data</var>, <var>precision</var>, <var>skip</var>, <var>arch</var>)</em></dt>
+<dt><a name="index-fwrite-4"></a><em><var>count</var> =</em> <strong>fwrite</strong> <em>(&hellip;)</em></dt>
 <dd><p>Write data in binary form to the file specified by the file descriptor
 <var>fid</var>, returning the number of values <var>count</var> successfully written
 to the file.

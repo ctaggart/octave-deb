@@ -1,20 +1,20 @@
-## Copyright (C) 2013-2017 Michael D. Godfrey
+## Copyright (C) 2013-2018 Michael D. Godfrey
 ##
 ## This file is part of Octave.
 ##
-## Octave is free software; you can redistribute it and/or modify it
+## Octave is free software: you can redistribute it and/or modify it
 ## under the terms of the GNU General Public License as published by
-## the Free Software Foundation; either version 3 of the License, or (at
-## your option) any later version.
+## the Free Software Foundation, either version 3 of the License, or
+## (at your option) any later version.
 ##
 ## Octave is distributed in the hope that it will be useful, but
 ## WITHOUT ANY WARRANTY; without even the implied warranty of
-## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-## General Public License for more details.
+## MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+## GNU General Public License for more details.
 ##
 ## You should have received a copy of the GNU General Public License
 ## along with Octave; see the file COPYING.  If not, see
-## <http://www.gnu.org/licenses/>.
+## <https://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
 ## @deftypefn  {} {} stemleaf (@var{x}, @var{caption})
@@ -68,8 +68,8 @@
 ## @code{@var{xs} = sort (@var{x})} before calling @code{stemleaf (@var{xs})}.
 ##
 ## The stem and leaf plot and associated displays are described in:
-## Chapter 3, @cite{Exploratory Data Analysis} by J. W. Tukey, Addison-Wesley,
-## 1977.
+## Chapter 3, @cite{Exploratory Data Analysis} by @nospell{J. W. Tukey},
+## Addison-Wesley, 1977.
 ## @seealso{hist, printd}
 ## @end deftypefn
 

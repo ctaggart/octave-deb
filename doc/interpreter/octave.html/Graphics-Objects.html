@@ -69,8 +69,8 @@ graphics objects are always referenced by <em>handle</em>.
 <dt>root figure</dt>
 <dd><a name="index-root-figure-graphics-object"></a>
 <a name="index-graphics-object_002c-root-figure"></a>
-<p>the top level of the hierarchy and the parent of all figure objects.
-The handle index of the root figure is 0.
+<p>The top level of the hierarchy and the parent of all figure objects.
+Use <code>groot</code> to obtain the handle of the root graphics object.
 </p>
 </dd>
 <dt>figure</dt>
@@ -133,7 +133,7 @@ same name as the object; In other words, <code>figure</code>, <code>axes</code>,
 <code>light</code> functions.  These fundamental graphic objects automatically become
 children of the current axes object as if <code>hold on</code> was in place.
 Separately, axes will automatically become children of the current figure
-object and figures will become children of the root object 0.
+object and figures will become children of the root object.
 </p>
 <p>If this auto-joining feature is not desired then it is important to call
 <code>newplot</code> first to prepare a new figure and axes for plotting.
@@ -143,37 +143,41 @@ Instead of calling <code>line</code>, use <code>plot</code>.  Or use <code>surf<
 <code>surface</code>.  Or use <code>fill</code> instead of <code>patch</code>.
 </p>
 <a name="XREFaxes"></a><dl>
-<dt><a name="index-axes"></a>: <em></em> <strong>axes</strong> <em>()</em></dt>
-<dt><a name="index-axes-1"></a>: <em></em> <strong>axes</strong> <em>(<var>property</var>, <var>value</var>, &hellip;)</em></dt>
-<dt><a name="index-axes-2"></a>: <em></em> <strong>axes</strong> <em>(<var>hax</var>)</em></dt>
-<dt><a name="index-axes-3"></a>: <em><var>h</var> =</em> <strong>axes</strong> <em>(&hellip;)</em></dt>
-<dd><p>Create an axes object and return a handle to it, or set the current axes
-to <var>hax</var>.
+<dt><a name="index-axes"></a><em></em> <strong>axes</strong> <em>()</em></dt>
+<dt><a name="index-axes-1"></a><em></em> <strong>axes</strong> <em>(<var>property</var>, <var>value</var>, &hellip;)</em></dt>
+<dt><a name="index-axes-2"></a><em></em> <strong>axes</strong> <em>(<var>hax</var>)</em></dt>
+<dt><a name="index-axes-3"></a><em><var>h</var> =</em> <strong>axes</strong> <em>(&hellip;)</em></dt>
+<dd><p>Create a Cartesian axes object and return a handle to it, or set the current
+axes to <var>hax</var>.
 </p>
 <p>Called without any arguments, or with <var>property</var>/<var>value</var> pairs,
-construct a new axes.  For accepted properties and corresponding values,
-see <a href="#XREFset">set</a>.
+construct a new axes.
 </p>
 <p>Called with a single axes handle argument <var>hax</var>, the function makes
-<var>hax</var> the current axes.  It also restacks the axes in the corresponding
-figure so that <var>hax</var> is the first entry in the list of children.  This
-causes <var>hax</var> to be displayed on top of any other axes objects (Z-order
-stacking).
+<var>hax</var> the current axes (as returned by <code>gca</code>).  It also makes
+the figure which contains <var>hax</var> the current figure (as returned by
+<code>gcf</code>).  Finally, it restacks the parent object&rsquo;s <code>children</code>
+property so that the axes <var>hax</var> appears before all other axes handles
+in the list.  This causes <var>hax</var> to be displayed on top of any other axes
+objects (Z-order stacking).  In addition it restacks any legend or colorbar
+objects associated with <var>hax</var> so that they are also visible.
 </p>
-
+<p>Programming Note: The full list of properties is documented at
+<a href="Axes-Properties.html#Axes-Properties">Axes Properties</a>.
+</p>
 <p><strong>See also:</strong> <a href="#XREFgca">gca</a>, <a href="#XREFset">set</a>, <a href="#XREFget">get</a>.
 </p></dd></dl>
 
 
 <a name="XREFline"></a><dl>
-<dt><a name="index-line"></a>: <em></em> <strong>line</strong> <em>()</em></dt>
-<dt><a name="index-line-1"></a>: <em></em> <strong>line</strong> <em>(<var>x</var>, <var>y</var>)</em></dt>
-<dt><a name="index-line-2"></a>: <em></em> <strong>line</strong> <em>(<var>x</var>, <var>y</var>, <var>property</var>, <var>value</var>, &hellip;)</em></dt>
-<dt><a name="index-line-3"></a>: <em></em> <strong>line</strong> <em>(<var>x</var>, <var>y</var>, <var>z</var>)</em></dt>
-<dt><a name="index-line-4"></a>: <em></em> <strong>line</strong> <em>(<var>x</var>, <var>y</var>, <var>z</var>, <var>property</var>, <var>value</var>, &hellip;)</em></dt>
-<dt><a name="index-line-5"></a>: <em></em> <strong>line</strong> <em>(<var>property</var>, <var>value</var>, &hellip;)</em></dt>
-<dt><a name="index-line-6"></a>: <em></em> <strong>line</strong> <em>(<var>hax</var>, &hellip;)</em></dt>
-<dt><a name="index-line-7"></a>: <em><var>h</var> =</em> <strong>line</strong> <em>(&hellip;)</em></dt>
+<dt><a name="index-line"></a><em></em> <strong>line</strong> <em>()</em></dt>
+<dt><a name="index-line-1"></a><em></em> <strong>line</strong> <em>(<var>x</var>, <var>y</var>)</em></dt>
+<dt><a name="index-line-2"></a><em></em> <strong>line</strong> <em>(<var>x</var>, <var>y</var>, <var>property</var>, <var>value</var>, &hellip;)</em></dt>
+<dt><a name="index-line-3"></a><em></em> <strong>line</strong> <em>(<var>x</var>, <var>y</var>, <var>z</var>)</em></dt>
+<dt><a name="index-line-4"></a><em></em> <strong>line</strong> <em>(<var>x</var>, <var>y</var>, <var>z</var>, <var>property</var>, <var>value</var>, &hellip;)</em></dt>
+<dt><a name="index-line-5"></a><em></em> <strong>line</strong> <em>(<var>property</var>, <var>value</var>, &hellip;)</em></dt>
+<dt><a name="index-line-6"></a><em></em> <strong>line</strong> <em>(<var>hax</var>, &hellip;)</em></dt>
+<dt><a name="index-line-7"></a><em><var>h</var> =</em> <strong>line</strong> <em>(&hellip;)</em></dt>
 <dd><p>Create line object from <var>x</var> and <var>y</var> (and possibly <var>z</var>) and
 insert in the current axes.
 </p>
@@ -186,20 +190,22 @@ rather than the current axes returned by <code>gca</code>.
 <p>The optional return value <var>h</var> is a graphics handle (or vector of
 handles) to the line objects created.
 </p>
-
+<p>Programming Note: The full list of properties is documented at
+<a href="Line-Properties.html#Line-Properties">Line Properties</a>.
+</p>
 <p><strong>See also:</strong> <a href="Displaying-Images.html#XREFimage">image</a>, <a href="#XREFpatch">patch</a>, <a href="Two_002ddimensional-Geometric-Shapes.html#XREFrectangle">rectangle</a>, <a href="#XREFsurface">surface</a>, <a href="Plot-Annotations.html#XREFtext">text</a>.
 </p></dd></dl>
 
 
 <a name="XREFpatch"></a><dl>
-<dt><a name="index-patch"></a>: <em></em> <strong>patch</strong> <em>()</em></dt>
-<dt><a name="index-patch-1"></a>: <em></em> <strong>patch</strong> <em>(<var>x</var>, <var>y</var>, <var>c</var>)</em></dt>
-<dt><a name="index-patch-2"></a>: <em></em> <strong>patch</strong> <em>(<var>x</var>, <var>y</var>, <var>z</var>, <var>c</var>)</em></dt>
-<dt><a name="index-patch-3"></a>: <em></em> <strong>patch</strong> <em>(&quot;Faces&quot;, <var>faces</var>, &quot;Vertices&quot;, <var>verts</var>, &hellip;)</em></dt>
-<dt><a name="index-patch-4"></a>: <em></em> <strong>patch</strong> <em>(&hellip;, <var>prop</var>, <var>val</var>, &hellip;)</em></dt>
-<dt><a name="index-patch-5"></a>: <em></em> <strong>patch</strong> <em>(&hellip;, <var>propstruct</var>, &hellip;)</em></dt>
-<dt><a name="index-patch-6"></a>: <em></em> <strong>patch</strong> <em>(<var>hax</var>, &hellip;)</em></dt>
-<dt><a name="index-patch-7"></a>: <em><var>h</var> =</em> <strong>patch</strong> <em>(&hellip;)</em></dt>
+<dt><a name="index-patch"></a><em></em> <strong>patch</strong> <em>()</em></dt>
+<dt><a name="index-patch-1"></a><em></em> <strong>patch</strong> <em>(<var>x</var>, <var>y</var>, <var>c</var>)</em></dt>
+<dt><a name="index-patch-2"></a><em></em> <strong>patch</strong> <em>(<var>x</var>, <var>y</var>, <var>z</var>, <var>c</var>)</em></dt>
+<dt><a name="index-patch-3"></a><em></em> <strong>patch</strong> <em>(&quot;Faces&quot;, <var>faces</var>, &quot;Vertices&quot;, <var>verts</var>, &hellip;)</em></dt>
+<dt><a name="index-patch-4"></a><em></em> <strong>patch</strong> <em>(&hellip;, <var>prop</var>, <var>val</var>, &hellip;)</em></dt>
+<dt><a name="index-patch-5"></a><em></em> <strong>patch</strong> <em>(&hellip;, <var>propstruct</var>, &hellip;)</em></dt>
+<dt><a name="index-patch-6"></a><em></em> <strong>patch</strong> <em>(<var>hax</var>, &hellip;)</em></dt>
+<dt><a name="index-patch-7"></a><em><var>h</var> =</em> <strong>patch</strong> <em>(&hellip;)</em></dt>
 <dd><p>Create patch object in the current axes with vertices at locations
 (<var>x</var>, <var>y</var>) and of color <var>c</var>.
 </p>
@@ -239,23 +245,23 @@ rather than the current axes returned by <code>gca</code>.
 <p>The optional return value <var>h</var> is a graphics handle to the created patch
 object.
 </p>
-<p>Implementation Note: Patches are highly configurable objects.  To truly
-customize them requires setting patch properties directly.  Useful patch
-properties are: <code>&quot;cdata&quot;</code>, <code>&quot;edgecolor&quot;</code>,
-<code>&quot;facecolor&quot;</code>, <code>&quot;faces&quot;</code>, <code>&quot;facevertexcdata&quot;</code>.
+<p>Programming Note: The full list of properties is documented at
+<a href="Patch-Properties.html#Patch-Properties">Patch Properties</a>.  Useful patch properties include:
+<code>&quot;cdata&quot;</code>, <code>&quot;edgecolor&quot;</code>, <code>&quot;facecolor&quot;</code>, <code>&quot;faces&quot;</code>,
+and <code>&quot;facevertexcdata&quot;</code>.
 </p>
 <p><strong>See also:</strong> <a href="Two_002dDimensional-Plots.html#XREFfill">fill</a>, <a href="#XREFget">get</a>, <a href="#XREFset">set</a>.
 </p></dd></dl>
 
 
 <a name="XREFsurface"></a><dl>
-<dt><a name="index-surface"></a>: <em></em> <strong>surface</strong> <em>(<var>x</var>, <var>y</var>, <var>z</var>, <var>c</var>)</em></dt>
-<dt><a name="index-surface-1"></a>: <em></em> <strong>surface</strong> <em>(<var>x</var>, <var>y</var>, <var>z</var>)</em></dt>
-<dt><a name="index-surface-2"></a>: <em></em> <strong>surface</strong> <em>(<var>z</var>, <var>c</var>)</em></dt>
-<dt><a name="index-surface-3"></a>: <em></em> <strong>surface</strong> <em>(<var>z</var>)</em></dt>
-<dt><a name="index-surface-4"></a>: <em></em> <strong>surface</strong> <em>(&hellip;, <var>prop</var>, <var>val</var>, &hellip;)</em></dt>
-<dt><a name="index-surface-5"></a>: <em></em> <strong>surface</strong> <em>(<var>hax</var>, &hellip;)</em></dt>
-<dt><a name="index-surface-6"></a>: <em><var>h</var> =</em> <strong>surface</strong> <em>(&hellip;)</em></dt>
+<dt><a name="index-surface"></a><em></em> <strong>surface</strong> <em>(<var>x</var>, <var>y</var>, <var>z</var>, <var>c</var>)</em></dt>
+<dt><a name="index-surface-1"></a><em></em> <strong>surface</strong> <em>(<var>x</var>, <var>y</var>, <var>z</var>)</em></dt>
+<dt><a name="index-surface-2"></a><em></em> <strong>surface</strong> <em>(<var>z</var>, <var>c</var>)</em></dt>
+<dt><a name="index-surface-3"></a><em></em> <strong>surface</strong> <em>(<var>z</var>)</em></dt>
+<dt><a name="index-surface-4"></a><em></em> <strong>surface</strong> <em>(&hellip;, <var>prop</var>, <var>val</var>, &hellip;)</em></dt>
+<dt><a name="index-surface-5"></a><em></em> <strong>surface</strong> <em>(<var>hax</var>, &hellip;)</em></dt>
+<dt><a name="index-surface-6"></a><em><var>h</var> =</em> <strong>surface</strong> <em>(&hellip;)</em></dt>
 <dd><p>Create a surface graphic object given matrices <var>x</var> and <var>y</var> from
 <code>meshgrid</code> and a matrix of values <var>z</var> corresponding to the
 <var>x</var> and <var>y</var> coordinates of the surface.
@@ -275,15 +281,18 @@ rather than the current axes returned by <code>gca</code>.
 <p>The optional return value <var>h</var> is a graphics handle to the created
 surface object.
 </p>
+<p>Programming Note: The full list of properties is documented at
+<a href="Surface-Properties.html#Surface-Properties">Surface Properties</a>.
+</p>
 <p><strong>See also:</strong> <a href="Three_002dDimensional-Plots.html#XREFsurf">surf</a>, <a href="Three_002dDimensional-Plots.html#XREFmesh">mesh</a>, <a href="#XREFpatch">patch</a>, <a href="#XREFline">line</a>.
 </p></dd></dl>
 
 
 <a name="XREFlight"></a><dl>
-<dt><a name="index-light"></a>: <em></em> <strong>light</strong> <em>()</em></dt>
-<dt><a name="index-light-1"></a>: <em></em> <strong>light</strong> <em>(&hellip;, &quot;<var>prop</var>&quot;, <var>val</var>, &hellip;)</em></dt>
-<dt><a name="index-light-2"></a>: <em></em> <strong>light</strong> <em>(<var>hax</var>, &hellip;)</em></dt>
-<dt><a name="index-light-3"></a>: <em><var>h</var> =</em> <strong>light</strong> <em>(&hellip;)</em></dt>
+<dt><a name="index-light"></a><em></em> <strong>light</strong> <em>()</em></dt>
+<dt><a name="index-light-1"></a><em></em> <strong>light</strong> <em>(&hellip;, &quot;<var>prop</var>&quot;, <var>val</var>, &hellip;)</em></dt>
+<dt><a name="index-light-2"></a><em></em> <strong>light</strong> <em>(<var>hax</var>, &hellip;)</em></dt>
+<dt><a name="index-light-3"></a><em><var>h</var> =</em> <strong>light</strong> <em>(&hellip;)</em></dt>
 <dd><p>Create a light object in the current axes or for axes <var>hax</var>.
 </p>
 <p>When a light object is present in an axes object, and the properties
@@ -325,7 +334,9 @@ to this axes, rather than the current axes returned by <code>gca</code>.
 <p>The optional return value <var>h</var> is a graphics handle to the created light
 object.
 </p>
-
+<p>Programming Note: The full list of properties is documented at
+<a href="Light-Properties.html#Light-Properties">Light Properties</a>.
+</p>
 <p><strong>See also:</strong> <a href="Three_002dDimensional-Plots.html#XREFlighting">lighting</a>, <a href="Three_002dDimensional-Plots.html#XREFmaterial">material</a>, <a href="#XREFpatch">patch</a>, <a href="#XREFsurface">surface</a>.
 </p></dd></dl>
 
@@ -335,54 +346,72 @@ object.
 <a name="index-handle-functions"></a>
 
 <p>To determine whether a variable is a graphics object index, or an index
-to an axes or figure, use the functions <code>ishandle</code>, <code>isaxes</code>, and
-<code>isfigure</code>.
+to an axes or figure, use the functions <code>ishghandle</code>, <code>isgraphics</code>,
+<code>isaxes</code>, and <code>isfigure</code>.
 </p>
-<a name="XREFishandle"></a><dl>
-<dt><a name="index-ishandle"></a>: <em></em> <strong>ishandle</strong> <em>(<var>h</var>)</em></dt>
+<a name="XREFishghandle"></a><dl>
+<dt><a name="index-ishghandle"></a><em></em> <strong>ishghandle</strong> <em>(<var>h</var>)</em></dt>
 <dd><p>Return true if <var>h</var> is a graphics handle and false otherwise.
 </p>
 <p><var>h</var> may also be a matrix of handles in which case a logical array is
 returned that is true where the elements of <var>h</var> are graphics handles and
 false where they are not.
 </p>
-<p><strong>See also:</strong> <a href="#XREFisaxes">isaxes</a>, <a href="#XREFisfigure">isfigure</a>.
+<p><strong>See also:</strong> <a href="#XREFisgraphics">isgraphics</a>, <a href="#XREFisaxes">isaxes</a>, <a href="#XREFisfigure">isfigure</a>, <a href="#XREFishandle">ishandle</a>.
 </p></dd></dl>
 
 
-<a name="XREFishghandle"></a><dl>
-<dt><a name="index-ishghandle"></a>: <em></em> <strong>ishghandle</strong> <em>(<var>h</var>)</em></dt>
-<dt><a name="index-ishghandle-1"></a>: <em></em> <strong>ishghandle</strong> <em>(<var>h</var>, <var>type</var>)</em></dt>
+<a name="XREFisgraphics"></a><dl>
+<dt><a name="index-isgraphics"></a><em></em> <strong>isgraphics</strong> <em>(<var>h</var>)</em></dt>
+<dt><a name="index-isgraphics-1"></a><em></em> <strong>isgraphics</strong> <em>(<var>h</var>, <var>type</var>)</em></dt>
 <dd><p>Return true if <var>h</var> is a graphics handle (of type <var>type</var>) and false
 otherwise.
 </p>
 <p>When no <var>type</var> is specified the function is equivalent to
-<code>ishandle</code>.
+<code>ishghandle</code>.
 </p>
-<p><strong>See also:</strong> <a href="#XREFishandle">ishandle</a>.
+<p><strong>See also:</strong> <a href="#XREFishghandle">ishghandle</a>, <a href="#XREFishandle">ishandle</a>, <a href="#XREFisaxes">isaxes</a>, <a href="#XREFisfigure">isfigure</a>.
+</p></dd></dl>
+
+
+<a name="XREFishandle"></a><dl>
+<dt><a name="index-ishandle"></a><em></em> <strong>ishandle</strong> <em>(<var>h</var>)</em></dt>
+<dd><p>Return true if <var>h</var> is a handle to a graphics or Java object and false
+otherwise.
+</p>
+<p><var>h</var> may also be a matrix of handles in which case a logical array is
+returned that is true where the elements of <var>h</var> are handles to graphics
+or Java objects and false where they are not.
+</p>
+<p>Programming Note: It is often more useful to test for a specific object
+type.  To determine if a handle belongs to a graphics object use
+<code>ishghandle</code> or <code>isgraphics</code>.  To determine if a handle belongs
+to a Java object use <code>isjava</code>.
+</p>
+<p><strong>See also:</strong> <a href="#XREFishghandle">ishghandle</a>, <a href="#XREFisgraphics">isgraphics</a>, <a href="Java-Interface-Functions.html#XREFisjava">isjava</a>.
 </p></dd></dl>
 
 
 <a name="XREFisaxes"></a><dl>
-<dt><a name="index-isaxes"></a>: <em></em> <strong>isaxes</strong> <em>(<var>h</var>)</em></dt>
+<dt><a name="index-isaxes"></a><em></em> <strong>isaxes</strong> <em>(<var>h</var>)</em></dt>
 <dd><p>Return true if <var>h</var> is an axes graphics handle and false otherwise.
 </p>
 <p>If <var>h</var> is a matrix then return a logical array which is true where the
 elements of <var>h</var> are axes graphics handles and false where they are not.
 </p>
-<p><strong>See also:</strong> <a href="#XREFisaxes">isaxes</a>, <a href="#XREFishandle">ishandle</a>.
+<p><strong>See also:</strong> <a href="#XREFisfigure">isfigure</a>, <a href="#XREFishghandle">ishghandle</a>, <a href="#XREFisgraphics">isgraphics</a>.
 </p></dd></dl>
 
 
 <a name="XREFisfigure"></a><dl>
-<dt><a name="index-isfigure"></a>: <em></em> <strong>isfigure</strong> <em>(<var>h</var>)</em></dt>
+<dt><a name="index-isfigure"></a><em></em> <strong>isfigure</strong> <em>(<var>h</var>)</em></dt>
 <dd><p>Return true if <var>h</var> is a figure graphics handle and false otherwise.
 </p>
 <p>If <var>h</var> is a matrix then return a logical array which is true where the
 elements of <var>h</var> are figure graphics handles and false where they are
 not.
 </p>
-<p><strong>See also:</strong> <a href="#XREFisaxes">isaxes</a>, <a href="#XREFishandle">ishandle</a>.
+<p><strong>See also:</strong> <a href="#XREFisaxes">isaxes</a>, <a href="#XREFishghandle">ishghandle</a>, <a href="#XREFisgraphics">isgraphics</a>.
 </p></dd></dl>
 
 
@@ -391,8 +420,43 @@ or creates one if none exists.  Similarly, <code>gca</code> returns the
 current axes object, or creates one (and its parent figure object) if
 none exists.
 </p>
+<a name="XREFgroot"></a><dl>
+<dt><a name="index-groot"></a><em><var>h</var> =</em> <strong>groot</strong> <em>()</em></dt>
+<dd><p>Return a handle to the root graphics object.
+</p>
+<p>The root graphics object is the ultimate parent of all graphics objects.
+</p>
+<p>In addition, the root object contains information about the graphics
+system as a whole such as the <code>ScreenSize</code>.  Use <code>get&nbsp;(groot)</code><!-- /@w -->
+to find out what information is available.
+</p>
+<p>Defaults for the graphic system as a whole are specified by setting
+properties of the root graphics object that begin with <code>&quot;Default&quot;</code>.
+For example, to set the default font for all text objects to FreeSans use
+</p>
+<div class="example">
+<pre class="example">set (groot, &quot;DefaultTextFontName&quot;, &quot;FreeSans&quot;)
+</pre></div>
+
+<p>Default properties can be deleted by using <code>set</code> with the special
+property value of <code>&quot;remove&quot;</code>.  To undo the default font assignment
+above use
+</p>
+<div class="example">
+<pre class="example">set (groot, &quot;DefaultTextFontName&quot;, &quot;remove&quot;)
+</pre></div>
+
+<p>Programming Note: The root graphics object is identified by the special
+handle value of 0.  At some point this unique value may change, but code can
+be made resistant to future changes by using <code>groot</code> which is
+guaranteed to always return the root graphics object.
+</p>
+<p><strong>See also:</strong> <a href="#XREFgcf">gcf</a>, <a href="#XREFgca">gca</a>, <a href="#XREFget">get</a>, <a href="#XREFset">set</a>.
+</p></dd></dl>
+
+
 <a name="XREFgcf"></a><dl>
-<dt><a name="index-gcf"></a>: <em><var>h</var> =</em> <strong>gcf</strong> <em>()</em></dt>
+<dt><a name="index-gcf"></a><em><var>h</var> =</em> <strong>gcf</strong> <em>()</em></dt>
 <dd><p>Return a handle to the current figure.
 </p>
 <p>The current figure is the default target for graphics output.  If multiple
@@ -417,7 +481,7 @@ exist, query the <code>&quot;CurrentFigure&quot;</code> property of the root gra
 object.
 </p>
 <div class="example">
-<pre class="example">get (0, &quot;currentfigure&quot;);
+<pre class="example">get (groot, &quot;currentfigure&quot;);
 </pre></div>
 
 
@@ -426,7 +490,7 @@ object.
 
 
 <a name="XREFgca"></a><dl>
-<dt><a name="index-gca"></a>: <em><var>h</var> =</em> <strong>gca</strong> <em>()</em></dt>
+<dt><a name="index-gca"></a><em><var>h</var> =</em> <strong>gca</strong> <em>()</em></dt>
 <dd><p>Return a handle to the current axes object.
 </p>
 <p>The current axes is the default target for graphics output.  In the case
@@ -457,8 +521,8 @@ does not exist, query the <code>&quot;CurrentAxes&quot;</code> property of a fig
 
 
 <a name="XREFgco"></a><dl>
-<dt><a name="index-gco"></a>: <em><var>h</var> =</em> <strong>gco</strong> <em>()</em></dt>
-<dt><a name="index-gco-1"></a>: <em><var>h</var> =</em> <strong>gco</strong> <em>(<var>fig</var>)</em></dt>
+<dt><a name="index-gco"></a><em><var>h</var> =</em> <strong>gco</strong> <em>()</em></dt>
+<dt><a name="index-gco-1"></a><em><var>h</var> =</em> <strong>gco</strong> <em>(<var>fig</var>)</em></dt>
 <dd><p>Return a handle to the current object of the current figure, or a handle
 to the current object of the figure with handle <var>fig</var>.
 </p>
@@ -485,7 +549,7 @@ object may be changed.
 properties for graphics objects.  For example,
 </p>
 <div class="example">
-<pre class="example">get (0)
+<pre class="example">get (groot)
     &rArr; ans =
        {
          type = root
@@ -537,8 +601,8 @@ If <code>set</code> is called with two arguments (a graphic handle and a propert
 name) then only the defaults for the requested property are returned.
 </p>
 <a name="XREFget"></a><dl>
-<dt><a name="index-get"></a>: <em><var>val</var> =</em> <strong>get</strong> <em>(<var>h</var>)</em></dt>
-<dt><a name="index-get-1"></a>: <em><var>val</var> =</em> <strong>get</strong> <em>(<var>h</var>, <var>p</var>)</em></dt>
+<dt><a name="index-get"></a><em><var>val</var> =</em> <strong>get</strong> <em>(<var>h</var>)</em></dt>
+<dt><a name="index-get-1"></a><em><var>val</var> =</em> <strong>get</strong> <em>(<var>h</var>, <var>p</var>)</em></dt>
 <dd><p>Return the value of the named property <var>p</var> from the graphics handle
 <var>h</var>.
 </p>
@@ -552,11 +616,11 @@ lists respectively.
 
 
 <a name="XREFset"></a><dl>
-<dt><a name="index-set"></a>: <em></em> <strong>set</strong> <em>(<var>h</var>, <var>property</var>, <var>value</var>, &hellip;)</em></dt>
-<dt><a name="index-set-1"></a>: <em></em> <strong>set</strong> <em>(<var>h</var>, <var>properties</var>, <var>values</var>)</em></dt>
-<dt><a name="index-set-2"></a>: <em></em> <strong>set</strong> <em>(<var>h</var>, <var>pv</var>)</em></dt>
-<dt><a name="index-set-3"></a>: <em><var>value_list</var> =</em> <strong>set</strong> <em>(<var>h</var>, <var>property</var>)</em></dt>
-<dt><a name="index-set-4"></a>: <em><var>all_value_list</var> =</em> <strong>set</strong> <em>(<var>h</var>)</em></dt>
+<dt><a name="index-set"></a><em></em> <strong>set</strong> <em>(<var>h</var>, <var>property</var>, <var>value</var>, &hellip;)</em></dt>
+<dt><a name="index-set-1"></a><em></em> <strong>set</strong> <em>(<var>h</var>, <var>properties</var>, <var>values</var>)</em></dt>
+<dt><a name="index-set-2"></a><em></em> <strong>set</strong> <em>(<var>h</var>, <var>pv</var>)</em></dt>
+<dt><a name="index-set-3"></a><em><var>value_list</var> =</em> <strong>set</strong> <em>(<var>h</var>, <var>property</var>)</em></dt>
+<dt><a name="index-set-4"></a><em><var>all_value_list</var> =</em> <strong>set</strong> <em>(<var>h</var>)</em></dt>
 <dd><p>Set named property values for the graphics handle (or vector of graphics
 handles) <var>h</var>.
 </p>
@@ -615,8 +679,8 @@ being <code>&quot;portrait&quot;</code>.
 
 
 <a name="XREFancestor"></a><dl>
-<dt><a name="index-ancestor"></a>: <em><var>parent</var> =</em> <strong>ancestor</strong> <em>(<var>h</var>, <var>type</var>)</em></dt>
-<dt><a name="index-ancestor-1"></a>: <em><var>parent</var> =</em> <strong>ancestor</strong> <em>(<var>h</var>, <var>type</var>, &quot;toplevel&quot;)</em></dt>
+<dt><a name="index-ancestor"></a><em><var>parent</var> =</em> <strong>ancestor</strong> <em>(<var>h</var>, <var>type</var>)</em></dt>
+<dt><a name="index-ancestor-1"></a><em><var>parent</var> =</em> <strong>ancestor</strong> <em>(<var>h</var>, <var>type</var>, &quot;toplevel&quot;)</em></dt>
 <dd><p>Return the first ancestor of handle object <var>h</var> whose type matches
 <var>type</var>, where <var>type</var> is a character string.
 </p>
@@ -634,7 +698,7 @@ of the first (nearest) one.
 
 
 <a name="XREFallchild"></a><dl>
-<dt><a name="index-allchild"></a>: <em><var>h</var> =</em> <strong>allchild</strong> <em>(<var>handles</var>)</em></dt>
+<dt><a name="index-allchild"></a><em><var>h</var> =</em> <strong>allchild</strong> <em>(<var>handles</var>)</em></dt>
 <dd><p>Find all children, including hidden children, of a graphics object.
 </p>
 <p>This function is similar to <code>get (h, &quot;children&quot;)</code>, but also returns
@@ -649,7 +713,7 @@ cell will contain a vector of handles.
 
 
 <a name="XREFfindfigs"></a><dl>
-<dt><a name="index-findfigs"></a>: <em></em> <strong>findfigs</strong> <em>()</em></dt>
+<dt><a name="index-findfigs"></a><em></em> <strong>findfigs</strong> <em>()</em></dt>
 <dd><p>Find all visible figures that are currently off the screen and move them
 onto the screen.
 </p>
@@ -676,7 +740,7 @@ struct2hdl (fig_struct);
 </pre></div>
 
 <a name="XREFhdl2struct"></a><dl>
-<dt><a name="index-hdl2struct"></a>: <em><var>s</var> =</em> <strong>hdl2struct</strong> <em>(<var>h</var>)</em></dt>
+<dt><a name="index-hdl2struct"></a><em><var>s</var> =</em> <strong>hdl2struct</strong> <em>(<var>h</var>)</em></dt>
 <dd><p>Return a structure, <var>s</var>, whose fields describe the properties
 of the object, and its children, associated with the handle, <var>h</var>.
 </p>
@@ -688,9 +752,9 @@ of the object, and its children, associated with the handle, <var>h</var>.
 
 
 <a name="XREFstruct2hdl"></a><dl>
-<dt><a name="index-struct2hdl"></a>: <em><var>h</var> =</em> <strong>struct2hdl</strong> <em>(<var>s</var>)</em></dt>
-<dt><a name="index-struct2hdl-1"></a>: <em><var>h</var> =</em> <strong>struct2hdl</strong> <em>(<var>s</var>, <var>p</var>)</em></dt>
-<dt><a name="index-struct2hdl-2"></a>: <em><var>h</var> =</em> <strong>struct2hdl</strong> <em>(<var>s</var>, <var>p</var>, <var>hilev</var>)</em></dt>
+<dt><a name="index-struct2hdl"></a><em><var>h</var> =</em> <strong>struct2hdl</strong> <em>(<var>s</var>)</em></dt>
+<dt><a name="index-struct2hdl-1"></a><em><var>h</var> =</em> <strong>struct2hdl</strong> <em>(<var>s</var>, <var>p</var>)</em></dt>
+<dt><a name="index-struct2hdl-2"></a><em><var>h</var> =</em> <strong>struct2hdl</strong> <em>(<var>s</var>, <var>p</var>, <var>hilev</var>)</em></dt>
 <dd><p>Construct a graphics handle object <var>h</var> from the structure <var>s</var>.
 </p>
 <p>The structure must contain the fields <code>&quot;handle&quot;</code>, <code>&quot;type&quot;</code>,
@@ -710,8 +774,8 @@ hggroups.  The default is false.
 
 
 <a name="XREFcopyobj"></a><dl>
-<dt><a name="index-copyobj"></a>: <em><var>hnew</var> =</em> <strong>copyobj</strong> <em>(<var>horig</var>)</em></dt>
-<dt><a name="index-copyobj-1"></a>: <em><var>hnew</var> =</em> <strong>copyobj</strong> <em>(<var>horig</var>, <var>hparent</var>)</em></dt>
+<dt><a name="index-copyobj"></a><em><var>hnew</var> =</em> <strong>copyobj</strong> <em>(<var>horig</var>)</em></dt>
+<dt><a name="index-copyobj-1"></a><em><var>hnew</var> =</em> <strong>copyobj</strong> <em>(<var>horig</var>, <var>hparent</var>)</em></dt>
 <dd><p>Construct a copy of the graphic objects associated with the handles
 <var>horig</var> and return new handles <var>hnew</var> to the new objects.
 </p>

@@ -1,24 +1,24 @@
 @c DO NOT EDIT!  Generated automatically by munge-texi.pl.
 
-@c Copyright (C) 2007-2017 John W. Eaton and David Bateman
+@c Copyright (C) 2007-2018 John W. Eaton and David Bateman
 @c Copyright (C) 2010 Martin Hepperle
 @c Copyright (C) 2007 Paul Thomas and Christoph Spiel
 @c
 @c This file is part of Octave.
 @c
-@c Octave is free software; you can redistribute it and/or modify it
-@c under the terms of the GNU General Public License as published by the
-@c Free Software Foundation; either version 3 of the License, or (at
-@c your option) any later version.
+@c Octave is free software: you can redistribute it and/or modify it
+@c under the terms of the GNU General Public License as published by
+@c the Free Software Foundation, either version 3 of the License, or
+@c (at your option) any later version.
 @c
-@c Octave is distributed in the hope that it will be useful, but WITHOUT
-@c ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-@c FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-@c for more details.
+@c Octave is distributed in the hope that it will be useful, but
+@c WITHOUT ANY WARRANTY; without even the implied warranty of
+@c MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+@c GNU General Public License for more details.
 @c
 @c You should have received a copy of the GNU General Public License
 @c along with Octave; see the file COPYING.  If not, see
-@c <http://www.gnu.org/licenses/>.
+@c <https://www.gnu.org/licenses/>.
 
 @node External Code Interface
 @appendix External Code Interface
@@ -185,12 +185,12 @@ Generate dependency files (.d) for C and C++ source files.
 Add the run-time path to the link command.
 
 @item @nospell{-Wl,@dots{}}
-Pass flags though the linker like @nospell{"-Wl,-rpath=@dots{}"}.
+Pass options to the linker like @nospell{"-Wl,-rpath=@dots{}"}.
 The quotes are needed since commas are interpreted as command
 separators.
 
 @item -W@dots{}
-Pass flags though the compiler like @nospell{"-Wa,OPTION"}.
+Pass options to the assembler like @nospell{"-Wa,OPTION"}.
 
 @item -c
 Compile but do not link.
@@ -289,7 +289,12 @@ DEFUN_DLD (helloworld, args, nargout,
                 << args.length () << " input arguments and "
                 << nargout << " output arguments.\n";
 
-  return octave_value_list ();
+  // Return empty matrices for any outputs
+  octave_value_list retval (nargout);
+  for (int i = 0; i < nargout; i++)
+    retval(i) = octave_value (Matrix ());
+
+  return retval;
 }
 @end verbatim
 @end group
@@ -724,7 +729,7 @@ DEFUN_DLD (structdemo, args, , "Struct Demo")
   if (args.length () != 2)
     print_usage ();
 
-  if (! args(0).is_map ())
+  if (! args(0).isstruct ())
     error ("structdemo: ARG1 must be a struct");
 
   octave_scalar_map arg0 = args(0).scalar_map_value ();
@@ -845,7 +850,7 @@ use of @code{numel} should, therefore, be avoided unless it is known that it
 will not overflow.
 
 Extreme care is also required when using the @code{elem} method or the
-@qcode{()} operator which perform essentially the same function.  The reason is
+@code{()} operator which perform essentially the same function.  The reason is
 that if a sparse object is non-const, then Octave will assume that a request
 for a zero element in a sparse matrix is in fact a request to create this
 element so it can be filled.  Therefore, a piece of code like
@@ -1086,7 +1091,7 @@ changing capacity.
 @subsubsection Using Sparse Matrices in Oct-Files
 
 Most of the same operators and functions for sparse matrices that are available
-from the Octave interpeter are also available within oct-files.  The basic
+from the Octave interpreter are also available within oct-files.  The basic
 means of extracting a sparse matrix from an @code{octave_value}, and returning
 it as an @code{octave_value}, can be seen in the following example.
 
@@ -1428,7 +1433,7 @@ oct-files often need additional input parameter checking.
 
 There are several functions within Octave that can be useful for the purposes
 of parameter checking.  These include the methods of the @code{octave_value}
-class like @code{is_real_matrix}, @code{is_numeric_type}, etc. (See
+class like @code{is_real_matrix}, @code{is_numeric_type}, etc. (see
 @file{ov.h}).  Often, with a knowledge of the Octave m-file language, you can
 guess at what the corresponding C++ routine will.  In addition there are some
 more specialized input validation functions of which a few are demonstrated
@@ -1721,6 +1726,11 @@ mexFunction (int nlhs, mxArray *plhs[],
   mexPrintf ("Hello, World!\n");
 
   mexPrintf ("I have %d inputs and %d outputs\n", nrhs, nlhs);
+
+  /* Return empty matrices for any outputs */
+  int i;
+  for (i = 0; i < nlhs; i++)
+    plhs[i] = mxCreateDoubleMatrix (0, 0, mxREAL);
 }
 @end verbatim
 @end group
@@ -1894,8 +1904,8 @@ precision arrays is given by the file @file{mypow2.c} shown below.
 #include "mex.h"
 
 void
-mexFunction (int nlhs, mxArray* plhs[],
-             int nrhs, const mxArray* prhs[])
+mexFunction (int nlhs, mxArray *plhs[],
+             int nrhs, const mxArray *prhs[])
 {
   mwSize n;
   mwIndex i;
@@ -1948,7 +1958,7 @@ The example above uses the functions @code{mxGetDimensions},
 @code{mxGetNumberOfElements}, and @code{mxGetNumberOfDimensions} to work with
 the dimensions of multi-dimensional arrays.  The functions @code{mxGetM}, and
 @code{mxGetN} are also available to find the number of rows and columns in a
-2-D matrix (MxN matrix).
+2-D matrix (@nospell{MxN} matrix).
 
 @node Character Strings in Mex-Files
 @subsection Character Strings in Mex-Files
@@ -2019,8 +2029,8 @@ oct-file in a mex-file is given by @file{mycell.c} as shown below.
 #include "mex.h"
 
 void
-mexFunction (int nlhs, mxArray* plhs[],
-             int nrhs, const mxArray* prhs[])
+mexFunction (int nlhs, mxArray *plhs[],
+             int nrhs, const mxArray *prhs[])
 {
   mwSize n;
   mwIndex i;
@@ -2120,8 +2130,8 @@ in the file @file{mystruct.c} shown below.
 #include "mex.h"
 
 void
-mexFunction (int nlhs, mxArray* plhs[],
-             int nrhs, const mxArray* prhs[])
+mexFunction (int nlhs, mxArray *plhs[],
+             int nrhs, const mxArray *prhs[])
 {
   int i;
   mwIndex j;
@@ -2380,8 +2390,8 @@ in the example below.
 #include "mex.h"
 
 void
-mexFunction (int nlhs, mxArray* plhs[],
-             int nrhs, const mxArray* prhs[])
+mexFunction (int nlhs, mxArray *plhs[],
+             int nrhs, const mxArray *prhs[])
 {
   char *str;
 
@@ -2492,31 +2502,76 @@ first.  An example of how to do this can then be seen in the code
 int
 main (void)
 {
-  string_vector argv (2);
-  argv(0) = "embedded";
-  argv(1) = "-q";
+  // Create interpreter.
 
-  octave_main (2, argv.c_str_vec (), 1);
+  octave::interpreter interpreter;
 
-  octave_idx_type n = 2;
-  octave_value_list in;
+  try
+    {
+      // Inhibit reading history file by calling
+      //
+      //   interpreter.initialize_history (false);
 
-  for (octave_idx_type i = 0; i < n; i++)
-    in(i) = octave_value (5 * (i + 2));
+      // Set custom load path here if you wish by calling
+      //
+      //   interpreter.initialize_load_path (false);
 
-  octave_value_list out = feval ("gcd", in, 1);
+      // Perform final initialization of interpreter, including
+      // executing commands from startup files by calling
+      //
+      //   int status interpreter.initialize ();
+      //
+      //   if (! interpreter.initialized ())
+      //     {
+      //       std::cerr << "Octave interpreter initialization failed!"
+      //                 << std::endl;
+      //       exit (status);
+      //     }
+      //
+      // You may skip this step if you don't need to do do anything
+      // between reading the startup files and telling the interpreter
+      // that you are ready to execute commands.
 
-  if (out.length () > 0)
-    std::cout << "GCD of ["
-              << in(0).int_value ()
-              << ", "
-              << in(1).int_value ()
-              << "] is " << out(0).int_value ()
-              << std::endl;
-  else
-    std::cout << "invalid\n";
+      // Tell the interpreter that we're ready to execute commands:
 
-  clean_up_and_exit (0);
+      int status = interpreter.execute ();
+
+      if (status != 0)
+        {
+          std::cerr << "creating embedded Octave interpreter failed!"
+                    << std::endl;
+          return status;
+        }
+
+      octave_idx_type n = 2;
+      octave_value_list in;
+
+      for (octave_idx_type i = 0; i < n; i++)
+        in(i) = octave_value (5 * (i + 2));
+
+      octave_value_list out = octave::feval ("gcd", in, 1);
+
+      if (out.length () > 0)
+        std::cout << "GCD of ["
+                  << in(0).int_value ()
+                  << ", "
+                  << in(1).int_value ()
+                  << "] is " << out(0).int_value ()
+                  << std::endl;
+      else
+        std::cout << "invalid\n";
+    }
+  catch (const octave::exit_exception& ex)
+    {
+      std::cerr << "Octave interpreter exited with status = "
+                << ex.exit_status () << std::endl;
+    }
+  catch (const octave::execution_exception&)
+    {
+      std::cerr << "error encountered in Octave evaluator!" << std::endl;
+    }
+
+  return 0;
 }
 @end verbatim
 @end example
@@ -2607,8 +2662,7 @@ $
 
 The Java Interface is designed for calling Java functions from within Octave.
 If you want to do the reverse, and call Octave from within Java, try a library
-like @code{javaOctave} (@url{https://kenai.com/projects/javaoctave/pages/Home})
-or @code{joPas} (@url{http://jopas.sourceforge.net/}).
+like @code{joPas} (@url{http://jopas.sourceforge.net}).
 
 @menu
 * Making Java Classes Available::
@@ -2785,6 +2839,7 @@ class (b)
 The example above can be carried out using only Java objects:
 
 @example
+@group
 a = javaObject ("java.lang.Double", 1.001);
 b = javaObject ("java.math.BigDecimal", a);
 
@@ -2796,6 +2851,7 @@ isjava (b)
 @result{} ans = 1
 class (b)
 @result{} ans = java.math.BigDecimal
+@end group
 @end example
 
 One can see, that even a @code{java.lang.Double} is not converted to an Octave
@@ -3290,7 +3346,7 @@ and print or return an error message if it is not.
 Possible features are:
 
 @table @asis
-@item @qcode{"awt"}
+@item @nospell{@qcode{"awt"}}
 Abstract Window Toolkit for GUIs.
 
 @item @qcode{"desktop"}
@@ -3355,7 +3411,7 @@ Return true if the Java element @var{feature} is available.
 Possible features are:
 
 @table @asis
-@item @qcode{"awt"}
+@item @nospell{@qcode{"awt"}}
 Abstract Window Toolkit for GUIs.
 
 @item @qcode{"desktop"}

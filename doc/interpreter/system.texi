@@ -1,22 +1,22 @@
 @c DO NOT EDIT!  Generated automatically by munge-texi.pl.
 
-@c Copyright (C) 1996-2017 John W. Eaton
+@c Copyright (C) 1996-2018 John W. Eaton
 @c
 @c This file is part of Octave.
 @c
-@c Octave is free software; you can redistribute it and/or modify it
-@c under the terms of the GNU General Public License as published by the
-@c Free Software Foundation; either version 3 of the License, or (at
-@c your option) any later version.
+@c Octave is free software: you can redistribute it and/or modify it
+@c under the terms of the GNU General Public License as published by
+@c the Free Software Foundation, either version 3 of the License, or
+@c (at your option) any later version.
 @c
-@c Octave is distributed in the hope that it will be useful, but WITHOUT
-@c ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-@c FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-@c for more details.
+@c Octave is distributed in the hope that it will be useful, but
+@c WITHOUT ANY WARRANTY; without even the implied warranty of
+@c MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+@c GNU General Public License for more details.
 @c
 @c You should have received a copy of the GNU General Public License
 @c along with Octave; see the file COPYING.  If not, see
-@c <http://www.gnu.org/licenses/>.
+@c <https://www.gnu.org/licenses/>.
 
 @node System Utilities
 @chapter System Utilities
@@ -80,7 +80,7 @@ Days since Sunday (0-6).
 Days since January 1 (0-365).
 
 @item isdst
-Daylight Savings Time flag.
+Daylight saving time flag.
 
 @item gmtoff
 Seconds offset from UTC.
@@ -518,51 +518,75 @@ is_leap_year (2000)
 @end deftypefn
 
 
-@anchor{XREFtoc}
 @c tic libinterp/corefcn/data.cc
 @anchor{XREFtic}
 @deftypefn  {} {} tic ()
 @deftypefnx {} {@var{id} =} tic ()
-@deftypefnx {} {} toc ()
-@deftypefnx {} {} toc (@var{id})
-@deftypefnx {} {@var{val} =} toc (@dots{})
-Set or check a wall-clock timer.
+Initialize a wall-clock timer.
 
-Calling @code{tic} without an output argument sets the internal timer state.
-Subsequent calls to @code{toc} return the number of seconds since the timer
-was set.
-For example,
+Calling @code{tic} without an output argument resets the internal timer.
+Subsequent calls to @code{toc} return the number of seconds since the timer was
+set.
+
+If called with one output argument, @code{tic} creates a new timer instance and
+returns a timer identifier @var{id}.  The @var{id} is a scalar of type
+@code{uint64} that may be passed to @code{toc} to check elapsed time on this
+timer, rather than the default internal timer.
+
+Example 1 : benchmarking code with internal timer
 
 @example
 @group
-tic ();
+tic;
 # many computations later@dots{}
-elapsed_time = toc ();
+elapsed_time = toc;
+@end group
+@end example
+
+Example 2 : mixed timer id and internal timer
+
+@example
+@group
+tic;
+pause (1);
+toc
+@result{} Elapsed time is 1.0089 seconds.
+id = tic;
+pause (2);
+toc (id)
+@result{} Elapsed time is 2.01142 seconds.
+toc
+Elapsed time is 3.02308 seconds.
 @end group
 @end example
 
 @noindent
-will set the variable @code{elapsed_time} to the number of seconds since
-the most recent call to the function @code{tic}.
+Calling @code{tic} and @code{toc} in this way allows nested timing calls.
 
-If called with one output argument, @code{tic} returns a scalar
-of type @code{uint64} that may be later passed to @code{toc}.
-
-@example
-@group
-id = tic; pause (5); toc (id)
-      @result{} 5.0010
-@end group
-@end example
-
-Calling @code{tic} and @code{toc} this way allows nested timing calls.
-
-If you are more interested in the CPU time that your process used, you
-should use the @code{cputime} function instead.  The @code{tic} and
-@code{toc} functions report the actual wall clock time that elapsed
-between the calls.  This may include time spent processing other jobs or
-doing nothing at all.
+If you are more interested in the CPU time that your process used, you should
+use the @code{cputime} function instead.  The @code{tic} and @code{toc}
+functions report the actual wall clock time that elapsed between the calls.
+This may include time spent processing other jobs or doing nothing at all.
 @seealso{@ref{XREFtoc,,toc}, @ref{XREFcputime,,cputime}}
+@end deftypefn
+
+
+@c toc libinterp/corefcn/data.cc
+@anchor{XREFtoc}
+@deftypefn  {} {} toc ()
+@deftypefnx {} {} toc (@var{id})
+@deftypefnx {} {@var{elapsed_time} =} toc (@dots{})
+Measure elapsed time on a wall-clock timer.
+
+With no arguments, return the number of seconds elapsed on the internal timer
+since the last call to @code{tic}.
+
+When given the identifier @var{id} of a specific timer, return the number of
+seconds elapsed since the timer @var{id} was initialized.
+
+@xref{XREFtic, , tic}, for examples of the use of @code{tic}/@code{toc}.
+
+@seealso{@ref{XREFtic,,tic}, @ref{XREFcputime,,cputime}}
 @end deftypefn
 
 
@@ -901,16 +925,22 @@ status information on files; and for manipulating file and path names.
 
 @c movefile scripts/miscellaneous/movefile.m
 @anchor{XREFmovefile}
-@deftypefn  {} {} movefile (@var{f1})
+@deftypefn  {} {} movefile @var{f1}
+@deftypefnx {} {} movefile @var{f1} @var{f2}
+@deftypefnx {} {} movefile @var{f1} @var{f2} f
+@deftypefnx {} {} movefile (@var{f1})
 @deftypefnx {} {} movefile (@var{f1}, @var{f2})
 @deftypefnx {} {} movefile (@var{f1}, @var{f2}, 'f')
 @deftypefnx {} {[@var{status}, @var{msg}, @var{msgid}] =} movefile (@dots{})
-Move the source files or directories @var{f1} to the destination @var{f2}.
+Move the source file or directory @var{f1} to the destination @var{f2}.
 
-The name @var{f1} may contain globbing patterns.  If @var{f1} expands to
-multiple filenames, @var{f2} must be a directory.  If no destination
-@var{f2} is specified then the destination is the present working directory.
-If @var{f2} is a filename then @var{f1} is renamed to @var{f2}.
+The name @var{f1} may contain globbing patterns, or may be a cell array of
+strings.  If @var{f1} expands to multiple filenames, @var{f2} must be a
+directory.
+
+If no destination @var{f2} is specified then the destination is the present
+working directory.  If @var{f2} is a filename then @var{f1} is renamed to
+@var{f2}.
 
 When the force flag @qcode{'f'} is given any existing files will be
 overwritten without prompting.
@@ -939,12 +969,16 @@ error message.
 
 @c copyfile scripts/miscellaneous/copyfile.m
 @anchor{XREFcopyfile}
-@deftypefn  {} {[@var{status}, @var{msg}, @var{msgid}] =} copyfile (@var{f1}, @var{f2})
-@deftypefnx {} {[@var{status}, @var{msg}, @var{msgid}] =} copyfile (@var{f1}, @var{f2}, 'f')
-Copy the source files or directories @var{f1} to the destination @var{f2}.
+@deftypefn  {} {} copyfile @var{f1} @var{f2}
+@deftypefnx {} {} copyfile @var{f1} @var{f2} f
+@deftypefnx {} {} copyfile (@var{f1}, @var{f2})
+@deftypefnx {} {} copyfile (@var{f1}, @var{f2}, 'f')
+@deftypefnx {} {[@var{status}, @var{msg}, @var{msgid}] =} copyfile (@dots{})
+Copy the source file(s) or directory @var{f1} to the destination @var{f2}.
 
-The name @var{f1} may contain globbing patterns.  If @var{f1} expands to
-multiple filenames, @var{f2} must be a directory.
+The name @var{f1} may contain globbing patterns, or may be a cell array of
+strings.  If @var{f1} expands to multiple filenames, @var{f2} must be a
+directory.
 
 When the force flag @qcode{'f'} is given any existing files will be
 overwritten without prompting.
@@ -1012,13 +1046,15 @@ error message.
 
 @c mkdir scripts/miscellaneous/mkdir.m
 @anchor{XREFmkdir}
-@deftypefn  {} {} mkdir @var{dir}
-@deftypefnx {} {} mkdir (@var{parent}, @var{dir})
+@deftypefn  {} {} mkdir @var{dirname}
+@deftypefnx {} {} mkdir @var{parent} @var{dirname}
+@deftypefnx {} {} mkdir (@var{dirname})
+@deftypefnx {} {} mkdir (@var{parent}, @var{dirname})
 @deftypefnx {} {[@var{status}, @var{msg}, @var{msgid}] =} mkdir (@dots{})
-Create a directory named @var{dir} in the directory @var{parent},
+Create a directory named @var{dirname} in the directory @var{parent},
 creating any intermediate directories if necessary.
 
-If @var{dir} is a relative path and no @var{parent} directory is specified
+If @var{dir} is a relative path, and no @var{parent} directory is specified,
 then the present working directory is used.
 
 If successful, @var{status} is 1, and @var{msg} and @var{msgid} are empty
@@ -1332,7 +1368,7 @@ the matching files.
 @end deftypefn
 
 
-@c isdir scripts/general/isdir.m
+@c isdir scripts/miscellaneous/isdir.m
 @anchor{XREFisdir}
 @deftypefn {} {} isdir (@var{f})
 Return true if @var{f} is a directory.
@@ -1448,43 +1484,6 @@ It is @samp{/} (forward slash) under UNIX or @w{Mac OS X}, @samp{/} and
 @end deftypefn
 
 
-@c filemarker libinterp/corefcn/input.cc
-@anchor{XREFfilemarker}
-@deftypefn  {} {@var{val} =} filemarker ()
-@deftypefnx {} {@var{old_val} =} filemarker (@var{new_val})
-@deftypefnx {} {} filemarker (@var{new_val}, "local")
-Query or set the character used to separate the filename from the
-subfunction names contained within the file.
-
-By default this is the character @samp{>}.
-This can be used in a generic manner to interact with subfunctions.
-For example,
-
-@example
-help (["myfunc", filemarker, "mysubfunc"])
-@end example
-
-@noindent
-returns the help string associated with the subfunction @code{mysubfunc}
-located in the file @file{myfunc.m}.
-
-@code{filemarker} is also useful during debugging for placing breakpoints
-within subfunctions or nested functions.
-For example,
-
-@example
-dbstop (["myfunc", filemarker, "mysubfunc"])
-@end example
-
-@noindent
-will set a breakpoint at the first line of the subfunction @code{mysubfunc}.
-
-When called from inside a function with the @qcode{"local"} option, the
-variable is changed locally for the function and any subroutines it calls.
-The original variable value is restored when exiting the function.
-@end deftypefn
-
-
 @c fileparts scripts/miscellaneous/fileparts.m
 @anchor{XREFfileparts}
 @deftypefn {} {[@var{dir}, @var{name}, @var{ext}] =} fileparts (@var{filename})
@@ -1597,8 +1596,8 @@ Return true if @var{file} is a rooted-relative filename.
 
 @c recycle scripts/miscellaneous/recycle.m
 @anchor{XREFrecycle}
-@deftypefn  {} {@var{current_state} =} recycle ()
-@deftypefnx {} {@var{old_state} =} recycle (@var{new_state})
+@deftypefn  {} {@var{val} =} recycle ()
+@deftypefnx {} {@var{old_val} =} recycle (@var{new_val})
 Query or set the preference for recycling deleted files.
 
 When recycling is enabled, commands which would permanently erase files
@@ -1766,11 +1765,11 @@ corresponds to a known extension.
 Valid filetype extensions:
 
 @table @code
-@item  bz
-@itemx bz2
+@item  @nospell{bz}
+@itemx @nospell{bz2}
 bzip archive
 
-@item gz
+@item @nospell{gz}
 gzip archive
 
 @item tar
@@ -2173,6 +2172,7 @@ to the standard output.  To send the output of a command executed with
 @example
 @group
 [~, text] = system ("cmd");
+more on;
 disp (text);
 @end group
 @end example
@@ -2181,7 +2181,10 @@ disp (text);
 or
 
 @example
+@group
+more on;
 printf ("%s\n", nthargout (2, "system", "cmd"));
+@end group
 @end example
 
 The @code{system} function can return two values.  The first is the
@@ -2189,7 +2192,7 @@ exit status of the command and the second is any output from the
 command that was written to the standard output stream.  For example,
 
 @example
-[status, output] = system ("echo foo; exit 2");
+[status, output] = system ("echo foo & exit 2");
 @end example
 
 @noindent
@@ -2198,6 +2201,11 @@ variable @code{status} to the integer @samp{2}.
 
 For commands run asynchronously, @var{status} is the process id of the
 command shell that is started to run the command.
+
+The shell used for executing commands varies with operating system and is
+typically @file{/bin/sh} for UNIX systems and @nospell{@file{cmd.exe}} for
+Windows
+systems.
 @seealso{@ref{XREFunix,,unix}, @ref{XREFdos,,dos}}
 @end deftypefn
 
@@ -2389,7 +2397,7 @@ exit status, it will linger until Octave exits.
 @end deftypefn
 
 
-@c EXEC_PATH libinterp/corefcn/defaults.cc
+@c EXEC_PATH libinterp/corefcn/environment.cc
 @anchor{XREFEXEC_PATH}
 @deftypefn  {} {@var{val} =} EXEC_PATH ()
 @deftypefnx {} {@var{old_val} =} EXEC_PATH (@var{new_val})
@@ -2406,7 +2414,7 @@ When called from inside a function with the @qcode{"local"} option, the
 variable is changed locally for the function and any subroutines it calls.
 The original variable value is restored when exiting the function.
 
-@seealso{@ref{XREFIMAGE_PATH,,IMAGE_PATH}, @ref{XREFOCTAVE_HOME,,OCTAVE_HOME}}
+@seealso{@ref{XREFIMAGE_PATH,,IMAGE_PATH}, @ref{XREFOCTAVE_HOME,,OCTAVE_HOME}, @ref{XREFOCTAVE_EXEC_HOME,,OCTAVE_EXEC_HOME}}
 @end deftypefn
 
 
@@ -2536,9 +2544,11 @@ about the subprocess that exited.
 @c WCONTINUE libinterp/corefcn/syscalls.cc
 @anchor{XREFWCONTINUE}
 @deftypefn {} {} WCONTINUE ()
-Return the numerical value of the option argument that may be
-passed to @code{waitpid} to indicate that it should also return if a stopped
-child has been resumed by delivery of a @code{SIGCONT} signal.
+Return the numerical value of the @code{WCONTINUE} macro.
+
+@code{WCONTINUE} is the option argument that may be passed to
+@code{waitpid} to indicate that it should also return if a stopped child
+has been resumed by delivery of a @code{SIGCONT} signal.
 @seealso{@ref{XREFwaitpid,,waitpid}, @ref{XREFWNOHANG,,WNOHANG}, @ref{XREFWUNTRACED,,WUNTRACED}}
 @end deftypefn
 
@@ -2551,7 +2561,7 @@ true if the child produced a core dump.
 
 This function should only be employed if @code{WIFSIGNALED} returned true.
 The macro used to implement this function is not specified in POSIX.1-2001
-and is not available on some Unix implementations (e.g., AIX, SunOS).
+and is not available on some Unix implementations (e.g., @nospell{AIX, SunOS}).
 @seealso{@ref{XREFwaitpid,,waitpid}, @ref{XREFWIFEXITED,,WIFEXITED}, @ref{XREFWEXITSTATUS,,WEXITSTATUS}, @ref{XREFWIFSIGNALED,,WIFSIGNALED}, @ref{XREFWTERMSIG,,WTERMSIG}, @ref{XREFWIFSTOPPED,,WIFSTOPPED}, @ref{XREFWSTOPSIG,,WSTOPSIG}, @ref{XREFWIFCONTINUED,,WIFCONTINUED}}
 @end deftypefn
 
@@ -2609,9 +2619,11 @@ true if the child terminated normally.
 @c WNOHANG libinterp/corefcn/syscalls.cc
 @anchor{XREFWNOHANG}
 @deftypefn {} {} WNOHANG ()
-Return the numerical value of the option argument that may be
-passed to @code{waitpid} to indicate that it should return its status
-immediately instead of waiting for a process to exit.
+Return the numerical value of the @code{WNOHANG} macro.
+
+@code{WNOHANG} is the option argument that may be passed to
+@code{waitpid} to indicate that it should return its status immediately
+instead of waiting for a process to exit.
 @seealso{@ref{XREFwaitpid,,waitpid}, @ref{XREFWUNTRACED,,WUNTRACED}, @ref{XREFWCONTINUE,,WCONTINUE}}
 @end deftypefn
 
@@ -2641,8 +2653,10 @@ This function should only be employed if @code{WIFSIGNALED} returned true.
 @c WUNTRACED libinterp/corefcn/syscalls.cc
 @anchor{XREFWUNTRACED}
 @deftypefn {} {} WUNTRACED ()
-Return the numerical value of the option argument that may be
-passed to @code{waitpid} to indicate that it should also return if the child
+Return the numerical value of the @code{WUNTRACED} macro.
+
+@code{WUNTRACED} is the option argument that may be passed to
+@code{waitpid} to indicate that it should also return if the child
 process has stopped but is not traced via the @code{ptrace} system call
 @seealso{@ref{XREFwaitpid,,waitpid}, @ref{XREFWNOHANG,,WNOHANG}, @ref{XREFWCONTINUE,,WCONTINUE}}
 @end deftypefn
@@ -2947,6 +2961,9 @@ If a return value is requested, return a structure array with the fields
 @table @asis
 @item name
 File or directory name.
+
+@item folder
+Location of file or directory
 
 @item date
 Timestamp of file modification (string value).
@@ -3290,7 +3307,19 @@ Return true if running in the student edition of @sc{matlab}.
 @anchor{XREFOCTAVE_HOME}
 @deftypefn {} {} OCTAVE_HOME ()
 Return the name of the top-level Octave installation directory.
-@seealso{@ref{XREFEXEC_PATH,,EXEC_PATH}, @ref{XREFIMAGE_PATH,,IMAGE_PATH}}
+OCTAVE_HOME corresponds to the configuration variable @var{prefix}.
+@seealso{@ref{XREFEXEC_PATH,,EXEC_PATH}, @ref{XREFIMAGE_PATH,,IMAGE_PATH}, @ref{XREFOCTAVE_EXEC_HOME,,OCTAVE_EXEC_HOME}}
+@end deftypefn
+
+
+@c OCTAVE_EXEC_HOME libinterp/corefcn/defaults.cc
+@anchor{XREFOCTAVE_EXEC_HOME}
+@deftypefn {} {} OCTAVE_HOME ()
+Return the name of the top-level Octave installation directory for
+architecture-dependent files.  If not specified separately, the value
+is the same as OCTAVE_HOME@.  OCTAVE_EXEC_HOME corresponds to the
+configuration variable @var{exec_prefix}.
+@seealso{@ref{XREFEXEC_PATH,,EXEC_PATH}, @ref{XREFIMAGE_PATH,,IMAGE_PATH}, @ref{XREFOCTAVE_HOME,,OCTAVE_HOME}}
 @end deftypefn
 
 
@@ -3343,10 +3372,13 @@ for version information of the Java @nospell{VM},
 for version information for the linked @sc{fftw},
 
 @item @qcode{"-blas"}
-for version information for the linked @sc{blas} (not implemented),
+for version information for the linked @sc{blas},
 
 @item @qcode{"-lapack"}
-for version information for the linked @sc{lapack} (not implemented).
+for version information for the linked @sc{lapack}.
+
+@item @qcode{"-hgid"}
+the mercurial ID of the sources used to build Octave.
 @end table
 
 The variant with no input and output argument is an alias for the function
@@ -3552,6 +3584,77 @@ elements @code{sec} (seconds) @code{usec} (microseconds).
 A structure containing the user CPU time used.  The structure has the
 elements @code{sec} (seconds) @code{usec} (microseconds).
 @end table
+@end deftypefn
+
+
+@c winqueryreg libinterp/corefcn/sysdep.cc
+@anchor{XREFwinqueryreg}
+@deftypefn  {} {@var{value} =} winqueryreg (@var{rootkey}, @var{subkey}, @var{valuename})
+@deftypefnx {} {@var{value} =} winqueryreg (@var{rootkey}, @var{subkey})
+@deftypefnx {} {@var{names} =} winqueryreg (@code{"name"}, @var{rootkey}, @var{subkey})
+
+Query names or value from the Windows registry.
+
+On Windows, return the value of the registry key @var{subkey} from the root key
+@var{rootkey}.  You can specify the name of the queried registry value with the
+optional argument @var{valuename}.  Otherwise, if called with only two
+arguments or @var{valuename} is empty, then the default value of @var{subkey}
+is returned.  If the registry value is of type @nospell{@qcode{"REG_DWORD"}}
+then @var{value} is of class int32.  If the value is of the type
+@nospell{@qcode{"REG_SZ"}} or @nospell{@qcode{"REG_EXPAND_SZ"}} a string is
+returned.
+
+If the first argument is @qcode{"name"}, a cell array of strings with the names
+of the values at that key is returned.
+
+The variable @var{rootkey} must be a string with a valid root key identifier:
+
+@table @asis
+@item  @nospell{HKCR}
+@itemx @nospell{HKEY_CLASSES_ROOT}
+
+@item @nospell{HKEY_CURRENT_CONFIG}
+
+@item  @nospell{HKCU}
+@itemx @nospell{HKEY_CURRENT_USER}
+
+@item  @nospell{HKLM}
+@itemx @nospell{HKEY_LOCAL_MACHINE}
+
+
+@item  @nospell{HKU}
+@itemx @nospell{HKEY_USERS}
+
+
+@item @nospell{HKEY_PERFORMANCE_DATA}
+
+@end table
+
+Examples:
+
+Get a list of value names at the key @nospell{@qcode{'HKCU\Environment'}}:
+
+@example
+@group
+@var{valuenames} = winqueryreg ("name", "HKEY_CURRENT_USER", ...
+                          "Environment");
+@end group
+@end example
+
+For each @var{valuenames}, display the value:
+
+@example
+@group
+for @var{k} = 1:numel (@var{valuenames})
+  @var{val} = winqueryreg ("HKEY_CURRENT_USER", "Environment", ...
+                     @var{valuenames}@{@var{k}@});
+  @var{str} = sprintf ("%s = %s", @var{valuenames}@{@var{k}@}, num2str (@var{val}));
+  disp (@var{str});
+endfor
+@end group
+@end example
+
+On non-Windows platforms this function fails with an error.
 @end deftypefn
 
 

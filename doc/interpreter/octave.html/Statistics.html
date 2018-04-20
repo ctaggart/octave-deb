@@ -58,13 +58,14 @@ Next: <a href="Sets.html#Sets" accesskey="n" rel="next">Sets</a>, Previous: <a h
 <a name="Statistics-1"></a>
 <h2 class="chapter">26 Statistics</h2>
 
-<p>Octave has support for various statistical methods.  This includes
-basic descriptive statistics, probability distributions, statistical tests,
-random number generation, and much more.
+<p>Octave has support for various statistical methods.  The emphasis is on basic
+descriptive statistics, but the Octave Forge statistics package includes
+probability distributions, statistical tests, random number generation, and
+much more.
 </p>
-<p>The functions that analyze data all assume that multi-dimensional data
-is arranged in a matrix where each row is an observation, and each
-column is a variable.  Thus, the matrix defined by
+<p>The functions that analyze data all assume that multi-dimensional data is
+arranged in a matrix where each row is an observation, and each column is a
+variable.  Thus, the matrix defined by
 </p>
 <div class="example">
 <pre class="example">a = [ 0.9, 0.7;
@@ -72,29 +73,24 @@ column is a variable.  Thus, the matrix defined by
       0.5, 0.4 ];
 </pre></div>
 
-<p>contains three observations from a two-dimensional distribution.
-While this is the default data arrangement, most functions support
-different arrangements.
+<p>contains three observations from a two-dimensional distribution.  While this is
+the default data arrangement, most functions support different arrangements.
 </p>
-<p>It should be noted that the statistics functions don&rsquo;t test for data
-containing NaN, NA, or Inf.  These values need to be detected and dealt
-with explicitly.  See <a href="Finding-Elements-and-Checking-Conditions.html#XREFisnan">isnan</a>, <a href="Missing-Data.html#XREFisna">isna</a>,
-<a href="Finding-Elements-and-Checking-Conditions.html#XREFisinf">isinf</a>, <a href="Finding-Elements-and-Checking-Conditions.html#XREFisfinite">isfinite</a>.
+<p>It should be noted that the statistics functions don&rsquo;t test for data containing
+NaN, NA, or Inf.  These values need to be detected and dealt with explicitly.
+See <a href="Finding-Elements-and-Checking-Conditions.html#XREFisnan">isnan</a>, <a href="Missing-Data.html#XREFisna">isna</a>, <a href="Finding-Elements-and-Checking-Conditions.html#XREFisinf">isinf</a>,
+<a href="Finding-Elements-and-Checking-Conditions.html#XREFisfinite">isfinite</a>.
 </p>
 <table class="menu" border="0" cellspacing="0">
 <tr><td align="left" valign="top">&bull; <a href="Descriptive-Statistics.html#Descriptive-Statistics" accesskey="1">Descriptive Statistics</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
 <tr><td align="left" valign="top">&bull; <a href="Basic-Statistical-Functions.html#Basic-Statistical-Functions" accesskey="2">Basic Statistical Functions</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
-<tr><td align="left" valign="top">&bull; <a href="Statistical-Plots.html#Statistical-Plots" accesskey="3">Statistical Plots</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+<tr><td align="left" valign="top">&bull; <a href="Correlation-and-Regression-Analysis.html#Correlation-and-Regression-Analysis" accesskey="3">Correlation and Regression Analysis</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
-<tr><td align="left" valign="top">&bull; <a href="Correlation-and-Regression-Analysis.html#Correlation-and-Regression-Analysis" accesskey="4">Correlation and Regression Analysis</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+<tr><td align="left" valign="top">&bull; <a href="Distributions.html#Distributions" accesskey="4">Distributions</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
-<tr><td align="left" valign="top">&bull; <a href="Distributions.html#Distributions" accesskey="5">Distributions</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="Tests.html#Tests" accesskey="6">Tests</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
-</td></tr>
-<tr><td align="left" valign="top">&bull; <a href="Random-Number-Generation.html#Random-Number-Generation" accesskey="7">Random Number Generation</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+<tr><td align="left" valign="top">&bull; <a href="Random-Number-Generation.html#Random-Number-Generation" accesskey="5">Random Number Generation</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
 </td></tr>
 </table>
 

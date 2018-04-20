@@ -1,20 +1,20 @@
-@c Copyright (C) 1996-2017 John W. Eaton
+@c Copyright (C) 1996-2018 John W. Eaton
 @c
 @c This file is part of Octave.
 @c
-@c Octave is free software; you can redistribute it and/or modify it
-@c under the terms of the GNU General Public License as published by the
-@c Free Software Foundation; either version 3 of the License, or (at
-@c your option) any later version.
+@c Octave is free software: you can redistribute it and/or modify it
+@c under the terms of the GNU General Public License as published by
+@c the Free Software Foundation, either version 3 of the License, or
+@c (at your option) any later version.
 @c
-@c Octave is distributed in the hope that it will be useful, but WITHOUT
-@c ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-@c FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-@c for more details.
+@c Octave is distributed in the hope that it will be useful, but
+@c WITHOUT ANY WARRANTY; without even the implied warranty of
+@c MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+@c GNU General Public License for more details.
 @c
 @c You should have received a copy of the GNU General Public License
 @c along with Octave; see the file COPYING.  If not, see
-@c <http://www.gnu.org/licenses/>.
+@c <https://www.gnu.org/licenses/>.
 
 @node Variables
 @chapter Variables
@@ -222,6 +222,20 @@ persistent d = 3 e f = 5
 
 The behavior of persistent variables is equivalent to the behavior of
 static variables in C@.
+
+One restriction for persistent variables is, that neither input nor
+output arguments of a function can be persistent:
+
+@example
+@group
+function y = foo ()
+  persistent y = 0;  # Not allowed!
+endfunction
+
+foo ()
+@print{} error: can't make function parameter y persistent
+@end group
+@end example
 
 Like global variables, a persistent variable may only be initialized once.
 For example, after executing the following code

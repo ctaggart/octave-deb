@@ -1,22 +1,22 @@
 @c DO NOT EDIT!  Generated automatically by munge-texi.pl.
 
-@c Copyright (C) 1996-2017 John W. Eaton
+@c Copyright (C) 1996-2018 John W. Eaton
 @c
 @c This file is part of Octave.
 @c
-@c Octave is free software; you can redistribute it and/or modify it
-@c under the terms of the GNU General Public License as published by the
-@c Free Software Foundation; either version 3 of the License, or (at
-@c your option) any later version.
+@c Octave is free software: you can redistribute it and/or modify it
+@c under the terms of the GNU General Public License as published by
+@c the Free Software Foundation, either version 3 of the License, or
+@c (at your option) any later version.
 @c
-@c Octave is distributed in the hope that it will be useful, but WITHOUT
-@c ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-@c FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-@c for more details.
+@c Octave is distributed in the hope that it will be useful, but
+@c WITHOUT ANY WARRANTY; without even the implied warranty of
+@c MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+@c GNU General Public License for more details.
 @c
 @c You should have received a copy of the GNU General Public License
 @c along with Octave; see the file COPYING.  If not, see
-@c <http://www.gnu.org/licenses/>.
+@c <https://www.gnu.org/licenses/>.
 
 @node Matrix Manipulation
 @chapter Matrix Manipulation
@@ -117,7 +117,7 @@ Note that in conditional contexts (like the test clause of @code{if} and
 @code{while} statements) Octave treats the test as if you had typed
 @code{all (all (condition))}.
 
-@c xor scripts/miscellaneous/xor.m
+@c xor scripts/general/xor.m
 @anchor{XREFxor}
 @deftypefn  {} {@var{z} =} xor (@var{x}, @var{y})
 @deftypefnx {} {@var{z} =} xor (@var{x1}, @var{x2}, @dots{})
@@ -334,51 +334,50 @@ b = sparse (i, j, v, sz(1), sz(2));
 @anchor{XREFlookup}
 @deftypefn  {} {@var{idx} =} lookup (@var{table}, @var{y})
 @deftypefnx {} {@var{idx} =} lookup (@var{table}, @var{y}, @var{opt})
-Lookup values in a sorted table.
+Lookup values in a @strong{sorted} table.
 
 This function is usually used as a prelude to interpolation.
 
-If table is increasing and @code{idx = lookup (table, y)}, then
-@code{table(idx(i)) <= y(i) < table(idx(i+1))} for all @code{y(i)} within
-the table.  If @code{y(i) < table(1)} then @code{idx(i)} is 0.  If
-@code{y(i) >= table(end)} or @code{isnan (y(i))} then @code{idx(i)} is
-@code{n}.
+If table is increasing, of length N and @code{idx = lookup (table, y)}, then
+@code{table(idx(i)) <= y(i) < table(idx(i+1))} for all @code{y(i)} within the
+table.  If @code{y(i) < table(1)} then @code{idx(i)} is 0.  If
+@code{y(i) >= table(end)} or @code{isnan (y(i))} then @code{idx(i)} is N.
 
-If the table is decreasing, then the tests are reversed.
-For non-strictly monotonic tables, empty intervals are always skipped.
-The result is undefined if @var{table} is not monotonic, or if
-@var{table} contains a NaN.
+If the table is decreasing, then the tests are reversed.  For non-strictly
+monotonic tables, empty intervals are always skipped.  The result is undefined
+if @var{table} is not monotonic, or if @var{table} contains a NaN.
 
-The complexity of the lookup is O(M*log(N)) where N is the size of
-@var{table} and M is the size of @var{y}.  In the special case when @var{y}
-is also sorted, the complexity is O(min(M*log(N),M+N)).
+The complexity of the lookup is O(M*log(N)) where M is the size of @var{y}.
+In the special case when @var{y} is also sorted, the complexity is
+O(min (M*log(N), M+N)).
 
-@var{table} and @var{y} can also be cell arrays of strings
-(or @var{y} can be a single string).  In this case, string lookup
-is performed using lexicographical comparison.
+@var{table} and @var{y} can also be cell arrays of strings (or @var{y} can be a
+single string).  In this case, string lookup is performed using lexicographical
+comparison.
 
 If @var{opts} is specified, it must be a string with letters indicating
 additional options.
 
 @table @code
 @item m
-@code{table(idx(i)) == y(i)} if @code{y(i)}
-occurs in table; otherwise, @code{idx(i)} is zero.
+Match.  @code{table(idx(i)) == y(i)} if @code{y(i)} occurs in table;
+otherwise, @code{idx(i)} is zero.
 
 @item b
-@code{idx(i)} is a logical 1 or 0, indicating whether
-@code{val(i)} is contained in table or not.
+Boolean.  @code{idx(i)} is a logical 1 or 0, indicating whether @code{y(i)}
+is contained in table or not.
 
 @item l
-For numeric lookups
-the leftmost subinterval shall be extended to infinity (i.e., all indices
-at least 1)
+Left.  For numeric lookups the leftmost subinterval shall be extended to
+minus infinity (i.e., all indices at least 1).
 
 @item r
-For numeric lookups
-the rightmost subinterval shall be extended to infinity (i.e., all indices
-at most n-1).
+Right.  For numeric lookups the rightmost subinterval shall be extended to
+infinity (i.e., all indices at most N-1).
 @end table
+
+@strong{Note}: If @var{table} is not sorted the results from @code{lookup}
+will be unpredictable.
 @end deftypefn
 
 
@@ -989,33 +988,23 @@ the ratio K/M is small; otherwise, it may be better to use @code{sort}.
 @end deftypefn
 
 
-@anchor{XREFtriu}
 @c tril libinterp/corefcn/tril.cc
 @anchor{XREFtril}
-@deftypefn  {} {} tril (@var{A})
-@deftypefnx {} {} tril (@var{A}, @var{k})
-@deftypefnx {} {} tril (@var{A}, @var{k}, @var{pack})
-@deftypefnx {} {} triu (@var{A})
-@deftypefnx {} {} triu (@var{A}, @var{k})
-@deftypefnx {} {} triu (@var{A}, @var{k}, @var{pack})
-Return a new matrix formed by extracting the lower (@code{tril})
-or upper (@code{triu}) triangular part of the matrix @var{A}, and
-setting all other elements to zero.
+@deftypefn  {} {@var{A_LO} =} tril (@var{A})
+@deftypefnx {} {@var{A_LO} =} tril (@var{A}, @var{k})
+@deftypefnx {} {@var{A_LO} =} tril (@var{A}, @var{k}, @var{pack})
+Return a new matrix formed by extracting the lower triangular part of the
+matrix @var{A}, and setting all other elements to zero.
 
-The second argument is optional, and specifies how many diagonals above or
-below the main diagonal should also be set to zero.
+The optional second argument specifies how many diagonals above or below the
+main diagonal should also be set to zero.  The default value of @var{k} is
+zero which includes the main diagonal as part of the result.  If the value of
+@var{k} is a nonzero integer then the selection of elements starts at an offset
+of @var{k} diagonals above the main diagonal for positive @var{k} or below the
+main diagonal for negative @var{k}.  The absolute value of @var{k} may not be
+greater than the number of subdiagonals or superdiagonals.
 
-The default value of @var{k} is zero, so that @code{triu} and @code{tril}
-normally include the main diagonal as part of the result.
-
-If the value of @var{k} is nonzero integer, the selection of elements starts
-at an offset of @var{k} diagonals above or below the main diagonal; above
-for positive @var{k} and below for negative @var{k}.
-
-The absolute value of @var{k} must not be greater than the number of
-subdiagonals or superdiagonals.
-
-For example:
+Example 1 : exclude main diagonal
 
 @example
 @group
@@ -1027,7 +1016,8 @@ tril (ones (3), -1)
 @end example
 
 @noindent
-and
+
+Example 2 : include first superdiagonal
 
 @example
 @group
@@ -1038,10 +1028,57 @@ tril (ones (3), 1)
 @end group
 @end example
 
-If the option @qcode{"pack"} is given as third argument, the extracted
-elements are not inserted into a matrix, but rather stacked column-wise one
-above other.
-@seealso{@ref{XREFdiag,,diag}}
+If the optional third argument @qcode{"pack"} is given then the extracted
+elements are not inserted into a matrix, but instead stacked column-wise one
+above another, and returned as a column vector.
+@seealso{@ref{XREFtriu,,triu}, @ref{XREFistril,,istril}, @ref{XREFdiag,,diag}}
+@end deftypefn
+
+
+@c triu libinterp/corefcn/tril.cc
+@anchor{XREFtriu}
+@deftypefn  {} {@var{A_UP} =} triu (@var{A})
+@deftypefnx {} {@var{A_UP} =} triu (@var{A}, @var{k})
+@deftypefnx {} {@var{A_UP} =} triu (@var{A}, @var{k}, @var{pack})
+Return a new matrix formed by extracting the upper triangular part of the
+matrix @var{A}, and setting all other elements to zero.
+
+The optional second argument specifies how many diagonals above or below the
+main diagonal should also be set to zero.  The default value of @var{k} is
+zero which includes the main diagonal as part of the result.  If the value of
+@var{k} is a nonzero integer then the selection of elements starts at an offset
+of @var{k} diagonals above the main diagonal for positive @var{k} or below the
+main diagonal for negative @var{k}.  The absolute value of @var{k} may not be
+greater than the number of subdiagonals or superdiagonals.
+
+Example 1 : exclude main diagonal
+
+@example
+@group
+triu (ones (3), 1)
+     @result{}  0  1  1
+         0  0  1
+         0  0  0
+@end group
+@end example
+
+@noindent
+
+Example 2 : include first subdiagonal
+
+@example
+@group
+triu (ones (3), -1)
+     @result{}  1  1  1
+         1  1  1
+         0  1  1
+@end group
+@end example
+
+If the optional third argument @qcode{"pack"} is given then the extracted
+elements are not inserted into a matrix, but instead stacked column-wise one
+above another, and returned as a column vector.
+@seealso{@ref{XREFtril,,tril}, @ref{XREFistriu,,istriu}, @ref{XREFdiag,,diag}}
 @end deftypefn
 
 
@@ -1320,6 +1357,149 @@ endfor
 @end deftypefn
 
 
+@c repelem scripts/general/repelem.m
+@anchor{XREFrepelem}
+@deftypefn  {} {@var{xxx} =} repelem (@var{x}, @var{R})
+@deftypefnx {} {@var{xxx} =} repelem (@var{x}, @var{R_1}, @dots{}, @var{R_n})
+Construct an array of repeated elements from @var{x} and repeat
+instructions @var{R_1}, @dots{}.
+
+@var{x} must be a scalar, vector, or N-dimensional array.
+
+A repeat instruction @var{R_j} must either be a scalar or a vector.  If the
+instruction is a scalar then each component of @var{x} in dimension @var{j}
+is repeated @var{R_j} times.  If the instruction is a vector then it must
+have the same number of elements as the corresponding dimension @var{j} of
+@var{x}.  In this case, the @var{k}th component of dimension @var{j} is
+repeated @code{@var{R_j}(@var{k})} times.
+
+If @var{x} is a scalar or vector then @code{repelem} may be called with just
+a single repeat instruction @var{R} and @code{repelem} will return a vector
+with the same orientation as the input.
+
+If @var{x} is a matrix then at least two @var{R_j}s must be specified.
+
+Note: Using @code{repelem} with a vector @var{x} and a vector for @var{R_j}
+is equivalent to Run Length Decoding.
+
+Examples:
+
+@example
+@group
+A = [1 2 3 4 5];
+B = [2 1 0 1 2];
+repelem (A, B)
+  @result{}   1   1   2   4   5   5
+@end group
+@end example
+
+@example
+@group
+A = magic (3)
+  @result{}   8   1   6
+       3   5   7
+       4   9   2
+B1 = [1 2 3];
+B2 = 2;
+repelem (A, B1, B2)
+  @result{}     8   8   1   1   6   6
+         3   3   5   5   7   7
+         3   3   5   5   7   7
+         4   4   9   9   2   2
+         4   4   9   9   2   2
+         4   4   9   9   2   2
+@end group
+@end example
+
+More @var{R_j} may be specified than the number of dimensions of @var{x}.
+Any excess @var{R_j} must be scalars (because @var{x}'s size in those
+dimensions is only 1), and @var{x} will be replicated in those dimensions
+accordingly.
+
+@example
+@group
+A = [1 2 3 4 5];
+B1 = 2;
+B2 = [2 1 3 0 2];
+B3 = 3;
+repelem (A, B1, B2, B3)
+  @result{}    ans(:,:,1) =
+           1   1   2   3   3   3   5   5
+           1   1   2   3   3   3   5   5
+
+        ans(:,:,2) =
+
+           1   1   2   3   3   3   5   5
+           1   1   2   3   3   3   5   5
+
+        ans(:,:,3) =
+           1   1   2   3   3   3   5   5
+           1   1   2   3   3   3   5   5
+@end group
+@end example
+
+@var{R_j} must be specified in order.  A placeholder of 1 may be used for
+dimensions which do not need replication.
+
+@example
+@group
+repelem ([-1, 0; 0, 1], 1, 2, 1, 2)
+  @result{}  ans(:,:,1,1) =
+        -1  -1   0   0
+         0   0   1   1
+
+      ans(:,:,1,2) =
+        -1  -1   0   0
+         0   0   1   1
+@end group
+@end example
+
+If fewer @var{R_j} are given than the number of dimensions in @var{x},
+@code{repelem} will assume @var{R_j} is 1 for those dimensions.
+
+@example
+A = cat (3, [-1 0; 0 1], [-1 0; 0 1])
+  @result{}  ans(:,:,1) =
+        -1   0
+         0   1
+
+      ans(:,:,2) =
+        -1   0
+         0   1
+
+repelem (A,2,3)
+  @result{}  ans(:,:,1) =
+        -1  -1  -1   0   0   0
+        -1  -1  -1   0   0   0
+         0   0   0   1   1   1
+         0   0   0   1   1   1
+
+      ans(:,:,2) =
+        -1  -1  -1   0   0   0
+        -1  -1  -1   0   0   0
+         0   0   0   1   1   1
+         0   0   0   1   1   1
+@end example
+
+@code{repelem} preserves the class of @var{x}, and works with strings,
+cell arrays, NA, and NAN inputs.  If any @var{R_j} is 0 the output will
+be an empty array.
+
+@example
+@group
+repelem ("Octave", 2, 3)
+  @result{}    OOOccctttaaavvveee
+        OOOccctttaaavvveee
+
+repelem ([1 2 3; 1 2 3], 2, 0)
+  @result{}    [](4x0)
+@end group
+@end example
+
+@seealso{@ref{XREFcat,,cat}, @ref{XREFkron,,kron}, @ref{XREFrepmat,,repmat}}
+@end deftypefn
+
+
 The functions @code{linspace} and @code{logspace} make it very easy to
 create vectors with evenly or logarithmically spaced elements.
 @xref{Ranges}.
@@ -1447,8 +1627,8 @@ Twister with a period of @math{2^{19937}-1}
 (See @nospell{M. Matsumoto and T. Nishimura},
 @cite{Mersenne Twister: A 623-dimensionally equidistributed uniform
 pseudorandom number generator},
-ACM Trans. on Modeling and Computer Simulation Vol. 8, No. 1, pp. 3--30,
-January 1998,
+@nospell{ACM} Trans. on Modeling and Computer Simulation Vol. 8, No. 1,
+pp. 3--30, January 1998,
 @url{http://www.math.sci.hiroshima-u.ac.jp/~m-mat/MT/emt.html}).
 Do @strong{not} use for cryptography without securely hashing several
 returned values together, otherwise the generator state can be learned after
@@ -1555,7 +1735,7 @@ classes.
 Reference: @nospell{G. Marsaglia and W.W. Tsang},
 @cite{Ziggurat Method for Generating Random Variables},
 J. Statistical Software, vol 5, 2000,
-@url{http://www.jstatsoft.org/v05/i08/}
+@url{https://www.jstatsoft.org/v05/i08/}
 
 @seealso{@ref{XREFrand,,rand}, @ref{XREFrande,,rande}, @ref{XREFrandg,,randg}, @ref{XREFrandp,,randp}}
 @end deftypefn
@@ -1589,7 +1769,7 @@ classes.
 Reference: @nospell{G. Marsaglia and W.W. Tsang},
 @cite{Ziggurat Method for Generating Random Variables},
 J. Statistical Software, vol 5, 2000,
-@url{http://www.jstatsoft.org/v05/i08/}
+@url{https://www.jstatsoft.org/v05/i08/}
 
 @seealso{@ref{XREFrand,,rand}, @ref{XREFrandn,,randn}, @ref{XREFrandg,,randg}, @ref{XREFrandp,,randp}}
 @end deftypefn
@@ -1801,7 +1981,7 @@ single element of a random sequence.
 
 The original @code{rand} and @code{randn} functions use Fortran code from
 @sc{ranlib}, a library of Fortran routines for random number generation,
-compiled by Barry W. Brown and James Lovato of the Department of
+compiled by Barry W. Brown and @nospell{James Lovato} of the Department of
 Biomathematics at The University of Texas, M.D. Anderson Cancer Center,
 Houston, TX 77030.
 
@@ -1849,7 +2029,7 @@ Create a Chebyshev spectral differentiation matrix.
 
 @deftypefn  {} {@var{c} =} gallery ("chebvand", @var{p})
 @deftypefnx {} {@var{c} =} gallery ("chebvand", @var{m}, @var{p})
-Create a Vandermonde-like matrix for the Chebyshev polynomials.
+Create a @nospell{Vandermonde}-like matrix for the Chebyshev polynomials.
 
 @end deftypefn
 
@@ -2055,7 +2235,8 @@ Create a @nospell{Moler} matrix (symmetric positive definite).
 @end deftypefn
 
 @deftypefn {} {[@var{a}, @var{t}] =} gallery ("neumann", @var{n})
-Create a singular matrix from the discrete Neumann problem (sparse).
+Create a singular matrix from the discrete @nospell{Neumann} problem
+(sparse).
 
 @end deftypefn
 
@@ -2416,7 +2597,7 @@ That is, @code{pascal (@var{n}, 2) ^ 3 == eye (@var{n})}.
 @c rosser scripts/special-matrix/rosser.m
 @anchor{XREFrosser}
 @deftypefn {} {} rosser ()
-Return the Rosser matrix.
+Return the @nospell{Rosser} matrix.
 
 This is a difficult test case used to evaluate eigenvalue algorithms.
 @seealso{@ref{XREFwilkinson,,wilkinson}, @ref{XREFeig,,eig}}
@@ -2428,33 +2609,35 @@ This is a difficult test case used to evaluate eigenvalue algorithms.
 @deftypefn  {} {} toeplitz (@var{c})
 @deftypefnx {} {} toeplitz (@var{c}, @var{r})
 Return the Toeplitz matrix constructed from the first column @var{c},
-and (optionally) the first row @var{r}.
+and optionally the first row @var{r}.
 
-If the first element of @var{r} is not the same as the first element of
-@var{c}, the first element of @var{c} is used.  If the second argument is
-omitted, the first row is taken to be the same as the first column.
+If the second argument is omitted, the first row is taken to be the
+same as the first column.  If the first element of @var{r} is not the same
+as the first element of @var{c}, the first element of @var{c} is used.
 
-A square Toeplitz matrix has the form:
+A Toeplitz, or diagonal-constant, matrix has the same value along each
+diagonal.  Although it need not be square, it often is.  An @nospell{MxN}
+Toeplitz matrix has the form:
 @tex
 $$
-\left[\matrix{c_0    & r_1     & r_2      & \cdots & r_n\cr
-              c_1    & c_0     & r_1      & \cdots & r_{n-1}\cr
-              c_2    & c_1     & c_0      & \cdots & r_{n-2}\cr
+\left[\matrix{c_1    & r_2     & r_3      & \cdots & r_n\cr
+              c_2    & c_1     & r_2      & \cdots & r_{n-1}\cr
+              c_3    & c_2     & c_1      & \cdots & r_{n-2}\cr
               \vdots & \vdots  & \vdots   & \ddots & \vdots\cr
-              c_n    & c_{n-1} & c_{n-2} & \ldots & c_0}\right]
+              c_m    & c_{m-1} & c_{m-2} & \ldots & c{m-n+1}}\right]
 $$
 @end tex
 @ifnottex
 
 @example
 @group
-c(0)  r(1)   r(2)  @dots{}  r(n)
-c(1)  c(0)   r(1)  @dots{} r(n-1)
-c(2)  c(1)   c(0)  @dots{} r(n-2)
+c(1)  r(2)   r(3)  @dots{}  r(n)
+c(2)  c(1)   r(2)  @dots{} r(n-1)
+c(3)  c(2)   c(1)  @dots{} r(n-2)
  .     .      .   .      .
  .     .      .     .    .
  .     .      .       .  .
-c(n) c(n-1) c(n-2) @dots{}  c(0)
+c(m) c(m-1) c(m-2) @dots{} c(m-n+1)
 @end group
 @end example
 
@@ -2467,12 +2650,13 @@ c(n) c(n-1) c(n-2) @dots{}  c(0)
 @anchor{XREFvander}
 @deftypefn  {} {} vander (@var{c})
 @deftypefnx {} {} vander (@var{c}, @var{n})
-Return the Vandermonde matrix whose next to last column is @var{c}.
+Return the @nospell{Vandermonde} matrix whose next to last column is
+@var{c}.
 
 If @var{n} is specified, it determines the number of columns; otherwise,
 @var{n} is taken to be equal to the length of @var{c}.
 
-A Vandermonde matrix has the form:
+A @nospell{Vandermonde} matrix has the form:
 @tex
 $$
 \left[\matrix{c_1^{n-1}  & \cdots & c_1^2  & c_1    & 1      \cr

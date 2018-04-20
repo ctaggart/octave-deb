@@ -59,14 +59,14 @@ Next: <a href="Managing-Default-Properties.html#Managing-Default-Properties" acc
 <h4 class="subsection">15.3.4 Searching Properties</h4>
 
 <a name="XREFfindobj"></a><dl>
-<dt><a name="index-findobj"></a>: <em><var>h</var> =</em> <strong>findobj</strong> <em>()</em></dt>
-<dt><a name="index-findobj-1"></a>: <em><var>h</var> =</em> <strong>findobj</strong> <em>(<var>prop_name</var>, <var>prop_value</var>, &hellip;)</em></dt>
-<dt><a name="index-findobj-2"></a>: <em><var>h</var> =</em> <strong>findobj</strong> <em>(<var>prop_name</var>, <var>prop_value</var>, &quot;-<var>logical_op</var>&quot;, <var>prop_name</var>, <var>prop_value</var>)</em></dt>
-<dt><a name="index-findobj-3"></a>: <em><var>h</var> =</em> <strong>findobj</strong> <em>(&quot;-property&quot;, <var>prop_name</var>)</em></dt>
-<dt><a name="index-findobj-4"></a>: <em><var>h</var> =</em> <strong>findobj</strong> <em>(&quot;-regexp&quot;, <var>prop_name</var>, <var>pattern</var>)</em></dt>
-<dt><a name="index-findobj-5"></a>: <em><var>h</var> =</em> <strong>findobj</strong> <em>(<var>hlist</var>, &hellip;)</em></dt>
-<dt><a name="index-findobj-6"></a>: <em><var>h</var> =</em> <strong>findobj</strong> <em>(<var>hlist</var>, &quot;flat&quot;, &hellip;)</em></dt>
-<dt><a name="index-findobj-7"></a>: <em><var>h</var> =</em> <strong>findobj</strong> <em>(<var>hlist</var>, &quot;-depth&quot;, <var>d</var>, &hellip;)</em></dt>
+<dt><a name="index-findobj"></a><em><var>h</var> =</em> <strong>findobj</strong> <em>()</em></dt>
+<dt><a name="index-findobj-1"></a><em><var>h</var> =</em> <strong>findobj</strong> <em>(<var>prop_name</var>, <var>prop_value</var>, &hellip;)</em></dt>
+<dt><a name="index-findobj-2"></a><em><var>h</var> =</em> <strong>findobj</strong> <em>(<var>prop_name</var>, <var>prop_value</var>, &quot;-<var>logical_op</var>&quot;, <var>prop_name</var>, <var>prop_value</var>)</em></dt>
+<dt><a name="index-findobj-3"></a><em><var>h</var> =</em> <strong>findobj</strong> <em>(&quot;-property&quot;, <var>prop_name</var>)</em></dt>
+<dt><a name="index-findobj-4"></a><em><var>h</var> =</em> <strong>findobj</strong> <em>(&quot;-regexp&quot;, <var>prop_name</var>, <var>pattern</var>)</em></dt>
+<dt><a name="index-findobj-5"></a><em><var>h</var> =</em> <strong>findobj</strong> <em>(<var>hlist</var>, &hellip;)</em></dt>
+<dt><a name="index-findobj-6"></a><em><var>h</var> =</em> <strong>findobj</strong> <em>(<var>hlist</var>, &quot;flat&quot;, &hellip;)</em></dt>
+<dt><a name="index-findobj-7"></a><em><var>h</var> =</em> <strong>findobj</strong> <em>(<var>hlist</var>, &quot;-depth&quot;, <var>d</var>, &hellip;)</em></dt>
 <dd><p>Find graphics objects with specified properties.
 </p>
 <p>When called without arguments, return all graphic objects beginning with the
@@ -101,9 +101,9 @@ passed in <var>hlist</var>.  A depth of 0 is also equivalent to the
 includes all descendants.
 </p>
 <p>A specified logical operator may be used between <var>prop_name</var>,
-<var>prop_value</var> pairs.  The supported logical operators are: <code>&quot;-and&quot;</code>,
-<code>&quot;-or&quot;</code>, <code>&quot;-xor&quot;</code>, <code>&quot;-not&quot;</code>.  Example code to locate all
-figure and axes objects is
+<var>prop_value</var> pairs.  The supported logical operators are:
+<code>&quot;-and&quot;</code>, <code>&quot;-or&quot;</code>, <code>&quot;-xor&quot;</code>, <code>&quot;-not&quot;</code>.  Example code
+to locate all figure and axes objects is
 </p>
 <div class="example">
 <pre class="example">findobj (&quot;type&quot;, &quot;figure&quot;, &quot;-or&quot;, &quot;type&quot;, &quot;axes&quot;)
@@ -113,7 +113,7 @@ figure and axes objects is
 property values, where property values that match
 <code>regexp (<var>prop_value</var>, <var>pattern</var>)</code> are returned.
 </p>
-<p>Finally, objects which have a property name can be found with the 
+<p>Finally, objects which have a property name can be found with the
 <code>&quot;-property&quot;</code> option.  For example, code to locate objects with a
 <code>&quot;meshstyle&quot;</code> property is
 </p>
@@ -130,14 +130,14 @@ to search for all objects including hidden ones.
 
 
 <a name="XREFfindall"></a><dl>
-<dt><a name="index-findall"></a>: <em><var>h</var> =</em> <strong>findall</strong> <em>()</em></dt>
-<dt><a name="index-findall-1"></a>: <em><var>h</var> =</em> <strong>findall</strong> <em>(<var>prop_name</var>, <var>prop_value</var>, &hellip;)</em></dt>
-<dt><a name="index-findall-2"></a>: <em><var>h</var> =</em> <strong>findall</strong> <em>(<var>prop_name</var>, <var>prop_value</var>, &quot;-<var>logical_op</var>&quot;, <var>prop_name</var>, <var>prop_value</var>)</em></dt>
-<dt><a name="index-findall-3"></a>: <em><var>h</var> =</em> <strong>findall</strong> <em>(&quot;-property&quot;, <var>prop_name</var>)</em></dt>
-<dt><a name="index-findall-4"></a>: <em><var>h</var> =</em> <strong>findall</strong> <em>(&quot;-regexp&quot;, <var>prop_name</var>, <var>pattern</var>)</em></dt>
-<dt><a name="index-findall-5"></a>: <em><var>h</var> =</em> <strong>findall</strong> <em>(<var>hlist</var>, &hellip;)</em></dt>
-<dt><a name="index-findall-6"></a>: <em><var>h</var> =</em> <strong>findall</strong> <em>(<var>hlist</var>, &quot;flat&quot;, &hellip;)</em></dt>
-<dt><a name="index-findall-7"></a>: <em><var>h</var> =</em> <strong>findall</strong> <em>(<var>hlist</var>, &quot;-depth&quot;, <var>d</var>, &hellip;)</em></dt>
+<dt><a name="index-findall"></a><em><var>h</var> =</em> <strong>findall</strong> <em>()</em></dt>
+<dt><a name="index-findall-1"></a><em><var>h</var> =</em> <strong>findall</strong> <em>(<var>prop_name</var>, <var>prop_value</var>, &hellip;)</em></dt>
+<dt><a name="index-findall-2"></a><em><var>h</var> =</em> <strong>findall</strong> <em>(<var>prop_name</var>, <var>prop_value</var>, &quot;-<var>logical_op</var>&quot;, <var>prop_name</var>, <var>prop_value</var>)</em></dt>
+<dt><a name="index-findall-3"></a><em><var>h</var> =</em> <strong>findall</strong> <em>(&quot;-property&quot;, <var>prop_name</var>)</em></dt>
+<dt><a name="index-findall-4"></a><em><var>h</var> =</em> <strong>findall</strong> <em>(&quot;-regexp&quot;, <var>prop_name</var>, <var>pattern</var>)</em></dt>
+<dt><a name="index-findall-5"></a><em><var>h</var> =</em> <strong>findall</strong> <em>(<var>hlist</var>, &hellip;)</em></dt>
+<dt><a name="index-findall-6"></a><em><var>h</var> =</em> <strong>findall</strong> <em>(<var>hlist</var>, &quot;flat&quot;, &hellip;)</em></dt>
+<dt><a name="index-findall-7"></a><em><var>h</var> =</em> <strong>findall</strong> <em>(<var>hlist</var>, &quot;-depth&quot;, <var>d</var>, &hellip;)</em></dt>
 <dd><p>Find graphics object, including hidden ones, with specified properties.
 </p>
 <p>The return value <var>h</var> is a list of handles to the found graphic objects.

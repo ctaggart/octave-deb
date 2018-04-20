@@ -1,22 +1,22 @@
 /*
 
-Copyright (C) 2010-2017 VZLU Prague
+Copyright (C) 2010-2018 VZLU Prague
 
 This file is part of Octave.
 
-Octave is free software; you can redistribute it and/or modify it
-under the terms of the GNU General Public License as published by the
-Free Software Foundation; either version 3 of the License, or (at your
-option) any later version.
+Octave is free software: you can redistribute it and/or modify it
+under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-Octave is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-for more details.
+Octave is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with Octave; see the file COPYING.  If not, see
-<http://www.gnu.org/licenses/>.
+<https://www.gnu.org/licenses/>.
 
 */
 
@@ -50,7 +50,7 @@ octave_lazy_index::numeric_conversion_function (void) const
 octave_base_value *
 octave_lazy_index::try_narrowing_conversion (void)
 {
-  octave_base_value *retval = 0;
+  octave_base_value *retval = nullptr;
 
   switch (index.length (0))
     {
@@ -128,7 +128,7 @@ octave_lazy_index::sort (Array<octave_idx_type> &sidx, octave_idx_type dim,
 }
 
 sortmode
-octave_lazy_index::is_sorted (sortmode mode) const
+octave_lazy_index::issorted (sortmode mode) const
 {
   if (index.is_range ())
     {
@@ -142,7 +142,7 @@ octave_lazy_index::is_sorted (sortmode mode) const
         return (mode == ASCENDING ? UNSORTED : DESCENDING);
     }
   else
-    return index.as_array ().is_sorted (mode);
+    return index.as_array ().issorted (mode);
 }
 
 Array<octave_idx_type>
@@ -155,6 +155,66 @@ sortmode
 octave_lazy_index::is_sorted_rows (sortmode mode) const
 {
   return index.as_array ().is_sorted_rows (mode);
+}
+
+octave_value
+octave_lazy_index::as_double (void) const
+{
+  return array_value ();
+}
+
+octave_value
+octave_lazy_index::as_single (void) const
+{
+  return float_array_value ();
+}
+
+octave_value
+octave_lazy_index::as_int8 (void) const
+{
+  return int8_array_value  ();
+}
+
+octave_value
+octave_lazy_index::as_int16 (void) const
+{
+  return int16_array_value ();
+}
+
+octave_value
+octave_lazy_index::as_int32 (void) const
+{
+  return int32_array_value ();
+}
+
+octave_value
+octave_lazy_index::as_int64 (void) const
+{
+  return int64_array_value ();
+}
+
+octave_value
+octave_lazy_index::as_uint8 (void) const
+{
+  return uint8_array_value ();
+}
+
+octave_value
+octave_lazy_index::as_uint16 (void) const
+{
+  return uint16_array_value ();
+}
+
+octave_value
+octave_lazy_index::as_uint32 (void) const
+{
+  return uint32_array_value ();
+}
+
+octave_value
+octave_lazy_index::as_uint64 (void) const
+{
+  return uint64_array_value ();
 }
 
 static const std::string value_save_tag ("index_value");
@@ -197,3 +257,20 @@ bool octave_lazy_index::load_binary (std::istream& is, bool swap,
 
   return true;
 }
+
+/*
+%!shared x, y
+%! x = find ([-1, 0, -2, 1, 3, -4] < 0);
+%! y = [1, 3, 6];
+%!assert (typeinfo (x), "lazy_index")
+%!assert (double (x), y)
+%!assert (single (x), single (y))
+%!assert (int8 (x), int8 (y))
+%!assert (int16 (x), int16 (y))
+%!assert (int32 (x), int32 (y))
+%!assert (int64 (x), int64 (y))
+%!assert (uint8 (x), uint8 (y))
+%!assert (uint16 (x), uint16 (y))
+%!assert (uint32 (x), uint32 (y))
+%!assert (uint64 (x), uint64 (y))
+*/

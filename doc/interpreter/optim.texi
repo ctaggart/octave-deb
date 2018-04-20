@@ -1,22 +1,22 @@
 @c DO NOT EDIT!  Generated automatically by munge-texi.pl.
 
-@c Copyright (C) 1996-2017 John W. Eaton
+@c Copyright (C) 1996-2018 John W. Eaton
 @c
 @c This file is part of Octave.
 @c
-@c Octave is free software; you can redistribute it and/or modify it
-@c under the terms of the GNU General Public License as published by the
-@c Free Software Foundation; either version 3 of the License, or (at
-@c your option) any later version.
+@c Octave is free software: you can redistribute it and/or modify it
+@c under the terms of the GNU General Public License as published by
+@c the Free Software Foundation, either version 3 of the License, or
+@c (at your option) any later version.
 @c
-@c Octave is distributed in the hope that it will be useful, but WITHOUT
-@c ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-@c FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-@c for more details.
+@c Octave is distributed in the hope that it will be useful, but
+@c WITHOUT ANY WARRANTY; without even the implied warranty of
+@c MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+@c GNU General Public License for more details.
 @c
 @c You should have received a copy of the GNU General Public License
 @c along with Octave; see the file COPYING.  If not, see
-@c <http://www.gnu.org/licenses/>.
+@c <https://www.gnu.org/licenses/>.
 
 @node Optimization
 @chapter Optimization
@@ -348,9 +348,9 @@ Output delay, in seconds.  This parameter specifies how long the solver
 should delay sending information about the solution to the standard output.
 
 @item save (default: 0)
-If this parameter is nonzero, save a copy of the problem in CPLEX LP
-format to the file @file{"outpb.lp"}.  There is currently no way to change
-the name of the output file.
+If this parameter is nonzero, save a copy of the problem in @nospell{CPLEX}
+LP format to the file @file{"outpb.lp"}.  There is currently no way to
+change the name of the output file.
 @end table
 
 Real parameters:
@@ -668,46 +668,55 @@ The problem is infeasible.
 @anchor{XREFpqpnonneg}
 @deftypefn  {} {@var{x} =} pqpnonneg (@var{c}, @var{d})
 @deftypefnx {} {@var{x} =} pqpnonneg (@var{c}, @var{d}, @var{x0})
+@deftypefnx {} {@var{x} =} pqpnonneg (@var{c}, @var{d}, @var{x0}, @var{options})
 @deftypefnx {} {[@var{x}, @var{minval}] =} pqpnonneg (@dots{})
 @deftypefnx {} {[@var{x}, @var{minval}, @var{exitflag}] =} pqpnonneg (@dots{})
 @deftypefnx {} {[@var{x}, @var{minval}, @var{exitflag}, @var{output}] =} pqpnonneg (@dots{})
 @deftypefnx {} {[@var{x}, @var{minval}, @var{exitflag}, @var{output}, @var{lambda}] =} pqpnonneg (@dots{})
-Minimize @code{1/2*x'*c*x + d'*x} subject to @code{@var{x} >= 0}.
 
-@var{c} and @var{d} must be real, and @var{c} must be symmetric and
+Minimize @code{1/2*@var{x}'*@var{c}*@var{x} + @var{d}'*@var{x}} subject to
+@code{@var{x} >= 0}.
+
+@var{c} and @var{d} must be real matrices, and @var{c} must be symmetric and
 positive definite.
 
-@var{x0} is an optional initial guess for @var{x}.
+@var{x0} is an optional initial guess for the solution @var{x}.
+
+@var{options} is an options structure to change the behavior of the
+algorithm (@pxref{XREFoptimset,,optimset}.  @code{pqpnonneg} recognizes
+one option: @qcode{"MaxIter"}.
 
 Outputs:
 
-@itemize @bullet
-@item minval
+@table @var
 
-The minimum attained model value, 1/2*xmin'*c*xmin + d'*xmin
+@item x
+The solution matrix
+
+@item minval
+The minimum attained model value,
+@code{1/2*@var{xmin}'*@var{c}*@var{xmin} + @var{d}'*@var{xmin}}
 
 @item exitflag
-
 An indicator of convergence.  0 indicates that the iteration count was
 exceeded, and therefore convergence was not reached; >0 indicates that the
 algorithm converged.  (The algorithm is stable and will converge given
 enough iterations.)
 
 @item output
-
 A structure with two fields:
 
 @itemize @bullet
-@item @qcode{"algorithm"}: The algorithm used (@qcode{"nnls"})
+@item @qcode{"algorithm"}: The algorithm used (@nospell{@qcode{"nnls"}})
 
 @item @qcode{"iterations"}: The number of iterations taken.
 @end itemize
 
 @item lambda
-
-Not implemented.
-@end itemize
-@seealso{@ref{XREFoptimset,,optimset}, @ref{XREFlsqnonneg,,lsqnonneg}, @ref{XREFqp,,qp}}
+@c FIXME: Something is output from the function, but what is it?
+Undocumented output
+@end table
+@seealso{@ref{XREFlsqnonneg,,lsqnonneg}, @ref{XREFqp,,qp}, @ref{XREFoptimset,,optimset}}
 @end deftypefn
 
 
@@ -906,7 +915,7 @@ can be solved using the @samp{\} or @samp{/} operators, or the @code{ols}
 function.  In the general case where the noise is assumed to be anisotropic
 the @code{gls} is needed.
 
-@c ols scripts/statistics/base/ols.m
+@c ols scripts/linear-algebra/ols.m
 @anchor{XREFols}
 @deftypefn {} {[@var{beta}, @var{sigma}, @var{r}] =} ols (@var{y}, @var{x})
 Ordinary least squares (OLS) estimation.
@@ -962,8 +971,9 @@ The OLS estimator for matrix @var{b}.
 @var{y}$ if the matrix $@var{x}^T@var{x}$ is of full rank.
 @end tex
 @ifnottex
-@var{beta} is calculated directly via @code{inv (@var{x}'*@var{x}) * @var{x}' * @var{y}} if the
-matrix @code{@var{x}'*@var{x}} is of full rank.
+@var{beta} is calculated directly via
+@code{inv (@var{x}'*@var{x}) * @var{x}' * @var{y}} if the matrix
+@code{@var{x}'*@var{x}} is of full rank.
 @end ifnottex
 Otherwise, @code{@var{beta} = pinv (@var{x}) * @var{y}} where
 @code{pinv (@var{x})} denotes the pseudoinverse of @var{x}.
@@ -984,7 +994,7 @@ The matrix of OLS residuals, @code{@var{r} = @var{y} - @var{x}*@var{beta}}.
 @end deftypefn
 
 
-@c gls scripts/statistics/base/gls.m
+@c gls scripts/linear-algebra/gls.m
 @anchor{XREFgls}
 @deftypefn {} {[@var{beta}, @var{v}, @var{r}] =} gls (@var{y}, @var{x}, @var{o})
 Generalized least squares (GLS) model.
@@ -1060,37 +1070,34 @@ The matrix of GLS residuals, @math{@var{r} = @var{y} - @var{x}*@var{beta}}.
 @deftypefnx {} {[@var{x}, @var{resnorm}, @var{residual}, @var{exitflag}] =} lsqnonneg (@dots{})
 @deftypefnx {} {[@var{x}, @var{resnorm}, @var{residual}, @var{exitflag}, @var{output}] =} lsqnonneg (@dots{})
 @deftypefnx {} {[@var{x}, @var{resnorm}, @var{residual}, @var{exitflag}, @var{output}, @var{lambda}] =} lsqnonneg (@dots{})
-Minimize @code{norm (@var{c}*@var{x} - d)} subject to
+
+Minimize @code{norm (@var{c}*@var{x} - @var{d})} subject to
 @code{@var{x} >= 0}.
 
-@var{c} and @var{d} must be real.
+@var{c} and @var{d} must be real matrices.
 
-@var{x0} is an optional initial guess for @var{x}.
+@var{x0} is an optional initial guess for the solution @var{x}.
 
-Currently, @code{lsqnonneg} recognizes these options: @qcode{"MaxIter"},
-@qcode{"TolX"}.  For a description of these options, see
-@ref{XREFoptimset,,optimset}.
+@var{options} is an options structure to change the behavior of the
+algorithm (@pxref{XREFoptimset,,optimset}.  @code{lsqnonneg} recognizes
+these options: @qcode{"MaxIter"}, @qcode{"TolX"}.
 
 Outputs:
 
-@itemize @bullet
+@table @var
 @item resnorm
-
-The squared 2-norm of the residual: norm (@var{c}*@var{x}-@var{d})^2
+The squared 2-norm of the residual: @code{norm (@var{c}*@var{x}-@var{d})^2}
 
 @item residual
-
-The residual: @var{d}-@var{c}*@var{x}
+The residual: @code{@var{d}-@var{c}*@var{x}}
 
 @item exitflag
-
 An indicator of convergence.  0 indicates that the iteration count was
 exceeded, and therefore convergence was not reached; >0 indicates that the
 algorithm converged.  (The algorithm is stable and will converge given
 enough iterations.)
 
 @item output
-
 A structure with two fields:
 
 @itemize @bullet
@@ -1100,14 +1107,14 @@ A structure with two fields:
 @end itemize
 
 @item lambda
-
-Not implemented.
-@end itemize
-@seealso{@ref{XREFoptimset,,optimset}, @ref{XREFpqpnonneg,,pqpnonneg}, @ref{XREFlscov,,lscov}}
+@c FIXME: Something is output from the function, but what is it?
+Undocumented output
+@end table
+@seealso{@ref{XREFpqpnonneg,,pqpnonneg}, @ref{XREFlscov,,lscov}, @ref{XREFoptimset,,optimset}}
 @end deftypefn
 
 
-@c lscov scripts/statistics/base/lscov.m
+@c lscov scripts/linear-algebra/lscov.m
 @anchor{XREFlscov}
 @deftypefn  {} {@var{x} =} lscov (@var{A}, @var{b})
 @deftypefnx {} {@var{x} =} lscov (@var{A}, @var{b}, @var{V})
@@ -1116,26 +1123,26 @@ Not implemented.
 
 Compute a generalized linear least squares fit.
 
-Estimate @var{x} under the model @var{b} = @var{A}@var{x} + @var{w},
-where the noise @var{w} is assumed to follow a normal distribution
-with covariance matrix @math{{\sigma^2} V}.
+Estimate @var{x} under the model @var{b} = @var{A}@var{x} + @var{w}, where
+the noise @var{w} is assumed to follow a normal distribution with covariance
+matrix @math{{\sigma^2} V}.
 
-If the size of the coefficient matrix @var{A} is n-by-p, the
-size of the vector/array of constant terms @var{b} must be n-by-k.
+If the size of the coefficient matrix @var{A} is n-by-p, the size of the
+vector/array of constant terms @var{b} must be n-by-k.
 
-The optional input argument @var{V} may be a n-by-1 vector of positive
-weights (inverse variances), or a n-by-n symmetric positive semidefinite
-matrix representing the covariance of @var{b}.  If @var{V} is not
-supplied, the ordinary least squares solution is returned.
+The optional input argument @var{V} may be an n-element vector of positive
+weights (inverse variances), or an n-by-n symmetric positive semi-definite
+matrix representing the covariance of @var{b}.  If @var{V} is not supplied,
+the ordinary least squares solution is returned.
 
 The @var{alg} input argument, a guidance on solution method to use, is
 currently ignored.
 
 Besides the least-squares estimate matrix @var{x} (p-by-k), the function
-also returns @var{stdx} (p-by-k), the error standard deviation of
-estimated @var{x}; @var{mse} (k-by-1), the estimated data error covariance
-scale factors (@math{\sigma^2}); and @var{S} (p-by-p, or p-by-p-by-k if k
-> 1), the error covariance of @var{x}.
+also returns @var{stdx} (p-by-k), the error standard deviation of estimated
+@var{x}; @var{mse} (k-by-1), the estimated data error covariance scale
+factors (@math{\sigma^2}); and @var{S} (p-by-p, or p-by-p-by-k if k > 1),
+the error covariance of @var{x}.
 
 Reference: @nospell{Golub and Van Loan} (1996),
 @cite{Matrix Computations (3rd Ed.)}, Johns Hopkins, Section 5.6.3
