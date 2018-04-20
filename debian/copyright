@@ -4,151 +4,33 @@ Upstream-Contact: John W. Eaton <jwe@octave.org>
 Source: https://www.octave.org/
 
 Files: *
-Copyright: 1992-2018 John W. Eaton <jwe@octave.org>
-           1984-1985, 1987-2017 Free Software Foundation, Inc
-           1997-2017 David Bateman
-           2008-2017 VZLU Prague, a.s., Czech Republic
-           1995-2017 Kurt Hornik
-           2010-2017 Rik Wehbring
-           2008-2017 Jaroslav Hajek
-           1998-2017 Andy Adler
-           1999-2017 Kai Habel
-           1993-2017 Paul Kienzle
-           2007-2017 Michael Goffioul
-           1995-2017 Friedrich Leisch
-           2007-2017 Ben Abbott
-           2005-2017 Bill Denney
-           1993-2017 Shai Ayal
-           1995-2017 Andreas Weingessel
-           1996-2017 Daniel Calvelo
-           2005-2017 Søren Hauberg <hauberg@gmail.com>
-           2000-2017 Teemu Ikonen
-           2012-2017 Daniel Kraft
-           2009-2017 Martin Helm
-           2005-2017 William Poetra Yoga Hadisoeseno
-           1993-2017 Auburn University
-           2001-2017 Ben Sapp
-           2000-2017 Gabriele Pannocchia
-           2005-2017 Ivana Varekova
-           2009-2017 Jason Riedy
-           2005-2017 Nicolo' Giorgetti
-           1996-2017 A. S. Hodel
-           1993-2017 A. Scottedward Hodel
-           2006-2017 Alexander Barth
-           2009-2017 Benjamin Lindner
-           2008-2017 Radek Salac
-           2009-2017 Carlo de Falco
-           2000-2017 Etienne Grossmann
-           2008-2017 Julian Schnidder
-           2005-2017 Ludwig Schwardt, Kevin Ruland
-           2006-2017 Michel D. Schmid
-           1999-2017 Peter Ekberg
-           2004-2017 Piotr Krzyzanowski
-           2007-2017 Regents of the University of California
-           2006-2017 Sylvain Pelissier
-           1997-2017 Vincent Cautaerts
-           1995, 2000-2001 Maurice LeBrun
-           2000, 2002 Joao Cardoso
-           2000-2002, 2004 Alan W. Irwin
-           2004 Andrew Ross
-           2004 Victor Munoz
-           2003 Alberto Terruzzi
-           2012 Alexander Klein
-           2004-2017 Alois Schloegl
-           2002-2017 Andreas Stahel
-           2008-2016 Thomas L. Scofield <scofield@calvin.edu>
-           2010 David Grundberg
-           2005 Stefan van der Walt <stefan@sun.ac.za>
-           2006 Thomas Weber <tweber@debian.ors>
-           2007-2009 John Swensen
-           2011-2017 John P. Swensen
-           1998-2017 Ariel Tankus
-           2012-2017 Carnë Draug
-           2005-2017 Mohamed Kamoun
-           2008-2017 Robert Platt
-           2000-2017 Bill Lash
-           2001-2017 Cai Jianming
-           2010 Christos Dimitrakakis
-           1999-2017 Daniel Heiserer
-           2001, 2005-2017 Laurent Mazet
-           2006-2017 Daniel Sebald
-           2007-2017 Jordi Gutiérrez Hermoso <jordigh@octave.org>
-           2006-2017 Marco Caliari <marco.caliari@univr.it>
-           1999-2017 David M. Doolin
-           1993-2017 Dirk Laurie
-           2009-2017 E. Jason Riedy
-           2009-2017 Eric Chassande-Mottin, CNRS (France)
-           2012-2017 Philip Nienhuis
-           2006-2017 Frederick (Rick) A Niles
-           2005-2017 Hoxide Ma
-           2012-2017 Iain Murray
-           2012-2017 Jarno Rajahalme
-           2008-2017 Jonathan Stickel
-           2001-2017 Rolf Fabian
-           2007 Stallmanfacts.com
-           2006-2017 Keith Goodman
-           2008-2017 N.J. Higham
-           2010 Richard T. Guy <guyrt7@wfu.edu>
-           2007-2017 Michael Weitzel
-           1998-2017 Nicol N. Schraudolph
-           2010-2017 Pedro Gonnet
-           2004-2017 Petr Mikulik
-           2001-2017 Ross Lippert
-           2007-2017 Thomas Treichl
-           2009-2017 Tony Richardson
-           1998-2017 Walter Gautschi
-           1997-2002 Makoto Matsumoto and Takuji Nishimura
-           2011-2017 Jacob Dawid
-           2012-2017 Max Brister
-           2010-2017 Martin Hepperle
-           2013-2017 John Donoghue
-           2009 P. L. Lucas
-           2012-2017 Pantxo Diribarne
-           2009 Nokia Corporation and/or its subsidiary(-ies)
-           2012-2017 Torsten <ttl@justmail.de>
-           2008 Kristian Rumberg
-           2013-2017 Julien Bect
-           2004 Josep Mones i Teixidor
-           2013-2017 Michael D. Godfrey
-           2013-2017 Mike Miller
-           2013-2017 Sébastien Villemot <sebastien@debian.org>
-           2007 Muthiah Annamalai
-           2013-2017 Carl Osterwisch
-           2001-2017 David Billinghurst
-           2003, 2013 Jaakko Ruohio
-           2012-2017 Erik Kjellson
-           2012-2017 Fotios Kasolis
-           1993-1998 Karl Berry
-           2012-2017 Juan Pablo Carbajal
-           2013-2017 Leopoldo Cerbaro <redbliss@libero.it>
-           2012-2017 Richard Crozier
-           2007 Paul Thomas
-           2007 Christoph Spiel
-           2000-2017 Dirk Eddelbuettel
-           2012-2017 Jonas Lundgren
-           2014-2017 Eduardo Ramos Fernández <eduradical951@gmail.com>
-           2013-2017 Kai T. Ohlhus <k.ohlhus@gmail.com>
-           2014-2017 Andreas Weber
-           2013-2017 Vytautas Jančauskas
-           2014-2017 Nir Krakauer
-           2014-2017 Markus Bergholz
-           2014-2017 Massimiliano Fasi
-           2014-2017 Willem Atsma
-           2014-2017 Nathan Podlich
-           2009-2016 Robert T. Short
-           2016-2017 Oliver Heimlich
-           2016-2017 Andrew Thornton
-           2016-2017 M. Muetzel
-           2016 Barbara Lócsi
-           2017 Colin B. Macdonald
-           2016-2017 Eric Firing
-           2006-2017 Arno Onken <asnelt@asnelt.org>
-           2016-2017 Lachlan Andrew
-           2014-2017 Jacopo Corno <jacopo.corno@gmail.com>
-           2013-2017 Roberto Porcu' <roberto.porcu@polimi.it>
-           2016-2017 Francesco Faccio <francesco.faccio@mail.polimi.it>
-           2012-2017 pdiribarne
-           2014-2017 Endre Kozma
+Copyright: 1992-2018, John W. Eaton
+License: GPL-3+
+
+Files: aclocal.m4
+Copyright: 1984-2018, Free Software Foundation, Inc.
+License: GPL-3+
+ This file is free software; the Free Software Foundation
+ gives unlimited permission to copy and/or distribute it,
+ with or without modifications, as long as this notice is preserved.
+
+Files: build-aux/OctJavaQry.java
+Copyright: 2010-2018, Rik Wehbring
+License: GPL-3+
+
+Files: build-aux/depcomp
+  build-aux/ltmain.sh
+  build-aux/missing
+  build-aux/ylwrap
+Copyright: 1996-2018, Free Software Foundation, Inc.
+License: GPL-2+
+
+Files: build-aux/get-source-mtime.sh
+Copyright: 2013-2018, Mike Miller
+License: GPL-3+
+
+Files: build-aux/texinfo.tex
+Copyright: 1984-2018, Free Software Foundation, Inc.
 License: GPL-3+
 
 Files: debian/*
@@ -159,34 +41,1235 @@ Copyright: Andrew D. Fernandes <adfernan@cnd.mcgill.ca>
            2006-2013 Thomas Weber <tweber@debian.org>
            2011-2018 Sébastien Villemot <sebastien@debian.org>
            2013-2014 Mike Miller <mtmiller@debian.org>
-License: GPL-3+           
+License: GPL-3+
 
-Files: liboctave/cruft/amos/*
-       liboctave/cruft/dassl/*
-       liboctave/cruft/fftpack/*
-       liboctave/cruft/slatec-err/*
-       liboctave/cruft/slatec-fn/*
+Files: doc/doxyhtml/Doxyfile.in
+Copyright: 2012-2018, Jordi Gutiérrez Hermoso
+License: GPL-3+
+
+Files: doc/interpreter/audio.texi
+  doc/interpreter/audio.txi
+Copyright: 1995-2018, Kurt Hornik
+License: GPL-3+
+
+Files: doc/interpreter/diagperm.texi
+  doc/interpreter/diagperm.txi
+Copyright: 2008-2018, Jaroslav Hajek
+License: GPL-3+
+
+Files: doc/interpreter/external.texi
+  doc/interpreter/external.txi
+Copyright: 2010, Martin Hepperle
+  2007-2018, John W. Eaton and David Bateman
+  2007, Paul Thomas and Christoph Spiel
+License: GPL-3+
+
+Files: doc/interpreter/genpropdoc.m
+  doc/interpreter/plot-axesproperties.texi
+  doc/interpreter/plot-figureproperties.texi
+  doc/interpreter/plot-imageproperties.texi
+  doc/interpreter/plot-lightproperties.texi
+  doc/interpreter/plot-lineproperties.texi
+  doc/interpreter/plot-patchproperties.texi
+  doc/interpreter/plot-rootproperties.texi
+  doc/interpreter/plot-surfaceproperties.texi
+  doc/interpreter/plot-textproperties.texi
+  doc/interpreter/plot-uibuttongroupproperties.texi
+  doc/interpreter/plot-uicontextmenuproperties.texi
+  doc/interpreter/plot-uicontrolproperties.texi
+  doc/interpreter/plot-uimenuproperties.texi
+  doc/interpreter/plot-uipanelproperties.texi
+  doc/interpreter/plot-uipushtoolproperties.texi
+  doc/interpreter/plot-uitoggletoolproperties.texi
+  doc/interpreter/plot-uitoolbarproperties.texi
+Copyright: 2014-2018, Pantxo Diribarne
+License: GPL-3+
+
+Files: doc/interpreter/geometry.texi
+  doc/interpreter/geometry.txi
+  doc/interpreter/plotimages.m
+Copyright: 2007-2018, John W. Eaton and David Bateman
+License: GPL-3+
+
+Files: doc/interpreter/geometryimages.m
+  doc/interpreter/interpimages.m
+  doc/interpreter/sparse.texi
+  doc/interpreter/sparse.txi
+  doc/interpreter/sparseimages.m
+Copyright: 2004-2018, David Bateman
+License: GPL-3+
+
+Files: doc/interpreter/gui.texi
+  doc/interpreter/gui.txi
+  doc/interpreter/munge-texi.pl
+  doc/interpreter/pr-idx.texi
+  doc/interpreter/pr-idx.txi
+Copyright: 2010-2018, Rik Wehbring
+License: GPL-3+
+
+Files: doc/interpreter/mkoctfile.1
+  doc/interpreter/octave-config.1
+Copyright: 2000-2018, Dirk Eddelbuettel
+License: GPL-3+
+
+Files: doc/interpreter/octave.css
+Copyright: 2016-2018, Oliver Heimlich
+License: GPL-3+
+
+Files: doc/interpreter/octave.html/*
+Copyright: 2016-2018, Oliver Heimlich
+License: GPL-3+
+
+Files: doc/interpreter/oop.texi
+  doc/interpreter/oop.txi
+Copyright: 2009, 2010, VZLU Prague
+  2003-2018, David Bateman
+License: GPL-3+
+
+Files: doc/interpreter/package.texi
+  doc/interpreter/package.txi
+Copyright: 2005-2018, Søren Hauberg
+License: GPL-3+
+
+Files: doc/interpreter/splineimages.m
+Copyright: 2012-2018, Ben Abbott, Jonas Lundgren
+License: GPL-3+
+
+Files: doc/interpreter/testfun.texi
+  doc/interpreter/testfun.txi
+Copyright: 2005-2018, David Bateman
+  2002-2005, Paul Kienzle
+License: GPL-3+
+
+Files: doc/interpreter/vectorize.texi
+  doc/interpreter/vectorize.txi
+Copyright: 2012-2018, Jordi Gutiérrez Hermoso
+License: GPL-3+
+
+Files: etc/icons/org.octave.Octave.appdata.xml
+Copyright: 2011-2018, Carnë Draug
+License: GPL-3+
+
+Files: libgnu/*
+Copyright: 1984-2018, Free Software Foundation, Inc.
+License: GPL-3+
+
+Files: libgnu/_Noreturn.h
+  libgnu/alloca.c
+  libgnu/allocator.c
+  libgnu/bitrotate.c
+  libgnu/c-ctype.c
+  libgnu/file-set.h
+  libgnu/hash-triple.h
+  libgnu/iconv_open-aix.h
+  libgnu/iconv_open-hpux.h
+  libgnu/iconv_open-irix.h
+  libgnu/iconv_open-osf.h
+  libgnu/iconv_open-solaris.h
+  libgnu/math.c
+  libgnu/scratch_buffer.h
+  libgnu/sig-handler.c
+  libgnu/stat-time.c
+  libgnu/sys_socket.c
+  libgnu/u64.c
+  libgnu/unistd.c
+  libgnu/wctype-h.c
+  libgnu/xsize.c
+Copyright: 1992-2018, John W. Eaton
+License: GPL-3+
+
+Files: libgnu/alloca.in.h
+  libgnu/areadlink.h
+  libgnu/asprintf.c
+  libgnu/careadlinkat.c
+  libgnu/dirname.h
+  libgnu/error.h
+  libgnu/filemode.h
+  libgnu/hash.h
+  libgnu/md2.h
+  libgnu/md4.h
+  libgnu/save-cwd.h
+  libgnu/stripslash.c
+  libgnu/strptime.c
+  libgnu/strsignal.c
+  libgnu/tmpdir.c
+Copyright: 1990, 1991, 1994-2018, Free Software Foundation
+License: GPL-3+
+
+Files: libgnu/basename-lgpl.c
+  libgnu/basename.c
+  libgnu/c-strcase.h
+  libgnu/dirname-lgpl.c
+  libgnu/dirname.c
+  libgnu/filenamecat.h
+  libgnu/gettext.h
+  libgnu/hard-locale.c
+  libgnu/md2.c
+  libgnu/md4.c
+  libgnu/md5.c
+  libgnu/md5.h
+  libgnu/memrchr.c
+  libgnu/minmax.h
+  libgnu/mkostemp.c
+  libgnu/pathmax.h
+  libgnu/printf-args.c
+  libgnu/printf-args.h
+  libgnu/printf-parse.h
+  libgnu/putenv.c
+  libgnu/realloc.c
+  libgnu/rmdir.c
+  libgnu/save-cwd.c
+  libgnu/sha1.h
+  libgnu/strdup.c
+  libgnu/strndup.c
+  libgnu/timegm.c
+  libgnu/xalloc-die.c
+  libgnu/xgetcwd.c
+Copyright: 1988, 1990-2018, Free Software
+License: GPL-3+
+
+Files: libgnu/filemode.c
+  libgnu/fnmatch.in.h
+Copyright: 1985, 1990-1993, 1996-2007, 2009-2018, Free
+License: GPL-3+
+
+Files: libgnu/unistr/u8-mblen.c
+Copyright: 1988, 1990-2018, Free Software
+License: GPL-3+
+
+Files: libgui/graphics/*
+Copyright: 2007-2018, Michael Goffioul
+License: GPL-3+
+
+Files: libgui/graphics/ButtonGroup.cc
+  libgui/graphics/ButtonGroup.h
+Copyright: 2016-2018, Andrew Thornton
+License: GPL-3+
+
+Files: libgui/graphics/annotation-dialog.cc
+  libgui/graphics/annotation-dialog.h
+Copyright: 2013-2018, John Donoghue
+License: GPL-3+
+
+Files: libgui/graphics/annotation-dialog.ui
+  libgui/graphics/module.mk
+Copyright: 1992-2018, John W. Eaton
+License: GPL-3+
+
+Files: libgui/graphics/images/*
+Copyright: 2006, 2007, Everaldo Coelho.
+License: LGPL-3+
+
+Files: libgui/liboctgui-build-info.h
+  libgui/liboctgui-build-info.in.cc
+Copyright: 2016-2018, M. Muetzel
+License: GPL-3+
+
+Files: libgui/qterminal/*
+Copyright: 2012-2018, Michael Goffioul.
+  2012-2018, Jacob Dawid.
+License: GPL-3+
+
+Files: libgui/qterminal/libqterminal/unix/*
+Copyright: 1992-2018, John W. Eaton
+License: GPL-3+
+
+Files: libgui/qterminal/libqterminal/unix/BlockArray.cpp
+  libgui/qterminal/libqterminal/unix/BlockArray.h
+Copyright: 2008
+  2000, 2013, Stephan Kulow <coolo@kde.org>
+License: GPL-2+
+
+Files: libgui/qterminal/libqterminal/unix/Character.h
+  libgui/qterminal/libqterminal/unix/CharacterColor.h
+  libgui/qterminal/libqterminal/unix/Emulation.h
+  libgui/qterminal/libqterminal/unix/Screen.h
+  libgui/qterminal/libqterminal/unix/Vt102Emulation.h
+Copyright: 2008
+  2007, 2013, Robert Knight <robertknight@gmail.com>
+  1997, 1998, Lars Doelle <lars.doelle@on-line.de>
+License: GPL-2+
+
+Files: libgui/qterminal/libqterminal/unix/Emulation.cpp
+Copyright: 2008
+  2007, 2013, Robert Knight <robertknight@gmail.com>
+  1997, 1998, Lars Doelle <lars.doelle@on-line.de>
+  1996, 2013, Matthias Ettrich <ettrich@kde.org>
+License: GPL-2+
+
+Files: libgui/qterminal/libqterminal/unix/Filter.cpp
+  libgui/qterminal/libqterminal/unix/Filter.h
+Copyright: 2008, Adoption to octaveTorsten <mttl@mailbox.org>, Copyright 2017
+  2007, 2013, Robert Knight <robertknight@gmail.com>
+License: GPL-2+
+
+Files: libgui/qterminal/libqterminal/unix/History.cpp
+  libgui/qterminal/libqterminal/unix/History.h
+  libgui/qterminal/libqterminal/unix/Screen.cpp
+  libgui/qterminal/libqterminal/unix/Vt102Emulation.cpp
+Copyright: 2008
+  1997, 1998, 2013, Lars Doelle <lars.doelle@on-line.de>
+License: GPL-2+
+
+Files: libgui/qterminal/libqterminal/unix/KeyboardTranslator.cpp
+  libgui/qterminal/libqterminal/unix/KeyboardTranslator.h
+  libgui/qterminal/libqterminal/unix/ScreenWindow.cpp
+  libgui/qterminal/libqterminal/unix/ScreenWindow.h
+Copyright: 2008
+  2007, 2013, Robert Knight <robertknight@gmail.com>
+License: GPL-2+
+
+Files: libgui/qterminal/libqterminal/unix/QUnixTerminalImpl.cpp
+  libgui/qterminal/libqterminal/unix/QUnixTerminalImpl.h
+Copyright: 2012-2018, Jacob Dawid <jacob.dawid@cybercatalyst.com>
+  2008, e_k (e_k@users.sourceforge.net)
+License: LGPL-2+
+
+Files: libgui/qterminal/libqterminal/unix/SelfListener.cpp
+  libgui/qterminal/libqterminal/unix/SelfListener.h
+Copyright: 2011, 2013, Jacob Dawid (jacob.dawid@cybercatalyst.com)
+License: GPL-3+
+
+Files: libgui/qterminal/libqterminal/unix/TerminalCharacterDecoder.cpp
+  libgui/qterminal/libqterminal/unix/TerminalCharacterDecoder.h
+Copyright: 2008, 
+  2006, 2007, 2013, Robert Knight <robertknight@gmail.com>
+License: LGPL-2+
+
+Files: libgui/qterminal/libqterminal/unix/TerminalModel.cpp
+  libgui/qterminal/libqterminal/unix/TerminalModel.h
+  libgui/qterminal/libqterminal/unix/TerminalView.cpp
+  libgui/qterminal/libqterminal/unix/TerminalView.h
+Copyright: 2008, Copyright (C) 2012-2018, Jacob Dawid <jacob.dawid@cybercatalyst.com>
+  2006, 2007, Robert Knight <robertknight@gmail.com>
+  1997, 1998, Lars Doelle <lars.doelle@on-line.de>
+License: GPL-2+
+
+Files: libgui/qterminal/libqterminal/unix/kpty.cpp
+Copyright: 2008
+  2002, 2013, Waldo Bastian <bastian@kde.org>
+  2002, 2003, 2007, Oswald Buddenhagen <ossi@kde.org>
+License: LGPL-2+
+
+Files: libgui/qterminal/libqterminal/unix/kpty.h
+  libgui/qterminal/libqterminal/unix/kpty_p.h
+Copyright: 2008
+  2003, 2007, 2013, Oswald Buddenhagen <ossi@kde.org>
+License: LGPL-2+
+
+Files: libgui/qterminal/libqterminal/win32/*
+Copyright: 2007-2018, Michael Goffioul
+License: GPL-3+
+
+Files: libgui/src/*
+Copyright: 2011-2018, Jacob Dawid
+License: GPL-3+
+
+Files: libgui/src/color-picker.cc
+  libgui/src/color-picker.h
+Copyright: FZI Forschungszentrum Informatik Karlsruhe / 2013-2018, Torsten
+License: GPL-3+
+
+Files: libgui/src/dialog.cc
+  libgui/src/dialog.h
+Copyright: 2013-2018, John W. Eaton
+  2013-2018, Daniel J. Sebald
+License: GPL-3+
+
+Files: libgui/src/documentation.cc
+  libgui/src/documentation.h
+Copyright: 2018, Torsten <mttl@maibox.org>
+License: GPL-3+
+
+Files: libgui/src/external-editor-interface.cc
+  libgui/src/external-editor-interface.h
+  libgui/src/octave-cmd.cc
+  libgui/src/octave-cmd.h
+Copyright: 2013-2018, Torsten
+License: GPL-3+
+
+Files: libgui/src/files-dock-widget.cc
+Copyright: 2013-2018, John P. Swensen
+  2011-2018, Jacob Dawid
+License: GPL-3+
+
+Files: libgui/src/find-files-dialog.cc
+  libgui/src/find-files-dialog.h
+  libgui/src/find-files-model.cc
+  libgui/src/find-files-model.h
+Copyright: 2013-2018, John Donoghue
+License: GPL-3+
+
+Files: libgui/src/icons/*
+Copyright: 1992-2018, John W. Eaton
+License: GPL-3+
+
+Files: libgui/src/m-editor/find-dialog.cc
+  libgui/src/m-editor/find-dialog.h
+Copyright: 2012-2018, Torsten <ttl@justmail.de>
+  2009, Nokia Corporation and/or its subsidiary(-ies).
+License: GPL-3+
+
+Files: libgui/src/m-editor/marker.cc
+  libgui/src/m-editor/marker.h
+Copyright: 2016-2018, Daniel J. Sebald
+License: GPL-3+
+
+Files: libgui/src/m-editor/octave-qscintilla.cc
+  libgui/src/m-editor/octave-qscintilla.h
+  libgui/src/m-editor/octave-txt-lexer.cc
+  libgui/src/m-editor/octave-txt-lexer.h
+Copyright: 2013-2018, Torsten
+License: GPL-3+
+
+Files: libgui/src/main-window.cc
+  libgui/src/main-window.h
+  libgui/src/terminal-dock-widget.cc
+  libgui/src/terminal-dock-widget.h
+  libgui/src/welcome-wizard.cc
+  libgui/src/welcome-wizard.h
+  libgui/src/workspace-model.cc
+  libgui/src/workspace-model.h
+  libgui/src/workspace-view.cc
+  libgui/src/workspace-view.h
+Copyright: 2013-2018, John W. Eaton
+  2011-2018, Jacob Dawid
+License: GPL-3+
+
+Files: libgui/src/module.mk
+  libgui/src/octave-gui.h
+  libgui/src/settings-dialog.ui
+Copyright: 1992-2018, John W. Eaton
+License: GPL-3+
+
+Files: libgui/src/octave-dock-widget.cc
+Copyright: 2013-2018, Torsten <ttl@justmail.de>
+  2012-2018, Richard Crozier
+License: GPL-3+
+
+Files: libgui/src/octave-dock-widget.h
+Copyright: 2012-2018, Richard Crozier
+License: GPL-3+
+
+Files: libgui/src/octave-qt-link.cc
+  libgui/src/octave-qt-link.h
+Copyright: 2013-2018, John W. Eaton
+  2011-2018, John P. Swensen
+  2011-2018, Jacob Dawid
+License: GPL-3+
+
+Files: libgui/src/octave-settings.h
+Copyright: 2017, 2018, Torsten <mttl@mailbox.de>
+License: GPL-3+
+
+Files: libgui/src/qtinfo/*
+Copyright: 2012-2018, Jacob Dawid
+  2009, P. L. Lucas
+License: GPL-3+
+
+Files: libgui/src/qtinfo/texinfo-parser.h
+Copyright: 2012-2018, Jacob Dawid
+  2009, P.L. Lucas
+License: GPL-3+
+
+Files: libgui/src/shortcut-manager.cc
+  libgui/src/shortcut-manager.h
+Copyright: 2014-2018, Torsten <ttl@justmail.de>
+License: GPL-3+
+
+Files: libgui/src/tab-bar.cc
+  libgui/src/tab-bar.h
+Copyright: 2018, Torsten <mttl@mailbox.org>
+License: GPL-3+
+
+Files: libgui/src/variable-editor-model.cc
+  libgui/src/variable-editor-model.h
+  libgui/src/variable-editor.cc
+  libgui/src/variable-editor.h
+Copyright: 2015, Michael Barnes
+  2013-2018, John W. Eaton
+  2013, Rüdiger Sonderfeld
+License: GPL-3+
+
+Files: libinterp/corefcn/Cell.cc
+  libinterp/corefcn/Cell.h
+  libinterp/corefcn/fcn-info.h
+  libinterp/corefcn/load-path.cc
+  libinterp/corefcn/load-path.h
+  libinterp/corefcn/mappers.cc
+  libinterp/corefcn/max.cc
+  libinterp/corefcn/oct-map.cc
+  libinterp/corefcn/oct-map.h
+  libinterp/corefcn/rand.cc
+  libinterp/corefcn/symrec.h
+  libinterp/corefcn/symscope.h
+  libinterp/corefcn/symtab.h
+  libinterp/corefcn/syscalls.cc
+  libinterp/corefcn/utils.cc
+  libinterp/corefcn/variables.cc
+  libinterp/corefcn/xpow.cc
+Copyright: 2009, 2010, VZLU Prague
+  1993-2018, John W. Eaton
+License: GPL-3+
+
+Files: libinterp/corefcn/__betainc__.cc
+Copyright: 2018, Stefan Schlögl
+  2018, Michele Ginesi
+License: GPL-3+
+
+Files: libinterp/corefcn/__contourc__.cc
+Copyright: 2007-2018, Kai Habel
+  2004, Victor Munoz
+  2004, Andrew Ross
+  2004, 2007, Shai Ayal
+  2000-2002, 2004, Alan W. Irwin
+  2000, 2002, Joao Cardoso
+  1995, 2000, 2001, Maurice LeBrun
+License: GPL-3+
+
+Files: libinterp/corefcn/__dsearchn__.cc
+  libinterp/corefcn/fftn.cc
+  libinterp/corefcn/matrix_type.cc
+  libinterp/corefcn/rcond.cc
+Copyright: 2004-2018, David Bateman
+License: GPL-3+
+
+Files: libinterp/corefcn/__expint__.cc
+Copyright: 2017, 2018, Michele Ginesi
+License: GPL-3+
+
+Files: libinterp/corefcn/__gammainc__.cc
+Copyright: 2018, Stefan Schlögl
+  2018, Michele Ginesi
+  2017, 2018, Nir Krakauer
+License: GPL-3+
+
+Files: libinterp/corefcn/__ichol__.cc
+  libinterp/corefcn/__ilu__.cc
+Copyright: 2014-2018, Eduardo Ramos Fernández <eduradical951@gmail.com>
+  2013-2018, Kai T. Ohlhus <k.ohlhus@gmail.com>
+License: GPL-3+
+
+Files: libinterp/corefcn/__lin_interpn__.cc
+Copyright: 2006-2018, Alexander Barth
+License: GPL-3+
+
+Files: libinterp/corefcn/__magick_read__.cc
+Copyright: 2013-2018, Carnë Draug
+  2010, David Grundberg
+  2008, Thomas L. Scofield
+  2002-2018, Andy Adler
+License: GPL-3+
+
+Files: libinterp/corefcn/__pchip_deriv__.cc
+Copyright: 2008, 2009, Jaroslav Hajek
+  2000-2018, Kai Habel
+License: GPL-3+
+
+Files: libinterp/corefcn/__qp__.cc
+Copyright: 2000-2018, Gabriele Pannocchia
+License: GPL-3+
+
+Files: libinterp/corefcn/balance.cc
+  libinterp/corefcn/xdiv.h
+Copyright: 2008-2018, Jaroslav Hajek
+  1993-2018, John W. Eaton
+License: GPL-3+
+
+Files: libinterp/corefcn/base-text-renderer.h
+  libinterp/corefcn/ft-text-renderer.cc
+  libinterp/corefcn/ft-text-renderer.h
+  libinterp/corefcn/text-renderer.cc
+  libinterp/corefcn/text-renderer.h
+Copyright: 2016-2018, John W. Eaton
+  2009-2018, Michael Goffioul
+License: GPL-3+
+
+Files: libinterp/corefcn/bsxfun.cc
+  libinterp/corefcn/tril.cc
+  libinterp/corefcn/typecast.cc
+Copyright: 2009, 2010, VZLU Prague
+  2003-2018, David Bateman
+License: GPL-3+
+
+Files: libinterp/corefcn/cellfun.cc
+Copyright: 2010, VZLU Prague
+  2009, Jaroslav Hajek
+  2006-2018, Bill Denney
+  2005-2018, Mohamed Kamoun
+License: GPL-3+
+
+Files: libinterp/corefcn/conv2.cc
+Copyright: 2010, VZLU Prague
+  1999-2018, Andy Adler
+License: GPL-3+
+
+Files: libinterp/corefcn/data.cc
+Copyright: 2012, Carlo de Falco
+  2009, Jaroslav Hajek
+  2009, 2010, VZLU Prague
+  1994-2018, John W. Eaton
+License: GPL-3+
+
+Files: libinterp/corefcn/debug.cc
+Copyright: 2007-2009, John Swensen
+  2001-2018, Ben Sapp
+License: GPL-3+
+
+Files: libinterp/corefcn/dlmread.cc
+Copyright: 2010, Jaroslav Hajek
+  2008-2018, Jonathan Stickel
+License: GPL-3+
+
+Files: libinterp/corefcn/dot.cc
+  libinterp/corefcn/sub2ind.cc
+Copyright: 2009-2018, VZLU Prague
+License: GPL-3+
+
+Files: libinterp/corefcn/eig.cc
+Copyright: 2016-2018, Barbara Lócsi
+  1994-2018, John W. Eaton
+License: GPL-3+
+
+Files: libinterp/corefcn/ellipj.cc
+Copyright: 2013-2018, Leopoldo Cerbaro <redbliss@libero.it>
+License: GPL-3+
+
+Files: libinterp/corefcn/errwarn.cc
+  libinterp/corefcn/errwarn.h
+  libinterp/corefcn/oct-obj.h
+Copyright: 2010-2018, Rik Wehbring
+License: GPL-3+
+
+Files: libinterp/corefcn/fcn-info.cc
+  libinterp/corefcn/symrec.cc
+  libinterp/corefcn/symscope.cc
+  libinterp/corefcn/symtab.cc
+Copyright: 2009, 2010, VZLU Prague, a.s.
+  1993-2018, John W. Eaton
+License: GPL-3+
+
+Files: libinterp/corefcn/fft.cc
+  libinterp/corefcn/fft2.cc
+Copyright: 1997-2018, David Bateman
+  1996, 1997, John W. Eaton
+License: GPL-3+
+
+Files: libinterp/corefcn/gcd.cc
+Copyright: 2010, Jaroslav Hajek, Jordi Gutiérrez Hermoso
+  2004-2018, David Bateman
+License: GPL-3+
+
+Files: libinterp/corefcn/gl-render.cc
+  libinterp/corefcn/gl-render.h
+  libinterp/corefcn/oct-tex-lexer.in.ll
+  libinterp/corefcn/oct-tex-lexer.ll
+  libinterp/corefcn/oct-tex-parser.in.yy
+  libinterp/corefcn/oct-tex-parser.yy
+  libinterp/corefcn/oct-tex-symbols.in
+  libinterp/corefcn/txt-eng.cc
+  libinterp/corefcn/txt-eng.h
+Copyright: 2007-2018, Michael Goffioul
+License: GPL-3+
+
+Files: libinterp/corefcn/gl2ps-print.cc
+  libinterp/corefcn/gl2ps-print.h
+Copyright: 1993-2018, Shai Ayal
+License: GPL-3+
+
+Files: libinterp/corefcn/gsvd.cc
+Copyright: 2016-2018, Barbara Lócsi
+  2006, 2010, Pascal Dupuis <Pascal.Dupuis@uclouvain.be>
+  1996, 1997, John W. Eaton
+License: GPL-3+
+
+Files: libinterp/corefcn/hash.cc
+Copyright: 2016-2018, Kai T. Ohlhus
+  2007-2018, David Bateman
+License: GPL-3+
+
+Files: libinterp/corefcn/hex2num.cc
+Copyright: 2012, 2016-2018, John W. Eaton
+  2005-2018, David Bateman
+License: GPL-3+
+
+Files: libinterp/corefcn/lookup.cc
+Copyright: 2008-2018, VZLU Prague a.s., Czech Republic
+License: GPL-3+
+
+Files: libinterp/corefcn/ls-ascii-helper.cc
+  libinterp/corefcn/ls-ascii-helper.h
+Copyright: 2009-2018, Benjamin Lindner
+License: GPL-3+
+
+Files: libinterp/corefcn/mex.h
+  libinterp/corefcn/mexproto.h
+  libinterp/corefcn/mxarray.in.h
+Copyright: 1993-2018, Paul Kienzle
+License: GPL-3+
+
+Files: libinterp/corefcn/mgorth.cc
+Copyright: 2010, VZLU Prague
+  2009-2018, Carlo de Falco
+License: GPL-3+
+
+Files: libinterp/corefcn/nproc.cc
+Copyright: 2012-2018, Iain Murray
+License: GPL-3+
+
+Files: libinterp/corefcn/oct-stream.cc
+Copyright: 2015-2018, Lachlan Andrew, Monash University
+  1996-2018, John W. Eaton
+License: GPL-3+
+
+Files: libinterp/corefcn/oct-tex-parser.cc
+  libinterp/corefcn/oct-tex-parser.h
+Copyright: 1984-2018, Free Software Foundation, Inc.
+License: GPL-3+
+
+Files: libinterp/corefcn/octave-default-image.h
+Copyright: 2014-2018, Pantxo Diribarne
+License: GPL-3+
+
+Files: libinterp/corefcn/octave-link.cc
+  libinterp/corefcn/octave-link.h
+Copyright: 2013-2018, John W. Eaton
+  2011-2018, John P. Swensen
+  2011-2018, Jacob Dawid
+License: GPL-3+
+
+Files: libinterp/corefcn/ordschur.cc
+Copyright: 2016-2018, Sébastien Villemot <sebastien@debian.org>
+License: GPL-3+
+
+Files: libinterp/corefcn/psi.cc
+Copyright: 2011-2018, Carnë Draug
+License: GPL-3+
+
+Files: libinterp/corefcn/quadcc.cc
+Copyright: 2010-2018, Pedro Gonnet
+License: GPL-3+
+
+Files: libinterp/corefcn/qz.cc
+Copyright: 1998-2018, A. S. Hodel
+License: GPL-3+
+
+Files: libinterp/corefcn/regexp.cc
+Copyright: 2005-2018, David Bateman
+  2002-2005, Paul Kienzle
+License: GPL-3+
+
+Files: libinterp/corefcn/sparse-xdiv.cc
+  libinterp/corefcn/sparse-xdiv.h
+  libinterp/corefcn/sparse-xpow.cc
+  libinterp/corefcn/sparse-xpow.h
+  libinterp/corefcn/spparms.cc
+Copyright: 2004-2018, David Bateman
+  1998-2006, Andy Adler
+License: GPL-3+
+
+Files: libinterp/corefcn/sparse.cc
+Copyright: 2009, 2010, VZLU Prague
+  2004-2018, David Bateman
+  1998-2004, 2006, Andy Adler
+License: GPL-3+
+
+Files: libinterp/corefcn/sqrtm.cc
+Copyright: 2010, VZLU Prague
+  2001-2018, Ross Lippert and Paul Kienzle
+License: GPL-3+
+
+Files: libinterp/corefcn/str2double.cc
+  libinterp/corefcn/strfind.cc
+Copyright: 2009-2018, Jaroslav Hajek
+  2009, 2010, VZLU Prague
+License: GPL-3+
+
+Files: libinterp/corefcn/tsearch.cc
+Copyright: 2002-2018, Andreas Stahel
+License: GPL-3+
+
+Files: libinterp/corefcn/urlwrite.cc
+Copyright: 2009, David Bateman
+  2006-2018, Alexander Barth
+License: GPL-3+
+
+Files: libinterp/corefcn/xdiv.cc
+Copyright: 2008-2010, VZLU Prague
+  2008, 2009, Jaroslav Hajek
+  1993-2018, John W. Eaton
+License: GPL-3+
+
+Files: libinterp/corefcn/xnorm.cc
+  libinterp/corefcn/xnorm.h
+Copyright: 2008-2018, VZLU Prague, a.s.
+License: GPL-3+
+
+Files: libinterp/corefcn/zfstream.cc
+  libinterp/corefcn/zfstream.h
+Copyright: 2005-2018, Ludwig Schwardt, Kevin Ruland
+License: GPL-3+
+
+Files: libinterp/dldfcn/__delaunayn__.cc
+  libinterp/dldfcn/__fltk_uigetfile__.cc
+  libinterp/dldfcn/__voronoi__.cc
+  libinterp/dldfcn/convhulln.cc
+Copyright: 1999-2018, Kai Habel
+License: GPL-3+
+
+Files: libinterp/dldfcn/__eigs__.cc
+  libinterp/dldfcn/amd.cc
+  libinterp/dldfcn/ccolamd.cc
+  libinterp/dldfcn/fftw.cc
+Copyright: 2004-2018, David Bateman
+License: GPL-3+
+
+Files: libinterp/dldfcn/__glpk__.cc
+Copyright: 2013-2018, Sébastien Villemot <sebastien@debian.org>
+  2005-2018, Nicolo Giorgetti
+License: GPL-3+
+
+Files: libinterp/dldfcn/__init_fltk__.cc
+Copyright: 2014-2018, Andreas Weber
+  2007-2018, Shai Ayal
+License: GPL-3+
+
+Files: libinterp/dldfcn/__ode15__.cc
+Copyright: 2016-2018, Francesco Faccio <francesco.faccio@mail.polimi.it>
+License: GPL-3+
+
+Files: libinterp/dldfcn/__osmesa_print__.cc
+Copyright: 2016-2018, Andreas Weber <andy.weber.aw@gmail.com>
+License: GPL-3+
+
+Files: libinterp/dldfcn/audiodevinfo.cc
+Copyright: 2013-2018, Vytautas Jančauskas
+License: GPL-3+
+
+Files: libinterp/dldfcn/audioread.cc
+Copyright: 2016-2018, Damjan Angelovski
+  2013-2018, Vytautas Jančauskas
+License: GPL-3+
+
+Files: libinterp/dldfcn/chol.cc
+  libinterp/dldfcn/qr.cc
+Copyright: 2008-2010, VZLU Prague
+  2008, 2009, Jaroslav Hajek
+  1993-2018, John W. Eaton
+License: GPL-3+
+
+Files: libinterp/dldfcn/colamd.cc
+  libinterp/dldfcn/dmperm.cc
+  libinterp/dldfcn/symbfact.cc
+Copyright: 2004-2018, David Bateman
+  1998-2006, Andy Adler
+License: GPL-3+
+
+Files: libinterp/dldfcn/gzip.cc
+Copyright: 2011-2018, Carnë Draug
+License: GPL-3+
+
+Files: libinterp/dldfcn/symrcm.cc
+Copyright: 2007-2018, Michael Weitzel
+License: GPL-3+
+
+Files: libinterp/liboctinterp-build-info.h
+  libinterp/liboctinterp-build-info.in.cc
+Copyright: 2016-2018, M. Muetzel
+License: GPL-3+
+
+Files: libinterp/mk-doc.pl
+Copyright: 2010-2018, Rik Wehbring
+License: GPL-3+
+
+Files: libinterp/octave-value/ov-base-diag.cc
+  libinterp/octave-value/ov-base-diag.h
+  libinterp/octave-value/ov-cx-diag.cc
+  libinterp/octave-value/ov-cx-diag.h
+  libinterp/octave-value/ov-flt-cx-diag.cc
+  libinterp/octave-value/ov-flt-cx-diag.h
+  libinterp/octave-value/ov-flt-re-diag.cc
+  libinterp/octave-value/ov-flt-re-diag.h
+  libinterp/octave-value/ov-null-mat.cc
+  libinterp/octave-value/ov-null-mat.h
+  libinterp/octave-value/ov-perm.cc
+  libinterp/octave-value/ov-perm.h
+  libinterp/octave-value/ov-re-diag.cc
+  libinterp/octave-value/ov-re-diag.h
+Copyright: 2008-2018, Jaroslav Hajek
+License: GPL-3+
+
+Files: libinterp/octave-value/ov-base-mat.cc
+  libinterp/octave-value/ov-base-mat.h
+  libinterp/octave-value/ov-base.cc
+  libinterp/octave-value/ov-base.h
+  libinterp/octave-value/ov-bool-mat.cc
+  libinterp/octave-value/ov-bool-mat.h
+  libinterp/octave-value/ov-cell.cc
+  libinterp/octave-value/ov-cell.h
+  libinterp/octave-value/ov-ch-mat.cc
+  libinterp/octave-value/ov-ch-mat.h
+  libinterp/octave-value/ov-class.cc
+  libinterp/octave-value/ov-class.h
+  libinterp/octave-value/ov-cx-mat.cc
+  libinterp/octave-value/ov-cx-mat.h
+  libinterp/octave-value/ov-fcn-handle.h
+  libinterp/octave-value/ov-flt-cx-mat.cc
+  libinterp/octave-value/ov-flt-cx-mat.h
+  libinterp/octave-value/ov-flt-re-mat.cc
+  libinterp/octave-value/ov-flt-re-mat.h
+  libinterp/octave-value/ov-intx.h
+  libinterp/octave-value/ov-re-mat.cc
+  libinterp/octave-value/ov-re-mat.h
+  libinterp/octave-value/ov-str-mat.cc
+  libinterp/octave-value/ov-str-mat.h
+  libinterp/octave-value/ov.cc
+  libinterp/octave-value/ov.h
+  libinterp/octave-value/ovl.cc
+  libinterp/octave-value/ovl.h
+Copyright: 2009, 2010, VZLU Prague
+  1993-2018, John W. Eaton
+License: GPL-3+
+
+Files: libinterp/octave-value/ov-base-sparse.cc
+Copyright: 2009, 2010, VZLU Prague
+  2004-2018, David Bateman
+  1998-2004, 2006, Andy Adler
+License: GPL-3+
+
+Files: libinterp/octave-value/ov-base-sparse.h
+  libinterp/octave-value/ov-bool-sparse.cc
+  libinterp/octave-value/ov-bool-sparse.h
+  libinterp/octave-value/ov-cx-sparse.cc
+  libinterp/octave-value/ov-cx-sparse.h
+  libinterp/octave-value/ov-re-sparse.cc
+  libinterp/octave-value/ov-re-sparse.h
+Copyright: 2004-2018, David Bateman
+  1998-2006, Andy Adler
+License: GPL-3+
+
+Files: libinterp/octave-value/ov-classdef.cc
+  libinterp/octave-value/ov-classdef.h
+  libinterp/octave-value/ov-java.cc
+  libinterp/octave-value/ov-java.h
+Copyright: 2007-2018, Michael Goffioul
+License: GPL-3+
+
+Files: libinterp/octave-value/ov-fcn-handle.cc
+Copyright: 2010, Jaroslav Hajek
+  2009, VZLU Prague, a.s.
+  2003-2018, John W. Eaton
+License: GPL-3+
+
+Files: libinterp/octave-value/ov-fcn-inline.cc
+  libinterp/octave-value/ov-fcn-inline.h
+Copyright: 2004-2018, David Bateman
+License: GPL-3+
+
+Files: libinterp/octave-value/ov-lazy-idx.cc
+  libinterp/octave-value/ov-lazy-idx.h
+  libinterp/octave-value/ov-oncleanup.cc
+  libinterp/octave-value/ov-oncleanup.h
+Copyright: 2009-2018, VZLU Prague
+License: GPL-3+
+
+Files: libinterp/operators/op-b-sbm.cc
+  libinterp/operators/op-bm-sbm.cc
+  libinterp/operators/op-cm-scm.cc
+  libinterp/operators/op-cm-sm.cc
+  libinterp/operators/op-cs-scm.cc
+  libinterp/operators/op-cs-sm.cc
+  libinterp/operators/op-m-scm.cc
+  libinterp/operators/op-m-sm.cc
+  libinterp/operators/op-s-scm.cc
+  libinterp/operators/op-s-sm.cc
+  libinterp/operators/op-sbm-b.cc
+  libinterp/operators/op-sbm-bm.cc
+  libinterp/operators/op-sbm-sbm.cc
+  libinterp/operators/op-scm-cm.cc
+  libinterp/operators/op-scm-cs.cc
+  libinterp/operators/op-scm-m.cc
+  libinterp/operators/op-scm-s.cc
+  libinterp/operators/op-scm-scm.cc
+  libinterp/operators/op-scm-sm.cc
+  libinterp/operators/op-sm-cm.cc
+  libinterp/operators/op-sm-cs.cc
+  libinterp/operators/op-sm-m.cc
+  libinterp/operators/op-sm-s.cc
+  libinterp/operators/op-sm-scm.cc
+  libinterp/operators/op-sm-sm.cc
+Copyright: 2004-2018, David Bateman
+  1998-2006, Andy Adler
+License: GPL-3+
+
+Files: libinterp/operators/op-bm-b.cc
+Copyright: 2001-2018, Cai Jianming
+License: GPL-3+
+
+Files: libinterp/operators/op-cdm-cdm.cc
+  libinterp/operators/op-cdm-cm.cc
+  libinterp/operators/op-cdm-cs.cc
+  libinterp/operators/op-cdm-dm.cc
+  libinterp/operators/op-cdm-m.cc
+  libinterp/operators/op-cdm-s.cc
+  libinterp/operators/op-cm-cdm.cc
+  libinterp/operators/op-cm-dm.cc
+  libinterp/operators/op-cm-pm.cc
+  libinterp/operators/op-dm-cdm.cc
+  libinterp/operators/op-dm-cm.cc
+  libinterp/operators/op-dm-cs.cc
+  libinterp/operators/op-dm-dm.cc
+  libinterp/operators/op-dm-m.cc
+  libinterp/operators/op-dm-s.cc
+  libinterp/operators/op-dm-template.cc
+  libinterp/operators/op-dms-template.cc
+  libinterp/operators/op-fcdm-fcdm.cc
+  libinterp/operators/op-fcdm-fcm.cc
+  libinterp/operators/op-fcdm-fcs.cc
+  libinterp/operators/op-fcdm-fdm.cc
+  libinterp/operators/op-fcdm-fm.cc
+  libinterp/operators/op-fcdm-fs.cc
+  libinterp/operators/op-fcm-fcdm.cc
+  libinterp/operators/op-fcm-fdm.cc
+  libinterp/operators/op-fcm-pm.cc
+  libinterp/operators/op-fdm-fcdm.cc
+  libinterp/operators/op-fdm-fcm.cc
+  libinterp/operators/op-fdm-fcs.cc
+  libinterp/operators/op-fdm-fdm.cc
+  libinterp/operators/op-fdm-fm.cc
+  libinterp/operators/op-fdm-fs.cc
+  libinterp/operators/op-fm-fcdm.cc
+  libinterp/operators/op-fm-fdm.cc
+  libinterp/operators/op-fm-pm.cc
+  libinterp/operators/op-m-cdm.cc
+  libinterp/operators/op-m-dm.cc
+  libinterp/operators/op-m-pm.cc
+  libinterp/operators/op-pm-cm.cc
+  libinterp/operators/op-pm-fcm.cc
+  libinterp/operators/op-pm-fm.cc
+  libinterp/operators/op-pm-m.cc
+  libinterp/operators/op-pm-pm.cc
+  libinterp/operators/op-pm-template.cc
+Copyright: 2008-2018, Jaroslav Hajek
+License: GPL-3+
+
+Files: libinterp/operators/op-dm-scm.cc
+  libinterp/operators/op-dm-sm.cc
+Copyright: 2009-2018, Jason Riedy, Jaroslav Hajek
+License: GPL-3+
+
+Files: libinterp/operators/op-fcn.cc
+Copyright: 2009-2018, VZLU Prague
+License: GPL-3+
+
+Files: libinterp/operators/op-pm-scm.cc
+  libinterp/operators/op-pm-sm.cc
+Copyright: 2009-2018, Jason Riedy
+License: GPL-3+
+
+Files: libinterp/operators/ops.h
+Copyright: 2009, 2010, VZLU Prague, a.s.
+  1993-2018, John W. Eaton
+License: GPL-3+
+
+Files: libinterp/parse-tree/bp-table.cc
+Copyright: 2007-2009, John Swensen
+  2001-2018, Ben Sapp
+License: GPL-3+
+
+Files: libinterp/parse-tree/bp-table.h
+  libinterp/parse-tree/pt-bp.cc
+  libinterp/parse-tree/pt-bp.h
+Copyright: 2001-2018, Ben Sapp
+License: GPL-3+
+
+Files: libinterp/parse-tree/jit-ir.cc
+  libinterp/parse-tree/jit-ir.h
+  libinterp/parse-tree/jit-typeinfo.cc
+  libinterp/parse-tree/jit-typeinfo.h
+  libinterp/parse-tree/jit-util.cc
+  libinterp/parse-tree/jit-util.h
+  libinterp/parse-tree/pt-jit.cc
+  libinterp/parse-tree/pt-jit.h
+Copyright: 2012-2018, Max Brister
+License: GPL-3+
+
+Files: libinterp/parse-tree/oct-parse.cc
+  libinterp/parse-tree/oct-parse.h
+Copyright: 1984-2018, Free Software Foundation, Inc.
+License: GPL-3+
+
+Files: libinterp/parse-tree/oct-parse.in.yy
+  libinterp/parse-tree/oct-parse.yy
+Copyright: 2016-2018, Oliver Heimlich
+  2009, David Grundberg
+  2009, 2010, VZLU Prague
+  1993-2018, John W. Eaton
+License: GPL-3+
+
+Files: libinterp/parse-tree/profiler.cc
+  libinterp/parse-tree/profiler.h
+Copyright: 2014-2018, Julien Bect
+  2012-2018, Daniel Kraft
+License: GPL-3+
+
+Files: libinterp/parse-tree/pt-cbinop.cc
+  libinterp/parse-tree/pt-cbinop.h
+Copyright: 2008-2018, Jaroslav Hajek
+License: GPL-3+
+
+Files: libinterp/template-inst/Array-jit.cc
+Copyright: 2012-2018, Max Brister
+License: GPL-3+
+
+Files: liboctave/array/Array-C.cc
+  liboctave/array/Array-d.cc
+  liboctave/array/Array-f.cc
+  liboctave/array/Array-fC.cc
+  liboctave/array/Array-util.cc
+  liboctave/array/CColVector.cc
+  liboctave/array/CColVector.h
+  liboctave/array/CDiagMatrix.cc
+  liboctave/array/DiagArray2.cc
+  liboctave/array/MArray.cc
+  liboctave/array/MArray.h
+  liboctave/array/MDiagArray2.cc
+  liboctave/array/MDiagArray2.h
+  liboctave/array/boolMatrix.h
+  liboctave/array/chMatrix.cc
+  liboctave/array/chMatrix.h
+  liboctave/array/dColVector.cc
+  liboctave/array/dColVector.h
+  liboctave/array/dDiagMatrix.cc
+  liboctave/array/dim-vector.cc
+  liboctave/array/dim-vector.h
+  liboctave/array/fCColVector.cc
+  liboctave/array/fCColVector.h
+  liboctave/array/fCDiagMatrix.cc
+  liboctave/array/fColVector.cc
+  liboctave/array/fColVector.h
+  liboctave/array/fDiagMatrix.cc
+Copyright: 2009, 2010, VZLU Prague
+  1993-2018, John W. Eaton
+License: GPL-3+
+
+Files: liboctave/array/Array.cc
+  liboctave/array/Array.h
+  liboctave/array/DiagArray2.h
+  liboctave/array/idx-vector.cc
+  liboctave/array/idx-vector.h
+Copyright: 2008-2010, VZLU Prague
+  2008, 2009, Jaroslav Hajek
+  1993-2018, John W. Eaton
+License: GPL-3+
+
+Files: liboctave/array/CMatrix.cc
+  liboctave/array/dMatrix.cc
+  liboctave/array/fCMatrix.cc
+  liboctave/array/fMatrix.cc
+Copyright: 2009, 2010, VZLU Prague, a.s.
+  2008, 2009, Jaroslav Hajek
+  1994-2018, John W. Eaton
+License: GPL-3+
+
+Files: liboctave/array/CNDArray.cc
+  liboctave/array/boolMatrix.cc
+  liboctave/array/boolNDArray.cc
+  liboctave/array/dNDArray.cc
+  liboctave/array/fCNDArray.cc
+  liboctave/array/fNDArray.cc
+  liboctave/array/intNDArray.cc
+Copyright: 2009, 2010, VZLU Prague, a.s.
+  1993-2018, John W. Eaton
+License: GPL-3+
+
+Files: liboctave/array/CSparse.cc
+  liboctave/array/MatrixType.cc
+  liboctave/array/Sparse.cc
+  liboctave/array/Sparse.h
+  liboctave/array/boolSparse.cc
+  liboctave/array/dSparse.cc
+Copyright: 2009, 2010, VZLU Prague
+  2004-2018, David Bateman
+  1998-2004, 2006, Andy Adler
+License: GPL-3+
+
+Files: liboctave/array/CSparse.h
+  liboctave/array/MSparse-C.cc
+  liboctave/array/MSparse-d.cc
+  liboctave/array/MSparse.cc
+  liboctave/array/MSparse.h
+  liboctave/array/MatrixType.h
+  liboctave/array/Sparse-C.cc
+  liboctave/array/Sparse-b.cc
+  liboctave/array/Sparse-d.cc
+  liboctave/array/boolSparse.h
+  liboctave/array/dSparse.h
+Copyright: 2004-2018, David Bateman
+  1998-2006, Andy Adler
+License: GPL-3+
+
+Files: liboctave/array/PermMatrix.cc
+  liboctave/array/PermMatrix.h
+Copyright: 2008-2018, Jaroslav Hajek
+License: GPL-3+
+
+Files: liboctave/external/*
 Copyright: none
 License: public-domain
- The Library is in the public domain and distributed by the Energy Science
- and Technology Software Center.
+ This code is part of SLATEC.
+ It was developed at US Government research laboratories and is therefore public
+ domain software.
+
+Files: liboctave/external/Faddeeva/*
+Copyright: 2012, Massachusetts Institute of Technology
+License: Expat
+ Permission is hereby granted, free of charge, to any person obtaining
+ a copy of this software and associated documentation files (the
+ "Software"), to deal in the Software without restriction, including
+ without limitation the rights to use, copy, modify, merge, publish,
+ distribute, sublicense, and/or sell copies of the Software, and to
+ permit persons to whom the Software is furnished to do so, subject to
+ the following conditions:
+ . 
+ The above copyright notice and this permission notice shall be
+ included in all copies or substantial portions of the Software.
  .
- Energy Science and Technology Software Center
- P.O. Box 1020
- Oak Ridge, TN  37831
-Comment:
- Note that the AMOS library is part of SLATEC and is therefore covered by the
- same license.
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+ LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
 
-Files: liboctave/cruft/daspk/*
-Copyright: none
-License: public-domain
- Work performed under the auspices of the U.S. Department of Energy
- by Lawrence Livermore National Laboratory under contract number 
- W-7405-Eng-48.
+Files: liboctave/external/Faddeeva/module.mk
+Copyright: 1992-2018, John W. Eaton
+License: GPL-3+
 
-Files: liboctave/cruft/lapack-xtra/*
-       liboctave/cruft/blas-xtra/xerbla.f
+Files: liboctave/external/amos/module.mk
+Copyright: 1992-2018, John W. Eaton
+License: GPL-3+
+
+Files: liboctave/external/blas-xtra/*
+Copyright: 2008-2018, VZLU Prague, a.s., Czech Republic
+License: GPL-3+
+
+Files: liboctave/external/blas-xtra/module.mk
+  liboctave/external/blas-xtra/xcdotc.f
+  liboctave/external/blas-xtra/xcdotu.f
+  liboctave/external/blas-xtra/xddot.f
+  liboctave/external/blas-xtra/xdnrm2.f
+  liboctave/external/blas-xtra/xdznrm2.f
+  liboctave/external/blas-xtra/xscnrm2.f
+  liboctave/external/blas-xtra/xsdot.f
+  liboctave/external/blas-xtra/xsnrm2.f
+  liboctave/external/blas-xtra/xzdotc.f
+  liboctave/external/blas-xtra/xzdotu.f
+Copyright: 1992-2018, John W. Eaton
+License: GPL-3+
+
+Files: liboctave/external/blas-xtra/xerbla.f
 Copyright: 1992-2006 The University of Tennessee
 License: BSD-3-clause
  Redistribution and use in source and binary forms, with or without
@@ -217,7 +1300,104 @@ License: BSD-3-clause
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
 
-Files: liboctave/cruft/odepack/*
+Files: liboctave/external/daspk/*
+Copyright: none
+License: public-domain
+ Work performed under the auspices of the U.S. Department of Energy
+ by Lawrence Livermore National Laboratory under contract number 
+ W-7405-Eng-48.
+
+Files: liboctave/external/daspk/module.mk
+Copyright: 1992-2018, John W. Eaton
+License: GPL-3+
+
+Files: liboctave/external/dasrt/*
+Copyright: none
+License: public-domain
+ Work performed under the auspices of the U.S. Department of Energy
+ by Lawrence Livermore National Laboratory.
+
+Files: liboctave/external/dasrt/module.mk
+Copyright: 1992-2018, John W. Eaton
+License: GPL-3+
+
+Files: liboctave/external/dassl/module.mk
+Copyright: 1992-2018, John W. Eaton
+License: GPL-3+
+
+Files: liboctave/external/fftpack/module.mk
+Copyright: 1992-2018, John W. Eaton
+License: GPL-3+
+
+Files: liboctave/external/lapack-xtra/*
+Copyright: 1992-2006 The University of Tennessee
+License: BSD-3-clause
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions are
+ met:
+ .
+ - Redistributions of source code must retain the above copyright
+   notice, this list of conditions and the following disclaimer. 
+ .
+ - Redistributions in binary form must reproduce the above copyright
+   notice, this list of conditions and the following disclaimer listed
+   in this license in the documentation and/or other materials
+   provided with the distribution.
+ .
+ - Neither the name of the copyright holders nor the names of its
+   contributors may be used to endorse or promote products derived from
+   this software without specific prior written permission.
+ . 
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT  
+ LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT 
+ OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT  
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
+
+Files: liboctave/external/lapack-xtra/crsf2csf.f
+  liboctave/external/lapack-xtra/zrsf2csf.f
+Copyright: 2008-2018, VZLU Prague, a.s., Czech Republic
+License: GPL-3+
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions are
+ met:
+ .
+ - Redistributions of source code must retain the above copyright
+   notice, this list of conditions and the following disclaimer. 
+ .
+ - Redistributions in binary form must reproduce the above copyright
+   notice, this list of conditions and the following disclaimer listed
+   in this license in the documentation and/or other materials
+   provided with the distribution.
+ .
+ - Neither the name of the copyright holders nor the names of its
+   contributors may be used to endorse or promote products derived from
+   this software without specific prior written permission.
+ . 
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT  
+ LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT 
+ OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT  
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. 
+
+Files: liboctave/external/mk-f77-def.in.sh
+  liboctave/external/module.mk
+Copyright: 1992-2018, John W. Eaton
+License: GPL-3+
+
+Files: liboctave/external/odepack/*
 Copyright: none
 License: public-domain
  Written by Alan C. Hindmarsh
@@ -229,7 +1409,20 @@ License: public-domain
  were written at LLNL. All are in the Public Domain and are freely available
  from the CASC Software Download Site.
 
-Files: liboctave/cruft/quadpack/*
+Files: liboctave/external/odepack/module.mk
+Copyright: 1992-2018, John W. Eaton
+License: GPL-3+
+
+Files: liboctave/external/ordered-qz/*
+Copyright: none
+License: public-domain
+ Code in this directory is adapted from Paul Van Dooren's toms/590 code.
+
+Files: liboctave/external/ordered-qz/module.mk
+Copyright: 1992-2018, John W. Eaton
+License: GPL-3+
+
+Files: liboctave/external/quadpack/*
 Copyright: none
 License: public-domain
  QUADPACK originated from a joint project of R. Piessens and E. de
@@ -237,7 +1430,11 @@ License: public-domain
  C. Überhuber (Inst. Fuer Math.- Techn.U.Wien, Austria), and D. Kahaner
  (Nation. Bur. of Standards- Washington D.C., U.S.A.). 
 
-Files: liboctave/cruft/ranlib/*
+Files: liboctave/external/quadpack/module.mk
+Copyright: 1992-2018, John W. Eaton
+License: GPL-3+
+
+Files: liboctave/external/ranlib/*
 Copyright: none
 License: public-domain
  We place the Randlib code that we have written in the public domain.  
@@ -259,63 +1456,431 @@ License: public-domain
      ITS ANALYSIS BEING  RENDERED INACCURATE OR  LOSSES SUSTAINED  BY THIRD
      PARTIES) THE PROGRAM.
 
-Files: liboctave/cruft/Faddeeva/Faddeeva.cc
-       liboctave/cruft/Faddeeva/Faddeeva.hh
-Copyright: 2012 Massachusetts Institute of Technology
-License: Expat
- Permission is hereby granted, free of charge, to any person obtaining
- a copy of this software and associated documentation files (the
- "Software"), to deal in the Software without restriction, including
- without limitation the rights to use, copy, modify, merge, publish,
- distribute, sublicense, and/or sell copies of the Software, and to
- permit persons to whom the Software is furnished to do so, subject to
- the following conditions:
- . 
- The above copyright notice and this permission notice shall be
- included in all copies or substantial portions of the Software.
- .
- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
- EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
- MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
- NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
- LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
- OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
- WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
+Files: liboctave/external/ranlib/module.mk
+Copyright: 1992-2018, John W. Eaton
+License: GPL-3+
 
-Files: aclocal.m4 m4/*
-Copyright: 1992-2015, Free Software Foundation, Inc
-License: other-notice-preserved
+Files: liboctave/external/slatec-err/module.mk
+Copyright: 1992-2018, John W. Eaton
+License: GPL-3+
+
+Files: liboctave/external/slatec-fn/module.mk
+Copyright: 1992-2018, John W. Eaton
+License: GPL-3+
+
+Files: liboctave/liboctave-build-info.h
+  liboctave/liboctave-build-info.in.cc
+Copyright: 2016-2018, M. Muetzel
+License: GPL-3+
+
+Files: liboctave/numeric/DET.h
+Copyright: 2008-2018, Jaroslav Hajek
+License: GPL-3+
+
+Files: liboctave/numeric/EIG.cc
+  liboctave/numeric/fEIG.cc
+Copyright: 2016-2018, Barbara Lócsi
+  1994-2018, John W. Eaton
+License: GPL-3+
+
+Files: liboctave/numeric/aepbalance.cc
+  liboctave/numeric/aepbalance.h
+  liboctave/numeric/chol.cc
+  liboctave/numeric/chol.h
+Copyright: 2008-2018, Jaroslav Hajek
+  1993-2018, John W. Eaton
+License: GPL-3+
+
+Files: liboctave/numeric/bsxfun-decl.h
+  liboctave/numeric/bsxfun-defs.cc
+  liboctave/numeric/oct-convn.h
+Copyright: 2009-2018, Jaroslav Hajek
+  2009, 2010, VZLU Prague
+License: GPL-3+
+
+Files: liboctave/numeric/bsxfun.h
+Copyright: 2012-2018, Jordi Gutiérrez Hermoso
+License: GPL-3+
+
+Files: liboctave/numeric/eigs-base.cc
+  liboctave/numeric/eigs-base.h
+Copyright: 2004-2018, David Bateman
+License: GPL-3+
+
+Files: liboctave/numeric/gsvd.cc
+  liboctave/numeric/gsvd.h
+Copyright: 2016-2018, Barbara Lócsi
+  2006, 2010, Pascal Dupuis <Pascal.Dupuis@uclouvain.be>
+  1996, 1997, John W. Eaton
+License: GPL-3+
+
+Files: liboctave/numeric/lo-mappers.cc
+  liboctave/numeric/lo-mappers.h
+  liboctave/numeric/lo-specfun.h
+  liboctave/numeric/lu.cc
+  liboctave/numeric/lu.h
+  liboctave/numeric/qrp.h
+Copyright: 2009, 2010, VZLU Prague
+  1993-2018, John W. Eaton
+License: GPL-3+
+
+Files: liboctave/numeric/lo-specfun.cc
+Copyright: 2016-2018, Carnë Draug
+  2010, VZLU Prague
+  2010, Jaroslav Hajek
+  2007-2010, D. Martin
+  1996-2018, John W. Eaton
+License: GPL-3+
+
+Files: liboctave/numeric/oct-convn.cc
+Copyright: 2009-2018, VZLU Prague
+License: GPL-3+
+
+Files: liboctave/numeric/oct-norm.cc
+  liboctave/numeric/oct-norm.h
+Copyright: 2008-2018, VZLU Prague, a.s.
+License: GPL-3+
+
+Files: liboctave/numeric/oct-spparms.cc
+  liboctave/numeric/oct-spparms.h
+Copyright: 2004-2018, David Bateman
+  1998-2006, Andy Adler
+License: GPL-3+
+
+Files: liboctave/numeric/qr.cc
+  liboctave/numeric/qr.h
+Copyright: 2008-2010, VZLU Prague
+  2008, 2009, Jaroslav Hajek
+  1993-2018, John W. Eaton
+License: GPL-3+
+
+Files: liboctave/numeric/qrp.cc
+Copyright: 2009, VZLU Prague
+  1994-2018, John W. Eatonn
+License: GPL-3+
+
+Files: liboctave/numeric/sparse-chol.cc
+  liboctave/numeric/sparse-chol.h
+  liboctave/numeric/sparse-lu.cc
+  liboctave/numeric/sparse-lu.h
+Copyright: 2016-2018, John W. Eaton
+  2004-2018, David Bateman
+  1998-2005, Andy Adler
+License: GPL-3+
+
+Files: liboctave/numeric/sparse-dmsolve.cc
+  liboctave/numeric/sparse-dmsolve.h
+  liboctave/numeric/sparse-qr.cc
+  liboctave/numeric/sparse-qr.h
+Copyright: 2012, 2016-2018, John W. Eaton
+  2005-2018, David Bateman
+License: GPL-3+
+
+Files: liboctave/numeric/svd.cc
+  liboctave/numeric/svd.h
+Copyright: 2012-2018, Carnë Draug
+  1994-2018, John W. Eaton
+License: GPL-3+
+
+Files: liboctave/operators/Sparse-diag-op-defs.h
+Copyright: 2009-2018, Jason Riedy, Jaroslav Hajek
+License: GPL-3+
+
+Files: liboctave/operators/Sparse-op-decls.h
+  liboctave/operators/Sparse-op-defs.h
+Copyright: 2008, Jaroslav Hajek
+  2004-2018, David Bateman
+  1998-2004, Andy Adler
+License: GPL-3+
+
+Files: liboctave/operators/Sparse-perm-op-defs.h
+Copyright: 2009-2018, Jason Riedy
+License: GPL-3+
+
+Files: liboctave/operators/mx-inlines.cc
+Copyright: 2008-2010, VZLU Prague
+  2008, 2009, Jaroslav Hajek
+  1993-2018, John W. Eaton
+License: GPL-3+
+
+Files: liboctave/operators/mx-op-decl.h
+  liboctave/operators/mx-op-defs.h
+Copyright: 2009, 2010, VZLU Prague, a.s.
+  2008, 2009, Jaroslav Hajek
+  1994-2018, John W. Eaton
+License: GPL-3+
+
+Files: liboctave/system/lo-sysinfo.cc
+  liboctave/system/lo-sysinfo.h
+Copyright: 2016-2018, Markus Mützel
+License: GPL-3+
+
+Files: liboctave/util/action-container.h
+  liboctave/util/lo-array-gripes.cc
+  liboctave/util/oct-shlib.cc
+  liboctave/util/oct-shlib.h
+  liboctave/util/unwind-prot.cc
+  liboctave/util/unwind-prot.h
+Copyright: 2009, 2010, VZLU Prague
+  1993-2018, John W. Eaton
+License: GPL-3+
+
+Files: liboctave/util/blaswrap.c
+Copyright: 2012-2018, Jarno Rajahalme
+License: GPL-3+
+
+Files: liboctave/util/caseless-str.h
+Copyright: 1993-2018, Shai Ayal
+License: GPL-3+
+
+Files: liboctave/util/file-info.cc
+  liboctave/util/file-info.h
+Copyright: 2017, 2018, John W. Eaton
+  2001-2018, Ben Sapp
+License: GPL-3+
+
+Files: liboctave/util/kpse.cc
+Copyright: 94-98, 1993, Karl Berry.
+  94-97, 1993, Karl Berry & O. Weber.
+  93-97, 1992, Free Software Foundation, Inc.
+  2003-2018, John W. Eaton
+License: GPL-3+
+
+Files: liboctave/util/lo-array-errwarn.cc
+  liboctave/util/lo-array-errwarn.h
+Copyright: 2010-2018, Rik Wehbring
+License: GPL-3+
+
+Files: liboctave/util/lo-regexp.cc
+Copyright: 2012, John W. Eaton
+  2005-2018, David Bateman
+  2002-2005, Paul Kienzle
+License: GPL-3+
+
+Files: liboctave/util/lo-regexp.h
+Copyright: 2012, 2016-2018, John W. Eaton
+  2005-2018, David Bateman
+License: GPL-3+
+
+Files: liboctave/util/oct-binmap.h
+Copyright: 2009-2018, VZLU Prague
+License: GPL-3+
+
+Files: liboctave/util/oct-cmplx.h
+Copyright: 2009, 2010, VZLU Prague, a.s.
+  1993-2018, John W. Eaton
+License: GPL-3+
+
+Files: liboctave/util/oct-inttypes.cc
+  liboctave/util/oct-inttypes.h
+Copyright: 2008-2018, Jaroslav Hajek
+  1993-2018, John W. Eaton
+License: GPL-3+
+
+Files: liboctave/util/oct-locbuf.h
+  liboctave/util/oct-refcount.h
+Copyright: 2008-2018, Jaroslav Hajek
+License: GPL-3+
+
+Files: liboctave/util/oct-mutex.cc
+  liboctave/util/oct-mutex.h
+Copyright: 2007-2018, Michael Goffioul
+License: GPL-3+
+
+Files: liboctave/util/oct-sort.cc
+Copyright: 2009, 2010, VZLU Prague
+  2008, 2009, Jaroslav Hajek
+  2003-2018, David Bateman
+License: GPL-3+
+
+Files: liboctave/util/oct-sort.h
+Copyright: 2009, 2010, VZLU Prague
+  2003-2018, David Bateman
+License: GPL-3+
+
+Files: liboctave/util/oct-sparse.h
+  liboctave/util/r1mach.f
+Copyright: 2004-2018, David Bateman
+License: GPL-3+
+
+Files: liboctave/util/oct-string.cc
+  liboctave/util/oct-string.h
+Copyright: 2011-2018, Carnë Draug
+License: GPL-3+
+
+Files: liboctave/util/sparse-sort.cc
+  liboctave/util/sparse-sort.h
+  liboctave/util/sparse-util.cc
+  liboctave/util/sparse-util.h
+Copyright: 2004-2018, David Bateman
+  1998-2006, Andy Adler
+License: GPL-3+
+
+Files: liboctave/util/url-transfer.cc
+  liboctave/util/url-transfer.h
+Copyright: 2013-2018, John W. Eaton
+  2009, David Bateman
+  2006-2018, Alexander Barth
+License: GPL-3+
+
+Files: liboctave/wrappers/math-wrappers.c
+  liboctave/wrappers/math-wrappers.h
+Copyright: 2013-2018, Mike Miller
+License: GPL-3+
+
+Files: m4/*
+Copyright: 1984-2018, Free Software Foundation, Inc.
+License: GPL-3+
  This file is free software; the Free Software Foundation
  gives unlimited permission to copy and/or distribute it,
  with or without modifications, as long as this notice is preserved.
 
 Files: m4/acinclude.m4
-Copyright: 1995-2016 John W. Eaton
+Copyright: 1992-2018, John W. Eaton
 License: GPL-3+
 
+Files: m4/alloca.m4
+  m4/codeset.m4
+  m4/glibc21.m4
+  m4/iconv.m4
+  m4/intmax_t.m4
+  m4/malloca.m4
+  m4/mbrtowc.m4
+  m4/mempcpy.m4
+  m4/memrchr.m4
+  m4/mktime.m4
+  m4/pathmax.m4
+  m4/same.m4
+  m4/strnlen.m4
+  m4/vasprintf.m4
+Copyright: 1990, 1991, 1994-2018, Free Software Foundation
+License: GPL-3+
+ This file is free software; the Free Software Foundation
+ gives unlimited permission to copy and/or distribute it,
+ with or without modifications, as long as this notice is preserved.
+
+Files: m4/ax_blas.m4
+  m4/ax_lapack.m4
+Copyright: 2008, 2009, Steven G. Johnson <stevenj@alum.mit.edu>
+License: GPL-3+
+ This program is free software: you can redistribute it and/or modify it
+ under the terms of the GNU General Public License as published by the
+ Free Software Foundation, either version 3 of the License, or (at your
+ option) any later version.
+ .
+ This program is distributed in the hope that it will be useful, but
+ WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ Public License for more details.
+ .
+ You should have received a copy of the GNU General Public License along
+ with this program. If not, see <http://www.gnu.org/licenses/>.
+ .
+ On Debian systems, the full text of the GNU General Public License
+ version 3 can be found in the file `/usr/share/common-licenses/GPL-3'.
+ .
+ As a special exception, the respective Autoconf Macro's copyright owner
+ gives unlimited permission to copy, distribute and modify the configure
+ scripts that are the output of Autoconf when processing the Macro. You
+ need not follow the terms of the GNU General Public License when using
+ or distributing such scripts, even though portions of the text of the
+ Macro appear in them. The GNU General Public License (GPL) does govern
+ all other use of the material that constitutes the Autoconf Macro.
+ .
+ This special exception to the GPL applies to versions of the Autoconf
+ Macro released by the Autoconf Archive. When you make and distribute a
+ modified version of the Autoconf Macro, you may extend this special
+ exception to the GPL to apply to your modified version as well.
+
 Files: m4/ax_compare_version.m4
-Copyright: 2008 Tim Toolan <toolan@ele.uri.edu>
-License: other-no-royalties
+Copyright: 1992-2018, John W. Eaton
+License: GPL-3+
  Copying and distribution of this file, with or without modification, are
  permitted in any medium without royalty provided the copyright notice
  and this notice are preserved. This file is offered as-is, without any
  warranty.
 
-Files: m4/ax_blas.m4
-       m4/ax_lapack.m4
-       m4/ax_pthread.m4
-       m4/ax_openmp.m4
-       m4/ax_blas_f77_func.m4
-       m4/gnulib-cache.m4
-       m4/gnulib-comp.m4
-       m4/pkg.m4
-Copyright: 2008-2009 Steven G. Johnson <stevenj@alum.mit.edu>
-           2008 Jaroslav Hajek <highegg@gmail.com>
-           2011 Daniel Richard G. <skunk@iSKUNK.ORG>
-           2015 John W. Peterson <jwpeterson@gmail.com>
-	   2002-2016 Free Software Foundation, Inc.
-	   2004 Scott James Remnant <scott@netsplit.com>
-License: GPL-3+ with Autoconf exception
+Files: m4/ax_openmp.m4
+Copyright: 2015, John W. Peterson <jwpeterson@gmail.com>
+  2008, Steven G. Johnson <stevenj@alum.mit.edu>
+License: GPL-3+
+ This program is free software: you can redistribute it and/or modify it
+ under the terms of the GNU General Public License as published by the
+ Free Software Foundation, either version 3 of the License, or (at your
+ option) any later version.
+ .
+ This program is distributed in the hope that it will be useful, but
+ WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ Public License for more details.
+ .
+ You should have received a copy of the GNU General Public License along
+ with this program. If not, see <http://www.gnu.org/licenses/>.
+ .
+ On Debian systems, the full text of the GNU General Public License
+ version 3 can be found in the file `/usr/share/common-licenses/GPL-3'.
+ .
+ As a special exception, the respective Autoconf Macro's copyright owner
+ gives unlimited permission to copy, distribute and modify the configure
+ scripts that are the output of Autoconf when processing the Macro. You
+ need not follow the terms of the GNU General Public License when using
+ or distributing such scripts, even though portions of the text of the
+ Macro appear in them. The GNU General Public License (GPL) does govern
+ all other use of the material that constitutes the Autoconf Macro.
+ .
+ This special exception to the GPL applies to versions of the Autoconf
+ Macro released by the Autoconf Archive. When you make and distribute a
+ modified version of the Autoconf Macro, you may extend this special
+ exception to the GPL to apply to your modified version as well.
+
+Files: m4/ax_pthread.m4
+Copyright: 2011, Daniel Richard G. <skunk@iSKUNK.ORG>
+  2008, Steven G. Johnson <stevenj@alum.mit.edu>
+License: GPL
+ This program is free software: you can redistribute it and/or modify it
+ under the terms of the GNU General Public License as published by the
+ Free Software Foundation, either version 3 of the License, or (at your
+ option) any later version.
+ .
+ This program is distributed in the hope that it will be useful, but
+ WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ Public License for more details.
+ .
+ You should have received a copy of the GNU General Public License along
+ with this program. If not, see <http://www.gnu.org/licenses/>.
+ .
+ On Debian systems, the full text of the GNU General Public License
+ version 3 can be found in the file `/usr/share/common-licenses/GPL-3'.
+ .
+ As a special exception, the respective Autoconf Macro's copyright owner
+ gives unlimited permission to copy, distribute and modify the configure
+ scripts that are the output of Autoconf when processing the Macro. You
+ need not follow the terms of the GNU General Public License when using
+ or distributing such scripts, even though portions of the text of the
+ Macro appear in them. The GNU General Public License (GPL) does govern
+ all other use of the material that constitutes the Autoconf Macro.
+ .
+ This special exception to the GPL applies to versions of the Autoconf
+ Macro released by the Autoconf Archive. When you make and distribute a
+ modified version of the Autoconf Macro, you may extend this special
+ exception to the GPL to apply to your modified version as well.
+
+Files: m4/d-ino.m4
+  m4/ltoptions.m4
+  m4/ltsugar.m4
+  m4/lt~obsolete.m4
+  m4/stat-time.m4
+Copyright: 1988, 1990-2018, Free Software
+License: GPL-3+
+ This file is free software; the Free Software Foundation
+ gives unlimited permission to copy and/or distribute it,
+ with or without modifications, as long as this notice is preserved.
+
+Files: m4/gnulib-cache.m4
+  m4/gnulib-comp.m4
+Copyright: 1984-2018, Free Software Foundation, Inc.
+License: GPL-3+
  This program is free software: you can redistribute it and/or modify it
  under the terms of the GNU General Public License as published by the
  Free Software Foundation, either version 3 of the License, or (at your
@@ -346,8 +1911,8 @@ License: GPL-3+ with Autoconf exception
  exception to the GPL to apply to your modified version as well.
 
 Files: m4/libtool.m4
-Copyright: 1996-2001, 2003-2011 Free Software Foundation, Inc
-License: GPL-2+ with Libtool exception
+Copyright: 1996-2001, 2003-2015, Free Software Foundation, Inc.
+License: GPL
  GNU Libtool is free software; you can redistribute it and/or
  modify it under the terms of the GNU General Public License as
  published by the Free Software Foundation; either version 2 of
@@ -372,54 +1937,1340 @@ License: GPL-2+ with Libtool exception
  On Debian systems, the full text of the GNU General Public License
  version 2 can be found in the file `/usr/share/common-licenses/GPL-2'.
 
-Files: libgui/qterminal/libqterminal/unix/Filter.cpp
-       libgui/qterminal/libqterminal/unix/Filter.h
-       libgui/qterminal/libqterminal/unix/KeyboardTranslator.cpp
-       libgui/qterminal/libqterminal/unix/KeyboardTranslator.h
-       libgui/qterminal/libqterminal/unix/ScreenWindow.cpp
-       libgui/qterminal/libqterminal/unix/ScreenWindow.h
-       libgui/qterminal/libqterminal/unix/Character.h
-       libgui/qterminal/libqterminal/unix/CharacterColor.h
-       libgui/qterminal/libqterminal/unix/Emulation.h
-       libgui/qterminal/libqterminal/unix/Screen.h
-       libgui/qterminal/libqterminal/unix/Vt102Emulation.h
-       libgui/qterminal/libqterminal/unix/TerminalModel.cpp
-       libgui/qterminal/libqterminal/unix/TerminalModel.h
-       libgui/qterminal/libqterminal/unix/TerminalView.cpp
-       libgui/qterminal/libqterminal/unix/TerminalView.h
-       libgui/qterminal/libqterminal/unix/History.cpp
-       libgui/qterminal/libqterminal/unix/History.h
-       libgui/qterminal/libqterminal/unix/Screen.cpp
-       libgui/qterminal/libqterminal/unix/Vt102Emulation.cpp
-       libgui/qterminal/libqterminal/unix/BlockArray.cpp
-       libgui/qterminal/libqterminal/unix/BlockArray.h
-       libgui/qterminal/libqterminal/unix/Emulation.cpp
-Copyright: 1997-1998, 2013 Lars Doelle <lars.doelle@on-line.de>
-           2007-2008, 2013 Robert Knight <robertknight@gmail.com>
-           2012-2013 Jacob Dawid <jacob.dawid@googlemail.com>
-           2000, 2013 Stephan Kulow <coolo@kde.org>
+Files: m4/module.mk
+Copyright: 1992-2018, John W. Eaton
+License: GPL-3+
+ This file is free software; the Free Software Foundation
+ gives unlimited permission to copy and/or distribute it,
+ with or without modifications, as long as this notice is preserved.
+
+Files: m4/octave_blas_f77_func.m4
+Copyright: 2008, Jaroslav Hajek <highegg@gmail.com>
+License: GPL-3+
+ This file is free software; the Free Software Foundation
+ gives unlimited permission to copy and/or distribute it,
+ with or without modifications, as long as this notice is preserved.
+
+Files: m4/pkg.m4
+Copyright: 2004, Scott James Remnant <scott@netsplit.com>.
 License: GPL-2+
+ This program is free software: you can redistribute it and/or modify it
+ under the terms of the GNU General Public License as published by the
+ Free Software Foundation, either version 3 of the License, or (at your
+ option) any later version.
+ .
+ This program is distributed in the hope that it will be useful, but
+ WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+ Public License for more details.
+ .
+ You should have received a copy of the GNU General Public License along
+ with this program. If not, see <http://www.gnu.org/licenses/>.
+ .
+ On Debian systems, the full text of the GNU General Public License
+ version 3 can be found in the file `/usr/share/common-licenses/GPL-3'.
+ .
+ As a special exception, the respective Autoconf Macro's copyright owner
+ gives unlimited permission to copy, distribute and modify the configure
+ scripts that are the output of Autoconf when processing the Macro. You
+ need not follow the terms of the GNU General Public License when using
+ or distributing such scripts, even though portions of the text of the
+ Macro appear in them. The GNU General Public License (GPL) does govern
+ all other use of the material that constitutes the Autoconf Macro.
+ .
+ This special exception to the GPL applies to versions of the Autoconf
+ Macro released by the Autoconf Archive. When you make and distribute a
+ modified version of the Autoconf Macro, you may extend this special
+ exception to the GPL to apply to your modified version as well.
 
-Files: libgui/qterminal/libqterminal/unix/kpty.h
-       libgui/qterminal/libqterminal/unix/kpty_p.h
-       libgui/qterminal/libqterminal/unix/TerminalCharacterDecoder.cpp
-       libgui/qterminal/libqterminal/unix/TerminalCharacterDecoder.h
-       libgui/qterminal/libqterminal/unix/QUnixTerminalImpl.cpp
-       libgui/qterminal/libqterminal/unix/QUnixTerminalImpl.h
-       libgui/qterminal/libqterminal/unix/kpty.cpp
-Copyright: 2003, 2007, 2013 Oswald Buddenhagen <ossi@kde.org>
-           2006-2007, 2013 Robert Knight <robertknight@gmail.com>
-           2008 e_k (e_k@users.sourceforge.net)
-           2012-2015 Jacob Dawid <jacob.dawid@cybercatalyst.com>
-           2002, 2013 Waldo Bastian <bastian@kde.org>
-License: LGPL-2+
+Files: scripts/+containers/Map.m
+Copyright: 2016-2018, Guillaume Flandin
+License: GPL-3+
 
-Files: libgui/graphics/images/*
-Copyright: 2006-2007 Everaldo Coelho
-License: LGPL-3+
+Files: scripts/@ftp/*
+Copyright: 2004-2018, David Bateman
+License: GPL-3+
 
-Files: scripts/polynomial/private/__splinefit__.m
-Copyright: 2010 Jonas Lundgren
+Files: scripts/@ftp/disp.m
+  scripts/@ftp/module.mk
+Copyright: 1992-2018, John W. Eaton
+License: GPL-3+
+
+Files: scripts/audio/@audioplayer/*
+Copyright: 2013-2018, Vytautas Jančauskas
+License: GPL-3+
+
+Files: scripts/audio/@audioplayer/disp.m
+Copyright: 1992-2018, John W. Eaton
+License: GPL-3+
+
+Files: scripts/audio/@audiorecorder/*
+Copyright: 2013-2018, Vytautas Jančauskas
+License: GPL-3+
+
+Files: scripts/audio/@audiorecorder/disp.m
+Copyright: 2017, 2018, John W. Eaton.
+License: GPL-3+
+
+Files: scripts/audio/record.m
+Copyright: 2016-2018, Mike Miller
+  1995-2018, John W. Eaton
+License: GPL-3+
+
+Files: scripts/audio/sound.m
+  scripts/audio/soundsc.m
+Copyright: 2013-2018, Mike Miller
+License: GPL-3+
+
+Files: scripts/deprecated/md5sum.m
+Copyright: 2004-2018, David Bateman
+License: GPL-3+
+
+Files: scripts/deprecated/onenormest.m
+Copyright: 2007-2018, Regents of the University of California
+License: GPL-3+
+
+Files: scripts/deprecated/toascii.m
+Copyright: 2010-2018, Rik Wehbring
+License: GPL-3+
+
+Files: scripts/deprecated/wavread.m
+  scripts/deprecated/wavwrite.m
+Copyright: 2016-2018, Mike Miller
+  2005-2018, Michael Zeising
+License: GPL-3+
+
+Files: scripts/elfun/acosd.m
+  scripts/elfun/acotd.m
+  scripts/elfun/acscd.m
+  scripts/elfun/asecd.m
+  scripts/elfun/asind.m
+  scripts/elfun/atand.m
+  scripts/elfun/cosd.m
+  scripts/elfun/cotd.m
+  scripts/elfun/cscd.m
+  scripts/elfun/secd.m
+  scripts/elfun/sind.m
+  scripts/elfun/tand.m
+Copyright: 2004-2018, David Bateman
+License: GPL-3+
+
+Files: scripts/elfun/atan2d.m
+Copyright: 2010-2018, Rik Wehbring
+License: GPL-3+
+
+Files: scripts/general/*
+Copyright: 2004-2018, David Bateman
+License: GPL-3+
+
+Files: scripts/general/accumarray.m
+  scripts/general/flip.m
+  scripts/general/flipdim.m
+  scripts/general/structfun.m
+Copyright: 2009, 2010, VZLU Prague
+  2003-2018, David Bateman
+License: GPL-3+
+
+Files: scripts/general/accumdim.m
+Copyright: 2009-2018, VZLU Prague
+License: GPL-3+
+
+Files: scripts/general/bincoeff.m
+  scripts/general/nextpow2.m
+  scripts/general/shift.m
+  scripts/general/xor.m
+Copyright: 1995-2018, Kurt Hornik
+License: GPL-3+
+
+Files: scripts/general/bitset.m
+Copyright: 2012, Jordi Gutiérrez Hermoso
+  2004-2018, David Bateman
+License: GPL-3+
+
+Files: scripts/general/blkdiag.m
+Copyright: 1996-2018, Daniel Calvelo
+License: GPL-3+
+
+Files: scripts/general/cart2pol.m
+  scripts/general/cart2sph.m
+  scripts/general/cumtrapz.m
+  scripts/general/curl.m
+  scripts/general/divergence.m
+  scripts/general/gradient.m
+  scripts/general/pol2cart.m
+  scripts/general/sph2cart.m
+  scripts/general/trapz.m
+Copyright: 1999-2018, Kai Habel
+License: GPL-3+
+
+Files: scripts/general/cell2mat.m
+Copyright: 2010, Jaroslav Hajek
+  2005-2018, Laurent Mazet
+License: GPL-3+
+
+Files: scripts/general/common_size.m
+Copyright: 2009, VZLU Prague
+  2009, Jaroslav Hajek
+  1995-2018, Kurt Hornik
+License: GPL-3+
+
+Files: scripts/general/cplxpair.m
+  scripts/general/interpft.m
+  scripts/general/rat.m
+Copyright: 1993-2018, Paul Kienzle
+License: GPL-3+
+
+Files: scripts/general/deal.m
+Copyright: 1998-2018, Ariel Tankus
+License: GPL-3+
+
+Files: scripts/general/deg2rad.m
+  scripts/general/rad2deg.m
+  scripts/general/randi.m
+Copyright: 2010-2018, Rik Wehbring
+License: GPL-3+
+
+Files: scripts/general/del2.m
+Copyright: 2006, 2007, David Bateman
+  2000-2018, Kai Habel
+License: GPL-3+
+
+Files: scripts/general/fliplr.m
+  scripts/general/flipud.m
+  scripts/general/int2str.m
+  scripts/general/logspace.m
+  scripts/general/module.mk
+  scripts/general/num2str.m
+  scripts/general/postpad.m
+  scripts/general/prepad.m
+  scripts/general/rot90.m
+Copyright: 1992-2018, John W. Eaton
+License: GPL-3+
+
+Files: scripts/general/integral.m
+Copyright: 2017, 2018, Nicholas Jankowski
+License: GPL-3+
+
+Files: scripts/general/integral2.m
+Copyright: 2017, 2018, Nicholas Jankowski, David Bateman
+License: GPL-3+
+
+Files: scripts/general/interp1.m
+Copyright: 2014-2018, Nir Krakauer
+  2009, VZLU Prague
+  2000-2018, Paul Kienzle
+License: GPL-3+
+
+Files: scripts/general/interp2.m
+Copyright: 2008, 2009, Jaroslav Hajek
+  2000-2018, Kai Habel
+License: GPL-3+
+
+Files: scripts/general/isequal.m
+  scripts/general/isequaln.m
+Copyright: 2017, 2018, Rik Wehbring
+  2005-2018, William Poetra Yoga Hadisoeseno
+  2000-2018, Paul Kienzle
+License: GPL-3+
+
+Files: scripts/general/polyarea.m
+Copyright: 1999-2018, David M. Doolin
+License: GPL-3+
+
+Files: scripts/general/quadl.m
+Copyright: 1998-2018, Walter Gautschi
+License: GPL-3+
+
+Files: scripts/general/quadv.m
+Copyright: 2012, Alexander Klein
+  2008-2018, David Bateman
+License: GPL-3+
+
+Files: scripts/general/repelem.m
+Copyright: 2015-2018, Markus Bergholz
+License: GPL-3+
+
+Files: scripts/general/repmat.m
+Copyright: 2014-2018, Markus Bergholz
+  2008, Jaroslav Hajek
+  2000-2018, Paul Kienzle
+License: GPL-3+
+
+Files: scripts/general/shiftdim.m
+Copyright: 2004-2018, John Eaton and David Bateman
+License: GPL-3+
+
+Files: scripts/general/sortrows.m
+Copyright: 2009, Jaroslav Hajek
+  2000-2018, Daniel Calvelo
+License: GPL-3+
+
+Files: scripts/geometry/*
+Copyright: 2004-2018, David Bateman
+License: GPL-3+
+
+Files: scripts/geometry/convhull.m
+  scripts/geometry/delaunay.m
+  scripts/geometry/griddata.m
+  scripts/geometry/voronoi.m
+  scripts/geometry/voronoin.m
+Copyright: 1999-2018, Kai Habel
+License: GPL-3+
+
+Files: scripts/geometry/inpolygon.m
+Copyright: 2006-2018, Frederick (Rick) A Niles
+License: GPL-3+
+
+Files: scripts/geometry/module.mk
+Copyright: 1992-2018, John W. Eaton
+License: GPL-3+
+
+Files: scripts/geometry/rectint.m
+Copyright: 2011-2018, Carnë Draug
+License: GPL-3+
+
+Files: scripts/gui/*
+Copyright: 2007-2018, Michael Goffioul
+License: GPL-3+
+
+Files: scripts/gui/dialog.m
+Copyright: 2013-2018, John Donoghue
+License: GPL-3+
+
+Files: scripts/gui/errordlg.m
+  scripts/gui/helpdlg.m
+  scripts/gui/inputdlg.m
+  scripts/gui/listdlg.m
+  scripts/gui/msgbox.m
+  scripts/gui/questdlg.m
+  scripts/gui/warndlg.m
+Copyright: 2010-2018, Martin Hepperle
+License: GPL-3+
+
+Files: scripts/gui/getappdata.m
+  scripts/gui/isappdata.m
+  scripts/gui/rmappdata.m
+  scripts/gui/setappdata.m
+Copyright: 2007-2018, Ben Abbott
+License: GPL-3+
+
+Files: scripts/gui/module.mk
+  scripts/gui/waitbar.m
+Copyright: 1992-2018, John W. Eaton
+License: GPL-3+
+
+Files: scripts/gui/private/__file_filter__.m
+Copyright: 1999-2018, Kai Habel
+License: GPL-3+
+
+Files: scripts/gui/private/__get_funcname__.m
+Copyright: 2014-2018, Andreas Weber
+License: GPL-3+
+
+Files: scripts/gui/uibuttongroup.m
+Copyright: 2016-2018, Andrew Thornton
+License: GPL-3+
+
+Files: scripts/gui/uigetdir.m
+  scripts/gui/uigetfile.m
+  scripts/gui/uimenu.m
+  scripts/gui/uiputfile.m
+Copyright: 1999-2018, Kai Habel
+License: GPL-3+
+
+Files: scripts/gui/waitforbuttonpress.m
+Copyright: 2004-2018, Petr Mikulik
+License: GPL-3+
+
+Files: scripts/help/*
+Copyright: 2005-2018, Søren Hauberg
+License: GPL-3+
+
+Files: scripts/help/__gripe_missing_component__.m
+Copyright: 2013-2018, Mike Miller
+License: GPL-3+
+
+Files: scripts/help/__unimplemented__.m
+Copyright: 2017, 2018, Colin B. Macdonald
+  2010-2018, John W. Eaton
+  2010, VZLU Prague
+License: GPL-3+
+
+Files: scripts/help/ans.m
+  scripts/help/bessel.m
+  scripts/help/module.mk
+  scripts/help/warning_ids.m
+  scripts/help/which.m
+Copyright: 1992-2018, John W. Eaton
+License: GPL-3+
+
+Files: scripts/help/debug.m
+Copyright: 2004-2018, David Bateman
+License: GPL-3+
+
+Files: scripts/help/error_ids.m
+Copyright: 2012-2018, Juan Pablo Carbajal
+License: GPL-3+
+
+Files: scripts/help/slash.m
+Copyright: 2016-2018, Colin B. Macdonald
+License: GPL-3+
+
+Files: scripts/image/*
+Copyright: 1999-2018, Kai Habel
+License: GPL-3+
+
+Files: scripts/image/cmpermute.m
+  scripts/image/cmunique.m
+Copyright: 2012-2018, Rik Wehbring
+  2004, Josep Mones i Teixidor
+License: GPL-3+
+
+Files: scripts/image/colorcube.m
+  scripts/image/lines.m
+  scripts/image/rgb2gray.m
+Copyright: 2010-2018, Rik Wehbring
+License: GPL-3+
+
+Files: scripts/image/colormap.m
+  scripts/image/imwrite.m
+  scripts/image/rgb2ind.m
+Copyright: 2012-2018, Carnë Draug
+  1994-2018, John W. Eaton
+License: GPL-3+
+
+Files: scripts/image/contrast.m
+Copyright: 2004-2018, David Bateman
+License: GPL-3+
+
+Files: scripts/image/cubehelix.m
+  scripts/image/frame2im.m
+  scripts/image/im2frame.m
+  scripts/image/imformats.m
+  scripts/image/iscolormap.m
+Copyright: 2011-2018, Carnë Draug
+License: GPL-3+
+
+Files: scripts/image/getframe.m
+Copyright: 2014-2018, Pantxo Diribarne
+License: GPL-3+
+
+Files: scripts/image/gray.m
+  scripts/image/gray2ind.m
+  scripts/image/image.m
+  scripts/image/imagesc.m
+  scripts/image/imshow.m
+  scripts/image/ind2gray.m
+  scripts/image/ind2rgb.m
+  scripts/image/module.mk
+  scripts/image/ocean.m
+Copyright: 1992-2018, John W. Eaton
+License: GPL-3+
+
+Files: scripts/image/hsv2rgb.m
+Copyright: 2016-2018, Carnë Draug
+  1999-2018, Kai Habel
+License: GPL-3+
+
+Files: scripts/image/im2double.m
+Copyright: 2012-2018, Carnë Draug
+  2007-2018, Søren Hauberg
+License: GPL-3+
+
+Files: scripts/image/imfinfo.m
+Copyright: 2008-2018, Soren Hauberg
+License: GPL-3+
+
+Files: scripts/image/imread.m
+Copyright: 2013-2018, Carnë Draug
+  2008-2018, Thomas L. Scofield
+  2008, Kristian Rumberg
+  2006, Thomas Weber
+  2005, Stefan van der Walt
+  2002, Andy Adler
+License: GPL-3+
+
+Files: scripts/image/private/*
+Copyright: 2012-2018, Carnë Draug
+  1994-2018, John W. Eaton
+License: GPL-3+
+
+Files: scripts/image/private/__imfinfo__.m
+Copyright: 2013-2018, Carnë Draug
+  2008-2018, Soren Hauberg
+License: GPL-3+
+
+Files: scripts/image/private/__imread__.m
+Copyright: 2013-2018, Carnë Draug
+  2008-2018, Thomas L. Scofield
+  2008, Kristian Rumberg
+  2006, Thomas Weber
+  2005, Stefan van der Walt
+  2002, Andy Adler
+License: GPL-3+
+
+Files: scripts/image/private/colorspace_conversion_input_check.m
+  scripts/image/private/colorspace_conversion_revert.m
+Copyright: 2016-2018, Carnë Draug <carandraug+dev@gmail.com>
+License: GPL-3+
+
+Files: scripts/image/private/imageIO.m
+  scripts/image/private/imwrite_filename.m
+Copyright: 2011-2018, Carnë Draug
+License: GPL-3+
+
+Files: scripts/image/rgbplot.m
+Copyright: 2012-2018, Rik Wehbring
+  2012-2018, Carnë Draug
+License: GPL-3+
+
+Files: scripts/image/viridis.m
+Copyright: 2016-2018, Stefan van der Walt
+  2016-2018, Nathaniel J. Smith
+  2016-2018, Eric Firing
+  2016-2018, Carlo de Falco
+License: GPL-3+
+
+Files: scripts/io/csvread.m
+  scripts/io/csvwrite.m
+  scripts/io/dlmwrite.m
+Copyright: 1993-2018, Paul Kienzle
+License: GPL-3+
+
+Files: scripts/io/fileread.m
+Copyright: 2009-2018, VZLU Prague
+License: GPL-3+
+
+Files: scripts/io/importdata.m
+Copyright: 2012-2018, Erik Kjellson
+License: GPL-3+
+
+Files: scripts/io/strread.m
+Copyright: 2012-2018, Philip Nienhuis
+  2009-2018, Eric Chassande-Mottin, CNRS (France)
+License: GPL-3+
+
+Files: scripts/io/textread.m
+Copyright: 2009-2018, Eric Chassande-Mottin, CNRS (France)
+License: GPL-3+
+
+Files: scripts/java/*
+Copyright: 2010-2018, Martin Hepperle
+  2007-2018, Michael Goffioul
+License: GPL-3+
+
+Files: scripts/java/javaArray.m
+Copyright: 2007-2018, Michael Goffioul
+License: GPL-3+
+
+Files: scripts/java/java_get.m
+  scripts/java/java_set.m
+Copyright: 2010-2018, Rik Wehbring
+License: GPL-3+
+
+Files: scripts/java/javachk.m
+  scripts/java/javamem.m
+Copyright: 2010-2018, Philip Nienhuis
+License: GPL-3+
+
+Files: scripts/java/module.mk
+Copyright: 1992-2018, John W. Eaton
+License: GPL-3+
+
+Files: scripts/java/org/*
+Copyright: 2007-2018, Michael Goffioul
+License: GPL-3+
+
+Files: scripts/java/usejava.m
+Copyright: 2012-2018, Rik Wehbring
+  2012-2018, Philip Nienhuis
+License: GPL-3+
+
+Files: scripts/linear-algebra/bandwidth.m
+  scripts/linear-algebra/isbanded.m
+  scripts/linear-algebra/isdiag.m
+  scripts/linear-algebra/istril.m
+  scripts/linear-algebra/istriu.m
+Copyright: 2014-2018, Massimiliano Fasi
+License: GPL-3+
+
+Files: scripts/linear-algebra/commutation_matrix.m
+  scripts/linear-algebra/cross.m
+  scripts/linear-algebra/duplication_matrix.m
+Copyright: 1995-2018, Kurt Hornik
+License: GPL-3+
+
+Files: scripts/linear-algebra/condeig.m
+Copyright: 2006-2018, Arno Onken <asnelt@asnelt.org>
+License: GPL-3+
+
+Files: scripts/linear-algebra/condest.m
+Copyright: 2016-2018, Marco Caliari
+  2007-2018, Regents of the University of California
+License: GPL-3+
+
+Files: scripts/linear-algebra/expm.m
+Copyright: 2008-2018, Jaroslav Hajek, Marco Caliari
+License: GPL-3+
+
+Files: scripts/linear-algebra/housh.m
+Copyright: 1995-2018, A. Scottedward Hodel
+License: GPL-3+
+
+Files: scripts/linear-algebra/isdefinite.m
+Copyright: 2000-2018, Gabriele Pannocchia
+License: GPL-3+
+
+Files: scripts/linear-algebra/ishermitian.m
+  scripts/linear-algebra/issymmetric.m
+Copyright: 2009, 2010, VZLU Prague
+  1993-2018, John W. Eaton
+License: GPL-3+
+
+Files: scripts/linear-algebra/krylov.m
+Copyright: 1993-2018, Auburn University.
+License: GPL-3+
+
+Files: scripts/linear-algebra/linsolve.m
+  scripts/linear-algebra/lscov.m
+Copyright: 2013-2018, Nir Krakauer
+License: GPL-3+
+
+Files: scripts/linear-algebra/logm.m
+Copyright: 2010, Richard T. Guy
+  2010, Marco Caliari
+  2008-2018, N. J. Higham
+License: GPL-3+
+
+Files: scripts/linear-algebra/normest.m
+Copyright: 2009, VZLU Prague
+  2006-2018, David Bateman and Marco Caliari
+License: GPL-3+
+
+Files: scripts/linear-algebra/normest1.m
+  scripts/linear-algebra/vecnorm.m
+Copyright: 2016-2018, Marco Caliari
+License: GPL-3+
+
+Files: scripts/linear-algebra/planerot.m
+Copyright: 2004-2018, David Bateman
+License: GPL-3+
+
+Files: scripts/linear-algebra/rref.m
+Copyright: 1993-2018, Paul Kienzle
+License: GPL-3+
+
+Files: scripts/linear-algebra/subspace.m
+Copyright: 2008-2018, VZLU Prague, a.s., Czech Republic
+License: GPL-3+
+
+Files: scripts/linear-algebra/vech.m
+Copyright: 2009, VZLU Prague
+  1995-2018, Kurt Hornik
+License: GPL-3+
+
+Files: scripts/miscellaneous/bunzip2.m
+  scripts/miscellaneous/compare_versions.m
+  scripts/miscellaneous/gunzip.m
+  scripts/miscellaneous/nargchk.m
+  scripts/miscellaneous/unpack.m
+Copyright: 2005-2018, Bill Denney
+License: GPL-3+
+
+Files: scripts/miscellaneous/citation.m
+  scripts/miscellaneous/fullfile.m
+  scripts/miscellaneous/inputParser.m
+  scripts/miscellaneous/narginchk.m
+Copyright: 2011-2018, Carnë Draug
+License: GPL-3+
+
+Files: scripts/miscellaneous/edit.m
+  scripts/miscellaneous/inputname.m
+  scripts/miscellaneous/orderfields.m
+Copyright: 1993-2018, Paul Kienzle
+License: GPL-3+
+
+Files: scripts/miscellaneous/fact.m
+Copyright: 2007-2018, Jordi Gutiérrez Hermoso
+  2007, Stallmanfacts.com
+License: GPL-3+
+
+Files: scripts/miscellaneous/fieldnames.m
+  scripts/miscellaneous/methods.m
+Copyright: 2010-2018, Rik Wehbring
+License: GPL-3+
+
+Files: scripts/miscellaneous/genvarname.m
+Copyright: 2008-2018, Bill Denney, Robert Platt
+License: GPL-3+
+
+Files: scripts/miscellaneous/getfield.m
+  scripts/miscellaneous/setfield.m
+Copyright: 2009, VZLU Prague
+  2000-2018, Etienne Grossmann
+License: GPL-3+
+
+Files: scripts/miscellaneous/grabcode.m
+Copyright: 2016-2018, Kai T. Ohlhus <k.ohlhus@gmail.com>
+License: GPL-3+
+
+Files: scripts/miscellaneous/info.m
+  scripts/miscellaneous/perl.m
+Copyright: 2008-2018, Julian Schnidder
+License: GPL-3+
+
+Files: scripts/miscellaneous/isdir.m
+Copyright: 2004-2018, Alois Schloegl
+License: GPL-3+
+
+Files: scripts/miscellaneous/ismac.m
+Copyright: 2007-2018, Thomas Treichl
+License: GPL-3+
+
+Files: scripts/miscellaneous/loadobj.m
+  scripts/miscellaneous/mex.m
+  scripts/miscellaneous/namelengthmax.m
+  scripts/miscellaneous/run.m
+  scripts/miscellaneous/saveobj.m
+  scripts/miscellaneous/swapbytes.m
+  scripts/miscellaneous/symvar.m
+  scripts/miscellaneous/what.m
+Copyright: 2004-2018, David Bateman
+License: GPL-3+
+
+Files: scripts/miscellaneous/mkdir.m
+Copyright: 2016-2018, Lachlan Andrew
+  2012, Carnë Draug
+License: GPL-3+
+
+Files: scripts/miscellaneous/mkoctfile.m
+Copyright: 2006-2018, Keith Goodman
+License: GPL-3+
+
+Files: scripts/miscellaneous/nargoutchk.m
+Copyright: 2012-2018, Carnë Draug
+  2008-2018, Bill Denney
+License: GPL-3+
+
+Files: scripts/miscellaneous/nthargout.m
+Copyright: 2012-2018, Jordi Gutiérrez Hermoso
+License: GPL-3+
+
+Files: scripts/miscellaneous/parseparams.m
+Copyright: 2010, VZLU Prague
+  2006-2018, Alexander Barth
+License: GPL-3+
+
+Files: scripts/miscellaneous/private/*
+Copyright: 2010-2018, Kai T. Ohlhus
+License: GPL-3+
+
+Files: scripts/miscellaneous/private/__w2mpth__.m
+Copyright: 2010-2018, Philip Nienhuis
+License: GPL-3+
+
+Files: scripts/miscellaneous/private/display_info_file.m
+Copyright: 2011-2018, Carnë Draug
+License: GPL-3+
+
+Files: scripts/miscellaneous/publish.m
+Copyright: 2016-2018, Kai T. Ohlhus <k.ohlhus@gmail.com>
+  2010, Fotios Kasolis <fotios.kasolis@gmail.com>
+License: GPL-3+
+
+Files: scripts/miscellaneous/python.m
+Copyright: 2012, Carnë Draug
+  2008-2018, Julian Schnidder
+License: GPL-3+
+
+Files: scripts/miscellaneous/substruct.m
+Copyright: 2009, 2010, VZLU Prague
+  1993-2018, John W. Eaton
+License: GPL-3+
+
+Files: scripts/miscellaneous/tar.m
+  scripts/miscellaneous/untar.m
+  scripts/miscellaneous/unzip.m
+Copyright: 2005-2018, Søren Hauberg
+License: GPL-3+
+
+Files: scripts/miscellaneous/validateattributes.m
+Copyright: 2016-2018, Carlo de Falco
+  2013-2018, Carnë Draug
+License: GPL-3+
+
+Files: scripts/miscellaneous/ver.m
+Copyright: 2005-2018, William Poetra Yoga Hadisoeseno
+License: GPL-3+
+
+Files: scripts/miscellaneous/zip.m
+Copyright: 2006-2018, Sylvain Pelissier
+License: GPL-3+
+
+Files: scripts/mk-doc.pl
+Copyright: 2010-2018, Rik Wehbring
+License: GPL-3+
+
+Files: scripts/ode/*
+Copyright: 2016-2018, Francesco Faccio <francesco.faccio@mail.polimi.it>
+License: GPL-3+
+
+Files: scripts/ode/module.mk
+Copyright: 1992-2018, John W. Eaton
+License: GPL-3+
+
+Files: scripts/ode/ode23.m
+  scripts/ode/ode45.m
+Copyright: 2016-2018, Francesco Faccio <francesco.faccio@mail.polimi.it>
+  2016-2018, Carlo de Falco
+  2014-2018, Jacopo Corno <jacopo.corno@gmail.com>
+  2013-2018, Roberto Porcu <roberto.porcu@polimi.it>
+  2006-2018, Thomas Treichl <treichl@users.sourceforge.net>
+License: GPL-3+
+
+Files: scripts/ode/odeget.m
+  scripts/ode/odeset.m
+Copyright: 2016-2018, Francesco Faccio <francesco.faccio@mail.polimi.it>
+  2016-2018, Carlo de Falco
+  2013-2018, Roberto Porcu <roberto.porcu@polimi.it>
+  2006-2012, Thomas Treichl <treichl@users.sourceforge.net>
+License: GPL-3+
+
+Files: scripts/ode/odeplot.m
+Copyright: 2006-2018, Thomas Treichl <treichl@users.sourceforge.net>
+License: GPL-3+
+
+Files: scripts/ode/private/AbsRel_norm.m
+Copyright: 2014-2018, Jacopo Corno <jacopo.corno@gmail.com>
+  2013, Roberto Porcu <roberto.porcu@polimi.it>
+License: GPL-3+
+
+Files: scripts/ode/private/integrate_adaptive.m
+  scripts/ode/private/runge_kutta_45_dorpri.m
+Copyright: 2016-2018, Carlo de Falco
+  2013, Roberto Porcu <roberto.porcu@polimi.it>
+License: GPL-3+
+
+Files: scripts/ode/private/kahan.m
+  scripts/ode/private/starting_stepsize.m
+Copyright: 2013-2018, Roberto Porcu <roberto.porcu@polimi.it>
+License: GPL-3+
+
+Files: scripts/ode/private/ode_event_handler.m
+Copyright: 2006-2018, Thomas Treichl <treichl@users.sourceforge.net>
+License: GPL-3+
+
+Files: scripts/ode/private/odedefaults.m
+Copyright: 2016-2018, Francesco Faccio <francesco.faccio@mail.polimi.it>
+  2016-2018, Carlo de Falco
+License: GPL-3+
+
+Files: scripts/ode/private/runge_kutta_23.m
+Copyright: 2013-2018, Roberto Porcu <roberto.porcu@polimi.it>
+  2013-2018, Jacopo Corno <jacopo.corno@gmail.com>
+License: GPL-3+
+
+Files: scripts/ode/private/runge_kutta_interpolate.m
+Copyright: 2015-2018, Jacopo Corno <jacopo.corno@gmail.com>
+  2015-2018, Carlo de Falco
+License: GPL-3+
+
+Files: scripts/optimization/*
+Copyright: 2008-2018, VZLU Prague, a.s.
+License: GPL-3+
+
+Files: scripts/optimization/__all_opts__.m
+Copyright: 2009-2018, VZLU Prague
+License: GPL-3+
+
+Files: scripts/optimization/fminsearch.m
+Copyright: 2003-2018, Andy Adler
+  2002, 2013, N.J.Higham
+License: GPL-3+
+
+Files: scripts/optimization/glpk.m
+Copyright: 2013-2018, Sébastien Villemot <sebastien@debian.org>
+  2005-2018, Nicolo Giorgetti
+License: GPL-3+
+
+Files: scripts/optimization/humps.m
+Copyright: 2017, 2018, Nicholas R. Jankowski
+License: GPL-3+
+
+Files: scripts/optimization/lsqnonneg.m
+  scripts/optimization/pqpnonneg.m
+Copyright: 2009, VZLU Prague
+  2008-2018, Bill Denney
+  2008, Jaroslav Hajek
+License: GPL-3+
+
+Files: scripts/optimization/module.mk
+Copyright: 1992-2018, John W. Eaton
+License: GPL-3+
+
+Files: scripts/optimization/optimget.m
+Copyright: 2009, VZLU Prague
+  2008-2018, Jaroslav Hajek
+License: GPL-3+
+
+Files: scripts/optimization/optimset.m
+Copyright: 2009, 2010, VZLU Prague
+  1993-2018, John W. Eaton
+License: GPL-3+
+
+Files: scripts/optimization/private/*
+Copyright: 2008-2018, Jaroslav Hajek
+License: GPL-3+
+
+Files: scripts/optimization/qp.m
+Copyright: 2013-2018, Julien Bect
+  2000-2018, Gabriele Pannocchia.
+License: GPL-3+
+
+Files: scripts/optimization/sqp.m
+Copyright: 2013-2018, Arun Giridhar
+  2005-2018, John W. Eaton
+License: GPL-3+
+
+Files: scripts/path/*
+Copyright: 2010-2018, Rik Wehbring
+License: GPL-3+
+
+Files: scripts/path/matlabroot.m
+Copyright: 2007-2018, Ben Abbott
+License: GPL-3+
+
+Files: scripts/path/module.mk
+Copyright: 1992-2018, John W. Eaton
+License: GPL-3+
+
+Files: scripts/path/pathdef.m
+Copyright: 2007-2009, Ben Abbott
+  2005-2018, Bill Denney
+License: GPL-3+
+
+Files: scripts/path/savepath.m
+Copyright: 2005-2018, Bill Denney
+License: GPL-3+
+
+Files: scripts/pkg/pkg.m
+Copyright: 2012, Carlo de Falco
+  2010, VZLU Prague, a.s.
+  2005-2018, Søren Hauberg
+License: GPL-3+
+
+Files: scripts/pkg/private/*
+Copyright: 2010-2018, VZLU Prague, a.s.
+  2005-2018, Søren Hauberg
+License: GPL-3+
+
+Files: scripts/pkg/private/build.m
+Copyright: 2011-2018, Carnë Draug
+License: GPL-3+
+
+Files: scripts/pkg/private/default_prefix.m
+Copyright: 2009-2018, Carlo de Falco
+License: GPL-3+
+
+Files: scripts/plot/appearance/__clabel__.m
+  scripts/plot/appearance/__getlegenddata__.m
+  scripts/plot/appearance/caxis.m
+  scripts/plot/appearance/clabel.m
+  scripts/plot/appearance/datetick.m
+  scripts/plot/appearance/gtext.m
+  scripts/plot/appearance/legend.m
+  scripts/plot/appearance/whitebg.m
+  scripts/plot/appearance/xlim.m
+  scripts/plot/appearance/ylim.m
+  scripts/plot/appearance/zlim.m
+Copyright: 2004-2018, David Bateman
+License: GPL-3+
+
+Files: scripts/plot/appearance/__rotate_around_axis__.m
+Copyright: 2016-2018, Colin B. Macdonald
+  2014-2018, John W. Eaton
+License: GPL-3+
+
+Files: scripts/plot/appearance/annotation.m
+Copyright: 2014-2018, Pantxo Diribarne
+License: GPL-3+
+
+Files: scripts/plot/appearance/camlookat.m
+  scripts/plot/appearance/camorbit.m
+  scripts/plot/appearance/campos.m
+  scripts/plot/appearance/camroll.m
+  scripts/plot/appearance/camtarget.m
+  scripts/plot/appearance/camup.m
+  scripts/plot/appearance/camva.m
+  scripts/plot/appearance/camzoom.m
+Copyright: 2016-2018, Colin B. Macdonald
+License: GPL-3+
+
+Files: scripts/plot/appearance/daspect.m
+  scripts/plot/appearance/pbaspect.m
+Copyright: 2007-2018, Ben Abbott
+License: GPL-3+
+
+Files: scripts/plot/appearance/diffuse.m
+  scripts/plot/appearance/shading.m
+  scripts/plot/appearance/specular.m
+Copyright: 1999-2018, Kai Habel
+License: GPL-3+
+
+Files: scripts/plot/appearance/hidden.m
+Copyright: 2007-2018, Michael Goffioul
+License: GPL-3+
+
+Files: scripts/plot/appearance/lighting.m
+  scripts/plot/appearance/material.m
+Copyright: 2016-2018, Markus Muetzel
+License: GPL-3+
+
+Files: scripts/plot/appearance/orient.m
+Copyright: 1993-2018, Paul Kienzle
+License: GPL-3+
+
+Files: scripts/plot/appearance/private/__axis_limits__.m
+Copyright: 2004-2018, David Bateman
+License: GPL-3+
+
+Files: scripts/plot/appearance/rticks.m
+  scripts/plot/appearance/thetaticks.m
+  scripts/plot/appearance/xticklabels.m
+  scripts/plot/appearance/xticks.m
+  scripts/plot/appearance/yticklabels.m
+  scripts/plot/appearance/yticks.m
+  scripts/plot/appearance/zticklabels.m
+  scripts/plot/appearance/zticks.m
+Copyright: 2017, 2018, Nicholas Jankowski
+License: GPL-3+
+
+Files: scripts/plot/draw/*
+Copyright: 2004-2018, David Bateman
+License: GPL-3+
+
+Files: scripts/plot/draw/area.m
+Copyright: 2007-2018, Michael Goffioul
+  2007-2009, David Bateman
+License: GPL-3+
+
+Files: scripts/plot/draw/bar.m
+  scripts/plot/draw/barh.m
+  scripts/plot/draw/hist.m
+  scripts/plot/draw/line.m
+  scripts/plot/draw/loglog.m
+  scripts/plot/draw/mesh.m
+  scripts/plot/draw/meshc.m
+  scripts/plot/draw/module.mk
+  scripts/plot/draw/patch.m
+  scripts/plot/draw/plot.m
+  scripts/plot/draw/plot3.m
+  scripts/plot/draw/polar.m
+  scripts/plot/draw/semilogx.m
+  scripts/plot/draw/semilogy.m
+  scripts/plot/draw/sombrero.m
+  scripts/plot/draw/stairs.m
+  scripts/plot/draw/surface.m
+  scripts/plot/draw/surfc.m
+Copyright: 1992-2018, John W. Eaton
+License: GPL-3+
+
+Files: scripts/plot/draw/camlight.m
+Copyright: 2016-2018, Colin B. Macdonald
+License: GPL-3+
+
+Files: scripts/plot/draw/comet.m
+Copyright: 2007-2018, Ben Abbott
+License: GPL-3+
+
+Files: scripts/plot/draw/comet3.m
+Copyright: 2010-2018, Ben Abbott and John W. Eaton
+License: GPL-3+
+
+Files: scripts/plot/draw/contour.m
+  scripts/plot/draw/contourc.m
+Copyright: 1993-2018, Shai Ayal
+License: GPL-3+
+
+Files: scripts/plot/draw/contour3.m
+Copyright: 2007-2018, David BAteman
+License: GPL-3+
+
+Files: scripts/plot/draw/contourf.m
+Copyright: 2007-2018, Kai Habel
+  2003, Shai Ayal
+License: GPL-3+
+
+Files: scripts/plot/draw/cylinder.m
+Copyright: 2007-2018, Michael Goffioul and Kai Habel
+License: GPL-3+
+
+Files: scripts/plot/draw/ellipsoid.m
+Copyright: 2006-2018, Sylvain Pelissier
+License: GPL-3+
+
+Files: scripts/plot/draw/errorbar.m
+  scripts/plot/draw/loglogerr.m
+  scripts/plot/draw/semilogxerr.m
+  scripts/plot/draw/semilogyerr.m
+Copyright: 2000-2018, Teemu Ikonen
+License: GPL-3+
+
+Files: scripts/plot/draw/fplot.m
+  scripts/plot/draw/peaks.m
+Copyright: 1993-2018, Paul Kienzle
+License: GPL-3+
+
+Files: scripts/plot/draw/isocaps.m
+  scripts/plot/draw/light.m
+  scripts/plot/draw/reducepatch.m
+  scripts/plot/draw/reducevolume.m
+  scripts/plot/draw/smooth3.m
+Copyright: 2016-2018, Markus Muetzel
+License: GPL-3+
+
+Files: scripts/plot/draw/isocolors.m
+  scripts/plot/draw/isonormals.m
+  scripts/plot/draw/isosurface.m
+  scripts/plot/draw/shrinkfaces.m
+  scripts/plot/draw/tetramesh.m
+Copyright: 2009-2018, Martin Helm
+License: GPL-3+
+
+Files: scripts/plot/draw/pareto.m
+Copyright: 2007-2018, David Bateman
+  2003, Alberto Terruzzi
+License: GPL-3+
+
+Files: scripts/plot/draw/pcolor.m
+  scripts/plot/draw/ribbon.m
+  scripts/plot/draw/surf.m
+  scripts/plot/draw/surfl.m
+Copyright: 1999-2018, Kai Habel
+License: GPL-3+
+
+Files: scripts/plot/draw/pie3.m
+Copyright: 2010, Kai Habel
+  2007-2018, David Bateman
+License: GPL-3+
+
+Files: scripts/plot/draw/private/__bar__.m
+  scripts/plot/draw/private/__line__.m
+  scripts/plot/draw/private/__plt__.m
+Copyright: 1992-2018, John W. Eaton
+License: GPL-3+
+
+Files: scripts/plot/draw/private/__calc_isovalue_from_data__.m
+  scripts/plot/draw/private/__unite_shared_vertices__.m
+Copyright: 2016-2018, Markus Muetzel
+License: GPL-3+
+
+Files: scripts/plot/draw/private/__errplot__.m
+Copyright: 2000-2018, Teemu Ikonen
+License: GPL-3+
+
+Files: scripts/plot/draw/private/__interp_cube__.m
+  scripts/plot/draw/private/__marching_cube__.m
+Copyright: 2009-2018, Martin Helm
+License: GPL-3+
+
+Files: scripts/plot/draw/private/__patch__.m
+Copyright: 2007-2018, John W. Eaton, Shai Ayal, Kai Habel
+License: GPL-3+
+
+Files: scripts/plot/draw/private/__pie__.m
+Copyright: 2010, Kai Habel
+  2007-2018, David Bateman
+License: GPL-3+
+
+Files: scripts/plot/draw/private/__stem__.m
+Copyright: 2006-2018, Michel D. Schmid
+License: GPL-3+
+
+Files: scripts/plot/draw/slice.m
+Copyright: 2007-2018, Kai Habel, David Bateman
+License: GPL-3+
+
+Files: scripts/plot/draw/sphere.m
+Copyright: 2007-2018, Michael Goffioul
+License: GPL-3+
+
+Files: scripts/plot/draw/stem.m
+Copyright: 2006-2018, Michel D. Schmid
+License: GPL-3+
+
+Files: scripts/plot/draw/stemleaf.m
+Copyright: 2013-2018, Michael D. Godfrey
+License: GPL-3+
+
+Files: scripts/plot/draw/waterfall.m
+Copyright: 2013-2018, Mike Miller
+License: GPL-3+
+
+Files: scripts/plot/util/__actual_axis_position__.m
+  scripts/plot/util/cla.m
+  scripts/plot/util/findobj.m
+  scripts/plot/util/isprop.m
+Copyright: 2007-2018, Ben Abbott
+License: GPL-3+
+
+Files: scripts/plot/util/__next_line_color__.m
+Copyright: 2013-2018, Carl Osterwisch
+  2007-2018, John W. Eaton
+License: GPL-3+
+
+Files: scripts/plot/util/__next_line_style__.m
+  scripts/plot/util/colstyle.m
+  scripts/plot/util/ginput.m
+  scripts/plot/util/linkprop.m
+  scripts/plot/util/print.m
+  scripts/plot/util/refresh.m
+  scripts/plot/util/refreshdata.m
+Copyright: 2004-2018, David Bateman
+License: GPL-3+
+
+Files: scripts/plot/util/__opengl_info__.m
+Copyright: 2016-2018, John Donoghue <john.donoghue@ieee.org>
+License: GPL-3+
+
+Files: scripts/plot/util/allchild.m
+  scripts/plot/util/findall.m
+Copyright: 2005-2018, Bill Denney
+License: GPL-3+
+
+Files: scripts/plot/util/ancestor.m
+  scripts/plot/util/gcbf.m
+  scripts/plot/util/gcbo.m
+  scripts/plot/util/gco.m
+  scripts/plot/util/graphics_toolkit.m
+  scripts/plot/util/hggroup.m
+Copyright: 2007-2018, Michael Goffioul
+License: GPL-3+
+
+Files: scripts/plot/util/copyobj.m
+  scripts/plot/util/hdl2struct.m
+  scripts/plot/util/struct2hdl.m
+Copyright: 2012-2018, pdiribarne
+License: GPL-3+
+
+Files: scripts/plot/util/findfigs.m
+Copyright: 2012-2018, Carnë Draug
+  2008-2018, Bill Denney
+License: GPL-3+
+
+Files: scripts/plot/util/groot.m
+  scripts/plot/util/hgtransform.m
+  scripts/plot/util/isaxes.m
+  scripts/plot/util/isgraphics.m
+  scripts/plot/util/ishandle.m
+Copyright: 2010-2018, Rik Wehbring
+License: GPL-3+
+
+Files: scripts/plot/util/hgload.m
+  scripts/plot/util/hgsave.m
+Copyright: 2014-2018, Massimiliano Fasi
+License: GPL-3+
+
+Files: scripts/plot/util/linkaxes.m
+Copyright: 2014-2018, Willem Atsma
+License: GPL-3+
+
+Files: scripts/plot/util/ndgrid.m
+Copyright: 2006-2018, Alexander Barth
+License: GPL-3+
+
+Files: scripts/plot/util/pan.m
+  scripts/plot/util/rotate3d.m
+Copyright: 2014-2018, Andreas Weber
+License: GPL-3+
+
+Files: scripts/plot/util/printd.m
+Copyright: 2013-2018, Michael D. Godfrey
+License: GPL-3+
+
+Files: scripts/plot/util/private/*
+Copyright: 2007-2018, Ben Abbott
+License: GPL-3+
+
+Files: scripts/plot/util/private/__add_default_menu__.m
+Copyright: 1999-2018, Kai Habel
+License: GPL-3+
+
+Files: scripts/plot/util/private/__gnuplot_draw_axes__.m
+  scripts/plot/util/private/__gnuplot_draw_figure__.m
+Copyright: 1992-2018, John W. Eaton
+License: GPL-3+
+
+Files: scripts/plot/util/private/__gnuplot_ginput__.m
+Copyright: 2004-2018, Petr Mikulik
+License: GPL-3+
+
+Files: scripts/plot/util/private/__gnuplot_print__.m
+Copyright: 2001, Laurent Mazet
+  1999-2018, Daniel Heiserer
+License: GPL-3+
+
+Files: scripts/plot/util/private/__gnuplot_version__.m
+Copyright: 2006-2018, Daniel Sebald
+License: GPL-3+
+
+Files: scripts/plot/util/private/__opengl_print__.m
+  scripts/plot/util/private/__print_parse_opts__.m
+Copyright: 1993-2018, Shai Ayal
+License: GPL-3+
+
+Files: scripts/plot/util/private/__set_default_mouse_modes__.m
+Copyright: 2010-2018, Rik Wehbring
+License: GPL-3+
+
+Files: scripts/plot/util/saveas.m
+Copyright: 1999-2018, Kai Habel
+License: GPL-3+
+
+Files: scripts/polynomial/mkpp.m
+  scripts/polynomial/polygcd.m
+  scripts/polynomial/ppval.m
+  scripts/polynomial/unmkpp.m
+Copyright: 1993-2018, Paul Kienzle
+License: GPL-3+
+
+Files: scripts/polynomial/mpoles.m
+Copyright: 2007-2018, Ben Abbott
+License: GPL-3+
+
+Files: scripts/polynomial/padecoef.m
+Copyright: 2014-2018, Endre Kozma
+License: GPL-3+
+
+Files: scripts/polynomial/pchip.m
+Copyright: 1999-2018, Kai Habel
+License: GPL-3+
+
+Files: scripts/polynomial/polyaffine.m
+Copyright: 2009-2018, Tony Richardson, Jaroslav Hajek
+License: GPL-3+
+
+Files: scripts/polynomial/polyeig.m
+Copyright: 2012-2018, Fotios Kasolis
+License: GPL-3+
+
+Files: scripts/polynomial/polyout.m
+Copyright: 1993-2018, Auburn University.
+License: GPL-3+
+
+Files: scripts/polynomial/polyvalm.m
+Copyright: 2008-2018, Jaroslav Hajek
+  1993-2018, John W. Eaton
+License: GPL-3+
+
+Files: scripts/polynomial/ppder.m
+  scripts/polynomial/ppint.m
+  scripts/polynomial/ppjumps.m
+Copyright: 2008-2018, VZLU Prague, a.s., Czech Republic
+License: GPL-3+
+
+Files: scripts/polynomial/private/*
+Copyright: 2010, Jonas Lundgren
 License: BSD-2-clause
  Redistribution and use in source and binary forms, with or without 
  modification, are permitted provided that the following conditions are 
@@ -442,6 +3293,630 @@ License: BSD-2-clause
  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) 
  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE 
  POSSIBILITY OF SUCH DAMAGE.
+
+Files: scripts/polynomial/residue.m
+Copyright: 2007, Ben Abbott
+  1994-2018, John W. Eaton
+License: GPL-3+
+
+Files: scripts/polynomial/spline.m
+Copyright: 2006, 2007, David Bateman
+  2000-2018, Kai Habel
+License: GPL-3+
+
+Files: scripts/polynomial/splinefit.m
+Copyright: 2012-2018, Ben Abbott, Jonas Lundgren
+License: GPL-3+
+
+Files: scripts/prefs/prefdir.m
+  scripts/prefs/preferences.m
+Copyright: 2013-2018, John Donoghue
+License: GPL-3+
+
+Files: scripts/profiler/*
+Copyright: 2012-2018, Daniel Kraft
+License: GPL-3+
+
+Files: scripts/profiler/module.mk
+Copyright: 1992-2018, John W. Eaton
+License: GPL-3+
+
+Files: scripts/set/*
+Copyright: 2008-2010, Jaroslav Hajek
+  2000-2018, Paul Kienzle
+License: GPL-3+
+
+Files: scripts/set/module.mk
+Copyright: 1992-2018, John W. Eaton
+License: GPL-3+
+
+Files: scripts/set/powerset.m
+Copyright: 2008-2018, Jaroslav Hajek
+License: GPL-3+
+
+Files: scripts/set/setxor.m
+Copyright: 2014-2018, Julien Bect
+  2008-2018, Jaroslav Hajek
+  2000, 2006, 2007, Paul Kienzle
+License: GPL-3+
+
+Files: scripts/set/union.m
+Copyright: 2008-2018, Jaroslav Hajek
+  1993-2018, John W. Eaton
+License: GPL-3+
+
+Files: scripts/signal/*
+Copyright: 1995-2018, Friedrich Leisch
+License: GPL-3+
+
+Files: scripts/signal/arch_fit.m
+  scripts/signal/arch_rnd.m
+  scripts/signal/arch_test.m
+  scripts/signal/autoreg_matrix.m
+  scripts/signal/detrend.m
+Copyright: 1995-2018, Kurt Hornik
+License: GPL-3+
+
+Files: scripts/signal/bartlett.m
+  scripts/signal/blackman.m
+  scripts/signal/hamming.m
+  scripts/signal/hanning.m
+  scripts/signal/sinewave.m
+  scripts/signal/stft.m
+  scripts/signal/synthesis.m
+Copyright: 1995-2018, Andreas Weingessel
+License: GPL-3+
+
+Files: scripts/signal/fftconv.m
+  scripts/signal/fftfilt.m
+  scripts/signal/freqz.m
+  scripts/signal/freqz_plot.m
+  scripts/signal/module.mk
+  scripts/signal/sinc.m
+Copyright: 1992-2018, John W. Eaton
+License: GPL-3+
+
+Files: scripts/signal/fftshift.m
+  scripts/signal/ifftshift.m
+Copyright: 1997-2018, Vincent Cautaerts
+License: GPL-3+
+
+Files: scripts/signal/filter2.m
+Copyright: 1993-2018, Paul Kienzle
+License: GPL-3+
+
+Files: scripts/signal/periodogram.m
+Copyright: 2014-2018, Drew Abbot
+  2010, Alois Schloegl
+  1995-2018, Friedrich Leisch
+License: GPL-3+
+
+Files: scripts/signal/unwrap.m
+Copyright: 2000-2018, Bill Lash
+License: GPL-3+
+
+Files: scripts/sparse/*
+Copyright: 2004-2018, David Bateman and Andy Adler
+License: GPL-3+
+
+Files: scripts/sparse/bicg.m
+Copyright: 2016-2018, Cristiano Dorigo, Octave Arena
+  2012-2018, Carlo de Falco
+  2006, Sylvain Pelissier
+License: GPL-3+
+
+Files: scripts/sparse/bicgstab.m
+  scripts/sparse/cgs.m
+Copyright: 2016-2018, Cristiano Dorigo, Octave Arena
+  2012, Carlo de Falco
+  2008-2018, Radek Salac
+License: GPL-3+
+
+Files: scripts/sparse/eigs.m
+  scripts/sparse/spaugment.m
+  scripts/sparse/svds.m
+Copyright: 2004-2018, David Bateman
+License: GPL-3+
+
+Files: scripts/sparse/etreeplot.m
+  scripts/sparse/gplot.m
+  scripts/sparse/treeplot.m
+Copyright: 2005-2018, Ivana Varekova
+License: GPL-3+
+
+Files: scripts/sparse/gmres.m
+Copyright: 2016-2018, Cristiano Dorigo
+  2009-2018, Carlo de Falco
+License: GPL-3+
+
+Files: scripts/sparse/ichol.m
+  scripts/sparse/ilu.m
+Copyright: 2014-2018, Eduardo Ramos Fernández <eduradical951@gmail.com>
+  2013-2018, Kai T. Ohlhus <k.ohlhus@gmail.com>
+License: GPL-3+
+
+Files: scripts/sparse/module.mk
+Copyright: 1992-2018, John W. Eaton
+License: GPL-3+
+
+Files: scripts/sparse/nonzeros.m
+  scripts/sparse/spdiags.m
+  scripts/sparse/sprand.m
+  scripts/sparse/sprandn.m
+  scripts/sparse/spstats.m
+Copyright: 1993-2018, Paul Kienzle
+License: GPL-3+
+
+Files: scripts/sparse/pcg.m
+Copyright: 2016-2018, Cristiano Dorigo
+  2004-2018, Piotr Krzyzanowski
+License: GPL-3+
+
+Files: scripts/sparse/pcr.m
+Copyright: 2004-2018, Piotr Krzyzanowski
+License: GPL-3+
+
+Files: scripts/sparse/private/*
+Copyright: 2016-2018, Cristiano Dorigo, Octave Arena
+License: GPL-3+
+
+Files: scripts/sparse/private/__sprand__.m
+Copyright: 2012, Jordi Gutiérrez Hermoso
+  2004-2018, Paul Kienzle
+License: GPL-3+
+
+Files: scripts/sparse/qmr.m
+Copyright: 2014-2018, Nathan Podlich
+License: GPL-3+
+
+Files: scripts/sparse/sprandsym.m
+Copyright: 2012, Jordi Gutiérrez Hermoso
+  2004-2018, David Bateman and Andy Adler
+License: GPL-3+
+
+Files: scripts/sparse/spy.m
+Copyright: 1998-2018, Andy Adler
+License: GPL-3+
+
+Files: scripts/sparse/tfqmr.m
+Copyright: 2016-2018, Cristiano Dorigo, Octave Arena
+License: GPL-3+
+
+Files: scripts/sparse/treelayout.m
+Copyright: 2008-2018, Ivana Varekova & Radek Salac
+License: GPL-3+
+
+Files: scripts/specfun/*
+Copyright: 2017, 2018, Michele Ginesi
+License: GPL-3+
+
+Files: scripts/specfun/beta.m
+  scripts/specfun/lcm.m
+  scripts/specfun/module.mk
+Copyright: 1992-2018, John W. Eaton
+License: GPL-3+
+
+Files: scripts/specfun/betainc.m
+Copyright: 2018, Stefan Schlögl
+  2018, Michele Ginesi
+License: GPL-3+
+
+Files: scripts/specfun/betaln.m
+Copyright: 1998-2018, Nicol N. Schraudolph
+License: GPL-3+
+
+Files: scripts/specfun/ellipke.m
+Copyright: 2003-2018, Jaakko Ruohio
+  2001-2018, Paul Kienzle
+  2001-2018, David Billinghurst
+License: GPL-3+
+
+Files: scripts/specfun/factor.m
+  scripts/specfun/factorial.m
+  scripts/specfun/primes.m
+Copyright: 1993-2018, Paul Kienzle
+License: GPL-3+
+
+Files: scripts/specfun/gammainc.m
+Copyright: 2018, Stefan Schlögl
+  2018, Michele Ginesi
+  2016-2018, Nir Krakauer
+  2016-2018, Marco Caliari
+License: GPL-3+
+
+Files: scripts/specfun/isprime.m
+  scripts/specfun/nthroot.m
+Copyright: 2010, VZLU Prague
+  2000-2018, Paul Kienzle
+License: GPL-3+
+
+Files: scripts/specfun/legendre.m
+Copyright: 2008, Marco Caliari
+  2000-2018, Kai Habel
+License: GPL-3+
+
+Files: scripts/specfun/nchoosek.m
+Copyright: 2008, Jaroslav Hajek
+  2001-2018, Rolf Fabian and Paul Kienzle
+License: GPL-3+
+
+Files: scripts/specfun/perms.m
+Copyright: 2017, 2018, Michael Leitner
+  2009, VZLU Prague
+  2001-2018, Paul Kienzle
+License: GPL-3+
+
+Files: scripts/specfun/pow2.m
+Copyright: 1995-2018, Kurt Hornik
+License: GPL-3+
+
+Files: scripts/specfun/reallog.m
+  scripts/specfun/realpow.m
+  scripts/specfun/realsqrt.m
+Copyright: 2004-2018, David Bateman
+License: GPL-3+
+
+Files: scripts/special-matrix/gallery.m
+Copyright: 2013-2018, Carnë Draug
+  1989-1995, Nicholas .J. Higham
+License: GPL-3+
+
+Files: scripts/special-matrix/hadamard.m
+  scripts/special-matrix/magic.m
+Copyright: 1993-2018, Paul Kienzle
+License: GPL-3+
+
+Files: scripts/special-matrix/invhilb.m
+Copyright: 1993-2018, Dirk Laurie
+License: GPL-3+
+
+Files: scripts/special-matrix/pascal.m
+Copyright: 2009, VZLU Prague
+  1999-2018, Peter Ekberg
+License: GPL-3+
+
+Files: scripts/special-matrix/rosser.m
+  scripts/special-matrix/wilkinson.m
+Copyright: 1999-2018, Peter Ekberg
+License: GPL-3+
+
+Files: scripts/special-matrix/toeplitz.m
+  scripts/special-matrix/vander.m
+Copyright: 2009, 2010, VZLU Prague
+  1993-2018, John W. Eaton
+License: GPL-3+
+
+Files: scripts/startup/__finish__.m
+Copyright: 2007-2018, Ben Abbott
+License: GPL-3+
+
+Files: scripts/statistics/*
+Copyright: 1995-2018, Kurt Hornik
+License: GPL-3+
+
+Files: scripts/statistics/bounds.m
+  scripts/statistics/mad.m
+Copyright: 2010-2018, Rik Wehbring
+License: GPL-3+
+
+Files: scripts/statistics/center.m
+Copyright: 2009, VZLU Prague
+  1995-2018, Kurt Hornik
+License: GPL-3+
+
+Files: scripts/statistics/corr.m
+  scripts/statistics/module.mk
+  scripts/statistics/std.m
+Copyright: 1992-2018, John W. Eaton
+License: GPL-3+
+
+Files: scripts/statistics/corrcoef.m
+Copyright: 2016-2018, Guillaume Flandin
+License: GPL-3+
+
+Files: scripts/statistics/discrete_cdf.m
+Copyright: 2012, Rik Wehbring
+  2010-2018, David Bateman
+License: GPL-3+
+
+Files: scripts/statistics/discrete_inv.m
+  scripts/statistics/discrete_pdf.m
+  scripts/statistics/discrete_rnd.m
+  scripts/statistics/empirical_cdf.m
+  scripts/statistics/empirical_inv.m
+  scripts/statistics/empirical_pdf.m
+  scripts/statistics/empirical_rnd.m
+Copyright: 2012, Rik Wehbring
+  1996-2018, Kurt Hornik
+License: GPL-3+
+
+Files: scripts/statistics/histc.m
+Copyright: 2009-2018, Søren Hauberg
+  2009, VZLU Prague
+License: GPL-3+
+
+Files: scripts/statistics/kurtosis.m
+  scripts/statistics/skewness.m
+Copyright: 2013-2018, Julien Bect
+  1996-2018, John W. Eaton
+License: GPL-3+
+
+Files: scripts/statistics/meansq.m
+  scripts/statistics/range.m
+Copyright: 2009, Jaroslav Hajek
+  1995-2018, Kurt Hornik
+License: GPL-3+
+
+Files: scripts/statistics/median.m
+Copyright: 2009, 2010, VZLU Prague
+  1993-2018, John W. Eaton
+License: GPL-3+
+
+Files: scripts/statistics/mode.m
+Copyright: 2004-2018, David Bateman
+License: GPL-3+
+
+Files: scripts/statistics/prctile.m
+Copyright: 2007-2018, Ben Abbott
+License: GPL-3+
+
+Files: scripts/statistics/quantile.m
+Copyright: 2008-2018, Ben Abbott and Jaroslav Hajek
+License: GPL-3+
+
+Files: scripts/statistics/run_count.m
+Copyright: 1995-2018, Friedrich Leisch
+License: GPL-3+
+
+Files: scripts/statistics/runlength.m
+Copyright: 1993-2018, Paul Kienzle
+License: GPL-3+
+
+Files: scripts/strings/*
+Copyright: 1995-2018, Kurt Hornik
+License: GPL-3+
+
+Files: scripts/strings/base2dec.m
+  scripts/strings/bin2dec.m
+  scripts/strings/dec2base.m
+  scripts/strings/dec2bin.m
+  scripts/strings/dec2hex.m
+  scripts/strings/hex2dec.m
+Copyright: 1996-2018, Daniel Calvelo
+License: GPL-3+
+
+Files: scripts/strings/cstrcat.m
+  scripts/strings/isletter.m
+  scripts/strings/isstrprop.m
+  scripts/strings/module.mk
+Copyright: 1992-2018, John W. Eaton
+License: GPL-3+
+
+Files: scripts/strings/erase.m
+Copyright: 2017, 2018, Sahil Yadav
+License: GPL-3+
+
+Files: scripts/strings/isstring.m
+Copyright: 2010-2018, Rik Wehbring
+License: GPL-3+
+
+Files: scripts/strings/mat2str.m
+Copyright: 2002-2018, Rolf Fabian
+License: GPL-3+
+
+Files: scripts/strings/native2unicode.m
+  scripts/strings/unicode2native.m
+Copyright: 2016-2018, Markus Mützel
+License: GPL-3+
+
+Files: scripts/strings/ostrsplit.m
+  scripts/strings/strchr.m
+  scripts/strings/strsplit.m
+Copyright: 2008-2018, Jaroslav Hajek
+License: GPL-3+
+
+Files: scripts/strings/regexptranslate.m
+Copyright: 2004-2018, David Bateman
+License: GPL-3+
+
+Files: scripts/strings/strcat.m
+Copyright: 2008-2018, Jaroslav Hajek
+  1993-2018, John W. Eaton
+License: GPL-3+
+
+Files: scripts/strings/strjoin.m
+Copyright: 2013-2018, Ben Abbott
+  2007, Muthiah Annamalai
+License: GPL-3+
+
+Files: scripts/strings/strjust.m
+Copyright: 2008-2010, Jaroslav Hajek
+  2000-2018, Paul Kienzle
+License: GPL-3+
+
+Files: scripts/strings/strmatch.m
+Copyright: 2010, VZLU Prague
+  2003, Alois Schloegl
+  2000-2018, Paul Kienzle
+License: GPL-3+
+
+Files: scripts/strings/strtok.m
+Copyright: 1993-2018, Paul Kienzle
+License: GPL-3+
+
+Files: scripts/strings/strtrunc.m
+Copyright: 2005-2018, William Poetra Yoga Hadisoeseno
+License: GPL-3+
+
+Files: scripts/strings/untabify.m
+Copyright: 2007-2018, Ben Abbott
+License: GPL-3+
+
+Files: scripts/strings/validatestring.m
+Copyright: 2005-2018, Bill Denney
+License: GPL-3+
+
+Files: scripts/testfun/*
+Copyright: 1993-2018, Paul Kienzle
+License: GPL-3+
+
+Files: scripts/testfun/__have_feature__.m
+  scripts/testfun/module.mk
+  scripts/testfun/rundemos.m
+  scripts/testfun/runtests.m
+Copyright: 1992-2018, John W. Eaton
+License: GPL-3+
+
+Files: scripts/testfun/__printf_assert__.m
+  scripts/testfun/__prog_output_assert__.m
+  scripts/testfun/__run_test_suite__.m
+Copyright: 2004-2018, David Bateman
+License: GPL-3+
+
+Files: scripts/testfun/private/*
+Copyright: 2005-2018, Søren Hauberg
+License: GPL-3+
+
+Files: scripts/testfun/private/compare_plot_demos.m
+Copyright: 2016-2018, Ben Abbott <bpabbott@mac.com>
+License: GPL-3+
+
+Files: scripts/testfun/private/html_compare_plot_demos.m
+Copyright: 2007-2018, Ben Abbott
+License: GPL-3+
+
+Files: scripts/time/addtodate.m
+Copyright: 2005-2018, Bill Denney
+License: GPL-3+
+
+Files: scripts/time/calendar.m
+  scripts/time/datenum.m
+  scripts/time/datestr.m
+  scripts/time/datevec.m
+  scripts/time/eomday.m
+  scripts/time/now.m
+  scripts/time/weekday.m
+Copyright: 1993-2018, Paul Kienzle
+License: GPL-3+
+
+Files: src/mkoctfile.in.cc
+  src/octave-config.in.cc
+  src/shared-fcns.h
+Copyright: 2007-2018, Michael Goffioul
+License: GPL-3+
+
+Files: src/octave-build-info.h
+  src/octave-build-info.in.cc
+Copyright: 2016-2018, M. Muetzel
+License: GPL-3+
+
+Files: test/bug-35881/bug-35881.tst
+Copyright: 2010-2018, Rik Wehbring
+License: GPL-3+
+
+Files: test/bug-38236/bug-38236.tst
+Copyright: 2009-2018, Carlo de Falco
+License: GPL-3+
+
+Files: test/bug-41723/bug-41723.tst
+Copyright: 2013-2018, Mike Miller
+License: GPL-3+
+
+Files: test/bug-44940/bug-44940.tst
+Copyright: 2011-2018, Carnë Draug
+License: GPL-3+
+
+Files: test/bug-46330.tst
+Copyright: 2010-2018, Kai T. Ohlhus
+License: GPL-3+
+
+Files: test/bug-46660/bug-46660.tst
+Copyright: 2017, 2018, Lachlan Andrew
+License: GPL-3+
+
+Files: test/bug-50014/bug-50014.tst
+Copyright: 2010-2018, Rik Wehbring
+License: GPL-3+
+
+Files: test/bug-51192/bug-51192.tst
+Copyright: 2015-2018, Piotr Held
+License: GPL-3+
+
+Files: test/bug-51532/bug-51532.tst
+Copyright: 2015-2018, Piotr Held
+License: GPL-3+
+
+Files: test/bug-51534/bug-51534.tst
+Copyright: 2015-2018, Piotr Held
+License: GPL-3+
+
+Files: test/bug-51599/bug-51599.tst
+Copyright: 2015-2018, Piotr Held
+License: GPL-3+
+
+Files: test/bug-52075/bug-52075.tst
+Copyright: 2015-2018, Piotr Held
+License: GPL-3+
+
+Files: test/classdef-multiple-inheritance/classdef-multiple-inheritance.tst
+Copyright: 2010-2018, Kai T. Ohlhus
+License: GPL-3+
+
+Files: test/classdef/classdef.tst
+Copyright: 2007-2018, Ben Abbott
+License: GPL-3+
+
+Files: test/classes/classes.tst
+Copyright: 2013-2018, Julien Bect
+  2009-2018, Robert T. Short
+License: GPL-3+
+
+Files: test/colormaps.tst
+Copyright: 2011-2018, Carnë Draug
+License: GPL-3+
+
+Files: test/command.tst
+Copyright: 2014-2018, Michael C. Grant
+License: GPL-3+
+
+Files: test/complex.tst
+  test/leftdiv.tst
+Copyright: 2010-2018, Rik Wehbring
+License: GPL-3+
+
+Files: test/deprecate-props.tst
+Copyright: 2014-2018, Pantxo Diribarne
+License: GPL-3+
+
+Files: test/diag-perm.tst
+Copyright: 2009-2018, E. Jason Riedy
+License: GPL-3+
+
+Files: test/fntests.m
+  test/func.tst
+  test/mk-sparse-tst.sh
+Copyright: 2004-2018, David Bateman
+License: GPL-3+
+
+Files: test/jit.tst
+Copyright: 2012-2018, Max Brister
+License: GPL-3+
+
+Files: test/local-functions/local_functions.tst
+Copyright: 2010-2018, Kai T. Ohlhus
+License: GPL-3+
+
+Files: test/mk-bc-overloads-tst.sh
+Copyright: 2009-2018, VZLU Prague
+License: GPL-3+
+
+Files: test/null-assign.tst
+Copyright: 2008-2018, Jaroslav Hajek
+License: GPL-3+
+
+Files: test/publish/publish.tst
+Copyright: 2010-2018, Kai T. Ohlhus
+License: GPL-3+
 
 License: GPL-2+
  This program is free software; you can redistribute it and/or
@@ -496,18 +3971,10 @@ License: LGPL-2+
  version 2 can be found in the file `/usr/share/common-licenses/LGPL-2'.
 
 License: LGPL-3+
- This program is free software: you can redistribute it and/or modify
- it under the terms of the GNU Lesser General Public License as published by
- the Free Software Foundation, either version 3 of the License, or
- (at your option) any later version.
+ This program is free software; you can redistribute it and/or modify it
+ under the terms of the GNU Lesser General Public License as published by the
+ Free Software Foundation; version 3 of the License, or (at
+ your option) any later version.
  .
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU Lesser General Public License for more details.
- .
- You should have received a copy of the GNU Lesser General Public License
- along with this program.  If not, see <http://www.gnu.org/licenses/>.
- .
- On Debian systems, the full text of the GNU Lesser General Public License
- version 3 can be found in the file `/usr/share/common-licenses/LGPL-3'.
+ On Debian systems, the complete text of version 3 of the GNU Lesser
+ General Public License can be found in `/usr/share/common-licenses/LGPL-3'.

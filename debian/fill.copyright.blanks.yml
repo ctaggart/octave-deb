@@ -1,0 +1,38 @@
+.*:
+  copyright: 1992-2018, John W. Eaton
+  license: GPL-3+
+doc/.*:
+  override-license: GPL-3+
+BUGS:
+  skip: '1'
+libgui/src/m-editor/find-dialog.*:
+  override-license: GPL-3+
+libinterp/corefcn/mex.h:
+  override-license: GPL-3+
+libinterp/corefcn/mexproto.h:
+  override-license: GPL-3+
+libinterp/corefcn/mxarray.in.h:
+  override-license: GPL-3+
+liboctave/numeric/randmtzig.*:
+  override-license: GPL-3+
+libinterp/corefcn/quadcc.cc:
+  override-license: GPL-3+
+libgui/graphics/images/.*:
+  override-license: LGPL-3+
+liboctave/external/.*:
+  license: public-domain
+  copyright: none
+liboctave/external/lapack-xtra/.*:
+  copyright: 1992-2006 The University of Tennessee
+  license: BSD-3-clause
+liboctave/external/blas-xtra/.*:
+  copyright: 1992-2018, John W. Eaton
+  license: GPL-3+
+liboctave/external/blas-xtra/xerbla.f:
+  copyright: 1992-2006 The University of Tennessee
+  license: BSD-3-clause
+liboctave/external/.*mk$:
+  copyright: 1992-2018, John W. Eaton
+  license: GPL-3+
+build-aux/texinfo.tex:
+  override-license: GPL-3+

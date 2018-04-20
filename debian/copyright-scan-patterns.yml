@@ -1,0 +1,21 @@
+check:
+  suffixes:
+    - tst
+    - texi
+    - mk
+    - ll
+    - yy
+    - svg
+    - ui
+    - xml
+    - txi
+ignore:
+  pattern:
+    - /debian/
+    - INSTALL
+    - configure
+    - Makefile.in
+  suffixes:
+    - html
+
+    
