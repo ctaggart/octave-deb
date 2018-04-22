@@ -49,7 +49,11 @@ endif
 override_dh_auto_configure:
 	# Enforce generic BLAS (in order to avoid tying the binary to OpenBLAS or ATLAS)
 	# Also pass OpenMP flag (#631831)
-	dh_auto_configure -- --with-blas=blas --enable-openmp $(WITH_JAVA_FLAGS) $(JIT_FLAG) $(HDF5_FLAGS) $(DOC_FLAG)
+	# Pass the install directory of fonts-freefont-otf package
+	dh_auto_configure -- \
+		--with-blas=blas --enable-openmp \
+		--with-system-freefont=/usr/share/fonts/opentype/freefont \
+		$(WITH_JAVA_FLAGS) $(JIT_FLAG) $(HDF5_FLAGS) $(DOC_FLAG)
 
 # dh_auto_test tries to run "make test", so override it
 override_dh_auto_test:
