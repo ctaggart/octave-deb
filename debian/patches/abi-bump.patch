@@ -1,0 +1,49 @@
+Description: Bump ABI and API version numbers for Octave 4.4
+Origin: upstream, http://hg.octave.org/octave/rev/faed660f7222
+Last-Update: 2018-04-25
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+--- a/configure.ac
++++ b/configure.ac
+@@ -52,7 +52,7 @@ dnl
+ dnl FIXME: Since we also set libtool versions for liboctave and libinterp,
+ dnl perhaps we should be computing the "api version" from those versions numbers
+ dnl in some way instead of setting it independently here.
+-OCTAVE_API_VERSION="api-v51+"
++OCTAVE_API_VERSION="api-v52"
+ 
+ AC_SUBST(OCTAVE_MAJOR_VERSION)
+ AC_SUBST(OCTAVE_MINOR_VERSION)
+--- a/libgui/module.mk
++++ b/libgui/module.mk
+@@ -63,7 +63,7 @@ nodist_%canon_reldir%_liboctgui_la_SOURC
+   $(LIBOCTGUI_LINK_DEPS)
+ 
+ # Increment these as needed and according to the rules in the libtool manual:
+-%canon_reldir%_liboctgui_current = 2
++%canon_reldir%_liboctgui_current = 3
+ %canon_reldir%_liboctgui_revision = 0
+ %canon_reldir%_liboctgui_age = 0
+ 
+--- a/libinterp/module.mk
++++ b/libinterp/module.mk
+@@ -167,7 +167,7 @@ nodist_%canon_reldir%_liboctinterp_la_SO
+   $(LIBOCTINTERP_LINK_DEPS)
+ 
+ # Increment these as needed and according to the rules in the libtool manual:
+-%canon_reldir%_liboctinterp_current = 4
++%canon_reldir%_liboctinterp_current = 5
+ %canon_reldir%_liboctinterp_revision = 0
+ %canon_reldir%_liboctinterp_age = 0
+ 
+--- a/liboctave/module.mk
++++ b/liboctave/module.mk
+@@ -73,7 +73,7 @@ nodist_%canon_reldir%_%canon_reldir%_la_
+   $(LIBOCTAVE_LINK_DEPS)
+ 
+ # Increment these as needed and according to the rules in the libtool manual:
+-%canon_reldir%_%canon_reldir%_current = 4
++%canon_reldir%_%canon_reldir%_current = 5
+ %canon_reldir%_%canon_reldir%_revision = 0
+ %canon_reldir%_%canon_reldir%_age = 0
+ 

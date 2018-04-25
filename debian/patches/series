@@ -4,3 +4,4 @@ install_libraries_publically
 add_info_dir_categories
 always-build-octave-jar.patch
 texinfo.patch
+abi-bump.patch

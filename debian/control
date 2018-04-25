@@ -67,7 +67,7 @@ Depends: ${shlibs:Depends},
          ${misc:Depends},
          texinfo,
          octave-common (= ${source:Version}),
-         liboctave4 (= ${binary:Version})
+         liboctave5 (= ${binary:Version})
 Recommends: gnuplot-qt | gnuplot-x11 | gnuplot-nox,
             libopenblas-base | libatlas3-base,
             pstoedit,
@@ -75,7 +75,7 @@ Recommends: gnuplot-qt | gnuplot-x11 | gnuplot-nox,
             default-jre-headless [!armel !hppa !hurd-i386 !m68k !mips !mipsel !powerpc !sparc64],
             octave-doc
 Suggests: liboctave-dev
-Breaks: liboctave3v5
+Breaks: liboctave3v5, liboctave4
 Description: GNU Octave language for numerical computations
  Octave is a (mostly Matlab (R) compatible) high-level language, primarily
  intended for numerical computations. It provides a convenient command-line
@@ -143,7 +143,7 @@ Description: transitional package for Octave info documentation
  This is a transitional dummy package for the for Octave info
  documentation. It can be safely removed.
 
-Package: liboctave4
+Package: liboctave5
 Architecture: any
 Multi-Arch: same
 Section: libs
@@ -162,7 +162,7 @@ Architecture: any
 Section: libdevel
 Depends: ${shlibs:Depends},
          ${misc:Depends},
-         liboctave4 (= ${binary:Version}),
+         liboctave5 (= ${binary:Version}),
          octave (= ${binary:Version}),
          libreadline-dev | libreadline-gplv2-dev,
          libncurses5-dev,
