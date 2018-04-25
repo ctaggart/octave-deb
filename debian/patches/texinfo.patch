@@ -1,0 +1,19 @@
+Description: Prevent the regeneration of texinfo.tex
+ The texinfo.tex shipped with automake-1.15 is too old for Octave. We must
+ therefore prevent its regeneration by dh_autoreconf.
+Author: Sébastien Villemot <sebastien@debian.org>
+Forwarded: not-needed
+Last-Update: 2018-04-25
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+--- a/Makefile.am
++++ b/Makefile.am
+@@ -31,6 +31,8 @@ export TAR_OPTIONS
+ version := ${OCTAVE_VERSION}
+ api_version := ${OCTAVE_API_VERSION}
+ 
++TEXINFO_TEX=$(top_srcdir)/build-aux/texinfo.tex
++
+ ## AM_LIBTOOLFLAGS = --silent
+ 
+ AM_LFLAGS = @LFLAGS@
