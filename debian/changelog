@@ -1,3 +1,40 @@
+octave (4.3.91-1) experimental; urgency=medium
+
+  [ Rafael Laboissiere ]
+  * d/rules: Remove the unnecessary get-orig-source target
+  * d/control: Bump Standards-Version to 4.1.4
+
+  [ Sébastien Villemot ]
+  * d/watch: use pre-defined regexps for version number and archive extension.
+  * New upstream version 4.3.91
+    + now built by default with --enable-64 (Closes: #779943)
+    + no longer fetch network resources when network disabled (Closes: #876363)
+  * d/copyright: reflect upstream changes.
+    d/copyright-scan-patterns.yml, d/fill.copyright.blanks.yml: new files, to
+    support the updating of the copyright file with "cme update dpkg-copyright".
+  * Drop patches applied upstream:
+    + add-corrcoef-function.patch
+    + appstream-upgrade-spec.patch
+    + java9.patch
+  * Add libsundials-dev to Build-Depends.
+  * texinfo.patch: new patch, prevents the regeneration of texinfo.tex.
+    Octave needs a version of this file newer than the one shipped with
+    automake-1.15.
+  * Bump SOVERSION of liboctave (4->5)
+    abi-bump.patch: new patch taken from upstream, will be in the final 4.4
+    release.
+  * Remove unused override for JAR file in source tarball.
+  * octave-common now Depends on fonts-freefont-otf for fallback fonts.
+
+  [ Mike Miller ]
+  * d/control: Add qttools5-dev to Build-Depends.
+  * d/control: Remove libosmesa6-dev from Build-Depends.
+    Octave now prefers Qt QOffscreenSurface to OSMesa for figures with
+    visible=off.
+  * d/rules: Build with the location of fonts-freefont-otf package.
+
+ -- Sébastien Villemot <sebastien@debian.org>  Wed, 25 Apr 2018 12:10:43 +0200
+
 octave (4.2.2-2) unstable; urgency=medium
 
   * Rebuild against java 9 (Closes: #894349)
