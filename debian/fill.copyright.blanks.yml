@@ -1,8 +1,20 @@
+# See Dpkg::Copyright::Scanner(3pm) and
+# https://github.com/dod38fr/config-model/wiki/Updating-debian-copyright-file-with-cme
+# The "license" and "copyright" only provide default values when none can be autodetected
+# The "override-license" forces a license (used when autodetection is wrong)
 .*:
   copyright: 1992-2018, John W. Eaton
   license: GPL-3+
 doc/.*:
   override-license: GPL-3+
+m4/.*:
+  license: permissive-fsf
+m4/ax_compare_version.m4:
+  license: permissive-other
+m4/ax_pthread.m4:
+  override-license: GPL-3+
+m4/libtool.m4:
+  override-license: GPL-2+
 BUGS:
   skip: '1'
 libgui/src/m-editor/find-dialog.*:
