@@ -85,8 +85,8 @@ Description: GNU Octave language for numerical computations
 
 Package: octave-common
 Architecture: all
-Depends: ${misc:Depends},
-         fonts-freefont-otf
+Depends: ${misc:Depends}
+Recommends: fonts-freefont-otf
 Multi-Arch: foreign
 Description: architecture-independent files for octave
  Octave is a (mostly Matlab (R) compatible) high-level language, primarily
