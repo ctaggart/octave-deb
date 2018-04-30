@@ -1,3 +1,19 @@
+octave (4.3.92-1) experimental; urgency=medium
+
+  * New upstream version 4.3.92
+  * octave-common now Recommends fonts-freefont-otf (previously was a Depends).
+    It takes either a severely broken system configuration, or a user intentionally
+    using a very limited Fontconfig configuration, to require fallback fonts.
+  * d/copyright: reflect upstream changes.
+  * Drop patches applied upstream: add_info_dir_categories, abi-bump.patch.
+  * Java changes:
+    + no longer rely on javahelper to detect Java location, because of #896438.
+    + disable java on arches that don't have OpenJDK 9: kfreebsd-*, riscv64.
+    + re-enable java on armel, m68k, mips, mipsel, powerpc, sparc64, for testing
+      purposes.
+
+ -- Sébastien Villemot <sebastien@debian.org>  Mon, 30 Apr 2018 11:33:27 +0200
+
 octave (4.3.91-1) experimental; urgency=medium
 
   [ Rafael Laboissiere ]
