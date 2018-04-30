@@ -3566,6 +3566,10 @@ Files: test/bug-46330.tst
 Copyright: 2010-2018, Kai T. Ohlhus
 License: GPL-3+
 
+Files: test/bug-46497/bug-46497.tst
+Copyright: 2015-2018, Piotr Held
+License: GPL-3+
+
 Files: test/bug-46660/bug-46660.tst
 Copyright: 2017, 2018, Lachlan Andrew
 License: GPL-3+
