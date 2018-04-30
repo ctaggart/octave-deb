@@ -18,7 +18,6 @@ Build-Depends: automake,
                gnuplot-nox,
                gperf,
                icoutils,
-               javahelper,
                less,
                libarpack2-dev,
                libblas-dev,
@@ -72,7 +71,7 @@ Recommends: gnuplot-qt | gnuplot-x11 | gnuplot-nox,
             libopenblas-base | libatlas3-base,
             pstoedit,
             epstool,
-            default-jre-headless [!armel !hppa !hurd-i386 !m68k !mips !mipsel !powerpc !sparc64],
+            default-jre-headless [!hppa !hurd-i386 !kfreebsd-any !riscv64],
             octave-doc
 Suggests: liboctave-dev
 Breaks: liboctave3v5, liboctave4

@@ -7,21 +7,19 @@ DEB_VERSION_UPSTREAM := $(subst ~rc,-rc,$(DEB_VERSION_UPSTREAM))
 export DEB_VERSION_UPSTREAM
 
 # Configure default Java paths using javahelper except on some archs.
-# hurd-i386 and hppa have gcj as default, which cause either
-# a compilation failure (hurd-i386) or a test failure (other archs).
-# On mips and mipsel java unit tests calling openjdk-7 cause a bus error at
-# runtime.
+# We require at least OpenJDK 9 (otherwise JAVA_LIBDIR below will not work)
+# The following arches do not have OpenJDK 9: hppa, hurd-i386, kfreebsd-*, riscv64
 # This arch list must be kept in sync with the arch list qualifying
 # default-jre in debian/control (note: we always want default-jdk in
 # build deps because it is needed for octave-common, see
 # debian/patches/always-build-octave-jar.patch).
 include /usr/share/dpkg/architecture.mk
-NO_JDK_ARCHS := armel hppa hurd-i386 m68k mips mipsel powerpc sparc64
+NO_JDK_ARCHS := hppa hurd-i386 kfreebsd-amd64 kfreebsd-i386 riscv64
 ifneq (,$(filter $(DEB_HOST_ARCH),$(NO_JDK_ARCHS)))
 WITH_JAVA_FLAGS := --disable-java
 else
-include /usr/share/javahelper/java-vars.mk
-JAVA_LIBDIR := $(firstword $(JVM_CLIENT_DIR) $(JVM_SERVER_DIR))
+JAVA_HOME := /usr/lib/jvm/default-java
+JAVA_LIBDIR := $(shell if test -d $(JAVA_HOME)/lib/client; then echo $(JAVA_HOME)/lib/client; else echo $(JAVA_HOME)/lib/server; fi)
 WITH_JAVA_FLAGS := --with-java-homedir=$(JAVA_HOME) --with-java-libdir=$(JAVA_LIBDIR)
 endif
 
