@@ -913,5 +913,6 @@ In this case, the comparison should be computed relatively, as
 
 Type @kbd{example ("speed")} to see some real examples or
 @kbd{demo ("speed")} to run them.
+
 @end deftypefn
 

@@ -1,3 +1,241 @@
+2018-04-27  John W. Eaton  <jwe@octave.org>
+
+	bump version for third 4.4 release candidate
+
+	* configure.ac (AC_INIT): Set version to 4.3.92.
+	(OCTAVE_PATCH_VERSION): Now 92.
+	(OCTAVE_RELEASE_DATE): Set to 2018-04-27.
+
+	Files: configure.ac
+
+2018-04-26  John W. Eaton  <jwe@octave.org>
+
+	avoid crash on exceptions thrown in handle class delete method
+
+	* ov-classdef (handle_cdef_object::~handle_cdef_object): Use same
+	technique as in octave_oncleanup::~octave_oncleanup to avoid crashes
+	if exceptions are thrown while executing handle class delete method
+	while inside C++ class destructor.
+
+	Files: libinterp/octave-value/ov-classdef.cc
+
+2017-11-02  Piotr Held  <pjheld@gmail.com>
+
+	call delete method for handle class objects (bug #46497)
+
+	* ov-classdef.cc (handle_cdef_object::handle_cdef_object):
+	Call delete_object to ultimately invoke the delete method for the
+	object.
+
+	* test/bug-46497/bug-46497.tst, test/bug-46497/class_bug46497.m,
+	test/bug-46497/module.mk: New files.
+	* test/module.mk: Update.
+
+	Files: libinterp/octave-value/ov-classdef.cc test/bug-46497/bug-46497.tst
+	test/bug-46497/class_bug46497.m test/bug-46497/module.mk
+	test/module.mk
+
+2018-04-26  John W. Eaton  <jwe@octave.org>
+
+	don't hold reference to expression result after evaluation is done
+
+	* pt-eval.h (tree_evaluator::evaluate, tree_evaluator::evaluate_n):
+	Clear m_expr_result_value and m_expr_result_value_list after setting
+	retval.
+
+	Files: libinterp/parse-tree/pt-eval.h
+
+2018-04-26  Marco Caliari  <marco.caliari@univr.it>
+
+	eigs.m: Fix failing BIST test (bug #53700).
+
+	* eigs.m: Use isreal() to determine whether NaN or NaN+1i*NaN should be the
+	expected value.
+
+	Files: scripts/sparse/eigs.m
+
+2018-04-26  John W. Eaton  <jwe@octave.org>
+
+	use pattern rule to make Qt help files
+
+	* doc/interpreter/module.mk: Use pattern rule for Qt help files so
+	GNU Make will correctly build them with one invocation of the given
+	rule.
+
+	Files: doc/interpreter/module.mk
+
+	install Qt help files if available
+
+	The Qt help files are included in tarball distributions, so attempt to
+	install those files even if the tools to build them are missing or
+	Octave has been configured with --disable-docs.
+
+	* doc/interpreter/module.mk (OCTAVE_QTHELP_FILES): Define list outside
+	of automake conditionals for building docs.
+	(install-qt-help-files, uninstall-qt-help-files, qthelp-installdir):
+	New rules, defined outside of conditionals.
+	(install-data-local): Also depend on install-qthelp-files.
+	(uninstall-local): Also depend on uninstall-qthelp-files.
+	(octdoc_DATA): Don't add $(OCTAVE_QTHELP_FILES) to the list.
+	(DOC_TARGETS): Only add $(OCTAVE_QTHELP_FILES) to the list if
+	AMCOND_BUILD_QT_DOCS is true.
+
+	Files: doc/interpreter/module.mk
+
+2018-04-25  Mike Miller  <mtmiller@octave.org>
+
+	doc: install info documentation into Math category
+
+	* octave.texi: Use @dircategory Math to install manual into Math category.
+	Use @direntry to define Info dir entry instead of raw Info-only text output.
+	* liboctave.texi: Likewise.
+	Thanks to Thomas Weber and Sébastien Villemot for the original patch.
+
+	Files: doc/interpreter/octave.texi doc/liboctave/liboctave.texi
+
+2018-04-25  John W. Eaton  <jwe@octave.org>
+
+	allow kbhit to work in command-line scripts (bug #53412)
+
+	* sysdep.cc (Fkbhit): Don't limit function to "interactive" applications.
+
+	Files: libinterp/corefcn/sysdep.cc
+
+	avoid syntax errors in build-aux/subst scripts
+
+	* m4/acinclude.m4: Use ${top_srcdir} instead of $(top_srcdir) to avoid
+	syntax errors in shell scripts.
+
+	* subst-config-vals.in.sh, subst-cross-config-vals.in.sh:
+	Also define srcdir, top_srcdir, abs_srcdir, and abs_top_srcdir.
+	Define directory variables ahead of any other variables that might use
+	them.
+
+	Files: build-aux/subst-config-vals.in.sh build-aux/subst-cross-config-
+	vals.in.sh m4/acinclude.m4
+
+	avoid syntax error in configure if cxsparse is missing
+
+	* configure.in: If cxsparse is missing, skip additional check.
+
+	Files: configure.ac
+
+2018-04-24  Daniel J Sebald  <daniel.sebald@ieee.org>
+
+	Use consistent gnuplot toolkit font syntax allow SVG fractional font size (bug #53737)
+
+	* print.m: Document the cgm and eepic terminals (gnuplot only).
+
+	* __gnuplot_print__.m: Condition "background" option on several of the terminal
+	  types which otherwise would produce a gnuplot warning.  Add terminal type
+	  cases "cgm" and "latex" to the list of generic plotting formats.
+	  (font_spec): Use the 'font "<name>,<size>"' format in almost all cases, which
+	  has been made more consistent in recent gnuplot versions.  Remove code that
+	  rounds the SVG font size.
+
+	* __print_parse_opts__.m: Add to the dev_list "canvas", "cgm", "latex" and
+	  "eepic" and correspondingly to the suffixes "js", "cgm", "tex" and "tex".
+
+	Files: scripts/plot/util/print.m
+	scripts/plot/util/private/__gnuplot_print__.m
+	scripts/plot/util/private/__print_parse_opts__.m
+
+2018-04-24  Mike Miller  <mtmiller@octave.org>
+
+	pkg: restore deletion of package archive downloaded from Octave Forge
+
+	* pkg.m: Restore code to delete all downloaded files, whether they were
+	downloaded to a temporary directory or not.  Fixes regression introduced
+	in cset 0cd7076a97c8.
+
+	Files: scripts/pkg/pkg.m
+
+	test: tag possible test failure with known bug #51804
+
+	* ov-java.cc: Tag possible test failure under Oracle Java 7 as known bug.
+
+	Files: libinterp/octave-value/ov-java.cc
+
+2018-04-24  John W. Eaton  <jwe@octave.org>
+
+	* eigs.m: Use testif HAVE_ARPACK for test.
+
+	Files: scripts/sparse/eigs.m
+
+2018-04-24  Marco Caliari  <marco.caliari@univr.it>
+
+	Use eig in eigs when p is equal to matrix dimension n (bug #53719)
+
+	* eigs.m: Set call_eig to true when the dimension of the Krylov space
+	p is equal to the dimension of the matrix n. Set call_eig to true when
+	the matrix has dimension less than 13. Change several tests in order to
+	really use ARPACK and not eig.  New test.
+
+	Files: scripts/sparse/eigs.m
+
+	Fix segmentation fault in eigs when B is not SPD (bug #53719).
+
+	* eigs-base.cc (make_cholb): check for info != 0 after a sparse
+	Cholesky factorization.
+	* eigs.m (select): Fix conditions for "lr", "sr", "li", and "si"
+	cases.  New test.
+
+	Files: liboctave/numeric/eigs-base.cc scripts/sparse/eigs.m
+
+2018-04-24  John W. Eaton  <jwe@octave.org>
+
+	fix logic error in OCTAVE_CONFIG_LIB (bug #53736)
+
+	* acinclude.m4 (OCTAVE_CHECK_LIB): Don't allow PACKAGE_LIBS to be set
+	if the library is not found.  Previously this could happen in various
+	ways, including if the macro was used with an empty warning string.
+
+	Files: m4/acinclude.m4
+
+2018-04-23  Rik  <rik@octave.org>
+
+	speed.m: Use tic/toc for better timing (bug #53713).
+
+	* speed.m: Change timing strategy to use tic/toc with timer ID, rather than
+	time() which is not as accurate on Windows platforms.  Use separate legend
+	statement rather than placing legend key within plot command.  Re-order legend
+	strings so they correctly label what is being plotted.
+
+	Files: scripts/testfun/speed.m
+
+2018-04-23  Mike Miller  <mtmiller@octave.org>
+
+	maint: update library version numbers for 4.4 release
+
+	* configure.ac (OCTAVE_API_VERSION): Update to api-v52.
+	* libgui/module.mk (%canon_reldir%_liboctgui_current): Update to 3.
+	* libinterp/module.mk (%canon_reldir%_liboctinterp_current): Update to 5.
+	* liboctave/module.mk (%canon_reldir%_%canon_reldir%_current): Update to 5.
+
+	Files: configure.ac libgui/module.mk libinterp/module.mk
+	liboctave/module.mk
+
+2018-04-21  Torsten  <mttl@mailbox.org>
+
+	open files in correct order when restoring editor session (bug #53711)
+
+	* file-editor.cc (restore_session): use integers instead of string
+	  for sorting the tabs (avoiding 1 10 11 ... 2 3 ...)
+
+	* file-editor.h: struct session data with integer instead of string as index
+
+	Files: libgui/src/m-editor/file-editor.cc libgui/src/m-editor/file-editor.h
+
+2018-04-19  Mike Miller  <mtmiller@octave.org>
+
+	maint: add missing tag entry release-4-2-2 on stable branch
+
+	Files: .hgtags
+
+	Added tag rc-4-3-91 for changeset ff59be58f028
+
+	Files: .hgtags
+
 2018-04-19  John W. Eaton  <jwe@octave.org>
 
 	bump version for second 4.4 release candidate

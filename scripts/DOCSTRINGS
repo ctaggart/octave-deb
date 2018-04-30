@@ -20419,6 +20419,10 @@ The @samp{standalone} variants behave as described for
 @itemx @nospell{corel}
 @nospell{CorelDraw}
 
+@item cgm
+    Computer Graphics Metafile, Version 1, ANSI X3.122-1986
+(only available for the Gnuplot graphics toolkit).
+
 @item dxf
     AutoCAD
 
@@ -20433,7 +20437,8 @@ whether the special flag should be set for the text in the figure.
 (default is @option{-textnormal})
 
 @item gif
-    GIF image (only available for the Gnuplot graphics toolkit)
+    GIF image
+(only available for the Gnuplot graphics toolkit).
 
 @item hpgl
     HP plotter language
@@ -20443,8 +20448,9 @@ whether the special flag should be set for the text in the figure.
     JPEG image
 
 @item latex
-@LaTeX{} picture environment (only available for the Gnuplot graphics
-toolkit).
+@itemx eepic
+@LaTeX{} picture environment and extended picture environment
+(only available for the Gnuplot graphics toolkit).
 
 @item mf
     Metafont
@@ -29429,6 +29435,7 @@ In this case, the comparison should be computed relatively, as
 
 Type @kbd{example ("speed")} to see some real examples or
 @kbd{demo ("speed")} to run them.
+
 @end deftypefn
 test
 @c test scripts/testfun/test.m
