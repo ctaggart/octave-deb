@@ -50655,7 +50655,7 @@ print
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 9351
+# length: 9550
  -- : print ()
  -- : print (OPTIONS)
  -- : print (FILENAME, OPTIONS)
@@ -50742,6 +50742,9 @@ print
           ‘corel’
                CorelDraw
 
+          ‘cgm’
+               Computer Graphics Metafile, Version 1, ANSI X3.122-1986 (only available for the Gnuplot graphics toolkit).
+
           ‘dxf’
                AutoCAD
 
@@ -50753,7 +50756,7 @@ print
                XFig.  For the Gnuplot graphics toolkit, the additional options ‘-textspecial’ or ‘-textnormal’ can be used to control whether the special flag should be set for the text in the figure.  (default is ‘-textnormal’)
 
           ‘gif’
-               GIF image (only available for the Gnuplot graphics toolkit)
+               GIF image (only available for the Gnuplot graphics toolkit).
 
           ‘hpgl’
                HP plotter language
@@ -50763,7 +50766,8 @@ print
                JPEG image
 
           ‘latex’
-               LaTeX picture environment (only available for the Gnuplot graphics toolkit).
+          ‘eepic’
+               LaTeX picture environment and extended picture environment (only available for the Gnuplot graphics toolkit).
 
           ‘mf’
                Metafont
@@ -60586,7 +60590,7 @@ speed
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 4630
+# length: 4631
  -- : speed (F, INIT, MAX_N, F2, TOL)
  -- : [ORDER, N, T_F, T_F2] = speed (...)
 
@@ -60649,6 +60653,7 @@ speed
      Assuming one of the two versions is in xcorr_orig, this would compare their speed and their output values.  Note that the FFT version is not exact, so one must specify an acceptable tolerance on the comparison ‘100*eps’.  In this case, the comparison should be computed relatively, as ‘abs ((X - Y) ./ Y)’ rather than absolutely as ‘abs (X - Y)’.
 
      Type ‘example ("speed")’ to see some real examples or ‘demo ("speed")’ to run them.
+
    
 
 

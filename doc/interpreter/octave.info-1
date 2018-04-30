@@ -1,11 +1,11 @@
 This is octave.info, produced by makeinfo version 6.5 from octave.texi.
 
+INFO-DIR-SECTION Math
 START-INFO-DIR-ENTRY
-* Octave: (octave).           Interactive language for numerical computations.
-
+* Octave: (octave).             Interactive language for numerical computations.
 END-INFO-DIR-ENTRY
 
-   Copyright © 1996-2018 John W. Eaton.
+Copyright © 1996-2018 John W. Eaton.
 
    Permission is granted to make and distribute verbatim copies of this
 manual provided the copyright notice and this permission notice are
@@ -28,7 +28,7 @@ GNU Octave
 
 This manual documents how to run, install and port GNU Octave, as well
 as its new features and incompatibilities, and how to report bugs.  It
-corresponds to GNU Octave version 4.3.91.
+corresponds to GNU Octave version 4.3.92.
 
 * Menu:
 
@@ -1183,7 +1183,7 @@ manual, *note Copying::.
 run, use, and extend GNU Octave.  Additional chapters describe how to
 report bugs and help contribute code.
 
-   This document corresponds to Octave version 4.3.91.
+   This document corresponds to Octave version 4.3.92.
 
 * Menu:
 

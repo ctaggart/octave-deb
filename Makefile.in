@@ -323,21 +323,18 @@ archlib_PROGRAMS = $(am__EXEEXT_1)
 @AMCOND_BUILD_DOCS_TRUE@	doc/liboctave/liboctave.ps
 @AMCOND_BUILD_DOCS_TRUE@am__append_52 = doc/interpreter/octave.html \
 @AMCOND_BUILD_DOCS_TRUE@	doc/liboctave/liboctave.html
-@AMCOND_BUILD_DOCS_TRUE@@AMCOND_BUILD_QT_DOCS_TRUE@am__append_53 = \
+@AMCOND_BUILD_DOCS_TRUE@am__append_53 = \
+@AMCOND_BUILD_DOCS_TRUE@  $(srcdir)/doc/interpreter/octave.info \
+@AMCOND_BUILD_DOCS_TRUE@  doc/interpreter/doc-cache \
+@AMCOND_BUILD_DOCS_TRUE@  doc/interpreter/octave.ps \
+@AMCOND_BUILD_DOCS_TRUE@  doc/interpreter/octave.pdf \
+@AMCOND_BUILD_DOCS_TRUE@  $(OCTAVE_HTML_STAMP) \
+@AMCOND_BUILD_DOCS_TRUE@  $(HTMLDIR_IMAGES) \
+@AMCOND_BUILD_DOCS_TRUE@  $(HTMLDIR_CSS)
+
+@AMCOND_BUILD_DOCS_TRUE@@AMCOND_BUILD_QT_DOCS_TRUE@am__append_54 = \
 @AMCOND_BUILD_DOCS_TRUE@@AMCOND_BUILD_QT_DOCS_TRUE@  $(OCTAVE_QTHELP_FILES)
 
-@AMCOND_BUILD_DOCS_TRUE@am__append_54 =  \
-@AMCOND_BUILD_DOCS_TRUE@	$(srcdir)/doc/interpreter/octave.info \
-@AMCOND_BUILD_DOCS_TRUE@	doc/interpreter/doc-cache \
-@AMCOND_BUILD_DOCS_TRUE@	doc/interpreter/octave.ps \
-@AMCOND_BUILD_DOCS_TRUE@	doc/interpreter/octave.pdf \
-@AMCOND_BUILD_DOCS_TRUE@	$(OCTAVE_HTML_STAMP) $(HTMLDIR_IMAGES) \
-@AMCOND_BUILD_DOCS_TRUE@	$(HTMLDIR_CSS) $(OCTAVE_QTHELP_FILES) \
-@AMCOND_BUILD_DOCS_TRUE@	$(srcdir)/doc/liboctave/liboctave.info \
-@AMCOND_BUILD_DOCS_TRUE@	doc/liboctave/liboctave.ps \
-@AMCOND_BUILD_DOCS_TRUE@	doc/liboctave/liboctave.pdf \
-@AMCOND_BUILD_DOCS_TRUE@	doc/liboctave/liboctave.html \
-@AMCOND_BUILD_DOCS_TRUE@	$(refcard_FORMATTED)
 @AMCOND_BUILD_DOCS_TRUE@am__append_55 = $(BUILT_OCTAVE_TEXI_SRC) \
 @AMCOND_BUILD_DOCS_TRUE@	$(srcdir)/doc/interpreter/octave.info \
 @AMCOND_BUILD_DOCS_TRUE@	doc/interpreter/TODO \
@@ -377,45 +374,50 @@ archlib_PROGRAMS = $(am__EXEEXT_1)
 @AMCOND_BUILD_DOCS_TRUE@  $(BUILT_OCTAVE_TEXI_SRC) \
 @AMCOND_BUILD_DOCS_TRUE@  $(OCTAVE_QTHELP_FILES)
 
-@AMCOND_BUILD_DOCS_TRUE@am__append_57 =  \
+@AMCOND_BUILD_DOCS_TRUE@am__append_57 = $(srcdir)/doc/liboctave/liboctave.info \
+@AMCOND_BUILD_DOCS_TRUE@	doc/liboctave/liboctave.ps \
+@AMCOND_BUILD_DOCS_TRUE@	doc/liboctave/liboctave.pdf \
+@AMCOND_BUILD_DOCS_TRUE@	doc/liboctave/liboctave.html \
+@AMCOND_BUILD_DOCS_TRUE@	$(refcard_FORMATTED)
+@AMCOND_BUILD_DOCS_TRUE@am__append_58 =  \
 @AMCOND_BUILD_DOCS_TRUE@	doc/liboctave/$(octave_dirstamp) \
 @AMCOND_BUILD_DOCS_TRUE@	doc/refcard/$(octave_dirstamp)
-@AMCOND_BUILD_DOCS_TRUE@am__append_58 = \
+@AMCOND_BUILD_DOCS_TRUE@am__append_59 = \
 @AMCOND_BUILD_DOCS_TRUE@  doc/refcard/refcard-a4.log \
 @AMCOND_BUILD_DOCS_TRUE@  doc/refcard/refcard-legal.log \
 @AMCOND_BUILD_DOCS_TRUE@  doc/refcard/refcard-letter.log
 
-@AMCOND_BUILD_DOCS_TRUE@am__append_59 = \
+@AMCOND_BUILD_DOCS_TRUE@am__append_60 = \
 @AMCOND_BUILD_DOCS_TRUE@  $(refcard_FORMATTED)
 
-@AMCOND_BUILD_DOCS_TRUE@am__append_60 =  \
+@AMCOND_BUILD_DOCS_TRUE@am__append_61 =  \
 @AMCOND_BUILD_DOCS_TRUE@	doc/interpreter/geometryimages.m \
 @AMCOND_BUILD_DOCS_TRUE@	doc/interpreter/interpimages.m \
 @AMCOND_BUILD_DOCS_TRUE@	doc/interpreter/plotimages.m \
 @AMCOND_BUILD_DOCS_TRUE@	doc/interpreter/sparseimages.m \
 @AMCOND_BUILD_DOCS_TRUE@	doc/interpreter/splineimages.m
-@AMCOND_BUILD_DOCS_TRUE@am__append_61 = $(GEOMETRYIMAGES_EPS) \
+@AMCOND_BUILD_DOCS_TRUE@am__append_62 = $(GEOMETRYIMAGES_EPS) \
 @AMCOND_BUILD_DOCS_TRUE@	$(INTERPIMAGES_EPS) $(PLOTIMAGES_EPS) \
 @AMCOND_BUILD_DOCS_TRUE@	$(SPARSEIMAGES_EPS) \
 @AMCOND_BUILD_DOCS_TRUE@	$(SPLINEIMAGES_EPS)
-@AMCOND_BUILD_DOCS_TRUE@am__append_62 = $(GEOMETRYIMAGES_PDF) \
+@AMCOND_BUILD_DOCS_TRUE@am__append_63 = $(GEOMETRYIMAGES_PDF) \
 @AMCOND_BUILD_DOCS_TRUE@	$(INTERPIMAGES_PDF) $(PLOTIMAGES_PDF) \
 @AMCOND_BUILD_DOCS_TRUE@	$(SPARSEIMAGES_PDF) \
 @AMCOND_BUILD_DOCS_TRUE@	$(SPLINEIMAGES_PDF)
-@AMCOND_BUILD_DOCS_TRUE@am__append_63 = $(GEOMETRYIMAGES_PNG) \
+@AMCOND_BUILD_DOCS_TRUE@am__append_64 = $(GEOMETRYIMAGES_PNG) \
 @AMCOND_BUILD_DOCS_TRUE@	$(INTERPIMAGES_PNG) $(PLOTIMAGES_PNG) \
 @AMCOND_BUILD_DOCS_TRUE@	$(SPARSEIMAGES_PNG) \
 @AMCOND_BUILD_DOCS_TRUE@	$(SPLINEIMAGES_PNG)
-@AMCOND_BUILD_DOCS_TRUE@am__append_64 = $(GEOMETRYIMAGES_TXT) \
+@AMCOND_BUILD_DOCS_TRUE@am__append_65 = $(GEOMETRYIMAGES_TXT) \
 @AMCOND_BUILD_DOCS_TRUE@	$(INTERPIMAGES_TXT) $(PLOTIMAGES_TXT) \
 @AMCOND_BUILD_DOCS_TRUE@	$(SPARSEIMAGES_TXT) \
 @AMCOND_BUILD_DOCS_TRUE@	$(SPLINEIMAGES_TXT)
-@AMCOND_INSTALL_INTERNAL_FONT_FILES_TRUE@am__append_65 = \
+@AMCOND_INSTALL_INTERNAL_FONT_FILES_TRUE@am__append_66 = \
 @AMCOND_INSTALL_INTERNAL_FONT_FILES_TRUE@  $(fallback_FONT_FILES)
 
-@AMCOND_HAVE_BROKEN_STL_ALGO_H_TRUE@am__append_66 = bits/stl_algo.h
-@AMCOND_HAVE_BROKEN_STL_ALGO_H_FALSE@am__append_67 = nonexistent-file
-@AMCOND_INSTALL_BUILD_LOGS_TRUE@am__append_68 = config.log
+@AMCOND_HAVE_BROKEN_STL_ALGO_H_TRUE@am__append_67 = bits/stl_algo.h
+@AMCOND_HAVE_BROKEN_STL_ALGO_H_FALSE@am__append_68 = nonexistent-file
+@AMCOND_INSTALL_BUILD_LOGS_TRUE@am__append_69 = config.log
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/00gnulib.m4 \
@@ -3376,6 +3378,7 @@ am__DIST_COMMON = $(dist_man_MANS) $(srcdir)/Makefile.in \
 	$(srcdir)/test/bug-38691/module.mk \
 	$(srcdir)/test/bug-41723/module.mk \
 	$(srcdir)/test/bug-44940/module.mk \
+	$(srcdir)/test/bug-46497/module.mk \
 	$(srcdir)/test/bug-46660/module.mk \
 	$(srcdir)/test/bug-49379/module.mk \
 	$(srcdir)/test/bug-50014/module.mk \
@@ -5018,12 +5021,12 @@ null =
 image_DATA = $(SCRIPTS_IMAGES) $(icon_IMAGE_FILES) \
 	etc/icons/octave-logo.ico
 octdata_DATA = $(examples_data_SRC)
-octdoc_DATA = $(am__append_53)
+octdoc_DATA = 
 octetc_DATA = $(am__append_28) doc/interpreter/doc-cache \
-	doc/interpreter/macros.texi CITATION NEWS $(am__append_68)
-octfonts_DATA = $(am__append_65)
+	doc/interpreter/macros.texi CITATION NEWS $(am__append_69)
+octfonts_DATA = $(am__append_66)
 octlocale_DATA = $(am__append_29)
-DOC_TARGETS = $(am__append_54)
+DOC_TARGETS = $(am__append_53) $(am__append_54) $(am__append_57)
 BUILT_DISTFILES = AUTHORS BUGS ChangeLog HG-ID INSTALL.OCTAVE \
 	$(LIBINTERP_BUILT_DISTFILES)
 BUILT_NODISTFILES = $(LIBOCTAVE_BUILT_NODISTFILES) \
@@ -5104,7 +5107,7 @@ DIRSTAMP_FILES = liboctave/external/ranlib/$(octave_dirstamp) \
 	scripts/time/$(octave_dirstamp) \
 	scripts/@ftp/$(octave_dirstamp) scripts/$(octave_dirstamp) \
 	doc/doxyhtml/$(octave_dirstamp) \
-	doc/interpreter/$(octave_dirstamp) $(am__append_57) \
+	doc/interpreter/$(octave_dirstamp) $(am__append_58) \
 	etc/icons/$(octave_dirstamp) test/$(octave_dirstamp)
 octave_dirstamp = $(am__leading_dot)octave-dirstamp
 CLEANFILES = $(liboctave_CLEANFILES) $(libinterp_CLEANFILES) \
@@ -5143,7 +5146,7 @@ BUILT_SOURCES = libgnu/libgnu.la $(BUILT_INCS) \
 	libinterp/parse-tree/oct-parse.h libinterp/version.h \
 	$(am__append_10) $(am__append_14) $(GENERATED_TEST_FILES) \
 	oct-conf-post.h octave-config.h run-octave $(DIRSTAMP_FILES) \
-	$(am__append_66) $(am__append_67)
+	$(am__append_67) $(am__append_68)
 TEST_FILES = test/fntests.m test/args.tst test/bug-31371.tst \
 	test/bug-38565.tst test/bug-38576.tst test/bug-46330.tst \
 	test/bug-49904.tst test/bug-53579.tst test/bug-53599.tst \
@@ -5160,24 +5163,25 @@ TEST_FILES = test/fntests.m test/args.tst test/bug-31371.tst \
 	$(bug_35448_TEST_FILES) $(bug_35881_TEST_FILES) \
 	$(bug_36025_TEST_FILES) $(bug_38236_TEST_FILES) \
 	$(bug_38691_TEST_FILES) $(bug_41723_TEST_FILES) \
-	$(bug_44940_TEST_FILES) $(bug_46660_TEST_FILES) \
-	$(bug_50014_TEST_FILES) $(bug_50035_TEST_FILES) \
-	$(bug_50716_TEST_FILES) $(bug_51192_TEST_FILES) \
-	$(bug_51532_TEST_FILES) $(bug_51534_TEST_FILES) \
-	$(bug_51599_TEST_FILES) $(bug_52075_TEST_FILES) \
-	$(bug_52722_TEST_FILES) $(bug_53027_TEST_FILES) \
-	$(class_concat_TEST_FILES) $(classdef_TEST_FILES) \
+	$(bug_44940_TEST_FILES) $(bug_46497_TEST_FILES) \
+	$(bug_46660_TEST_FILES) $(bug_50014_TEST_FILES) \
+	$(bug_50035_TEST_FILES) $(bug_50716_TEST_FILES) \
+	$(bug_51192_TEST_FILES) $(bug_51532_TEST_FILES) \
+	$(bug_51534_TEST_FILES) $(bug_51599_TEST_FILES) \
+	$(bug_52075_TEST_FILES) $(bug_52722_TEST_FILES) \
+	$(bug_53027_TEST_FILES) $(class_concat_TEST_FILES) \
+	$(classdef_TEST_FILES) \
 	$(classdef_multiple_inheritance_TEST_FILES) \
 	$(classes_TEST_FILES) $(ctor_vs_method_TEST_FILES) \
 	$(fcn_handle_derived_resolution_TEST_FILES) \
 	$(local_functions_TEST_FILES) $(nest_TEST_FILES) \
 	$(publish_TEST_FILES)
-DOC_IMAGES_SRC = $(am__append_60)
+DOC_IMAGES_SRC = $(am__append_61)
 BUILT_DOC_IMAGES = $(am__append_41)
-BUILT_DOC_IMAGES_EPS = $(am__append_61)
-BUILT_DOC_IMAGES_PDF = $(am__append_62)
-BUILT_DOC_IMAGES_PNG = $(am__append_63)
-BUILT_DOC_IMAGES_TXT = $(am__append_64)
+BUILT_DOC_IMAGES_EPS = $(am__append_62)
+BUILT_DOC_IMAGES_PDF = $(am__append_63)
+BUILT_DOC_IMAGES_PNG = $(am__append_64)
+BUILT_DOC_IMAGES_TXT = $(am__append_65)
 DOC_IMAGES = $(am__append_46)
 DOC_IMAGES_EPS = $(am__append_42)
 DOC_IMAGES_PDF = $(am__append_43)
@@ -6819,7 +6823,7 @@ nodist_liboctave_liboctave_la_SOURCES = \
 
 
 # Increment these as needed and according to the rules in the libtool manual:
-liboctave_liboctave_current = 4
+liboctave_liboctave_current = 5
 liboctave_liboctave_revision = 0
 liboctave_liboctave_age = 0
 liboctave_liboctave_version_info = $(liboctave_liboctave_current):$(liboctave_liboctave_revision):$(liboctave_liboctave_age)
@@ -7749,7 +7753,7 @@ libinterp_liboctinterp_la_LIBADD = \
 
 
 # Increment these as needed and according to the rules in the libtool manual:
-libinterp_liboctinterp_current = 4
+libinterp_liboctinterp_current = 5
 libinterp_liboctinterp_revision = 0
 libinterp_liboctinterp_age = 0
 libinterp_liboctinterp_version_info = $(libinterp_liboctinterp_current):$(libinterp_liboctinterp_revision):$(libinterp_liboctinterp_age)
@@ -8164,7 +8168,7 @@ nobase_libinterptests_DATA = $(LIBINTERP_TST_FILES)
 
 
 # Increment these as needed and according to the rules in the libtool manual:
-@AMCOND_BUILD_QT_GUI_TRUE@libgui_liboctgui_current = 2
+@AMCOND_BUILD_QT_GUI_TRUE@libgui_liboctgui_current = 3
 @AMCOND_BUILD_QT_GUI_TRUE@libgui_liboctgui_revision = 0
 @AMCOND_BUILD_QT_GUI_TRUE@libgui_liboctgui_age = 0
 @AMCOND_BUILD_QT_GUI_TRUE@libgui_liboctgui_version_info = $(libgui_liboctgui_current):$(libgui_liboctgui_revision):$(libgui_liboctgui_age)
@@ -9500,10 +9504,10 @@ TAGS_FILES = $(addprefix $(srcdir)/, $(FCN_FILES)) $(GEN_FCN_FILES)
 doc_EXTRA_DIST = $(DOXYGEN_PAGES) doc/doxyhtml/Doxyfile.in \
 	doc/doxyhtml/DoxyfileQt.patch doc/doxyhtml/README \
 	$(am__append_55)
-doc_CLEANFILES = $(am__append_58)
+doc_CLEANFILES = $(am__append_59)
 doc_DISTCLEANFILES = 
 doc_MAINTAINERCLEANFILES = $(am__append_56) doc/interpreter/doc-cache \
-	$(am__append_59) $(srcdir)/doc/interpreter/images.mk
+	$(am__append_60) $(srcdir)/doc/interpreter/images.mk
 TEXINPUTS := $(PATH_SEPARATOR)$(abs_top_srcdir)/doc/interpreter$(PATH_SEPARATOR)$(PATH_SEPARATOR)$(abs_top_builddir)/doc/interpreter$(PATH_SEPARATOR)$(abs_top_builddir)/doc/.texmf-var//$(PATH_SEPARATOR)$(TEXINPUTS)$(PATH_SEPARATOR)
 TEXMFCNF := $(PATH_SEPARATOR)$(abs_top_srcdir)/doc$(PATH_SEPARATOR)$(abs_top_builddir)/doc$(PATH_SEPARATOR)$(TEXMFCNF)$(PATH_SEPARATOR)
 TEXMFVAR := $(abs_top_builddir)/doc/.texmf-var
@@ -9623,7 +9627,10 @@ DOXYGEN_PAGES = \
 @AMCOND_BUILD_DOCS_TRUE@OCTAVE_HTML_STAMP = $(OCTAVE_HTML_DIR)/.octave-html-stamp
 @AMCOND_BUILD_DOCS_TRUE@OCTAVE_CSS = doc/interpreter/octave.css
 @AMCOND_BUILD_DOCS_TRUE@HTMLDIR_CSS = $(OCTAVE_HTML_DIR)/octave.css
-@AMCOND_BUILD_DOCS_TRUE@@AMCOND_BUILD_QT_DOCS_TRUE@OCTAVE_QTHELP_FILES = doc/interpreter/octave_interpreter.qhc doc/interpreter/octave_interpreter.qch
+OCTAVE_QTHELP_FILES = \
+  doc/interpreter/octave_interpreter.qhc \
+  doc/interpreter/octave_interpreter.qch
+
 SPELLCHECK_FILES = $(MUNGED_TEXI_SRC:.texi=.scheck)
 @AMCOND_BUILD_DOCS_TRUE@liboctave_TEXINFOS = \
 @AMCOND_BUILD_DOCS_TRUE@  doc/liboctave/array.texi \
@@ -9846,6 +9853,10 @@ bug_41723_TEST_FILES = \
 bug_44940_TEST_FILES = \
   test/bug-44940/bug-44940.tst \
   test/bug-44940/class_bug44940.m
+
+bug_46497_TEST_FILES = \
+  test/bug-46497/bug-46497.tst \
+  test/bug-46497/class_bug46497.m
 
 bug_46660_TEST_FILES = \
   test/bug-46660/bug-46660.tst \
@@ -10177,7 +10188,7 @@ all: $(BUILT_SOURCES) config.h
 .SUFFIXES: .c .cc .cpp .dvi .f .ll .lo .o .obj .ps .yy
 am--refresh: Makefile
 	@:
-$(srcdir)/Makefile.in:  $(srcdir)/Makefile.am $(srcdir)/liboctave/module.mk $(srcdir)/liboctave/array/module.mk $(srcdir)/liboctave/external/module.mk $(srcdir)/liboctave/external/amos/module.mk $(srcdir)/liboctave/external/blas-xtra/module.mk $(srcdir)/liboctave/external/daspk/module.mk $(srcdir)/liboctave/external/dasrt/module.mk $(srcdir)/liboctave/external/dassl/module.mk $(srcdir)/liboctave/external/Faddeeva/module.mk $(srcdir)/liboctave/external/fftpack/module.mk $(srcdir)/liboctave/external/lapack-xtra/module.mk $(srcdir)/liboctave/external/odepack/module.mk $(srcdir)/liboctave/external/ordered-qz/module.mk $(srcdir)/liboctave/external/quadpack/module.mk $(srcdir)/liboctave/external/ranlib/module.mk $(srcdir)/liboctave/external/slatec-err/module.mk $(srcdir)/liboctave/external/slatec-fn/module.mk $(srcdir)/liboctave/numeric/module.mk $(srcdir)/liboctave/operators/module.mk $(srcdir)/liboctave/operators/vx-op-inc.mk $(srcdir)/liboctave/operators/mx-op-inc.mk $(srcdir)/liboctave/operators/smx-op-inc.mk $(srcdir)/liboctave/operators/vx-op-src.mk $(srcdir)/liboctave/operators/mx-op-src.mk $(srcdir)/liboctave/operators/smx-op-src.mk $(srcdir)/liboctave/system/module.mk $(srcdir)/liboctave/util/module.mk $(srcdir)/liboctave/wrappers/module.mk $(srcdir)/libinterp/module.mk $(srcdir)/libinterp/parse-tree/module.mk $(srcdir)/libinterp/octave-value/module.mk $(srcdir)/libinterp/operators/module.mk $(srcdir)/libinterp/template-inst/module.mk $(srcdir)/libinterp/corefcn/module.mk $(srcdir)/libinterp/dldfcn/module.mk $(srcdir)/libgui/module.mk $(srcdir)/libgui/src/module.mk $(srcdir)/libgui/graphics/module.mk $(srcdir)/libgui/qterminal-module.mk $(srcdir)/src/module.mk $(srcdir)/scripts/module.mk $(srcdir)/scripts/+containers/module.mk $(srcdir)/scripts/audio/module.mk $(srcdir)/scripts/deprecated/module.mk $(srcdir)/scripts/elfun/module.mk $(srcdir)/scripts/general/module.mk $(srcdir)/scripts/geometry/module.mk $(srcdir)/scripts/gui/module.mk $(srcdir)/scripts/help/module.mk $(srcdir)/scripts/image/module.mk $(srcdir)/scripts/io/module.mk $(srcdir)/scripts/java/module.mk $(srcdir)/scripts/linear-algebra/module.mk $(srcdir)/scripts/miscellaneous/module.mk $(srcdir)/scripts/ode/module.mk $(srcdir)/scripts/optimization/module.mk $(srcdir)/scripts/path/module.mk $(srcdir)/scripts/pkg/module.mk $(srcdir)/scripts/plot/appearance/module.mk $(srcdir)/scripts/plot/draw/module.mk $(srcdir)/scripts/plot/util/module.mk $(srcdir)/scripts/polynomial/module.mk $(srcdir)/scripts/prefs/module.mk $(srcdir)/scripts/profiler/module.mk $(srcdir)/scripts/set/module.mk $(srcdir)/scripts/signal/module.mk $(srcdir)/scripts/sparse/module.mk $(srcdir)/scripts/specfun/module.mk $(srcdir)/scripts/special-matrix/module.mk $(srcdir)/scripts/startup/module.mk $(srcdir)/scripts/statistics/module.mk $(srcdir)/scripts/strings/module.mk $(srcdir)/scripts/testfun/module.mk $(srcdir)/scripts/time/module.mk $(srcdir)/doc/module.mk $(srcdir)/doc/doxyhtml/module.mk $(srcdir)/doc/interpreter/module.mk $(srcdir)/doc/liboctave/module.mk $(srcdir)/doc/refcard/module.mk $(srcdir)/doc/interpreter/images.mk $(srcdir)/etc/module.mk $(srcdir)/examples/module.mk $(srcdir)/m4/module.mk $(srcdir)/test/module.mk $(srcdir)/test/bug-35448/module.mk $(srcdir)/test/bug-35881/module.mk $(srcdir)/test/bug-36025/module.mk $(srcdir)/test/bug-38236/module.mk $(srcdir)/test/bug-38691/module.mk $(srcdir)/test/bug-41723/module.mk $(srcdir)/test/bug-44940/module.mk $(srcdir)/test/bug-46660/module.mk $(srcdir)/test/bug-49379/module.mk $(srcdir)/test/bug-50014/module.mk $(srcdir)/test/bug-50035/module.mk $(srcdir)/test/bug-50716/module.mk $(srcdir)/test/bug-51192/module.mk $(srcdir)/test/bug-51532/module.mk $(srcdir)/test/bug-51534/module.mk $(srcdir)/test/bug-51599/module.mk $(srcdir)/test/bug-52075/module.mk $(srcdir)/test/bug-52722/module.mk $(srcdir)/test/bug-53027/module.mk $(srcdir)/test/class-concat/module.mk $(srcdir)/test/classdef/module.mk $(srcdir)/test/classdef-multiple-inheritance/module.mk $(srcdir)/test/classes/module.mk $(srcdir)/test/ctor-vs-method/module.mk $(srcdir)/test/fcn-handle-derived-resolution/module.mk $(srcdir)/test/local-functions/module.mk $(srcdir)/test/nest/module.mk $(srcdir)/test/publish/module.mk $(srcdir)/build-aux/module.mk $(am__configure_deps)
+$(srcdir)/Makefile.in:  $(srcdir)/Makefile.am $(srcdir)/liboctave/module.mk $(srcdir)/liboctave/array/module.mk $(srcdir)/liboctave/external/module.mk $(srcdir)/liboctave/external/amos/module.mk $(srcdir)/liboctave/external/blas-xtra/module.mk $(srcdir)/liboctave/external/daspk/module.mk $(srcdir)/liboctave/external/dasrt/module.mk $(srcdir)/liboctave/external/dassl/module.mk $(srcdir)/liboctave/external/Faddeeva/module.mk $(srcdir)/liboctave/external/fftpack/module.mk $(srcdir)/liboctave/external/lapack-xtra/module.mk $(srcdir)/liboctave/external/odepack/module.mk $(srcdir)/liboctave/external/ordered-qz/module.mk $(srcdir)/liboctave/external/quadpack/module.mk $(srcdir)/liboctave/external/ranlib/module.mk $(srcdir)/liboctave/external/slatec-err/module.mk $(srcdir)/liboctave/external/slatec-fn/module.mk $(srcdir)/liboctave/numeric/module.mk $(srcdir)/liboctave/operators/module.mk $(srcdir)/liboctave/operators/vx-op-inc.mk $(srcdir)/liboctave/operators/mx-op-inc.mk $(srcdir)/liboctave/operators/smx-op-inc.mk $(srcdir)/liboctave/operators/vx-op-src.mk $(srcdir)/liboctave/operators/mx-op-src.mk $(srcdir)/liboctave/operators/smx-op-src.mk $(srcdir)/liboctave/system/module.mk $(srcdir)/liboctave/util/module.mk $(srcdir)/liboctave/wrappers/module.mk $(srcdir)/libinterp/module.mk $(srcdir)/libinterp/parse-tree/module.mk $(srcdir)/libinterp/octave-value/module.mk $(srcdir)/libinterp/operators/module.mk $(srcdir)/libinterp/template-inst/module.mk $(srcdir)/libinterp/corefcn/module.mk $(srcdir)/libinterp/dldfcn/module.mk $(srcdir)/libgui/module.mk $(srcdir)/libgui/src/module.mk $(srcdir)/libgui/graphics/module.mk $(srcdir)/libgui/qterminal-module.mk $(srcdir)/src/module.mk $(srcdir)/scripts/module.mk $(srcdir)/scripts/+containers/module.mk $(srcdir)/scripts/audio/module.mk $(srcdir)/scripts/deprecated/module.mk $(srcdir)/scripts/elfun/module.mk $(srcdir)/scripts/general/module.mk $(srcdir)/scripts/geometry/module.mk $(srcdir)/scripts/gui/module.mk $(srcdir)/scripts/help/module.mk $(srcdir)/scripts/image/module.mk $(srcdir)/scripts/io/module.mk $(srcdir)/scripts/java/module.mk $(srcdir)/scripts/linear-algebra/module.mk $(srcdir)/scripts/miscellaneous/module.mk $(srcdir)/scripts/ode/module.mk $(srcdir)/scripts/optimization/module.mk $(srcdir)/scripts/path/module.mk $(srcdir)/scripts/pkg/module.mk $(srcdir)/scripts/plot/appearance/module.mk $(srcdir)/scripts/plot/draw/module.mk $(srcdir)/scripts/plot/util/module.mk $(srcdir)/scripts/polynomial/module.mk $(srcdir)/scripts/prefs/module.mk $(srcdir)/scripts/profiler/module.mk $(srcdir)/scripts/set/module.mk $(srcdir)/scripts/signal/module.mk $(srcdir)/scripts/sparse/module.mk $(srcdir)/scripts/specfun/module.mk $(srcdir)/scripts/special-matrix/module.mk $(srcdir)/scripts/startup/module.mk $(srcdir)/scripts/statistics/module.mk $(srcdir)/scripts/strings/module.mk $(srcdir)/scripts/testfun/module.mk $(srcdir)/scripts/time/module.mk $(srcdir)/doc/module.mk $(srcdir)/doc/doxyhtml/module.mk $(srcdir)/doc/interpreter/module.mk $(srcdir)/doc/liboctave/module.mk $(srcdir)/doc/refcard/module.mk $(srcdir)/doc/interpreter/images.mk $(srcdir)/etc/module.mk $(srcdir)/examples/module.mk $(srcdir)/m4/module.mk $(srcdir)/test/module.mk $(srcdir)/test/bug-35448/module.mk $(srcdir)/test/bug-35881/module.mk $(srcdir)/test/bug-36025/module.mk $(srcdir)/test/bug-38236/module.mk $(srcdir)/test/bug-38691/module.mk $(srcdir)/test/bug-41723/module.mk $(srcdir)/test/bug-44940/module.mk $(srcdir)/test/bug-46497/module.mk $(srcdir)/test/bug-46660/module.mk $(srcdir)/test/bug-49379/module.mk $(srcdir)/test/bug-50014/module.mk $(srcdir)/test/bug-50035/module.mk $(srcdir)/test/bug-50716/module.mk $(srcdir)/test/bug-51192/module.mk $(srcdir)/test/bug-51532/module.mk $(srcdir)/test/bug-51534/module.mk $(srcdir)/test/bug-51599/module.mk $(srcdir)/test/bug-52075/module.mk $(srcdir)/test/bug-52722/module.mk $(srcdir)/test/bug-53027/module.mk $(srcdir)/test/class-concat/module.mk $(srcdir)/test/classdef/module.mk $(srcdir)/test/classdef-multiple-inheritance/module.mk $(srcdir)/test/classes/module.mk $(srcdir)/test/ctor-vs-method/module.mk $(srcdir)/test/fcn-handle-derived-resolution/module.mk $(srcdir)/test/local-functions/module.mk $(srcdir)/test/nest/module.mk $(srcdir)/test/publish/module.mk $(srcdir)/build-aux/module.mk $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
 	    *$$dep*) \
@@ -10199,7 +10210,7 @@ Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	    echo ' cd $(top_builddir) && $(SHELL) ./config.status $@ $(am__depfiles_maybe)'; \
 	    cd $(top_builddir) && $(SHELL) ./config.status $@ $(am__depfiles_maybe);; \
 	esac;
-$(srcdir)/liboctave/module.mk $(srcdir)/liboctave/array/module.mk $(srcdir)/liboctave/external/module.mk $(srcdir)/liboctave/external/amos/module.mk $(srcdir)/liboctave/external/blas-xtra/module.mk $(srcdir)/liboctave/external/daspk/module.mk $(srcdir)/liboctave/external/dasrt/module.mk $(srcdir)/liboctave/external/dassl/module.mk $(srcdir)/liboctave/external/Faddeeva/module.mk $(srcdir)/liboctave/external/fftpack/module.mk $(srcdir)/liboctave/external/lapack-xtra/module.mk $(srcdir)/liboctave/external/odepack/module.mk $(srcdir)/liboctave/external/ordered-qz/module.mk $(srcdir)/liboctave/external/quadpack/module.mk $(srcdir)/liboctave/external/ranlib/module.mk $(srcdir)/liboctave/external/slatec-err/module.mk $(srcdir)/liboctave/external/slatec-fn/module.mk $(srcdir)/liboctave/numeric/module.mk $(srcdir)/liboctave/operators/module.mk $(srcdir)/liboctave/operators/vx-op-inc.mk $(srcdir)/liboctave/operators/mx-op-inc.mk $(srcdir)/liboctave/operators/smx-op-inc.mk $(srcdir)/liboctave/operators/vx-op-src.mk $(srcdir)/liboctave/operators/mx-op-src.mk $(srcdir)/liboctave/operators/smx-op-src.mk $(srcdir)/liboctave/system/module.mk $(srcdir)/liboctave/util/module.mk $(srcdir)/liboctave/wrappers/module.mk $(srcdir)/libinterp/module.mk $(srcdir)/libinterp/parse-tree/module.mk $(srcdir)/libinterp/octave-value/module.mk $(srcdir)/libinterp/operators/module.mk $(srcdir)/libinterp/template-inst/module.mk $(srcdir)/libinterp/corefcn/module.mk $(srcdir)/libinterp/dldfcn/module.mk $(srcdir)/libgui/module.mk $(srcdir)/libgui/src/module.mk $(srcdir)/libgui/graphics/module.mk $(srcdir)/libgui/qterminal-module.mk $(srcdir)/src/module.mk $(srcdir)/scripts/module.mk $(srcdir)/scripts/+containers/module.mk $(srcdir)/scripts/audio/module.mk $(srcdir)/scripts/deprecated/module.mk $(srcdir)/scripts/elfun/module.mk $(srcdir)/scripts/general/module.mk $(srcdir)/scripts/geometry/module.mk $(srcdir)/scripts/gui/module.mk $(srcdir)/scripts/help/module.mk $(srcdir)/scripts/image/module.mk $(srcdir)/scripts/io/module.mk $(srcdir)/scripts/java/module.mk $(srcdir)/scripts/linear-algebra/module.mk $(srcdir)/scripts/miscellaneous/module.mk $(srcdir)/scripts/ode/module.mk $(srcdir)/scripts/optimization/module.mk $(srcdir)/scripts/path/module.mk $(srcdir)/scripts/pkg/module.mk $(srcdir)/scripts/plot/appearance/module.mk $(srcdir)/scripts/plot/draw/module.mk $(srcdir)/scripts/plot/util/module.mk $(srcdir)/scripts/polynomial/module.mk $(srcdir)/scripts/prefs/module.mk $(srcdir)/scripts/profiler/module.mk $(srcdir)/scripts/set/module.mk $(srcdir)/scripts/signal/module.mk $(srcdir)/scripts/sparse/module.mk $(srcdir)/scripts/specfun/module.mk $(srcdir)/scripts/special-matrix/module.mk $(srcdir)/scripts/startup/module.mk $(srcdir)/scripts/statistics/module.mk $(srcdir)/scripts/strings/module.mk $(srcdir)/scripts/testfun/module.mk $(srcdir)/scripts/time/module.mk $(srcdir)/doc/module.mk $(srcdir)/doc/doxyhtml/module.mk $(srcdir)/doc/interpreter/module.mk $(srcdir)/doc/liboctave/module.mk $(srcdir)/doc/refcard/module.mk $(srcdir)/doc/interpreter/images.mk $(srcdir)/etc/module.mk $(srcdir)/examples/module.mk $(srcdir)/m4/module.mk $(srcdir)/test/module.mk $(srcdir)/test/bug-35448/module.mk $(srcdir)/test/bug-35881/module.mk $(srcdir)/test/bug-36025/module.mk $(srcdir)/test/bug-38236/module.mk $(srcdir)/test/bug-38691/module.mk $(srcdir)/test/bug-41723/module.mk $(srcdir)/test/bug-44940/module.mk $(srcdir)/test/bug-46660/module.mk $(srcdir)/test/bug-49379/module.mk $(srcdir)/test/bug-50014/module.mk $(srcdir)/test/bug-50035/module.mk $(srcdir)/test/bug-50716/module.mk $(srcdir)/test/bug-51192/module.mk $(srcdir)/test/bug-51532/module.mk $(srcdir)/test/bug-51534/module.mk $(srcdir)/test/bug-51599/module.mk $(srcdir)/test/bug-52075/module.mk $(srcdir)/test/bug-52722/module.mk $(srcdir)/test/bug-53027/module.mk $(srcdir)/test/class-concat/module.mk $(srcdir)/test/classdef/module.mk $(srcdir)/test/classdef-multiple-inheritance/module.mk $(srcdir)/test/classes/module.mk $(srcdir)/test/ctor-vs-method/module.mk $(srcdir)/test/fcn-handle-derived-resolution/module.mk $(srcdir)/test/local-functions/module.mk $(srcdir)/test/nest/module.mk $(srcdir)/test/publish/module.mk $(srcdir)/build-aux/module.mk $(am__empty):
+$(srcdir)/liboctave/module.mk $(srcdir)/liboctave/array/module.mk $(srcdir)/liboctave/external/module.mk $(srcdir)/liboctave/external/amos/module.mk $(srcdir)/liboctave/external/blas-xtra/module.mk $(srcdir)/liboctave/external/daspk/module.mk $(srcdir)/liboctave/external/dasrt/module.mk $(srcdir)/liboctave/external/dassl/module.mk $(srcdir)/liboctave/external/Faddeeva/module.mk $(srcdir)/liboctave/external/fftpack/module.mk $(srcdir)/liboctave/external/lapack-xtra/module.mk $(srcdir)/liboctave/external/odepack/module.mk $(srcdir)/liboctave/external/ordered-qz/module.mk $(srcdir)/liboctave/external/quadpack/module.mk $(srcdir)/liboctave/external/ranlib/module.mk $(srcdir)/liboctave/external/slatec-err/module.mk $(srcdir)/liboctave/external/slatec-fn/module.mk $(srcdir)/liboctave/numeric/module.mk $(srcdir)/liboctave/operators/module.mk $(srcdir)/liboctave/operators/vx-op-inc.mk $(srcdir)/liboctave/operators/mx-op-inc.mk $(srcdir)/liboctave/operators/smx-op-inc.mk $(srcdir)/liboctave/operators/vx-op-src.mk $(srcdir)/liboctave/operators/mx-op-src.mk $(srcdir)/liboctave/operators/smx-op-src.mk $(srcdir)/liboctave/system/module.mk $(srcdir)/liboctave/util/module.mk $(srcdir)/liboctave/wrappers/module.mk $(srcdir)/libinterp/module.mk $(srcdir)/libinterp/parse-tree/module.mk $(srcdir)/libinterp/octave-value/module.mk $(srcdir)/libinterp/operators/module.mk $(srcdir)/libinterp/template-inst/module.mk $(srcdir)/libinterp/corefcn/module.mk $(srcdir)/libinterp/dldfcn/module.mk $(srcdir)/libgui/module.mk $(srcdir)/libgui/src/module.mk $(srcdir)/libgui/graphics/module.mk $(srcdir)/libgui/qterminal-module.mk $(srcdir)/src/module.mk $(srcdir)/scripts/module.mk $(srcdir)/scripts/+containers/module.mk $(srcdir)/scripts/audio/module.mk $(srcdir)/scripts/deprecated/module.mk $(srcdir)/scripts/elfun/module.mk $(srcdir)/scripts/general/module.mk $(srcdir)/scripts/geometry/module.mk $(srcdir)/scripts/gui/module.mk $(srcdir)/scripts/help/module.mk $(srcdir)/scripts/image/module.mk $(srcdir)/scripts/io/module.mk $(srcdir)/scripts/java/module.mk $(srcdir)/scripts/linear-algebra/module.mk $(srcdir)/scripts/miscellaneous/module.mk $(srcdir)/scripts/ode/module.mk $(srcdir)/scripts/optimization/module.mk $(srcdir)/scripts/path/module.mk $(srcdir)/scripts/pkg/module.mk $(srcdir)/scripts/plot/appearance/module.mk $(srcdir)/scripts/plot/draw/module.mk $(srcdir)/scripts/plot/util/module.mk $(srcdir)/scripts/polynomial/module.mk $(srcdir)/scripts/prefs/module.mk $(srcdir)/scripts/profiler/module.mk $(srcdir)/scripts/set/module.mk $(srcdir)/scripts/signal/module.mk $(srcdir)/scripts/sparse/module.mk $(srcdir)/scripts/specfun/module.mk $(srcdir)/scripts/special-matrix/module.mk $(srcdir)/scripts/startup/module.mk $(srcdir)/scripts/statistics/module.mk $(srcdir)/scripts/strings/module.mk $(srcdir)/scripts/testfun/module.mk $(srcdir)/scripts/time/module.mk $(srcdir)/doc/module.mk $(srcdir)/doc/doxyhtml/module.mk $(srcdir)/doc/interpreter/module.mk $(srcdir)/doc/liboctave/module.mk $(srcdir)/doc/refcard/module.mk $(srcdir)/doc/interpreter/images.mk $(srcdir)/etc/module.mk $(srcdir)/examples/module.mk $(srcdir)/m4/module.mk $(srcdir)/test/module.mk $(srcdir)/test/bug-35448/module.mk $(srcdir)/test/bug-35881/module.mk $(srcdir)/test/bug-36025/module.mk $(srcdir)/test/bug-38236/module.mk $(srcdir)/test/bug-38691/module.mk $(srcdir)/test/bug-41723/module.mk $(srcdir)/test/bug-44940/module.mk $(srcdir)/test/bug-46497/module.mk $(srcdir)/test/bug-46660/module.mk $(srcdir)/test/bug-49379/module.mk $(srcdir)/test/bug-50014/module.mk $(srcdir)/test/bug-50035/module.mk $(srcdir)/test/bug-50716/module.mk $(srcdir)/test/bug-51192/module.mk $(srcdir)/test/bug-51532/module.mk $(srcdir)/test/bug-51534/module.mk $(srcdir)/test/bug-51599/module.mk $(srcdir)/test/bug-52075/module.mk $(srcdir)/test/bug-52722/module.mk $(srcdir)/test/bug-53027/module.mk $(srcdir)/test/class-concat/module.mk $(srcdir)/test/classdef/module.mk $(srcdir)/test/classdef-multiple-inheritance/module.mk $(srcdir)/test/classes/module.mk $(srcdir)/test/ctor-vs-method/module.mk $(srcdir)/test/fcn-handle-derived-resolution/module.mk $(srcdir)/test/local-functions/module.mk $(srcdir)/test/nest/module.mk $(srcdir)/test/publish/module.mk $(srcdir)/build-aux/module.mk $(am__empty):
 
 $(top_builddir)/config.status: $(top_srcdir)/configure $(CONFIG_STATUS_DEPENDENCIES)
 	$(SHELL) ./config.status --recheck
@@ -27836,13 +27847,40 @@ doxyhtml-maintainer-clean:
 @AMCOND_BUILD_DOCS_TRUE@doc/interpreter/octave.pdf: $(DOC_IMAGES_PDF) $(octave_TEXINFOS)
 @AMCOND_BUILD_DOCS_TRUE@$(OCTAVE_HTML_STAMP): $(DOC_IMAGES_PNG) $(octave_TEXINFOS)
 
-@AMCOND_BUILD_DOCS_TRUE@@AMCOND_BUILD_QT_DOCS_TRUE@$(OCTAVE_QTHELP_FILES): $(OCTAVE_HTML_STAMP) $(HTMLDIR_CSS) doc/interpreter/mk-qthelp.pl
+install-data-local: install-qthelp-files
+
+uninstall-local: uninstall-qthelp-files
+
+install-qthelp-files: qthelp-installdir
+	@for f in $(OCTAVE_QTHELP_FILES); do \
+	  if [ -f $$f ]; then \
+	    echo " $(INSTALL_DATA) $$f '$(DESTDIR)$(octdocdir)'"; \
+	    $(INSTALL_DATA) $$f '$(DESTDIR)$(octdocdir)'; \
+	  elif [ -f $(srcdir)/$$f ]; then \
+	    echo " $(INSTALL_DATA) $(srcdir)/$$f '$(DESTDIR)$(octdocdir)'"; \
+	    $(INSTALL_DATA) $(srcdir)/$$f '$(DESTDIR)$(octdocdir)'; \
+	  else \
+	    echo "warning: unable to install $$f"; \
+	  fi; \
+	done
+.PHONY: install-qthelp-files
+
+uninstall-qthelp-files:
+	for f in $(OCTAVE_QTHELP_FILES); do \
+	  base=`echo $$f | $(SED) 's,^doc/interpreter/,,'`; \
+	  rm -f $(DESTDIR)$(octdocdir)/$$base; \
+	done
+.PHONY: uninstall-qthelp-files
+
+qthelp-installdir:
+	$(MKDIR_P) '$(DESTDIR)/$(octdocdir)'
+.PHONY: qthelp-installdir
+
+@AMCOND_BUILD_DOCS_TRUE@@AMCOND_BUILD_QT_DOCS_TRUE@%.qhc %.qch : $(OCTAVE_HTML_STAMP) $(HTMLDIR_CSS) doc/interpreter/mk-qthelp.pl
 @AMCOND_BUILD_DOCS_TRUE@@AMCOND_BUILD_QT_DOCS_TRUE@	$(AM_V_GEN)rm -f $(OCTAVE_QTHELP_FILES) && \
 @AMCOND_BUILD_DOCS_TRUE@@AMCOND_BUILD_QT_DOCS_TRUE@	$(PERL) $(srcdir)/doc/interpreter/mk-qthelp.pl octave.html doc/interpreter/octave_interpreter && \
 @AMCOND_BUILD_DOCS_TRUE@@AMCOND_BUILD_QT_DOCS_TRUE@	$(QCOLLECTIONGENERATOR) $(QCOLLECTIONGENERATORFLAGS) doc/interpreter/octave_interpreter.qhcp -o doc/interpreter/octave_interpreter.qhc >/dev/null && \
 @AMCOND_BUILD_DOCS_TRUE@@AMCOND_BUILD_QT_DOCS_TRUE@	rm -f doc/interpreter/octave_interpreter.qhcp doc/interpreter/octave_interpreter.qhp
-
-@AMCOND_BUILD_DOCS_TRUE@@AMCOND_BUILD_QT_DOCS_TRUE@doc/interpreter/octave_interpreter.qhc: doc/interpreter/octave_interpreter.qch
 
 @AMCOND_BUILD_DOCS_TRUE@$(srcdir)/doc/interpreter/octave.info: doc/interpreter/octave.texi $(srcdir)/doc/interpreter/version-octave.texi
 @AMCOND_BUILD_DOCS_TRUE@	$(AM_V_MAKEINFO)restore=: && backupdir="$(am__leading_dot)am$$$$" && \

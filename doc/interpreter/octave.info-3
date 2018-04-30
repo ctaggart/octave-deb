@@ -1,11 +1,11 @@
 This is octave.info, produced by makeinfo version 6.5 from octave.texi.
 
+INFO-DIR-SECTION Math
 START-INFO-DIR-ENTRY
-* Octave: (octave).           Interactive language for numerical computations.
-
+* Octave: (octave).             Interactive language for numerical computations.
 END-INFO-DIR-ENTRY
 
-   Copyright © 1996-2018 John W. Eaton.
+Copyright © 1996-2018 John W. Eaton.
 
    Permission is granted to make and distribute verbatim copies of this
 manual provided the copyright notice and this permission notice are
@@ -7230,6 +7230,10 @@ the ‘-dpdflatexstandalone’ option is:
           ‘corel’
                CorelDraw
 
+          ‘cgm’
+               Computer Graphics Metafile, Version 1, ANSI X3.122-1986
+               (only available for the Gnuplot graphics toolkit).
+
           ‘dxf’
                AutoCAD
 
@@ -7245,7 +7249,7 @@ the ‘-dpdflatexstandalone’ option is:
 
           ‘gif’
                GIF image (only available for the Gnuplot graphics
-               toolkit)
+               toolkit).
 
           ‘hpgl’
                HP plotter language
@@ -7255,8 +7259,10 @@ the ‘-dpdflatexstandalone’ option is:
                JPEG image
 
           ‘latex’
-               LaTeX picture environment (only available for the Gnuplot
-               graphics toolkit).
+          ‘eepic’
+               LaTeX picture environment and extended picture
+               environment (only available for the Gnuplot graphics
+               toolkit).
 
           ‘mf’
                Metafont

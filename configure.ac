@@ -20,7 +20,7 @@ dnl Copyright (C) 1993-2018 John W. Eaton
 
 ### Initialize Autoconf
 AC_PREREQ([2.65])
-AC_INIT([GNU Octave], [4.3.91], [https://octave.org/bugs.html], [octave],
+AC_INIT([GNU Octave], [4.3.92], [https://octave.org/bugs.html], [octave],
         [https://www.gnu.org/software/octave/])
 
 ### Declare version numbers
@@ -30,14 +30,14 @@ dnl AC_INIT requires it to be static, not computed from shell variables.
 
 OCTAVE_MAJOR_VERSION=4
 OCTAVE_MINOR_VERSION=3
-OCTAVE_PATCH_VERSION=91
+OCTAVE_PATCH_VERSION=92
 
 dnl PACKAGE_VERSION is set by the AC_INIT VERSION argument.
 OCTAVE_VERSION="$PACKAGE_VERSION"
 
 OCTAVE_COPYRIGHT="Copyright (C) 2018 John W. Eaton and others."
 
-OCTAVE_RELEASE_DATE="2018-04-19"
+OCTAVE_RELEASE_DATE="2018-04-27"
 
 ## The "API version" is used as a way of checking that interfaces in the
 ## liboctave and libinterp libraries haven't changed in a backwardly
@@ -52,7 +52,7 @@ dnl
 dnl FIXME: Since we also set libtool versions for liboctave and libinterp,
 dnl perhaps we should be computing the "api version" from those versions numbers
 dnl in some way instead of setting it independently here.
-OCTAVE_API_VERSION="api-v51+"
+OCTAVE_API_VERSION="api-v52"
 
 AC_SUBST(OCTAVE_MAJOR_VERSION)
 AC_SUBST(OCTAVE_MINOR_VERSION)
@@ -2480,11 +2480,13 @@ OCTAVE_CHECK_LIB(cxsparse, CXSparse,
   [cs${CXSPARSE_TAG}sqr],
   [C++], [don't use CXSparse library, disable some sparse matrix functionality])
 
-## Additional check for CXSparse version >= 2.2
-if test $octave_cv_lib_cxsparse = yes; then
-  OCTAVE_CHECK_CXSPARSE_VERSION_OK
-  if test $octave_cv_cxsparse_version_ok = no; then
-    AC_MSG_ERROR([CXSparse library is too old (< version 2.2).  Upgrade CXSparse (SuiteSparse) or configure Octave with --disable-cxsparse"])
+if test -z "$warn_cxsparse"; then
+  ## Additional check for CXSparse version >= 2.2
+  if test $octave_cv_lib_cxsparse = yes; then
+    OCTAVE_CHECK_CXSPARSE_VERSION_OK
+    if test $octave_cv_cxsparse_version_ok = no; then
+      AC_MSG_ERROR([CXSparse library is too old (< version 2.2).  Upgrade CXSparse (SuiteSparse) or configure Octave with --disable-cxsparse"])
+    fi
   fi
 fi
 
