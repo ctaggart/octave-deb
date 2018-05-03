@@ -23,4 +23,6 @@ octave="/usr/bin/octave --silent --no-history --no-init-file --no-window-system"
 
 $octave --eval "__run_test_suite__"
 
+cp fntests.log $AUTOPKGTEST_ARTIFACTS
+
 # FIXME: exit status not affected by test failures for now, like 'make check'
