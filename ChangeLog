@@ -1,4 +1,47 @@
+2018-04-30  John W. Eaton  <jwe@octave.org>
+
+	Added tag release-4-4-0 for changeset cf84db75ab57
+
+	Files: .hgtags
+
+	Version 4.4.0 released.
+
+	* configure.ac (AC_INIT): Set version to 4.4.0.
+	(OCTAVE_MINOR_VERSION): Now 4.
+	(OCTAVE_PATCH_VERSION): Now 0.
+	(OCTAVE_RELEASE_DATE): Set to 2018-04-30.
+	(NEWS): Set release date.
+
+	Files: NEWS configure.ac
+
+2018-04-30  Rik  <rik@octave.org>
+
+	Fix extra figure window pop-up when using waitbar (bug #53778)
+
+	* patch.m, surface.m: Call "ishold (hax)" rather than "ishold ()" so that
+	function makes the correct determination about current axes and figure.
+
+	Files: scripts/plot/draw/patch.m scripts/plot/draw/surface.m
+
 2018-04-27  John W. Eaton  <jwe@octave.org>
+
+	maint: Merge away extra head on stable branch.
+
+	Files: 
+
+2018-04-27  Rik  <rik@octave.org>
+
+	linkprop.m: Fix error when more than 4 handles are given as input.
+
+	* linkprop.m: Use ';' to concatenate handles vertically, rather than ',' comma.
+
+	Files: scripts/plot/util/linkprop.m
+
+2018-04-27  John W. Eaton  <jwe@octave.org>
+
+	Added tag rc-4-3-92 for changeset 4c14c002cabe
+
+	Files: .hgtags
 
 	bump version for third 4.4 release candidate
 
