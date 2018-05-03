@@ -1,3 +1,11 @@
+octave (4.4.0-1) experimental; urgency=medium
+
+  * New upstream version 4.4.0
+  * Simplify autopkgtest using AUTOPKGTEST_TMP.
+  * Disable java again on armel.
+
+ -- Sébastien Villemot <sebastien@debian.org>  Thu, 03 May 2018 11:17:57 +0200
+
 octave (4.3.92-1) experimental; urgency=medium
 
   * New upstream version 4.3.92
