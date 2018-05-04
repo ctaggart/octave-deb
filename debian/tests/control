@@ -1,6 +1,7 @@
 Tests: smoke, upstream-testsuite
 Depends: @,
          default-jre-headless,
+         fonts-freefont-otf,
          ghostscript,
          gnuplot-nox,
          octave-doc,
