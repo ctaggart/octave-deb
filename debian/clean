@@ -17,6 +17,7 @@ doc/refcard/*.pdf
 doc/refcard/*.ps
 etc/icons/octave-logo*.ico
 etc/icons/octave-logo*.png
+libgnu/iconv_open-*.h
 libinterp/DOCSTRINGS
 libinterp/corefcn/*-opts.cc
 libinterp/corefcn/oct-tex-*.cc
