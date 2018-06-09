@@ -1,3 +1,13 @@
+octave (4.4.0-2) experimental; urgency=medium
+
+  [ Mike Miller ]
+  * Save test suite log file as an autopkgtest artifact.
+  * d/t/control: Add test dependency on fonts-freefont-otf
+  * assume-blas-integer-size.patch: new patch, fixes FTBFS on big endian arches.
+  * d/clean: Clean generated gperf files in libgnu so they are rebuilt.
+
+ -- Sébastien Villemot <sebastien@debian.org>  Sat, 09 Jun 2018 11:51:18 +0200
+
 octave (4.4.0-1) experimental; urgency=medium
 
   * New upstream version 4.4.0
