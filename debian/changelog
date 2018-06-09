@@ -1,3 +1,9 @@
+octave (4.4.0-3) unstable; urgency=medium
+
+  * Upload to unstable.
+
+ -- Sébastien Villemot <sebastien@debian.org>  Sat, 09 Jun 2018 19:54:56 +0200
+
 octave (4.4.0-2) experimental; urgency=medium
 
   [ Mike Miller ]
