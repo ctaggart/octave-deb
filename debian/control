@@ -59,6 +59,7 @@ Standards-Version: 4.1.4
 Vcs-Browser: https://salsa.debian.org/pkg-octave-team/octave
 Vcs-Git: https://salsa.debian.org/pkg-octave-team/octave.git
 Homepage: https://www.octave.org/
+Rules-Requires-Root: no
 
 Package: octave
 Architecture: any
