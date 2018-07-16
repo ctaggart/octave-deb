@@ -51,7 +51,7 @@ Build-Depends: automake,
                texlive-generic-recommended,
                texlive-fonts-recommended,
                texlive-latex-base,
-               transfig,
+               fig2dev,
                unzip,
                xauth,
                zip
