@@ -1,3 +1,24 @@
+octave (4.4.1~rc2-1) unstable; urgency=medium
+
+  [ Rafael Laboissiere ]
+  * d/control: Add Rules-Requires-Root: no
+
+  [ Sébastien Villemot ]
+  * New upstream release candidate 4.4.1~rc2
+    + compiles against Qt 5.11 (Closes: #904855)
+  * d/copyright: reflect upstream changes
+  * Drop assume-blas-integer-size.patch, no longer needed
+  * missing-inplace_edit.patch: new patch, adds missing script in tarball
+  * Temporarily drop Build-Depends on libsundials-dev.
+    Octave 4.4 is not compatible with Sundials 3.1 (and the latter currently
+    FTBFS on several architectures).
+  * d/tests/smoke: adapt test for release candidates version numbers
+  * Replace transfig by fig2dev in Build-Depends
+  * Register info files into doc-base
+  * Bump Standards-Version to 4.2.0
+
+ -- Sébastien Villemot <sebastien@debian.org>  Thu, 02 Aug 2018 10:19:41 +0200
+
 octave (4.4.0-3) unstable; urgency=medium
 
   * Upload to unstable.
