@@ -40,7 +40,6 @@ Build-Depends: automake,
                librsvg2-bin,
                libsndfile1-dev,
                libsuitesparse-dev,
-               libsundials-dev,
                libxft-dev,
                portaudio19-dev,
                pstoedit,
@@ -55,6 +54,7 @@ Build-Depends: automake,
                unzip,
                xauth,
                zip
+Build-Conflicts: libsundials-dev
 Standards-Version: 4.1.5
 Vcs-Browser: https://salsa.debian.org/pkg-octave-team/octave
 Vcs-Git: https://salsa.debian.org/pkg-octave-team/octave.git
