@@ -112,8 +112,8 @@ is reasonable it can be changed through the following functions.
      file.
 
      The limit is measured in kilobytes and is applied to the top-level
-     workspace.  The name of the crash dump file is is specified by
-     OCTAVE_CORE_FILE_NAME).
+     workspace.  The name of the crash dump file is specified by
+     OCTAVE_CORE_FILE_NAME.
 
      If OCTAVE_CORE_FILE_OPTIONS flags specify a binary format, then
      OCTAVE_CORE_FILE_LIMIT will be approximately the maximum size of
@@ -1539,11 +1539,11 @@ of the file pointer for a given file.
      Set the file pointer to the location OFFSET within the file FID.
 
      The pointer is positioned OFFSET characters from the ORIGIN, which
-     may be one of the predefined variables ‘SEEK_SET’ (beginning),
-     ‘SEEK_CUR’ (current position), or ‘SEEK_END’ (end of file) or
-     strings "bof", "cof", or "eof".  If ORIGIN is omitted, ‘SEEK_SET’
-     is assumed.  OFFSET may be positive, negative, or zero but not all
-     combinations of ORIGIN and OFFSET can be realized.
+     may be one of the predefined variables SEEK_SET (beginning),
+     SEEK_CUR (current position), or SEEK_END (end of file) or strings
+     "bof", "cof", or "eof".  If ORIGIN is omitted, SEEK_SET is assumed.
+     OFFSET may be positive, negative, or zero but not all combinations
+     of ORIGIN and OFFSET can be realized.
 
      ‘fseek’ returns 0 on success and -1 on error.
 
@@ -2269,9 +2269,9 @@ Figure 15.2: Histogram.
 
      The default color is "b" (blue), the default line style is "-", and
      the default marker is "o".  The line style can be altered by the
-     ‘linespec’ argument in the same manner as the ‘plot’ command.  If
-     the "filled" argument is present the markers at the top of the
-     stems will be filled in.  For example,
+     LINESPEC argument in the same manner as the ‘plot’ command.  If the
+     "filled" argument is present the markers at the top of the stems
+     will be filled in.  For example,
 
           x = 1:10;
           y = 2*x;
@@ -2351,9 +2351,9 @@ Figure 15.2: Histogram.
      determined by X and Y.  The default color is "b" (blue), the
      default line style is "-", and the default marker is "o".
 
-     The line style can be altered by the ‘linespec’ argument in the
-     same manner as the ‘plot’ command.  If the "filled" argument is
-     present the markers at the top of the stems will be filled in.
+     The line style can be altered by the LINESPEC argument in the same
+     manner as the ‘plot’ command.  If the "filled" argument is present
+     the markers at the top of the stems will be filled in.
 
      Optional property/value pairs may be specified to control the
      appearance of the plot.

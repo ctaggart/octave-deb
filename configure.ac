@@ -20,7 +20,7 @@ dnl Copyright (C) 1993-2018 John W. Eaton
 
 ### Initialize Autoconf
 AC_PREREQ([2.65])
-AC_INIT([GNU Octave], [4.4.0], [https://octave.org/bugs.html], [octave],
+AC_INIT([GNU Octave], [4.4.1-rc2], [https://octave.org/bugs.html], [octave],
         [https://www.gnu.org/software/octave/])
 
 ### Declare version numbers
@@ -30,14 +30,14 @@ dnl AC_INIT requires it to be static, not computed from shell variables.
 
 OCTAVE_MAJOR_VERSION=4
 OCTAVE_MINOR_VERSION=4
-OCTAVE_PATCH_VERSION=0
+OCTAVE_PATCH_VERSION=1-rc2
 
 dnl PACKAGE_VERSION is set by the AC_INIT VERSION argument.
 OCTAVE_VERSION="$PACKAGE_VERSION"
 
 OCTAVE_COPYRIGHT="Copyright (C) 2018 John W. Eaton and others."
 
-OCTAVE_RELEASE_DATE="2018-04-30"
+OCTAVE_RELEASE_DATE="2018-07-30"
 
 ## The "API version" is used as a way of checking that interfaces in the
 ## liboctave and libinterp libraries haven't changed in a backwardly
@@ -437,6 +437,43 @@ AC_SUBST(INCLUDE_DEPS)
 AC_SUBST(DEPEND_FLAGS)
 AC_SUBST(DEPEND_EXTRA_SED_PATTERN)
 
+### Check for math library.
+dnl If found, this will add -lm to LIBS.
+
+dnl Keep this check before the check for the Fortran compiler,
+dnl in case -lm is needed to compile Fortran programs.
+AC_CHECK_LIB(m, sin)
+
+### Determine the Fortran compiler and how to invoke it
+
+## Prefer gfortran, but the user's F77 environment variable will override.
+AC_PROG_F77([gfortran])
+if test -z "$F77"; then
+  ## No gfortran found, search for any other installed compiler.
+  AC_PROG_F77
+fi
+if test "$F77" = g77; then
+  AC_MSG_ERROR([g77 is not a supported Fortran compiler.  Select another compiler by setting the environment variable F77 and re-running configure.])
+fi
+
+AC_MSG_CHECKING([whether a usable Fortran compiler was found])
+if test -n "$F77"; then
+  AC_MSG_RESULT(yes)
+else
+  AC_MSG_RESULT(no)
+  AC_MSG_ERROR([a Fortran compiler is required to build Octave])
+fi
+
+AC_F77_LIBRARY_LDFLAGS
+AC_F77_DUMMY_MAIN
+AC_F77_WRAPPERS
+
+### Must appear after checks for Fortran compiler.
+OCTAVE_CHECK_FORTRAN_SYMBOL_AND_CALLING_CONVENTIONS
+
+### Must appear after checks for compilers.
+OCTAVE_DEFINE_MKOCTFILE_DYNAMIC_LINK_OPTIONS
+
 ### Use a 64-bit integer type for array dimensions and indexing, if possible.
 
 AC_CHECK_SIZEOF([void *])
@@ -622,216 +659,6 @@ if test $STATIC_LIBS = no && test $SHARED_LIBS = no; then
   AC_MSG_ERROR([You can't disable building both static AND shared libraries!])
 fi
 
-CPICFLAG=-fPIC
-CXXPICFLAG=-fPIC
-FPICFLAG=-fPIC
-SH_LD="${CXX}"
-SH_LDFLAGS=-shared
-DL_LD="${SH_LD}"
-DL_LDFLAGS="${SH_LDFLAGS}"
-MKOCTFILE_DL_LDFLAGS="${DL_LDFLAGS}"
-NO_OCT_FILE_STRIP=false
-TEMPLATE_AR="${AR}"
-TEMPLATE_ARFLAGS="$ARFLAGS"
-EXTERNAL_DLL_DEFS=
-OCTAVE_DLL_DEFS=
-OCTINTERP_DLL_DEFS=
-OCTGUI_DLL_DEFS=
-OCTGRAPHICS_DLL_DEFS=
-library_path_var=LD_LIBRARY_PATH
-ldpreloadsep=" "
-case $canonical_host_type in
-  *-*-386bsd* | *-*-netbsd*)
-    SH_LD=ld
-    SH_LDFLAGS=-Bshareable
-  ;;
-  *-*-openbsd*)
-    SH_LDFLAGS="-shared -fPIC"
-  ;;
-  *-*-freebsd*)
-    SH_LDFLAGS="-shared -Wl,-x"
-  ;;
-  alpha*-dec-osf*)
-    CPICFLAG=
-    CXXPICFLAG=
-    FPICFLAG=
-    SH_LDFLAGS="-shared -Wl,-expect_unresolved -Wl,'*'"
-  ;;
-  *-*-darwin*)
-    DL_LDFLAGS="-bundle -bundle_loader ${ac_top_build_prefix}libinterp/octave ${LDFLAGS}"
-    dnl Contains variables that are defined and undefined at this point, so use
-    dnl appropriate quoting to defer expansion of ${bindir} and ${version}.
-    MKOCTFILE_DL_LDFLAGS='-bundle -bundle_loader ${bindir}/octave-${version}'"${EXEEXT}"
-    SH_LDFLAGS="-dynamiclib -single_module ${LDFLAGS}"
-    case $canonical_host_type in
-      powerpc-*)
-        CXXPICFLAG=
-        CPICFLAG=
-        FPICFLAG=
-      ;;
-    esac
-    NO_OCT_FILE_STRIP=true
-    library_path_var=DYLD_LIBRARY_PATH
-  ;;
-  *-*-cygwin*)
-    CPICFLAG=
-    CXXPICFLAG=
-    FPICFLAG=
-    DL_LDFLAGS="-shared -Wl,--export-all-symbols -Wl,--enable-auto-import -Wl,--enable-runtime-pseudo-reloc"
-    SH_LDFLAGS="-shared -Wl,--export-all-symbols -Wl,--enable-auto-import -Wl,--enable-auto-image-base"
-    ldpreloadsep=":"
-  ;;
-  *-*-mingw*)
-    if test $have_msvc = yes; then
-      DL_LDFLAGS="-shared"
-      CPICFLAG=
-      CXXPICFLAG=
-      FPICFLAG=
-      SH_LDFLAGS="-shared"
-      if test -n "`echo $CFLAGS | $GREP -e '-g'`" || test -n "`echo $CXXFLAGS | $GREP -e '-g'`"; then
-        DL_LDFLAGS="$DL_LDFLAGS -g"
-        SH_LDFLAGS="$SH_LDFLAGS -g"
-      fi
-      NO_OCT_FILE_STRIP=true
-      library_path_var=PATH
-      ## Extra compilation flags.
-      EXTERNAL_DLL_DEFS="-DEXTERNAL_DLL"
-      OCTAVE_DLL_DEFS="-DOCTAVE_DLL"
-      OCTINTERP_DLL_DEFS="-DOCTINTERP_DLL"
-      OCTGUI_DLL_DEFS="-DOCTGUI_DLL"
-      OCTGRAPHICS_DLL_DEFS="-DOCTGRAPHICS_DLL"
-    else
-      CPICFLAG=
-      CXXPICFLAG=
-      FPICFLAG=
-      DL_LDFLAGS="-shared -Wl,--export-all-symbols -Wl,--enable-auto-import -Wl,--enable-runtime-pseudo-reloc"
-      SH_LDFLAGS="-shared -Wl,--export-all-symbols -Wl,--enable-auto-import -Wl,--enable-auto-image-base"
-      library_path_var=PATH
-    fi
-  ;;
-  *-*-msdosmsvc)
-    DL_LDFLAGS="-shared"
-    CPICFLAG=
-    CXXPICFLAG=
-    FPICFLAG=
-    SH_LDFLAGS="-shared"
-    if test -n "`echo $CFLAGS | $GREP -e '-g'`" || test -n "`echo $CXXFLAGS | $GREP -e '-g'`"; then
-      DL_LDFLAGS="$DL_LDFLAGS -g"
-      SH_LDFLAGS="$SH_LDFLAGS -g"
-    fi
-    NO_OCT_FILE_STRIP=true
-    library_path_var=PATH
-    ## Extra compilation flags.
-    EXTERNAL_DLL_DEFS="-DEXTERNAL_DLL"
-    OCTAVE_DLL_DEFS="-DOCTAVE_DLL"
-    OCTGUI_DLL_DEFS="-DOCTGUI_DLL"
-    OCTGRAPHICS_DLL_DEFS="-DOCTGRAPHICS_DLL"
-  ;;
-  *-*-linux* | *-*-gnu*)
-    MKOCTFILE_DL_LDFLAGS="-shared -Wl,-Bsymbolic"
-  ;;
-  i[[3456]]86-*-sco3.2v5*)
-    SH_LDFLAGS=-G
-  ;;
-  rs6000-ibm-aix* | powerpc-ibm-aix*)
-    CPICFLAG=
-    CXXPICFLAG=
-    FPICFLAG=
-    library_path_var=LIBPATH
-  ;;
-  hppa*-hp-hpux*)
-    if test $ac_cv_f77_compiler_gnu = yes; then
-      FPICFLAG=-fPIC
-    else
-      FPICFLAG=+Z
-    fi
-    SH_LDFLAGS="-shared -fPIC"
-    library_path_var=SHLIB_PATH
-  ;;
-  ia64*-hp-hpux*)
-    if test $ac_cv_f77_compiler_gnu = yes; then
-      FPICFLAG=-fPIC
-    else
-      FPICFLAG=+Z
-    fi
-    SH_LDFLAGS="-shared -fPIC"
-  ;;
-  *-sgi-*)
-    CPICFLAG=
-    CXXPICFLAG=
-    FPICFLAG=
-  ;;
-  sparc-sun-sunos4*)
-    if test $ac_cv_f77_compiler_gnu = yes; then
-      FPICFLAG=-fPIC
-    else
-      FPICFLAG=-PIC
-    fi
-    SH_LD=ld
-    SH_LDFLAGS="-assert nodefinitions"
-  ;;
-  sparc-sun-solaris2* | i386-pc-solaris2*)
-    if test $ac_cv_f77_compiler_gnu = yes; then
-      FPICFLAG=-fPIC
-    else
-      FPICFLAG=-KPIC
-    fi
-    if test "$GCC" = yes; then
-      CPICFLAG=-fPIC
-    else
-      CPICFLAG=-KPIC
-    fi
-    if test "$GXX" = yes; then
-      CXXPICFLAG=-fPIC
-      SH_LDFLAGS=-shared
-    else
-      CXXPICFLAG=-KPIC
-      SH_LDFLAGS=-G
-    fi
-    ## Template closures in archive libraries need a different mechanism.
-    if test "$GXX" != yes; then
-      TEMPLATE_AR="${CXX}"
-      TEMPLATE_ARFLAGS="-xar -o"
-    fi
-  ;;
-esac
-
-AC_MSG_NOTICE([defining FPICFLAG to be $FPICFLAG])
-AC_MSG_NOTICE([defining CPICFLAG to be $CPICFLAG])
-AC_MSG_NOTICE([defining CXXPICFLAG to be $CXXPICFLAG])
-AC_MSG_NOTICE([defining SH_LD to be $SH_LD])
-AC_MSG_NOTICE([defining SH_LDFLAGS to be $SH_LDFLAGS])
-AC_MSG_NOTICE([defining DL_LD to be $DL_LD])
-AC_MSG_NOTICE([defining DL_LDFLAGS to be $DL_LDFLAGS])
-AC_MSG_NOTICE([defining MKOCTFILE_DL_LDFLAGS to be $MKOCTFILE_DL_LDFLAGS])
-AC_MSG_NOTICE([defining NO_OCT_FILE_STRIP to be $NO_OCT_FILE_STRIP])
-AC_MSG_NOTICE([defining TEMPLATE_AR to be $TEMPLATE_AR])
-AC_MSG_NOTICE([defining TEMPLATE_ARFLAGS to be $TEMPLATE_ARFLAGS])
-AC_MSG_NOTICE([defining EXTERNAL_DLL_DEFS to be $EXTERNAL_DLL_DEFS])
-AC_MSG_NOTICE([defining OCTAVE_DLL_DEFS to be $OCTAVE_DLL_DEFS])
-AC_MSG_NOTICE([defining OCTINTERP_DLL_DEFS to be $OCTINTERP_DLL_DEFS])
-AC_MSG_NOTICE([defining OCTGUI_DLL_DEFS to be $OCTGUI_DLL_DEFS])
-AC_MSG_NOTICE([defining OCTGRAPHICS_DLL_DEFS to be $OCTGRAPHICS_DLL_DEFS])
-AC_MSG_NOTICE([defining library_path_var to be $library_path_var])
-AC_SUBST(FPICFLAG)
-AC_SUBST(CPICFLAG)
-AC_SUBST(CXXPICFLAG)
-AC_SUBST(SH_LD)
-AC_SUBST(SH_LDFLAGS)
-AC_SUBST(DL_LD)
-AC_SUBST(DL_LDFLAGS)
-AC_SUBST(MKOCTFILE_DL_LDFLAGS)
-AC_SUBST(NO_OCT_FILE_STRIP)
-AC_SUBST(TEMPLATE_AR)
-AC_SUBST(TEMPLATE_ARFLAGS)
-AC_SUBST(EXTERNAL_DLL_DEFS)
-AC_SUBST(OCTAVE_DLL_DEFS)
-AC_SUBST(OCTINTERP_DLL_DEFS)
-AC_SUBST(OCTGUI_DLL_DEFS)
-AC_SUBST(OCTGRAPHICS_DLL_DEFS)
-AC_SUBST(library_path_var)
-AC_SUBST(ldpreloadsep)
-AM_SUBST_NOTMAKE(ldpreloadsep)
 
 ### More configure argument checking related to linking
 
@@ -857,110 +684,6 @@ AC_ARG_ENABLE([link-all-dependencies],
    esac],
   [link_all_deps=no])
 AM_CONDITIONAL([AMCOND_LINK_ALL_DEPS], [test $link_all_deps = yes])
-
-### Check for math library.
-dnl If found, this will add -lm to LIBS.
-
-dnl Keep this check before the check for the Fortran compiler,
-dnl in case -lm is needed to compile Fortran programs.
-AC_CHECK_LIB(m, sin)
-
-### Determine the Fortran compiler and how to invoke it
-
-## Prefer gfortran, but the user's F77 environment variable will override.
-AC_PROG_F77([gfortran])
-if test -z "$F77"; then
-  ## No gfortran found, search for any other installed compiler.
-  AC_PROG_F77
-fi
-if test "$F77" = g77; then
-  AC_MSG_ERROR([g77 is not a supported Fortran compiler.  Select another compiler by setting the environment variable F77 and re-running configure.])
-fi
-
-AC_MSG_CHECKING([whether a usable Fortran compiler was found])
-if test -n "$F77"; then
-  AC_MSG_RESULT(yes)
-else
-  AC_MSG_RESULT(no)
-  AC_MSG_ERROR([A Fortran compiler is required])
-fi
-
-AC_F77_LIBRARY_LDFLAGS
-AC_F77_DUMMY_MAIN
-AC_F77_WRAPPERS
-
-F77_TOLOWER=yes
-F77_APPEND_UNDERSCORE=yes
-F77_APPEND_EXTRA_UNDERSCORE=yes
-
-case $ac_cv_f77_mangling in
-  "upper case") F77_TOLOWER=no ;;
-esac
-case $ac_cv_f77_mangling in
-  "no underscore") F77_APPEND_UNDERSCORE=no ;;
-esac
-case $ac_cv_f77_mangling in
-  "no extra underscore") F77_APPEND_EXTRA_UNDERSCORE=no ;;
-esac
-
-case $canonical_host_type in
-  i[[3456789]]86-*-*)
-    if test $ac_cv_f77_compiler_gnu = yes; then
-      OCTAVE_F77_FLAG([-mieee-fp])
-    fi
-  ;;
-  alpha*-*-*)
-    if test $ac_cv_f77_compiler_gnu = yes; then
-      OCTAVE_F77_FLAG([-mieee])
-    else
-      OCTAVE_F77_FLAG([-ieee])
-      OCTAVE_F77_FLAG([-fpe1])
-    fi
-  ;;
-  powerpc-apple-machten*)
-    FFLAGS=
-  ;;
-esac
-
-if test $ac_cv_f77_compiler_gnu = yes; then
-  FORTRAN_CALLING_CONVENTION=gfortran
-else
-  FORTRAN_CALLING_CONVENTION=unknown
-fi
-AC_ARG_ENABLE([fortran-calling-convention],
-  [AS_HELP_STRING([--enable-fortran-calling-convention=OPTION],
-    [Select C++ to Fortran calling convention.  "gfortran" should be detected automatically.  Other options are "cray", "visual-fortran", or "f2c".])],
-  [FORTRAN_CALLING_CONVENTION="$enableval"], [])
-
-case $FORTRAN_CALLING_CONVENTION in
-  gfortran)
-    AC_DEFINE(F77_USES_GFORTRAN_CALLING_CONVENTION, 1, [Define to 1 if calling Fortran from C++ should use the gfortran calling convention.])
-  ;;
-  cray)
-    AC_DEFINE(F77_USES_CRAY_CALLING_CONVENTION, 1, [Define to 1 if calling Fortran from C++ should use the Cray Fortran calling convention.])
-  ;;
-  visual-fortran)
-    AC_DEFINE(F77_USES_VISUAL_FORTRAN_CALLING_CONVENTION, 1, [Define to 1 if calling Fortran from C++ should use the Visual Fortran calling convention.])
-  ;;
-  f2c)
-    AC_DEFINE(F77_USES_F2C_CALLING_CONVENTION, 1, [Define to 1 if calling Fortran from C++ should use the f2c calling convention.])
-  ;;
-  *)
-    AC_MSG_ERROR([to build Octave, the C++ to Fortran calling convention must be known.])
-  ;;
-esac
-
-if test -n "$FFLAGS"; then
-  AC_MSG_NOTICE([defining FFLAGS to be $FFLAGS])
-fi
-
-AC_SUBST(F77_TOLOWER)
-AC_SUBST(F77_APPEND_UNDERSCORE)
-AC_SUBST(F77_APPEND_EXTRA_UNDERSCORE)
-
-if test -z "$F77"; then
-  AC_MSG_ERROR([to build Octave, you must have a compatible Fortran compiler or wrapper script for f2c that functions as a Fortran compiler installed and in your path.  See the file INSTALL for more information.])
-fi
 
 ### Check for BLAS and LAPACK libraries:
 
@@ -1109,6 +832,16 @@ OCTAVE_F77_FLAG([-ffloat-store], [
   F77_FLOAT_STORE_FLAG=-ffloat-store
   AC_SUBST(F77_FLOAT_STORE_FLAG)
 ])
+
+BUILD_EXTERNAL_LIBXERBLA=
+case $host_os in
+  msdosmsvc | mingw*)
+    BUILD_EXTERNAL_LIBXERBLA=ues
+  ;;
+esac
+
+AM_CONDITIONAL([AMCOND_BUILD_EXTERNAL_LIBXERBLA],
+  [test -n "$BUILD_EXTERNAL_LIBXERBLA"])
 
 ### Dynamic linking is now enabled only if we are building shared
 ### libs and some API for dynamic linking has been detected.
@@ -2096,9 +1829,10 @@ if test $check_freetype = yes; then
 fi
 
 if test -n "$warn_freetype"; then
+  FT2_CFLAGS=
+  FT2_LIBS=
   OCTAVE_CONFIGURE_WARNING([warn_freetype])
 else
-  FT2_CPPFLAGS="$FT2_CFLAGS"
   dnl Alias CPPFLAGS to CFLAGS.  This is closer to the true meaning
   dnl of `pkg-config --cflags` output.
   FT2_CPPFLAGS="$FT2_CFLAGS"
@@ -3079,7 +2813,23 @@ fi
 
 GNULIB_LINK_DEPS="$FREXPF_LIBM $FREXP_LIBM $GETHOSTNAME_LIB $LIBSOCKET $LIB_CLOCK_GETTIME $LIB_CRYPTO $LIB_GETLOGIN $LIB_NANOSLEEP $LIB_SELECT $LTLIBICONV $LTLIBINTL $LTLIBTHREAD"
 
-MKOCTFILE_GNULIB_LINK_DEPS="$FREXPF_LIBM $FREXP_LIBM $GETHOSTNAME_LIB $LIBSOCKET $LIB_CLOCK_GETTIME $LIB_CRYPTO $LIB_GETLOGIN $LIB_NANOSLEEP $LIB_SELECT $LIBICONV $LIBINTL $LIBTHREAD"
+### FIXME: This is a kluge to transform $libdir/libiconv.dll.a to -liconv.
+### It would probably be better to fix gnulib to not give us an absolute
+### file name...
+
+case $host_os in
+  mingw*)
+    ## Don't use $libdir here because that's defined to be
+    ## ${exec_prefix}/lib and at this point, ${exec_prefix} is "NONE"!
+    tmp_libiconv_dll="$LIBICONV_PREFIX/lib/libiconv.dll.a"
+    MKOCTFILE_LIBICONV=`echo $LIBICONV | sed "s|$tmp_libiconv_dll|-liconv|"`
+  ;;
+  *)
+    MKOCTFILE_LIBICONV="$LIBICONV"
+  ;;
+esac
+
+MKOCTFILE_GNULIB_LINK_DEPS="$FREXPF_LIBM $FREXP_LIBM $GETHOSTNAME_LIB $LIBSOCKET $LIB_CLOCK_GETTIME $LIB_CRYPTO $LIB_GETLOGIN $LIB_NANOSLEEP $LIB_SELECT $MKOCTFILE_LIBICONV $LIBINTL $LIBTHREAD"
 
 AC_SUBST(GNULIB_LINK_DEPS)
 

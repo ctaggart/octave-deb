@@ -500,7 +500,7 @@ value will be used.
 @code{sparse (@var{m}, @var{n})} will create an empty @var{m}x@var{n} sparse
 matrix and is equivalent to @code{sparse ([], [], [], @var{m}, @var{n})}
 
-The argument @code{nzmax} is ignored but accepted for compatibility with
+The argument @var{nzmax} is ignored but accepted for compatibility with
 @sc{matlab}.
 
 Example 1 (sum at repeated indices):
@@ -1442,7 +1442,7 @@ n-by-n, then rows and columns with more than
 @code{max (16,@var{knobs}(1)*sqrt(n))} entries are removed prior to
 ordering, and ordered last in the output permutation @var{p}.  No
 rows/columns are removed if @code{@var{knobs}(1) < 0}.  If
-@code{@var{knobs} (2)} is nonzero, @code{stats} and @var{knobs} are
+@code{@var{knobs}(2)} is nonzero, @var{stats} and @var{knobs} are
 printed.  The default is @code{@var{knobs} = [10 0]}.  Note that
 @var{knobs} differs from earlier versions of @code{symamd}.
 
@@ -2551,7 +2551,7 @@ If @var{tol} is empty or is omitted, the function sets
 
 @item
 @var{maxit} is the maximum allowable number of iterations; if @code{[]} is
-supplied for @code{maxit}, or @code{pcr} has less arguments, a default
+supplied for @var{maxit}, or @code{pcr} has less arguments, a default
 value equal to 20 is used.
 
 @item

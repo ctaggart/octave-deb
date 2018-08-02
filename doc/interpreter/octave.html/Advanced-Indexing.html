@@ -58,24 +58,9 @@ Up: <a href="Index-Expressions.html#Index-Expressions" accesskey="u" rel="up">In
 <a name="Advanced-Indexing-1"></a>
 <h4 class="subsection">8.1.1 Advanced Indexing</h4>
 
-<p>An array with &lsquo;<samp>nd</samp>&rsquo; dimensions can be indexed by a vector <var>idx</var> which
-has from 1 to &lsquo;<samp>nd</samp>&rsquo; elements.  If any element of <var>idx</var> is not a
-scalar then the complete set of index tuples will be generated from the
-Cartesian product of the index elements.
-</p>
-<p>For the ordinary and most common case, the number of indices
-(<code>nidx = numel (<var>idx</var>)</code>) matches the number of dimensions &lsquo;<samp>nd</samp>&rsquo;.
-In this case, each element of <var>idx</var> corresponds to its respective
-dimension, i.e., <code><var>idx</var>(1)</code> refers to dimension 1,
-<code><var>idx</var>(2)</code> refers to dimension 2, etc.  If <code>nidx&nbsp;&lt;&nbsp;nd</code><!-- /@w -->, and
-every index is less than the size of the array in the <em>i^{th}</em> dimension
-(<code><var>idx</var>(i) &lt; size (<var>array</var>, i)</code>), then the index expression is
-padded with <code>nd&nbsp;<span class="nolinebreak">-</span>&nbsp;nidx</code><!-- /@w --> trailing singleton dimensions.  If
-<code>nidx&nbsp;&lt;&nbsp;nd</code><!-- /@w --> but one of the indices <code><var>idx</var>(i)</code> is outside the
-size of the current array, then the last <code>nd&nbsp;<span class="nolinebreak">-</span>&nbsp;nidx&nbsp;+&nbsp;1</code><!-- /@w --> dimensions
-are folded into a single dimension with an extent equal to the product of
-extents of the original dimensions.  This is easiest to understand with an
-example.
+<p>When it is necessary to extract subsets of entries out of an array whose
+indices cannot be written as a Cartesian product of components, linear
+indexing together with the function <code>sub2ind</code> can be used.  For example:
 </p>
 <div class="example">
 <pre class="example">A = reshape (1:8, 2, 2, 2)  # Create 3-D array
@@ -91,60 +76,101 @@ ans(:,:,2) =
    5   7
    6   8
 
-A(2,1,2);   # Case (nidx == nd): ans = 6
-A(2,1);     # Case (nidx &lt; nd), idx within array:
-            # equivalent to A(2,1,1), ans = 2
-A(2,4);     # Case (nidx &lt; nd), idx outside array:
-            # Dimension 2 &amp; 3 folded into new dimension of size 2x2 = 4
-            # Select 2nd row, 4th element of [2, 4, 6, 8], ans = 8
+A(sub2ind (size (A), [1, 2, 1], [1, 1, 2], [1, 2, 1]))
+   &rArr; ans = [A(1, 1, 1), A(2, 1, 2), A(1, 2, 1)]
 </pre></div>
 
-<p>One advanced use of indexing is to create arrays filled with a single
-value.  This can be done by using an index of ones on a scalar value.
-The result is an object with the dimensions of the index expression
-and every element equal to the original scalar.  For example, the
-following statements
+<p>An array with &lsquo;<samp>nd</samp>&rsquo; dimensions can be indexed by an index expression which
+has from 1 to &lsquo;<samp>nd</samp>&rsquo; components.  For the ordinary and most common case, the
+number of components &lsquo;<samp>M</samp>&rsquo; matches the number of dimensions &lsquo;<samp>nd</samp>&rsquo;.  In
+this case the ordinary indexing rules apply and each component corresponds to
+the respective dimension of the array.
+</p>
+<p>However, if the number of indexing components exceeds the number of dimensions
+(<code>M&nbsp;&gt;&nbsp;nd</code><!-- /@w -->) then the excess components must all be singletons
+(<code>1</code>).  Moreover, if <code>M&nbsp;&lt;&nbsp;nd</code><!-- /@w -->, the behavior is equivalent to
+reshaping the input object so as to merge the trailing <code>nd&nbsp;<span class="nolinebreak">-</span>&nbsp;M</code><!-- /@w -->
+dimensions into the last index dimension <code>M</code>.  Thus, the result will have
+the dimensionality of the index expression, and not the original object.  This
+is the case whenever dimensionality of the index is greater than one
+(<code>M&nbsp;&gt;&nbsp;1</code><!-- /@w -->), so that the special rules for linear indexing are not
+applied.  This is easiest to understand with an example:
+</p>
+<div class="example">
+<pre class="example">A = reshape (1:8, 2, 2, 2)  # Create 3-D array
+A =
+
+ans(:,:,1) =
+
+   1   3
+   2   4
+
+ans(:,:,2) =
+
+   5   7
+   6   8
+
+## 2-D indexing causes third dimension to be merged into second dimension.
+## Equivalent array for indexing, Atmp, is now 2x4.
+Atmp = reshape (A, 2, 4)
+Atmp =
+
+   1   3   5   7
+   2   4   6   8
+
+
+A(2,1)   # Reshape to 2x4 matrix, second entry of first column: ans = 2
+A(2,4)   # Reshape to 2x4 matrix, second entry of fourth column: ans = 8
+A(:,:)   # Reshape to 2x4 matrix, select all rows &amp; columns, ans = Atmp
+</pre></div>
+
+<p>Note here the elegant use of the double colon to replace the call to the
+<code>reshape</code> function.
+</p>
+<p>Another advanced use of linear indexing is to create arrays filled with a
+single value.  This can be done by using an index of ones on a scalar value.
+The result is an object with the dimensions of the index expression and every
+element equal to the original scalar.  For example, the following statements
 </p>
 <div class="example">
 <pre class="example">a = 13;
 a(ones (1, 4))
 </pre></div>
 
-<p>produce a vector whose four elements are all equal to 13.
+<p>produce a row vector whose four elements are all equal to 13.
 </p>
-<p>Similarly, by indexing a scalar with two vectors of ones it is
-possible to create a matrix.  The following statements
+<p>Similarly, by indexing a scalar with two vectors of ones it is possible to
+create a matrix.  The following statements
 </p>
 <div class="example">
 <pre class="example">a = 13;
 a(ones (1, 2), ones (1, 3))
 </pre></div>
 
-<p>create a 2x3 matrix with all elements equal to 13.
-</p>
-<p>The last example could also be written as
+<p>create a 2x3 matrix with all elements equal to 13.  This could also have been
+written as
 </p>
 <div class="example">
 <pre class="example">13(ones (2, 3))
 </pre></div>
 
 <p>It is more efficient to use indexing rather than the code construction
-<code>scalar * ones (N, M, &hellip;)</code> because it avoids the unnecessary
-multiplication operation.  Moreover, multiplication may not be
-defined for the object to be replicated whereas indexing an array is
-always defined.  The following code shows how to create a 2x3 cell
-array from a base unit which is not itself a scalar.
+<code>scalar * ones (M, N, &hellip;)</code> because it avoids the unnecessary
+multiplication operation.  Moreover, multiplication may not be defined for the
+object to be replicated whereas indexing an array is always defined.  The
+following code shows how to create a 2x3 cell array from a base unit which is
+not itself a scalar.
 </p>
 <div class="example">
 <pre class="example">{&quot;Hello&quot;}(ones (2, 3))
 </pre></div>
 
-<p>It should be, noted that <code>ones (1, n)</code> (a row vector of ones)
-results in a range (with zero increment).  A range is stored
-internally as a starting value, increment, end value, and total number
-of values; hence, it is more efficient for storage than a vector or
-matrix of ones whenever the number of elements is greater than 4.  In
-particular, when &lsquo;<samp>r</samp>&rsquo; is a row vector, the expressions
+<p>It should be noted that <code>ones (1, n)</code> (a row vector of ones) results in a
+range object (with zero increment).  A range is stored internally as a starting
+value, increment, end value, and total number of values; hence, it is more
+efficient for storage than a vector or matrix of ones whenever the number of
+elements is greater than 4.  In particular, when &lsquo;<samp>r</samp>&rsquo; is a row vector, the
+expressions
 </p>
 <div class="example">
 <pre class="example">  r(ones (1, n), :)
@@ -154,19 +180,18 @@ particular, when &lsquo;<samp>r</samp>&rsquo; is a row vector, the expressions
 <pre class="example">  r(ones (n, 1), :)
 </pre></div>
 
-<p>will produce identical results, but the first one will be
-significantly faster, at least for &lsquo;<samp>r</samp>&rsquo; and &lsquo;<samp>n</samp>&rsquo; large enough.
-In the first case the index is held in compressed form as a range
-which allows Octave to choose a more efficient algorithm to handle the
-expression.
+<p>will produce identical results, but the first one will be significantly faster,
+at least for &lsquo;<samp>r</samp>&rsquo; and &lsquo;<samp>n</samp>&rsquo; large enough.  In the first case the index
+is held in compressed form as a range which allows Octave to choose a more
+efficient algorithm to handle the expression.
 </p>
-<p>A general recommendation, for a user unaware of these subtleties, is
-to use the function <code>repmat</code> for replicating smaller arrays into
-bigger ones.
+<p>A general recommendation for users unfamiliar with these techniques is to use
+the function <code>repmat</code> for replicating smaller arrays into bigger ones,
+which uses such tricks.
 </p>
-<p>A second use of indexing is to speed up code.  Indexing is a fast
-operation and judicious use of it can reduce the requirement for
-looping over individual array elements which is a slow operation.
+<p>A second use of indexing is to speed up code.  Indexing is a fast operation and
+judicious use of it can reduce the requirement for looping over individual
+array elements, which is a slow operation.
 </p>
 <p>Consider the following example which creates a 10-element row vector
 <em>a</em> containing the values
@@ -178,9 +203,8 @@ a(i) = sqrt (i).
 endfor
 </pre></div>
 
-<p>It is quite inefficient to create a vector using a loop like this.  In
-this case, it would have been much more efficient to use the
-expression
+<p>It is quite inefficient to create a vector using a loop like this.  In this
+case, it would have been much more efficient to use the expression
 </p>
 <div class="example">
 <pre class="example">a = sqrt (1:10);
@@ -188,11 +212,10 @@ expression
 
 <p>which avoids the loop entirely.
 </p>
-<p>In cases where a loop cannot be avoided, or a number of values must be
-combined to form a larger matrix, it is generally faster to set the
-size of the matrix first (pre-allocate storage), and then insert
-elements using indexing commands.  For example, given a matrix
-<code>a</code>,
+<p>In cases where a loop cannot be avoided, or a number of values must be combined
+to form a larger matrix, it is generally faster to set the size of the matrix
+first (pre-allocate storage), and then insert elements using indexing commands.
+For example, given a matrix <code>a</code>,
 </p>
 <div class="example">
 <pre class="example">[nr, nc] = size (a);
@@ -211,8 +234,7 @@ for i = 1:n-1
 endfor
 </pre></div>
 
-<p>because Octave does not have to repeatedly resize the intermediate
-result.
+<p>because Octave does not have to repeatedly resize the intermediate result.
 </p>
 <a name="XREFsub2ind"></a><dl>
 <dt><a name="index-sub2ind"></a><em><var>ind</var> =</em> <strong>sub2ind</strong> <em>(<var>dims</var>, <var>i</var>, <var>j</var>)</em></dt>

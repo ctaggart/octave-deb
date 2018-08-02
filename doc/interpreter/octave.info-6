@@ -236,8 +236,8 @@ functions to solve sparse linear equations using iterative techniques.
           function sets ‘TOL = 1e-6’ by default.
 
         • MAXIT is the maximum allowable number of iterations; if ‘[]’
-          is supplied for ‘maxit’, or ‘pcr’ has less arguments, a
-          default value equal to 20 is used.
+          is supplied for MAXIT, or ‘pcr’ has less arguments, a default
+          value equal to 20 is used.
 
         • M is the (left) preconditioning matrix, so that the iteration
           is (theoretically) equivalent to solving by ‘pcr’ ‘P * X = M \
@@ -1567,7 +1567,7 @@ than the 2-D iteration used in the other functions above.
             ⇒ Q =  2
 
      The result is a volume, which for this constant-value integrand, is
-     just ‘LENGTH * WIDTH x HEIGHT’.
+     just ‘LENGTH * WIDTH * HEIGHT’.
 
      Example 2 : integrate a triangular region in x-y plane
 
@@ -1659,7 +1659,7 @@ between iterated and tiled integration methods and, unlike ‘dblquad’ and
             ⇒ Q =  2
 
      The result is a volume, which for this constant-value integrand, is
-     just ‘LENGTH * WIDTH x HEIGHT’.
+     just ‘LENGTH * WIDTH * HEIGHT’.
 
      Example 2 : integrate a triangular region in x-y plane
 
@@ -1746,7 +1746,7 @@ between iterated and tiled integration methods and, unlike ‘dblquad’ and
             ⇒ Q =  1
 
      For this constant-value integrand, the result is a volume which is
-     just ‘LENGTH * WIDTH x HEIGHT’.
+     just ‘LENGTH * WIDTH * HEIGHT’.
 
      Example 2 : integrate over a spherical volume
 
@@ -2353,9 +2353,9 @@ The options for this class of methods are set using the functions.
      compute the initial conditions.
 
      The function typically returns two outputs.  Variable Y0_NEW is a
-     column vector and contains the consistent initial value of y.  The
+     column vector and contains the consistent initial value of Y.  The
      output YP0_NEW is a column vector and contains the consistent
-     initial value of yp.
+     initial value of YP.
 
      The optional third output RESNORM is the norm of the vector of
      residuals.  If RESNORM is small, ‘decic’ has successfully computed
@@ -3624,7 +3624,7 @@ Octave can also solve Quadratic Programming problems, this is
      X0 is an optional initial guess for the solution X.
 
      OPTIONS is an options structure to change the behavior of the
-     algorithm (*note optimset: XREFoptimset.  ‘pqpnonneg’ recognizes
+     algorithm (*note optimset: XREFoptimset.).  ‘pqpnonneg’ recognizes
      one option: "MaxIter".
 
      Outputs:
@@ -3888,7 +3888,7 @@ is assumed to be anisotropic the ‘gls’ is needed.
      X0 is an optional initial guess for the solution X.
 
      OPTIONS is an options structure to change the behavior of the
-     algorithm (*note optimset: XREFoptimset.  ‘lsqnonneg’ recognizes
+     algorithm (*note optimset: XREFoptimset.).  ‘lsqnonneg’ recognizes
      these options: "MaxIter", "TolX".
 
      Outputs:
@@ -5165,7 +5165,7 @@ is very efficient and is of order O(log2(n)) which is preferable to the
      Return the unique elements in A that are not in B sorted in
      ascending order.
 
-     If A is a row vector return a column vector; Otherwise, return a
+     If A is a row vector return a row vector; Otherwise, return a
      column vector.  The inputs may also be cell arrays of strings.
 
      If the optional input "rows" is given then return the rows in A
@@ -8102,7 +8102,7 @@ system-wide wisdom file.
      ‘Y = stft (X, ...)’ returns the absolute values of the Fourier
      coefficients according to the NUM_COEF positive frequencies.
 
-     ‘[Y, C] = stft (x, ...)’ returns the entire STFT-matrix Y and a
+     ‘[Y, C] = stft (X, ...)’ returns the entire STFT-matrix Y and a
      3-element vector C containing the window size, increment, and
      window type, which is needed by the ‘synthesis’ function.
 

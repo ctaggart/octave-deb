@@ -121,8 +121,8 @@ referred to as a <var>tm_struct</var>.
 <dt><a name="index-time"></a><em><var>seconds</var> =</em> <strong>time</strong> <em>()</em></dt>
 <dd><p>Return the current time as the number of seconds since the epoch.
 </p>
-<p>The epoch is referenced to 00:00:00 CUT (Coordinated Universal Time) 1 Jan
-1970.  For example, on Monday February 17, 1997 at 07:15:06 CUT, the value
+<p>The epoch is referenced to 00:00:00 UTC (Coordinated Universal Time) 1 Jan
+1970.  For example, on Monday February 17, 1997 at 07:15:06 UTC, the value
 returned by <code>time</code> was 856163706.
 </p>
 <p><strong>See also:</strong> <a href="#XREFstrftime">strftime</a>, <a href="#XREFstrptime">strptime</a>, <a href="#XREFlocaltime">localtime</a>, <a href="#XREFgmtime">gmtime</a>, <a href="#XREFmktime">mktime</a>, <a href="#XREFnow">now</a>, <a href="#XREFdate">date</a>, <a href="#XREFclock">clock</a>, <a href="#XREFdatenum">datenum</a>, <a href="#XREFdatestr">datestr</a>, <a href="#XREFdatevec">datevec</a>, <a href="#XREFcalendar">calendar</a>, <a href="#XREFweekday">weekday</a>.
@@ -164,7 +164,7 @@ integer), to the local time and return a string of the same form as
 <a name="XREFgmtime"></a><dl>
 <dt><a name="index-gmtime"></a><em><var>tm_struct</var> =</em> <strong>gmtime</strong> <em>(<var>t</var>)</em></dt>
 <dd><p>Given a value returned from <code>time</code>, or any non-negative integer,
-return a time structure corresponding to CUT (Coordinated Universal Time).
+return a time structure corresponding to UTC (Coordinated Universal Time).
 </p>
 <p>For example:
 </p>
@@ -721,7 +721,7 @@ available on the Wikipedia entry for leap seconds.
 <dt><a name="index-datestr"></a><em><var>str</var> =</em> <strong>datestr</strong> <em>(<var>date</var>)</em></dt>
 <dt><a name="index-datestr-1"></a><em><var>str</var> =</em> <strong>datestr</strong> <em>(<var>date</var>, <var>f</var>)</em></dt>
 <dt><a name="index-datestr-2"></a><em><var>str</var> =</em> <strong>datestr</strong> <em>(<var>date</var>, <var>f</var>, <var>p</var>)</em></dt>
-<dd><p>Format the given date/time according to the format <code>f</code> and return
+<dd><p>Format the given date/time according to the format <var>f</var> and return
 the result in <var>str</var>.
 </p>
 <p><var>date</var> is a serial date number (see <code>datenum</code>) or a date vector

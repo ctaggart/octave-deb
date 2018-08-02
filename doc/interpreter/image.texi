@@ -403,7 +403,7 @@ Manage supported image formats.
 
 @var{formats} is a structure with information about each supported file
 format, or from a specific format @var{ext}, the value displayed on the
-field @code{ext}.  It contains the following fields:
+field @var{ext}.  It contains the following fields:
 
 @table @asis
 @item ext
@@ -1345,7 +1345,7 @@ input image @var{X} when displayed using @var{newmap}.
 When called with an optional third argument the order of colors in the new
 colormap is defined by @var{index}.
 
-@strong{Caution:} @code{index} should not have repeated elements or the
+@strong{Caution:} @var{index} should not have repeated elements or the
 function will fail.
 
 @end deftypefn

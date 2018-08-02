@@ -492,6 +492,9 @@ namespace octave
       return retval;
 
     // All subfunctions are listed in the top-level function of this file.
+    // If curr_fcn is a subfunction, then there must be a parent and
+    // curr_fcn will always be valid in and after executing this loop.
+
     while (curr_fcn->is_subfunction ())
       {
         symbol_scope pscope = curr_fcn->parent_fcn_scope ();

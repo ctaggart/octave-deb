@@ -28,7 +28,7 @@ GNU Octave
 
 This manual documents how to run, install and port GNU Octave, as well
 as its new features and incompatibilities, and how to report bugs.  It
-corresponds to GNU Octave version 4.4.0.
+corresponds to GNU Octave version 4.4.1-rc2.
 
 * Menu:
 
@@ -1183,7 +1183,7 @@ manual, *note Copying::.
 run, use, and extend GNU Octave.  Additional chapters describe how to
 report bugs and help contribute code.
 
-   This document corresponds to Octave version 4.4.0.
+   This document corresponds to Octave version 4.4.1-rc2.
 
 * Menu:
 
@@ -3826,7 +3826,7 @@ functions return −1 for structure arguments.
      dimension N in the Nth argument.  The number of rows, dimension 1,
      is returned in the first argument, the number of columns, dimension
      2, is returned in the second argument, etc.  If there are more
-     dimensions in A then there are output arguments, ‘size’ returns the
+     dimensions in A than there are output arguments, ‘size’ returns the
      total number of elements in the remaining dimensions in the final
      output argument.
 
@@ -3846,7 +3846,7 @@ functions return −1 for structure arguments.
               ⇒ nr = 3
               ⇒ nc = 2
 
-     Example 4: number of output arguments != number of dimensions
+     Example 4: number of output arguments < number of dimensions
 
           [nr, remainder] = size (ones (2, 3, 4, 5))
               ⇒ nr = 2
@@ -6978,7 +6978,7 @@ hexadecimal number to a floating point number.
               402df854
               7f800000"
 
-     With the optional second argument "cell, return a cell array of
+     With the optional second argument "cell", return a cell array of
      strings instead of a character array.
 
      See also: *note hex2num: XREFhex2num, *note hex2dec: XREFhex2dec,

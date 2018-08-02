@@ -4862,7 +4862,7 @@ size
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 1435
+# length: 1434
  -- : SZ = size (A)
  -- : DIM_SZ = size (A, DIM)
  -- : [ROWS, COLS, ..., DIM_N_SZ] = size (...)
@@ -4870,7 +4870,7 @@ size
 
      When given a second argument, DIM, return the size of the corresponding dimension.
 
-     With a single output argument, ‘size’ returns a row vector.  When called with multiple output arguments, ‘size’ returns the size of dimension N in the Nth argument.  The number of rows, dimension 1, is returned in the first argument, the number of columns, dimension 2, is returned in the second argument, etc.  If there are more dimensions in A then there are output arguments, ‘size’ returns the total number of elements in the remaining dimensions in the final output argument.
+     With a single output argument, ‘size’ returns a row vector.  When called with multiple output arguments, ‘size’ returns the size of dimension N in the Nth argument.  The number of rows, dimension 1, is returned in the first argument, the number of columns, dimension 2, is returned in the second argument, etc.  If there are more dimensions in A than there are output arguments, ‘size’ returns the total number of elements in the remaining dimensions in the final output argument.
 
      Example 1: single row vector output
 
@@ -4888,7 +4888,7 @@ size
               ⇒ nr = 3
               ⇒ nc = 2
 
-     Example 4: number of output arguments != number of dimensions
+     Example 4: number of output arguments < number of dimensions
 
           [nr, remainder] = size (ones (2, 3, 4, 5))
               ⇒ nr = 2
@@ -7155,7 +7155,7 @@ sort
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 1798
+# length: 1786
  -- : [S, I] = sort (X)
  -- : [S, I] = sort (X, DIM)
  -- : [S, I] = sort (X, MODE)
@@ -7171,7 +7171,7 @@ sort
                  2  2
                  3  3
 
-     If the optional argument DIM is given, then the matrix is sorted along the dimension defined by DIM.  The optional argument ‘mode’ defines the order in which the values will be sorted.  Valid values of ‘mode’ are "ascend" or "descend".
+     If the optional argument DIM is given, then the matrix is sorted along the dimension defined by DIM.  The optional argument MODE defines the order in which the values will be sorted.  Valid values of MODE are "ascend" or "descend".
 
      The ‘sort’ function may also be used to produce a matrix containing the original row indices of the elements in the sorted matrix.  For example:
 
@@ -7976,8 +7976,8 @@ OCTAVE_EXEC_HOME
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 319
- -- : OCTAVE_HOME ()
+# length: 324
+ -- : OCTAVE_EXEC_HOME ()
      Return the name of the top-level Octave installation directory for architecture-dependent files.  If not specified separately, the value is the same as OCTAVE_HOME.  OCTAVE_EXEC_HOME corresponds to the configuration variable EXEC_PREFIX.
 
      See also: EXEC_PATH, IMAGE_PATH, OCTAVE_HOME.
@@ -8876,7 +8876,7 @@ warning
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 3987
+# length: 3949
  -- : warning (TEMPLATE, ...)
  -- : warning (ID, TEMPLATE, ...)
  -- : warning ("on", ID)
@@ -8886,8 +8886,7 @@ warning
  -- : warning (STATE, ID, "local")
  -- : warning (WARNING_STRUCT)
  -- : WARNING_STRUCT = warning (...)
- -- : MODE_STRUCT = warning (STATE, MODE)
- -- : warning (MODE_ST)
+ -- : warning (STATE, MODE)
 
      Display a warning message or control the behavior of Octave’s warning system.
 
@@ -9704,13 +9703,13 @@ fseek
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 691
+# length: 667
  -- : fseek (FID, OFFSET)
  -- : fseek (FID, OFFSET, ORIGIN)
  -- : STATUS = fseek (...)
      Set the file pointer to the location OFFSET within the file FID.
 
-     The pointer is positioned OFFSET characters from the ORIGIN, which may be one of the predefined variables ‘SEEK_SET’ (beginning), ‘SEEK_CUR’ (current position), or ‘SEEK_END’ (end of file) or strings "bof", "cof", or "eof".  If ORIGIN is omitted, ‘SEEK_SET’ is assumed.  OFFSET may be positive, negative, or zero but not all combinations of ORIGIN and OFFSET can be realized.
+     The pointer is positioned OFFSET characters from the ORIGIN, which may be one of the predefined variables SEEK_SET (beginning), SEEK_CUR (current position), or SEEK_END (end of file) or strings "bof", "cof", or "eof".  If ORIGIN is omitted, SEEK_SET is assumed.  OFFSET may be positive, negative, or zero but not all combinations of ORIGIN and OFFSET can be realized.
 
      ‘fseek’ returns 0 on success and -1 on error.
 
@@ -11765,7 +11764,7 @@ waitfor
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 1785
+# length: 1777
  -- : waitfor (H)
  -- : waitfor (H, PROP)
  -- : waitfor (H, PROP, VALUE)
@@ -11780,9 +11779,9 @@ waitfor
 
      In the third form, execution is suspended until the graphics object is destroyed or the property named PROP is set to VALUE.  The function ‘isequal’ is used to compare property values.  If the graphics handle is invalid, the property does not exist or the property is already set to VALUE, the function returns immediately.
 
-     An optional timeout can be specified using the property ‘timeout’.  This timeout value is the number of seconds to wait for the condition to be true.  TIMEOUT must be at least 1.  If a smaller value is specified, a warning is issued and a value of 1 is used instead.  If the timeout value is not an integer, it is truncated towards 0.
+     An optional timeout can be specified using the property "timeout".  This timeout value is the number of seconds to wait for the condition to be true.  TIMEOUT must be at least 1.  If a smaller value is specified, a warning is issued and a value of 1 is used instead.  If the timeout value is not an integer, it is truncated towards 0.
 
-     To define a condition on a property named ‘timeout’, use the string ‘\timeout’ instead.
+     To define a condition on a property named "timeout", use the string ’\timeout’ instead.
 
      In all cases, typing CTRL-C stops program execution immediately.
 
@@ -12305,7 +12304,7 @@ num2hex
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 710
+# length: 711
  -- : S = num2hex (N)
  -- : S = num2hex (N, "cell")
      Convert a numeric array to an array of hexadecimal strings.
@@ -12326,7 +12325,7 @@ num2hex
               402df854
               7f800000"
 
-     With the optional second argument "cell, return a cell array of strings instead of a character array.
+     With the optional second argument "cell", return a cell array of strings instead of a character array.
 
      See also: hex2num, hex2dec, dec2hex.
    
@@ -13325,13 +13324,13 @@ octave_core_file_limit
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 1005
+# length: 1001
  -- : VAL = octave_core_file_limit ()
  -- : OLD_VAL = octave_core_file_limit (NEW_VAL)
  -- : octave_core_file_limit (NEW_VAL, "local")
      Query or set the internal variable that specifies the maximum amount of memory that Octave will save when writing a crash dump file.
 
-     The limit is measured in kilobytes and is applied to the top-level workspace.  The name of the crash dump file is is specified by OCTAVE_CORE_FILE_NAME).
+     The limit is measured in kilobytes and is applied to the top-level workspace.  The name of the crash dump file is specified by OCTAVE_CORE_FILE_NAME.
 
      If OCTAVE_CORE_FILE_OPTIONS flags specify a binary format, then OCTAVE_CORE_FILE_LIMIT will be approximately the maximum size of the file.  If a text file format is used, then the file could be much larger than the limit.  The default value is -1 (unlimited).
 
@@ -17911,7 +17910,7 @@ sparse
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 2078
+# length: 2072
  -- : S = sparse (A)
  -- : S = sparse (I, J, SV, M, N)
  -- : S = sparse (I, J, SV)
@@ -17932,7 +17931,7 @@ sparse
 
      ‘sparse (M, N)’ will create an empty MxN sparse matrix and is equivalent to ‘sparse ([], [], [], M, N)’
 
-     The argument ‘nzmax’ is ignored but accepted for compatibility with MATLAB.
+     The argument NZMAX is ignored but accepted for compatibility with MATLAB.
 
      Example 1 (sum at repeated indices):
 
@@ -20926,7 +20925,7 @@ time
  -- : SECONDS = time ()
      Return the current time as the number of seconds since the epoch.
 
-     The epoch is referenced to 00:00:00 CUT (Coordinated Universal Time) 1 Jan 1970.  For example, on Monday February 17, 1997 at 07:15:06 CUT, the value returned by ‘time’ was 856163706.
+     The epoch is referenced to 00:00:00 UTC (Coordinated Universal Time) 1 Jan 1970.  For example, on Monday February 17, 1997 at 07:15:06 UTC, the value returned by ‘time’ was 856163706.
 
      See also: strftime, strptime, localtime, gmtime, mktime, now, date, clock, datenum, datestr, datevec, calendar, weekday.
    
@@ -20952,7 +20951,7 @@ gmtime
 # elements: 1
 # length: 760
  -- : TM_STRUCT = gmtime (T)
-     Given a value returned from ‘time’, or any non-negative integer, return a time structure corresponding to CUT (Coordinated Universal Time).
+     Given a value returned from ‘time’, or any non-negative integer, return a time structure corresponding to UTC (Coordinated Universal Time).
 
      For example:
 
@@ -20980,7 +20979,7 @@ gmtime
 # type: sq_string
 # elements: 1
 # length: 143
-Given a value returned from ‘time’, or any non-negative integer, return a time structure corresponding to CUT (Coordinated Universal Time).
+Given a value returned from ‘time’, or any non-negative integer, return a time structure corresponding to UTC (Coordinated Universal Time).
 
 
 
@@ -21271,7 +21270,7 @@ system
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 1773
+# length: 1761
  -- : system ("STRING")
  -- : system ("STRING", RETURN_OUTPUT)
  -- : system ("STRING", RETURN_OUTPUT, TYPE)
@@ -21295,7 +21294,7 @@ system
 
           [status, output] = system ("echo foo & exit 2");
 
-     will set the variable ‘output’ to the string ‘foo’, and the variable ‘status’ to the integer ‘2’.
+     will set the variable OUTPUT to the string ‘foo’, and the variable STATUS to the integer ‘2’.
 
      For commands run asynchronously, STATUS is the process id of the command shell that is started to run the command.
 
@@ -23580,7 +23579,7 @@ symamd
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 3182
+# length: 3175
  -- : P = symamd (S)
  -- : P = symamd (S, KNOBS)
  -- : [P, STATS] = symamd (S)
@@ -23590,7 +23589,7 @@ symamd
 
      Sometimes ‘symamd’ works well for symmetric indefinite matrices too.  The matrix S is assumed to be symmetric; only the strictly lower triangular part is referenced.  S must be square.
 
-     KNOBS is an optional one- to two-element input vector.  If S is n-by-n, then rows and columns with more than ‘max (16,KNOBS(1)*sqrt(n))’ entries are removed prior to ordering, and ordered last in the output permutation P.  No rows/columns are removed if ‘KNOBS(1) < 0’.  If ‘KNOBS (2)’ is nonzero, ‘stats’ and KNOBS are printed.  The default is ‘KNOBS = [10 0]’.  Note that KNOBS differs from earlier versions of ‘symamd’.
+     KNOBS is an optional one- to two-element input vector.  If S is n-by-n, then rows and columns with more than ‘max (16,KNOBS(1)*sqrt(n))’ entries are removed prior to ordering, and ordered last in the output permutation P.  No rows/columns are removed if ‘KNOBS(1) < 0’.  If ‘KNOBS(2)’ is nonzero, STATS and KNOBS are printed.  The default is ‘KNOBS = [10 0]’.  Note that KNOBS differs from earlier versions of ‘symamd’.
 
      STATS is an optional 20-element output vector that provides data about the ordering and the validity of the input matrix S.  Ordering statistics are in ‘STATS(1:3)’.  ‘STATS(1) = STATS(2)’ is the number of dense or empty rows and columns ignored by SYMAMD and ‘STATS(3)’ is the number of garbage collections performed on the internal data structure used by SYMAMD (roughly of size ‘8.4 * nnz (tril (S, -1)) + 9 * N’ integers).
 
@@ -24732,11 +24731,11 @@ Multiplication operator.
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 261
+# length: 260
  -- : **
      Power operator.
 
-     This may return complex results for real inputs.  Use ‘realsqrt’, ‘cbrt’, ‘nthroot’, or ‘realroot’ to obtain real results when possible.
+     This may return complex results for real inputs.  Use ‘realsqrt’, ‘cbrt’, ‘nthroot’, or ‘realpow’ to obtain real results when possible.
 
      See also: power, ^, .**, .^, realpow, realsqrt, cbrt, nthroot.
    
@@ -24760,11 +24759,11 @@ Power operator.
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 261
+# length: 260
  -- : ^
      Power operator.
 
-     This may return complex results for real inputs.  Use ‘realsqrt’, ‘cbrt’, ‘nthroot’, or ‘realroot’ to obtain real results when possible.
+     This may return complex results for real inputs.  Use ‘realsqrt’, ‘cbrt’, ‘nthroot’, or ‘realpow’ to obtain real results when possible.
 
      See also: power, **, .^, .**, realpow, realsqrt, cbrt, nthroot.
    
@@ -27719,7 +27718,7 @@ md5sum
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 507
+# length: 496
  -- : md5sum (FILE)
  -- : md5sum (STR, OPT)
 
@@ -27729,7 +27728,7 @@ md5sum
 
      And calls like ‘md5sum (STR, true)’ with:
 
-          hash ("md5", fileread (STR))
+          hash ("md5", STR)
 
      Calculate the MD5 sum of the file FILE.
 
@@ -29963,7 +29962,7 @@ integral2
           Q = integral2 (F, 0, 1, 0, 1)
             ⇒ Q =  2
 
-     The result is a volume, which for this constant-value integrand, is just ‘LENGTH * WIDTH x HEIGHT’.
+     The result is a volume, which for this constant-value integrand, is just ‘LENGTH * WIDTH * HEIGHT’.
 
      Example 2 : integrate a triangular region in x-y plane
 
@@ -30036,7 +30035,7 @@ integral3
           Q = integral3 (F, 0, 1, 0, 1, 0, 1)
             ⇒ Q =  1
 
-     For this constant-value integrand, the result is a volume which is just ‘LENGTH * WIDTH x HEIGHT’.
+     For this constant-value integrand, the result is a volume which is just ‘LENGTH * WIDTH * HEIGHT’.
 
      Example 2 : integrate over a spherical volume
 
@@ -30717,7 +30716,7 @@ quad2d
           Q = quad2d (F, 0, 1, 0, 1)
             ⇒ Q =  2
 
-     The result is a volume, which for this constant-value integrand, is just ‘LENGTH * WIDTH x HEIGHT’.
+     The result is a volume, which for this constant-value integrand, is just ‘LENGTH * WIDTH * HEIGHT’.
 
      Example 2 : integrate a triangular region in x-y plane
 
@@ -33984,7 +33983,7 @@ warning_ids
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 12366
+# length: 12354
 ‘Octave:abbreviated-property-match’
      By default, the ‘Octave:abbreviated-property-match’ warning is enabled.
 
@@ -34061,7 +34060,7 @@ warning_ids
      If the ‘Octave:eigs:UnconvergedEigenvalues’ warning is enabled then the eigs function will issue a warning if the number of calculated eigenvalues is less than the number of requested eigenvalues.  By default, the ‘Octave:eigs:UnconvergedEigenvalues’ warning is enabled.
 
 ‘Octave:erase:chararray’
-     If the ‘Octave:erase:chararray’ warning is enabled then the erase function will issue a warning if the input pattern is a character array rather than a string or cell array of strings.  By default, the ‘Octave:eigs:UnconvergedEigenvalues’ warning is enabled.
+     If the ‘Octave:erase:chararray’ warning is enabled then the erase function will issue a warning if the input pattern is a character array rather than a string or cell array of strings.  By default, the ‘Octave:erase:chararray’ warning is enabled.
 
 ‘Octave:data-file-in-path’
      If the ‘Octave:data-file-in-path’ warning is enabled, a warning is issued when Octave does not find the target of a file operation such as ‘load’ or ‘fopen’ directly, but is able to locate the file in Octave’s search ‘path’ for files.  The warning could indicate that a different file target than the programmer intended is being used.  By default, the ‘Octave:data-file-in-path’ warning is enabled.
@@ -34306,7 +34305,7 @@ cmpermute
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 576
+# length: 570
  -- : [Y, NEWMAP] = cmpermute (X, MAP)
  -- : [Y, NEWMAP] = cmpermute (X, MAP, INDEX)
      Reorder colors in a colormap.
@@ -34315,7 +34314,7 @@ cmpermute
 
      When called with an optional third argument the order of colors in the new colormap is defined by INDEX.
 
-     *Caution:* ‘index’ should not have repeated elements or the function will fail.
+     *Caution:* INDEX should not have repeated elements or the function will fail.
 
    
 
@@ -35148,7 +35147,7 @@ imformats
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 1644
+# length: 1638
  -- : imformats ()
  -- : FORMATS = imformats (EXT)
  -- : FORMATS = imformats (FORMAT)
@@ -35158,7 +35157,7 @@ imformats
  -- : FORMATS = imformats ("factory")
      Manage supported image formats.
 
-     FORMATS is a structure with information about each supported file format, or from a specific format EXT, the value displayed on the field ‘ext’.  It contains the following fields:
+     FORMATS is a structure with information about each supported file format, or from a specific format EXT, the value displayed on the field EXT.  It contains the following fields:
 
      ext
           The name of the file format.  This may match the file extension but Octave will automatically detect the file format.
@@ -37379,7 +37378,7 @@ krylov
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 1282
+# length: 1276
  -- : [U, H, NU] = krylov (A, V, K, EPS1, PFLG)
      Construct an orthogonal basis U of a block Krylov subspace.
 
@@ -37389,7 +37388,7 @@ krylov
 
      The construction is made with Householder reflections to guard against loss of orthogonality.
 
-     If V is a vector, then H contains the Hessenberg matrix such that a*u == u*h+rk*ek’, in which ‘rk = a*u(:,k)-u*h(:,k)’, and ek’ is the vector ‘[0, 0, ..., 1]’ of length ‘k’.  Otherwise, H is meaningless.
+     If V is a vector, then H contains the Hessenberg matrix such that a*u == u*h+rk*ek’, in which ‘rk = a*u(:,k)-u*h(:,k)’, and ek’ is the vector ‘[0, 0, ..., 1]’ of length K.  Otherwise, H is meaningless.
 
      If V is a vector and K is greater than ‘length (A) - 1’, then H contains the Hessenberg matrix such that ‘a*u == u*h’.
 
@@ -40286,7 +40285,7 @@ run
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 925
+# length: 919
  -- : run SCRIPT
  -- : run ("SCRIPT")
      Run SCRIPT in the current workspace.
@@ -40295,7 +40294,7 @@ run
 
      The filename SCRIPT can be a bare, fully qualified, or relative filename and with or without a file extension.  If no extension is specified, Octave will first search for a script with the ‘".m"’ extension before falling back to the script name without an extension.
 
-     Implementation Note: If SCRIPT includes a path component, then ‘run’ first changes the working directory to the directory where SCRIPT is found.  Next, the script is executed.  Finally, ‘run’ returns to the original working directory unless ‘script’ has specifically changed directories.
+     Implementation Note: If SCRIPT includes a path component, then ‘run’ first changes the working directory to the directory where SCRIPT is found.  Next, the script is executed.  Finally, ‘run’ returns to the original working directory unless SCRIPT has specifically changed directories.
 
      See also: path, addpath, source.
    
@@ -41126,7 +41125,7 @@ decic
 
      The optional seventh argument OPTIONS is a structure array.  Use ‘odeset’ to generate this structure.  The relevant options are ‘RelTol’ and ‘AbsTol’ which specify the error thresholds used to compute the initial conditions.
 
-     The function typically returns two outputs.  Variable Y0_NEW is a column vector and contains the consistent initial value of y.  The output YP0_NEW is a column vector and contains the consistent initial value of yp.
+     The function typically returns two outputs.  Variable Y0_NEW is a column vector and contains the consistent initial value of Y.  The output YP0_NEW is a column vector and contains the consistent initial value of YP.
 
      The optional third output RESNORM is the norm of the vector of residuals.  If RESNORM is small, ‘decic’ has successfully computed the initial conditions.  If the value of RESNORM is large, use ‘RelTol’ and ‘AbsTol’ to adjust it.
 
@@ -42293,7 +42292,7 @@ lsqnonneg
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 1378
+# length: 1380
  -- : X = lsqnonneg (C, D)
  -- : X = lsqnonneg (C, D, X0)
  -- : X = lsqnonneg (C, D, X0, OPTIONS)
@@ -42309,7 +42308,7 @@ lsqnonneg
 
      X0 is an optional initial guess for the solution X.
 
-     OPTIONS is an options structure to change the behavior of the algorithm (*note optimset: XREFoptimset.  ‘lsqnonneg’ recognizes these options: "MaxIter", "TolX".
+     OPTIONS is an options structure to change the behavior of the algorithm (*note optimset: XREFoptimset.).  ‘lsqnonneg’ recognizes these options: "MaxIter", "TolX".
 
      Outputs:
 
@@ -42472,7 +42471,7 @@ pqpnonneg
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 1329
+# length: 1331
  -- : X = pqpnonneg (C, D)
  -- : X = pqpnonneg (C, D, X0)
  -- : X = pqpnonneg (C, D, X0, OPTIONS)
@@ -42487,7 +42486,7 @@ pqpnonneg
 
      X0 is an optional initial guess for the solution X.
 
-     OPTIONS is an options structure to change the behavior of the algorithm (*note optimset: XREFoptimset.  ‘pqpnonneg’ recognizes one option: "MaxIter".
+     OPTIONS is an options structure to change the behavior of the algorithm (*note optimset: XREFoptimset.).  ‘pqpnonneg’ recognizes one option: "MaxIter".
 
      Outputs:
 
@@ -48626,7 +48625,7 @@ stem
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 2705
+# length: 2699
  -- : stem (Y)
  -- : stem (X, Y)
  -- : stem (..., LINESPEC)
@@ -48640,7 +48639,7 @@ stem
 
      If Y is a matrix, then each column of the matrix is plotted as a separate stem graph.  In this case X can either be a vector, the same length as the number of rows in Y, or it can be a matrix of the same size as Y.
 
-     The default color is "b" (blue), the default line style is "-", and the default marker is "o".  The line style can be altered by the ‘linespec’ argument in the same manner as the ‘plot’ command.  If the "filled" argument is present the markers at the top of the stems will be filled in.  For example,
+     The default color is "b" (blue), the default line style is "-", and the default marker is "o".  The line style can be altered by the LINESPEC argument in the same manner as the ‘plot’ command.  If the "filled" argument is present the markers at the top of the stems will be filled in.  For example,
 
           x = 1:10;
           y = 2*x;
@@ -48715,7 +48714,7 @@ stem3
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 1284
+# length: 1278
  -- : stem3 (X, Y, Z)
  -- : stem3 (..., LINESPEC)
  -- : stem3 (..., "filled")
@@ -48726,7 +48725,7 @@ stem3
 
      Stems are drawn from the height Z to the location in the x-y plane determined by X and Y.  The default color is "b" (blue), the default line style is "-", and the default marker is "o".
 
-     The line style can be altered by the ‘linespec’ argument in the same manner as the ‘plot’ command.  If the "filled" argument is present the markers at the top of the stems will be filled in.
+     The line style can be altered by the LINESPEC argument in the same manner as the ‘plot’ command.  If the "filled" argument is present the markers at the top of the stems will be filled in.
 
      Optional property/value pairs may be specified to control the appearance of the plot.
 
@@ -52858,13 +52857,13 @@ setdiff
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 583
+# length: 580
  -- : C = setdiff (A, B)
  -- : C = setdiff (A, B, "rows")
  -- : [C, IA] = setdiff (...)
      Return the unique elements in A that are not in B sorted in ascending order.
 
-     If A is a row vector return a column vector; Otherwise, return a column vector.  The inputs may also be cell arrays of strings.
+     If A is a row vector return a row vector; Otherwise, return a column vector.  The inputs may also be cell arrays of strings.
 
      If the optional input "rows" is given then return the rows in A that are not in B.  The inputs must be 2-D matrices to use this option.
 
@@ -53945,7 +53944,7 @@ stft
 
      ‘Y = stft (X, ...)’ returns the absolute values of the Fourier coefficients according to the NUM_COEF positive frequencies.
 
-     ‘[Y, C] = stft (x, ...)’ returns the entire STFT-matrix Y and a 3-element vector C containing the window size, increment, and window type, which is needed by the ‘synthesis’ function.
+     ‘[Y, C] = stft (X, ...)’ returns the entire STFT-matrix Y and a 3-element vector C containing the window size, increment, and window type, which is needed by the ‘synthesis’ function.
 
      See also: synthesis.
    
@@ -54056,7 +54055,7 @@ bicg
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 5782
+# length: 5781
  -- : X = bicg (A, B)
  -- : X = bicg (A, B, TOL)
  -- : X = bicg (A, B, TOL, MAXIT)
@@ -54124,7 +54123,7 @@ bicg
           M1fun = @(x, string) strcmp (string, "notransp") * (M1 \ x) + ...
                                strcmp (string, "transp") * (M1' \ x);
           M2fun = @(x, string) strcmp (string, "notransp") * (M2 \ x) + ...
-                               strcmp (string, "transp") * (M2' \ x);;
+                               strcmp (string, "transp") * (M2' \ x);
 
      EXAMPLE 1: simplest usage of ‘bicg’
 
@@ -55222,7 +55221,7 @@ pcr
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 4143
+# length: 4137
  -- : X = pcr (A, B, TOL, MAXIT, M, X0, ...)
  -- : [X, FLAG, RELRES, ITER, RESVEC] = pcr (...)
 
@@ -55236,7 +55235,7 @@ pcr
 
         • TOL is the required relative tolerance for the residual error, ‘B - A * X’.  The iteration stops if ‘norm (B - A * X) <= TOL * norm (B - A * X0)’.  If TOL is empty or is omitted, the function sets ‘TOL = 1e-6’ by default.
 
-        • MAXIT is the maximum allowable number of iterations; if ‘[]’ is supplied for ‘maxit’, or ‘pcr’ has less arguments, a default value equal to 20 is used.
+        • MAXIT is the maximum allowable number of iterations; if ‘[]’ is supplied for MAXIT, or ‘pcr’ has less arguments, a default value equal to 20 is used.
 
         • M is the (left) preconditioning matrix, so that the iteration is (theoretically) equivalent to solving by ‘pcr’ ‘P * X = M \ B’, with ‘P = M \ A’.  Note that a proper choice of the preconditioner may dramatically improve the overall performance of the method.  Instead of matrix M, the user may pass a function which returns the results of applying the inverse of M to a vector (usually this is the preferred way of using the preconditioner).  If ‘[]’ is supplied for M, or M is omitted, no preconditioning is applied.
 
@@ -56106,7 +56105,7 @@ betaincinv
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 1122
+# length: 1121
  -- : betaincinv (Y, A, B)
  -- : betaincinv (Y, A, B, "lower")
  -- : betaincinv (Y, A, B, "upper")
@@ -56128,7 +56127,7 @@ betaincinv
 
      The variable Y must be in the interval [0,1], while A and B must be real and strictly positive.
 
-     By default, TAIL is "lower") and the inverse of the incomplete beta function integrated from 0 to X is computed.  If TAIL is "upper" then the complementary function integrated from X to 1 is inverted.
+     By default, TAIL is "lower" and the inverse of the incomplete beta function integrated from 0 to X is computed.  If TAIL is "upper" then the complementary function integrated from X to 1 is inverted.
 
      The function is computed by standard Newton’s method, by solving
 
@@ -56579,7 +56578,7 @@ legendre
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 2332
+# length: 2326
  -- : L = legendre (N, X)
  -- : L = legendre (N, X, NORMALIZATION)
      Compute the associated Legendre function of degree N and order M = 0 ... N.
@@ -56613,7 +56612,7 @@ legendre
           m=2 |  0.00000 | -2.56500 | -4.32000
           m=3 |  0.00000 | -1.24229 | -3.24000
 
-     When the optional argument ‘normalization’ is "sch", compute the Schmidt semi-normalized associated Legendre function.  The Schmidt semi-normalized associated Legendre function is related to the unnormalized Legendre functions by the following:
+     When the optional argument NORMALIZATION is "sch", compute the Schmidt semi-normalized associated Legendre function.  The Schmidt semi-normalized associated Legendre function is related to the unnormalized Legendre functions by the following:
 
      For Legendre functions of degree N and order 0:
 
@@ -61005,11 +61004,11 @@ datestr
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 37188
+# length: 37182
  -- : STR = datestr (DATE)
  -- : STR = datestr (DATE, F)
  -- : STR = datestr (DATE, F, P)
-     Format the given date/time according to the format ‘f’ and return the result in STR.
+     Format the given date/time according to the format F and return the result in STR.
 
      DATE is a serial date number (see ‘datenum’) or a date vector (see ‘datevec’).  The value of DATE may also be a string or cell array of strings.
 
@@ -61089,8 +61088,8 @@ datestr
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 88
-Format the given date/time according to the format ‘f’ and return the result in STR.
+# length: 82
+Format the given date/time according to the format F and return the result in STR.
 
 
 

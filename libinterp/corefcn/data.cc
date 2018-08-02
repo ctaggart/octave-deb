@@ -2624,7 +2624,7 @@ With a single output argument, @code{size} returns a row vector.  When called
 with multiple output arguments, @code{size} returns the size of dimension N
 in the Nth argument.  The number of rows, dimension 1, is returned in the
 first argument, the number of columns, dimension 2, is returned in the
-second argument, etc.  If there are more dimensions in @var{a} then there are
+second argument, etc.  If there are more dimensions in @var{a} than there are
 output arguments, @code{size} returns the total number of elements in the
 remaining dimensions in the final output argument.
 
@@ -2656,7 +2656,7 @@ Example 3: number of output arguments == number of dimensions
 @end group
 @end example
 
-Example 4: number of output arguments != number of dimensions
+Example 4: number of output arguments < number of dimensions
 
 @example
 @group
@@ -6392,9 +6392,9 @@ sort ([1, 2; 2, 3; 3, 1])
 @end example
 
 If the optional argument @var{dim} is given, then the matrix is sorted
-along the dimension defined by @var{dim}.  The optional argument @code{mode}
+along the dimension defined by @var{dim}.  The optional argument @var{mode}
 defines the order in which the values will be sorted.  Valid values of
-@code{mode} are @qcode{"ascend"} or @qcode{"descend"}.
+@var{mode} are @qcode{"ascend"} or @qcode{"descend"}.
 
 The @code{sort} function may also be used to produce a matrix
 containing the original row indices of the elements in the sorted

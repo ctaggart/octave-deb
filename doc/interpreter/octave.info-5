@@ -21,6 +21,675 @@ manual into another language, under the above conditions for modified
 versions.
 
 
+File: octave.info,  Node: Sums and Products,  Next: Utility Functions,  Prev: Trigonometry,  Up: Arithmetic
+
+17.4 Sums and Products
+======================
+
+ -- : sum (X)
+ -- : sum (X, DIM)
+ -- : sum (..., "native")
+ -- : sum (..., "double")
+ -- : sum (..., "extra")
+     Sum of elements along dimension DIM.
+
+     If DIM is omitted, it defaults to the first non-singleton
+     dimension.
+
+     The optional "type" input determines the class of the variable used
+     for calculations.  By default, operations on floating point inputs
+     (double or single) are performed in their native data type, while
+     operations on integer, logical, and character data types are
+     performed using doubles.  If the argument "native" is given, then
+     the operation is performed in the same type as the original
+     argument.
+
+     For example:
+
+          sum ([true, true])
+             ⇒ 2
+          sum ([true, true], "native")
+             ⇒ true
+
+     If "double" is given the sum is performed in double precision even
+     for single precision inputs.
+
+     For double precision inputs, the "extra" option will use a more
+     accurate algorithm than straightforward summation.  For single
+     precision inputs, "extra" is the same as "double".  For all other
+     data type "extra" has no effect.
+
+     See also: *note cumsum: XREFcumsum, *note sumsq: XREFsumsq, *note
+     prod: XREFprod.
+
+ -- : prod (X)
+ -- : prod (X, DIM)
+ -- : prod (..., "native")
+ -- : prod (..., "double")
+     Product of elements along dimension DIM.
+
+     If DIM is omitted, it defaults to the first non-singleton
+     dimension.
+
+     The optional "type" input determines the class of the variable used
+     for calculations.  If the argument "native" is given, then the
+     operation is performed in the same type as the original argument,
+     rather than the default double type.
+
+     For example:
+
+          prod ([true, true])
+             ⇒ 1
+          prod ([true, true], "native")
+             ⇒ true
+
+     On the contrary, if "double" is given, the operation is performed
+     in double precision even for single precision inputs.
+
+     See also: *note cumprod: XREFcumprod, *note sum: XREFsum.
+
+ -- : cumsum (X)
+ -- : cumsum (X, DIM)
+ -- : cumsum (..., "native")
+ -- : cumsum (..., "double")
+     Cumulative sum of elements along dimension DIM.
+
+     If DIM is omitted, it defaults to the first non-singleton
+     dimension.  For example:
+
+          cumsum ([1, 2; 3, 4; 5, 6])
+             ⇒  1   2
+                 4   6
+                 9  12
+
+     See ‘sum’ for an explanation of the optional parameters "native"
+     and "double".
+
+     See also: *note sum: XREFsum, *note cumprod: XREFcumprod.
+
+ -- : cumprod (X)
+ -- : cumprod (X, DIM)
+     Cumulative product of elements along dimension DIM.
+
+     If DIM is omitted, it defaults to the first non-singleton
+     dimension.  For example:
+
+          cumprod ([1, 2; 3, 4; 5, 6])
+             ⇒  1   2
+                 3   8
+                15  48
+
+     See also: *note prod: XREFprod, *note cumsum: XREFcumsum.
+
+ -- : sumsq (X)
+ -- : sumsq (X, DIM)
+     Sum of squares of elements along dimension DIM.
+
+     If DIM is omitted, it defaults to the first non-singleton
+     dimension.
+
+     This function is conceptually equivalent to computing
+
+          sum (x .* conj (x), dim)
+
+     but it uses less memory and avoids calling ‘conj’ if X is real.
+
+     See also: *note sum: XREFsum, *note prod: XREFprod.
+
+
+File: octave.info,  Node: Utility Functions,  Next: Special Functions,  Prev: Sums and Products,  Up: Arithmetic
+
+17.5 Utility Functions
+======================
+
+ -- : ceil (X)
+     Return the smallest integer not less than X.
+
+     This is equivalent to rounding towards positive infinity.
+
+     If X is complex, return ‘ceil (real (X)) + ceil (imag (X)) * I’.
+
+          ceil ([-2.7, 2.7])
+              ⇒ -2    3
+
+     See also: *note floor: XREFfloor, *note round: XREFround, *note
+     fix: XREFfix.
+
+ -- : fix (X)
+     Truncate fractional portion of X and return the integer portion.
+
+     This is equivalent to rounding towards zero.  If X is complex,
+     return ‘fix (real (X)) + fix (imag (X)) * I’.
+
+          fix ([-2.7, 2.7])
+             ⇒ -2    2
+
+     See also: *note ceil: XREFceil, *note floor: XREFfloor, *note
+     round: XREFround.
+
+ -- : floor (X)
+     Return the largest integer not greater than X.
+
+     This is equivalent to rounding towards negative infinity.  If X is
+     complex, return ‘floor (real (X)) + floor (imag (X)) * I’.
+
+          floor ([-2.7, 2.7])
+               ⇒ -3    2
+
+     See also: *note ceil: XREFceil, *note round: XREFround, *note fix:
+     XREFfix.
+
+ -- : round (X)
+     Return the integer nearest to X.
+
+     If X is complex, return ‘round (real (X)) + round (imag (X)) * I’.
+     If there are two nearest integers, return the one further away from
+     zero.
+
+          round ([-2.7, 2.7])
+               ⇒ -3    3
+
+     See also: *note ceil: XREFceil, *note floor: XREFfloor, *note fix:
+     XREFfix, *note roundb: XREFroundb.
+
+ -- : roundb (X)
+     Return the integer nearest to X.  If there are two nearest
+     integers, return the even one (banker’s rounding).
+
+     If X is complex, return ‘roundb (real (X)) + roundb (imag (X)) *
+     I’.
+
+     See also: *note round: XREFround.
+
+ -- : max (X)
+ -- : max (X, [], DIM)
+ -- : [W, IW] = max (X)
+ -- : max (X, Y)
+     Find maximum values in the array X.
+
+     For a vector argument, return the maximum value.  For a matrix
+     argument, return a row vector with the maximum value of each
+     column.  For a multi-dimensional array, ‘max’ operates along the
+     first non-singleton dimension.
+
+     If the optional third argument DIM is present then operate along
+     this dimension.  In this case the second argument is ignored and
+     should be set to the empty matrix.
+
+     For two matrices (or a matrix and a scalar), return the pairwise
+     maximum.
+
+     Thus,
+
+          max (max (X))
+
+     returns the largest element of the 2-D matrix X, and
+
+          max (2:5, pi)
+              ⇒  3.1416  3.1416  4.0000  5.0000
+
+     compares each element of the range ‘2:5’ with ‘pi’, and returns a
+     row vector of the maximum values.
+
+     For complex arguments, the magnitude of the elements are used for
+     comparison.  If the magnitudes are identical, then the results are
+     ordered by phase angle in the range (-pi, pi].  Hence,
+
+          max ([-1 i 1 -i])
+              ⇒ -1
+
+     because all entries have magnitude 1, but -1 has the largest phase
+     angle with value pi.
+
+     If called with one input and two output arguments, ‘max’ also
+     returns the first index of the maximum value(s).  Thus,
+
+          [x, ix] = max ([1, 3, 5, 2, 5])
+              ⇒  x = 5
+                  ix = 3
+
+     See also: *note min: XREFmin, *note cummax: XREFcummax, *note
+     cummin: XREFcummin.
+
+ -- : min (X)
+ -- : min (X, [], DIM)
+ -- : [W, IW] = min (X)
+ -- : min (X, Y)
+     Find minimum values in the array X.
+
+     For a vector argument, return the minimum value.  For a matrix
+     argument, return a row vector with the minimum value of each
+     column.  For a multi-dimensional array, ‘min’ operates along the
+     first non-singleton dimension.
+
+     If the optional third argument DIM is present then operate along
+     this dimension.  In this case the second argument is ignored and
+     should be set to the empty matrix.
+
+     For two matrices (or a matrix and a scalar), return the pairwise
+     minimum.
+
+     Thus,
+
+          min (min (X))
+
+     returns the smallest element of the 2-D matrix X, and
+
+          min (2:5, pi)
+              ⇒  2.0000  3.0000  3.1416  3.1416
+
+     compares each element of the range ‘2:5’ with ‘pi’, and returns a
+     row vector of the minimum values.
+
+     For complex arguments, the magnitude of the elements are used for
+     comparison.  If the magnitudes are identical, then the results are
+     ordered by phase angle in the range (-pi, pi].  Hence,
+
+          min ([-1 i 1 -i])
+              ⇒ -i
+
+     because all entries have magnitude 1, but -i has the smallest phase
+     angle with value -pi/2.
+
+     If called with one input and two output arguments, ‘min’ also
+     returns the first index of the minimum value(s).  Thus,
+
+          [x, ix] = min ([1, 3, 0, 2, 0])
+              ⇒  x = 0
+                  ix = 3
+
+     See also: *note max: XREFmax, *note cummin: XREFcummin, *note
+     cummax: XREFcummax.
+
+ -- : cummax (X)
+ -- : cummax (X, DIM)
+ -- : [W, IW] = cummax (...)
+     Return the cumulative maximum values along dimension DIM.
+
+     If DIM is unspecified it defaults to column-wise operation.  For
+     example:
+
+          cummax ([1 3 2 6 4 5])
+             ⇒  1  3  3  6  6  6
+
+     If called with two output arguments the index of the maximum value
+     is also returned.
+
+          [w, iw] = cummax ([1 3 2 6 4 5])
+          ⇒
+          w =  1  3  3  6  6  6
+          iw = 1  2  2  4  4  4
+
+     See also: *note cummin: XREFcummin, *note max: XREFmax, *note min:
+     XREFmin.
+
+ -- : cummin (X)
+ -- : cummin (X, DIM)
+ -- : [W, IW] = cummin (X)
+     Return the cumulative minimum values along dimension DIM.
+
+     If DIM is unspecified it defaults to column-wise operation.  For
+     example:
+
+          cummin ([5 4 6 2 3 1])
+             ⇒  5  4  4  2  2  1
+
+     If called with two output arguments the index of the minimum value
+     is also returned.
+
+          [w, iw] = cummin ([5 4 6 2 3 1])
+          ⇒
+          w =  5  4  4  2  2  1
+          iw = 1  2  2  4  4  6
+
+     See also: *note cummax: XREFcummax, *note min: XREFmin, *note max:
+     XREFmax.
+
+ -- : hypot (X, Y)
+ -- : hypot (X, Y, Z, ...)
+     Compute the element-by-element square root of the sum of the
+     squares of X and Y.
+
+     This is equivalent to ‘sqrt (X.^2 + Y.^2)’, but is calculated in a
+     manner that avoids overflows for large values of X or Y.
+
+     ‘hypot’ can also be called with more than 2 arguments; in this
+     case, the arguments are accumulated from left to right:
+
+          hypot (hypot (X, Y), Z)
+          hypot (hypot (hypot (X, Y), Z), W), etc.
+
+ -- : DX = gradient (M)
+ -- : [DX, DY, DZ, ...] = gradient (M)
+ -- : [...] = gradient (M, S)
+ -- : [...] = gradient (M, X, Y, Z, ...)
+ -- : [...] = gradient (F, X0)
+ -- : [...] = gradient (F, X0, S)
+ -- : [...] = gradient (F, X0, X, Y, ...)
+
+     Calculate the gradient of sampled data or a function.
+
+     If M is a vector, calculate the one-dimensional gradient of M.  If
+     M is a matrix the gradient is calculated for each dimension.
+
+     ‘[DX, DY] = gradient (M)’ calculates the one-dimensional gradient
+     for X and Y direction if M is a matrix.  Additional return
+     arguments can be use for multi-dimensional matrices.
+
+     A constant spacing between two points can be provided by the S
+     parameter.  If S is a scalar, it is assumed to be the spacing for
+     all dimensions.  Otherwise, separate values of the spacing can be
+     supplied by the X, ... arguments.  Scalar values specify an
+     equidistant spacing.  Vector values for the X, ... arguments
+     specify the coordinate for that dimension.  The length must match
+     their respective dimension of M.
+
+     At boundary points a linear extrapolation is applied.  Interior
+     points are calculated with the first approximation of the numerical
+     gradient
+
+          y'(i) = 1/(x(i+1)-x(i-1)) * (y(i-1)-y(i+1)).
+
+     If the first argument F is a function handle, the gradient of the
+     function at the points in X0 is approximated using central
+     difference.  For example, ‘gradient (@cos, 0)’ approximates the
+     gradient of the cosine function in the point x0 = 0.  As with
+     sampled data, the spacing values between the points from which the
+     gradient is estimated can be set via the S or DX, DY, ...
+     arguments.  By default a spacing of 1 is used.
+
+     See also: *note diff: XREFdiff, *note del2: XREFdel2.
+
+ -- : dot (X, Y, DIM)
+     Compute the dot product of two vectors.
+
+     If X and Y are matrices, calculate the dot products along the first
+     non-singleton dimension.
+
+     If the optional argument DIM is given, calculate the dot products
+     along this dimension.
+
+     This is equivalent to ‘sum (conj (X) .* Y, DIM)’, but avoids
+     forming a temporary array and is faster.  When X and Y are column
+     vectors, the result is equivalent to ‘X' * Y’.
+
+     See also: *note cross: XREFcross, *note divergence: XREFdivergence.
+
+ -- : cross (X, Y)
+ -- : cross (X, Y, DIM)
+     Compute the vector cross product of two 3-dimensional vectors X and
+     Y.
+
+     If X and Y are matrices, the cross product is applied along the
+     first dimension with three elements.
+
+     The optional argument DIM forces the cross product to be calculated
+     along the specified dimension.
+
+     Example Code:
+
+          cross ([1,1,0], [0,1,1])
+               ⇒ [ 1; -1; 1 ]
+
+     See also: *note dot: XREFdot, *note curl: XREFcurl, *note
+     divergence: XREFdivergence.
+
+ -- : DIV = divergence (X, Y, Z, FX, FY, FZ)
+ -- : DIV = divergence (FX, FY, FZ)
+ -- : DIV = divergence (X, Y, FX, FY)
+ -- : DIV = divergence (FX, FY)
+     Calculate divergence of a vector field given by the arrays FX, FY,
+     and FZ or FX, FY respectively.
+
+                            d               d               d
+          div F(x,y,z)  =   -- F(x,y,z)  +  -- F(x,y,z)  +  -- F(x,y,z)
+                            dx              dy              dz
+
+     The coordinates of the vector field can be given by the arguments
+     X, Y, Z or X, Y respectively.
+
+     See also: *note curl: XREFcurl, *note gradient: XREFgradient, *note
+     del2: XREFdel2, *note dot: XREFdot.
+
+ -- : [CX, CY, CZ, V] = curl (X, Y, Z, FX, FY, FZ)
+ -- : [CZ, V] = curl (X, Y, FX, FY)
+ -- : [...] = curl (FX, FY, FZ)
+ -- : [...] = curl (FX, FY)
+ -- : V = curl (...)
+     Calculate curl of vector field given by the arrays FX, FY, and FZ
+     or FX, FY respectively.
+
+                            / d         d       d         d       d         d     \
+          curl F(x,y,z)  =  | -- Fz  -  -- Fy,  -- Fx  -  -- Fz,  -- Fy  -  -- Fx |
+                            \ dy        dz      dz        dx      dx        dy    /
+
+     The coordinates of the vector field can be given by the arguments
+     X, Y, Z or X, Y respectively.  V calculates the scalar component of
+     the angular velocity vector in direction of the z-axis for
+     two-dimensional input.  For three-dimensional input the scalar
+     rotation is calculated at each grid point in direction of the
+     vector field at that point.
+
+     See also: *note divergence: XREFdivergence, *note gradient:
+     XREFgradient, *note del2: XREFdel2, *note cross: XREFcross.
+
+ -- : L = del2 (M)
+ -- : L = del2 (M, H)
+ -- : L = del2 (M, DX, DY, ...)
+
+     Calculate the discrete Laplace operator.
+
+     For a 2-dimensional matrix M this is defined as
+
+                1    / d^2            d^2         \
+          L  = --- * | ---  M(x,y) +  ---  M(x,y) |
+                4    \ dx^2           dy^2        /
+
+     For N-dimensional arrays the sum in parentheses is expanded to
+     include second derivatives over the additional higher dimensions.
+
+     The spacing between evaluation points may be defined by H, which is
+     a scalar defining the equidistant spacing in all dimensions.
+     Alternatively, the spacing in each dimension may be defined
+     separately by DX, DY, etc.  A scalar spacing argument defines
+     equidistant spacing, whereas a vector argument can be used to
+     specify variable spacing.  The length of the spacing vectors must
+     match the respective dimension of M.  The default spacing value is
+     1.
+
+     Dimensions with fewer than 3 data points are skipped.  Boundary
+     points are calculated from the linear extrapolation of interior
+     points.
+
+     Example: Second derivative of 2*x^3
+
+          f = @(x) 2*x.^3;
+          dd = @(x) 12*x;
+          x = 1:6;
+          L = 4*del2 (f(x));
+          assert (L, dd (x));
+
+     See also: *note gradient: XREFgradient, *note diff: XREFdiff.
+
+ -- : factorial (N)
+     Return the factorial of N where N is a real non-negative integer.
+
+     If N is a scalar, this is equivalent to ‘prod (1:N)’.  For vector
+     or matrix arguments, return the factorial of each element in the
+     array.
+
+     For non-integers see the generalized factorial function ‘gamma’.
+     Note that the factorial function grows large quite quickly, and
+     even with double precision values overflow will occur if N > 171.
+     For such cases consider ‘gammaln’.
+
+     See also: *note prod: XREFprod, *note gamma: XREFgamma, *note
+     gammaln: XREFgammaln.
+
+ -- : PF = factor (Q)
+ -- : [PF, N] = factor (Q)
+     Return the prime factorization of Q.
+
+     The prime factorization is defined as ‘prod (PF) == Q’ where every
+     element of PF is a prime number.  If ‘Q == 1’, return 1.
+
+     With two output arguments, return the unique prime factors PF and
+     their multiplicities.  That is, ‘prod (PF .^ N) == Q’.
+
+     Implementation Note: The input Q must be less than ‘flintmax’
+     (9.0072e+15) in order to factor correctly.
+
+     See also: *note gcd: XREFgcd, *note lcm: XREFlcm, *note isprime:
+     XREFisprime, *note primes: XREFprimes.
+
+ -- : G = gcd (A1, A2, ...)
+ -- : [G, V1, ...] = gcd (A1, A2, ...)
+     Compute the greatest common divisor of A1, A2, ....
+
+     If more than one argument is given then all arguments must be the
+     same size or scalar.  In this case the greatest common divisor is
+     calculated for each element individually.  All elements must be
+     ordinary or Gaussian (complex) integers.  Note that for Gaussian
+     integers, the gcd is only unique up to a phase factor
+     (multiplication by 1, -1, i, or -i), so an arbitrary greatest
+     common divisor among the four possible is returned.
+
+     Optional return arguments V1, ..., contain integer vectors such
+     that,
+
+          G = V1 .* A1 + V2 .* A2 + ...
+
+     Example code:
+
+          gcd ([15, 9], [20, 18])
+             ⇒  5  9
+
+     See also: *note lcm: XREFlcm, *note factor: XREFfactor, *note
+     isprime: XREFisprime.
+
+ -- : lcm (X, Y)
+ -- : lcm (X, Y, ...)
+     Compute the least common multiple of X and Y, or of the list of all
+     arguments.
+
+     All elements must be numeric and of the same size or scalar.
+
+     See also: *note factor: XREFfactor, *note gcd: XREFgcd, *note
+     isprime: XREFisprime.
+
+ -- : rem (X, Y)
+     Return the remainder of the division ‘X / Y’.
+
+     The remainder is computed using the expression
+
+          x - y .* fix (x ./ y)
+
+     An error message is printed if the dimensions of the arguments do
+     not agree, or if either argument is complex.
+
+     Programming Notes: Floating point numbers within a few eps of an
+     integer will be rounded to an integer before computation for
+     compatibility with MATLAB.
+
+     By convention,
+
+          rem (X, 0) = NaN  if X is a floating point variable
+          rem (X, 0) = 0    if X is an integer variable
+          rem (X, Y)        returns a value with the signbit from X
+
+     For the opposite conventions see the ‘mod’ function.  In general,
+     ‘rem’ is best when computing the remainder after division of two
+     _positive_ numbers.  For negative numbers, or when the values are
+     periodic, ‘mod’ is a better choice.
+
+     See also: *note mod: XREFmod.
+
+ -- : mod (X, Y)
+     Compute the modulo of X and Y.
+
+     Conceptually this is given by
+
+          x - y .* floor (x ./ y)
+
+     and is written such that the correct modulus is returned for
+     integer types.  This function handles negative values correctly.
+     That is, ‘mod (-1, 3)’ is 2, not -1, as ‘rem (-1, 3)’ returns.
+
+     An error results if the dimensions of the arguments do not agree,
+     or if either of the arguments is complex.
+
+     Programming Notes: Floating point numbers within a few eps of an
+     integer will be rounded to an integer before computation for
+     compatibility with MATLAB.
+
+     By convention,
+
+          mod (X, 0) = X
+          mod (X, Y)      returns a value with the signbit from Y
+
+     For the opposite conventions see the ‘rem’ function.  In general,
+     ‘mod’ is a better choice than ‘rem’ when any of the inputs are
+     negative numbers or when the values are periodic.
+
+     See also: *note rem: XREFrem.
+
+ -- : P = primes (N)
+     Return all primes up to N.
+
+     The output data class (double, single, uint32, etc.) is the same as
+     the input class of N.  The algorithm used is the Sieve of
+     Eratosthenes.
+
+     Note: If you need a specific number of primes you can use the fact
+     that the distance from one prime to the next is, on average,
+     proportional to the logarithm of the prime.  Integrating, one finds
+     that there are about k primes less than k*log (5*k).
+
+     See also ‘list_primes’ if you need a specific number N of primes.
+
+     See also: *note list_primes: XREFlist_primes, *note isprime:
+     XREFisprime.
+
+ -- : list_primes ()
+ -- : list_primes (N)
+     List the first N primes.
+
+     If N is unspecified, the first 25 primes are listed.
+
+     See also: *note primes: XREFprimes, *note isprime: XREFisprime.
+
+ -- : sign (X)
+     Compute the “signum” function.
+
+     This is defined as
+
+                     -1, x < 0;
+          sign (x) =  0, x = 0;
+                      1, x > 0.
+
+     For complex arguments, ‘sign’ returns ‘x ./ abs (X)’.
+
+     Note that ‘sign (-0.0)’ is 0.  Although IEEE 754 floating point
+     allows zero to be signed, 0.0 and -0.0 compare equal.  If you must
+     test whether zero is signed, use the ‘signbit’ function.
+
+     See also: *note signbit: XREFsignbit.
+
+ -- : signbit (X)
+     Return logical true if the value of X has its sign bit set and
+     false otherwise.
+
+     This behavior is consistent with the other logical functions.  See
+     *note Logical Values::.  The behavior differs from the C language
+     function which returns nonzero if the sign bit is set.
+
+     This is not the same as ‘x < 0.0’, because IEEE 754 floating point
+     allows zero to be signed.  The comparison ‘-0.0 < 0.0’ is false,
+     but ‘signbit (-0.0)’ will return a nonzero value.
+
+     See also: *note sign: XREFsign.
+
+
 File: octave.info,  Node: Special Functions,  Next: Rational Approximations,  Prev: Utility Functions,  Up: Arithmetic
 
 17.6 Special Functions
@@ -327,7 +996,7 @@ File: octave.info,  Node: Special Functions,  Next: Rational Approximations,  Pr
      The variable Y must be in the interval [0,1], while A and B must be
      real and strictly positive.
 
-     By default, TAIL is "lower") and the inverse of the incomplete beta
+     By default, TAIL is "lower" and the inverse of the incomplete beta
      function integrated from 0 to X is computed.  If TAIL is "upper"
      then the complementary function integrated from X to 1 is inverted.
 
@@ -750,7 +1419,7 @@ File: octave.info,  Node: Special Functions,  Next: Rational Approximations,  Pr
           m=2 |  0.00000 | -2.56500 | -4.32000
           m=3 |  0.00000 | -1.24229 | -3.24000
 
-     When the optional argument ‘normalization’ is "sch", compute the
+     When the optional argument NORMALIZATION is "sch", compute the
      Schmidt semi-normalized associated Legendre function.  The Schmidt
      semi-normalized associated Legendre function is related to the
      unnormalized Legendre functions by the following:
@@ -2669,7 +3338,7 @@ File: octave.info,  Node: Matrix Factorizations,  Next: Functions of a Matrix,  
 
      If V is a vector, then H contains the Hessenberg matrix such that
      a*u == u*h+rk*ek’, in which ‘rk = a*u(:,k)-u*h(:,k)’, and ek’ is
-     the vector ‘[0, 0, ..., 1]’ of length ‘k’.  Otherwise, H is
+     the vector ‘[0, 0, ..., 1]’ of length K.  Otherwise, H is
      meaningless.
 
      If V is a vector and K is greater than ‘length (A) - 1’, then H
@@ -2903,7 +3572,7 @@ File: octave.info,  Node: Specialized Solvers,  Prev: Functions of a Matrix,  Up
           M1fun = @(x, string) strcmp (string, "notransp") * (M1 \ x) + ...
                                strcmp (string, "transp") * (M1' \ x);
           M2fun = @(x, string) strcmp (string, "notransp") * (M2 \ x) + ...
-                               strcmp (string, "transp") * (M2' \ x);;
+                               strcmp (string, "transp") * (M2' \ x);
 
      EXAMPLE 1: simplest usage of ‘bicg’
 
@@ -6059,7 +6728,7 @@ number of memory allocations.
      ‘sparse (M, N)’ will create an empty MxN sparse matrix and is
      equivalent to ‘sparse ([], [], [], M, N)’
 
-     The argument ‘nzmax’ is ignored but accepted for compatibility with
+     The argument NZMAX is ignored but accepted for compatibility with
      MATLAB.
 
      Example 1 (sum at repeated indices):
@@ -6919,7 +7588,7 @@ reorder the matrix to maximize performance.
      n-by-n, then rows and columns with more than ‘max
      (16,KNOBS(1)*sqrt(n))’ entries are removed prior to ordering, and
      ordered last in the output permutation P.  No rows/columns are
-     removed if ‘KNOBS(1) < 0’.  If ‘KNOBS (2)’ is nonzero, ‘stats’ and
+     removed if ‘KNOBS(1) < 0’.  If ‘KNOBS(2)’ is nonzero, STATS and
      KNOBS are printed.  The default is ‘KNOBS = [10 0]’.  Note that
      KNOBS differs from earlier versions of ‘symamd’.
 
