@@ -13,3 +13,7 @@ Files: /usr/share/doc/octave/liboctave.html/*.html
 
 Format: PDF
 Files: /usr/share/doc/octave/liboctave.pdf
+
+Format: Info
+Index: /usr/share/info/liboctave.info.gz
+Files: /usr/share/info/liboctave.info*.gz

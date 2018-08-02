@@ -13,3 +13,7 @@ Files: /usr/share/doc/octave/octave.html/*.html
 
 Format: PDF
 Files: /usr/share/doc/octave/octave.pdf
+
+Format: Info
+Index: /usr/share/info/octave.info.gz
+Files: /usr/share/info/octave.info*.gz
