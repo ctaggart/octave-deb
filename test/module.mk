@@ -56,7 +56,6 @@ include %reldir%/bug-38236/module.mk
 include %reldir%/bug-38691/module.mk
 include %reldir%/bug-41723/module.mk
 include %reldir%/bug-44940/module.mk
-include %reldir%/bug-46497/module.mk
 include %reldir%/bug-46660/module.mk
 include %reldir%/bug-49379/module.mk
 include %reldir%/bug-50014/module.mk
@@ -80,7 +79,7 @@ include %reldir%/nest/module.mk
 include %reldir%/publish/module.mk
 
 define run-octave-tests
-  ( cd %reldir% && $(SHELL) ../run-octave $(RUN_OCTAVE_OPTIONS) $(1) --norc --silent --no-history $(abs_top_srcdir)/%reldir%/fntests.m $(abs_top_srcdir)/%reldir% ); \
+  ( cd %reldir% && $(SHELL) ../run-octave $(RUN_OCTAVE_OPTIONS) $(1) --norc --silent --no-history $(abs_top_srcdir)/%reldir%/fntests.m $(abs_top_srcdir)/%reldir% ) && \
   if $(AM_V_P); then \
     echo ""; \
     if [ -f %reldir%/fntests.log ]; then \

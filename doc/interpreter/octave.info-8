@@ -2531,7 +2531,7 @@ do this can then be seen in the code
            //       exit (status);
            //     }
            //
-           // You may skip this step if you don't need to do do anything
+           // You may skip this step if you don't need to do anything
            // between reading the startup files and telling the interpreter
            // that you are ready to execute commands.
      
@@ -6570,8 +6570,8 @@ Concept Index
 * else statement:                        The if Statement.    (line   6)
 * elseif statement:                      The if Statement.    (line   6)
 * end statement:                         Statements.          (line  16)
-* end, indexing:                         Index Expressions.   (line  46)
-* end: and :end:                         Index Expressions.   (line  46)
+* end, indexing:                         Index Expressions.   (line 118)
+* end: and :end:                         Index Expressions.   (line 118)
 * endfor statement:                      The for Statement.   (line   6)
 * endfunction statement:                 Defining Functions.  (line   6)
 * endif statement:                       The if Statement.    (line   6)
@@ -6849,6 +6849,8 @@ Concept Index
 * ODE:                                   Differential Equations.
                                                               (line  15)
 * online help:                           Getting Help.        (line   6)
+* opengl rendering slow windows:         Hardware vs. Software Rendering.
+                                                              (line   6)
 * operator precedence:                   Operator Precedence. (line   6)
 * operators, arithmetic:                 Arithmetic Ops.      (line   6)
 * operators, arithmetic <1>:             Operator Overloading.
@@ -7148,7 +7150,7 @@ Concept Index
 * vectorize:                             Vectorization and Faster Code Execution.
                                                               (line   6)
 * version startup file:                  Startup Files.       (line  21)
-* warning ids:                           Issuing Warnings.    (line 153)
+* warning ids:                           Issuing Warnings.    (line 152)
 * warranty:                              Copying.             (line   6)
 * while statement:                       The while Statement. (line   6)
 * wrong answers:                         Bug Criteria.        (line  12)

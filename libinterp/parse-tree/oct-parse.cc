@@ -7381,16 +7381,6 @@ namespace octave
         if (m_fcn_file_from_relative_lookup)
           fcn->mark_relative ();
 
-        if (m_curr_fcn_depth > 1 || m_parsing_subfunctions)
-          {
-            fcn->stash_parent_fcn_name (m_lexer.m_fcn_file_name);
-
-            if (m_curr_fcn_depth > 1)
-              fcn->stash_parent_fcn_scope (m_function_scopes.parent_scope ());
-            else
-              fcn->stash_parent_fcn_scope (m_primary_fcn_scope);
-          }
-
         if (m_lexer.m_parsing_class_method)
           {
             if (m_curr_class_name == id_name)
@@ -7476,6 +7466,7 @@ namespace octave
         if (m_curr_fcn_depth > 1 || m_parsing_subfunctions)
           {
             fcn->stash_fcn_location (l, c);
+            fcn->stash_parent_fcn_name (m_lexer.m_fcn_file_name);
 
             octave_value ov_fcn (fcn);
 

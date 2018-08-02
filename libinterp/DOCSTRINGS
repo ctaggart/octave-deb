@@ -3796,7 +3796,7 @@ With a single output argument, @code{size} returns a row vector.  When called
 with multiple output arguments, @code{size} returns the size of dimension N
 in the Nth argument.  The number of rows, dimension 1, is returned in the
 first argument, the number of columns, dimension 2, is returned in the
-second argument, etc.  If there are more dimensions in @var{a} then there are
+second argument, etc.  If there are more dimensions in @var{a} than there are
 output arguments, @code{size} returns the total number of elements in the
 remaining dimensions in the final output argument.
 
@@ -3828,7 +3828,7 @@ Example 3: number of output arguments == number of dimensions
 @end group
 @end example
 
-Example 4: number of output arguments != number of dimensions
+Example 4: number of output arguments < number of dimensions
 
 @example
 @group
@@ -5093,9 +5093,9 @@ sort ([1, 2; 2, 3; 3, 1])
 @end example
 
 If the optional argument @var{dim} is given, then the matrix is sorted
-along the dimension defined by @var{dim}.  The optional argument @code{mode}
+along the dimension defined by @var{dim}.  The optional argument @var{mode}
 defines the order in which the values will be sorted.  Valid values of
-@code{mode} are @qcode{"ascend"} or @qcode{"descend"}.
+@var{mode} are @qcode{"ascend"} or @qcode{"descend"}.
 
 The @code{sort} function may also be used to produce a matrix
 containing the original row indices of the elements in the sorted
@@ -5673,7 +5673,7 @@ OCTAVE_HOME corresponds to the configuration variable @var{prefix}.
 OCTAVE_EXEC_HOME
 @c OCTAVE_EXEC_HOME libinterp/corefcn/defaults.cc
 -*- texinfo -*-
-@deftypefn {} {} OCTAVE_HOME ()
+@deftypefn {} {} OCTAVE_EXEC_HOME ()
 Return the name of the top-level Octave installation directory for
 architecture-dependent files.  If not specified separately, the value
 is the same as OCTAVE_HOME@.  OCTAVE_EXEC_HOME corresponds to the
@@ -6337,8 +6337,7 @@ disable escape sequence expansion use a second backslash before the sequence
 @deftypefnx {} {} warning (@var{state}, @var{id}, "local")
 @deftypefnx {} {} warning (@var{warning_struct})
 @deftypefnx {} {@var{warning_struct} =} warning (@dots{})
-@deftypefnx {} {@var{mode_struct} =} warning (@var{state}, @var{mode})
-@deftypefnx {} {} warning (@var{mode_st})
+@deftypefnx {} {} warning (@var{state}, @var{mode})
 
 Display a warning message or control the behavior of Octave's warning system.
 
@@ -6925,10 +6924,10 @@ is equivalent to @code{fseek (@var{fid}, 0, SEEK_SET)}.
 Set the file pointer to the location @var{offset} within the file @var{fid}.
 
 The pointer is positioned @var{offset} characters from the @var{origin}, which
-may be one of the predefined variables @w{@code{SEEK_SET}} (beginning),
-@w{@code{SEEK_CUR}} (current position), or @w{@code{SEEK_END}} (end of file) or
-strings @nospell{@qcode{"bof"}}, @nospell{@qcode{"cof"}}, or
-@nospell{@qcode{"eof"}}.  If @var{origin} is omitted, @w{@code{SEEK_SET}} is
+may be one of the predefined variables @w{@qcode{SEEK_SET}} (beginning),
+@w{@qcode{SEEK_CUR}} (current position), or @w{@qcode{SEEK_END}} (end of file)
+or strings @nospell{@qcode{"bof"}}, @nospell{@qcode{"cof"}}, or
+@nospell{@qcode{"eof"}}.  If @var{origin} is omitted, @w{@qcode{SEEK_SET}} is
 assumed.  @var{offset} may be positive, negative, or zero but not all
 combinations of @var{origin} and @var{offset} can be realized.
 
@@ -8647,14 +8646,14 @@ function @code{isequal} is used to compare property values.  If the graphics
 handle is invalid, the property does not exist or the property is already
 set to @var{value}, the function returns immediately.
 
-An optional timeout can be specified using the property @code{timeout}.
+An optional timeout can be specified using the property @qcode{"timeout"}.
 This timeout value is the number of seconds to wait for the condition to be
 true.  @var{timeout} must be at least 1.  If a smaller value is specified, a
 warning is issued and a value of 1 is used instead.  If the timeout value is
 not an integer, it is truncated towards 0.
 
-To define a condition on a property named @code{timeout}, use the string
-@code{\timeout} instead.
+To define a condition on a property named @qcode{"timeout"}, use the string
+@qcode{'\timeout'} instead.
 
 In all cases, typing CTRL-C stops program execution immediately.
 @seealso{waitforbuttonpress, isequal}
@@ -9113,7 +9112,7 @@ num2hex (single ([-1, 1, e, Inf]))
 @end group
 @end example
 
-With the optional second argument @qcode{"cell}, return a cell array of
+With the optional second argument @qcode{"cell"}, return a cell array of
 strings instead of a character array.
 @seealso{hex2num, hex2dec, dec2hex}
 @end deftypefn
@@ -9855,8 +9854,8 @@ Query or set the internal variable that specifies the maximum amount of memory
 that Octave will save when writing a crash dump file.
 
 The limit is measured in kilobytes and is applied to the top-level workspace.
-The name of the crash dump file is is specified by
-@var{octave_core_file_name}).
+The name of the crash dump file is specified by
+@var{octave_core_file_name}.
 
 If @var{octave_core_file_options} flags specify a binary format, then
 @var{octave_core_file_limit} will be approximately the maximum size of the
@@ -13290,7 +13289,7 @@ value will be used.
 @code{sparse (@var{m}, @var{n})} will create an empty @var{m}x@var{n} sparse
 matrix and is equivalent to @code{sparse ([], [], [], @var{m}, @var{n})}
 
-The argument @code{nzmax} is ignored but accepted for compatibility with
+The argument @var{nzmax} is ignored but accepted for compatibility with
 @sc{matlab}.
 
 Example 1 (sum at repeated indices):
@@ -15160,8 +15159,8 @@ Undocumented internal function.
 @deftypefn {} {@var{seconds} =} time ()
 Return the current time as the number of seconds since the epoch.
 
-The epoch is referenced to 00:00:00 CUT (Coordinated Universal Time) 1 Jan
-1970.  For example, on Monday February 17, 1997 at 07:15:06 CUT, the value
+The epoch is referenced to 00:00:00 UTC (Coordinated Universal Time) 1 Jan
+1970.  For example, on Monday February 17, 1997 at 07:15:06 UTC, the value
 returned by @code{time} was 856163706.
 @seealso{strftime, strptime, localtime, gmtime, mktime, now, date, clock, datenum, datestr, datevec, calendar, weekday}
 @end deftypefn
@@ -15170,7 +15169,7 @@ returned by @code{time} was 856163706.
 -*- texinfo -*-
 @deftypefn {} {@var{tm_struct} =} gmtime (@var{t})
 Given a value returned from @code{time}, or any non-negative integer,
-return a time structure corresponding to CUT (Coordinated Universal Time).
+return a time structure corresponding to UTC (Coordinated Universal Time).
 
 For example:
 
@@ -15465,8 +15464,8 @@ command that was written to the standard output stream.  For example,
 @end example
 
 @noindent
-will set the variable @code{output} to the string @samp{foo}, and the
-variable @code{status} to the integer @samp{2}.
+will set the variable @var{output} to the string @samp{foo}, and the
+variable @var{status} to the integer @samp{2}.
 
 For commands run asynchronously, @var{status} is the process id of the
 command shell that is started to run the command.
@@ -17712,7 +17711,7 @@ n-by-n, then rows and columns with more than
 @code{max (16,@var{knobs}(1)*sqrt(n))} entries are removed prior to
 ordering, and ordered last in the output permutation @var{p}.  No
 rows/columns are removed if @code{@var{knobs}(1) < 0}.  If
-@code{@var{knobs} (2)} is nonzero, @code{stats} and @var{knobs} are
+@code{@var{knobs}(2)} is nonzero, @var{stats} and @var{knobs} are
 printed.  The default is @code{@var{knobs} = [10 0]}.  Note that
 @var{knobs} differs from earlier versions of @code{symamd}.
 
@@ -18525,7 +18524,7 @@ Multiplication operator.
 Power operator.
 
 This may return complex results for real inputs.  Use @code{realsqrt},
-@code{cbrt}, @code{nthroot}, or @code{realroot} to obtain real results when
+@code{cbrt}, @code{nthroot}, or @code{realpow} to obtain real results when
 possible.
 @seealso{power, ^, .**, .^, realpow, realsqrt, cbrt, nthroot}
 @end deftypefn
@@ -18536,7 +18535,7 @@ possible.
 Power operator.
 
 This may return complex results for real inputs.  Use @code{realsqrt},
-@code{cbrt}, @code{nthroot}, or @code{realroot} to obtain real results when
+@code{cbrt}, @code{nthroot}, or @code{realpow} to obtain real results when
 possible.
 @seealso{power, **, .^, .**, realpow, realsqrt, cbrt, nthroot}
 @end deftypefn

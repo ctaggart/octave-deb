@@ -387,7 +387,7 @@ necessarily unsupported.
 
      FORMATS is a structure with information about each supported file
      format, or from a specific format EXT, the value displayed on the
-     field ‘ext’.  It contains the following fields:
+     field EXT.  It contains the following fields:
 
      ext
           The name of the file format.  This may match the file
@@ -1226,8 +1226,8 @@ than replace it.
      When called with an optional third argument the order of colors in
      the new colormap is defined by INDEX.
 
-     *Caution:* ‘index’ should not have repeated elements or the
-     function will fail.
+     *Caution:* INDEX should not have repeated elements or the function
+     will fail.
 
 
 File: octave.info,  Node: Plotting on top of Images,  Next: Color Conversion,  Prev: Representing Images,  Up: Image Processing
@@ -4300,15 +4300,15 @@ developing programs that do.  The functions ‘uiwait’, ‘uiresume’, and
      graphics handle is invalid, the property does not exist or the
      property is already set to VALUE, the function returns immediately.
 
-     An optional timeout can be specified using the property ‘timeout’.
+     An optional timeout can be specified using the property "timeout".
      This timeout value is the number of seconds to wait for the
      condition to be true.  TIMEOUT must be at least 1.  If a smaller
      value is specified, a warning is issued and a value of 1 is used
      instead.  If the timeout value is not an integer, it is truncated
      towards 0.
 
-     To define a condition on a property named ‘timeout’, use the string
-     ‘\timeout’ instead.
+     To define a condition on a property named "timeout", use the string
+     ’\timeout’ instead.
 
      In all cases, typing CTRL-C stops program execution immediately.
 
@@ -4527,9 +4527,9 @@ referred to as a TM_STRUCT.
  -- : SECONDS = time ()
      Return the current time as the number of seconds since the epoch.
 
-     The epoch is referenced to 00:00:00 CUT (Coordinated Universal
+     The epoch is referenced to 00:00:00 UTC (Coordinated Universal
      Time) 1 Jan 1970.  For example, on Monday February 17, 1997 at
-     07:15:06 CUT, the value returned by ‘time’ was 856163706.
+     07:15:06 UTC, the value returned by ‘time’ was 856163706.
 
      See also: *note strftime: XREFstrftime, *note strptime:
      XREFstrptime, *note localtime: XREFlocaltime, *note gmtime:
@@ -4567,7 +4567,7 @@ referred to as a TM_STRUCT.
 
  -- : TM_STRUCT = gmtime (T)
      Given a value returned from ‘time’, or any non-negative integer,
-     return a time structure corresponding to CUT (Coordinated Universal
+     return a time structure corresponding to UTC (Coordinated Universal
      Time).
 
      For example:
@@ -5045,8 +5045,8 @@ useful.
  -- : STR = datestr (DATE)
  -- : STR = datestr (DATE, F)
  -- : STR = datestr (DATE, F, P)
-     Format the given date/time according to the format ‘f’ and return
-     the result in STR.
+     Format the given date/time according to the format F and return the
+     result in STR.
 
      DATE is a serial date number (see ‘datenum’) or a date vector (see
      ‘datevec’).  The value of DATE may also be a string or cell array
@@ -6320,8 +6320,8 @@ higher-level functions.
 
           [status, output] = system ("echo foo & exit 2");
 
-     will set the variable ‘output’ to the string ‘foo’, and the
-     variable ‘status’ to the integer ‘2’.
+     will set the variable OUTPUT to the string ‘foo’, and the variable
+     STATUS to the integer ‘2’.
 
      For commands run asynchronously, STATUS is the process id of the
      command shell that is started to run the command.
@@ -7274,7 +7274,7 @@ File: octave.info,  Node: System Information,  Next: Hashing Functions,  Prev: G
      See also: *note EXEC_PATH: XREFEXEC_PATH, *note IMAGE_PATH:
      XREFIMAGE_PATH, *note OCTAVE_EXEC_HOME: XREFOCTAVE_EXEC_HOME.
 
- -- : OCTAVE_HOME ()
+ -- : OCTAVE_EXEC_HOME ()
      Return the name of the top-level Octave installation directory for
      architecture-dependent files.  If not specified separately, the
      value is the same as OCTAVE_HOME.  OCTAVE_EXEC_HOME corresponds to

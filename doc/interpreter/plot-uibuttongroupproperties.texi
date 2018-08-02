@@ -22,7 +22,7 @@
 
 @anchor{XREFuibuttongroupbackgroundcolor}
 @prindex uibuttongroup backgroundcolor
-@item @code{backgroundcolor}: def. @code{[0.93725   0.92157   0.90588]}
+@item @code{backgroundcolor}: def. @code{[0.93725   0.93725   0.93725]}
 
 
 
@@ -196,7 +196,7 @@ Specify whether uibuttongroup will accept mouse clicks.  By default, @code{picka
 
 @anchor{XREFuibuttongroupshadowcolor}
 @prindex uibuttongroup shadowcolor
-@item @code{shadowcolor}: def. @code{[0.62483   0.61437   0.60391]}
+@item @code{shadowcolor}: def. @code{[0.62483   0.62483   0.62483]}
 
 
 

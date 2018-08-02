@@ -523,7 +523,7 @@ hash ("md5", fileread (@var{file}))
 And calls like @code{md5sum (@var{str}, true)} with:
 
 @example
-hash ("md5", fileread (@var{str}))
+hash ("md5", @var{str})
 @end example
 
 Calculate the MD5 sum of the file @var{file}.
@@ -2008,7 +2008,7 @@ Example 1 : integrate a rectangular region in x-y plane
 @end example
 
 The result is a volume, which for this constant-value integrand, is just
-@code{@var{Length} * @var{Width} x @var{Height}}.
+@code{@var{Length} * @var{Width} * @var{Height}}.
 
 Example 2 : integrate a triangular region in x-y plane
 
@@ -2119,7 +2119,7 @@ Example 1 : integrate over a rectangular volume
 @end example
 
 For this constant-value integrand, the result is a volume which is just
-@code{@var{Length} * @var{Width} x @var{Height}}.
+@code{@var{Length} * @var{Width} * @var{Height}}.
 
 Example 2 : integrate over a spherical volume
 
@@ -2751,7 +2751,7 @@ Example 1 : integrate a rectangular region in x-y plane
 @end example
 
 The result is a volume, which for this constant-value integrand, is just
-@code{@var{Length} * @var{Width} x @var{Height}}.
+@code{@var{Length} * @var{Width} * @var{Height}}.
 
 Example 2 : integrate a triangular region in x-y plane
 
@@ -5621,8 +5621,7 @@ enabled.
 If the @code{Octave:erase:chararray} warning is enabled then the erase
 function will issue a warning if the input pattern is a character array
 rather than a string or cell array of strings.
-By default, the @code{Octave:eigs:UnconvergedEigenvalues} warning is
-enabled.
+By default, the @code{Octave:erase:chararray} warning is enabled.
 
 @item Octave:data-file-in-path
 If the @code{Octave:data-file-in-path} warning is enabled, a warning is
@@ -5875,7 +5874,7 @@ input image @var{X} when displayed using @var{newmap}.
 When called with an optional third argument the order of colors in the new
 colormap is defined by @var{index}.
 
-@strong{Caution:} @code{index} should not have repeated elements or the
+@strong{Caution:} @var{index} should not have repeated elements or the
 function will fail.
 
 @end deftypefn
@@ -6475,7 +6474,7 @@ Manage supported image formats.
 
 @var{formats} is a structure with information about each supported file
 format, or from a specific format @var{ext}, the value displayed on the
-field @code{ext}.  It contains the following fields:
+field @var{ext}.  It contains the following fields:
 
 @table @asis
 @item ext
@@ -8273,7 +8272,7 @@ of orthogonality.
 If @var{V} is a vector, then @var{h} contains the Hessenberg matrix
 such that @nospell{@tcode{a*u == u*h+rk*ek'}}, in which
 @code{rk = a*u(:,k)-u*h(:,k)}, and @nospell{@tcode{ek'}} is the vector
-@code{[0, 0, @dots{}, 1]} of length @code{k}.  Otherwise, @var{h} is
+@code{[0, 0, @dots{}, 1]} of length @var{k}.  Otherwise, @var{h} is
 meaningless.
 
 If @var{V} is a vector and @var{k} is greater than @code{length (A) - 1},
@@ -10548,7 +10547,7 @@ extension before falling back to the script name without an extension.
 Implementation Note: If @var{script} includes a path component, then
 @code{run} first changes the working directory to the directory where
 @var{script} is found.  Next, the script is executed.  Finally, @code{run}
-returns to the original working directory unless @code{script} has
+returns to the original working directory unless @var{script} has
 specifically changed directories.
 @seealso{path, addpath, source}
 @end deftypefn
@@ -11219,9 +11218,9 @@ The optional seventh argument @var{options} is a structure array.  Use
 compute the initial conditions.
 
 The function typically returns two outputs.  Variable @var{y0_new} is a
-column vector and contains the consistent initial value of y.  The output
-@var{yp0_new} is a column vector and contains the consistent initial value
-of yp.
+column vector and contains the consistent initial value of @var{y}.  The
+output @var{yp0_new} is a column vector and contains the consistent initial
+value of @var{yp}.
 
 The optional third output @var{resnorm} is the norm of the vector of
 residuals.  If @var{resnorm} is small, @code{decic} has successfully
@@ -12602,7 +12601,7 @@ Minimize @code{norm (@var{c}*@var{x} - @var{d})} subject to
 @var{x0} is an optional initial guess for the solution @var{x}.
 
 @var{options} is an options structure to change the behavior of the
-algorithm (@pxref{XREFoptimset,,optimset}.  @code{lsqnonneg} recognizes
+algorithm (@pxref{XREFoptimset,,optimset}).  @code{lsqnonneg} recognizes
 these options: @qcode{"MaxIter"}, @qcode{"TolX"}.
 
 Outputs:
@@ -12764,7 +12763,7 @@ positive definite.
 @var{x0} is an optional initial guess for the solution @var{x}.
 
 @var{options} is an options structure to change the behavior of the
-algorithm (@pxref{XREFoptimset,,optimset}.  @code{pqpnonneg} recognizes
+algorithm (@pxref{XREFoptimset,,optimset}).  @code{pqpnonneg} recognizes
 one option: @qcode{"MaxIter"}.
 
 Outputs:
@@ -18626,7 +18625,7 @@ matrix of the same size as @var{y}.
 
 The default color is @qcode{"b"} (blue), the default line style is
 @qcode{"-"}, and the default marker is @qcode{"o"}.  The line style can
-be altered by the @code{linespec} argument in the same manner as the
+be altered by the @var{linespec} argument in the same manner as the
 @code{plot} command.  If the @qcode{"filled"} argument is present the
 markers at the top of the stems will be filled in.  For example,
 
@@ -18720,7 +18719,7 @@ determined by @var{x} and @var{y}.  The default color is @qcode{"b"} (blue),
 the default line style is @qcode{"-"}, and the default marker is
 @qcode{"o"}.
 
-The line style can be altered by the @code{linespec} argument in the same
+The line style can be altered by the @var{linespec} argument in the same
 manner as the @code{plot} command.  If the @qcode{"filled"} argument is
 present the markers at the top of the stems will be filled in.
 
@@ -22115,7 +22114,7 @@ to use this argument.
 Return the unique elements in @var{a} that are not in @var{b} sorted in
 ascending order.
 
-If @var{a} is a row vector return a column vector; Otherwise, return a
+If @var{a} is a row vector return a row vector; Otherwise, return a
 column vector.  The inputs may also be cell arrays of strings.
 
 If the optional input @qcode{"rows"} is given then return the rows in
@@ -22814,7 +22813,7 @@ The following defaults are used for unspecified arguments:
 @code{@var{y} = stft (@var{x}, @dots{})} returns the absolute values of the
 Fourier coefficients according to the @var{num_coef} positive frequencies.
 
-@code{[@var{y}, @var{c}] = stft (@code{x}, @dots{})} returns the entire
+@code{[@var{y}, @var{c}] = stft (@var{x}, @dots{})} returns the entire
 STFT-matrix @var{y} and a 3-element vector @var{c} containing the window
 size, increment, and window type, which is needed by the @code{synthesis}
 function.
@@ -22985,7 +22984,7 @@ Mfun = @@(x, string) strcmp (string, "notransp") * (M \ x) + ...
 M1fun = @@(x, string) strcmp (string, "notransp") * (M1 \ x) + ...
                      strcmp (string, "transp") * (M1' \ x);
 M2fun = @@(x, string) strcmp (string, "notransp") * (M2 \ x) + ...
-                     strcmp (string, "transp") * (M2' \ x);;
+                     strcmp (string, "transp") * (M2' \ x);
 @end group
 @end example
 
@@ -24417,7 +24416,7 @@ If @var{tol} is empty or is omitted, the function sets
 
 @item
 @var{maxit} is the maximum allowable number of iterations; if @code{[]} is
-supplied for @code{maxit}, or @code{pcr} has less arguments, a default
+supplied for @var{maxit}, or @code{pcr} has less arguments, a default
 value equal to 20 is used.
 
 @item
@@ -25253,7 +25252,7 @@ If two or more inputs are not scalar, the sizes of them must agree, and
 The variable @var{y} must be in the interval [0,1], while @var{a} and
 @var{b} must be real and strictly positive.
 
-By default, @var{tail} is @qcode{"lower")} and the inverse of the incomplete
+By default, @var{tail} is @qcode{"lower"} and the inverse of the incomplete
 beta function integrated from 0 to @var{x} is computed.  If @var{tail} is
 @qcode{"upper"} then the complementary function integrated from @var{x} to 1
 is inverted.
@@ -25788,7 +25787,7 @@ m=3 |  0.00000 | -1.24229 | -3.24000
 @end group
 @end example
 
-When the optional argument @code{normalization} is @qcode{"sch"}, compute
+When the optional argument @var{normalization} is @qcode{"sch"}, compute
 the Schmidt semi-normalized associated Legendre function.  The Schmidt
 semi-normalized associated Legendre function is related to the unnormalized
 Legendre functions by the following:
@@ -29724,7 +29723,7 @@ available on the Wikipedia entry for leap seconds.
 @deftypefn  {} {@var{str} =} datestr (@var{date})
 @deftypefnx {} {@var{str} =} datestr (@var{date}, @var{f})
 @deftypefnx {} {@var{str} =} datestr (@var{date}, @var{f}, @var{p})
-Format the given date/time according to the format @code{f} and return
+Format the given date/time according to the format @var{f} and return
 the result in @var{str}.
 
 @var{date} is a serial date number (see @code{datenum}) or a date vector

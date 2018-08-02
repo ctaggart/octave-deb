@@ -1625,8 +1625,8 @@ Query or set the internal variable that specifies the maximum amount of memory
 that Octave will save when writing a crash dump file.
 
 The limit is measured in kilobytes and is applied to the top-level workspace.
-The name of the crash dump file is is specified by
-@var{octave_core_file_name}).
+The name of the crash dump file is specified by
+@var{octave_core_file_name}.
 
 If @var{octave_core_file_options} flags specify a binary format, then
 @var{octave_core_file_limit} will be approximately the maximum size of the
@@ -3152,10 +3152,10 @@ beginning of the file specified by file descriptor @var{fid}.
 Set the file pointer to the location @var{offset} within the file @var{fid}.
 
 The pointer is positioned @var{offset} characters from the @var{origin}, which
-may be one of the predefined variables @w{@code{SEEK_SET}} (beginning),
-@w{@code{SEEK_CUR}} (current position), or @w{@code{SEEK_END}} (end of file) or
-strings @nospell{@qcode{"bof"}}, @nospell{@qcode{"cof"}}, or
-@nospell{@qcode{"eof"}}.  If @var{origin} is omitted, @w{@code{SEEK_SET}} is
+may be one of the predefined variables @w{@qcode{SEEK_SET}} (beginning),
+@w{@qcode{SEEK_CUR}} (current position), or @w{@qcode{SEEK_END}} (end of file)
+or strings @nospell{@qcode{"bof"}}, @nospell{@qcode{"cof"}}, or
+@nospell{@qcode{"eof"}}.  If @var{origin} is omitted, @w{@qcode{SEEK_SET}} is
 assumed.  @var{offset} may be positive, negative, or zero but not all
 combinations of @var{origin} and @var{offset} can be realized.
 

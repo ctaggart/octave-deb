@@ -161,7 +161,7 @@ dimension.
 with multiple output arguments, <code>size</code> returns the size of dimension N
 in the Nth argument.  The number of rows, dimension 1, is returned in the
 first argument, the number of columns, dimension 2, is returned in the
-second argument, etc.  If there are more dimensions in <var>a</var> then there are
+second argument, etc.  If there are more dimensions in <var>a</var> than there are
 output arguments, <code>size</code> returns the total number of elements in the
 remaining dimensions in the final output argument.
 </p>
@@ -187,7 +187,7 @@ remaining dimensions in the final output argument.
     &rArr; nc = 2
 </pre></div>
 
-<p>Example 4: number of output arguments != number of dimensions
+<p>Example 4: number of output arguments &lt; number of dimensions
 </p>
 <div class="example">
 <pre class="example">[nr, remainder] = size (ones (2, 3, 4, 5))

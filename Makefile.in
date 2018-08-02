@@ -116,12 +116,18 @@ host_triplet = @host@
 bin_PROGRAMS = src/mkoctfile$(EXEEXT) src/octave$(EXEEXT) \
 	src/octave-cli$(EXEEXT) src/octave-config$(EXEEXT)
 archlib_PROGRAMS = $(am__EXEEXT_1)
-@AMCOND_HAVE_FFTW_TRUE@am__append_1 = $(FFTPACK_SRC)
-@AMCOND_HAVE_FFTW_FALSE@am__append_2 = $(FFTPACK_SRC)
-@AMCOND_ENABLE_DYNAMIC_LINKING_TRUE@am__append_3 = $(DLDFCN_LIBS)
-@AMCOND_ENABLE_DYNAMIC_LINKING_FALSE@am__append_4 = $(DLDFCN_LIBS)
-@AMCOND_BUILD_QT_GUI_TRUE@am__append_5 = libgui/liboctgui.la
-@AMCOND_BUILD_QT_GUI_TRUE@am__append_6 =  \
+@AMCOND_BUILD_EXTERNAL_LIBXERBLA_TRUE@am__append_1 = liboctave/external/blas-xtra/libxerbla.la
+@AMCOND_BUILD_EXTERNAL_LIBXERBLA_FALSE@am__append_2 = liboctave/external/blas-xtra/libxerbla.la
+@AMCOND_BUILD_EXTERNAL_LIBXERBLA_FALSE@am__append_3 = liboctave/external/blas-xtra/libxerbla.la
+@AMCOND_HAVE_FFTW_TRUE@am__append_4 = $(FFTPACK_SRC)
+@AMCOND_HAVE_FFTW_FALSE@am__append_5 = $(FFTPACK_SRC)
+@AMCOND_ENABLE_DYNAMIC_LINKING_TRUE@am__append_6 = $(DLDFCN_LIBS)
+@AMCOND_ENABLE_DYNAMIC_LINKING_FALSE@am__append_7 = $(DLDFCN_LIBS)
+@AMCOND_BUILD_EXTERNAL_LIBXERBLA_TRUE@am__append_8 = \
+@AMCOND_BUILD_EXTERNAL_LIBXERBLA_TRUE@    liboctave/external/blas-xtra/libxerbla.la
+
+@AMCOND_BUILD_QT_GUI_TRUE@am__append_9 = libgui/liboctgui.la
+@AMCOND_BUILD_QT_GUI_TRUE@am__append_10 =  \
 @AMCOND_BUILD_QT_GUI_TRUE@	libgui/liboctgui-build-info.h \
 @AMCOND_BUILD_QT_GUI_TRUE@	libgui/src/dialog.h \
 @AMCOND_BUILD_QT_GUI_TRUE@	libgui/src/octave-dock-widget.h \
@@ -142,8 +148,6 @@ archlib_PROGRAMS = $(am__EXEEXT_1)
 @AMCOND_BUILD_QT_GUI_TRUE@	libgui/src/octave-cmd.h \
 @AMCOND_BUILD_QT_GUI_TRUE@	libgui/src/octave-qt-link.h \
 @AMCOND_BUILD_QT_GUI_TRUE@	libgui/src/octave-settings.h \
-@AMCOND_BUILD_QT_GUI_TRUE@	libgui/src/qtinfo/texinfo-parser.h \
-@AMCOND_BUILD_QT_GUI_TRUE@	libgui/src/qtinfo/webinfo.h \
 @AMCOND_BUILD_QT_GUI_TRUE@	libgui/src/resource-manager.h \
 @AMCOND_BUILD_QT_GUI_TRUE@	libgui/src/settings-dialog.h \
 @AMCOND_BUILD_QT_GUI_TRUE@	libgui/src/shortcut-manager.h \
@@ -157,25 +161,25 @@ archlib_PROGRAMS = $(am__EXEEXT_1)
 @AMCOND_BUILD_QT_GUI_TRUE@	libgui/src/workspace-view.h \
 @AMCOND_BUILD_QT_GUI_TRUE@	libgui/src/variable-editor.h \
 @AMCOND_BUILD_QT_GUI_TRUE@	libgui/src/variable-editor-model.h
-@AMCOND_BUILD_QT_GUI_TRUE@@AMCOND_HAVE_QSCINTILLA_TRUE@am__append_7 = \
+@AMCOND_BUILD_QT_GUI_TRUE@@AMCOND_HAVE_QSCINTILLA_TRUE@am__append_11 = \
 @AMCOND_BUILD_QT_GUI_TRUE@@AMCOND_HAVE_QSCINTILLA_TRUE@  $(OCTAVE_GUI_SRC_M_EDITOR_MOC)
 
-@AMCOND_BUILD_QT_GUI_TRUE@@AMCOND_HAVE_QSCINTILLA_TRUE@am__append_8 = \
+@AMCOND_BUILD_QT_GUI_TRUE@@AMCOND_HAVE_QSCINTILLA_TRUE@am__append_12 = \
 @AMCOND_BUILD_QT_GUI_TRUE@@AMCOND_HAVE_QSCINTILLA_TRUE@  libgui/src/m-editor/$(octave_dirstamp)
 
-@AMCOND_BUILD_QT_GUI_TRUE@am__append_9 = \
+@AMCOND_BUILD_QT_GUI_TRUE@am__append_13 = \
 @AMCOND_BUILD_QT_GUI_TRUE@  libgui/src/$(octave_dirstamp)
 
-@AMCOND_BUILD_QT_GUI_TRUE@am__append_10 = $(octave_gui_UI_H)
-@AMCOND_BUILD_QT_GUI_TRUE@am__append_11 = libgui/src/libgui-src.la
-@AMCOND_BUILD_QT_GRAPHICS_TRUE@@AMCOND_BUILD_QT_GUI_TRUE@am__append_12 = \
+@AMCOND_BUILD_QT_GUI_TRUE@am__append_14 = $(octave_gui_UI_H)
+@AMCOND_BUILD_QT_GUI_TRUE@am__append_15 = libgui/src/libgui-src.la
+@AMCOND_BUILD_QT_GRAPHICS_TRUE@@AMCOND_BUILD_QT_GUI_TRUE@am__append_16 = \
 @AMCOND_BUILD_QT_GRAPHICS_TRUE@@AMCOND_BUILD_QT_GUI_TRUE@  libgui/graphics/$(octave_dirstamp)
 
-@AMCOND_BUILD_QT_GRAPHICS_TRUE@@AMCOND_BUILD_QT_GUI_TRUE@am__append_13 = \
+@AMCOND_BUILD_QT_GRAPHICS_TRUE@@AMCOND_BUILD_QT_GUI_TRUE@am__append_17 = \
 @AMCOND_BUILD_QT_GRAPHICS_TRUE@@AMCOND_BUILD_QT_GUI_TRUE@  $(OCTAVE_GUI_GRAPHICS_MOC)
 
-@AMCOND_BUILD_QT_GRAPHICS_TRUE@@AMCOND_BUILD_QT_GUI_TRUE@am__append_14 = $(octave_gui_graphics_UI_H)
-@AMCOND_BUILD_QT_GRAPHICS_TRUE@@AMCOND_BUILD_QT_GUI_TRUE@am__append_15 = \
+@AMCOND_BUILD_QT_GRAPHICS_TRUE@@AMCOND_BUILD_QT_GUI_TRUE@am__append_18 = $(octave_gui_graphics_UI_H)
+@AMCOND_BUILD_QT_GRAPHICS_TRUE@@AMCOND_BUILD_QT_GUI_TRUE@am__append_19 = \
 @AMCOND_BUILD_QT_GRAPHICS_TRUE@@AMCOND_BUILD_QT_GUI_TRUE@  libgui/graphics/__init_qt__.h \
 @AMCOND_BUILD_QT_GRAPHICS_TRUE@@AMCOND_BUILD_QT_GUI_TRUE@  libgui/graphics/annotation-dialog.h \
 @AMCOND_BUILD_QT_GRAPHICS_TRUE@@AMCOND_BUILD_QT_GUI_TRUE@  libgui/graphics/Backend.h \
@@ -216,8 +220,8 @@ archlib_PROGRAMS = $(am__EXEEXT_1)
 @AMCOND_BUILD_QT_GRAPHICS_TRUE@@AMCOND_BUILD_QT_GUI_TRUE@  libgui/graphics/gl-select.h \
 @AMCOND_BUILD_QT_GRAPHICS_TRUE@@AMCOND_BUILD_QT_GUI_TRUE@  $(TEMPLATE_SRC)
 
-@AMCOND_BUILD_QT_GRAPHICS_TRUE@@AMCOND_BUILD_QT_GUI_TRUE@am__append_16 = libgui/graphics/libgui-graphics.la
-@AMCOND_BUILD_QT_GRAPHICS_TRUE@@AMCOND_BUILD_QT_GUI_TRUE@am__append_17 = \
+@AMCOND_BUILD_QT_GRAPHICS_TRUE@@AMCOND_BUILD_QT_GUI_TRUE@am__append_20 = libgui/graphics/libgui-graphics.la
+@AMCOND_BUILD_QT_GRAPHICS_TRUE@@AMCOND_BUILD_QT_GUI_TRUE@am__append_21 = \
 @AMCOND_BUILD_QT_GRAPHICS_TRUE@@AMCOND_BUILD_QT_GUI_TRUE@  libgui/graphics/qthandles.qrc \
 @AMCOND_BUILD_QT_GRAPHICS_TRUE@@AMCOND_BUILD_QT_GUI_TRUE@  libgui/graphics/images/README \
 @AMCOND_BUILD_QT_GRAPHICS_TRUE@@AMCOND_BUILD_QT_GUI_TRUE@  libgui/graphics/images/pan.png \
@@ -227,12 +231,12 @@ archlib_PROGRAMS = $(am__EXEEXT_1)
 @AMCOND_BUILD_QT_GRAPHICS_TRUE@@AMCOND_BUILD_QT_GUI_TRUE@  libgui/graphics/images/zoom-out.png \
 @AMCOND_BUILD_QT_GRAPHICS_TRUE@@AMCOND_BUILD_QT_GUI_TRUE@  $(octave_gui_graphics_UI)
 
-@AMCOND_BUILD_QT_GRAPHICS_TRUE@@AMCOND_BUILD_QT_GUI_TRUE@am__append_18 = \
+@AMCOND_BUILD_QT_GRAPHICS_TRUE@@AMCOND_BUILD_QT_GUI_TRUE@am__append_22 = \
 @AMCOND_BUILD_QT_GRAPHICS_TRUE@@AMCOND_BUILD_QT_GUI_TRUE@  $(octave_gui_graphics_MOC) \
 @AMCOND_BUILD_QT_GRAPHICS_TRUE@@AMCOND_BUILD_QT_GUI_TRUE@  $(octave_gui_graphics_RC) \
 @AMCOND_BUILD_QT_GRAPHICS_TRUE@@AMCOND_BUILD_QT_GUI_TRUE@  $(octave_gui_graphics_UI_H)
 
-@AMCOND_BUILD_QT_GUI_TRUE@am__append_19 = \
+@AMCOND_BUILD_QT_GUI_TRUE@am__append_23 = \
 @AMCOND_BUILD_QT_GUI_TRUE@  libgui/qterminal/libqterminal/QTerminal.h \
 @AMCOND_BUILD_QT_GUI_TRUE@  libgui/qterminal/libqterminal/win32/QTerminalColors.h \
 @AMCOND_BUILD_QT_GUI_TRUE@  libgui/qterminal/libqterminal/win32/QWinTerminalImpl.h \
@@ -258,72 +262,72 @@ archlib_PROGRAMS = $(am__EXEEXT_1)
 @AMCOND_BUILD_QT_GUI_TRUE@  libgui/qterminal/libqterminal/unix/TerminalModel.h \
 @AMCOND_BUILD_QT_GUI_TRUE@  libgui/qterminal/libqterminal/unix/TerminalView.h
 
-@AMCOND_BUILD_QT_GUI_TRUE@am__append_20 = \
+@AMCOND_BUILD_QT_GUI_TRUE@am__append_24 = \
 @AMCOND_BUILD_QT_GUI_TRUE@  libgui/qterminal/libqterminal/$(octave_dirstamp)
 
-@AMCOND_BUILD_QT_GUI_TRUE@@WIN32_TERMINAL_TRUE@am__append_21 = \
+@AMCOND_BUILD_QT_GUI_TRUE@@WIN32_TERMINAL_TRUE@am__append_25 = \
 @AMCOND_BUILD_QT_GUI_TRUE@@WIN32_TERMINAL_TRUE@  $(OCTAVE_GUI_QTERMINAL_LIBQTERMINAL_WIN32_MOC)
 
-@AMCOND_BUILD_QT_GUI_TRUE@@WIN32_TERMINAL_TRUE@am__append_22 = \
+@AMCOND_BUILD_QT_GUI_TRUE@@WIN32_TERMINAL_TRUE@am__append_26 = \
 @AMCOND_BUILD_QT_GUI_TRUE@@WIN32_TERMINAL_TRUE@  libgui/qterminal/libqterminal/win32/$(octave_dirstamp)
 
-@AMCOND_BUILD_QT_GUI_TRUE@@WIN32_TERMINAL_TRUE@am__append_23 = -DUNICODE
+@AMCOND_BUILD_QT_GUI_TRUE@@WIN32_TERMINAL_TRUE@am__append_27 = -DUNICODE
 
 # This flag is required to let MOC know about Q_OS_WIN32.
-@AMCOND_BUILD_QT_GUI_TRUE@@WIN32_TERMINAL_TRUE@am__append_24 = -DQ_OS_WIN32
-@AMCOND_BUILD_QT_GUI_TRUE@@WIN32_TERMINAL_FALSE@am__append_25 = \
+@AMCOND_BUILD_QT_GUI_TRUE@@WIN32_TERMINAL_TRUE@am__append_28 = -DQ_OS_WIN32
+@AMCOND_BUILD_QT_GUI_TRUE@@WIN32_TERMINAL_FALSE@am__append_29 = \
 @AMCOND_BUILD_QT_GUI_TRUE@@WIN32_TERMINAL_FALSE@  $(OCTAVE_GUI_QTERMINAL_LIBQTERMINAL_UNIX_MOC)
 
-@AMCOND_BUILD_QT_GUI_TRUE@@WIN32_TERMINAL_FALSE@am__append_26 = \
+@AMCOND_BUILD_QT_GUI_TRUE@@WIN32_TERMINAL_FALSE@am__append_30 = \
 @AMCOND_BUILD_QT_GUI_TRUE@@WIN32_TERMINAL_FALSE@  libgui/qterminal/libqterminal/unix/$(octave_dirstamp)
 
-@AMCOND_BUILD_QT_GUI_TRUE@am__append_27 = libgui/qterminal/libqterminal.la
-@AMCOND_BUILD_QT_GUI_TRUE@am__append_28 = libgui/default-qt-settings
-@AMCOND_BUILD_QT_GUI_TRUE@am__append_29 = $(LOCALES)
-@AMCOND_BUILD_QT_GUI_TRUE@am__append_30 = libgui/$(octave_dirstamp) \
+@AMCOND_BUILD_QT_GUI_TRUE@am__append_31 = libgui/qterminal/libqterminal.la
+@AMCOND_BUILD_QT_GUI_TRUE@am__append_32 = libgui/default-qt-settings
+@AMCOND_BUILD_QT_GUI_TRUE@am__append_33 = $(LOCALES)
+@AMCOND_BUILD_QT_GUI_TRUE@am__append_34 = libgui/$(octave_dirstamp) \
 @AMCOND_BUILD_QT_GUI_TRUE@	libgui/languages/$(octave_dirstamp)
-@AMCOND_BUILD_QT_GUI_TRUE@am__append_31 = $(libgui_EXTRA_DIST)
-@AMCOND_BUILD_QT_GUI_TRUE@am__append_32 = $(libgui_CLEANFILES)
-@AMCOND_BUILD_QT_GUI_TRUE@am__append_33 = $(libgui_DISTCLEANFILES)
-@AMCOND_BUILD_QT_GUI_TRUE@am__append_34 = $(libgui_MAINTAINERCLEANFILES)
-@AMCOND_BUILD_QT_GUI_TRUE@am__append_35 = \
+@AMCOND_BUILD_QT_GUI_TRUE@am__append_35 = $(libgui_EXTRA_DIST)
+@AMCOND_BUILD_QT_GUI_TRUE@am__append_36 = $(libgui_CLEANFILES)
+@AMCOND_BUILD_QT_GUI_TRUE@am__append_37 = $(libgui_DISTCLEANFILES)
+@AMCOND_BUILD_QT_GUI_TRUE@am__append_38 = $(libgui_MAINTAINERCLEANFILES)
+@AMCOND_BUILD_QT_GUI_TRUE@am__append_39 = \
 @AMCOND_BUILD_QT_GUI_TRUE@  libgui/mk-default-qt-settings.sh
 
-@AMCOND_BUILD_QT_GUI_TRUE@am__append_36 = src/octave-gui
-@AMCOND_BUILD_QT_GUI_TRUE@am__append_37 = src/octave-gui-$(version)$(EXEEXT)
-@AMCOND_BUILD_QT_GUI_TRUE@am__append_38 = src/octave-gui$(EXEEXT)
-@AMCOND_CROSS_TOOLS_TRUE@am__append_39 = src/$(host_triplet)-mkoctfile$(BUILD_EXEEXT) \
+@AMCOND_BUILD_QT_GUI_TRUE@am__append_40 = src/octave-gui
+@AMCOND_BUILD_QT_GUI_TRUE@am__append_41 = src/octave-gui-$(version)$(EXEEXT)
+@AMCOND_BUILD_QT_GUI_TRUE@am__append_42 = src/octave-gui$(EXEEXT)
+@AMCOND_CROSS_TOOLS_TRUE@am__append_43 = src/$(host_triplet)-mkoctfile$(BUILD_EXEEXT) \
 @AMCOND_CROSS_TOOLS_TRUE@	src/$(host_triplet)-octave-config$(BUILD_EXEEXT)
-@AMCOND_HAVE_JAVA_TRUE@am__append_40 = $(scripts_java_JAR_FILES)
-@AMCOND_BUILD_DOCS_TRUE@am__append_41 = \
+@AMCOND_HAVE_JAVA_TRUE@am__append_44 = $(scripts_java_JAR_FILES)
+@AMCOND_BUILD_DOCS_TRUE@am__append_45 = \
 @AMCOND_BUILD_DOCS_TRUE@  $(BUILT_DOC_IMAGES_EPS) \
 @AMCOND_BUILD_DOCS_TRUE@  $(BUILT_DOC_IMAGES_PDF) \
 @AMCOND_BUILD_DOCS_TRUE@  $(BUILT_DOC_IMAGES_PNG) \
 @AMCOND_BUILD_DOCS_TRUE@  $(BUILT_DOC_IMAGES_TXT)
 
-@AMCOND_BUILD_DOCS_TRUE@am__append_42 = $(BUILT_DOC_IMAGES_EPS) \
+@AMCOND_BUILD_DOCS_TRUE@am__append_46 = $(BUILT_DOC_IMAGES_EPS) \
 @AMCOND_BUILD_DOCS_TRUE@	doc/interpreter/octave_logo.eps
-@AMCOND_BUILD_DOCS_TRUE@am__append_43 = $(BUILT_DOC_IMAGES_PDF) \
+@AMCOND_BUILD_DOCS_TRUE@am__append_47 = $(BUILT_DOC_IMAGES_PDF) \
 @AMCOND_BUILD_DOCS_TRUE@	doc/interpreter/octave_logo.pdf
-@AMCOND_BUILD_DOCS_TRUE@am__append_44 = $(BUILT_DOC_IMAGES_PNG)
-@AMCOND_BUILD_DOCS_TRUE@am__append_45 = $(BUILT_DOC_IMAGES_TXT)
-@AMCOND_BUILD_DOCS_TRUE@am__append_46 = \
+@AMCOND_BUILD_DOCS_TRUE@am__append_48 = $(BUILT_DOC_IMAGES_PNG)
+@AMCOND_BUILD_DOCS_TRUE@am__append_49 = $(BUILT_DOC_IMAGES_TXT)
+@AMCOND_BUILD_DOCS_TRUE@am__append_50 = \
 @AMCOND_BUILD_DOCS_TRUE@  $(BUILT_DOC_IMAGES)
 
-@AMCOND_BUILD_DOCS_TRUE@am__append_47 = doc/interpreter/octave.texi \
+@AMCOND_BUILD_DOCS_TRUE@am__append_51 = doc/interpreter/octave.texi \
 @AMCOND_BUILD_DOCS_TRUE@	doc/liboctave/liboctave.texi
-@AMCOND_BUILD_DOCS_TRUE@am__append_48 =  \
+@AMCOND_BUILD_DOCS_TRUE@am__append_52 =  \
 @AMCOND_BUILD_DOCS_TRUE@	$(srcdir)/doc/interpreter/octave.info \
 @AMCOND_BUILD_DOCS_TRUE@	$(srcdir)/doc/liboctave/liboctave.info
-@AMCOND_BUILD_DOCS_TRUE@am__append_49 = doc/interpreter/octave.dvi \
+@AMCOND_BUILD_DOCS_TRUE@am__append_53 = doc/interpreter/octave.dvi \
 @AMCOND_BUILD_DOCS_TRUE@	doc/liboctave/liboctave.dvi
-@AMCOND_BUILD_DOCS_TRUE@am__append_50 = doc/interpreter/octave.pdf \
+@AMCOND_BUILD_DOCS_TRUE@am__append_54 = doc/interpreter/octave.pdf \
 @AMCOND_BUILD_DOCS_TRUE@	doc/liboctave/liboctave.pdf
-@AMCOND_BUILD_DOCS_TRUE@am__append_51 = doc/interpreter/octave.ps \
+@AMCOND_BUILD_DOCS_TRUE@am__append_55 = doc/interpreter/octave.ps \
 @AMCOND_BUILD_DOCS_TRUE@	doc/liboctave/liboctave.ps
-@AMCOND_BUILD_DOCS_TRUE@am__append_52 = doc/interpreter/octave.html \
+@AMCOND_BUILD_DOCS_TRUE@am__append_56 = doc/interpreter/octave.html \
 @AMCOND_BUILD_DOCS_TRUE@	doc/liboctave/liboctave.html
-@AMCOND_BUILD_DOCS_TRUE@am__append_53 = \
+@AMCOND_BUILD_DOCS_TRUE@am__append_57 = \
 @AMCOND_BUILD_DOCS_TRUE@  $(srcdir)/doc/interpreter/octave.info \
 @AMCOND_BUILD_DOCS_TRUE@  doc/interpreter/doc-cache \
 @AMCOND_BUILD_DOCS_TRUE@  doc/interpreter/octave.ps \
@@ -332,10 +336,10 @@ archlib_PROGRAMS = $(am__EXEEXT_1)
 @AMCOND_BUILD_DOCS_TRUE@  $(HTMLDIR_IMAGES) \
 @AMCOND_BUILD_DOCS_TRUE@  $(HTMLDIR_CSS)
 
-@AMCOND_BUILD_DOCS_TRUE@@AMCOND_BUILD_QT_DOCS_TRUE@am__append_54 = \
+@AMCOND_BUILD_DOCS_TRUE@@AMCOND_BUILD_QT_DOCS_TRUE@am__append_58 = \
 @AMCOND_BUILD_DOCS_TRUE@@AMCOND_BUILD_QT_DOCS_TRUE@  $(OCTAVE_QTHELP_FILES)
 
-@AMCOND_BUILD_DOCS_TRUE@am__append_55 = $(BUILT_OCTAVE_TEXI_SRC) \
+@AMCOND_BUILD_DOCS_TRUE@am__append_59 = $(BUILT_OCTAVE_TEXI_SRC) \
 @AMCOND_BUILD_DOCS_TRUE@	$(srcdir)/doc/interpreter/octave.info \
 @AMCOND_BUILD_DOCS_TRUE@	doc/interpreter/TODO \
 @AMCOND_BUILD_DOCS_TRUE@	doc/interpreter/doc-cache \
@@ -368,56 +372,56 @@ archlib_PROGRAMS = $(am__EXEEXT_1)
 @AMCOND_BUILD_DOCS_TRUE@	doc/liboctave/liboctave.html \
 @AMCOND_BUILD_DOCS_TRUE@	$(refcard_FORMATTED) \
 @AMCOND_BUILD_DOCS_TRUE@	$(refcard_TEX_SRC) doc/texmf.cnf
-@AMCOND_BUILD_DOCS_TRUE@am__append_56 = \
+@AMCOND_BUILD_DOCS_TRUE@am__append_60 = \
 @AMCOND_BUILD_DOCS_TRUE@  AUTHORS \
 @AMCOND_BUILD_DOCS_TRUE@  $(BUILT_DOC_IMAGES) \
 @AMCOND_BUILD_DOCS_TRUE@  $(BUILT_OCTAVE_TEXI_SRC) \
 @AMCOND_BUILD_DOCS_TRUE@  $(OCTAVE_QTHELP_FILES)
 
-@AMCOND_BUILD_DOCS_TRUE@am__append_57 = $(srcdir)/doc/liboctave/liboctave.info \
+@AMCOND_BUILD_DOCS_TRUE@am__append_61 = $(srcdir)/doc/liboctave/liboctave.info \
 @AMCOND_BUILD_DOCS_TRUE@	doc/liboctave/liboctave.ps \
 @AMCOND_BUILD_DOCS_TRUE@	doc/liboctave/liboctave.pdf \
 @AMCOND_BUILD_DOCS_TRUE@	doc/liboctave/liboctave.html \
 @AMCOND_BUILD_DOCS_TRUE@	$(refcard_FORMATTED)
-@AMCOND_BUILD_DOCS_TRUE@am__append_58 =  \
+@AMCOND_BUILD_DOCS_TRUE@am__append_62 =  \
 @AMCOND_BUILD_DOCS_TRUE@	doc/liboctave/$(octave_dirstamp) \
 @AMCOND_BUILD_DOCS_TRUE@	doc/refcard/$(octave_dirstamp)
-@AMCOND_BUILD_DOCS_TRUE@am__append_59 = \
+@AMCOND_BUILD_DOCS_TRUE@am__append_63 = \
 @AMCOND_BUILD_DOCS_TRUE@  doc/refcard/refcard-a4.log \
 @AMCOND_BUILD_DOCS_TRUE@  doc/refcard/refcard-legal.log \
 @AMCOND_BUILD_DOCS_TRUE@  doc/refcard/refcard-letter.log
 
-@AMCOND_BUILD_DOCS_TRUE@am__append_60 = \
+@AMCOND_BUILD_DOCS_TRUE@am__append_64 = \
 @AMCOND_BUILD_DOCS_TRUE@  $(refcard_FORMATTED)
 
-@AMCOND_BUILD_DOCS_TRUE@am__append_61 =  \
+@AMCOND_BUILD_DOCS_TRUE@am__append_65 =  \
 @AMCOND_BUILD_DOCS_TRUE@	doc/interpreter/geometryimages.m \
 @AMCOND_BUILD_DOCS_TRUE@	doc/interpreter/interpimages.m \
 @AMCOND_BUILD_DOCS_TRUE@	doc/interpreter/plotimages.m \
 @AMCOND_BUILD_DOCS_TRUE@	doc/interpreter/sparseimages.m \
 @AMCOND_BUILD_DOCS_TRUE@	doc/interpreter/splineimages.m
-@AMCOND_BUILD_DOCS_TRUE@am__append_62 = $(GEOMETRYIMAGES_EPS) \
+@AMCOND_BUILD_DOCS_TRUE@am__append_66 = $(GEOMETRYIMAGES_EPS) \
 @AMCOND_BUILD_DOCS_TRUE@	$(INTERPIMAGES_EPS) $(PLOTIMAGES_EPS) \
 @AMCOND_BUILD_DOCS_TRUE@	$(SPARSEIMAGES_EPS) \
 @AMCOND_BUILD_DOCS_TRUE@	$(SPLINEIMAGES_EPS)
-@AMCOND_BUILD_DOCS_TRUE@am__append_63 = $(GEOMETRYIMAGES_PDF) \
+@AMCOND_BUILD_DOCS_TRUE@am__append_67 = $(GEOMETRYIMAGES_PDF) \
 @AMCOND_BUILD_DOCS_TRUE@	$(INTERPIMAGES_PDF) $(PLOTIMAGES_PDF) \
 @AMCOND_BUILD_DOCS_TRUE@	$(SPARSEIMAGES_PDF) \
 @AMCOND_BUILD_DOCS_TRUE@	$(SPLINEIMAGES_PDF)
-@AMCOND_BUILD_DOCS_TRUE@am__append_64 = $(GEOMETRYIMAGES_PNG) \
+@AMCOND_BUILD_DOCS_TRUE@am__append_68 = $(GEOMETRYIMAGES_PNG) \
 @AMCOND_BUILD_DOCS_TRUE@	$(INTERPIMAGES_PNG) $(PLOTIMAGES_PNG) \
 @AMCOND_BUILD_DOCS_TRUE@	$(SPARSEIMAGES_PNG) \
 @AMCOND_BUILD_DOCS_TRUE@	$(SPLINEIMAGES_PNG)
-@AMCOND_BUILD_DOCS_TRUE@am__append_65 = $(GEOMETRYIMAGES_TXT) \
+@AMCOND_BUILD_DOCS_TRUE@am__append_69 = $(GEOMETRYIMAGES_TXT) \
 @AMCOND_BUILD_DOCS_TRUE@	$(INTERPIMAGES_TXT) $(PLOTIMAGES_TXT) \
 @AMCOND_BUILD_DOCS_TRUE@	$(SPARSEIMAGES_TXT) \
 @AMCOND_BUILD_DOCS_TRUE@	$(SPLINEIMAGES_TXT)
-@AMCOND_INSTALL_INTERNAL_FONT_FILES_TRUE@am__append_66 = \
+@AMCOND_INSTALL_INTERNAL_FONT_FILES_TRUE@am__append_70 = \
 @AMCOND_INSTALL_INTERNAL_FONT_FILES_TRUE@  $(fallback_FONT_FILES)
 
-@AMCOND_HAVE_BROKEN_STL_ALGO_H_TRUE@am__append_67 = bits/stl_algo.h
-@AMCOND_HAVE_BROKEN_STL_ALGO_H_FALSE@am__append_68 = nonexistent-file
-@AMCOND_INSTALL_BUILD_LOGS_TRUE@am__append_69 = config.log
+@AMCOND_HAVE_BROKEN_STL_ALGO_H_TRUE@am__append_71 = bits/stl_algo.h
+@AMCOND_HAVE_BROKEN_STL_ALGO_H_FALSE@am__append_72 = nonexistent-file
+@AMCOND_INSTALL_BUILD_LOGS_TRUE@am__append_73 = config.log
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/00gnulib.m4 \
@@ -829,14 +833,12 @@ am__libgui_src_libgui_src_la_SOURCES_DIST = libgui/src/dialog.cc \
 	libgui/src/m-editor/marker.cc libgui/src/main-window.cc \
 	libgui/src/octave-cmd.cc libgui/src/octave-dock-widget.cc \
 	libgui/src/octave-gui.cc libgui/src/octave-qt-link.cc \
-	libgui/src/qtinfo/texinfo-parser.cc \
-	libgui/src/qtinfo/webinfo.cc libgui/src/resource-manager.cc \
-	libgui/src/settings-dialog.cc libgui/src/shortcut-manager.cc \
-	libgui/src/tab-bar.cc libgui/src/terminal-dock-widget.cc \
-	libgui/src/color-picker.cc libgui/src/welcome-wizard.cc \
-	libgui/src/find-files-dialog.cc libgui/src/find-files-model.cc \
-	libgui/src/workspace-model.cc libgui/src/workspace-view.cc \
-	libgui/src/variable-editor.cc \
+	libgui/src/resource-manager.cc libgui/src/settings-dialog.cc \
+	libgui/src/shortcut-manager.cc libgui/src/tab-bar.cc \
+	libgui/src/terminal-dock-widget.cc libgui/src/color-picker.cc \
+	libgui/src/welcome-wizard.cc libgui/src/find-files-dialog.cc \
+	libgui/src/find-files-model.cc libgui/src/workspace-model.cc \
+	libgui/src/workspace-view.cc libgui/src/variable-editor.cc \
 	libgui/src/variable-editor-model.cc
 @AMCOND_BUILD_QT_GUI_TRUE@am_libgui_src_libgui_src_la_OBJECTS = libgui/src/libgui_src_libgui_src_la-dialog.lo \
 @AMCOND_BUILD_QT_GUI_TRUE@	libgui/src/libgui_src_libgui_src_la-documentation-dock-widget.lo \
@@ -855,8 +857,6 @@ am__libgui_src_libgui_src_la_SOURCES_DIST = libgui/src/dialog.cc \
 @AMCOND_BUILD_QT_GUI_TRUE@	libgui/src/libgui_src_libgui_src_la-octave-dock-widget.lo \
 @AMCOND_BUILD_QT_GUI_TRUE@	libgui/src/libgui_src_libgui_src_la-octave-gui.lo \
 @AMCOND_BUILD_QT_GUI_TRUE@	libgui/src/libgui_src_libgui_src_la-octave-qt-link.lo \
-@AMCOND_BUILD_QT_GUI_TRUE@	libgui/src/qtinfo/libgui_src_libgui_src_la-texinfo-parser.lo \
-@AMCOND_BUILD_QT_GUI_TRUE@	libgui/src/qtinfo/libgui_src_libgui_src_la-webinfo.lo \
 @AMCOND_BUILD_QT_GUI_TRUE@	libgui/src/libgui_src_libgui_src_la-resource-manager.lo \
 @AMCOND_BUILD_QT_GUI_TRUE@	libgui/src/libgui_src_libgui_src_la-settings-dialog.lo \
 @AMCOND_BUILD_QT_GUI_TRUE@	libgui/src/libgui_src_libgui_src_la-shortcut-manager.lo \
@@ -900,8 +900,6 @@ am__libgui_src_libgui_src_la_SOURCES_DIST = libgui/src/dialog.cc \
 @AMCOND_BUILD_QT_GUI_TRUE@	libgui/src/libgui_src_libgui_src_la-moc-variable-editor-model.lo \
 @AMCOND_BUILD_QT_GUI_TRUE@	libgui/src/libgui_src_libgui_src_la-moc-find-files-dialog.lo \
 @AMCOND_BUILD_QT_GUI_TRUE@	libgui/src/libgui_src_libgui_src_la-moc-find-files-model.lo \
-@AMCOND_BUILD_QT_GUI_TRUE@	libgui/src/qtinfo/libgui_src_libgui_src_la-moc-texinfo-parser.lo \
-@AMCOND_BUILD_QT_GUI_TRUE@	libgui/src/qtinfo/libgui_src_libgui_src_la-moc-webinfo.lo \
 @AMCOND_BUILD_QT_GUI_TRUE@	libgui/src/libgui_src_libgui_src_la-moc-octave-dock-widget.lo
 @AMCOND_BUILD_QT_GRAPHICS_TRUE@@AMCOND_BUILD_QT_GUI_TRUE@am__objects_11 = libgui/graphics/libgui_src_libgui_src_la-moc-annotation-dialog.lo \
 @AMCOND_BUILD_QT_GRAPHICS_TRUE@@AMCOND_BUILD_QT_GUI_TRUE@	libgui/graphics/libgui_src_libgui_src_la-moc-Backend.lo \
@@ -1429,7 +1427,7 @@ libinterp_liboctinterp_la_DEPENDENCIES =  \
 	libinterp/octave-value/liboctave-value.la \
 	libinterp/parse-tree/libparse-tree.la \
 	libinterp/corefcn/libcorefcn.la $(am__DEPENDENCIES_5) \
-	liboctave/liboctave.la $(am__DEPENDENCIES_1)
+	liboctave/liboctave.la $(am__DEPENDENCIES_1) $(am__append_8)
 am__objects_17 =  \
 	libinterp/operators/libinterp_liboctinterp_la-op-b-b.lo \
 	libinterp/operators/libinterp_liboctinterp_la-op-b-bm.lo \
@@ -1758,6 +1756,20 @@ liboctave_array_libarray_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CXXLD) \
 	$(liboctave_array_libarray_la_CXXFLAGS) $(CXXFLAGS) \
 	$(AM_LDFLAGS) $(LDFLAGS) -o $@
+liboctave_external_blas_xtra_libxerbla_la_LIBADD =
+am__objects_24 = liboctave/external/blas-xtra/liboctave_external_blas_xtra_libxerbla_la-xerbla.lo
+am_liboctave_external_blas_xtra_libxerbla_la_OBJECTS =  \
+	$(am__objects_24)
+liboctave_external_blas_xtra_libxerbla_la_OBJECTS =  \
+	$(am_liboctave_external_blas_xtra_libxerbla_la_OBJECTS)
+liboctave_external_blas_xtra_libxerbla_la_LINK = $(LIBTOOL) $(AM_V_lt) \
+	--tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link \
+	$(CCLD) $(AM_CFLAGS) $(CFLAGS) \
+	$(liboctave_external_blas_xtra_libxerbla_la_LDFLAGS) \
+	$(LDFLAGS) -o $@
+@AMCOND_BUILD_EXTERNAL_LIBXERBLA_FALSE@am_liboctave_external_blas_xtra_libxerbla_la_rpath =
+@AMCOND_BUILD_EXTERNAL_LIBXERBLA_TRUE@am_liboctave_external_blas_xtra_libxerbla_la_rpath =  \
+@AMCOND_BUILD_EXTERNAL_LIBXERBLA_TRUE@	-rpath $(octlibdir)
 liboctave_external_libexternal_la_LIBADD =
 am__liboctave_external_libexternal_la_SOURCES_DIST =  \
 	liboctave/external/amos/cacai.f \
@@ -1842,7 +1854,6 @@ am__liboctave_external_libexternal_la_SOURCES_DIST =  \
 	liboctave/external/blas-xtra/xscnrm2.f \
 	liboctave/external/blas-xtra/xcdotc.f \
 	liboctave/external/blas-xtra/xcdotu.f \
-	liboctave/external/blas-xtra/xerbla.f \
 	liboctave/external/blas-xtra/cconv2.f \
 	liboctave/external/blas-xtra/csconv2.f \
 	liboctave/external/blas-xtra/dconv2.f \
@@ -1947,10 +1958,6 @@ am__liboctave_external_libexternal_la_SOURCES_DIST =  \
 	liboctave/external/odepack/ssolsy.f \
 	liboctave/external/odepack/sstode.f \
 	liboctave/external/odepack/svnorm.f \
-	liboctave/external/ordered-qz/dsubsp.f \
-	liboctave/external/ordered-qz/exchqz.f \
-	liboctave/external/ordered-qz/ssubsp.f \
-	liboctave/external/ordered-qz/sexchqz.f \
 	liboctave/external/quadpack/dqagi.f \
 	liboctave/external/quadpack/dqagie.f \
 	liboctave/external/quadpack/dqagp.f \
@@ -2014,7 +2021,7 @@ am__liboctave_external_libexternal_la_SOURCES_DIST =  \
 	liboctave/external/slatec-fn/r9lgit.f \
 	liboctave/external/slatec-fn/r9gmit.f \
 	liboctave/external/slatec-fn/r9lgic.f
-am__objects_24 = liboctave/external/fftpack/liboctave_external_libexternal_la-cfftb.lo \
+am__objects_25 = liboctave/external/fftpack/liboctave_external_libexternal_la-cfftb.lo \
 	liboctave/external/fftpack/liboctave_external_libexternal_la-cfftb1.lo \
 	liboctave/external/fftpack/liboctave_external_libexternal_la-cfftf.lo \
 	liboctave/external/fftpack/liboctave_external_libexternal_la-cfftf1.lo \
@@ -2046,8 +2053,8 @@ am__objects_24 = liboctave/external/fftpack/liboctave_external_libexternal_la-cf
 	liboctave/external/fftpack/liboctave_external_libexternal_la-zpassf3.lo \
 	liboctave/external/fftpack/liboctave_external_libexternal_la-zpassf4.lo \
 	liboctave/external/fftpack/liboctave_external_libexternal_la-zpassf5.lo
-@AMCOND_HAVE_FFTW_FALSE@am__objects_25 = $(am__objects_24)
-am__objects_26 = liboctave/external/amos/liboctave_external_libexternal_la-cacai.lo \
+@AMCOND_HAVE_FFTW_FALSE@am__objects_26 = $(am__objects_25)
+am__objects_27 = liboctave/external/amos/liboctave_external_libexternal_la-cacai.lo \
 	liboctave/external/amos/liboctave_external_libexternal_la-cacon.lo \
 	liboctave/external/amos/liboctave_external_libexternal_la-cbesh.lo \
 	liboctave/external/amos/liboctave_external_libexternal_la-cbesi.lo \
@@ -2131,7 +2138,6 @@ am__objects_26 = liboctave/external/amos/liboctave_external_libexternal_la-cacai
 	liboctave/external/blas-xtra/liboctave_external_libexternal_la-xscnrm2.lo \
 	liboctave/external/blas-xtra/liboctave_external_libexternal_la-xcdotc.lo \
 	liboctave/external/blas-xtra/liboctave_external_libexternal_la-xcdotu.lo \
-	liboctave/external/blas-xtra/liboctave_external_libexternal_la-xerbla.lo \
 	liboctave/external/blas-xtra/liboctave_external_libexternal_la-cconv2.lo \
 	liboctave/external/blas-xtra/liboctave_external_libexternal_la-csconv2.lo \
 	liboctave/external/blas-xtra/liboctave_external_libexternal_la-dconv2.lo \
@@ -2178,7 +2184,7 @@ am__objects_26 = liboctave/external/amos/liboctave_external_libexternal_la-cacai
 	liboctave/external/dassl/liboctave_external_libexternal_la-ddatrp.lo \
 	liboctave/external/dassl/liboctave_external_libexternal_la-ddawts.lo \
 	liboctave/external/Faddeeva/liboctave_external_libexternal_la-Faddeeva.lo \
-	$(am__objects_25) \
+	$(am__objects_26) \
 	liboctave/external/lapack-xtra/liboctave_external_libexternal_la-xclange.lo \
 	liboctave/external/lapack-xtra/liboctave_external_libexternal_la-xdlamch.lo \
 	liboctave/external/lapack-xtra/liboctave_external_libexternal_la-xdlange.lo \
@@ -2204,10 +2210,6 @@ am__objects_26 = liboctave/external/amos/liboctave_external_libexternal_la-cacai
 	liboctave/external/odepack/liboctave_external_libexternal_la-ssolsy.lo \
 	liboctave/external/odepack/liboctave_external_libexternal_la-sstode.lo \
 	liboctave/external/odepack/liboctave_external_libexternal_la-svnorm.lo \
-	liboctave/external/ordered-qz/liboctave_external_libexternal_la-dsubsp.lo \
-	liboctave/external/ordered-qz/liboctave_external_libexternal_la-exchqz.lo \
-	liboctave/external/ordered-qz/liboctave_external_libexternal_la-ssubsp.lo \
-	liboctave/external/ordered-qz/liboctave_external_libexternal_la-sexchqz.lo \
 	liboctave/external/quadpack/liboctave_external_libexternal_la-dqagi.lo \
 	liboctave/external/quadpack/liboctave_external_libexternal_la-dqagie.lo \
 	liboctave/external/quadpack/liboctave_external_libexternal_la-dqagp.lo \
@@ -2271,7 +2273,7 @@ am__objects_26 = liboctave/external/amos/liboctave_external_libexternal_la-cacai
 	liboctave/external/slatec-fn/liboctave_external_libexternal_la-r9lgit.lo \
 	liboctave/external/slatec-fn/liboctave_external_libexternal_la-r9gmit.lo \
 	liboctave/external/slatec-fn/liboctave_external_libexternal_la-r9lgic.lo
-am_liboctave_external_libexternal_la_OBJECTS = $(am__objects_26)
+am_liboctave_external_libexternal_la_OBJECTS = $(am__objects_27)
 nodist_liboctave_external_libexternal_la_OBJECTS =
 liboctave_external_libexternal_la_OBJECTS =  \
 	$(am_liboctave_external_libexternal_la_OBJECTS) \
@@ -2281,7 +2283,7 @@ liboctave_external_libexternal_la_LINK = $(LIBTOOL) $(AM_V_lt) \
 	$(CXXLD) $(liboctave_external_libexternal_la_CXXFLAGS) \
 	$(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 liboctave_external_ranlib_libranlib_la_LIBADD =
-am__objects_27 = liboctave/external/ranlib/advnst.lo \
+am__objects_28 = liboctave/external/ranlib/advnst.lo \
 	liboctave/external/ranlib/genbet.lo \
 	liboctave/external/ranlib/genchi.lo \
 	liboctave/external/ranlib/genexp.lo \
@@ -2316,11 +2318,11 @@ am__objects_27 = liboctave/external/ranlib/advnst.lo \
 	liboctave/external/ranlib/sgamma.lo \
 	liboctave/external/ranlib/snorm.lo \
 	liboctave/external/ranlib/wrap.lo
-am_liboctave_external_ranlib_libranlib_la_OBJECTS = $(am__objects_27)
+am_liboctave_external_ranlib_libranlib_la_OBJECTS = $(am__objects_28)
 liboctave_external_ranlib_libranlib_la_OBJECTS =  \
 	$(am_liboctave_external_ranlib_libranlib_la_OBJECTS)
 liboctave_liboctave_la_DEPENDENCIES = liboctave/array/libarray.la \
-	liboctave/external/ranlib/libranlib.la \
+	$(am__append_3) liboctave/external/ranlib/libranlib.la \
 	liboctave/external/libexternal.la \
 	liboctave/numeric/libnumeric.la \
 	liboctave/operators/liboperators.la \
@@ -2336,7 +2338,7 @@ liboctave_liboctave_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 	$(liboctave_liboctave_la_CXXFLAGS) $(CXXFLAGS) \
 	$(liboctave_liboctave_la_LDFLAGS) $(LDFLAGS) -o $@
 liboctave_numeric_libnumeric_la_LIBADD =
-am__objects_28 =  \
+am__objects_29 =  \
 	liboctave/numeric/liboctave_numeric_libnumeric_la-CollocWt.lo \
 	liboctave/numeric/liboctave_numeric_libnumeric_la-DASPK.lo \
 	liboctave/numeric/liboctave_numeric_libnumeric_la-DASRT.lo \
@@ -2371,7 +2373,7 @@ am__objects_28 =  \
 	liboctave/numeric/liboctave_numeric_libnumeric_la-sparse-lu.lo \
 	liboctave/numeric/liboctave_numeric_libnumeric_la-sparse-qr.lo \
 	liboctave/numeric/liboctave_numeric_libnumeric_la-svd.lo
-am_liboctave_numeric_libnumeric_la_OBJECTS = $(am__objects_28)
+am_liboctave_numeric_libnumeric_la_OBJECTS = $(am__objects_29)
 liboctave_numeric_libnumeric_la_OBJECTS =  \
 	$(am_liboctave_numeric_libnumeric_la_OBJECTS)
 liboctave_numeric_libnumeric_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
@@ -2380,7 +2382,7 @@ liboctave_numeric_libnumeric_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 	$(AM_LDFLAGS) $(LDFLAGS) -o $@
 liboctave_operators_liboperators_la_LIBADD =
 am_liboctave_operators_liboperators_la_OBJECTS = $(am__objects_15)
-am__objects_29 = liboctave/operators/liboctave_operators_liboperators_la-mx-cdm-dm.lo \
+am__objects_30 = liboctave/operators/liboctave_operators_liboperators_la-mx-cdm-dm.lo \
 	liboctave/operators/liboctave_operators_liboperators_la-mx-dm-cdm.lo \
 	liboctave/operators/liboctave_operators_liboperators_la-mx-cs-dm.lo \
 	liboctave/operators/liboctave_operators_liboperators_la-mx-cs-m.lo \
@@ -2704,7 +2706,7 @@ am__objects_29 = liboctave/operators/liboctave_operators_liboperators_la-mx-cdm-
 	liboctave/operators/liboctave_operators_liboperators_la-mx-ui64nda-i32nda.lo \
 	liboctave/operators/liboctave_operators_liboperators_la-mx-ui64nda-ui32nda.lo \
 	liboctave/operators/liboctave_operators_liboperators_la-mx-ui64nda-i64nda.lo
-am__objects_30 = liboctave/operators/liboctave_operators_liboperators_la-vx-ccv-cv.lo \
+am__objects_31 = liboctave/operators/liboctave_operators_liboperators_la-vx-ccv-cv.lo \
 	liboctave/operators/liboctave_operators_liboperators_la-vx-ccv-s.lo \
 	liboctave/operators/liboctave_operators_liboperators_la-vx-crv-rv.lo \
 	liboctave/operators/liboctave_operators_liboperators_la-vx-crv-s.lo \
@@ -2728,7 +2730,7 @@ am__objects_30 = liboctave/operators/liboctave_operators_liboperators_la-vx-ccv-
 	liboctave/operators/liboctave_operators_liboperators_la-vx-frv-fcs.lo \
 	liboctave/operators/liboctave_operators_liboperators_la-vx-fs-fccv.lo \
 	liboctave/operators/liboctave_operators_liboperators_la-vx-fs-fcrv.lo
-am__objects_31 = liboctave/operators/liboctave_operators_liboperators_la-smx-sm-cs.lo \
+am__objects_32 = liboctave/operators/liboctave_operators_liboperators_la-smx-sm-cs.lo \
 	liboctave/operators/liboctave_operators_liboperators_la-smx-cs-sm.lo \
 	liboctave/operators/liboctave_operators_liboperators_la-smx-scm-s.lo \
 	liboctave/operators/liboctave_operators_liboperators_la-smx-s-scm.lo \
@@ -2744,9 +2746,9 @@ am__objects_31 = liboctave/operators/liboctave_operators_liboperators_la-smx-sm-
 	liboctave/operators/liboctave_operators_liboperators_la-smx-scm-cm.lo \
 	liboctave/operators/liboctave_operators_liboperators_la-smx-bm-sbm.lo \
 	liboctave/operators/liboctave_operators_liboperators_la-smx-sbm-bm.lo
-am__objects_32 = $(am__objects_29) $(am__objects_30) $(am__objects_31)
+am__objects_33 = $(am__objects_30) $(am__objects_31) $(am__objects_32)
 nodist_liboctave_operators_liboperators_la_OBJECTS =  \
-	$(am__objects_32)
+	$(am__objects_33)
 liboctave_operators_liboperators_la_OBJECTS =  \
 	$(am_liboctave_operators_liboperators_la_OBJECTS) \
 	$(nodist_liboctave_operators_liboperators_la_OBJECTS)
@@ -2755,7 +2757,7 @@ liboctave_operators_liboperators_la_LINK = $(LIBTOOL) $(AM_V_lt) \
 	$(CXXLD) $(liboctave_operators_liboperators_la_CXXFLAGS) \
 	$(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 liboctave_system_libsystem_la_LIBADD =
-am__objects_33 =  \
+am__objects_34 =  \
 	liboctave/system/liboctave_system_libsystem_la-child-list.lo \
 	liboctave/system/liboctave_system_libsystem_la-cmach-info.lo \
 	liboctave/system/liboctave_system_libsystem_la-dir-ops.lo \
@@ -2770,7 +2772,7 @@ am__objects_33 =  \
 	liboctave/system/liboctave_system_libsystem_la-oct-syscalls.lo \
 	liboctave/system/liboctave_system_libsystem_la-oct-time.lo \
 	liboctave/system/liboctave_system_libsystem_la-oct-uname.lo
-am_liboctave_system_libsystem_la_OBJECTS = $(am__objects_33)
+am_liboctave_system_libsystem_la_OBJECTS = $(am__objects_34)
 liboctave_system_libsystem_la_OBJECTS =  \
 	$(am_liboctave_system_libsystem_la_OBJECTS)
 liboctave_system_libsystem_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
@@ -2778,10 +2780,10 @@ liboctave_system_libsystem_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 	$(liboctave_system_libsystem_la_CXXFLAGS) $(CXXFLAGS) \
 	$(AM_LDFLAGS) $(LDFLAGS) -o $@
 liboctave_util_libutil_la_LIBADD =
-am__objects_34 = liboctave/util/liboctave_util_libutil_la-d1mach.lo \
+am__objects_35 = liboctave/util/liboctave_util_libutil_la-d1mach.lo \
 	liboctave/util/liboctave_util_libutil_la-i1mach.lo \
 	liboctave/util/liboctave_util_libutil_la-r1mach.lo
-am__objects_35 = liboctave/util/liboctave_util_libutil_la-f2c-main.lo \
+am__objects_36 = liboctave/util/liboctave_util_libutil_la-f2c-main.lo \
 	liboctave/util/liboctave_util_libutil_la-lo-cutils.lo \
 	liboctave/util/liboctave_util_libutil_la-blaswrap.lo \
 	liboctave/util/liboctave_util_libutil_la-cquit.lo \
@@ -2789,7 +2791,7 @@ am__objects_35 = liboctave/util/liboctave_util_libutil_la-f2c-main.lo \
 	liboctave/util/liboctave_util_libutil_la-lo-error.lo \
 	liboctave/util/liboctave_util_libutil_la-oct-rl-edit.lo \
 	liboctave/util/liboctave_util_libutil_la-oct-rl-hist.lo
-am__objects_36 = liboctave/util/liboctave_util_libutil_la-cmd-edit.lo \
+am__objects_37 = liboctave/util/liboctave_util_libutil_la-cmd-edit.lo \
 	liboctave/util/liboctave_util_libutil_la-cmd-hist.lo \
 	liboctave/util/liboctave_util_libutil_la-data-conv.lo \
 	liboctave/util/liboctave_util_libutil_la-file-info.lo \
@@ -2816,8 +2818,8 @@ am__objects_36 = liboctave/util/liboctave_util_libutil_la-cmd-edit.lo \
 	liboctave/util/liboctave_util_libutil_la-str-vec.lo \
 	liboctave/util/liboctave_util_libutil_la-unwind-prot.lo \
 	liboctave/util/liboctave_util_libutil_la-url-transfer.lo \
-	$(am__objects_34) $(am__objects_35) $(am__objects_15)
-am_liboctave_util_libutil_la_OBJECTS = $(am__objects_36)
+	$(am__objects_35) $(am__objects_36) $(am__objects_15)
+am_liboctave_util_libutil_la_OBJECTS = $(am__objects_37)
 liboctave_util_libutil_la_OBJECTS =  \
 	$(am_liboctave_util_libutil_la_OBJECTS)
 liboctave_util_libutil_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
@@ -2825,7 +2827,7 @@ liboctave_util_libutil_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 	$(liboctave_util_libutil_la_CXXFLAGS) $(CXXFLAGS) \
 	$(AM_LDFLAGS) $(LDFLAGS) -o $@
 liboctave_wrappers_libwrappers_la_LIBADD =
-am__objects_37 = liboctave/wrappers/liboctave_wrappers_libwrappers_la-areadlink-wrapper.lo \
+am__objects_38 = liboctave/wrappers/liboctave_wrappers_libwrappers_la-areadlink-wrapper.lo \
 	liboctave/wrappers/liboctave_wrappers_libwrappers_la-async-system-wrapper.lo \
 	liboctave/wrappers/liboctave_wrappers_libwrappers_la-base64-wrappers.lo \
 	liboctave/wrappers/liboctave_wrappers_libwrappers_la-canonicalize-file-name-wrapper.lo \
@@ -2861,7 +2863,7 @@ am__objects_37 = liboctave/wrappers/liboctave_wrappers_libwrappers_la-areadlink-
 	liboctave/wrappers/liboctave_wrappers_libwrappers_la-wait-for-input.lo \
 	liboctave/wrappers/liboctave_wrappers_libwrappers_la-wait-wrappers.lo \
 	$(am__objects_15)
-am_liboctave_wrappers_libwrappers_la_OBJECTS = $(am__objects_37)
+am_liboctave_wrappers_libwrappers_la_OBJECTS = $(am__objects_38)
 liboctave_wrappers_libwrappers_la_OBJECTS =  \
 	$(am_liboctave_wrappers_libwrappers_la_OBJECTS)
 liboctave_wrappers_libwrappers_la_LINK = $(LIBTOOL) $(AM_V_lt) \
@@ -3043,6 +3045,7 @@ SOURCES = $(libgui_graphics_libgui_graphics_la_SOURCES) \
 	$(libinterp_octave_value_liboctave_value_la_SOURCES) \
 	$(libinterp_parse_tree_libparse_tree_la_SOURCES) \
 	$(liboctave_array_libarray_la_SOURCES) \
+	$(liboctave_external_blas_xtra_libxerbla_la_SOURCES) \
 	$(liboctave_external_libexternal_la_SOURCES) \
 	$(nodist_liboctave_external_libexternal_la_SOURCES) \
 	$(liboctave_external_ranlib_libranlib_la_SOURCES) \
@@ -3089,6 +3092,7 @@ DIST_SOURCES = $(am__libgui_graphics_libgui_graphics_la_SOURCES_DIST) \
 	$(libinterp_octave_value_liboctave_value_la_SOURCES) \
 	$(libinterp_parse_tree_libparse_tree_la_SOURCES) \
 	$(liboctave_array_libarray_la_SOURCES) \
+	$(liboctave_external_blas_xtra_libxerbla_la_SOURCES) \
 	$(am__liboctave_external_libexternal_la_SOURCES_DIST) \
 	$(liboctave_external_ranlib_libranlib_la_SOURCES) \
 	$(liboctave_numeric_libnumeric_la_SOURCES) \
@@ -3129,7 +3133,7 @@ am__v_texidevnull_0 = > /dev/null
 am__v_texidevnull_1 = 
 TEXINFO_TEX = $(top_srcdir)/build-aux/texinfo.tex
 am__TEXINFO_TEX_DIR = $(top_srcdir)/build-aux
-TEXINFOS = $(am__append_47)
+TEXINFOS = $(am__append_51)
 MAKEINFOHTML = $(MAKEINFO) --html
 AM_MAKEINFOHTMLFLAGS = $(AM_MAKEINFOFLAGS)
 RECURSIVE_TARGETS = all-recursive check-recursive cscopelist-recursive \
@@ -3202,7 +3206,6 @@ am__noinst_HEADERS_DIST = liboctave/system/cmach-info.h \
 	libgui/src/m-editor/marker.h libgui/src/main-window.h \
 	libgui/src/octave-gui.h libgui/src/octave-cmd.h \
 	libgui/src/octave-qt-link.h libgui/src/octave-settings.h \
-	libgui/src/qtinfo/texinfo-parser.h libgui/src/qtinfo/webinfo.h \
 	libgui/src/resource-manager.h libgui/src/settings-dialog.h \
 	libgui/src/shortcut-manager.h libgui/src/tab-bar.h \
 	libgui/src/terminal-dock-widget.h libgui/src/color-picker.h \
@@ -3320,7 +3323,6 @@ am__DIST_COMMON = $(dist_man_MANS) $(srcdir)/Makefile.in \
 	$(srcdir)/liboctave/external/lapack-xtra/module.mk \
 	$(srcdir)/liboctave/external/module.mk \
 	$(srcdir)/liboctave/external/odepack/module.mk \
-	$(srcdir)/liboctave/external/ordered-qz/module.mk \
 	$(srcdir)/liboctave/external/quadpack/module.mk \
 	$(srcdir)/liboctave/external/ranlib/module.mk \
 	$(srcdir)/liboctave/external/slatec-err/module.mk \
@@ -3378,7 +3380,6 @@ am__DIST_COMMON = $(dist_man_MANS) $(srcdir)/Makefile.in \
 	$(srcdir)/test/bug-38691/module.mk \
 	$(srcdir)/test/bug-41723/module.mk \
 	$(srcdir)/test/bug-44940/module.mk \
-	$(srcdir)/test/bug-46497/module.mk \
 	$(srcdir)/test/bug-46660/module.mk \
 	$(srcdir)/test/bug-49379/module.mk \
 	$(srcdir)/test/bug-50014/module.mk \
@@ -5022,11 +5023,11 @@ image_DATA = $(SCRIPTS_IMAGES) $(icon_IMAGE_FILES) \
 	etc/icons/octave-logo.ico
 octdata_DATA = $(examples_data_SRC)
 octdoc_DATA = 
-octetc_DATA = $(am__append_28) doc/interpreter/doc-cache \
-	doc/interpreter/macros.texi CITATION NEWS $(am__append_69)
-octfonts_DATA = $(am__append_66)
-octlocale_DATA = $(am__append_29)
-DOC_TARGETS = $(am__append_53) $(am__append_54) $(am__append_57)
+octetc_DATA = $(am__append_32) doc/interpreter/doc-cache \
+	doc/interpreter/macros.texi CITATION NEWS $(am__append_73)
+octfonts_DATA = $(am__append_70)
+octlocale_DATA = $(am__append_33)
+DOC_TARGETS = $(am__append_57) $(am__append_58) $(am__append_61)
 BUILT_DISTFILES = AUTHORS BUGS ChangeLog HG-ID INSTALL.OCTAVE \
 	$(LIBINTERP_BUILT_DISTFILES)
 BUILT_NODISTFILES = $(LIBOCTAVE_BUILT_NODISTFILES) \
@@ -5036,7 +5037,7 @@ EXTRA_DIST = CITATION COPYING INSTALL NEWS README run-octave.in \
 	libinterp/dldfcn/config-module.sh \
 	libinterp/dldfcn/config-module.awk \
 	libinterp/dldfcn/module-files libinterp/dldfcn/oct-qhull.h \
-	$(libinterp_EXTRA_DIST) $(am__append_31) src/main.in.cc \
+	$(libinterp_EXTRA_DIST) $(am__append_35) src/main.in.cc \
 	src/mkoctfile.in.cc src/octave-build-info.in.cc \
 	src/octave-config.in.cc $(scripts_EXTRA_DIST) \
 	$(doc_EXTRA_DIST) $(etc_EXTRA_DIST) $(examples_EXTRA_DIST) \
@@ -5058,7 +5059,7 @@ EXTRA_DIST = CITATION COPYING INSTALL NEWS README run-octave.in \
 	build-aux/update-bug-status.sh
 GEN_CONFIG_SHELL = liboctave/external/mk-f77-def.sh \
 	libinterp/mk-version-h.sh libinterp/corefcn/mk-mxarray-h.sh \
-	$(am__append_35) build-aux/subst-config-vals.sh \
+	$(am__append_39) build-aux/subst-config-vals.sh \
 	build-aux/subst-cross-config-vals.sh \
 	build-aux/subst-default-vals.sh build-aux/subst-script-vals.sh
 ALL_SUBST_VARS = \
@@ -5072,9 +5073,9 @@ DIRSTAMP_FILES = liboctave/external/ranlib/$(octave_dirstamp) \
 	liboctave/external/slatec-fn/$(octave_dirstamp) \
 	liboctave/$(octave_dirstamp) \
 	libinterp/corefcn/$(octave_dirstamp) \
-	libinterp/$(octave_dirstamp) $(am__append_8) $(am__append_9) \
-	$(am__append_12) $(am__append_20) $(am__append_22) \
-	$(am__append_26) $(am__append_30) src/$(octave_dirstamp) \
+	libinterp/$(octave_dirstamp) $(am__append_12) $(am__append_13) \
+	$(am__append_16) $(am__append_24) $(am__append_26) \
+	$(am__append_30) $(am__append_34) src/$(octave_dirstamp) \
 	scripts/+containers/$(octave_dirstamp) \
 	scripts/audio/$(octave_dirstamp) \
 	scripts/deprecated/$(octave_dirstamp) \
@@ -5107,28 +5108,28 @@ DIRSTAMP_FILES = liboctave/external/ranlib/$(octave_dirstamp) \
 	scripts/time/$(octave_dirstamp) \
 	scripts/@ftp/$(octave_dirstamp) scripts/$(octave_dirstamp) \
 	doc/doxyhtml/$(octave_dirstamp) \
-	doc/interpreter/$(octave_dirstamp) $(am__append_58) \
+	doc/interpreter/$(octave_dirstamp) $(am__append_62) \
 	etc/icons/$(octave_dirstamp) test/$(octave_dirstamp)
 octave_dirstamp = $(am__leading_dot)octave-dirstamp
 CLEANFILES = $(liboctave_CLEANFILES) $(libinterp_CLEANFILES) \
-	$(am__append_32) $(src_CLEANFILES) $(scripts_CLEANFILES) \
+	$(am__append_36) $(src_CLEANFILES) $(scripts_CLEANFILES) \
 	$(doc_CLEANFILES) $(etc_CLEANFILES) $(examples_CLEANFILES) \
 	$(test_CLEANFILES) config-vars make-vars octave-config.h \
 	run-octave
 DISTCLEANFILES = $(liboctave_DISTCLEANFILES) \
-	$(libinterp_DISTCLEANFILES) $(am__append_33) \
+	$(libinterp_DISTCLEANFILES) $(am__append_37) \
 	$(src_DISTCLEANFILES) $(scripts_DISTCLEANFILES) \
 	$(doc_DISTCLEANFILES) $(etc_DISTCLEANFILES) \
 	$(examples_DISTCLEANFILES) $(test_DISTCLEANFILES) \
 	$(DIRSTAMP_FILES) $(GEN_CONFIG_INC) $(GEN_CONFIG_SHELL) \
 	.gdbinit
 MAINTAINERCLEANFILES = $(liboctave_MAINTAINERCLEANFILES) \
-	$(libinterp_MAINTAINERCLEANFILES) $(am__append_34) \
+	$(libinterp_MAINTAINERCLEANFILES) $(am__append_38) \
 	$(src_MAINTAINERCLEANFILES) $(scripts_MAINTAINERCLEANFILES) \
 	$(doc_MAINTAINERCLEANFILES) $(etc_MAINTAINERCLEANFILES) \
 	$(examples_MAINTAINERCLEANFILES) $(test_MAINTAINERCLEANFILES) \
 	$(BUILT_DISTFILES) ChangeLog HG-ID
-info_TEXINFOS = $(am__append_47)
+info_TEXINFOS = $(am__append_51)
 
 # All of build depends on having libgnu.
 # Add the library to BUILT_SOURCES so it is created early in the build process
@@ -5144,9 +5145,9 @@ BUILT_SOURCES = libgnu/libgnu.la $(BUILT_INCS) \
 	libinterp/corefcn/oct-tex-symbols.cc \
 	libinterp/parse-tree/oct-gperf.h \
 	libinterp/parse-tree/oct-parse.h libinterp/version.h \
-	$(am__append_10) $(am__append_14) $(GENERATED_TEST_FILES) \
+	$(am__append_14) $(am__append_18) $(GENERATED_TEST_FILES) \
 	oct-conf-post.h octave-config.h run-octave $(DIRSTAMP_FILES) \
-	$(am__append_67) $(am__append_68)
+	$(am__append_71) $(am__append_72)
 TEST_FILES = test/fntests.m test/args.tst test/bug-31371.tst \
 	test/bug-38565.tst test/bug-38576.tst test/bug-46330.tst \
 	test/bug-49904.tst test/bug-53579.tst test/bug-53599.tst \
@@ -5163,30 +5164,29 @@ TEST_FILES = test/fntests.m test/args.tst test/bug-31371.tst \
 	$(bug_35448_TEST_FILES) $(bug_35881_TEST_FILES) \
 	$(bug_36025_TEST_FILES) $(bug_38236_TEST_FILES) \
 	$(bug_38691_TEST_FILES) $(bug_41723_TEST_FILES) \
-	$(bug_44940_TEST_FILES) $(bug_46497_TEST_FILES) \
-	$(bug_46660_TEST_FILES) $(bug_50014_TEST_FILES) \
-	$(bug_50035_TEST_FILES) $(bug_50716_TEST_FILES) \
-	$(bug_51192_TEST_FILES) $(bug_51532_TEST_FILES) \
-	$(bug_51534_TEST_FILES) $(bug_51599_TEST_FILES) \
-	$(bug_52075_TEST_FILES) $(bug_52722_TEST_FILES) \
-	$(bug_53027_TEST_FILES) $(class_concat_TEST_FILES) \
-	$(classdef_TEST_FILES) \
+	$(bug_44940_TEST_FILES) $(bug_46660_TEST_FILES) \
+	$(bug_50014_TEST_FILES) $(bug_50035_TEST_FILES) \
+	$(bug_50716_TEST_FILES) $(bug_51192_TEST_FILES) \
+	$(bug_51532_TEST_FILES) $(bug_51534_TEST_FILES) \
+	$(bug_51599_TEST_FILES) $(bug_52075_TEST_FILES) \
+	$(bug_52722_TEST_FILES) $(bug_53027_TEST_FILES) \
+	$(class_concat_TEST_FILES) $(classdef_TEST_FILES) \
 	$(classdef_multiple_inheritance_TEST_FILES) \
 	$(classes_TEST_FILES) $(ctor_vs_method_TEST_FILES) \
 	$(fcn_handle_derived_resolution_TEST_FILES) \
 	$(local_functions_TEST_FILES) $(nest_TEST_FILES) \
 	$(publish_TEST_FILES)
-DOC_IMAGES_SRC = $(am__append_61)
-BUILT_DOC_IMAGES = $(am__append_41)
-BUILT_DOC_IMAGES_EPS = $(am__append_62)
-BUILT_DOC_IMAGES_PDF = $(am__append_63)
-BUILT_DOC_IMAGES_PNG = $(am__append_64)
-BUILT_DOC_IMAGES_TXT = $(am__append_65)
-DOC_IMAGES = $(am__append_46)
-DOC_IMAGES_EPS = $(am__append_42)
-DOC_IMAGES_PDF = $(am__append_43)
-DOC_IMAGES_PNG = $(am__append_44)
-DOC_IMAGES_TXT = $(am__append_45)
+DOC_IMAGES_SRC = $(am__append_65)
+BUILT_DOC_IMAGES = $(am__append_45)
+BUILT_DOC_IMAGES_EPS = $(am__append_66)
+BUILT_DOC_IMAGES_PDF = $(am__append_67)
+BUILT_DOC_IMAGES_PNG = $(am__append_68)
+BUILT_DOC_IMAGES_TXT = $(am__append_69)
+DOC_IMAGES = $(am__append_50)
+DOC_IMAGES_EPS = $(am__append_46)
+DOC_IMAGES_PDF = $(am__append_47)
+DOC_IMAGES_PNG = $(am__append_48)
+DOC_IMAGES_TXT = $(am__append_49)
 ######################## include scripts/@ftp/module.mk ########################
 FCN_FILE_DIRS = scripts/+containers scripts/audio \
 	scripts/audio/@audioplayer scripts/audio/@audiorecorder \
@@ -5266,23 +5266,23 @@ PKG_ADD_FILES = scripts/+containers/PKG_ADD scripts/audio/PKG_ADD \
 	scripts/testfun/PKG_ADD scripts/time/PKG_ADD \
 	scripts/@ftp/PKG_ADD
 SCRIPTS_IMAGES = scripts/image/default.img
-JAR_FILES = $(am__append_40)
+JAR_FILES = $(am__append_44)
 DOCSTRING_FILES = libinterp/DOCSTRINGS scripts/DOCSTRINGS
 noinst_HEADERS = liboctave/system/cmach-info.h \
 	libinterp/options-usage.h $(NOINSTALL_LIBINTERP_OPERATORS_INC) \
-	$(am__append_6) $(am__append_15) $(am__append_19) \
+	$(am__append_10) $(am__append_19) $(am__append_23) \
 	src/display-available.h src/shared-fcns.h
 nodist_noinst_HEADERS = 
 OCTAVE_VERSION_LINKS = src/octave-cli-$(version)$(EXEEXT) \
-	$(am__append_37)
-OCTAVE_CROSS_TOOLS = $(am__append_39)
+	$(am__append_41)
+OCTAVE_CROSS_TOOLS = $(am__append_43)
 OCTAVE_INTERPRETER_TARGETS = $(LIBOCTAVE_TST_FILES) $(OCT_FILES) \
 	$(DLDFCN_PKG_ADD_FILE) $(LIBINTERP_TST_FILES) $(bin_PROGRAMS) \
-	$(OCTAVE_VERSION_LINKS) $(am__append_38) $(GEN_FCN_FILES) \
+	$(OCTAVE_VERSION_LINKS) $(am__append_42) $(GEN_FCN_FILES) \
 	$(PKG_ADD_FILES)
-octlib_LTLIBRARIES = liboctave/liboctave.la libinterp/liboctinterp.la \
-	$(am__append_3) $(am__append_5)
-noinst_LTLIBRARIES = liboctave/array/libarray.la \
+octlib_LTLIBRARIES = liboctave/liboctave.la $(am__append_1) \
+	libinterp/liboctinterp.la $(am__append_6) $(am__append_9)
+noinst_LTLIBRARIES = liboctave/array/libarray.la $(am__append_2) \
 	liboctave/external/ranlib/libranlib.la \
 	liboctave/external/libexternal.la \
 	liboctave/numeric/libnumeric.la \
@@ -5291,8 +5291,8 @@ noinst_LTLIBRARIES = liboctave/array/libarray.la \
 	liboctave/wrappers/libwrappers.la \
 	libinterp/parse-tree/libparse-tree.la \
 	libinterp/octave-value/liboctave-value.la \
-	libinterp/corefcn/libcorefcn.la $(am__append_4) \
-	$(am__append_11) $(am__append_16) $(am__append_27)
+	libinterp/corefcn/libcorefcn.la $(am__append_7) \
+	$(am__append_15) $(am__append_20) $(am__append_31)
 octinclude_HEADERS = liboctave/liboctave-build-info.h $(ARRAY_INC) \
 	$(EXTERNAL_INC) $(NUMERIC_INC) $(LIBOCTAVE_OPERATORS_INC) \
 	$(SYSTEM_INC) $(UTIL_INC) $(OTHER_INC) \
@@ -5315,9 +5315,8 @@ ALL_LOCAL_TARGETS = $(OCTAVE_CROSS_TOOLS) $(JAR_FILES) \
 # but also review the included module.mk makefile fragments.
 SUBDIRS = libgnu
 liboctave_EXTRA_DIST = liboctave/liboctave-build-info.in.cc \
-	liboctave/external/amos/README $(am__append_1) \
+	liboctave/external/amos/README $(am__append_4) \
 	liboctave/external/fftpack/fftpack.doc \
-	liboctave/external/ordered-qz/README \
 	liboctave/external/ranlib/Basegen.doc \
 	liboctave/external/ranlib/HOWTOGET \
 	liboctave/external/ranlib/README \
@@ -5372,7 +5371,7 @@ LIBOCTAVE_TEMPLATE_SRC = liboctave/array/Array.cc \
 	liboctave/numeric/bsxfun-defs.cc \
 	liboctave/operators/mx-inlines.cc liboctave/util/oct-sort.cc
 liboctave_liboctave_la_LIBADD = liboctave/array/libarray.la \
-	liboctave/external/ranlib/libranlib.la \
+	$(am__append_3) liboctave/external/ranlib/libranlib.la \
 	liboctave/external/libexternal.la \
 	liboctave/numeric/libnumeric.la \
 	liboctave/operators/liboperators.la \
@@ -5589,7 +5588,6 @@ EXTERNAL_SOURCES = liboctave/external/amos/cacai.f \
 	liboctave/external/blas-xtra/xscnrm2.f \
 	liboctave/external/blas-xtra/xcdotc.f \
 	liboctave/external/blas-xtra/xcdotu.f \
-	liboctave/external/blas-xtra/xerbla.f \
 	liboctave/external/blas-xtra/cconv2.f \
 	liboctave/external/blas-xtra/csconv2.f \
 	liboctave/external/blas-xtra/dconv2.f \
@@ -5636,7 +5634,7 @@ EXTERNAL_SOURCES = liboctave/external/amos/cacai.f \
 	liboctave/external/dassl/ddatrp.f \
 	liboctave/external/dassl/ddawts.f \
 	liboctave/external/Faddeeva/Faddeeva.cc \
-	liboctave/external/Faddeeva/Faddeeva.hh $(am__append_2) \
+	liboctave/external/Faddeeva/Faddeeva.hh $(am__append_5) \
 	liboctave/external/lapack-xtra/xclange.f \
 	liboctave/external/lapack-xtra/xdlamch.f \
 	liboctave/external/lapack-xtra/xdlange.f \
@@ -5662,10 +5660,6 @@ EXTERNAL_SOURCES = liboctave/external/amos/cacai.f \
 	liboctave/external/odepack/ssolsy.f \
 	liboctave/external/odepack/sstode.f \
 	liboctave/external/odepack/svnorm.f \
-	liboctave/external/ordered-qz/dsubsp.f \
-	liboctave/external/ordered-qz/exchqz.f \
-	liboctave/external/ordered-qz/ssubsp.f \
-	liboctave/external/ordered-qz/sexchqz.f \
 	liboctave/external/quadpack/dqagi.f \
 	liboctave/external/quadpack/dqagie.f \
 	liboctave/external/quadpack/dqagp.f \
@@ -5729,6 +5723,19 @@ EXTERNAL_SOURCES = liboctave/external/amos/cacai.f \
 	liboctave/external/slatec-fn/r9lgit.f \
 	liboctave/external/slatec-fn/r9gmit.f \
 	liboctave/external/slatec-fn/r9lgic.f
+XERBLA_SRC = \
+  liboctave/external/blas-xtra/xerbla.c
+
+liboctave_external_blas_xtra_libxerbla_la_SOURCES = $(XERBLA_SRC)
+liboctave_external_blas_xtra_libxerbla_la_CPPFLAGS = \
+  $(liboctave_liboctave_la_CPPFLAGS)
+
+@AMCOND_BUILD_EXTERNAL_LIBXERBLA_TRUE@liboctave_external_blas_xtra_libxerbla_la_LDFLAGS = \
+@AMCOND_BUILD_EXTERNAL_LIBXERBLA_TRUE@    -avoid-version \
+@AMCOND_BUILD_EXTERNAL_LIBXERBLA_TRUE@    $(NO_UNDEFINED_LDFLAG) \
+@AMCOND_BUILD_EXTERNAL_LIBXERBLA_TRUE@    -bindir $(bindir) \
+@AMCOND_BUILD_EXTERNAL_LIBXERBLA_TRUE@    $(WARN_LDFLAGS)
+
 FFTPACK_SRC = \
   liboctave/external/fftpack/cfftb.f \
   liboctave/external/fftpack/cfftb1.f \
@@ -6673,7 +6680,6 @@ UTIL_INC = \
   liboctave/util/sparse-sort.h \
   liboctave/util/sparse-util.h \
   liboctave/util/str-vec.h \
-  liboctave/util/sun-utils.h \
   liboctave/util/unwind-prot.h \
   liboctave/util/url-transfer.h
 
@@ -7743,14 +7749,12 @@ nodist_libinterp_liboctinterp_la_SOURCES = \
   libinterp/operators/ops.cc \
   libinterp/version.h
 
-libinterp_liboctinterp_la_LIBADD = \
-  libinterp/octave-value/liboctave-value.la \
-  libinterp/parse-tree/libparse-tree.la \
-  libinterp/corefcn/libcorefcn.la \
-  $(LIBINTERP_DLDFCN_LIBADD) \
-  liboctave/liboctave.la \
-  $(LIBOCTINTERP_LINK_DEPS)
-
+libinterp_liboctinterp_la_LIBADD =  \
+	libinterp/octave-value/liboctave-value.la \
+	libinterp/parse-tree/libparse-tree.la \
+	libinterp/corefcn/libcorefcn.la $(LIBINTERP_DLDFCN_LIBADD) \
+	liboctave/liboctave.la $(LIBOCTINTERP_LINK_DEPS) \
+	$(am__append_8)
 
 # Increment these as needed and according to the rules in the libtool manual:
 libinterp_liboctinterp_current = 5
@@ -7787,20 +7791,20 @@ nobase_libinterptests_DATA = $(LIBINTERP_TST_FILES)
 @AMCOND_ENABLE_DYNAMIC_LINKING_TRUE@DLDFCN_PKG_ADD_FILE = libinterp/dldfcn/PKG_ADD
 @AMCOND_BUILD_QT_GUI_TRUE@libgui_EXTRA_DIST = libgui/src/resource.qrc \
 @AMCOND_BUILD_QT_GUI_TRUE@	$(octave_gui_UI) $(octave_gui_ICONS) \
-@AMCOND_BUILD_QT_GUI_TRUE@	$(am__append_17) $(TRANSLATIONS) \
+@AMCOND_BUILD_QT_GUI_TRUE@	$(am__append_21) $(TRANSLATIONS) \
 @AMCOND_BUILD_QT_GUI_TRUE@	libgui/default-qt-settings.in \
 @AMCOND_BUILD_QT_GUI_TRUE@	libgui/liboctgui-build-info.in.cc \
 @AMCOND_BUILD_QT_GUI_TRUE@	libgui/mk-default-qt-settings.in.sh
 @AMCOND_BUILD_QT_GUI_TRUE@libgui_CLEANFILES = $(octave_gui_MOC) \
 @AMCOND_BUILD_QT_GUI_TRUE@	$(octave_gui_UI_H) $(octave_gui_RC) \
-@AMCOND_BUILD_QT_GUI_TRUE@	$(am__append_18) \
+@AMCOND_BUILD_QT_GUI_TRUE@	$(am__append_22) \
 @AMCOND_BUILD_QT_GUI_TRUE@	$(libgui_qterminal_libqterminal_la_MOC) \
 @AMCOND_BUILD_QT_GUI_TRUE@	$(LOCALES) \
 @AMCOND_BUILD_QT_GUI_TRUE@	libgui/default-qt-settings \
 @AMCOND_BUILD_QT_GUI_TRUE@	libgui/liboctgui-build-info.cc
 @AMCOND_BUILD_QT_GUI_TRUE@libgui_DISTCLEANFILES = 
 @AMCOND_BUILD_QT_GUI_TRUE@libgui_MAINTAINERCLEANFILES = 
-@AMCOND_BUILD_QT_GUI_TRUE@MOC_CPPFLAGS = $(am__append_24)
+@AMCOND_BUILD_QT_GUI_TRUE@MOC_CPPFLAGS = $(am__append_28)
 @AMCOND_BUILD_QT_GUI_TRUE@MOC_OCTAVE_CPPFLAGS = $(filter -I% -D% -U%, $(AM_CPPFLAGS) $(CPPFLAGS))
 @AMCOND_BUILD_QT_GUI_TRUE@TRANSLATIONS = \
 @AMCOND_BUILD_QT_GUI_TRUE@  libgui/languages/be_BY.ts \
@@ -7902,10 +7906,10 @@ nobase_libinterptests_DATA = $(LIBINTERP_TST_FILES)
 @AMCOND_BUILD_QT_GUI_TRUE@  libgui/src/icons/zoom-in.png \
 @AMCOND_BUILD_QT_GUI_TRUE@  libgui/src/icons/zoom-out.png
 
-@AMCOND_BUILD_QT_GUI_TRUE@octave_gui_MOC = $(am__append_7) \
+@AMCOND_BUILD_QT_GUI_TRUE@octave_gui_MOC = $(am__append_11) \
 @AMCOND_BUILD_QT_GUI_TRUE@	$(OCTAVE_GUI_SRC_MOC) \
 @AMCOND_BUILD_QT_GUI_TRUE@	$(OCTAVE_GUI_EDITOR_MOC) \
-@AMCOND_BUILD_QT_GUI_TRUE@	$(am__append_13)
+@AMCOND_BUILD_QT_GUI_TRUE@	$(am__append_17)
 @AMCOND_BUILD_QT_GUI_TRUE@@AMCOND_HAVE_QSCINTILLA_TRUE@OCTAVE_GUI_SRC_M_EDITOR_MOC = \
 @AMCOND_BUILD_QT_GUI_TRUE@@AMCOND_HAVE_QSCINTILLA_TRUE@  libgui/src/m-editor/moc-file-editor-interface.cc \
 @AMCOND_BUILD_QT_GUI_TRUE@@AMCOND_HAVE_QSCINTILLA_TRUE@  libgui/src/m-editor/moc-file-editor-tab.cc \
@@ -7938,8 +7942,6 @@ nobase_libinterptests_DATA = $(LIBINTERP_TST_FILES)
 @AMCOND_BUILD_QT_GUI_TRUE@  libgui/src/moc-variable-editor-model.cc \
 @AMCOND_BUILD_QT_GUI_TRUE@  libgui/src/moc-find-files-dialog.cc \
 @AMCOND_BUILD_QT_GUI_TRUE@  libgui/src/moc-find-files-model.cc \
-@AMCOND_BUILD_QT_GUI_TRUE@  libgui/src/qtinfo/moc-texinfo-parser.cc \
-@AMCOND_BUILD_QT_GUI_TRUE@  libgui/src/qtinfo/moc-webinfo.cc \
 @AMCOND_BUILD_QT_GUI_TRUE@  libgui/src/moc-octave-dock-widget.cc
 
 @AMCOND_BUILD_QT_GUI_TRUE@octave_gui_RC = libgui/src/qrc-resource.cc
@@ -7965,8 +7967,6 @@ nobase_libinterptests_DATA = $(LIBINTERP_TST_FILES)
 @AMCOND_BUILD_QT_GUI_TRUE@  libgui/src/octave-dock-widget.cc \
 @AMCOND_BUILD_QT_GUI_TRUE@  libgui/src/octave-gui.cc \
 @AMCOND_BUILD_QT_GUI_TRUE@  libgui/src/octave-qt-link.cc \
-@AMCOND_BUILD_QT_GUI_TRUE@  libgui/src/qtinfo/texinfo-parser.cc \
-@AMCOND_BUILD_QT_GUI_TRUE@  libgui/src/qtinfo/webinfo.cc \
 @AMCOND_BUILD_QT_GUI_TRUE@  libgui/src/resource-manager.cc \
 @AMCOND_BUILD_QT_GUI_TRUE@  libgui/src/settings-dialog.cc \
 @AMCOND_BUILD_QT_GUI_TRUE@  libgui/src/shortcut-manager.cc \
@@ -7994,7 +7994,6 @@ nobase_libinterptests_DATA = $(LIBINTERP_TST_FILES)
 @AMCOND_BUILD_QT_GUI_TRUE@  -I$(srcdir)/libgui/qterminal/libqterminal \
 @AMCOND_BUILD_QT_GUI_TRUE@  -Ilibgui/src -I$(srcdir)/libgui/src \
 @AMCOND_BUILD_QT_GUI_TRUE@  -I$(srcdir)/libgui/src/m-editor \
-@AMCOND_BUILD_QT_GUI_TRUE@  -I$(srcdir)/libgui/src/qtinfo \
 @AMCOND_BUILD_QT_GUI_TRUE@  -I$(srcdir)/libgui/graphics \
 @AMCOND_BUILD_QT_GUI_TRUE@  -I$(srcdir)/liboctave/array \
 @AMCOND_BUILD_QT_GUI_TRUE@  -Iliboctave/numeric -I$(srcdir)/liboctave/numeric \
@@ -8099,7 +8098,7 @@ nobase_libinterptests_DATA = $(LIBINTERP_TST_FILES)
 @AMCOND_BUILD_QT_GRAPHICS_TRUE@@AMCOND_BUILD_QT_GUI_TRUE@libgui_graphics_libgui_graphics_la_CFLAGS = $(AM_CFLAGS) $(WARN_CFLAGS)
 @AMCOND_BUILD_QT_GRAPHICS_TRUE@@AMCOND_BUILD_QT_GUI_TRUE@libgui_graphics_libgui_graphics_la_CXXFLAGS = $(AM_CXXFLAGS) $(WARN_CXXFLAGS)
 @AMCOND_BUILD_QT_GUI_TRUE@libgui_qterminal_libqterminal_la_MOC = $(OCTAVE_GUI_QTERMINAL_LIBQTERMINAL_MOC) \
-@AMCOND_BUILD_QT_GUI_TRUE@	$(am__append_21) $(am__append_25)
+@AMCOND_BUILD_QT_GUI_TRUE@	$(am__append_25) $(am__append_29)
 @AMCOND_BUILD_QT_GUI_TRUE@OCTAVE_GUI_QTERMINAL_LIBQTERMINAL_MOC = \
 @AMCOND_BUILD_QT_GUI_TRUE@  libgui/qterminal/libqterminal/moc-QTerminal.cc
 
@@ -8108,7 +8107,7 @@ nobase_libinterptests_DATA = $(LIBINTERP_TST_FILES)
 @AMCOND_BUILD_QT_GUI_TRUE@	$(AM_CPPFLAGS) @QT_CPPFLAGS@ \
 @AMCOND_BUILD_QT_GUI_TRUE@	-I$(srcdir)/libgui/qterminal/libqterminal \
 @AMCOND_BUILD_QT_GUI_TRUE@	-I$(srcdir)/libgui/src \
-@AMCOND_BUILD_QT_GUI_TRUE@	$(am__append_23)
+@AMCOND_BUILD_QT_GUI_TRUE@	$(am__append_27)
 @AMCOND_BUILD_QT_GUI_TRUE@libgui_qterminal_libqterminal_la_CFLAGS = $(AM_CFLAGS)
 @AMCOND_BUILD_QT_GUI_TRUE@libgui_qterminal_libqterminal_la_CXXFLAGS = $(AM_CXXFLAGS)
 @AMCOND_BUILD_QT_GUI_TRUE@@WIN32_TERMINAL_FALSE@libgui_qterminal_libqterminal_la_SOURCES = \
@@ -9503,11 +9502,11 @@ TAGS_DEPENDENCIES = $(addprefix $(srcdir)/, $(FCN_FILES)) $(GEN_FCN_FILES)
 TAGS_FILES = $(addprefix $(srcdir)/, $(FCN_FILES)) $(GEN_FCN_FILES)
 doc_EXTRA_DIST = $(DOXYGEN_PAGES) doc/doxyhtml/Doxyfile.in \
 	doc/doxyhtml/DoxyfileQt.patch doc/doxyhtml/README \
-	$(am__append_55)
-doc_CLEANFILES = $(am__append_59)
+	$(am__append_59)
+doc_CLEANFILES = $(am__append_63)
 doc_DISTCLEANFILES = 
-doc_MAINTAINERCLEANFILES = $(am__append_56) doc/interpreter/doc-cache \
-	$(am__append_60) $(srcdir)/doc/interpreter/images.mk
+doc_MAINTAINERCLEANFILES = $(am__append_60) doc/interpreter/doc-cache \
+	$(am__append_64) $(srcdir)/doc/interpreter/images.mk
 TEXINPUTS := $(PATH_SEPARATOR)$(abs_top_srcdir)/doc/interpreter$(PATH_SEPARATOR)$(PATH_SEPARATOR)$(abs_top_builddir)/doc/interpreter$(PATH_SEPARATOR)$(abs_top_builddir)/doc/.texmf-var//$(PATH_SEPARATOR)$(TEXINPUTS)$(PATH_SEPARATOR)
 TEXMFCNF := $(PATH_SEPARATOR)$(abs_top_srcdir)/doc$(PATH_SEPARATOR)$(abs_top_builddir)/doc$(PATH_SEPARATOR)$(TEXMFCNF)$(PATH_SEPARATOR)
 TEXMFVAR := $(abs_top_builddir)/doc/.texmf-var
@@ -9522,11 +9521,11 @@ AM_V_PDFTEX = $(am__v_PDFTEX_$(V))
 am__v_PDFTEX_ = $(am__v_PDFTEX_$(AM_DEFAULT_VERBOSITY))
 am__v_PDFTEX_0 = @echo "  PDFTEX  " $@;
 am__v_PDFTEX_1 = 
-INFO_DEPS = $(am__append_48)
-DVIS = $(am__append_49)
-PDFS = $(am__append_50)
-PSS = $(am__append_51)
-HTMLS = $(am__append_52)
+INFO_DEPS = $(am__append_52)
+DVIS = $(am__append_53)
+PDFS = $(am__append_54)
+PSS = $(am__append_55)
+HTMLS = $(am__append_56)
 DOXYGEN_PAGES = \
   doc/doxyhtml/pages/macros.dox \
   doc/doxyhtml/pages/README.md
@@ -9853,10 +9852,6 @@ bug_41723_TEST_FILES = \
 bug_44940_TEST_FILES = \
   test/bug-44940/bug-44940.tst \
   test/bug-44940/class_bug44940.m
-
-bug_46497_TEST_FILES = \
-  test/bug-46497/bug-46497.tst \
-  test/bug-46497/class_bug46497.m
 
 bug_46660_TEST_FILES = \
   test/bug-46660/bug-46660.tst \
@@ -10188,7 +10183,7 @@ all: $(BUILT_SOURCES) config.h
 .SUFFIXES: .c .cc .cpp .dvi .f .ll .lo .o .obj .ps .yy
 am--refresh: Makefile
 	@:
-$(srcdir)/Makefile.in:  $(srcdir)/Makefile.am $(srcdir)/liboctave/module.mk $(srcdir)/liboctave/array/module.mk $(srcdir)/liboctave/external/module.mk $(srcdir)/liboctave/external/amos/module.mk $(srcdir)/liboctave/external/blas-xtra/module.mk $(srcdir)/liboctave/external/daspk/module.mk $(srcdir)/liboctave/external/dasrt/module.mk $(srcdir)/liboctave/external/dassl/module.mk $(srcdir)/liboctave/external/Faddeeva/module.mk $(srcdir)/liboctave/external/fftpack/module.mk $(srcdir)/liboctave/external/lapack-xtra/module.mk $(srcdir)/liboctave/external/odepack/module.mk $(srcdir)/liboctave/external/ordered-qz/module.mk $(srcdir)/liboctave/external/quadpack/module.mk $(srcdir)/liboctave/external/ranlib/module.mk $(srcdir)/liboctave/external/slatec-err/module.mk $(srcdir)/liboctave/external/slatec-fn/module.mk $(srcdir)/liboctave/numeric/module.mk $(srcdir)/liboctave/operators/module.mk $(srcdir)/liboctave/operators/vx-op-inc.mk $(srcdir)/liboctave/operators/mx-op-inc.mk $(srcdir)/liboctave/operators/smx-op-inc.mk $(srcdir)/liboctave/operators/vx-op-src.mk $(srcdir)/liboctave/operators/mx-op-src.mk $(srcdir)/liboctave/operators/smx-op-src.mk $(srcdir)/liboctave/system/module.mk $(srcdir)/liboctave/util/module.mk $(srcdir)/liboctave/wrappers/module.mk $(srcdir)/libinterp/module.mk $(srcdir)/libinterp/parse-tree/module.mk $(srcdir)/libinterp/octave-value/module.mk $(srcdir)/libinterp/operators/module.mk $(srcdir)/libinterp/template-inst/module.mk $(srcdir)/libinterp/corefcn/module.mk $(srcdir)/libinterp/dldfcn/module.mk $(srcdir)/libgui/module.mk $(srcdir)/libgui/src/module.mk $(srcdir)/libgui/graphics/module.mk $(srcdir)/libgui/qterminal-module.mk $(srcdir)/src/module.mk $(srcdir)/scripts/module.mk $(srcdir)/scripts/+containers/module.mk $(srcdir)/scripts/audio/module.mk $(srcdir)/scripts/deprecated/module.mk $(srcdir)/scripts/elfun/module.mk $(srcdir)/scripts/general/module.mk $(srcdir)/scripts/geometry/module.mk $(srcdir)/scripts/gui/module.mk $(srcdir)/scripts/help/module.mk $(srcdir)/scripts/image/module.mk $(srcdir)/scripts/io/module.mk $(srcdir)/scripts/java/module.mk $(srcdir)/scripts/linear-algebra/module.mk $(srcdir)/scripts/miscellaneous/module.mk $(srcdir)/scripts/ode/module.mk $(srcdir)/scripts/optimization/module.mk $(srcdir)/scripts/path/module.mk $(srcdir)/scripts/pkg/module.mk $(srcdir)/scripts/plot/appearance/module.mk $(srcdir)/scripts/plot/draw/module.mk $(srcdir)/scripts/plot/util/module.mk $(srcdir)/scripts/polynomial/module.mk $(srcdir)/scripts/prefs/module.mk $(srcdir)/scripts/profiler/module.mk $(srcdir)/scripts/set/module.mk $(srcdir)/scripts/signal/module.mk $(srcdir)/scripts/sparse/module.mk $(srcdir)/scripts/specfun/module.mk $(srcdir)/scripts/special-matrix/module.mk $(srcdir)/scripts/startup/module.mk $(srcdir)/scripts/statistics/module.mk $(srcdir)/scripts/strings/module.mk $(srcdir)/scripts/testfun/module.mk $(srcdir)/scripts/time/module.mk $(srcdir)/doc/module.mk $(srcdir)/doc/doxyhtml/module.mk $(srcdir)/doc/interpreter/module.mk $(srcdir)/doc/liboctave/module.mk $(srcdir)/doc/refcard/module.mk $(srcdir)/doc/interpreter/images.mk $(srcdir)/etc/module.mk $(srcdir)/examples/module.mk $(srcdir)/m4/module.mk $(srcdir)/test/module.mk $(srcdir)/test/bug-35448/module.mk $(srcdir)/test/bug-35881/module.mk $(srcdir)/test/bug-36025/module.mk $(srcdir)/test/bug-38236/module.mk $(srcdir)/test/bug-38691/module.mk $(srcdir)/test/bug-41723/module.mk $(srcdir)/test/bug-44940/module.mk $(srcdir)/test/bug-46497/module.mk $(srcdir)/test/bug-46660/module.mk $(srcdir)/test/bug-49379/module.mk $(srcdir)/test/bug-50014/module.mk $(srcdir)/test/bug-50035/module.mk $(srcdir)/test/bug-50716/module.mk $(srcdir)/test/bug-51192/module.mk $(srcdir)/test/bug-51532/module.mk $(srcdir)/test/bug-51534/module.mk $(srcdir)/test/bug-51599/module.mk $(srcdir)/test/bug-52075/module.mk $(srcdir)/test/bug-52722/module.mk $(srcdir)/test/bug-53027/module.mk $(srcdir)/test/class-concat/module.mk $(srcdir)/test/classdef/module.mk $(srcdir)/test/classdef-multiple-inheritance/module.mk $(srcdir)/test/classes/module.mk $(srcdir)/test/ctor-vs-method/module.mk $(srcdir)/test/fcn-handle-derived-resolution/module.mk $(srcdir)/test/local-functions/module.mk $(srcdir)/test/nest/module.mk $(srcdir)/test/publish/module.mk $(srcdir)/build-aux/module.mk $(am__configure_deps)
+$(srcdir)/Makefile.in:  $(srcdir)/Makefile.am $(srcdir)/liboctave/module.mk $(srcdir)/liboctave/array/module.mk $(srcdir)/liboctave/external/module.mk $(srcdir)/liboctave/external/amos/module.mk $(srcdir)/liboctave/external/blas-xtra/module.mk $(srcdir)/liboctave/external/daspk/module.mk $(srcdir)/liboctave/external/dasrt/module.mk $(srcdir)/liboctave/external/dassl/module.mk $(srcdir)/liboctave/external/Faddeeva/module.mk $(srcdir)/liboctave/external/fftpack/module.mk $(srcdir)/liboctave/external/lapack-xtra/module.mk $(srcdir)/liboctave/external/odepack/module.mk $(srcdir)/liboctave/external/quadpack/module.mk $(srcdir)/liboctave/external/ranlib/module.mk $(srcdir)/liboctave/external/slatec-err/module.mk $(srcdir)/liboctave/external/slatec-fn/module.mk $(srcdir)/liboctave/numeric/module.mk $(srcdir)/liboctave/operators/module.mk $(srcdir)/liboctave/operators/vx-op-inc.mk $(srcdir)/liboctave/operators/mx-op-inc.mk $(srcdir)/liboctave/operators/smx-op-inc.mk $(srcdir)/liboctave/operators/vx-op-src.mk $(srcdir)/liboctave/operators/mx-op-src.mk $(srcdir)/liboctave/operators/smx-op-src.mk $(srcdir)/liboctave/system/module.mk $(srcdir)/liboctave/util/module.mk $(srcdir)/liboctave/wrappers/module.mk $(srcdir)/libinterp/module.mk $(srcdir)/libinterp/parse-tree/module.mk $(srcdir)/libinterp/octave-value/module.mk $(srcdir)/libinterp/operators/module.mk $(srcdir)/libinterp/template-inst/module.mk $(srcdir)/libinterp/corefcn/module.mk $(srcdir)/libinterp/dldfcn/module.mk $(srcdir)/libgui/module.mk $(srcdir)/libgui/src/module.mk $(srcdir)/libgui/graphics/module.mk $(srcdir)/libgui/qterminal-module.mk $(srcdir)/src/module.mk $(srcdir)/scripts/module.mk $(srcdir)/scripts/+containers/module.mk $(srcdir)/scripts/audio/module.mk $(srcdir)/scripts/deprecated/module.mk $(srcdir)/scripts/elfun/module.mk $(srcdir)/scripts/general/module.mk $(srcdir)/scripts/geometry/module.mk $(srcdir)/scripts/gui/module.mk $(srcdir)/scripts/help/module.mk $(srcdir)/scripts/image/module.mk $(srcdir)/scripts/io/module.mk $(srcdir)/scripts/java/module.mk $(srcdir)/scripts/linear-algebra/module.mk $(srcdir)/scripts/miscellaneous/module.mk $(srcdir)/scripts/ode/module.mk $(srcdir)/scripts/optimization/module.mk $(srcdir)/scripts/path/module.mk $(srcdir)/scripts/pkg/module.mk $(srcdir)/scripts/plot/appearance/module.mk $(srcdir)/scripts/plot/draw/module.mk $(srcdir)/scripts/plot/util/module.mk $(srcdir)/scripts/polynomial/module.mk $(srcdir)/scripts/prefs/module.mk $(srcdir)/scripts/profiler/module.mk $(srcdir)/scripts/set/module.mk $(srcdir)/scripts/signal/module.mk $(srcdir)/scripts/sparse/module.mk $(srcdir)/scripts/specfun/module.mk $(srcdir)/scripts/special-matrix/module.mk $(srcdir)/scripts/startup/module.mk $(srcdir)/scripts/statistics/module.mk $(srcdir)/scripts/strings/module.mk $(srcdir)/scripts/testfun/module.mk $(srcdir)/scripts/time/module.mk $(srcdir)/doc/module.mk $(srcdir)/doc/doxyhtml/module.mk $(srcdir)/doc/interpreter/module.mk $(srcdir)/doc/liboctave/module.mk $(srcdir)/doc/refcard/module.mk $(srcdir)/doc/interpreter/images.mk $(srcdir)/etc/module.mk $(srcdir)/examples/module.mk $(srcdir)/m4/module.mk $(srcdir)/test/module.mk $(srcdir)/test/bug-35448/module.mk $(srcdir)/test/bug-35881/module.mk $(srcdir)/test/bug-36025/module.mk $(srcdir)/test/bug-38236/module.mk $(srcdir)/test/bug-38691/module.mk $(srcdir)/test/bug-41723/module.mk $(srcdir)/test/bug-44940/module.mk $(srcdir)/test/bug-46660/module.mk $(srcdir)/test/bug-49379/module.mk $(srcdir)/test/bug-50014/module.mk $(srcdir)/test/bug-50035/module.mk $(srcdir)/test/bug-50716/module.mk $(srcdir)/test/bug-51192/module.mk $(srcdir)/test/bug-51532/module.mk $(srcdir)/test/bug-51534/module.mk $(srcdir)/test/bug-51599/module.mk $(srcdir)/test/bug-52075/module.mk $(srcdir)/test/bug-52722/module.mk $(srcdir)/test/bug-53027/module.mk $(srcdir)/test/class-concat/module.mk $(srcdir)/test/classdef/module.mk $(srcdir)/test/classdef-multiple-inheritance/module.mk $(srcdir)/test/classes/module.mk $(srcdir)/test/ctor-vs-method/module.mk $(srcdir)/test/fcn-handle-derived-resolution/module.mk $(srcdir)/test/local-functions/module.mk $(srcdir)/test/nest/module.mk $(srcdir)/test/publish/module.mk $(srcdir)/build-aux/module.mk $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
 	    *$$dep*) \
@@ -10210,7 +10205,7 @@ Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	    echo ' cd $(top_builddir) && $(SHELL) ./config.status $@ $(am__depfiles_maybe)'; \
 	    cd $(top_builddir) && $(SHELL) ./config.status $@ $(am__depfiles_maybe);; \
 	esac;
-$(srcdir)/liboctave/module.mk $(srcdir)/liboctave/array/module.mk $(srcdir)/liboctave/external/module.mk $(srcdir)/liboctave/external/amos/module.mk $(srcdir)/liboctave/external/blas-xtra/module.mk $(srcdir)/liboctave/external/daspk/module.mk $(srcdir)/liboctave/external/dasrt/module.mk $(srcdir)/liboctave/external/dassl/module.mk $(srcdir)/liboctave/external/Faddeeva/module.mk $(srcdir)/liboctave/external/fftpack/module.mk $(srcdir)/liboctave/external/lapack-xtra/module.mk $(srcdir)/liboctave/external/odepack/module.mk $(srcdir)/liboctave/external/ordered-qz/module.mk $(srcdir)/liboctave/external/quadpack/module.mk $(srcdir)/liboctave/external/ranlib/module.mk $(srcdir)/liboctave/external/slatec-err/module.mk $(srcdir)/liboctave/external/slatec-fn/module.mk $(srcdir)/liboctave/numeric/module.mk $(srcdir)/liboctave/operators/module.mk $(srcdir)/liboctave/operators/vx-op-inc.mk $(srcdir)/liboctave/operators/mx-op-inc.mk $(srcdir)/liboctave/operators/smx-op-inc.mk $(srcdir)/liboctave/operators/vx-op-src.mk $(srcdir)/liboctave/operators/mx-op-src.mk $(srcdir)/liboctave/operators/smx-op-src.mk $(srcdir)/liboctave/system/module.mk $(srcdir)/liboctave/util/module.mk $(srcdir)/liboctave/wrappers/module.mk $(srcdir)/libinterp/module.mk $(srcdir)/libinterp/parse-tree/module.mk $(srcdir)/libinterp/octave-value/module.mk $(srcdir)/libinterp/operators/module.mk $(srcdir)/libinterp/template-inst/module.mk $(srcdir)/libinterp/corefcn/module.mk $(srcdir)/libinterp/dldfcn/module.mk $(srcdir)/libgui/module.mk $(srcdir)/libgui/src/module.mk $(srcdir)/libgui/graphics/module.mk $(srcdir)/libgui/qterminal-module.mk $(srcdir)/src/module.mk $(srcdir)/scripts/module.mk $(srcdir)/scripts/+containers/module.mk $(srcdir)/scripts/audio/module.mk $(srcdir)/scripts/deprecated/module.mk $(srcdir)/scripts/elfun/module.mk $(srcdir)/scripts/general/module.mk $(srcdir)/scripts/geometry/module.mk $(srcdir)/scripts/gui/module.mk $(srcdir)/scripts/help/module.mk $(srcdir)/scripts/image/module.mk $(srcdir)/scripts/io/module.mk $(srcdir)/scripts/java/module.mk $(srcdir)/scripts/linear-algebra/module.mk $(srcdir)/scripts/miscellaneous/module.mk $(srcdir)/scripts/ode/module.mk $(srcdir)/scripts/optimization/module.mk $(srcdir)/scripts/path/module.mk $(srcdir)/scripts/pkg/module.mk $(srcdir)/scripts/plot/appearance/module.mk $(srcdir)/scripts/plot/draw/module.mk $(srcdir)/scripts/plot/util/module.mk $(srcdir)/scripts/polynomial/module.mk $(srcdir)/scripts/prefs/module.mk $(srcdir)/scripts/profiler/module.mk $(srcdir)/scripts/set/module.mk $(srcdir)/scripts/signal/module.mk $(srcdir)/scripts/sparse/module.mk $(srcdir)/scripts/specfun/module.mk $(srcdir)/scripts/special-matrix/module.mk $(srcdir)/scripts/startup/module.mk $(srcdir)/scripts/statistics/module.mk $(srcdir)/scripts/strings/module.mk $(srcdir)/scripts/testfun/module.mk $(srcdir)/scripts/time/module.mk $(srcdir)/doc/module.mk $(srcdir)/doc/doxyhtml/module.mk $(srcdir)/doc/interpreter/module.mk $(srcdir)/doc/liboctave/module.mk $(srcdir)/doc/refcard/module.mk $(srcdir)/doc/interpreter/images.mk $(srcdir)/etc/module.mk $(srcdir)/examples/module.mk $(srcdir)/m4/module.mk $(srcdir)/test/module.mk $(srcdir)/test/bug-35448/module.mk $(srcdir)/test/bug-35881/module.mk $(srcdir)/test/bug-36025/module.mk $(srcdir)/test/bug-38236/module.mk $(srcdir)/test/bug-38691/module.mk $(srcdir)/test/bug-41723/module.mk $(srcdir)/test/bug-44940/module.mk $(srcdir)/test/bug-46497/module.mk $(srcdir)/test/bug-46660/module.mk $(srcdir)/test/bug-49379/module.mk $(srcdir)/test/bug-50014/module.mk $(srcdir)/test/bug-50035/module.mk $(srcdir)/test/bug-50716/module.mk $(srcdir)/test/bug-51192/module.mk $(srcdir)/test/bug-51532/module.mk $(srcdir)/test/bug-51534/module.mk $(srcdir)/test/bug-51599/module.mk $(srcdir)/test/bug-52075/module.mk $(srcdir)/test/bug-52722/module.mk $(srcdir)/test/bug-53027/module.mk $(srcdir)/test/class-concat/module.mk $(srcdir)/test/classdef/module.mk $(srcdir)/test/classdef-multiple-inheritance/module.mk $(srcdir)/test/classes/module.mk $(srcdir)/test/ctor-vs-method/module.mk $(srcdir)/test/fcn-handle-derived-resolution/module.mk $(srcdir)/test/local-functions/module.mk $(srcdir)/test/nest/module.mk $(srcdir)/test/publish/module.mk $(srcdir)/build-aux/module.mk $(am__empty):
+$(srcdir)/liboctave/module.mk $(srcdir)/liboctave/array/module.mk $(srcdir)/liboctave/external/module.mk $(srcdir)/liboctave/external/amos/module.mk $(srcdir)/liboctave/external/blas-xtra/module.mk $(srcdir)/liboctave/external/daspk/module.mk $(srcdir)/liboctave/external/dasrt/module.mk $(srcdir)/liboctave/external/dassl/module.mk $(srcdir)/liboctave/external/Faddeeva/module.mk $(srcdir)/liboctave/external/fftpack/module.mk $(srcdir)/liboctave/external/lapack-xtra/module.mk $(srcdir)/liboctave/external/odepack/module.mk $(srcdir)/liboctave/external/quadpack/module.mk $(srcdir)/liboctave/external/ranlib/module.mk $(srcdir)/liboctave/external/slatec-err/module.mk $(srcdir)/liboctave/external/slatec-fn/module.mk $(srcdir)/liboctave/numeric/module.mk $(srcdir)/liboctave/operators/module.mk $(srcdir)/liboctave/operators/vx-op-inc.mk $(srcdir)/liboctave/operators/mx-op-inc.mk $(srcdir)/liboctave/operators/smx-op-inc.mk $(srcdir)/liboctave/operators/vx-op-src.mk $(srcdir)/liboctave/operators/mx-op-src.mk $(srcdir)/liboctave/operators/smx-op-src.mk $(srcdir)/liboctave/system/module.mk $(srcdir)/liboctave/util/module.mk $(srcdir)/liboctave/wrappers/module.mk $(srcdir)/libinterp/module.mk $(srcdir)/libinterp/parse-tree/module.mk $(srcdir)/libinterp/octave-value/module.mk $(srcdir)/libinterp/operators/module.mk $(srcdir)/libinterp/template-inst/module.mk $(srcdir)/libinterp/corefcn/module.mk $(srcdir)/libinterp/dldfcn/module.mk $(srcdir)/libgui/module.mk $(srcdir)/libgui/src/module.mk $(srcdir)/libgui/graphics/module.mk $(srcdir)/libgui/qterminal-module.mk $(srcdir)/src/module.mk $(srcdir)/scripts/module.mk $(srcdir)/scripts/+containers/module.mk $(srcdir)/scripts/audio/module.mk $(srcdir)/scripts/deprecated/module.mk $(srcdir)/scripts/elfun/module.mk $(srcdir)/scripts/general/module.mk $(srcdir)/scripts/geometry/module.mk $(srcdir)/scripts/gui/module.mk $(srcdir)/scripts/help/module.mk $(srcdir)/scripts/image/module.mk $(srcdir)/scripts/io/module.mk $(srcdir)/scripts/java/module.mk $(srcdir)/scripts/linear-algebra/module.mk $(srcdir)/scripts/miscellaneous/module.mk $(srcdir)/scripts/ode/module.mk $(srcdir)/scripts/optimization/module.mk $(srcdir)/scripts/path/module.mk $(srcdir)/scripts/pkg/module.mk $(srcdir)/scripts/plot/appearance/module.mk $(srcdir)/scripts/plot/draw/module.mk $(srcdir)/scripts/plot/util/module.mk $(srcdir)/scripts/polynomial/module.mk $(srcdir)/scripts/prefs/module.mk $(srcdir)/scripts/profiler/module.mk $(srcdir)/scripts/set/module.mk $(srcdir)/scripts/signal/module.mk $(srcdir)/scripts/sparse/module.mk $(srcdir)/scripts/specfun/module.mk $(srcdir)/scripts/special-matrix/module.mk $(srcdir)/scripts/startup/module.mk $(srcdir)/scripts/statistics/module.mk $(srcdir)/scripts/strings/module.mk $(srcdir)/scripts/testfun/module.mk $(srcdir)/scripts/time/module.mk $(srcdir)/doc/module.mk $(srcdir)/doc/doxyhtml/module.mk $(srcdir)/doc/interpreter/module.mk $(srcdir)/doc/liboctave/module.mk $(srcdir)/doc/refcard/module.mk $(srcdir)/doc/interpreter/images.mk $(srcdir)/etc/module.mk $(srcdir)/examples/module.mk $(srcdir)/m4/module.mk $(srcdir)/test/module.mk $(srcdir)/test/bug-35448/module.mk $(srcdir)/test/bug-35881/module.mk $(srcdir)/test/bug-36025/module.mk $(srcdir)/test/bug-38236/module.mk $(srcdir)/test/bug-38691/module.mk $(srcdir)/test/bug-41723/module.mk $(srcdir)/test/bug-44940/module.mk $(srcdir)/test/bug-46660/module.mk $(srcdir)/test/bug-49379/module.mk $(srcdir)/test/bug-50014/module.mk $(srcdir)/test/bug-50035/module.mk $(srcdir)/test/bug-50716/module.mk $(srcdir)/test/bug-51192/module.mk $(srcdir)/test/bug-51532/module.mk $(srcdir)/test/bug-51534/module.mk $(srcdir)/test/bug-51599/module.mk $(srcdir)/test/bug-52075/module.mk $(srcdir)/test/bug-52722/module.mk $(srcdir)/test/bug-53027/module.mk $(srcdir)/test/class-concat/module.mk $(srcdir)/test/classdef/module.mk $(srcdir)/test/classdef-multiple-inheritance/module.mk $(srcdir)/test/classes/module.mk $(srcdir)/test/ctor-vs-method/module.mk $(srcdir)/test/fcn-handle-derived-resolution/module.mk $(srcdir)/test/local-functions/module.mk $(srcdir)/test/nest/module.mk $(srcdir)/test/publish/module.mk $(srcdir)/build-aux/module.mk $(am__empty):
 
 $(top_builddir)/config.status: $(top_srcdir)/configure $(CONFIG_STATUS_DEPENDENCIES)
 	$(SHELL) ./config.status --recheck
@@ -10602,18 +10597,6 @@ libgui/src/libgui_src_libgui_src_la-octave-gui.lo:  \
 libgui/src/libgui_src_libgui_src_la-octave-qt-link.lo:  \
 	libgui/src/$(am__dirstamp) \
 	libgui/src/$(DEPDIR)/$(am__dirstamp)
-libgui/src/qtinfo/$(am__dirstamp):
-	@$(MKDIR_P) libgui/src/qtinfo
-	@: > libgui/src/qtinfo/$(am__dirstamp)
-libgui/src/qtinfo/$(DEPDIR)/$(am__dirstamp):
-	@$(MKDIR_P) libgui/src/qtinfo/$(DEPDIR)
-	@: > libgui/src/qtinfo/$(DEPDIR)/$(am__dirstamp)
-libgui/src/qtinfo/libgui_src_libgui_src_la-texinfo-parser.lo:  \
-	libgui/src/qtinfo/$(am__dirstamp) \
-	libgui/src/qtinfo/$(DEPDIR)/$(am__dirstamp)
-libgui/src/qtinfo/libgui_src_libgui_src_la-webinfo.lo:  \
-	libgui/src/qtinfo/$(am__dirstamp) \
-	libgui/src/qtinfo/$(DEPDIR)/$(am__dirstamp)
 libgui/src/libgui_src_libgui_src_la-resource-manager.lo:  \
 	libgui/src/$(am__dirstamp) \
 	libgui/src/$(DEPDIR)/$(am__dirstamp)
@@ -10740,12 +10723,6 @@ libgui/src/libgui_src_libgui_src_la-moc-find-files-dialog.lo:  \
 libgui/src/libgui_src_libgui_src_la-moc-find-files-model.lo:  \
 	libgui/src/$(am__dirstamp) \
 	libgui/src/$(DEPDIR)/$(am__dirstamp)
-libgui/src/qtinfo/libgui_src_libgui_src_la-moc-texinfo-parser.lo:  \
-	libgui/src/qtinfo/$(am__dirstamp) \
-	libgui/src/qtinfo/$(DEPDIR)/$(am__dirstamp)
-libgui/src/qtinfo/libgui_src_libgui_src_la-moc-webinfo.lo:  \
-	libgui/src/qtinfo/$(am__dirstamp) \
-	libgui/src/qtinfo/$(DEPDIR)/$(am__dirstamp)
 libgui/src/libgui_src_libgui_src_la-moc-octave-dock-widget.lo:  \
 	libgui/src/$(am__dirstamp) \
 	libgui/src/$(DEPDIR)/$(am__dirstamp)
@@ -12315,6 +12292,18 @@ liboctave/array/liboctave_array_libarray_la-uint8NDArray.lo:  \
 
 liboctave/array/libarray.la: $(liboctave_array_libarray_la_OBJECTS) $(liboctave_array_libarray_la_DEPENDENCIES) $(EXTRA_liboctave_array_libarray_la_DEPENDENCIES) liboctave/array/$(am__dirstamp)
 	$(AM_V_CXXLD)$(liboctave_array_libarray_la_LINK)  $(liboctave_array_libarray_la_OBJECTS) $(liboctave_array_libarray_la_LIBADD) $(LIBS)
+liboctave/external/blas-xtra/$(am__dirstamp):
+	@$(MKDIR_P) liboctave/external/blas-xtra
+	@: > liboctave/external/blas-xtra/$(am__dirstamp)
+liboctave/external/blas-xtra/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) liboctave/external/blas-xtra/$(DEPDIR)
+	@: > liboctave/external/blas-xtra/$(DEPDIR)/$(am__dirstamp)
+liboctave/external/blas-xtra/liboctave_external_blas_xtra_libxerbla_la-xerbla.lo:  \
+	liboctave/external/blas-xtra/$(am__dirstamp) \
+	liboctave/external/blas-xtra/$(DEPDIR)/$(am__dirstamp)
+
+liboctave/external/blas-xtra/libxerbla.la: $(liboctave_external_blas_xtra_libxerbla_la_OBJECTS) $(liboctave_external_blas_xtra_libxerbla_la_DEPENDENCIES) $(EXTRA_liboctave_external_blas_xtra_libxerbla_la_DEPENDENCIES) liboctave/external/blas-xtra/$(am__dirstamp)
+	$(AM_V_CCLD)$(liboctave_external_blas_xtra_libxerbla_la_LINK) $(am_liboctave_external_blas_xtra_libxerbla_la_rpath) $(liboctave_external_blas_xtra_libxerbla_la_OBJECTS) $(liboctave_external_blas_xtra_libxerbla_la_LIBADD) $(LIBS)
 liboctave/external/amos/$(am__dirstamp):
 	@$(MKDIR_P) liboctave/external/amos
 	@: > liboctave/external/amos/$(am__dirstamp)
@@ -12519,12 +12508,6 @@ liboctave/external/amos/liboctave_external_libexternal_la-zuoik.lo:  \
 liboctave/external/amos/liboctave_external_libexternal_la-zwrsk.lo:  \
 	liboctave/external/amos/$(am__dirstamp) \
 	liboctave/external/amos/$(DEPDIR)/$(am__dirstamp)
-liboctave/external/blas-xtra/$(am__dirstamp):
-	@$(MKDIR_P) liboctave/external/blas-xtra
-	@: > liboctave/external/blas-xtra/$(am__dirstamp)
-liboctave/external/blas-xtra/$(DEPDIR)/$(am__dirstamp):
-	@$(MKDIR_P) liboctave/external/blas-xtra/$(DEPDIR)
-	@: > liboctave/external/blas-xtra/$(DEPDIR)/$(am__dirstamp)
 liboctave/external/blas-xtra/liboctave_external_libexternal_la-ddot3.lo:  \
 	liboctave/external/blas-xtra/$(am__dirstamp) \
 	liboctave/external/blas-xtra/$(DEPDIR)/$(am__dirstamp)
@@ -12577,9 +12560,6 @@ liboctave/external/blas-xtra/liboctave_external_libexternal_la-xcdotc.lo:  \
 	liboctave/external/blas-xtra/$(am__dirstamp) \
 	liboctave/external/blas-xtra/$(DEPDIR)/$(am__dirstamp)
 liboctave/external/blas-xtra/liboctave_external_libexternal_la-xcdotu.lo:  \
-	liboctave/external/blas-xtra/$(am__dirstamp) \
-	liboctave/external/blas-xtra/$(DEPDIR)/$(am__dirstamp)
-liboctave/external/blas-xtra/liboctave_external_libexternal_la-xerbla.lo:  \
 	liboctave/external/blas-xtra/$(am__dirstamp) \
 	liboctave/external/blas-xtra/$(DEPDIR)/$(am__dirstamp)
 liboctave/external/blas-xtra/liboctave_external_libexternal_la-cconv2.lo:  \
@@ -12933,24 +12913,6 @@ liboctave/external/odepack/liboctave_external_libexternal_la-sstode.lo:  \
 liboctave/external/odepack/liboctave_external_libexternal_la-svnorm.lo:  \
 	liboctave/external/odepack/$(am__dirstamp) \
 	liboctave/external/odepack/$(DEPDIR)/$(am__dirstamp)
-liboctave/external/ordered-qz/$(am__dirstamp):
-	@$(MKDIR_P) liboctave/external/ordered-qz
-	@: > liboctave/external/ordered-qz/$(am__dirstamp)
-liboctave/external/ordered-qz/$(DEPDIR)/$(am__dirstamp):
-	@$(MKDIR_P) liboctave/external/ordered-qz/$(DEPDIR)
-	@: > liboctave/external/ordered-qz/$(DEPDIR)/$(am__dirstamp)
-liboctave/external/ordered-qz/liboctave_external_libexternal_la-dsubsp.lo:  \
-	liboctave/external/ordered-qz/$(am__dirstamp) \
-	liboctave/external/ordered-qz/$(DEPDIR)/$(am__dirstamp)
-liboctave/external/ordered-qz/liboctave_external_libexternal_la-exchqz.lo:  \
-	liboctave/external/ordered-qz/$(am__dirstamp) \
-	liboctave/external/ordered-qz/$(DEPDIR)/$(am__dirstamp)
-liboctave/external/ordered-qz/liboctave_external_libexternal_la-ssubsp.lo:  \
-	liboctave/external/ordered-qz/$(am__dirstamp) \
-	liboctave/external/ordered-qz/$(DEPDIR)/$(am__dirstamp)
-liboctave/external/ordered-qz/liboctave_external_libexternal_la-sexchqz.lo:  \
-	liboctave/external/ordered-qz/$(am__dirstamp) \
-	liboctave/external/ordered-qz/$(DEPDIR)/$(am__dirstamp)
 liboctave/external/quadpack/$(am__dirstamp):
 	@$(MKDIR_P) liboctave/external/quadpack
 	@: > liboctave/external/quadpack/$(am__dirstamp)
@@ -14946,8 +14908,6 @@ mostlyclean-compile:
 	-rm -f libgui/src/*.lo
 	-rm -f libgui/src/m-editor/*.$(OBJEXT)
 	-rm -f libgui/src/m-editor/*.lo
-	-rm -f libgui/src/qtinfo/*.$(OBJEXT)
-	-rm -f libgui/src/qtinfo/*.lo
 	-rm -f libinterp/*.$(OBJEXT)
 	-rm -f libinterp/*.lo
 	-rm -f libinterp/corefcn/*.$(OBJEXT)
@@ -14984,8 +14944,6 @@ mostlyclean-compile:
 	-rm -f liboctave/external/lapack-xtra/*.lo
 	-rm -f liboctave/external/odepack/*.$(OBJEXT)
 	-rm -f liboctave/external/odepack/*.lo
-	-rm -f liboctave/external/ordered-qz/*.$(OBJEXT)
-	-rm -f liboctave/external/ordered-qz/*.lo
 	-rm -f liboctave/external/quadpack/*.$(OBJEXT)
 	-rm -f liboctave/external/quadpack/*.lo
 	-rm -f liboctave/external/ranlib/*.$(OBJEXT)
@@ -15155,10 +15113,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@libgui/src/m-editor/$(DEPDIR)/libgui_src_libgui_src_la-moc-octave-txt-lexer.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@libgui/src/m-editor/$(DEPDIR)/libgui_src_libgui_src_la-octave-qscintilla.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@libgui/src/m-editor/$(DEPDIR)/libgui_src_libgui_src_la-octave-txt-lexer.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@libgui/src/qtinfo/$(DEPDIR)/libgui_src_libgui_src_la-moc-texinfo-parser.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@libgui/src/qtinfo/$(DEPDIR)/libgui_src_libgui_src_la-moc-webinfo.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@libgui/src/qtinfo/$(DEPDIR)/libgui_src_libgui_src_la-texinfo-parser.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@libgui/src/qtinfo/$(DEPDIR)/libgui_src_libgui_src_la-webinfo.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@libinterp/$(DEPDIR)/libinterp_liboctinterp_la-build-env-features.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@libinterp/$(DEPDIR)/libinterp_liboctinterp_la-build-env.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@libinterp/$(DEPDIR)/libinterp_liboctinterp_la-builtins.Plo@am__quote@
@@ -15620,6 +15574,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@liboctave/array/$(DEPDIR)/liboctave_array_libarray_la-uint64NDArray.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@liboctave/array/$(DEPDIR)/liboctave_array_libarray_la-uint8NDArray.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@liboctave/external/Faddeeva/$(DEPDIR)/liboctave_external_libexternal_la-Faddeeva.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@liboctave/external/blas-xtra/$(DEPDIR)/liboctave_external_blas_xtra_libxerbla_la-xerbla.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@liboctave/numeric/$(DEPDIR)/liboctave_numeric_libnumeric_la-CollocWt.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@liboctave/numeric/$(DEPDIR)/liboctave_numeric_libnumeric_la-DASPK.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@liboctave/numeric/$(DEPDIR)/liboctave_numeric_libnumeric_la-DASRT.Plo@am__quote@
@@ -16148,6 +16103,13 @@ libinterp/corefcn/libinterp_corefcn_libcorefcn_la-coct-hdf5-types.lo: libinterp/
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='libinterp/corefcn/coct-hdf5-types.c' object='libinterp/corefcn/libinterp_corefcn_libcorefcn_la-coct-hdf5-types.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libinterp_corefcn_libcorefcn_la_CPPFLAGS) $(CPPFLAGS) $(libinterp_corefcn_libcorefcn_la_CFLAGS) $(CFLAGS) -c -o libinterp/corefcn/libinterp_corefcn_libcorefcn_la-coct-hdf5-types.lo `test -f 'libinterp/corefcn/coct-hdf5-types.c' || echo '$(srcdir)/'`libinterp/corefcn/coct-hdf5-types.c
+
+liboctave/external/blas-xtra/liboctave_external_blas_xtra_libxerbla_la-xerbla.lo: liboctave/external/blas-xtra/xerbla.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liboctave_external_blas_xtra_libxerbla_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT liboctave/external/blas-xtra/liboctave_external_blas_xtra_libxerbla_la-xerbla.lo -MD -MP -MF liboctave/external/blas-xtra/$(DEPDIR)/liboctave_external_blas_xtra_libxerbla_la-xerbla.Tpo -c -o liboctave/external/blas-xtra/liboctave_external_blas_xtra_libxerbla_la-xerbla.lo `test -f 'liboctave/external/blas-xtra/xerbla.c' || echo '$(srcdir)/'`liboctave/external/blas-xtra/xerbla.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) liboctave/external/blas-xtra/$(DEPDIR)/liboctave_external_blas_xtra_libxerbla_la-xerbla.Tpo liboctave/external/blas-xtra/$(DEPDIR)/liboctave_external_blas_xtra_libxerbla_la-xerbla.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='liboctave/external/blas-xtra/xerbla.c' object='liboctave/external/blas-xtra/liboctave_external_blas_xtra_libxerbla_la-xerbla.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liboctave_external_blas_xtra_libxerbla_la_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o liboctave/external/blas-xtra/liboctave_external_blas_xtra_libxerbla_la-xerbla.lo `test -f 'liboctave/external/blas-xtra/xerbla.c' || echo '$(srcdir)/'`liboctave/external/blas-xtra/xerbla.c
 
 liboctave/system/liboctave_system_libsystem_la-cmach-info.lo: liboctave/system/cmach-info.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(liboctave_system_libsystem_la_CPPFLAGS) $(CPPFLAGS) $(liboctave_system_libsystem_la_CFLAGS) $(CFLAGS) -MT liboctave/system/liboctave_system_libsystem_la-cmach-info.lo -MD -MP -MF liboctave/system/$(DEPDIR)/liboctave_system_libsystem_la-cmach-info.Tpo -c -o liboctave/system/liboctave_system_libsystem_la-cmach-info.lo `test -f 'liboctave/system/cmach-info.c' || echo '$(srcdir)/'`liboctave/system/cmach-info.c
@@ -17069,20 +17031,6 @@ libgui/src/libgui_src_libgui_src_la-octave-qt-link.lo: libgui/src/octave-qt-link
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libgui_src_libgui_src_la_CPPFLAGS) $(CPPFLAGS) $(libgui_src_libgui_src_la_CXXFLAGS) $(CXXFLAGS) -c -o libgui/src/libgui_src_libgui_src_la-octave-qt-link.lo `test -f 'libgui/src/octave-qt-link.cc' || echo '$(srcdir)/'`libgui/src/octave-qt-link.cc
 
-libgui/src/qtinfo/libgui_src_libgui_src_la-texinfo-parser.lo: libgui/src/qtinfo/texinfo-parser.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libgui_src_libgui_src_la_CPPFLAGS) $(CPPFLAGS) $(libgui_src_libgui_src_la_CXXFLAGS) $(CXXFLAGS) -MT libgui/src/qtinfo/libgui_src_libgui_src_la-texinfo-parser.lo -MD -MP -MF libgui/src/qtinfo/$(DEPDIR)/libgui_src_libgui_src_la-texinfo-parser.Tpo -c -o libgui/src/qtinfo/libgui_src_libgui_src_la-texinfo-parser.lo `test -f 'libgui/src/qtinfo/texinfo-parser.cc' || echo '$(srcdir)/'`libgui/src/qtinfo/texinfo-parser.cc
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) libgui/src/qtinfo/$(DEPDIR)/libgui_src_libgui_src_la-texinfo-parser.Tpo libgui/src/qtinfo/$(DEPDIR)/libgui_src_libgui_src_la-texinfo-parser.Plo
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='libgui/src/qtinfo/texinfo-parser.cc' object='libgui/src/qtinfo/libgui_src_libgui_src_la-texinfo-parser.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libgui_src_libgui_src_la_CPPFLAGS) $(CPPFLAGS) $(libgui_src_libgui_src_la_CXXFLAGS) $(CXXFLAGS) -c -o libgui/src/qtinfo/libgui_src_libgui_src_la-texinfo-parser.lo `test -f 'libgui/src/qtinfo/texinfo-parser.cc' || echo '$(srcdir)/'`libgui/src/qtinfo/texinfo-parser.cc
-
-libgui/src/qtinfo/libgui_src_libgui_src_la-webinfo.lo: libgui/src/qtinfo/webinfo.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libgui_src_libgui_src_la_CPPFLAGS) $(CPPFLAGS) $(libgui_src_libgui_src_la_CXXFLAGS) $(CXXFLAGS) -MT libgui/src/qtinfo/libgui_src_libgui_src_la-webinfo.lo -MD -MP -MF libgui/src/qtinfo/$(DEPDIR)/libgui_src_libgui_src_la-webinfo.Tpo -c -o libgui/src/qtinfo/libgui_src_libgui_src_la-webinfo.lo `test -f 'libgui/src/qtinfo/webinfo.cc' || echo '$(srcdir)/'`libgui/src/qtinfo/webinfo.cc
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) libgui/src/qtinfo/$(DEPDIR)/libgui_src_libgui_src_la-webinfo.Tpo libgui/src/qtinfo/$(DEPDIR)/libgui_src_libgui_src_la-webinfo.Plo
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='libgui/src/qtinfo/webinfo.cc' object='libgui/src/qtinfo/libgui_src_libgui_src_la-webinfo.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libgui_src_libgui_src_la_CPPFLAGS) $(CPPFLAGS) $(libgui_src_libgui_src_la_CXXFLAGS) $(CXXFLAGS) -c -o libgui/src/qtinfo/libgui_src_libgui_src_la-webinfo.lo `test -f 'libgui/src/qtinfo/webinfo.cc' || echo '$(srcdir)/'`libgui/src/qtinfo/webinfo.cc
-
 libgui/src/libgui_src_libgui_src_la-resource-manager.lo: libgui/src/resource-manager.cc
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libgui_src_libgui_src_la_CPPFLAGS) $(CPPFLAGS) $(libgui_src_libgui_src_la_CXXFLAGS) $(CXXFLAGS) -MT libgui/src/libgui_src_libgui_src_la-resource-manager.lo -MD -MP -MF libgui/src/$(DEPDIR)/libgui_src_libgui_src_la-resource-manager.Tpo -c -o libgui/src/libgui_src_libgui_src_la-resource-manager.lo `test -f 'libgui/src/resource-manager.cc' || echo '$(srcdir)/'`libgui/src/resource-manager.cc
 @am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) libgui/src/$(DEPDIR)/libgui_src_libgui_src_la-resource-manager.Tpo libgui/src/$(DEPDIR)/libgui_src_libgui_src_la-resource-manager.Plo
@@ -17376,20 +17324,6 @@ libgui/src/libgui_src_libgui_src_la-moc-find-files-model.lo: libgui/src/moc-find
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='libgui/src/moc-find-files-model.cc' object='libgui/src/libgui_src_libgui_src_la-moc-find-files-model.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libgui_src_libgui_src_la_CPPFLAGS) $(CPPFLAGS) $(libgui_src_libgui_src_la_CXXFLAGS) $(CXXFLAGS) -c -o libgui/src/libgui_src_libgui_src_la-moc-find-files-model.lo `test -f 'libgui/src/moc-find-files-model.cc' || echo '$(srcdir)/'`libgui/src/moc-find-files-model.cc
-
-libgui/src/qtinfo/libgui_src_libgui_src_la-moc-texinfo-parser.lo: libgui/src/qtinfo/moc-texinfo-parser.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libgui_src_libgui_src_la_CPPFLAGS) $(CPPFLAGS) $(libgui_src_libgui_src_la_CXXFLAGS) $(CXXFLAGS) -MT libgui/src/qtinfo/libgui_src_libgui_src_la-moc-texinfo-parser.lo -MD -MP -MF libgui/src/qtinfo/$(DEPDIR)/libgui_src_libgui_src_la-moc-texinfo-parser.Tpo -c -o libgui/src/qtinfo/libgui_src_libgui_src_la-moc-texinfo-parser.lo `test -f 'libgui/src/qtinfo/moc-texinfo-parser.cc' || echo '$(srcdir)/'`libgui/src/qtinfo/moc-texinfo-parser.cc
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) libgui/src/qtinfo/$(DEPDIR)/libgui_src_libgui_src_la-moc-texinfo-parser.Tpo libgui/src/qtinfo/$(DEPDIR)/libgui_src_libgui_src_la-moc-texinfo-parser.Plo
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='libgui/src/qtinfo/moc-texinfo-parser.cc' object='libgui/src/qtinfo/libgui_src_libgui_src_la-moc-texinfo-parser.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libgui_src_libgui_src_la_CPPFLAGS) $(CPPFLAGS) $(libgui_src_libgui_src_la_CXXFLAGS) $(CXXFLAGS) -c -o libgui/src/qtinfo/libgui_src_libgui_src_la-moc-texinfo-parser.lo `test -f 'libgui/src/qtinfo/moc-texinfo-parser.cc' || echo '$(srcdir)/'`libgui/src/qtinfo/moc-texinfo-parser.cc
-
-libgui/src/qtinfo/libgui_src_libgui_src_la-moc-webinfo.lo: libgui/src/qtinfo/moc-webinfo.cc
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libgui_src_libgui_src_la_CPPFLAGS) $(CPPFLAGS) $(libgui_src_libgui_src_la_CXXFLAGS) $(CXXFLAGS) -MT libgui/src/qtinfo/libgui_src_libgui_src_la-moc-webinfo.lo -MD -MP -MF libgui/src/qtinfo/$(DEPDIR)/libgui_src_libgui_src_la-moc-webinfo.Tpo -c -o libgui/src/qtinfo/libgui_src_libgui_src_la-moc-webinfo.lo `test -f 'libgui/src/qtinfo/moc-webinfo.cc' || echo '$(srcdir)/'`libgui/src/qtinfo/moc-webinfo.cc
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) libgui/src/qtinfo/$(DEPDIR)/libgui_src_libgui_src_la-moc-webinfo.Tpo libgui/src/qtinfo/$(DEPDIR)/libgui_src_libgui_src_la-moc-webinfo.Plo
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='libgui/src/qtinfo/moc-webinfo.cc' object='libgui/src/qtinfo/libgui_src_libgui_src_la-moc-webinfo.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libgui_src_libgui_src_la_CPPFLAGS) $(CPPFLAGS) $(libgui_src_libgui_src_la_CXXFLAGS) $(CXXFLAGS) -c -o libgui/src/qtinfo/libgui_src_libgui_src_la-moc-webinfo.lo `test -f 'libgui/src/qtinfo/moc-webinfo.cc' || echo '$(srcdir)/'`libgui/src/qtinfo/moc-webinfo.cc
 
 libgui/src/libgui_src_libgui_src_la-moc-octave-dock-widget.lo: libgui/src/moc-octave-dock-widget.cc
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libgui_src_libgui_src_la_CPPFLAGS) $(CPPFLAGS) $(libgui_src_libgui_src_la_CXXFLAGS) $(CXXFLAGS) -MT libgui/src/libgui_src_libgui_src_la-moc-octave-dock-widget.lo -MD -MP -MF libgui/src/$(DEPDIR)/libgui_src_libgui_src_la-moc-octave-dock-widget.Tpo -c -o libgui/src/libgui_src_libgui_src_la-moc-octave-dock-widget.lo `test -f 'libgui/src/moc-octave-dock-widget.cc' || echo '$(srcdir)/'`libgui/src/moc-octave-dock-widget.cc
@@ -24207,9 +24141,6 @@ liboctave/external/blas-xtra/liboctave_external_libexternal_la-xcdotc.lo: liboct
 liboctave/external/blas-xtra/liboctave_external_libexternal_la-xcdotu.lo: liboctave/external/blas-xtra/xcdotu.f
 	$(AM_V_F77)$(LIBTOOL) $(AM_V_lt) --tag=F77 $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(F77) $(liboctave_external_libexternal_la_FFLAGS) $(FFLAGS) -c -o liboctave/external/blas-xtra/liboctave_external_libexternal_la-xcdotu.lo `test -f 'liboctave/external/blas-xtra/xcdotu.f' || echo '$(srcdir)/'`liboctave/external/blas-xtra/xcdotu.f
 
-liboctave/external/blas-xtra/liboctave_external_libexternal_la-xerbla.lo: liboctave/external/blas-xtra/xerbla.f
-	$(AM_V_F77)$(LIBTOOL) $(AM_V_lt) --tag=F77 $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(F77) $(liboctave_external_libexternal_la_FFLAGS) $(FFLAGS) -c -o liboctave/external/blas-xtra/liboctave_external_libexternal_la-xerbla.lo `test -f 'liboctave/external/blas-xtra/xerbla.f' || echo '$(srcdir)/'`liboctave/external/blas-xtra/xerbla.f
-
 liboctave/external/blas-xtra/liboctave_external_libexternal_la-cconv2.lo: liboctave/external/blas-xtra/cconv2.f
 	$(AM_V_F77)$(LIBTOOL) $(AM_V_lt) --tag=F77 $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(F77) $(liboctave_external_libexternal_la_FFLAGS) $(FFLAGS) -c -o liboctave/external/blas-xtra/liboctave_external_libexternal_la-cconv2.lo `test -f 'liboctave/external/blas-xtra/cconv2.f' || echo '$(srcdir)/'`liboctave/external/blas-xtra/cconv2.f
 
@@ -24516,18 +24447,6 @@ liboctave/external/odepack/liboctave_external_libexternal_la-sstode.lo: liboctav
 liboctave/external/odepack/liboctave_external_libexternal_la-svnorm.lo: liboctave/external/odepack/svnorm.f
 	$(AM_V_F77)$(LIBTOOL) $(AM_V_lt) --tag=F77 $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(F77) $(liboctave_external_libexternal_la_FFLAGS) $(FFLAGS) -c -o liboctave/external/odepack/liboctave_external_libexternal_la-svnorm.lo `test -f 'liboctave/external/odepack/svnorm.f' || echo '$(srcdir)/'`liboctave/external/odepack/svnorm.f
 
-liboctave/external/ordered-qz/liboctave_external_libexternal_la-dsubsp.lo: liboctave/external/ordered-qz/dsubsp.f
-	$(AM_V_F77)$(LIBTOOL) $(AM_V_lt) --tag=F77 $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(F77) $(liboctave_external_libexternal_la_FFLAGS) $(FFLAGS) -c -o liboctave/external/ordered-qz/liboctave_external_libexternal_la-dsubsp.lo `test -f 'liboctave/external/ordered-qz/dsubsp.f' || echo '$(srcdir)/'`liboctave/external/ordered-qz/dsubsp.f
-
-liboctave/external/ordered-qz/liboctave_external_libexternal_la-exchqz.lo: liboctave/external/ordered-qz/exchqz.f
-	$(AM_V_F77)$(LIBTOOL) $(AM_V_lt) --tag=F77 $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(F77) $(liboctave_external_libexternal_la_FFLAGS) $(FFLAGS) -c -o liboctave/external/ordered-qz/liboctave_external_libexternal_la-exchqz.lo `test -f 'liboctave/external/ordered-qz/exchqz.f' || echo '$(srcdir)/'`liboctave/external/ordered-qz/exchqz.f
-
-liboctave/external/ordered-qz/liboctave_external_libexternal_la-ssubsp.lo: liboctave/external/ordered-qz/ssubsp.f
-	$(AM_V_F77)$(LIBTOOL) $(AM_V_lt) --tag=F77 $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(F77) $(liboctave_external_libexternal_la_FFLAGS) $(FFLAGS) -c -o liboctave/external/ordered-qz/liboctave_external_libexternal_la-ssubsp.lo `test -f 'liboctave/external/ordered-qz/ssubsp.f' || echo '$(srcdir)/'`liboctave/external/ordered-qz/ssubsp.f
-
-liboctave/external/ordered-qz/liboctave_external_libexternal_la-sexchqz.lo: liboctave/external/ordered-qz/sexchqz.f
-	$(AM_V_F77)$(LIBTOOL) $(AM_V_lt) --tag=F77 $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(F77) $(liboctave_external_libexternal_la_FFLAGS) $(FFLAGS) -c -o liboctave/external/ordered-qz/liboctave_external_libexternal_la-sexchqz.lo `test -f 'liboctave/external/ordered-qz/sexchqz.f' || echo '$(srcdir)/'`liboctave/external/ordered-qz/sexchqz.f
-
 liboctave/external/quadpack/liboctave_external_libexternal_la-dqagi.lo: liboctave/external/quadpack/dqagi.f
 	$(AM_V_F77)$(LIBTOOL) $(AM_V_lt) --tag=F77 $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(F77) $(liboctave_external_libexternal_la_FFLAGS) $(FFLAGS) -c -o liboctave/external/quadpack/liboctave_external_libexternal_la-dqagi.lo `test -f 'liboctave/external/quadpack/dqagi.f' || echo '$(srcdir)/'`liboctave/external/quadpack/dqagi.f
 
@@ -24742,7 +24661,6 @@ clean-libtool:
 	-rm -rf libgui/qterminal/libqterminal/win32/.libs libgui/qterminal/libqterminal/win32/_libs
 	-rm -rf libgui/src/.libs libgui/src/_libs
 	-rm -rf libgui/src/m-editor/.libs libgui/src/m-editor/_libs
-	-rm -rf libgui/src/qtinfo/.libs libgui/src/qtinfo/_libs
 	-rm -rf libinterp/.libs libinterp/_libs
 	-rm -rf libinterp/corefcn/.libs libinterp/corefcn/_libs
 	-rm -rf libinterp/dldfcn/.libs libinterp/dldfcn/_libs
@@ -24762,7 +24680,6 @@ clean-libtool:
 	-rm -rf liboctave/external/fftpack/.libs liboctave/external/fftpack/_libs
 	-rm -rf liboctave/external/lapack-xtra/.libs liboctave/external/lapack-xtra/_libs
 	-rm -rf liboctave/external/odepack/.libs liboctave/external/odepack/_libs
-	-rm -rf liboctave/external/ordered-qz/.libs liboctave/external/ordered-qz/_libs
 	-rm -rf liboctave/external/quadpack/.libs liboctave/external/quadpack/_libs
 	-rm -rf liboctave/external/ranlib/.libs liboctave/external/ranlib/_libs
 	-rm -rf liboctave/external/slatec-err/.libs liboctave/external/slatec-err/_libs
@@ -26810,8 +26727,6 @@ distclean-generic:
 	-rm -f libgui/src/$(am__dirstamp)
 	-rm -f libgui/src/m-editor/$(DEPDIR)/$(am__dirstamp)
 	-rm -f libgui/src/m-editor/$(am__dirstamp)
-	-rm -f libgui/src/qtinfo/$(DEPDIR)/$(am__dirstamp)
-	-rm -f libgui/src/qtinfo/$(am__dirstamp)
 	-rm -f libinterp/$(DEPDIR)/$(am__dirstamp)
 	-rm -f libinterp/$(am__dirstamp)
 	-rm -f libinterp/corefcn/$(DEPDIR)/$(am__dirstamp)
@@ -26849,8 +26764,6 @@ distclean-generic:
 	-rm -f liboctave/external/lapack-xtra/$(am__dirstamp)
 	-rm -f liboctave/external/odepack/$(DEPDIR)/$(am__dirstamp)
 	-rm -f liboctave/external/odepack/$(am__dirstamp)
-	-rm -f liboctave/external/ordered-qz/$(DEPDIR)/$(am__dirstamp)
-	-rm -f liboctave/external/ordered-qz/$(am__dirstamp)
 	-rm -f liboctave/external/quadpack/$(DEPDIR)/$(am__dirstamp)
 	-rm -f liboctave/external/quadpack/$(am__dirstamp)
 	-rm -f liboctave/external/ranlib/$(DEPDIR)/$(am__dirstamp)
@@ -26890,7 +26803,7 @@ clean-am: clean-aminfo clean-archlibPROGRAMS clean-binPROGRAMS \
 
 distclean: distclean-recursive
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
-	-rm -rf libgui/$(DEPDIR) libgui/graphics/$(DEPDIR) libgui/qterminal/libqterminal/$(DEPDIR) libgui/qterminal/libqterminal/unix/$(DEPDIR) libgui/qterminal/libqterminal/win32/$(DEPDIR) libgui/src/$(DEPDIR) libgui/src/m-editor/$(DEPDIR) libgui/src/qtinfo/$(DEPDIR) libinterp/$(DEPDIR) libinterp/corefcn/$(DEPDIR) libinterp/dldfcn/$(DEPDIR) libinterp/octave-value/$(DEPDIR) libinterp/operators/$(DEPDIR) libinterp/parse-tree/$(DEPDIR) libinterp/template-inst/$(DEPDIR) liboctave/$(DEPDIR) liboctave/array/$(DEPDIR) liboctave/external/Faddeeva/$(DEPDIR) liboctave/numeric/$(DEPDIR) liboctave/operators/$(DEPDIR) liboctave/system/$(DEPDIR) liboctave/util/$(DEPDIR) liboctave/wrappers/$(DEPDIR) src/$(DEPDIR)
+	-rm -rf libgui/$(DEPDIR) libgui/graphics/$(DEPDIR) libgui/qterminal/libqterminal/$(DEPDIR) libgui/qterminal/libqterminal/unix/$(DEPDIR) libgui/qterminal/libqterminal/win32/$(DEPDIR) libgui/src/$(DEPDIR) libgui/src/m-editor/$(DEPDIR) libinterp/$(DEPDIR) libinterp/corefcn/$(DEPDIR) libinterp/dldfcn/$(DEPDIR) libinterp/octave-value/$(DEPDIR) libinterp/operators/$(DEPDIR) libinterp/parse-tree/$(DEPDIR) libinterp/template-inst/$(DEPDIR) liboctave/$(DEPDIR) liboctave/array/$(DEPDIR) liboctave/external/Faddeeva/$(DEPDIR) liboctave/external/blas-xtra/$(DEPDIR) liboctave/numeric/$(DEPDIR) liboctave/operators/$(DEPDIR) liboctave/system/$(DEPDIR) liboctave/util/$(DEPDIR) liboctave/wrappers/$(DEPDIR) src/$(DEPDIR)
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-hdr distclean-libtool distclean-local distclean-tags
@@ -27073,7 +26986,7 @@ installcheck-am:
 maintainer-clean: maintainer-clean-recursive
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
 	-rm -rf $(top_srcdir)/autom4te.cache
-	-rm -rf libgui/$(DEPDIR) libgui/graphics/$(DEPDIR) libgui/qterminal/libqterminal/$(DEPDIR) libgui/qterminal/libqterminal/unix/$(DEPDIR) libgui/qterminal/libqterminal/win32/$(DEPDIR) libgui/src/$(DEPDIR) libgui/src/m-editor/$(DEPDIR) libgui/src/qtinfo/$(DEPDIR) libinterp/$(DEPDIR) libinterp/corefcn/$(DEPDIR) libinterp/dldfcn/$(DEPDIR) libinterp/octave-value/$(DEPDIR) libinterp/operators/$(DEPDIR) libinterp/parse-tree/$(DEPDIR) libinterp/template-inst/$(DEPDIR) liboctave/$(DEPDIR) liboctave/array/$(DEPDIR) liboctave/external/Faddeeva/$(DEPDIR) liboctave/numeric/$(DEPDIR) liboctave/operators/$(DEPDIR) liboctave/system/$(DEPDIR) liboctave/util/$(DEPDIR) liboctave/wrappers/$(DEPDIR) src/$(DEPDIR)
+	-rm -rf libgui/$(DEPDIR) libgui/graphics/$(DEPDIR) libgui/qterminal/libqterminal/$(DEPDIR) libgui/qterminal/libqterminal/unix/$(DEPDIR) libgui/qterminal/libqterminal/win32/$(DEPDIR) libgui/src/$(DEPDIR) libgui/src/m-editor/$(DEPDIR) libinterp/$(DEPDIR) libinterp/corefcn/$(DEPDIR) libinterp/dldfcn/$(DEPDIR) libinterp/octave-value/$(DEPDIR) libinterp/operators/$(DEPDIR) libinterp/parse-tree/$(DEPDIR) libinterp/template-inst/$(DEPDIR) liboctave/$(DEPDIR) liboctave/array/$(DEPDIR) liboctave/external/Faddeeva/$(DEPDIR) liboctave/external/blas-xtra/$(DEPDIR) liboctave/numeric/$(DEPDIR) liboctave/operators/$(DEPDIR) liboctave/system/$(DEPDIR) liboctave/util/$(DEPDIR) liboctave/wrappers/$(DEPDIR) src/$(DEPDIR)
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-1 \
 	maintainer-clean-aminfo maintainer-clean-generic \
@@ -27925,7 +27838,7 @@ qthelp-installdir:
 @AMCOND_BUILD_DOCS_TRUE@	 --css-ref=octave.css \
 @AMCOND_BUILD_DOCS_TRUE@	 -o $(OCTAVE_HTML_TMP_DIR) `test -f 'doc/interpreter/octave.texi' || echo '$(abs_top_srcdir)/'`doc/interpreter/octave.texi; \
 @AMCOND_BUILD_DOCS_TRUE@	then \
-@AMCOND_BUILD_DOCS_TRUE@	  $(PERL) -i -pe 's|(?<=</a>): ||g' $(OCTAVE_HTML_TMP_DIR)/* && \
+@AMCOND_BUILD_DOCS_TRUE@	  $(PERL) $(srcdir)/build-aux/inplace_edit.pl 's|(?<=</a>): ||g' $(OCTAVE_HTML_TMP_DIR)/* && \
 @AMCOND_BUILD_DOCS_TRUE@	  rm -rf $(OCTAVE_HTML_DIR) && \
 @AMCOND_BUILD_DOCS_TRUE@	  mv $(OCTAVE_HTML_TMP_DIR) $(OCTAVE_HTML_DIR) && \
 @AMCOND_BUILD_DOCS_TRUE@	  touch $@; \
@@ -28359,7 +28272,7 @@ examples-maintainer-clean: examples-distclean
 	rm -f $(examples_MAINTAINERCLEANFILES)
 
 define run-octave-tests
-  ( cd test && $(SHELL) ../run-octave $(RUN_OCTAVE_OPTIONS) $(1) --norc --silent --no-history $(abs_top_srcdir)/test/fntests.m $(abs_top_srcdir)/test ); \
+  ( cd test && $(SHELL) ../run-octave $(RUN_OCTAVE_OPTIONS) $(1) --norc --silent --no-history $(abs_top_srcdir)/test/fntests.m $(abs_top_srcdir)/test ) && \
   if $(AM_V_P); then \
     echo ""; \
     if [ -f test/fntests.log ]; then \
