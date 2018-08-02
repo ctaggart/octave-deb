@@ -55,7 +55,7 @@ Build-Depends: automake,
                xauth,
                zip
 Build-Conflicts: libsundials-dev
-Standards-Version: 4.1.5
+Standards-Version: 4.2.0
 Vcs-Browser: https://salsa.debian.org/pkg-octave-team/octave
 Vcs-Git: https://salsa.debian.org/pkg-octave-team/octave.git
 Homepage: https://www.octave.org/
