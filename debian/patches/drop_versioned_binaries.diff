@@ -28,7 +28,7 @@ Last-Update: 2016-11-20
      __gripe_missing_component__ ("mkoctfile", "mkoctfile");
 --- a/scripts/pkg/private/configure_make.m
 +++ b/scripts/pkg/private/configure_make.m
-@@ -31,10 +31,10 @@ function configure_make (desc, packdir,
+@@ -31,13 +31,13 @@ function configure_make (desc, packdir,
      ver = version ();
      ext = __octave_config_info__ ("EXEEXT");
      mkoctfile_program = fullfile (octave_bindir, ...
@@ -36,12 +36,15 @@ Last-Update: 2016-11-20
 +                                  "mkoctfile");
      octave_config_program = fullfile (octave_bindir, ...
 -                                      sprintf ("octave-config-%s%s", ver, ext));
--    octave_binary = fullfile (octave_bindir, sprintf ("octave-%s%s", ver, ext));
 +                                      "octave-config");
-+    octave_binary = fullfile (octave_bindir, "octave");
+     if (ispc () && ! isunix ())
+       octave_binary = fullfile (octave_bindir, sprintf ("octave-%s.bat", ver));
+     else
+-      octave_binary = fullfile (octave_bindir, sprintf ("octave-%s%s", ver, ext));
++      octave_binary = fullfile (octave_bindir, "octave");
+     endif
  
      if (! exist (mkoctfile_program, "file"))
-       __gripe_missing_component__ ("pkg", "mkoctfile");
 --- a/src/main.in.cc
 +++ b/src/main.in.cc
 @@ -211,7 +211,7 @@ main (int argc, char **argv)
