@@ -20,7 +20,7 @@ octave="/usr/bin/octave --silent --no-history --no-init-file --no-window-system"
 test_octave_version() {
     out="$($octave --version)"
     assertTrue $?
-    echo "$out" | head -n1 | grep '^GNU Octave, version [.0-9]\+$' > /dev/null
+    echo "$out" | head -n1 | grep -E '^GNU Octave, version [.0-9]+(-rc[0-9]+)?$' > /dev/null
     assertTrue $?
 }
 
