@@ -459,16 +459,6 @@ Files: libgui/src/octave-settings.h
 Copyright: 2017, 2018, Torsten <mttl@mailbox.de>
 License: GPL-3+
 
-Files: libgui/src/qtinfo/*
-Copyright: 2012-2018, Jacob Dawid
-  2009, P. L. Lucas
-License: GPL-3+
-
-Files: libgui/src/qtinfo/texinfo-parser.h
-Copyright: 2012-2018, Jacob Dawid
-  2009, P.L. Lucas
-License: GPL-3+
-
 Files: libgui/src/shortcut-manager.cc
   libgui/src/shortcut-manager.h
 Copyright: 2014-2018, Torsten <ttl@justmail.de>
@@ -1258,6 +1248,7 @@ Files: liboctave/external/blas-xtra/module.mk
   liboctave/external/blas-xtra/xddot.f
   liboctave/external/blas-xtra/xdnrm2.f
   liboctave/external/blas-xtra/xdznrm2.f
+  liboctave/external/blas-xtra/xerbla.c
   liboctave/external/blas-xtra/xscnrm2.f
   liboctave/external/blas-xtra/xsdot.f
   liboctave/external/blas-xtra/xsnrm2.f
@@ -1265,10 +1256,6 @@ Files: liboctave/external/blas-xtra/module.mk
   liboctave/external/blas-xtra/xzdotu.f
 Copyright: 1992-2018, John W. Eaton
 License: GPL-3+
-
-Files: liboctave/external/blas-xtra/xerbla.f
-Copyright: 1992-2006 The University of Tennessee
-License: BSD-3-clause
 
 Files: liboctave/external/daspk/*
 Copyright: none
@@ -1326,15 +1313,6 @@ License: public-domain
  from the CASC Software Download Site.
 
 Files: liboctave/external/odepack/module.mk
-Copyright: 1992-2018, John W. Eaton
-License: GPL-3+
-
-Files: liboctave/external/ordered-qz/*
-Copyright: none
-License: public-domain
- Code in this directory is adapted from Paul Van Dooren's toms/590 code.
-
-Files: liboctave/external/ordered-qz/module.mk
 Copyright: 1992-2018, John W. Eaton
 License: GPL-3+
 
@@ -3510,15 +3488,15 @@ Copyright: 2004-2018, David Bateman
 License: GPL-3+
 
 Files: scripts/testfun/private/*
-Copyright: 2007-2018, Ben Abbott
+Copyright: 2005-2018, Søren Hauberg
 License: GPL-3+
 
 Files: scripts/testfun/private/compare_plot_demos.m
 Copyright: 2016-2018, Ben Abbott <bpabbott@mac.com>
 License: GPL-3+
 
-Files: scripts/testfun/private/dump_demos.m
-Copyright: 2005-2018, Søren Hauberg
+Files: scripts/testfun/private/html_compare_plot_demos.m
+Copyright: 2007-2018, Ben Abbott
 License: GPL-3+
 
 Files: scripts/time/addtodate.m
@@ -3564,10 +3542,6 @@ License: GPL-3+
 
 Files: test/bug-46330.tst
 Copyright: 2010-2018, Kai T. Ohlhus
-License: GPL-3+
-
-Files: test/bug-46497/bug-46497.tst
-Copyright: 2015-2018, Piotr Held
 License: GPL-3+
 
 Files: test/bug-46660/bug-46660.tst
