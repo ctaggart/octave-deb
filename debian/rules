@@ -11,13 +11,13 @@ export DEB_VERSION_UPSTREAM
 # The following arches do not have OpenJDK 9: hppa, hurd-i386, kfreebsd-*, riscv64
 # The following arches have crashes with Java
 # - as of OpenJDK 9: armel
-# - as of OpenJDK 10: mips, powerpc
+# - as of OpenJDK 10: mips, mipsel, powerpc
 # This arch list must be kept in sync with the arch list qualifying
 # default-jre in debian/control (note: we always want default-jdk in
 # build deps because it is needed for octave-common, see
 # debian/patches/always-build-octave-jar.patch).
 include /usr/share/dpkg/architecture.mk
-NO_JDK_ARCHS := armel hppa hurd-i386 kfreebsd-amd64 kfreebsd-i386 mips powerpc riscv64
+NO_JDK_ARCHS := armel hppa hurd-i386 kfreebsd-amd64 kfreebsd-i386 mips mipsel powerpc riscv64
 ifneq (,$(filter $(DEB_HOST_ARCH),$(NO_JDK_ARCHS)))
 WITH_JAVA_FLAGS := --disable-java
 else
