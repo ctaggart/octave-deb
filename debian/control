@@ -72,7 +72,7 @@ Recommends: gnuplot-qt | gnuplot-x11 | gnuplot-nox,
             libopenblas-base | libatlas3-base,
             pstoedit,
             epstool,
-            default-jre-headless [!armel !hppa !hurd-i386 !kfreebsd-any !riscv64],
+            default-jre-headless [!armel !hppa !hurd-i386 !kfreebsd-any !mips !powerpc !riscv64],
             octave-doc
 Suggests: liboctave-dev
 Breaks: liboctave3v5, liboctave4
