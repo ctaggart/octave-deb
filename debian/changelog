@@ -1,3 +1,9 @@
+octave (4.4.1~rc2-2) unstable; urgency=medium
+
+  * Re-disable java on mips and powerpc
+
+ -- Sébastien Villemot <sebastien@debian.org>  Fri, 03 Aug 2018 09:25:14 +0200
+
 octave (4.4.1~rc2-1) unstable; urgency=medium
 
   [ Rafael Laboissiere ]
