@@ -29,7 +29,7 @@ Octave C++ Classes
 
 This manual documents how to use, install and port Octave's C++ class
 library, and how to report bugs.  It corresponds to Octave version
-4.4.1-rc2.
+4.4.1.
 
 * Menu:
 
@@ -4510,32 +4510,32 @@ Function Index
 
 Tag Table:
 Node: Top799
-Node: Acknowledgements1812
-Node: Contributors2028
-Node: Copying2328
-Node: Introduction39866
-Node: Arrays40117
-Node: Constructors and Assignment40285
-Node: Matrix and Vector Operations48630
-Node: Matrix Factorizations80117
-Node: Ranges86423
-Node: Nonlinear Functions87117
-Node: Nonlinear Equations87661
-Node: Optimization88591
-Node: Objective Functions88870
-Node: Bounds89463
-Node: Linear Constraints90574
-Node: Nonlinear Constraints91561
-Node: Quadratic Programming91954
-Node: Nonlinear Programming93547
-Node: Quadrature95066
-Node: Collocation Weights96758
-Node: Ordinary Differential Equations98051
-Node: Differential Algebraic Equations99587
-Node: Error Handling100389
-Node: Installation100545
-Node: Bugs100669
-Node: Concept Index100776
-Node: Function Index104140
+Node: Acknowledgements1808
+Node: Contributors2024
+Node: Copying2324
+Node: Introduction39862
+Node: Arrays40113
+Node: Constructors and Assignment40281
+Node: Matrix and Vector Operations48626
+Node: Matrix Factorizations80113
+Node: Ranges86419
+Node: Nonlinear Functions87113
+Node: Nonlinear Equations87657
+Node: Optimization88587
+Node: Objective Functions88866
+Node: Bounds89459
+Node: Linear Constraints90570
+Node: Nonlinear Constraints91557
+Node: Quadratic Programming91950
+Node: Nonlinear Programming93543
+Node: Quadrature95062
+Node: Collocation Weights96754
+Node: Ordinary Differential Equations98047
+Node: Differential Algebraic Equations99583
+Node: Error Handling100385
+Node: Installation100541
+Node: Bugs100665
+Node: Concept Index100772
+Node: Function Index104136
 
 End Tag Table
