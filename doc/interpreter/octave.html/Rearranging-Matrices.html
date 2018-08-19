@@ -3,10 +3,10 @@
 <!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Rearranging Matrices (GNU Octave)</title>
+<title>Rearranging Matrices (GNU Octave (version 4.4.1))</title>
 
-<meta name="description" content="Rearranging Matrices (GNU Octave)">
-<meta name="keywords" content="Rearranging Matrices (GNU Octave)">
+<meta name="description" content="Rearranging Matrices (GNU Octave (version 4.4.1))">
+<meta name="keywords" content="Rearranging Matrices (GNU Octave (version 4.4.1))">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
@@ -97,26 +97,31 @@ words, <var>x</var> is flipped upside-down about a horizontal axis.  For example
 <a name="XREFflip"></a><dl>
 <dt><a name="index-flip"></a><em></em> <strong>flip</strong> <em>(<var>x</var>)</em></dt>
 <dt><a name="index-flip-1"></a><em></em> <strong>flip</strong> <em>(<var>x</var>, <var>dim</var>)</em></dt>
-<dd><p>Flip array across dimension <var>dim</var>.
+<dd><p>Return a copy of array <var>x</var> flipped across dimension <var>dim</var>.
 </p>
-<p>Return a copy of <var>x</var> flipped about the dimension <var>dim</var>.
-<var>dim</var> defaults to the first non-singleton dimension.
-For example:
+<p>If <var>dim</var> is unspecified it defaults to the first non-singleton
+dimension.
+</p>
+<p>Examples:
 </p>
 <div class="example">
-<pre class="example">flip ([1  2  3  4])
+<pre class="example">## row vector
+flip ([1  2  3  4])
       &rArr;  4  3  2  1
 
+## column vector
 flip ([1; 2; 3; 4])
       &rArr;  4
           3
           2
           1
 
+## 2-D matrix along dimension 1
 flip ([1 2; 3 4])
       &rArr;  3  4
           1  2
 
+## 2-D matrix along dimension 2
 flip ([1 2; 3 4], 2)
       &rArr;  2  1
           4  3

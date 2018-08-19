@@ -1,3 +1,127 @@
+2018-08-09  John W. Eaton  <jwe@octave.org>
+
+	Version 4.4.1 released
+
+	* configure.ac (AC_INIT): Update version info for release.
+	(OCTAVE_PATCH_VERSION): Set to 1.
+	(OCTAVE_RELEASE_DATE): Set to 2018-08-09.
+
+	* CITATION, org.octave.Octave.appdata.xml: Update version info.
+
+	* libgui/module.mk (liboctgui_current): Now 4.
+	* libinterp/module.mk (liboctinterp_current): Now 6.
+	* liboctave/module.mk (liboctave_current): Now 6.
+
+	We normally try to preserve backward compatibility of the API for
+	minor releases, but it was not possible this time.
+
+	Files: CITATION configure.ac etc/icons/org.octave.Octave.appdata.xml
+	libgui/module.mk libinterp/module.mk liboctave/module.mk
+
+2018-08-10  Kai T. Ohlhus  <k.ohlhus@gmail.com>
+
+	doc: Add version number to top title of HTML manual for clarity.
+
+	Currently only "GNU Octave" is the top title of each HTML manual, cf.
+
+	- https://octave.org/doc/v4.0.0/
+	- https://octave.org/doc/v4.2.0/
+	- https://octave.org/doc/v4.4.0/
+	- https://octave.org/doc/interpreter/
+
+	and the version can be seen later in the Texinfo #top node:
+
+	- https://octave.org/doc/v4.0.0/index.html#Top
+	...
+	- https://octave.org/doc/interpreter/index.html#Top
+
+	To make it easier to identify the manual version not only from the URL, what in
+	the case of the latest manual "interpreter" is impossible, put it inside the
+	top title.
+
+	This change does not affect the PDF manual.
+
+	Files: doc/interpreter/octave.texi
+
+	* m4/octave_blas_f77_func.m4: Restore 64-bit integer BLAS detection (bug #53853).
+
+	* m4/octave_blas_f77_func.m4: The unnecessary else-branch was introduced in
+	  cset 171d90967f16 to fix bug #53853 and fails this test under any circumstance
+	  and makes this last if-branch pointless.
+
+	Files: m4/octave_blas_f77_func.m4
+
+2018-08-09  Rik  <rik@octave.org>
+
+	flip.m: Update docstring.
+
+	* flip.m: Update docstring.
+
+	Files: scripts/general/flip.m
+
+2018-08-09  John W. Eaton  <jwe@octave.org>
+
+	disable compound binary operator optimization (bug #54465)
+
+	* oct-parse.in.yy (base_parser::make_binary_op):
+	Don't recognize compound binary operators here.
+
+	* parser.tst: New tests.
+
+	Files: libinterp/parse-tree/oct-parse.in.yy test/parser.tst
+
+2018-08-05  Marco Caliari  <marco.caliari@univr.it>
+
+	Fix initial bracketing for fzero (bug #54445).
+
+	* fzero.m: fix initial bracketing when x0 is zero.
+
+	Files: scripts/optimization/fzero.m
+
+2018-08-02  Markus Mützel  <markus.muetzel@gmx.de>
+
+	Fix scrolling command window in Windows 10 (bug #52496).
+
+	* QWinTerminalImpl.cpp: Disable auto-scroll when manually scrolling up.
+
+	Files: libgui/qterminal/libqterminal/win32/QWinTerminalImpl.cpp
+
+2018-07-22  Rik  <rik@octave.org>
+
+	build: include inplace_edit.pl in tarball (bug #54349).
+
+	* build-aux/module.mk: include inplace_edit.pl in EXTRA_DIST.
+
+	Files: build-aux/module.mk
+
+2018-08-01  Rik  <rik@octave.org>
+
+	Produce a single backtrace for global declaration overriding local variable.
+
+	* pt-eval.cc (tree_evaluator::visit_decl_elt): Use "\n" at the end of the first
+	two calls to warning_with_id() so that they do not produce a backtrace.  Only
+	the third and final call produces a backtrace.
+
+	Files: libinterp/parse-tree/pt-eval.cc
+
+2018-08-01  John W. Eaton  <jwe@octave.org>
+
+	revive setstr (bug #54417)
+
+	* scripts/deprecated/setstr.m: Restore deleted function.
+
+	* scripts/deprecated/module.mk: Update.
+
+	Files: scripts/deprecated/module.mk scripts/deprecated/setstr.m
+
+	* ode15i.m: In tests, use unlikely symbol name instead of "foo".
+
+	Files: scripts/ode/ode15i.m
+
+	* run.m: In test, use a symbol name that is unlikely to be a function.
+
+	Files: scripts/miscellaneous/run.m
+
 2018-07-30  John W. Eaton  <jwe@octave.org>
 
 	bump version for 4.4.1-rc2

@@ -93,7 +93,7 @@ Color of the outline of the background area.  @xref{Colors, , colorspec}.
 
 @anchor{XREFtextextent}
 @prindex text extent
-@item @code{extent} (read-only): four-element vector, def. @code{[0.000000  -0.005843   0.000000   0.032136]}
+@item @code{extent} (read-only): four-element vector, def. @code{[0   0   0   0]}
 Vector @code{[x0 y0 width height]} indicating the size and location of the text string.
 
 

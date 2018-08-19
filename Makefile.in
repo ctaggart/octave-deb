@@ -5049,10 +5049,10 @@ EXTRA_DIST = CITATION COPYING INSTALL NEWS README run-octave.in \
 	build-aux/OctJavaQry.java build-aux/changelog.tmpl \
 	build-aux/check-subst-vars.in.sh build-aux/find-defun-files.sh \
 	build-aux/find-files-with-tests.sh \
-	build-aux/get-source-mtime.sh build-aux/mk-hg-id.sh \
-	build-aux/mk-octave-config-h.sh build-aux/mk-opts.pl \
-	build-aux/move-if-change build-aux/stl_algo.h-fixed \
-	build-aux/subst-config-vals.in.sh \
+	build-aux/get-source-mtime.sh build-aux/inplace_edit.pl \
+	build-aux/mk-hg-id.sh build-aux/mk-octave-config-h.sh \
+	build-aux/mk-opts.pl build-aux/move-if-change \
+	build-aux/stl_algo.h-fixed build-aux/subst-config-vals.in.sh \
 	build-aux/subst-cross-config-vals.in.sh \
 	build-aux/subst-default-vals.in.sh \
 	build-aux/subst-script-vals.in.sh \
@@ -6829,7 +6829,7 @@ nodist_liboctave_liboctave_la_SOURCES = \
 
 
 # Increment these as needed and according to the rules in the libtool manual:
-liboctave_liboctave_current = 5
+liboctave_liboctave_current = 6
 liboctave_liboctave_revision = 0
 liboctave_liboctave_age = 0
 liboctave_liboctave_version_info = $(liboctave_liboctave_current):$(liboctave_liboctave_revision):$(liboctave_liboctave_age)
@@ -7757,7 +7757,7 @@ libinterp_liboctinterp_la_LIBADD =  \
 	$(am__append_8)
 
 # Increment these as needed and according to the rules in the libtool manual:
-libinterp_liboctinterp_current = 5
+libinterp_liboctinterp_current = 6
 libinterp_liboctinterp_revision = 0
 libinterp_liboctinterp_age = 0
 libinterp_liboctinterp_version_info = $(libinterp_liboctinterp_current):$(libinterp_liboctinterp_revision):$(libinterp_liboctinterp_age)
@@ -8167,7 +8167,7 @@ nobase_libinterptests_DATA = $(LIBINTERP_TST_FILES)
 
 
 # Increment these as needed and according to the rules in the libtool manual:
-@AMCOND_BUILD_QT_GUI_TRUE@libgui_liboctgui_current = 3
+@AMCOND_BUILD_QT_GUI_TRUE@libgui_liboctgui_current = 4
 @AMCOND_BUILD_QT_GUI_TRUE@libgui_liboctgui_revision = 0
 @AMCOND_BUILD_QT_GUI_TRUE@libgui_liboctgui_age = 0
 @AMCOND_BUILD_QT_GUI_TRUE@libgui_liboctgui_version_info = $(libgui_liboctgui_current):$(libgui_liboctgui_revision):$(libgui_liboctgui_age)
@@ -8369,6 +8369,7 @@ scripts_deprecated_FCN_FILES = \
   scripts/deprecated/onenormest.m \
   scripts/deprecated/paren.m \
   scripts/deprecated/semicolon.m \
+  scripts/deprecated/setstr.m \
   scripts/deprecated/sleep.m \
   scripts/deprecated/tmpnam.m \
   scripts/deprecated/toascii.m \

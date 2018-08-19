@@ -23,12 +23,12 @@ versions.
 
 File: octave.info,  Node: Top,  Next: Preface,  Up: (dir)
 
-GNU Octave
-**********
+GNU Octave (version 4.4.1)
+**************************
 
 This manual documents how to run, install and port GNU Octave, as well
 as its new features and incompatibilities, and how to report bugs.  It
-corresponds to GNU Octave version 4.4.1-rc2.
+corresponds to GNU Octave version 4.4.1.
 
 * Menu:
 
@@ -1183,7 +1183,7 @@ manual, *note Copying::.
 run, use, and extend GNU Octave.  Additional chapters describe how to
 report bugs and help contribute code.
 
-   This document corresponds to Octave version 4.4.1-rc2.
+   This document corresponds to Octave version 4.4.1.
 
 * Menu:
 

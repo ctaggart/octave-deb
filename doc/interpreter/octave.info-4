@@ -1686,7 +1686,7 @@ The ‘axes’ properties are:
      Two-element vector ‘[2Dlen 3Dlen]’ specifying the length of the
      tickmarks relative to the longest visible axis.
 
-‘tightinset’ (read-only): four-element vector, def. ‘[0.042857 0.038106 0.000000 0.023810]’
+‘tightinset’ (read-only): four-element vector, def. ‘[0.042857 0.035725 0.000000 0.023810]’
      Size of the ‘[left bottom right top]’ margins around the axes that
      enclose labels and title annotations.
 
@@ -2064,7 +2064,7 @@ The ‘text’ properties are:
 ‘editing’: {"off"} | "on"
      ‘editing’ is unused.
 
-‘extent’ (read-only): four-element vector, def. ‘[0.000000 -0.005843 0.000000 0.032136]’
+‘extent’ (read-only): four-element vector, def. ‘[0 0 0 0]’
      Vector ‘[x0 y0 width height]’ indicating the size and location of
      the text string.
 
@@ -2962,7 +2962,7 @@ File: octave.info,  Node: Uibuttongroup Properties,  Next: Uicontextmenu Propert
 
 The ‘uibuttongroup’ properties are:
 
-‘backgroundcolor’: def. ‘[0.93725 0.93725 0.93725]’
+‘backgroundcolor’: def. ‘[1 1 1]’
 
 ‘beingdeleted’: {"off"} | "on"
 
@@ -3076,7 +3076,7 @@ The ‘uibuttongroup’ properties are:
 
 ‘selectionhighlight’: "off" | {"on"}
 
-‘shadowcolor’: def. ‘[0.62483 0.62483 0.62483]’
+‘shadowcolor’: def. ‘[0 0 0]’
 
 ‘sizechangedfcn’: def. ‘[](0x0)’
 
@@ -3216,7 +3216,7 @@ File: octave.info,  Node: Uipanel Properties,  Next: Uicontrol Properties,  Prev
 
 The ‘uipanel’ properties are:
 
-‘backgroundcolor’: def. ‘[0.93725 0.93725 0.93725]’
+‘backgroundcolor’: def. ‘[1 1 1]’
 
 ‘beingdeleted’: {"off"} | "on"
 
@@ -3325,7 +3325,7 @@ The ‘uipanel’ properties are:
 
 ‘selectionhighlight’: "off" | {"on"}
 
-‘shadowcolor’: def. ‘[0.62483 0.62483 0.62483]’
+‘shadowcolor’: def. ‘[0 0 0]’
 
 ‘tag’: string, def. ""
      A user-defined string to label the graphics object.
@@ -3357,7 +3357,7 @@ File: octave.info,  Node: Uicontrol Properties,  Next: Uitoolbar Properties,  Pr
 
 The ‘uicontrol’ properties are:
 
-‘backgroundcolor’: def. ‘[0.93725 0.93725 0.93725]’
+‘backgroundcolor’: def. ‘[1 1 1]’
 
 ‘beingdeleted’: {"off"} | "on"
 
@@ -5536,24 +5536,30 @@ File: octave.info,  Node: Rearranging Matrices,  Next: Special Utility Matrices,
 
  -- : flip (X)
  -- : flip (X, DIM)
-     Flip array across dimension DIM.
+     Return a copy of array X flipped across dimension DIM.
 
-     Return a copy of X flipped about the dimension DIM.  DIM defaults
-     to the first non-singleton dimension.  For example:
+     If DIM is unspecified it defaults to the first non-singleton
+     dimension.
 
+     Examples:
+
+          ## row vector
           flip ([1  2  3  4])
                 ⇒  4  3  2  1
 
+          ## column vector
           flip ([1; 2; 3; 4])
                 ⇒  4
                     3
                     2
                     1
 
+          ## 2-D matrix along dimension 1
           flip ([1 2; 3 4])
                 ⇒  3  4
                     1  2
 
+          ## 2-D matrix along dimension 2
           flip ([1 2; 3 4], 2)
                 ⇒  2  1
                     4  3

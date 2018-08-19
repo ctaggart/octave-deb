@@ -22,7 +22,7 @@
 
 @anchor{XREFuicontrolbackgroundcolor}
 @prindex uicontrol backgroundcolor
-@item @code{backgroundcolor}: def. @code{[0.93725   0.93725   0.93725]}
+@item @code{backgroundcolor}: def. @code{[1   1   1]}
 
 
 
