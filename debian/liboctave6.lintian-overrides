@@ -2,5 +2,5 @@
 # the libraries are C++, and maintaining symbols file with C++
 # libraries is a pain. This fact is acknowledged in section 8.6 of
 # the Debian Policy.
-liboctave5: no-symbols-control-file usr/lib/*/liboctinterp.so.5.0.0
-liboctave5: no-symbols-control-file usr/lib/*/liboctave.so.5.0.0
+liboctave6: no-symbols-control-file usr/lib/*/liboctinterp.so.6.0.0
+liboctave6: no-symbols-control-file usr/lib/*/liboctave.so.6.0.0

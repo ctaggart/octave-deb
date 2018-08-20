@@ -20,3 +20,4 @@ octave: command-with-path-in-maintainer-script postinst:* /usr/bin/octave
 # This is a permanent Breaks; using Conflicts would make upgrades more painful
 octave: breaks-without-version liboctave3v5
 octave: breaks-without-version liboctave4
+octave: breaks-without-version liboctave5
