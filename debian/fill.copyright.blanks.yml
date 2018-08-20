@@ -42,9 +42,6 @@ liboctave/external/lapack-xtra/.*:
 liboctave/external/blas-xtra/.*:
   copyright: 1992-2018, John W. Eaton
   license: GPL-3+
-liboctave/external/blas-xtra/xerbla.f:
-  copyright: 1992-2006 The University of Tennessee
-  license: BSD-3-clause
 liboctave/external/.*mk$:
   copyright: 1992-2018, John W. Eaton
   license: GPL-3+
