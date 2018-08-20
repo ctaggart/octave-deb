@@ -1,3 +1,12 @@
+octave (4.4.1-1) experimental; urgency=medium
+
+  * New upstream version 4.4.1
+    - this is no longer a release candidate (Closes: #906047)
+  * Bump SOVERSION of liboctave (5→6)
+  * Drop missing-inplace_edit.patch, no longer needed
+
+ -- Sébastien Villemot <sebastien@debian.org>  Mon, 20 Aug 2018 21:24:23 +0200
+
 octave (4.4.1~rc2-3) unstable; urgency=medium
 
   * Re-disable java on mipsel
