@@ -1,3 +1,13 @@
+octave (4.4.1-2) unstable; urgency=medium
+
+  [ Steffen Möller ]
+  * Update metadata - added references to scientific software registries.
+
+  [ Rafael Laboissiere ]
+  * d/control: Bump Standards-Version to 4.2.1 (no changes needed)
+
+ -- Sébastien Villemot <sebastien@debian.org>  Tue, 02 Oct 2018 10:12:52 +0200
+
 octave (4.4.1-1) experimental; urgency=medium
 
   * New upstream version 4.4.1
