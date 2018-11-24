@@ -32,8 +32,8 @@ If you want to install packages from the Octave-Forge project
 distributed by Debian. Most Octave-Forge packages are available in Debian under
 the name octave-<pkgname> (for example, the statistics package from
 Octave-Forge is available as the octave-statistics package in Debian). The use
-of the `pkg' command at the Octave prompt is therefore discouraged and not
-supported by Debian.
+of the `pkg install' command at the Octave prompt and may interfere
+with the package management system in Debian.
 
 
 Why is mkoctfile not in octave, but in liboctave-dev?
