@@ -35,6 +35,23 @@ Octave-Forge is available as the octave-statistics package in Debian). The use
 of the `pkg install' command at the Octave prompt and may interfere
 with the package management system in Debian.
 
+Note that Octave is not configured to autoload the installed packages.
+This means that the functions provided by the installed packages will
+not be available at the Octave prompt at startup.  Therefore, each
+package must be individually loaded by using the `pkg load' command.
+One way to automatically load all the installed packages at startup
+time is to add the following code to the initialization file
+`~/.octaverc':
+
+  pkgs = pkg ("list");
+  for i = 1 : numel (pkgs)
+    pkg ("load", pkgs{i}.name);
+  endfor
+
+If you do this, remember that other users may not have Octave
+configured to load packages at startup. Therefore, if you write code
+for others, your scripts still need to load the packages they require.
+
 
 Why is mkoctfile not in octave, but in liboctave-dev?
 =====================================================
