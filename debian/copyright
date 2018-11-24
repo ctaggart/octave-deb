@@ -34,7 +34,7 @@ Files: debian/*
 Copyright: Andrew D. Fernandes <adfernan@cnd.mcgill.ca>
            Dale Scheetz <dwarf@polaris.net>
            Dirk Eddelbuettel <edd@debian.org>
-           2005-2009, 2012-2015 Rafael Laboissiere <rafael@debian.org>
+           2005-2009, 2012-2018 Rafael Laboissiere <rafael@debian.org>
            2006-2013 Thomas Weber <tweber@debian.org>
            2011-2018 Sébastien Villemot <sebastien@debian.org>
            2013-2014 Mike Miller <mtmiller@debian.org>
