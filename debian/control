@@ -6,7 +6,7 @@ Section: math
 Priority: optional
 Build-Depends: automake,
                bison,
-               debhelper (>= 11),
+               debhelper-compat (= 11),
                default-jdk,
                desktop-file-utils,
                dh-exec,
