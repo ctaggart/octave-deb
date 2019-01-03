@@ -60,6 +60,8 @@ override_dh_auto_configure:
 override_dh_auto_test:
 ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
 	make check
+	# Run builtin-features to ensure important features are included
+	env OCTAVE=./run-octave debian/tests/builtin-features
 endif
 
 # override normal dh_compress call to avoid compressing .pdf files

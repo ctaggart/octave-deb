@@ -1,4 +1,4 @@
-Tests: smoke, upstream-testsuite
+Tests: builtin-features, smoke, upstream-testsuite
 Depends: @,
          default-jre-headless,
          fonts-freefont-otf,
