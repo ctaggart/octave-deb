@@ -1,3 +1,25 @@
+octave (4.4.1-3) unstable; urgency=medium
+
+  [ Rafael Laboissiere ]
+  * d/README.Debian: Fix wording regarding the use of the "pkg install" command
+  * d/README.Debian: Document the necessity of the "pkg load" command
+    (Closes: 914373)
+  * d/control: Bump Standards-Version to 4.3.0 (no changes needed)
+  * Build-depend on debhelper-compat instead of using d/compat
+
+  [ Mike Miller ]
+  * Ensure that Octave includes important features
+    - d/t/builtin-features: New test for builtin features.
+    - d/t/control: Include builtin-features in autopkgtest suite.
+    - d/rules: Call builtin-features after standard test suite.
+    (Closes: #916979)
+
+  [ Sébastien Villemot ]
+  * unimplemented-functions.patch: update the list of unimplemented functions
+    (Closes: #914391)
+
+ -- Sébastien Villemot <sebastien@debian.org>  Sun, 06 Jan 2019 10:45:09 +0100
+
 octave (4.4.1-2) unstable; urgency=medium
 
   [ Steffen Möller ]
