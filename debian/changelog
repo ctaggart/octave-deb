@@ -1037,7 +1037,7 @@ octave3.2 (3.2.4-12) unstable; urgency=low
 octave3.2 (3.2.4-11) unstable; urgency=low
 
   * New patch: drop_old_curl_header: curl no longer ships types.h (closes:
-    #637787) 
+    #637787)
   * Add lintian override for usage of install-info; this is a temporary
     measure.
 
@@ -1123,7 +1123,7 @@ octave3.2 (3.2.4-2) unstable; urgency=low
 
 octave3.2 (3.2.4-1) unstable; urgency=low
 
-  * New upstream release 
+  * New upstream release
   * debian/control: Build against new hdf5 version (closes: #567057)
   * Drop patch fix-lsode-in-octave3.2.diff, applied upstream
 
@@ -1133,16 +1133,16 @@ octave3.2 (3.2.3-2) unstable; urgency=low
 
   * New patch: fix-lsode-in-octave3.2.diff, allows passing of implicit
     function  (closes: #550828). Thanks Jaroslav Hajek for the patch.
-  * Build emacs support for emacs23 also (closes: #554611). 
+  * Build emacs support for emacs23 also (closes: #554611).
   * Drop info-browser as alternative to info (closes: #543914). Octave uses
     some switches specific to info(1).
 
  -- Thomas Weber <thomas.weber.mail@gmail.com>  Thu, 07 Jan 2010 09:23:35 +0100
 
 octave3.0 (1:3.0.5-7) unstable; urgency=low
- 
+
   * Merge changes from the 3.2 branch into the 3.0 upload:
-    - Drop the arm-specific build-dependencies on gcc and g++ 4.1 
+    - Drop the arm-specific build-dependencies on gcc and g++ 4.1
       (closes: #533803)
     - Pass explicit FLIBS to ./configure, to avoid a library path with an
       explicit compiler path in mkoctfile. This allows us to depend on gcc and
@@ -1155,7 +1155,7 @@ octave3.2 (3.2.3-1) unstable; urgency=low
 
   * New upstream release
   * Change build-dependency on libreadline, as per
-    http://lists.debian.org/debian-devel/2009/09/msg00562.html 
+    http://lists.debian.org/debian-devel/2009/09/msg00562.html
   * Dropped patches (applied upstream):
     - complex-nan-print.diff
     - dont_pass_ldflags_to_magickconfig
@@ -1164,7 +1164,7 @@ octave3.2 (3.2.3-1) unstable; urgency=low
 
 octave3.2 (3.2.2-2) unstable; urgency=low
 
-  * Upload to unstable 
+  * Upload to unstable
 
  -- Thomas Weber <thomas.weber.mail@gmail.com>  Sun, 13 Sep 2009 10:11:52 +0200
 
