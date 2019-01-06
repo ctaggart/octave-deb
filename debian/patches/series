@@ -3,3 +3,4 @@ drop_versioned_binaries.diff
 install_libraries_publically
 always-build-octave-jar.patch
 texinfo.patch
+unimplemented-functions.patch
