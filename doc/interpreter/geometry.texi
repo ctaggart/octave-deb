@@ -1,6 +1,6 @@
 @c DO NOT EDIT!  Generated automatically by munge-texi.pl.
 
-@c Copyright (C) 2007-2018 John W. Eaton and David Bateman
+@c Copyright (C) 2007-2019 John W. Eaton and David Bateman
 @c
 @c This file is part of Octave.
 @c
@@ -79,7 +79,7 @@ The input @var{x} may also be a matrix with two or three columns where the
 first column contains x-data, the second y-data, and the optional third
 column contains z-data.
 
-The optional last argument, which must be a string or cell array of strings,
+An optional final argument, which must be a string or cell array of strings,
 contains options passed to the underlying qhull command.
 See the documentation for the Qhull library for details
 @url{http://www.qhull.org/html/qh-quick.htm#options}.
@@ -646,7 +646,8 @@ diagram clearer.
 
 @float Figure,fig:voronoi
 @center @image{voronoi,4in}
-@caption{Delaunay triangulation and Voronoi diagram of a random set of points}
+@caption{Delaunay triangulation (blue lines) and Voronoi diagram (red lines)
+of a random set of points}
 @end float
 @end ifnotinfo
 
@@ -769,12 +770,21 @@ N-dimensional sets of points.
 @c convhull scripts/geometry/convhull.m
 @anchor{XREFconvhull}
 @deftypefn  {} {@var{H} =} convhull (@var{x}, @var{y})
-@deftypefnx {} {@var{H} =} convhull (@var{x}, @var{y}, @var{options})
-Compute the convex hull of the set of points defined by the
-arrays @var{x} and @var{y}.  The hull @var{H} is an index vector into
-the set of points and specifies which points form the enclosing hull.
+@deftypefnx {} {@var{H} =} convhull (@var{x}, @var{y}, @var{z})
+@deftypefnx {} {@var{H} =} convhull (@var{x})
+@deftypefnx {} {@var{H} =} convhull (@dots{}, @var{options})
+@deftypefnx {} {[@var{H}, @var{V}] =} convhull (@dots{})
+Compute the convex hull of a 2-D or 3-D set of points.
 
-An optional third argument, which must be a string or cell array of strings,
+The hull @var{H} is a linear index vector into the original set of points
+that specifies which points form the enclosing hull.  For 2-D inputs only,
+the output is ordered in a counterclockwise manner around the hull.
+
+The input @var{x} may also be a matrix with two or three columns where the
+first column contains x-data, the second y-data, and the optional third
+column contains z-data.
+
+An optional final argument, which must be a string or cell array of strings,
 contains options passed to the underlying qhull command.
 See the documentation for the Qhull library for details
 @url{http://www.qhull.org/html/qh-quick.htm#options}.
@@ -784,6 +794,9 @@ If @var{options} is not present or @code{[]} then the default arguments are
 used.  Otherwise, @var{options} replaces the default argument list.
 To append user options to the defaults it is necessary to repeat the
 default arguments in @var{options}.  Use a null string to pass no arguments.
+
+If the second output @var{V} is requested the volume of the enclosing
+convex hull is calculated.
 
 @seealso{@ref{XREFconvhulln,,convhulln}, @ref{XREFdelaunay,,delaunay}, @ref{XREFvoronoi,,voronoi}}
 @end deftypefn

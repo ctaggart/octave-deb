@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2011-2018 Michael Goffioul
+Copyright (C) 2011-2019 Michael Goffioul
 
 This file is part of Octave.
 
@@ -46,6 +46,12 @@ namespace QtHandles
   {
     // For the time being, disable menubar/toolbar popup menu
     return nullptr;
+  }
+
+  void FigureWindow::showEvent (QShowEvent* ev)
+  {
+    QMainWindow::showEvent (ev);
+    emit figureWindowShown();
   }
 
 }

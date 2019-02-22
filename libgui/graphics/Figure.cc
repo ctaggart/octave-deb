@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2011-2018 Michael Goffioul
+Copyright (C) 2011-2019 Michael Goffioul
 
 This file is part of Octave.
 
@@ -41,6 +41,10 @@ along with Octave; see the file COPYING.  If not, see
 #include <QtDebug>
 #include <QTimer>
 #include <QToolBar>
+#if defined (HAVE_QSCREEN_DEVICEPIXELRATIO)
+#  include <QWindow>
+#  include <QScreen>
+#endif
 
 #include "Canvas.h"
 #include "Container.h"
@@ -62,44 +66,6 @@ namespace QtHandles
 {
 
   DECLARE_GENERICEVENTNOTIFY_SENDER(MenuBar, QMenuBar);
-
-  static bool
-  hasUiControlChildren (const figure::properties& fp)
-  {
-    gh_manager::auto_lock lock;
-
-    Matrix kids = fp.get_all_children ();
-
-    for (int i = 0; i < kids.numel (); i++)
-      {
-        graphics_object go (gh_manager::get_object (kids(i)));
-
-        if (go && (go.isa ("uicontrol") || go.isa ("uipanel")
-                   || go.isa ("uibuttongroup")))
-          return true;
-      }
-
-    return false;
-  }
-
-  static bool
-  hasUiMenuChildren (const figure::properties& fp)
-  {
-    gh_manager::auto_lock lock;
-
-    Matrix kids = fp.get_all_children ();
-
-    for (int i = 0; i < kids.numel (); i++)
-      {
-        graphics_object go (gh_manager::get_object (kids(i)));
-
-        if (go && go.isa ("uimenu") &&
-            go.get ("visible").string_value () == "on")
-          return true;
-      }
-
-    return false;
-  }
 
   static QRect
   boundingBoxToRect (const Matrix& bb)
@@ -126,12 +92,17 @@ namespace QtHandles
   Figure::Figure (const graphics_object& go, FigureWindow *win)
     : Object (go, win), m_blockUpdates (false), m_figureToolBar (nullptr),
       m_menuBar (nullptr), m_innerRect (), m_outerRect (),
-      m_mouseModeGroup (nullptr)
+      m_mouseModeGroup (nullptr), m_previousHeight (0), m_resizable (true)
   {
     m_container = new Container (win);
     win->setCentralWidget (m_container);
 
     figure::properties& fp = properties<figure> ();
+
+    // Register for the signal that indicates when a window has moved
+    // to a different screen
+    connect (win, SIGNAL (figureWindowShown ()),
+             this, SLOT (figureWindowShown ()));
 
     // Status bar
     m_statusBar = win->statusBar ();
@@ -141,9 +112,8 @@ namespace QtHandles
     createFigureToolBarAndMenuBar ();
     int toffset = 0;
 
-    if (fp.toolbar_is ("figure") ||
-        (fp.toolbar_is ("auto") && fp.menubar_is ("figure") &&
-         ! hasUiControlChildren (fp)))
+    if (fp.toolbar_is ("figure")
+        || (fp.toolbar_is ("auto") && fp.menubar_is ("figure")))
       {
         toffset += m_figureToolBar->sizeHint ().height ();
         boffset += m_statusBar->sizeHint ().height ();
@@ -154,15 +124,10 @@ namespace QtHandles
         m_statusBar->hide ();
       }
 
-    if (fp.menubar_is ("figure") || hasUiMenuChildren (fp))
-      toffset += m_menuBar->sizeHint ().height ();
-    else
-      m_menuBar->hide ();
-
     m_innerRect = boundingBoxToRect (fp.get_boundingbox (true));
     m_outerRect = boundingBoxToRect (fp.get_boundingbox (false));
 
-    win->setGeometry (m_innerRect.adjusted (0, -toffset, 0, boffset));
+    set_geometry (m_innerRect.adjusted (0, -toffset, 0, boffset));
 
     // Enable mouse tracking unconditionally
     enableMouseTracking ();
@@ -180,6 +145,9 @@ namespace QtHandles
 
     // modal style
     update (figure::properties::ID_WINDOWSTYLE);
+
+    // Handle resizing constraints
+    update (figure::properties::ID_RESIZE);
 
     // Visibility
     update (figure::properties::ID_VISIBLE);
@@ -217,9 +185,6 @@ namespace QtHandles
       case TextMode:
         return "text";
 
-      case SelectMode:
-        return "select";
-
       default:
         break;
       }
@@ -242,8 +207,6 @@ namespace QtHandles
       return PanMode;
     else if (mode == "text")
       return TextMode;
-    else if (mode == "select")
-      return SelectMode;
     else
       return NoMode;
   }
@@ -319,27 +282,6 @@ namespace QtHandles
 
     m_menuBar = new MenuBar (win);
     win->setMenuBar (m_menuBar);
-
-    QMenu *fileMenu = m_menuBar->addMenu (tr ("&File"));
-    fileMenu->menuAction ()->setObjectName ("builtinMenu");
-    fileMenu->addAction (tr ("&Save"), this, SLOT (fileSaveFigure (bool)));
-    fileMenu->addAction (tr ("Save &As"), this, SLOT (fileSaveFigureAs (void)));
-    fileMenu->addSeparator ();
-    fileMenu->addAction (tr ("&Close Figure"), this,
-                         SLOT (fileCloseFigure (void)), Qt::CTRL | Qt::Key_W);
-
-    QMenu *editMenu = m_menuBar->addMenu (tr ("&Edit"));
-    editMenu->menuAction ()->setObjectName ("builtinMenu");
-    editMenu->addAction (tr ("Cop&y"), this, SLOT (editCopy (bool)),
-                         Qt::CTRL | Qt::Key_C);
-    editMenu->addSeparator ();
-    editMenu->addActions (m_mouseModeGroup->actions ());
-
-    QMenu *helpMenu = m_menuBar->addMenu (tr ("&Help"));
-    helpMenu->menuAction ()->setObjectName ("builtinMenu");
-    helpMenu->addAction (tr ("About Octave"), this,
-                         SLOT (helpAboutOctave (void)));
-
     m_menuBar->addReceiver (this);
   }
 
@@ -351,6 +293,26 @@ namespace QtHandles
         m_blockUpdates = true;
         m_mouseModeGroup->setMode (mouseMode ());
         m_blockUpdates = false;
+      }
+  }
+
+  void
+  Figure::set_geometry (QRect r)
+  {
+    QMainWindow *win = qWidget<QMainWindow> ();
+
+    if (! m_resizable)
+      {
+        win->setSizePolicy (QSizePolicy::Preferred, QSizePolicy::Preferred);
+        win->setFixedSize (QSize( QWIDGETSIZE_MAX, QWIDGETSIZE_MAX));
+      }
+
+    win->setGeometry (r);
+
+    if (! m_resizable)
+      {
+        win->setSizePolicy (QSizePolicy::Fixed, QSizePolicy::Fixed);
+        win->setFixedSize(win->size ());
       }
   }
 
@@ -366,10 +328,7 @@ namespace QtHandles
     Canvas *canvas = m_container->canvas (m_handle);
 
     if (canvas)
-      {
-        canvas->redraw ();
-        //canvas->setMouseMode (RotateMode);
-      }
+      canvas->redraw ();
 
     foreach (QFrame *frame,
              qWidget<QWidget> ()->findChildren<QFrame*> ())
@@ -385,6 +344,15 @@ namespace QtHandles
       }
 
     updateFigureToolBarAndMenuBar ();
+  }
+
+  void
+  Figure::show (void)
+  {
+    QWidget *win = qWidget<QWidget> ();
+
+    win->activateWindow ();
+    win->raise ();
   }
 
   void
@@ -462,7 +430,7 @@ namespace QtHandles
           if (! m_statusBar->isHidden ())
             boffset += m_statusBar->sizeHint ().height ();
 
-          win->setGeometry (m_innerRect.adjusted (0, -toffset, 0, boffset));
+          set_geometry (m_innerRect.adjusted (0, -toffset, 0, boffset));
         }
         break;
 
@@ -485,18 +453,31 @@ namespace QtHandles
           win->hide ();
         break;
 
+      case figure::properties::ID_RESIZE:
+        if (fp.is_resize ())
+          {
+            win->setSizePolicy (QSizePolicy::Preferred, QSizePolicy::Preferred);
+            win->setFixedSize (QSize( QWIDGETSIZE_MAX, QWIDGETSIZE_MAX));
+            m_resizable = true;
+          }
+        else
+          {
+            win->setSizePolicy (QSizePolicy::Fixed, QSizePolicy::Fixed);
+            win->setFixedSize(win->size ());
+            m_resizable = false;
+          }
+        break;
+
       case figure::properties::ID_TOOLBAR:
         if (fp.toolbar_is ("none"))
           showFigureToolBar (false);
         else if (fp.toolbar_is ("figure"))
           showFigureToolBar (true);
-        else // "auto"
-          showFigureToolBar (! hasUiControlChildren (fp) &&
-                             fp.menubar_is ("figure"));
+        else  // "auto"
+          showFigureToolBar (fp.menubar_is ("figure"));
         break;
 
       case figure::properties::ID_MENUBAR:
-        showMenuBar (fp.menubar_is ("figure"));
         if (fp.toolbar_is ("auto"))
           showFigureToolBar (fp.menubar_is ("figure"));
         break;
@@ -533,6 +514,10 @@ namespace QtHandles
 
         break;
 
+      case figure::properties::ID___MOUSE_MODE__:
+        m_container->canvas (m_handle)->setCursor (mouseMode ());
+        break;
+
       default:
         break;
       }
@@ -555,7 +540,7 @@ namespace QtHandles
           r.adjust (0, -dy1, 0, dy2);
 
         m_blockUpdates = true;
-        qWidget<QWidget> ()->setGeometry (r);
+        set_geometry (r);
         m_figureToolBar->setVisible (visible);
         m_statusBar->setVisible (visible);
         m_blockUpdates = false;
@@ -565,50 +550,23 @@ namespace QtHandles
   }
 
   void
-  Figure::showMenuBar (bool visible, int h1)
-  {
-    // Get the height before and after toggling the visibility of builtin menus
-    if (h1 <= 0)
-      h1 = m_menuBar->sizeHint ().height ();
-
-    foreach (QAction *a, m_menuBar->actions ())
-      if (a->objectName () == "builtinMenu")
-        a->setVisible (visible);
-
-    int h2 = m_menuBar->sizeHint ().height ();
-
-    // Keep the menubar visible if it contains custom menus
-    if (! visible)
-      visible = hasUiMenuChildren (properties<figure> ());
-
-    if ((m_menuBar->isVisible () && ! visible)
-        || (! m_menuBar->isVisible () && visible))
-      {
-        int dy = qMax (h1, h2);
-        QRect r = qWidget<QWidget> ()->geometry ();
-
-        if (! visible)
-          r.adjust (0, dy, 0, 0);
-        else
-          r.adjust (0, -dy, 0, 0);
-
-        m_blockUpdates = true;
-        qWidget<QWidget> ()->setGeometry (r);
-        m_menuBar->setVisible (visible);
-        m_blockUpdates = false;
-      }
-    updateBoundingBox (false);
-  }
-
-  void
-  Figure::updateMenuBar (int height)
+  Figure::updateFigureHeight (int dh)
   {
     gh_manager::auto_lock lock;
     graphics_object go = object ();
 
-    if (go.valid_object ())
-      showMenuBar (Utils::properties<figure> (go).menubar_is ("figure"),
-                   height);
+    if (go.valid_object () && dh != 0)
+      {
+        QRect r = qWidget<QWidget> ()->geometry ();
+
+        r.adjust (0, dh, 0, 0);
+
+        m_blockUpdates = true;
+        set_geometry (r);
+        m_blockUpdates = false;
+
+        updateBoundingBox (false);
+      }
   }
 
   void
@@ -635,31 +593,15 @@ namespace QtHandles
   };
 
   void
-  Figure::updateBoundingBoxHelper (void *data)
-  {
-    gh_manager::auto_lock lock;
-
-    UpdateBoundingBoxData *d = reinterpret_cast<UpdateBoundingBoxData *> (data);
-    graphics_object go = gh_manager::get_object (d->m_handle);
-
-    if (go.valid_object ())
-      {
-        figure::properties& fp = Utils::properties<figure> (go);
-
-        fp.set_boundingbox (d->m_bbox, d->m_internal, false);
-      }
-
-    delete d;
-  }
-
-  void
   Figure::updateBoundingBox (bool internal, int flags)
   {
     QWidget *win = qWidget<QWidget> ();
     Matrix bb (1, 4);
+    std::string prop;
 
     if (internal)
       {
+        prop = "position";
         QRect r = m_innerRect;
 
         if (flags & UpdateBoundingBoxPosition)
@@ -681,6 +623,7 @@ namespace QtHandles
       }
     else
       {
+        prop = "outerposition";
         QRect r = m_outerRect;
 
         if (flags & UpdateBoundingBoxPosition)
@@ -701,23 +644,10 @@ namespace QtHandles
           return;
       }
 
-    UpdateBoundingBoxData *d = new UpdateBoundingBoxData ();
-
-    d->m_bbox = bb;
-    d->m_internal = internal;
-    d->m_handle = m_handle;
-    d->m_figure = this;
-
-    gh_manager::post_function (Figure::updateBoundingBoxHelper, d);
-  }
-
-  void
-  Figure::close_figure_callback (void)
-  {
     figure::properties& fp = properties<figure> ();
-    octave_value fnum = fp.get___myhandle__ ().as_octave_value ();
 
-    Ffeval (ovl ("close", fnum));
+    gh_manager::post_set (m_handle, prop, fp.bbox2position (bb), false,
+                          prop == "position");
   }
 
   bool
@@ -743,18 +673,10 @@ namespace QtHandles
           {
             switch (xevent->type ())
               {
+              case QEvent::ActionAdded:
               case QEvent::ActionChanged:
-                m_previousHeight = m_menuBar->sizeHint ().height ();
-                break;
               case QEvent::ActionRemoved:
-                {
-                  QAction *a = dynamic_cast<QActionEvent *> (xevent)->action ();
-
-                  if (! a->isSeparator ()
-                      && a->objectName () != "builtinMenu")
-                    updateMenuBar ();
-                }
-                break;
+                m_previousHeight = m_menuBar->sizeHint ().height ();
 
               default:
                 break;
@@ -766,7 +688,7 @@ namespace QtHandles
               {
               case QEvent::Close:
                 xevent->ignore ();
-                octave_link::post_event (this, &Figure::close_figure_callback);
+                gh_manager::post_callback (m_handle, "closerequestfcn");
                 return true;
 
               default:
@@ -819,24 +741,16 @@ namespace QtHandles
           {
             switch (xevent->type ())
               {
+              case QEvent::ActionAdded:
               case QEvent::ActionChanged:
+              case QEvent::ActionRemoved:
                 // The menubar may have been resized if no action is visible
                 {
                   QAction *a = dynamic_cast<QActionEvent *> (xevent)->action ();
-                  if (m_menuBar->sizeHint ().height () != m_previousHeight
-                      && a->objectName () != "builtinMenu"
+                  int currentHeight = m_menuBar->sizeHint ().height ();
+                  if (currentHeight != m_previousHeight
                       && ! a->isSeparator ())
-                    updateMenuBar (m_previousHeight);
-                }
-                break;
-              case QEvent::ActionAdded:
-                {
-                  QAction *a = dynamic_cast<QActionEvent *> (xevent)->action ();
-
-                  if (! a->isSeparator ()
-                      && a->objectName () != "builtinMenu"
-                      && a->isVisible ())
-                    updateMenuBar ();
+                    updateFigureHeight (m_previousHeight - currentHeight);
                 }
                 break;
 
@@ -865,16 +779,6 @@ namespace QtHandles
   }
 
   void
-  Figure::helpAboutOctave (void)
-  {
-    std::string message
-      = octave_name_version_copyright_copying_warranty_and_bugs (true);
-
-    QMessageBox::about (qWidget<QMainWindow> (), tr ("About Octave"),
-                        QString::fromStdString (message));
-  }
-
-  void
   Figure::setMouseMode (MouseMode mode)
   {
     if (m_blockUpdates)
@@ -893,109 +797,6 @@ namespace QtHandles
   }
 
   void
-  Figure::fileSaveFigure (bool prompt)
-  {
-    QString file = fileName ();
-
-    if (file.isEmpty ())
-      {
-        prompt = true;
-
-        file = "untitled.ofig";
-      }
-
-    if (prompt || file.isEmpty ())
-      {
-        QFileInfo finfo (file);
-
-        file = QFileDialog::getSaveFileName (qWidget<FigureWindow> (),
-                                             tr ("Save Figure As"),
-                                             finfo.absoluteFilePath (),
-                                             tr ("Octave Figure File (*.ofig);;Vector Image Formats (*.eps *.epsc *.pdf *.svg *.ps *.tikz);;Bitmap Image Formats (*.gif *.jpg *.png *.tiff)"),
-                                             nullptr,
-                                             QFileDialog::DontUseNativeDialog);
-      }
-
-    if (! file.isEmpty ())
-      {
-        QFileInfo finfo (file);
-
-        setFileName (finfo.absoluteFilePath ());
-
-        octave_link::post_event (this, &Figure::save_figure_callback,
-                                 file.toStdString ());
-      }
-  }
-
-  void
-  Figure::save_figure_callback (const std::string& file)
-  {
-    figure::properties& fp = properties<figure> ();
-    octave_value fnum = fp.get___myhandle__ ().as_octave_value ();
-
-    size_t flen = file.length ();
-
-    if (flen > 5 && file.substr (flen-5) == ".ofig")
-      Ffeval (ovl ("hgsave", fnum, file));
-    else
-      Ffeval (ovl ("print", fnum, file));
-  }
-
-  void
-  Figure::copy_figure_callback (const std::string& format)
-  {
-    std::string msg;
-
-    std::string file = octave::sys::tempnam ("", "oct-", msg) + '.' + format;
-
-    if (file.empty ())
-      {
-        // Report error?
-        return;
-      }
-
-    save_figure_callback (file);
-
-    octave_link::copy_image_to_clipboard (file);
-  }
-
-  void
-  Figure::fileSaveFigureAs (void)
-  {
-    fileSaveFigure (true);
-  }
-
-  void
-  Figure::fileCloseFigure (void)
-  {
-    qWidget<QMainWindow> ()->close ();
-  }
-
-  void
-  Figure::editCopy (bool /* choose_format */)
-  {
-    QString format = "png";
-
-#if 0
-
-    // FIXME: allow choice of image formats.
-
-    if (choose_format)
-      {
-        QFileInfo finfo (file);
-
-        format = QFileDialog::getSaveFileName (qWidget<FigureWindow> (),
-                                               tr ("Save Figure As"),
-                                               finfo.absoluteFilePath (), 0, 0,
-                                               QFileDialog::DontUseNativeDialog);
-      }
-#endif
-
-    octave_link::post_event (this, &Figure::copy_figure_callback,
-                             format.toStdString ());
-  }
-
-  void
   Figure::addCustomToolBar (QToolBar *bar, bool visible)
   {
     QMainWindow *win = qWidget<QMainWindow> ();
@@ -1011,7 +812,7 @@ namespace QtHandles
         r.adjust (0, -sz.height (), 0, 0);
 
         m_blockUpdates = true;
-        win->setGeometry (r);
+        set_geometry (r);
         win->addToolBarBreak ();
         win->addToolBar (bar);
         m_blockUpdates = false;
@@ -1037,7 +838,7 @@ namespace QtHandles
           r.adjust (0, sz.height (), 0, 0);
 
         m_blockUpdates = true;
-        win->setGeometry (r);
+        set_geometry (r);
         bar->setVisible (visible);
         m_blockUpdates = false;
 
@@ -1076,6 +877,44 @@ namespace QtHandles
 
     if (canvas)
       canvas->autoAxes (m_handle);
+  }
+
+  void
+  Figure::figureWindowShown ()
+  {
+#if defined (HAVE_QSCREEN_DEVICEPIXELRATIO)
+    QWindow* window = qWidget<QMainWindow> ()->windowHandle ();
+    QScreen* screen = window->screen ();
+
+    gh_manager::auto_lock lock;
+
+    figure::properties& fp = properties<figure> ();
+    fp.set___device_pixel_ratio__ (screen->devicePixelRatio ());
+
+    connect (window, SIGNAL (screenChanged (QScreen*)),
+             this, SLOT (screenChanged (QScreen*)));
+
+#endif
+  }
+
+  void
+  Figure::screenChanged (QScreen* screen)
+  {
+#if defined (HAVE_QSCREEN_DEVICEPIXELRATIO)
+    gh_manager::auto_lock lock;
+
+    figure::properties& fp = properties<figure> ();
+    double old_dpr = fp.get___device_pixel_ratio__ ();
+    double new_dpr = screen->devicePixelRatio ();
+    if (old_dpr != new_dpr)
+      {
+        fp.set___device_pixel_ratio__ (new_dpr);
+
+        // For some obscure reason, changing the __device_pixel_ratio__ property
+        // from the GUI thread does not necessarily trigger a redraw. Force it.
+        redraw ();
+      }
+#endif
   }
 
   void

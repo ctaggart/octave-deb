@@ -1,4 +1,4 @@
-## Copyright (C) 1995-2018 Kurt Hornik
+## Copyright (C) 1995-2019 Kurt Hornik
 ##
 ## This file is part of Octave.
 ##
@@ -141,6 +141,10 @@ function y = mean (x, varargin)
     otherwise
       print_usage ();
   endswitch
+
+  ## FIXME: Delete this when the "divide-by-zero" warning is
+  ##        removed in Octave 6.0.
+  warning ("off", "Octave:divide-by-zero", "local");
 
   ## The actual mean computation
   n = size (x, dim);

@@ -21,6 +21,239 @@ manual into another language, under the above conditions for modified
 versions.
 
 
+File: octave.info,  Node: Comma Separated Lists Generated from Cell Arrays,  Next: Comma Separated Lists Generated from Structure Arrays,  Up: Comma Separated Lists
+
+6.4.1 Comma Separated Lists Generated from Cell Arrays
+------------------------------------------------------
+
+As has been mentioned above (*note Indexing Cell Arrays::), elements of
+a cell array can be extracted into a comma separated list with the ‘{’
+and ‘}’ operators.  By surrounding this list with ‘[’ and ‘]’, it can be
+concatenated into an array.  For example:
+
+     a = {1, [2, 3], 4, 5, 6};
+     b = [a{1:4}]
+          ⇒ b =
+              1   2   3   4   5
+
+   Similarly, it is possible to create a new cell array containing cell
+elements selected with ‘{}’.  By surrounding the list with ‘{’ and ‘}’ a
+new cell array will be created, as the following example illustrates:
+
+     a = {1, rand(2, 2), "three"};
+     b = { a{ [1, 3] } }
+          ⇒ b =
+              {
+                [1,1] =  1
+                [1,2] = three
+              }
+
+   Furthermore, cell elements (accessed by ‘{}’) can be passed directly
+to a function.  The list of elements from the cell array will be passed
+as an argument list to a given function as if it is called with the
+elements as individual arguments.  The two calls to ‘printf’ in the
+following example are identical but the latter is simpler and can handle
+cell arrays of an arbitrary size:
+
+     c = {"GNU", "Octave", "is", "Free", "Software"};
+     printf ("%s ", c{1}, c{2}, c{3}, c{4}, c{5});
+          ⊣ GNU Octave is Free Software
+     printf ("%s ", c{:});
+          ⊣ GNU Octave is Free Software
+
+   If used on the left-hand side of an assignment, a comma separated
+list generated with ‘{}’ can be assigned to.  An example is
+
+     in{1} = [10, 20, 30];
+     in{2} = inf;
+     in{3} = "last";
+     in{4} = "first";
+     out = cell (4, 1);
+     [out{1:3}] = in{1 : 3};
+     [out{4:6}] = in{[1, 2, 4]})
+          ⇒ out =
+             {
+                [1,1] =
+
+                   10   20   30
+
+                [2,1] = Inf
+                [3,1] = last
+                [4,1] =
+
+                   10   20   30
+
+                [5,1] = Inf
+                [6,1] = first
+             }
+
+
+File: octave.info,  Node: Comma Separated Lists Generated from Structure Arrays,  Prev: Comma Separated Lists Generated from Cell Arrays,  Up: Comma Separated Lists
+
+6.4.2 Comma Separated Lists Generated from Structure Arrays
+-----------------------------------------------------------
+
+Structure arrays can equally be used to create comma separated lists.
+This is done by addressing one of the fields of a structure array.  For
+example:
+
+     x = ceil (randn (10, 1));
+     in = struct ("call1", {x, 3, "last"},
+                  "call2", {x, inf, "first"});
+     out = struct ("call1", cell (2, 1), "call2", cell (2, 1));
+     [out.call1] = find (in.call1);
+     [out.call2] = find (in.call2);
+
+
+File: octave.info,  Node: Variables,  Next: Expressions,  Prev: Data Containers,  Up: Top
+
+7 Variables
+***********
+
+Variables let you give names to values and refer to them later.  You
+have already seen variables in many of the examples.  The name of a
+variable must be a sequence of letters, digits and underscores, but it
+may not begin with a digit.  Octave does not enforce a limit on the
+length of variable names, but it is seldom useful to have variables with
+names longer than about 30 characters.  The following are all valid
+variable names
+
+     x
+     x15
+     __foo_bar_baz__
+     fucnrdthsucngtagdjb
+
+However, names like ‘__foo_bar_baz__’ that begin and end with two
+underscores are understood to be reserved for internal use by Octave.
+You should not use them in code you write, except to access Octave’s
+documented internal variables and built-in symbolic constants.
+
+   Case is significant in variable names.  The symbols ‘a’ and ‘A’ are
+distinct variables.
+
+   A variable name is a valid expression by itself.  It represents the
+variable’s current value.  Variables are given new values with
+“assignment operators” and “increment operators”.  *Note Assignment
+Expressions: Assignment Ops.
+
+   There is one built-in variable with a special meaning.  The ‘ans’
+variable always contains the result of the last computation, where the
+output wasn’t assigned to any variable.  The code ‘a = cos (pi)’ will
+assign the value -1 to the variable ‘a’, but will not change the value
+of ‘ans’.  However, the code ‘cos (pi)’ will set the value of ‘ans’ to
+-1.
+
+   Variables in Octave do not have fixed types, so it is possible to
+first store a numeric value in a variable and then to later use the same
+name to hold a string value in the same program.  Variables may not be
+used before they have been given a value.  Doing so results in an error.
+
+ -- Automatic Variable: ans
+     The most recently computed result that was not explicitly assigned
+     to a variable.
+
+     For example, after the expression
+
+          3^2 + 4^2
+
+     is evaluated, the value returned by ‘ans’ is 25.
+
+ -- : isvarname (NAME)
+     Return true if NAME is a valid variable name.
+
+     A valid variable name is composed of letters, digits, and
+     underscores ("_"), and the first character must not be a digit.
+
+     See also: *note iskeyword: XREFiskeyword, *note exist: XREFexist,
+     *note who: XREFwho.
+
+ -- : VARNAME = matlab.lang.makeValidName (STR)
+ -- : VARNAME = matlab.lang.makeValidName (..., "ReplacementStyle", RS)
+ -- : VARNAME = matlab.lang.makeValidName (..., "Prefix", PFX)
+ -- : [VARNAME, ISMODIFIED] = matlab.lang.makeValidName (...)
+
+     Create valid variable name VARNAME from STR.
+
+     The input STR must be a string or a cell array of strings.  The
+     output VARNAME will be of the same type.
+
+     A valid variable name is a sequence of letters, digits, and
+     underscores that does not begin with a digit.
+
+     The "ReplacementStyle" option specifies how invalid characters are
+     handled.  Acceptable values are
+
+     "underscore" (default)
+          Replace all invalid characters with an underscore ("_").
+
+     "delete"
+          Remove any invalid character.
+
+     "hex"
+          Replace all invalid characters with their hexadecimal
+          representation.
+
+     Whitespace characters are always removed *prior* to the application
+     of the "ReplacementStyle".  Lowercase letters following a
+     whitespace will be changed to uppercase.
+
+     The "Prefix" option specifies the string PFX to add as a prefix to
+     the input if it begins with a digit.  PFX must be a valid variable
+     name itself.  The default prefix is "x".
+
+     The optional output ISMODIFIED is a logical array indicating
+     whether the respective element in STR was a valid name or not.
+
+     See also: *note iskeyword: XREFiskeyword, *note isvarname:
+     XREFisvarname, *note matlab.lang.makeUniqueStrings:
+     XREFmatlab_lang_makeUniqueStrings.
+
+ -- : UNIQSTR = matlab.lang.makeUniqueStrings (STR)
+ -- : UNIQSTR = matlab.lang.makeUniqueStrings (STR, EX)
+ -- : UNIQSTR = matlab.lang.makeUniqueStrings (STR, EX, MAXLENGTH)
+ -- : [UNIQSTR, ISMODIFIED] = matlab.lang.makeUniqueStrings (...)
+
+     Construct a list of unique strings from a list of strings.
+
+     The input STR must be a string or a cell array of strings.  The
+     output UNIQSTR will be of the same type.
+
+     The algorithm makes two strings unique by appending an underscore
+     ("_" and a numeric count to the second string.
+
+     If EX is a string or a cell array of strings, UNIQSTR will contain
+     elements that are unique between themselves and with respect to EX.
+
+     If EX is an index array or a logical array for STR then it selects
+     the subset of STR that are made unique.  Unselected elements are
+     not modified.
+
+     The optional input MAXLENGTH specifies the maximum length of any
+     string in UNIQSTR.  If an input string cannot be made unique
+     without exceeding MAXLENGTH an error is emitted.
+
+     The optional output ISMODIFIED is a logical array indicating
+     whether each element in STR was modified to make it unique.
+
+     See also: *note unique: XREFunique, *note
+     matlab.lang.makeValidName: XREFmatlab_lang_makeValidName.
+
+ -- : namelengthmax ()
+     Return the MATLAB compatible maximum variable name length.
+
+     Octave is capable of storing strings up to 2^{31} - 1 in length.
+     However for MATLAB compatibility all variable, function, and
+     structure field names should be shorter than the length returned by
+     ‘namelengthmax’.  In particular, variables stored to a MATLAB file
+     format (‘*.mat’) will have their names truncated to this length.
+
+* Menu:
+
+* Global Variables::
+* Persistent Variables::
+* Status of Variables::
+
+
 File: octave.info,  Node: Global Variables,  Next: Persistent Variables,  Up: Variables
 
 7.1 Global Variables
@@ -477,13 +710,15 @@ following program allocates a matrix that requires around 128 MB memory.
      large_matrix = zeros (4000, 4000);
 
 Since having this variable in memory might slow down other computations,
-it can be necessary to remove it manually from memory.  The ‘clear’
-function allows this.
+it can be necessary to remove it manually from memory.  The ‘clear’ or
+‘clearvars’ functions do this.
 
- -- : clear [options] pattern ...
-     Delete the names matching the given patterns from the symbol table.
+ -- : clear
+ -- : clear PATTERN ...
+ -- : clear OPTIONS PATTERN ...
+     Delete the names matching the given PATTERNs from the symbol table.
 
-     The pattern may contain the following special characters:
+     The PATTERN may contain the following special characters:
 
      ‘?’
           Match any single character.
@@ -505,46 +740,114 @@ function allows this.
      and end with the letter ‘r’.
 
      If ‘clear’ is called without any arguments, all user-defined
-     variables (local and global) are cleared from the symbol table.
-
-     If ‘clear’ is called with at least one argument, only the visible
-     names matching the arguments are cleared.  For example, suppose you
-     have defined a function ‘foo’, and then hidden it by performing the
-     assignment ‘foo = 2’.  Executing the command ‘clear foo’ once will
-     clear the variable definition and restore the definition of ‘foo’
-     as a function.  Executing ‘clear foo’ a second time will clear the
-     function definition.
+     variables are cleared from the current workspace (i.e., local
+     variables).  Any global variables present will no longer be visible
+     in the current workspace, but they will continue to exist in the
+     global workspace.  Functions are unaffected by this form of
+     ‘clear’.
 
      The following options are available in both long and short form
 
-     ‘-all, -a’
-          Clear all local and global user-defined variables and all
+     ‘all, -all, -a’
+          Clear all local and global user-defined variables, and all
           functions from the symbol table.
 
      ‘-exclusive, -x’
-          Clear the variables that don’t match the following pattern.
+          Clear variables that do *not* match the following pattern.
 
-     ‘-functions, -f’
-          Clear the function names and the built-in symbols names.
+     ‘functions, -functions, -f’
+          Clear function names from the function symbol table.
+          Persistent variables will be re-initialized to their default
+          value unless the function has been locked in memory with
+          ‘mlock’.
 
-     ‘-global, -g’
-          Clear global symbol names.
+     ‘global, -global, -g’
+          Clear global variable names.
 
-     ‘-variables, -v’
+     ‘variables, -variables, -v’
           Clear local variable names.
 
-     ‘-classes, -c’
-          Clears the class structure table and clears all objects.
+     ‘classes, -classes, -c’
+          Clear the class structure table and all objects.
 
      ‘-regexp, -r’
-          The arguments are treated as regular expressions as any
-          variables that match will be cleared.
+          The PATTERN arguments are treated as regular expressions and
+          any matches will be cleared.
 
-     With the exception of ‘exclusive’, all long options can be used
-     without the dash as well.
+     With the exception of ‘-exclusive’ and ‘-regexp’, all long options
+     can be used without the dash as well.  Note that, aside from
+     ‘-exclusive’, only one other option may appear.  All options must
+     appear before any patterns.
+
+     Programming Note: The command ‘clear NAME’ only clears the variable
+     NAME when both a variable and a (shadowed) function named NAME are
+     currently defined.  For example, suppose you have defined a
+     function ‘foo’, and then hidden it by performing the assignment
+     ‘foo = 2’.  Executing the command ‘clear foo’ once will clear the
+     variable definition and restore the definition of ‘foo’ as a
+     function.  Executing ‘clear foo’ a second time will clear the
+     function definition.
 
      See also: *note who: XREFwho, *note whos: XREFwhos, *note exist:
-     XREFexist.
+     XREFexist, *note mlock: XREFmlock.
+
+ -- : clearvars
+ -- : clearvars PATTERN ...
+ -- : clearvars -regexp PATTERN ...
+ -- : clearvars ... -except PATTERN ...
+ -- : clearvars ... -except -regexp PATTERN ...
+ -- : clearvars -global ...
+     Delete the variables matching the given PATTERNs from memory.
+
+     The PATTERN may contain the following special characters:
+
+     ‘?’
+          Match any single character.
+
+     ‘*’
+          Match zero or more characters.
+
+     ‘[ LIST ]’
+          Match the list of characters specified by LIST.  If the first
+          character is ‘!’ or ‘^’, match all characters except those
+          specified by LIST.  For example, the pattern ‘[a-zA-Z]’ will
+          match all lowercase and uppercase alphabetic characters.
+
+     If the ‘-regexp’ option is given then subsequent patterns are
+     treated as regular expressions and any matches will be cleared.
+
+     If the ‘-except’ option is given then subsequent patterns select
+     variables that will *not* be cleared.
+
+     If the ‘-global’ option is given then all patterns will be applied
+     to global variables rather than local variables.
+
+     When called with no arguments, ‘clearvars’ deletes all local
+     variables.
+
+     Example Code:
+
+     Clear all variables starting with ’x’ and the specific variable
+     "foobar"
+
+          clearvars x* foobar
+
+     Clear the specific variable "foobar" and use regular expressions to
+     clear all variables starting with ’x’ or ’y’.
+
+          clearvars foobar -regexp ^x ^y
+
+     Clear all variables except for "foobar"
+
+          clearvars -except foobar
+
+     Clear all variables beginning with "foo", except for those ending
+     in "bar"
+
+          clearvars foo* -except -regexp bar$
+
+     See also: *note clear: XREFclear, *note who: XREFwho, *note whos:
+     XREFwhos, *note exist: XREFexist.
 
  -- : pack ()
      Consolidate workspace memory in MATLAB.
@@ -1465,8 +1768,6 @@ useful in this case.
 
           (...((X1 * X2) * X3) * ...)
 
-     At least one argument is required.
-
      See also: *note times: XREFtimes, *note plus: XREFplus, *note
      minus: XREFminus, *note rdivide: XREFrdivide, *note mrdivide:
      XREFmrdivide, *note mldivide: XREFmldivide, *note mpower:
@@ -1480,8 +1781,6 @@ useful in this case.
      from left to right:
 
           (...((X1 + X2) + X3) + ...)
-
-     At least one argument is required.
 
      See also: *note minus: XREFminus, *note uplus: XREFuplus.
 
@@ -1515,8 +1814,6 @@ useful in this case.
      right:
 
           (...((X1 .* X2) .* X3) .* ...)
-
-     At least one argument is required.
 
      See also: *note mtimes: XREFmtimes, *note rdivide: XREFrdivide.
 
@@ -1730,8 +2027,6 @@ described for matrix-valued operands.
 
           (...((X1 & X2) & X3) & ...)
 
-     At least one argument is required.
-
      See also: *note or: XREFor, *note not: XREFnot, *note xor: XREFxor.
 
  -- : Z = not (X)
@@ -1750,8 +2045,6 @@ described for matrix-valued operands.
      cumulatively from left to right:
 
           (...((X1 | X2) | X3) | ...)
-
-     At least one argument is required.
 
      See also: *note and: XREFand, *note not: XREFnot, *note xor:
      XREFxor.
@@ -3364,6 +3657,7 @@ possibilities and issue our own error message.
      XREFinputname.
 
  -- : inputname (N)
+ -- : inputname (N, IDS_ONLY)
      Return the name of the N-th argument to the calling function.
 
      If the argument is not a simple variable name, return an empty
@@ -3372,6 +3666,11 @@ possibilities and issue our own error message.
 
      ‘inputname’ is only useful within a function.  When used at the
      command line it always returns an empty string.
+
+     By default, return an empty string if the N-th argument is not a
+     valid variable name.  If the optional argument IDS_ONLY is false,
+     return the text of the argument even if it is not a valid variable
+     name.
 
      See also: *note nargin: XREFnargin, *note nthargout: XREFnthargout.
 
@@ -4396,13 +4695,18 @@ resets the default behavior.
  -- : mfilename ("fullpathext")
      Return the name of the currently executing file.
 
-     When called from outside an m-file return the empty string.
+     The base name of the currently executing script or function is
+     returned without any extension.  If called from outside an m-file,
+     such as the command line, return the empty string.
 
      Given the argument "fullpath", include the directory part of the
      filename, but not the extension.
 
      Given the argument "fullpathext", include the directory part of the
      filename and the extension.
+
+     See also: *note inputname: XREFinputname, *note dbstack:
+     XREFdbstack.
 
  -- : VAL = ignore_function_time_stamp ()
  -- : OLD_VAL = ignore_function_time_stamp (NEW_VAL)
@@ -4926,7 +5230,7 @@ File: octave.info,  Node: Function Locking,  Next: Function Precedence,  Prev: O
 
 It is sometime desirable to lock a function into memory with the ‘mlock’
 function.  This is typically used for dynamically linked functions in
-Oct-files or mex-files that contain some initialization, and it is
+oct-files or mex-files that contain some initialization, and it is
 desirable that calling ‘clear’ does not remove this initialization.
 
    As an example,
@@ -4934,11 +5238,12 @@ desirable that calling ‘clear’ does not remove this initialization.
      function my_function ()
        mlock ();
        ...
+     endfunction
 
 prevents ‘my_function’ from being removed from memory after it is
 called, even if ‘clear’ is called.  It is possible to determine if a
 function is locked into memory with the ‘mislocked’, and to unlock a
-function with ‘munlock’, which the following illustrates.
+function with ‘munlock’, which the following code illustrates.
 
      my_function ();
      mislocked ("my_function")
@@ -4953,45 +5258,48 @@ removed from memory, as the following example shows:
      function count_calls ()
        mlock ();
        persistent calls = 0;
-       printf ("'count_calls' has been called %d times\n",
-               ++calls);
+       printf ("count_calls() has been called %d times\n", ++calls);
      endfunction
 
      count_calls ();
-     ⊣ 'count_calls' has been called 1 times
+     ⊣ count_calls() has been called 1 times
 
      clear count_calls
      count_calls ();
-     ⊣ 'count_calls' has been called 2 times
+     ⊣ count_calls() has been called 2 times
 
-   ‘mlock’ might equally be used to prevent changes to a function from
-having effect in Octave, though a similar effect can be had with the
+   ‘mlock’ might also be used to prevent changes to an m-file, such as
+in an external editor, from having any effect in the current Octave
+session; A similar effect can be had with the
 ‘ignore_function_time_stamp’ function.
 
  -- : mlock ()
-     Lock the current function into memory so that it can’t be cleared.
+     Lock the current function into memory so that it can’t be removed
+     with ‘clear’.
 
      See also: *note munlock: XREFmunlock, *note mislocked:
-     XREFmislocked, *note persistent: XREFpersistent.
+     XREFmislocked, *note persistent: XREFpersistent, *note clear:
+     XREFclear.
 
  -- : munlock ()
  -- : munlock (FCN)
-     Unlock the named function FCN.
+     Unlock the named function FCN so that it may be removed from memory
+     with ‘clear’.
 
      If no function is named then unlock the current function.
 
      See also: *note mlock: XREFmlock, *note mislocked: XREFmislocked,
-     *note persistent: XREFpersistent.
+     *note persistent: XREFpersistent, *note clear: XREFclear.
 
  -- : mislocked ()
  -- : mislocked (FCN)
-     Return true if the named function FCN is locked.
+     Return true if the named function FCN is locked in memory.
 
      If no function is named then return true if the current function is
      locked.
 
      See also: *note mlock: XREFmlock, *note munlock: XREFmunlock, *note
-     persistent: XREFpersistent.
+     persistent: XREFpersistent, *note clear: XREFclear.
 
 
 File: octave.info,  Node: Function Precedence,  Prev: Function Locking,  Up: Function Files
@@ -5741,11 +6049,11 @@ list.  If there are no arguments, you must use an empty argument list
      XREFfunctions.
 
  -- : str2func (FCN_NAME)
- -- : str2func (FCN_NAME, "global")
      Return a function handle constructed from the string FCN_NAME.
 
-     If the optional "global" argument is passed, locally visible
-     functions are ignored in the lookup.
+     Previous versions of Octave accepted an optional second argument,
+     "global", that caused str2func to ignore locally visible functions.
+     This option is no longer supported.
 
      See also: *note func2str: XREFfunc2str, *note inline: XREFinline,
      *note functions: XREFfunctions.
@@ -6834,6 +7142,15 @@ warnings.
      ‘--traditional’ or ‘--braindead’ startup options for Octave may
      also be of use, *note Command Line Options::.
 
+‘Octave:legacy-function’
+     If the ‘Octave:legacy-function’ warning is enabled, a warning is
+     issued when Octave encounters a function that MATLAB has suggested
+     should be avoided.  The function may become obsolete at some point
+     in the future and removed, in which case the warning will change to
+     ‘Octave:deprecated-function’, and the function will continue to
+     exist for two further versions of Octave before being removed.  By
+     default, the ‘Octave:legacy-function’ warning is enabled.
+
 ‘Octave:logical-conversion’
      By default, the ‘Octave:logical-conversion’ warning is enabled.
 
@@ -6862,7 +7179,8 @@ warnings.
 
 ‘Octave:nearly-singular-matrix’
 ‘Octave:singular-matrix’
-     By default, the ‘Octave:nearly-singular-matrix’ and
+     These warnings are emitted if a (nearly) singular matrix is
+     inverted.  By default, the ‘Octave:nearly-singular-matrix’ and
      ‘Octave:singular-matrix’ warnings are enabled.
 
 ‘Octave:neg-dim-as-zero’
@@ -6883,9 +7201,9 @@ warnings.
 
 ‘Octave:num-to-str’
      If the ‘Octave:num-to-str’ warning is enable, a warning is printed
-     for implicit conversions of numbers to their ASCII character
-     equivalents when strings are constructed using a mixture of strings
-     and numbers in matrix notation.  For example,
+     for implicit conversions of numbers to their UTF-8 encoded
+     character equivalents when strings are constructed using a mixture
+     of strings and numbers in matrix notation.  For example,
 
           [ "f", 111, 111 ]
           ⇒ "foo"
@@ -6952,8 +7270,8 @@ warnings.
 
 ‘Octave:str-to-num’
      If the ‘Octave:str-to-num’ warning is enabled, a warning is printed
-     for implicit conversions of strings to their numeric ASCII
-     equivalents.  For example,
+     for implicit conversions of strings to their numeric UTF-8 encoded
+     byte sequences.  For example,
 
           "abc" + 0
           ⇒ 97 98 99
@@ -7153,7 +7471,7 @@ function.
      be enclosed in quotes.  (This does not apply to conditions entered
      from the editor’s context menu.)  For example:
 
-          dbstop in strread at 209 if 'any (format == "%f")'
+          dbstop in axis at 246 if 'any (opt == "x")'
 
      The form specifying EVENT does not cause a specific breakpoint at a
      given function and line number.  Instead it causes debug mode to be
@@ -8096,1080 +8414,4 @@ values with ‘disp’ and through the normal echoing mechanism.
 * Menu:
 
 * Paging Screen Output::
-
-
-File: octave.info,  Node: Paging Screen Output,  Up: Terminal Output
-
-14.1.1.1 Paging Screen Output
-.............................
-
-When running interactively, Octave normally sends all output directly to
-the Command Window.  However, when using the CLI version of Octave this
-can create a problem because large volumes of data will stream by before
-you can read them.  In such cases, it is better to use a paging program
-such as ‘less’ or ‘more’ which displays just one screenful at a time.
-With ‘less’ (and some versions of ‘more’) you can also scan forward and
-backward, and search for specific items.  The pager is enabled by the
-command ‘more on’.
-
-   Normally, no output is displayed by the pager until just before
-Octave is ready to print the top level prompt, or read from the standard
-input (for example, by using the ‘fscanf’ or ‘scanf’ functions).  This
-means that there may be some delay before any output appears on your
-screen if you have asked Octave to perform a significant amount of work
-with a single command statement.  The function ‘fflush’ may be used to
-force output to be sent to the pager (or any other stream) immediately.
-
-   You can select the program to run as the pager with the ‘PAGER’
-function, and configure the pager itself with the ‘PAGER_FLAGS’
-function.
-
- -- : more
- -- : more on
- -- : more off
-     Turn output pagination on or off.
-
-     Without an argument, ‘more’ toggles the current state.
-
-     The current state can be determined via ‘page_screen_output’.
-
-     See also: *note page_screen_output: XREFpage_screen_output, *note
-     page_output_immediately: XREFpage_output_immediately, *note PAGER:
-     XREFPAGER, *note PAGER_FLAGS: XREFPAGER_FLAGS.
-
- -- : VAL = PAGER ()
- -- : OLD_VAL = PAGER (NEW_VAL)
- -- : PAGER (NEW_VAL, "local")
-     Query or set the internal variable that specifies the program to
-     use to display terminal output on your system.
-
-     The default value is normally "less", "more", or "pg", depending on
-     what programs are installed on your system.  *Note Installation::.
-
-     When called from inside a function with the "local" option, the
-     variable is changed locally for the function and any subroutines it
-     calls.  The original variable value is restored when exiting the
-     function.
-
-     See also: *note PAGER_FLAGS: XREFPAGER_FLAGS, *note
-     page_output_immediately: XREFpage_output_immediately, *note more:
-     XREFmore, *note page_screen_output: XREFpage_screen_output.
-
- -- : VAL = PAGER_FLAGS ()
- -- : OLD_VAL = PAGER_FLAGS (NEW_VAL)
- -- : PAGER_FLAGS (NEW_VAL, "local")
-     Query or set the internal variable that specifies the options to
-     pass to the pager.
-
-     When called from inside a function with the "local" option, the
-     variable is changed locally for the function and any subroutines it
-     calls.  The original variable value is restored when exiting the
-     function.
-
-     See also: *note PAGER: XREFPAGER, *note more: XREFmore, *note
-     page_screen_output: XREFpage_screen_output, *note
-     page_output_immediately: XREFpage_output_immediately.
-
- -- : VAL = page_screen_output ()
- -- : OLD_VAL = page_screen_output (NEW_VAL)
- -- : page_screen_output (NEW_VAL, "local")
-     Query or set the internal variable that controls whether output
-     intended for the terminal window that is longer than one page is
-     sent through a pager.
-
-     This allows you to view one screenful at a time.  Some pagers (such
-     as ‘less’—see *note Installation::) are also capable of moving
-     backward on the output.
-
-     When called from inside a function with the "local" option, the
-     variable is changed locally for the function and any subroutines it
-     calls.  The original variable value is restored when exiting the
-     function.
-
-     See also: *note more: XREFmore, *note page_output_immediately:
-     XREFpage_output_immediately, *note PAGER: XREFPAGER, *note
-     PAGER_FLAGS: XREFPAGER_FLAGS.
-
- -- : VAL = page_output_immediately ()
- -- : OLD_VAL = page_output_immediately (NEW_VAL)
- -- : page_output_immediately (NEW_VAL, "local")
-     Query or set the internal variable that controls whether Octave
-     sends output to the pager as soon as it is available.
-
-     Otherwise, Octave buffers its output and waits until just before
-     the prompt is printed to flush it to the pager.
-
-     When called from inside a function with the "local" option, the
-     variable is changed locally for the function and any subroutines it
-     calls.  The original variable value is restored when exiting the
-     function.
-
-     See also: *note page_screen_output: XREFpage_screen_output, *note
-     more: XREFmore, *note PAGER: XREFPAGER, *note PAGER_FLAGS:
-     XREFPAGER_FLAGS.
-
- -- : fflush (FID)
-     Flush output to file descriptor FID.
-
-     ‘fflush’ returns 0 on success and an OS dependent error value (−1
-     on Unix) on error.
-
-     Programming Note: Flushing is useful for ensuring that all pending
-     output makes it to the screen before some other event occurs.  For
-     example, it is always a good idea to flush the standard output
-     stream before calling ‘input’.
-
-     See also: *note fopen: XREFfopen, *note fclose: XREFfclose.
-
-
-File: octave.info,  Node: Terminal Input,  Next: Simple File I/O,  Prev: Terminal Output,  Up: Basic Input and Output
-
-14.1.2 Terminal Input
----------------------
-
-Octave has three functions that make it easy to prompt users for input.
-The ‘input’ and ‘menu’ functions are normally used for managing an
-interactive dialog with a user, and the ‘keyboard’ function is normally
-used for doing simple debugging.
-
- -- : ANS = input (PROMPT)
- -- : ANS = input (PROMPT, "s")
-     Print PROMPT and wait for user input.
-
-     For example,
-
-          input ("Pick a number, any number! ")
-
-     prints the prompt
-
-          Pick a number, any number!
-
-     and waits for the user to enter a value.  The string entered by the
-     user is evaluated as an expression, so it may be a literal
-     constant, a variable name, or any other valid Octave code.
-
-     The number of return arguments, their size, and their class depend
-     on the expression entered.
-
-     If you are only interested in getting a literal string value, you
-     can call ‘input’ with the character string "s" as the second
-     argument.  This tells Octave to return the string entered by the
-     user directly, without evaluating it first.
-
-     Because there may be output waiting to be displayed by the pager,
-     it is a good idea to always call ‘fflush (stdout)’ before calling
-     ‘input’.  This will ensure that all pending output is written to
-     the screen before your prompt.
-
-     See also: *note yes_or_no: XREFyes_or_no, *note kbhit: XREFkbhit,
-     *note pause: XREFpause, *note menu: XREFmenu, *note listdlg:
-     XREFlistdlg.
-
- -- : CHOICE = menu (TITLE, OPT1, ...)
- -- : CHOICE = menu (TITLE, {OPT1, ...})
-     Display a menu with heading TITLE and options OPT1, ..., and wait
-     for user input.
-
-     If the GUI is running, the menu is displayed graphically using
-     ‘listdlg’.  Otherwise, the title and menu options are printed on
-     the console.
-
-     TITLE is a string and the options may be input as individual
-     strings or as a cell array of strings.
-
-     The return value CHOICE is the number of the option selected by the
-     user counting from 1.  If the user aborts the dialog or makes an
-     invalid selection then 0 is returned.
-
-     This function is useful for interactive programs.  There is no
-     limit to the number of options that may be passed in, but it may be
-     confusing to present more than will fit easily on one screen.
-
-     See also: *note input: XREFinput, *note listdlg: XREFlistdlg.
-
- -- : ANS = yes_or_no ("PROMPT")
-     Ask the user a yes-or-no question.
-
-     Return logical true if the answer is yes or false if the answer is
-     no.
-
-     Takes one argument, PROMPT, which is the string to display when
-     asking the question.  PROMPT should end in a space; ‘yes-or-no’
-     adds the string ‘(yes or no) ’ to it.  The user must confirm the
-     answer with <RET> and can edit it until it has been confirmed.
-
-     See also: *note input: XREFinput.
-
-   For ‘input’, the normal command line history and editing functions
-are available at the prompt.
-
-   Octave also has a function that makes it possible to get a single
-character from the keyboard without requiring the user to type a
-carriage return.
-
- -- : kbhit ()
- -- : kbhit (1)
-     Read a single keystroke from the keyboard.
-
-     If called with an argument, don’t wait for a keypress.
-
-     For example,
-
-          x = kbhit ();
-
-     will set X to the next character typed at the keyboard as soon as
-     it is typed.
-
-          x = kbhit (1);
-
-     is identical to the above example, but doesn’t wait for a keypress,
-     returning the empty string if no key is available.
-
-     See also: *note input: XREFinput, *note pause: XREFpause.
-
-
-File: octave.info,  Node: Simple File I/O,  Prev: Terminal Input,  Up: Basic Input and Output
-
-14.1.3 Simple File I/O
-----------------------
-
-The ‘save’ and ‘load’ commands allow data to be written to and read from
-disk files in various formats.  The default format of files written by
-the ‘save’ command can be controlled using the functions
-‘save_default_options’ and ‘save_precision’.
-
-   As an example the following code creates a 3-by-3 matrix and saves it
-to the file ‘myfile.mat’.
-
-     A = [ 1:3; 4:6; 7:9 ];
-     save myfile.mat A
-
-   Once one or more variables have been saved to a file, they can be
-read into memory using the ‘load’ command.
-
-     load myfile.mat
-     A
-          ⊣ A =
-          ⊣
-          ⊣    1   2   3
-          ⊣    4   5   6
-          ⊣    7   8   9
-
- -- : save file
- -- : save options file
- -- : save options file V1 V2 ...
- -- : save options file -struct STRUCT
- -- : save options file -struct STRUCT F1 F2 ...
- -- : save - V1 V2 ...
- -- : STR = save ("-", "V1", "V2", ...)
-     Save the named variables V1, V2, ..., in the file FILE.
-
-     The special filename ‘-’ may be used to return the content of the
-     variables as a string.  If no variable names are listed, Octave
-     saves all the variables in the current scope.  Otherwise, full
-     variable names or pattern syntax can be used to specify the
-     variables to save.  If the ‘-struct’ modifier is used then the
-     fields of the *scalar* struct are saved as if they were variables
-     with the corresponding field names.  The ‘-struct’ option can be
-     combined with specific field names F1, F2, ... to write only
-     certain fields to the file.
-
-     Valid options for the ‘save’ command are listed in the following
-     table.  Options that modify the output format override the format
-     specified by ‘save_default_options’.
-
-     If save is invoked using the functional form
-
-          save ("-option1", ..., "file", "v1", ...)
-
-     then the OPTIONS, FILE, and variable name arguments (V1, ...) must
-     be specified as character strings.
-
-     If called with a filename of "-", write the output to stdout if
-     nargout is 0, otherwise return the output in a character string.
-
-     ‘-append’
-          Append to the destination instead of overwriting.
-
-     ‘-ascii’
-          Save a matrix in a text file without a header or any other
-          information.  The matrix must be 2-D and only the real part of
-          any complex value is written to the file.  Numbers are stored
-          in single-precision format and separated by spaces.
-          Additional options for the ‘-ascii’ format are
-
-          ‘-double’
-               Store numbers in double-precision format.
-
-          ‘-tabs’
-               Separate numbers with tabs.
-
-     ‘-binary’
-          Save the data in Octave’s binary data format.
-
-     ‘-float-binary’
-          Save the data in Octave’s binary data format but using only
-          single precision.  Use this format *only* if you know that all
-          the values to be saved can be represented in single precision.
-
-     ‘-hdf5’
-          Save the data in HDF5 format.  (HDF5 is a free, portable,
-          binary format developed by the National Center for
-          Supercomputing Applications at the University of Illinois.)
-          This format is only available if Octave was built with a link
-          to the HDF5 libraries.
-
-     ‘-float-hdf5’
-          Save the data in HDF5 format but using only single precision.
-          Use this format *only* if you know that all the values to be
-          saved can be represented in single precision.
-
-     ‘-V7’
-     ‘-v7’
-     ‘-7’
-     ‘-mat7-binary’
-          Save the data in MATLAB’s v7 binary data format.
-
-     ‘-V6’
-     ‘-v6’
-     ‘-6’
-     ‘-mat’
-     ‘-mat-binary’
-          Save the data in MATLAB’s v6 binary data format.
-
-     ‘-V4’
-     ‘-v4’
-     ‘-4’
-     ‘-mat4-binary’
-          Save the data in the binary format written by MATLAB version
-          4.
-
-     ‘-text’
-          Save the data in Octave’s text data format.  (default).
-
-     ‘-zip’
-     ‘-z’
-          Use the gzip algorithm to compress the file.  This works on
-          files that are compressed with gzip outside of Octave, and
-          gzip can also be used to convert the files for backward
-          compatibility.  This option is only available if Octave was
-          built with a link to the zlib libraries.
-
-     The list of variables to save may use wildcard patterns containing
-     the following special characters:
-
-     ‘?’
-          Match any single character.
-
-     ‘*’
-          Match zero or more characters.
-
-     ‘[ LIST ]’
-          Match the list of characters specified by LIST.  If the first
-          character is ‘!’ or ‘^’, match all characters except those
-          specified by LIST.  For example, the pattern ‘[a-zA-Z]’ will
-          match all lower and uppercase alphabetic characters.
-
-          Wildcards may also be used in the field name specifications
-          when using the ‘-struct’ modifier (but not in the struct name
-          itself).
-
-     Except when using the MATLAB binary data file format or the
-     ‘-ascii’ format, saving global variables also saves the global
-     status of the variable.  If the variable is restored at a later
-     time using ‘load’, it will be restored as a global variable.
-
-     The command
-
-          save -binary data a b*
-
-     saves the variable ‘a’ and all variables beginning with ‘b’ to the
-     file ‘data’ in Octave’s binary format.
-
-     See also: *note load: XREFload, *note save_default_options:
-     XREFsave_default_options, *note save_header_format_string:
-     XREFsave_header_format_string, *note save_precision:
-     XREFsave_precision, *note dlmread: XREFdlmread, *note csvread:
-     XREFcsvread, *note fread: XREFfread.
-
-   There are three functions that modify the behavior of ‘save’.
-
- -- : VAL = save_default_options ()
- -- : OLD_VAL = save_default_options (NEW_VAL)
- -- : save_default_options (NEW_VAL, "local")
-     Query or set the internal variable that specifies the default
-     options for the ‘save’ command, and defines the default format.
-
-     The default value is "-text" (Octave’s own text-based file format).
-     See the documentation of the ‘save’ command for other choices.
-
-     When called from inside a function with the "local" option, the
-     variable is changed locally for the function and any subroutines it
-     calls.  The original variable value is restored when exiting the
-     function.
-
-     See also: *note save: XREFsave, *note save_header_format_string:
-     XREFsave_header_format_string, *note save_precision:
-     XREFsave_precision.
-
- -- : VAL = save_precision ()
- -- : OLD_VAL = save_precision (NEW_VAL)
- -- : save_precision (NEW_VAL, "local")
-     Query or set the internal variable that specifies the number of
-     digits to keep when saving data in text format.
-
-     The default value is 17 which is the minimum necessary for the
-     lossless saving and restoring of IEEE-754 double values; For
-     IEEE-754 single values the minimum value is 9.  If file size is a
-     concern, it is probably better to choose a binary format for saving
-     data rather than to reduce the precision of the saved values.
-
-     When called from inside a function with the "local" option, the
-     variable is changed locally for the function and any subroutines it
-     calls.  The original variable value is restored when exiting the
-     function.
-
-     See also: *note save_default_options: XREFsave_default_options.
-
- -- : VAL = save_header_format_string ()
- -- : OLD_VAL = save_header_format_string (NEW_VAL)
- -- : save_header_format_string (NEW_VAL, "local")
-     Query or set the internal variable that specifies the format string
-     used for the comment line written at the beginning of text-format
-     data files saved by Octave.
-
-     The format string is passed to ‘strftime’ and must begin with the
-     character ‘#’ and contain no newline characters.  If the value of
-     ‘save_header_format_string’ is the empty string, the header comment
-     is omitted from text-format data files.  The default value is
-
-          "# Created by Octave VERSION, %a %b %d %H:%M:%S %Y %Z <USER@HOST>"
-
-     When called from inside a function with the "local" option, the
-     variable is changed locally for the function and any subroutines it
-     calls.  The original variable value is restored when exiting the
-     function.
-
-     See also: *note strftime: XREFstrftime, *note save_default_options:
-     XREFsave_default_options.
-
- -- : load file
- -- : load options file
- -- : load options file v1 v2 ...
- -- : S = load ("options", "file", "v1", "v2", ...)
- -- : load file options
- -- : load file options v1 v2 ...
- -- : S = load ("file", "options", "v1", "v2", ...)
-     Load the named variables V1, V2, ..., from the file FILE.
-
-     If no variables are specified then all variables found in the file
-     will be loaded.  As with ‘save’, the list of variables to extract
-     can be full names or use a pattern syntax.  The format of the file
-     is automatically detected but may be overridden by supplying the
-     appropriate option.
-
-     If load is invoked using the functional form
-
-          load ("-option1", ..., "file", "v1", ...)
-
-     then the OPTIONS, FILE, and variable name arguments (V1, ...) must
-     be specified as character strings.
-
-     If a variable that is not marked as global is loaded from a file
-     when a global symbol with the same name already exists, it is
-     loaded in the global symbol table.  Also, if a variable is marked
-     as global in a file and a local symbol exists, the local symbol is
-     moved to the global symbol table and given the value from the file.
-
-     If invoked with a single output argument, Octave returns data
-     instead of inserting variables in the symbol table.  If the data
-     file contains only numbers (TAB- or space-delimited columns), a
-     matrix of values is returned.  Otherwise, ‘load’ returns a
-     structure with members corresponding to the names of the variables
-     in the file.
-
-     The ‘load’ command can read data stored in Octave’s text and binary
-     formats, and MATLAB’s binary format.  If compiled with zlib
-     support, it can also load gzip-compressed files.  It will
-     automatically detect the type of file and do conversion from
-     different floating point formats (currently only IEEE big and
-     little endian, though other formats may be added in the future).
-
-     Valid options for ‘load’ are listed in the following table.
-
-     ‘-force’
-          This option is accepted for backward compatibility but is
-          ignored.  Octave now overwrites variables currently in memory
-          with those of the same name found in the file.
-
-     ‘-ascii’
-          Force Octave to assume the file contains columns of numbers in
-          text format without any header or other information.  Data in
-          the file will be loaded as a single numeric matrix with the
-          name of the variable derived from the name of the file.
-
-     ‘-binary’
-          Force Octave to assume the file is in Octave’s binary format.
-
-     ‘-hdf5’
-          Force Octave to assume the file is in HDF5 format.  (HDF5 is a
-          free, portable binary format developed by the National Center
-          for Supercomputing Applications at the University of
-          Illinois.)  Note that Octave can read HDF5 files not created
-          by itself, but may skip some datasets in formats that it
-          cannot support.  This format is only available if Octave was
-          built with a link to the HDF5 libraries.
-
-     ‘-import’
-          This option is accepted for backward compatibility but is
-          ignored.  Octave can now support multi-dimensional HDF data
-          and automatically modifies variable names if they are invalid
-          Octave identifiers.
-
-     ‘-mat’
-     ‘-mat-binary’
-     ‘-6’
-     ‘-v6’
-     ‘-7’
-     ‘-v7’
-          Force Octave to assume the file is in MATLAB’s version 6 or 7
-          binary format.
-
-     ‘-mat4-binary’
-     ‘-4’
-     ‘-v4’
-     ‘-V4’
-          Force Octave to assume the file is in the binary format
-          written by MATLAB version 4.
-
-     ‘-text’
-          Force Octave to assume the file is in Octave’s text format.
-
-     See also: *note save: XREFsave, *note dlmwrite: XREFdlmwrite, *note
-     csvwrite: XREFcsvwrite, *note fwrite: XREFfwrite.
-
- -- : STR = fileread (FILENAME)
-     Read the contents of FILENAME and return it as a string.
-
-     See also: *note fread: XREFfread, *note textread: XREFtextread,
-     *note sscanf: XREFsscanf.
-
- -- : native_float_format ()
-     Return the native floating point format as a string.
-
-   It is possible to write data to a file in a similar way to the ‘disp’
-function for writing data to the screen.  The ‘fdisp’ works just like
-‘disp’ except its first argument is a file pointer as created by
-‘fopen’.  As an example, the following code writes to data ‘myfile.txt’.
-
-     fid = fopen ("myfile.txt", "w");
-     fdisp (fid, "3/8 is ");
-     fdisp (fid, 3/8);
-     fclose (fid);
-
-*Note Opening and Closing Files::, for details on how to use ‘fopen’ and
-‘fclose’.
-
- -- : fdisp (FID, X)
-     Display the value of X on the stream FID.
-
-     For example:
-
-          fdisp (stdout, "The value of pi is:"), fdisp (stdout, pi)
-
-               ⊣ the value of pi is:
-               ⊣ 3.1416
-
-     Note that the output from ‘fdisp’ always ends with a newline.
-
-     See also: *note disp: XREFdisp.
-
-   Octave can also read and write matrices text files such as comma
-separated lists.
-
- -- : dlmwrite (FILE, M)
- -- : dlmwrite (FILE, M, DELIM, R, C)
- -- : dlmwrite (FILE, M, KEY, VAL ...)
- -- : dlmwrite (FILE, M, "-append", ...)
- -- : dlmwrite (FID, ...)
-     Write the numeric matrix M to the text file FILE using a delimiter.
-
-     FILE should be a filename or a writable file ID given by ‘fopen’.
-
-     The parameter DELIM specifies the delimiter to use to separate
-     values on a row.  If no delimiter is specified the comma character
-     ‘,’ is used.
-
-     The value of R specifies the number of delimiter-only lines to add
-     to the start of the file.
-
-     The value of C specifies the number of delimiters to prepend to
-     each line of data.
-
-     If the argument "-append" is given, append to the end of FILE.
-
-     In addition, the following keyword value pairs may appear at the
-     end of the argument list:
-
-     "append"
-          Either "on" or "off".  See "-append" above.
-
-     "delimiter"
-          See DELIM above.
-
-     "newline"
-          The character(s) to separate each row.  Three special cases
-          exist for this option.  "unix" is changed into "\n", "pc" is
-          changed into "\r\n", and "mac" is changed into "\r".  Any
-          other value is used directly as the newline separator.
-
-     "roffset"
-          See R above.
-
-     "coffset"
-          See C above.
-
-     "precision"
-          The precision to use when writing the file.  It can either be
-          a format string (as used by fprintf) or a number of
-          significant digits.
-
-          dlmwrite ("file.csv", reshape (1:16, 4, 4));
-
-          dlmwrite ("file.tex", a, "delimiter", "&", "newline", "\n")
-
-     See also: *note dlmread: XREFdlmread, *note csvread: XREFcsvread,
-     *note csvwrite: XREFcsvwrite.
-
- -- : DATA = dlmread (FILE)
- -- : DATA = dlmread (FILE, SEP)
- -- : DATA = dlmread (FILE, SEP, R0, C0)
- -- : DATA = dlmread (FILE, SEP, RANGE)
- -- : DATA = dlmread (..., "emptyvalue", EMPTYVAL)
-     Read numeric data from the text file FILE which uses the delimiter
-     SEP between data values.
-
-     If SEP is not defined the separator between fields is determined
-     from the file itself.
-
-     The optional scalar arguments R0 and C0 define the starting row and
-     column of the data to be read.  These values are indexed from zero,
-     i.e., the first data row corresponds to an index of zero.
-
-     The RANGE parameter specifies exactly which data elements are read.
-     The first form of the parameter is a 4-element vector containing
-     the upper left and lower right corners ‘[R0,C0,R1,C1]’ where the
-     indices are zero-based.  Alternatively, a spreadsheet style form
-     such as "A2..Q15" or "T1:AA5" can be used.  The lowest alphabetical
-     index ’A’ refers to the first column.  The lowest row index is 1.
-
-     FILE should be a filename or a file id given by ‘fopen’.  In the
-     latter case, the file is read until end of file is reached.
-
-     The "emptyvalue" option may be used to specify the value used to
-     fill empty fields.  The default is zero.  Note that any non-numeric
-     values, such as text, are also replaced by the "emptyvalue".
-
-     See also: *note csvread: XREFcsvread, *note textscan: XREFtextscan,
-     *note textread: XREFtextread, *note dlmwrite: XREFdlmwrite.
-
- -- : csvwrite (FILENAME, X)
- -- : csvwrite (FILENAME, X, DLM_OPT1, ...)
-     Write the numeric matrix X to the file FILENAME in
-     comma-separated-value (CSV) format.
-
-     This function is equivalent to
-
-          dlmwrite (FILENAME, X, ",", DLM_OPT1, ...)
-
-     Any optional arguments are passed directly to ‘dlmwrite’ (*note
-     dlmwrite: XREFdlmwrite.).
-
-     See also: *note csvread: XREFcsvread, *note dlmwrite: XREFdlmwrite,
-     *note dlmread: XREFdlmread.
-
- -- : X = csvread (FILENAME)
- -- : X = csvread (FILENAME, DLM_OPT1, ...)
-     Read the comma-separated-value (CSV) file FILENAME into the matrix
-     X.
-
-     Note: only CSV files containing numeric data can be read.
-
-     This function is equivalent to
-
-          X = dlmread (FILENAME, "," , DLM_OPT1, ...)
-
-     Any optional arguments are passed directly to ‘dlmread’ (*note
-     dlmread: XREFdlmread.).
-
-     See also: *note dlmread: XREFdlmread, *note textread: XREFtextread,
-     *note textscan: XREFtextscan, *note csvwrite: XREFcsvwrite, *note
-     dlmwrite: XREFdlmwrite.
-
-   Formatted data from can be read from, or written to, text files as
-well.
-
- -- : [A, ...] = textread (FILENAME)
- -- : [A, ...] = textread (FILENAME, FORMAT)
- -- : [A, ...] = textread (FILENAME, FORMAT, N)
- -- : [A, ...] = textread (FILENAME, FORMAT, PROP1, VALUE1, ...)
- -- : [A, ...] = textread (FILENAME, FORMAT, N, PROP1, VALUE1, ...)
-     Read data from a text file.
-
-     The file FILENAME is read and parsed according to FORMAT.  The
-     function behaves like ‘strread’ except it works by parsing a file
-     instead of a string.  See the documentation of ‘strread’ for
-     details.
-
-     In addition to the options supported by ‘strread’, this function
-     supports two more:
-
-        • "headerlines": The first VALUE number of lines of FILENAME are
-          skipped.
-
-        • "endofline": Specify a single character or "\r\n".  If no
-          value is given, it will be inferred from the file.  If set to
-          "" (empty string) EOLs are ignored as delimiters.
-
-     The optional input N (format repeat count) specifies the number of
-     times the format string is to be used or the number of lines to be
-     read, whichever happens first while reading.  The former is
-     equivalent to requesting that the data output vectors should be of
-     length N.  Note that when reading files with format strings
-     referring to multiple lines, N should rather be the number of lines
-     to be read than the number of format string uses.
-
-     If the format string is empty (not just omitted) and the file
-     contains only numeric data (excluding headerlines), textread will
-     return a rectangular matrix with the number of columns matching the
-     number of numeric fields on the first data line of the file.  Empty
-     fields are returned as zero values.
-
-     Examples:
-
-            Assume a data file like:
-            1 a 2 b
-            3 c 4 d
-            5 e
-
-            [a, b] = textread (f, "%f %s")
-            returns two columns of data, one with doubles, the other a
-            cellstr array:
-            a = [1; 2; 3; 4; 5]
-            b = {"a"; "b"; "c"; "d"; "e"}
-
-            [a, b] = textread (f, "%f %s", 3)
-            (read data into two culumns, try to use the format string
-            three times)
-            returns
-            a = [1; 2; 3]
-            b = {"a"; "b"; "c"}
-
-
-            With a data file like:
-            1
-            a
-            2
-            b
-
-            [a, b] = textread (f, "%f %s", 2)
-            returns a = 1 and b = {"a"}; i.e., the format string is used
-            only once because the format string refers to 2 lines of the
-            data file.  To obtain 2x1 data output columns, specify N = 4
-            (number of data lines containing all requested data) rather
-            than 2.
-
-     See also: *note strread: XREFstrread, *note load: XREFload, *note
-     dlmread: XREFdlmread, *note fscanf: XREFfscanf, *note textscan:
-     XREFtextscan.
-
- -- : C = textscan (FID, FORMAT)
- -- : C = textscan (FID, FORMAT, REPEAT)
- -- : C = textscan (FID, FORMAT, PARAM, VALUE, ...)
- -- : C = textscan (FID, FORMAT, REPEAT, PARAM, VALUE, ...)
- -- : C = textscan (STR, ...)
- -- : [C, POSITION, ERRMSG] = textscan (...)
-     Read data from a text file or string.
-
-     The string STR or file associated with FID is read from and parsed
-     according to FORMAT.  The function is an extension of ‘strread’ and
-     ‘textread’.  Differences include: the ability to read from either a
-     file or a string, additional options, and additional format
-     specifiers.
-
-     The input is interpreted as a sequence of words, delimiters (such
-     as whitespace), and literals.  The characters that form delimiters
-     and whitespace are determined by the options.  The format consists
-     of format specifiers interspersed between literals.  In the format,
-     whitespace forms a delimiter between consecutive literals, but is
-     otherwise ignored.
-
-     The output C is a cell array where the number of columns is
-     determined by the number of format specifiers.
-
-     The first word of the input is matched to the first specifier of
-     the format and placed in the first column of the output; the second
-     is matched to the second specifier and placed in the second column
-     and so forth.  If there are more words than specifiers then the
-     process is repeated until all words have been processed or the
-     limit imposed by REPEAT has been met (see below).
-
-     The string FORMAT describes how the words in STR should be parsed.
-     As in FSCANF, any (non-whitespace) text in the format that is not
-     one of these specifiers is considered a literal.  If there is a
-     literal between two format specifiers then that same literal must
-     appear in the input stream between the matching words.
-
-     The following specifiers are valid:
-
-     ‘%f’
-     ‘%f64’
-     ‘%n’
-          The word is parsed as a number and converted to double.
-
-     ‘%f32’
-          The word is parsed as a number and converted to single
-          (float).
-
-     ‘%d’
-     ‘%d8’
-     ‘%d16’
-     ‘%d32’
-     ‘%d64’
-          The word is parsed as a number and converted to int8, int16,
-          int32, or int64.  If no size is specified then int32 is used.
-
-     ‘%u’
-     ‘%u8’
-     ‘%u16’
-     ‘%u32’
-     ‘%u64’
-          The word is parsed as a number and converted to uint8, uint16,
-          uint32, or uint64.  If no size is specified then uint32 is
-          used.
-
-     ‘%s’
-          The word is parsed as a string ending at the last character
-          before whitespace, an end-of-line, or a delimiter specified in
-          the options.
-
-     ‘%q’
-          The word is parsed as a "quoted string".  If the first
-          character of the string is a double quote (") then the string
-          includes everything until a matching double quote—including
-          whitespace, delimiters, and end-of-line characters.  If a pair
-          of consecutive double quotes appears in the input, it is
-          replaced in the output by a single double quote.  For
-          examples, the input "He said ""Hello""" would return the value
-          ’He said "Hello"’.
-
-     ‘%c’
-          The next character of the input is read.  This includes
-          delimiters, whitespace, and end-of-line characters.
-
-     ‘%[...]’
-     ‘%[^...]’
-          In the first form, the word consists of the longest run
-          consisting of only characters between the brackets.  Ranges of
-          characters can be specified by a hyphen; for example,
-          %[0-9a-zA-Z] matches all alphanumeric characters (if the
-          underlying character set is ASCII). Since MATLAB treats
-          hyphens literally, this expansion only applies to alphanumeric
-          characters.  To include ’-’ in the set, it should appear first
-          or last in the brackets; to include ’]’, it should be the
-          first character.  If the first character is ’^’ then the word
-          consists of characters *not* listed.
-
-     ‘%N...’
-          For %s, %c %d, %f, %n, %u, an optional width can be specified
-          as %Ns, etc.  where N is an integer > 1.  For %c, this causes
-          exactly N characters to be read instead of a single character.
-          For the other specifiers, it is an upper bound on the number
-          of characters read; normal delimiters can cause fewer
-          characters to be read.  For complex numbers, this limit
-          applies to the real and imaginary components individually.
-          For %f and %n, format specifiers like %N.Mf are allowed, where
-          M is an upper bound on number of characters after the decimal
-          point to be considered; subsequent digits are skipped.  For
-          example, the specifier %8.2f would read 12.345e6 as 1.234e7.
-
-     ‘%*...’
-          The word specified by the remainder of the conversion
-          specifier is skipped.
-
-     ‘literals’
-          In addition the format may contain literal character strings;
-          these will be skipped during reading.  If the input string
-          does not match this literal, the processing terminates.
-
-     Parsed words corresponding to the first specifier are returned in
-     the first output argument and likewise for the rest of the
-     specifiers.
-
-     By default, if there is only one input argument, FORMAT is "%f".
-     This means that numbers are read from the input into a single
-     column vector.  If FORMAT is explicitly empty ("") then textscan
-     will return data in a number of columns matching the number of
-     fields on the first data line of the input.  Either of these is
-     suitable only when the input is exclusively numeric.
-
-     For example, the string
-
-          STR = "\
-          Bunny Bugs   5.5\n\
-          Duck Daffy  -7.5e-5\n\
-          Penguin Tux   6"
-
-     can be read using
-
-          A = textscan (STR, "%s %s %f");
-
-     The optional numeric argument REPEAT can be used for limiting the
-     number of items read:
-
-     -1
-          Read all of the string or file until the end (default).
-
-     N
-          Read until the first of two conditions occurs: 1) the format
-          has been processed N times, or 2) N lines of the input have
-          been processed.  Zero (0) is an acceptable value for REPEAT.
-          Currently, end-of-line characters inside %q, %c, and %[...]$
-          conversions do not contribute to the line count.  This is
-          incompatible with MATLAB and may change in future.
-
-     The behavior of ‘textscan’ can be changed via property/value pairs.
-     The following properties are recognized:
-
-     "BufSize"
-          This specifies the number of bytes to use for the internal
-          buffer.  A modest speed improvement may be obtained by setting
-          this to a large value when reading a large file, especially if
-          the input contains long strings.  The default is 4096, or a
-          value dependent on N if that is specified.
-
-     "CollectOutput"
-          A value of 1 or true instructs ‘textscan’ to concatenate
-          consecutive columns of the same class in the output cell
-          array.  A value of 0 or false (default) leaves output in
-          distinct columns.
-
-     "CommentStyle"
-          Specify parts of the input which are considered comments and
-          will be skipped.  VALUE is the comment style and can be either
-          (1) A string or 1x1 cell string, to skip everything to the
-          right of it; (2) A cell array of two strings, to skip
-          everything between the first and second strings.  Comments are
-          only parsed where whitespace is accepted and do not act as
-          delimiters.
-
-     "Delimiter"
-          If VALUE is a string, any character in VALUE will be used to
-          split the input into words.  If VALUE is a cell array of
-          strings, any string in the array will be used to split the
-          input into words.  (default value = any whitespace.)
-
-     "EmptyValue"
-          Value to return for empty numeric values in non-whitespace
-          delimited data.  The default is NaN.  When the data type does
-          not support NaN (int32 for example), then the default is zero.
-
-     "EndOfLine"
-          VALUE can be either an emtpy or one character specifying the
-          end-of-line character, or the pair "\r\n" (CRLF). In the
-          latter case, any of "\r", "\n" or "\r\n" is counted as a
-          (single) newline.  If no value is given, "\r\n" is used.
-
-     "HeaderLines"
-          The first VALUE number of lines of FID are skipped.  Note that
-          this does not refer to the first non-comment lines, but the
-          first lines of any type.
-
-     "MultipleDelimsAsOne"
-          If VALUE is nonzero, treat a series of consecutive delimiters,
-          without whitespace in between, as a single delimiter.
-          Consecutive delimiter series need not be vertically aligned.
-          Without this option, a single delimiter before the end of the
-          line does not cause the line to be considered to end with an
-          empty value, but a single delimiter at the start of a line
-          causes the line to be considered to start with an empty value.
-
-     "TreatAsEmpty"
-          Treat single occurrences (surrounded by delimiters or
-          whitespace) of the string(s) in VALUE as missing values.
-
-     "ReturnOnError"
-          If set to numerical 1 or true, return normally as soon as an
-          error is encountered, such as trying to read a string using
-          ‘%f’.  If set to 0 or false, return an error and no data.
-
-     "Whitespace"
-          Any character in VALUE will be interpreted as whitespace and
-          trimmed; The default value for whitespace is " \b\r\n\t" (note
-          the space).  Unless whitespace is set to "" (empty) AND at
-          least one "%s" format conversion specifier is supplied, a
-          space is always part of whitespace.
-
-     When the number of words in STR or FID doesn’t match an exact
-     multiple of the number of format conversion specifiers,
-     ‘textscan’’s behavior depends on whether the last character of the
-     string or file is an end-of-line as specified by the ‘EndOfLine’
-     option:
-
-     last character = end-of-line
-          Data columns are padded with empty fields, NaN or 0 (for
-          integer fields) so that all columns have equal length
-
-     last character is not end-of-line
-          Data columns are not padded; ‘textscan’ returns columns of
-          unequal length
-
-     The second output POSITION provides the location, in characters
-     from the beginning of the file or string, where processing stopped.
-
-     See also: *note dlmread: XREFdlmread, *note fscanf: XREFfscanf,
-     *note load: XREFload, *note strread: XREFstrread, *note textread:
-     XREFtextread.
-
-   The ‘importdata’ function has the ability to work with a wide variety
-of data.
-
- -- : A = importdata (FNAME)
- -- : A = importdata (FNAME, DELIMITER)
- -- : A = importdata (FNAME, DELIMITER, HEADER_ROWS)
- -- : [A, DELIMITER] = importdata (...)
- -- : [A, DELIMITER, HEADER_ROWS] = importdata (...)
-     Import data from the file FNAME.
-
-     Input parameters:
-
-        • FNAME The name of the file containing data.
-
-        • DELIMITER The character separating columns of data.  Use ‘\t’
-          for tab.  (Only valid for ASCII files)
-
-        • HEADER_ROWS The number of header rows before the data begins.
-          (Only valid for ASCII files)
-
-     Different file types are supported:
-
-        • ASCII table
-
-          Import ASCII table using the specified number of header rows
-          and the specified delimiter.
-
-        • Image file
-
-        • MATLAB file
-
-        • Spreadsheet files (depending on external software)
-
-        • WAV file
-
-     See also: *note textscan: XREFtextscan, *note dlmread: XREFdlmread,
-     *note csvread: XREFcsvread, *note load: XREFload.
-
-* Menu:
-
-* Saving Data on Unexpected Exits::
 

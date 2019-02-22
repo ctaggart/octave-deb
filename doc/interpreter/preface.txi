@@ -1,4 +1,4 @@
-@c Copyright (C) 1996-2018 John W. Eaton
+@c Copyright (C) 1996-2019 John W. Eaton
 @c
 @c This file is part of Octave.
 @c
@@ -99,7 +99,7 @@ The National Science Foundation, through grant numbers @nospell{CTS-0105360},
 
 @item
 The industrial members of the Texas-Wisconsin Modeling and Control
-Consortium (TWMCC).
+Consortium (@nospell{TWMCC}).
 
 @item
 The @nospell{Paul A. Elfers} Endowed Chair in Chemical Engineering at the

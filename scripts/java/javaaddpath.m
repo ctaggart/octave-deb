@@ -1,5 +1,5 @@
-## Copyright (C) 2007-2018 Michael Goffioul
-## Copyright (C) 2010-2018 Martin Hepperle
+## Copyright (C) 2007-2019 Michael Goffioul
+## Copyright (C) 2010-2019 Martin Hepperle
 ##
 ## This file is part of Octave.
 ##
@@ -41,7 +41,7 @@ function javaaddpath (varargin)
     endif
 
     new_path = canonicalize_file_name (tilde_expand (clspath));
-    if (exist (new_path, "dir"))
+    if (isfolder (new_path))
       if (new_path(end) != filesep ())
         new_path = [new_path, filesep()];
       endif

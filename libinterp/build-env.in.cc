@@ -1,7 +1,7 @@
 // %NO_EDIT_WARNING%
 /*
 
-Copyright (C) 1996-2018 John W. Eaton
+Copyright (C) 1996-2019 John W. Eaton
 
 This file is part of Octave.
 
@@ -110,8 +110,6 @@ namespace octave
     const char *DL_LD = %OCTAVE_CONF_DL_LD%;
 
     const char *DL_LDFLAGS = %OCTAVE_CONF_DL_LDFLAGS%;
-
-    const char *DL_LIBS = %OCTAVE_CONF_DL_LIBS%;
 
     const char *EXEEXT = %OCTAVE_CONF_EXEEXT%;
 
@@ -229,12 +227,6 @@ namespace octave
 
     const char *OPENGL_LIBS = %OCTAVE_CONF_OPENGL_LIBS%;
 
-    const char *OSMESA_CPPFLAGS = %OCTAVE_CONF_OSMESA_CPPFLAGS%;
-
-    const char *OSMESA_LDFLAGS = %OCTAVE_CONF_OSMESA_LDFLAGS%;
-
-    const char *OSMESA_LIBS = %OCTAVE_CONF_OSMESA_LIBS%;
-
     const char *PCRE_CPPFLAGS = %OCTAVE_CONF_PCRE_CPPFLAGS%;
 
     const char *PCRE_LDFLAGS = %OCTAVE_CONF_PCRE_LDFLAGS%;
@@ -265,13 +257,13 @@ namespace octave
 
     const char *QT_LIBS = %OCTAVE_CONF_QT_LIBS%;
 
+    const char *QT_OPENGL_LIBS = %OCTAVE_CONF_QT_OPENGL_LIBS%;
+
     const char *RANLIB = %OCTAVE_CONF_RANLIB%;
 
     const char *RDYNAMIC_FLAG = %OCTAVE_CONF_RDYNAMIC_FLAG%;
 
     const char *READLINE_LIBS = %OCTAVE_CONF_READLINE_LIBS%;
-
-    const char *SED = %OCTAVE_CONF_SED%;
 
     const char *SHARED_LIBS = %OCTAVE_CONF_SHARED_LIBS%;
 

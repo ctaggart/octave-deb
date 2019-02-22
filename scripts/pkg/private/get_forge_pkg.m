@@ -1,5 +1,5 @@
-## Copyright (C) 2005-2018 Søren Hauberg
-## Copyright (C) 2010-2018 VZLU Prague, a.s.
+## Copyright (C) 2005-2019 Søren Hauberg
+## Copyright (C) 2010-2019 VZLU Prague, a.s.
 ##
 ## This file is part of Octave.
 ##
@@ -19,7 +19,7 @@
 
 ## -*- texinfo -*-
 ## @deftypefn {} {[@var{ver}, @var{url}] =} get_forge_pkg (@var{name})
-## Try to discover the current version of an OctaveForge package from the web,
+## Try to discover the current version of an Octave Forge package from the web,
 ## using a working internet connection and the urlread function.
 ## If two output arguments are requested, also return an address from which
 ## to download the file.

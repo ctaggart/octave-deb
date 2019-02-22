@@ -1,4 +1,4 @@
-## Copyright (C) 2004-2018 John W. Eaton
+## Copyright (C) 2004-2019 John W. Eaton
 ##
 ## This file is part of Octave.
 ##
@@ -31,10 +31,10 @@
 ## @example
 ## @group
 ## computer ()
-##    @print{} i586-pc-linux-gnu
+##    @print{} x86_64-pc-linux-gnu
 ##
 ## mycomp = computer ()
-##    @result{} mycomp = "i586-pc-linux-gnu"
+##    @result{} mycomp = x86_64-pc-linux-gnu
 ## @end group
 ## @end example
 ##

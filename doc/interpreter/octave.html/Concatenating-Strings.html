@@ -3,10 +3,10 @@
 <!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Concatenating Strings (GNU Octave (version 4.4.1))</title>
+<title>Concatenating Strings (GNU Octave (version 5.0.91))</title>
 
-<meta name="description" content="Concatenating Strings (GNU Octave (version 4.4.1))">
-<meta name="keywords" content="Concatenating Strings (GNU Octave (version 4.4.1))">
+<meta name="description" content="Concatenating Strings (GNU Octave (version 5.0.91))">
+<meta name="keywords" content="Concatenating Strings (GNU Octave (version 5.0.91))">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
@@ -81,14 +81,19 @@ purpose concatenation functions can be used: see <a href="Rearranging-Matrices.h
 </p>
 <ul>
 <li> All string concatenation functions except <code>cstrcat</code>
-convert numerical input into character data by taking the corresponding ASCII
-character for each element, as in the following example:
+convert numerical input into character data by taking the corresponding UTF-8
+character for each element (or multi-byte sequence), as in the following
+example:
 
 <div class="example">
 <pre class="example">char ([98, 97, 110, 97, 110, 97])
    &rArr; banana
 </pre></div>
 
+<p>For conversion between locale encodings and UTF-8, see
+<a href="String-Conversions.html#XREFunicode2native">unicode2native</a> and
+<a href="String-Conversions.html#XREFnative2unicode">native2unicode</a>.
+</p>
 </li><li> <code>char</code> and <code>strvcat</code>
 concatenate vertically, while <code>strcat</code> and <code>cstrcat</code> concatenate
 horizontally.  For example:

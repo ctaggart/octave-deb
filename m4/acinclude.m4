@@ -1,6 +1,6 @@
 dnl aclocal.m4 -- extra macros for configuring Octave
 dnl
-dnl Copyright (C) 1995-2018 John W. Eaton
+dnl Copyright (C) 1995-2019 John W. Eaton
 dnl
 dnl This file is part of Octave.
 dnl
@@ -663,6 +663,36 @@ AC_DEFUN([OCTAVE_CHECK_FUNC_QOBJECT_FINDCHILDREN_ACCEPTS_FINDCHILDOPTIONS], [
   if test $octave_cv_func_qobject_findchildren_accepts_findchildoptions = yes; then
     AC_DEFINE(QOBJECT_FINDCHILDREN_ACCEPTS_FINDCHILDOPTIONS, 1,
       [Define to 1 if 'QObject::findChildren' accepts 'Qt::FindChildOptions' argument.])
+  fi
+])
+dnl
+dnl Check whether the Qt class QScreen has the devicePixelRatio member function.
+dnl This member function was introduced in Qt 5.5.
+dnl
+AC_DEFUN([OCTAVE_CHECK_FUNC_QSCREEN_DEVICEPIXELRATIO], [
+  AC_CACHE_CHECK([for QScreen::devicePixelRatio in <QScreen>],
+    [octave_cv_func_qscreen_devicepixelratio],
+    [AC_LANG_PUSH(C++)
+    ac_octave_save_CPPFLAGS="$CPPFLAGS"
+    ac_octave_save_CXXFLAGS="$CXXFLAGS"
+    CPPFLAGS="$QT_CPPFLAGS $CXXPICFLAG $CPPFLAGS"
+    CXXFLAGS="$CXXPICFLAG $CXXFLAGS"
+    AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
+        #include <QApplication>
+        #include <QScreen>
+        ]], [[
+        QScreen *screen = QApplication::primaryScreen ();
+        qreal ratio = screen->devicePixelRatio ();
+        ]])],
+      octave_cv_func_qscreen_devicepixelratio=yes,
+      octave_cv_func_qscreen_devicepixelratio=no)
+    CPPFLAGS="$ac_octave_save_CPPFLAGS"
+    CXXFLAGS="$ac_octave_save_CXXFLAGS"
+    AC_LANG_POP(C++)
+  ])
+  if test $octave_cv_func_qscreen_devicepixelratio = yes; then
+    AC_DEFINE(HAVE_QSCREEN_DEVICEPIXELRATIO, 1,
+      [Define to 1 if you have the `QScreen::devicePixelRatio' member function.])
   fi
 ])
 dnl
@@ -1846,7 +1876,7 @@ AC_DEFUN([OCTAVE_CHECK_QT_OPENGL_OK], [
   ac_octave_save_CXXFLAGS="$CXXFLAGS"
   CPPFLAGS="$QT_CPPFLAGS $CXXPICFLAG $CPPFLAGS"
   CXXFLAGS="$CXXPICFLAG $CXXFLAGS"
-  AC_CHECK_HEADERS([QOpenGLWidget QGLWidget])
+  AC_CHECK_HEADERS([QOpenGLWidget QGLWidget QGLFunctions_1_1])
   AC_CACHE_CHECK([whether Qt works with OpenGL and GLU],
     [octave_cv_qt_opengl_ok],
     [AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
@@ -1944,10 +1974,12 @@ AC_DEFUN([OCTAVE_CHECK_QT_VERSION], [AC_MSG_CHECKING([Qt version $1])
   ## Check for Qt libraries
   case "$qt_version" in
     4)
-      QT_MODULES="QtCore QtGui QtNetwork QtOpenGL QtHelp"
+      QT_OPENGL_MODULE="QtOpenGL"
+      QT_MODULES="QtCore QtGui QtNetwork QtHelp QtXml"
     ;;
     5)
-      QT_MODULES="Qt5Core Qt5Gui Qt5Network Qt5OpenGL Qt5PrintSupport Qt5Help"
+      QT_OPENGL_MODULE="Qt5OpenGL"
+      QT_MODULES="Qt5Core Qt5Gui Qt5Network Qt5PrintSupport Qt5Help Qt5Xml"
     ;;
     *)
       AC_MSG_ERROR([Unrecognized Qt version $qt_version])
@@ -1977,6 +2009,7 @@ AC_DEFUN([OCTAVE_CHECK_QT_VERSION], [AC_MSG_CHECKING([Qt version $1])
     QT_CPPFLAGS="$($PKG_CONFIG --cflags-only-I $QT_MODULES | $SED -e 's/^ *$//')"
     QT_LDFLAGS="$($PKG_CONFIG --libs-only-L $QT_MODULES | $SED -e 's/^ *$//')"
     QT_LIBS="$($PKG_CONFIG --libs-only-l $QT_MODULES | $SED -e 's/^ *$//')"
+    QT_OPENGL_LIBS="$($PKG_CONFIG --libs-only-l $QT_OPENGL_MODULE | $SED -e 's/^ *$//')"
 
     case $host_os in
       *darwin*)
@@ -1984,6 +2017,7 @@ AC_DEFUN([OCTAVE_CHECK_QT_VERSION], [AC_MSG_CHECKING([Qt version $1])
         if test -z "$QT_LIBS"; then
           QT_LDFLAGS="`$PKG_CONFIG --libs-only-other $QT_MODULES | tr ' ' '\n' | $GREP -e '-F' | uniq | tr '\n' ' '`"
           QT_LIBS="`$PKG_CONFIG --libs-only-other $QT_MODULES | tr ' ' '\n' | $GREP -v -e '-F' | uniq | tr '\n' ' '`"
+          QT_OPENGL_LIBS="`$PKG_CONFIG --libs-only-other $QT_OPENGL_MODULE | tr ' ' '\n' | $GREP -v -e '-F' | uniq | tr '\n' ' '`"
           ## Enabling link_all_deps works around libtool's imperfect handling
           ## of the -F flag
           AM_CONDITIONAL([AMCOND_LINK_ALL_DEPS],
@@ -2107,6 +2141,7 @@ AC_DEFUN([OCTAVE_CHECK_QT_VERSION], [AC_MSG_CHECKING([Qt version $1])
     OCTAVE_CHECK_FUNC_QLINEEDIT_SETPLACEHOLDERTEXT
     OCTAVE_CHECK_FUNC_QMOUSEEVENT_LOCALPOS
     OCTAVE_CHECK_FUNC_QOBJECT_FINDCHILDREN_ACCEPTS_FINDCHILDOPTIONS
+    OCTAVE_CHECK_FUNC_QSCREEN_DEVICEPIXELRATIO
     OCTAVE_CHECK_FUNC_QTABWIDGET_SETMOVABLE
     OCTAVE_CHECK_FUNC_QTMESSAGEHANDLER_ACCEPTS_QMESSAGELOGCONTEXT
     OCTAVE_CHECK_MEMBER_QFONT_FORCE_INTEGER_METRICS
@@ -2138,6 +2173,7 @@ AC_DEFUN([OCTAVE_CHECK_QT_VERSION], [AC_MSG_CHECKING([Qt version $1])
   AC_SUBST(QT_CPPFLAGS)
   AC_SUBST(QT_LDFLAGS)
   AC_SUBST(QT_LIBS)
+  AC_SUBST(QT_OPENGL_LIBS)
 ])
 dnl
 dnl Check if the default Fortran INTEGER is 64 bits wide.
@@ -2463,85 +2499,6 @@ AC_DEFUN([OCTAVE_F77_FLAG], [
   fi
 ])
 dnl
-dnl Check whether fast signed integer arithmetic using bit tricks
-dnl can be used in oct-inttypes.h.
-dnl
-dnl Defines OCTAVE_HAVE_FAST_INT_OPS if the following conditions hold:
-dnl
-dnl   1. Signed numbers are represented by twos complement (see
-dnl      <http://en.wikipedia.org/wiki/Two%27s_complement>)
-dnl
-dnl   2. static_cast to unsigned int counterpart works like
-dnl      interpreting the signed bit pattern as unsigned (and is thus
-dnl      zero-cost).
-dnl
-dnl   3. Signed addition and subtraction yield the same bit results
-dnl      as unsigned.  (We use casts to prevent optimization
-dnl      interference, so there is no need for things like -ftrapv).
-dnl
-dnl   4. Bit operations on signed integers work like on unsigned
-dnl      integers, except for the shifts.  Shifts are arithmetic.
-dnl
-AC_DEFUN([OCTAVE_FAST_INT_OPS], [
-  AC_CACHE_CHECK([whether fast integer arithmetics is usable],
-    [octave_cv_fast_int_ops],
-    [AC_LANG_PUSH(C++)
-    AC_RUN_IFELSE([AC_LANG_PROGRAM([[
-        #include <limits>
-        template<class UT, class ST>
-        static bool
-        do_test (UT, ST)
-        {
-          volatile ST s = std::numeric_limits<ST>::min () / 3;
-          volatile UT u = static_cast<UT> (s);
-          if (*(reinterpret_cast<volatile ST *> (&u)) != s) return true;
-
-          u = 0; u = ~u;
-          if (*(reinterpret_cast<volatile ST *> (&u)) != -1) return true;
-
-          ST sx, sy;
-          sx = std::numeric_limits<ST>::max () / 2 + 1;
-          sy = std::numeric_limits<ST>::max () / 2 + 2;
-          if (static_cast<ST> (static_cast<UT> (sx) + static_cast<UT> (sy))
-              != std::numeric_limits<ST>::min () + 1) return true;
-          if (static_cast<ST> (static_cast<UT> (sx) - static_cast<UT> (sy))
-              != -1) return true;
-
-          if ((sx & sy) != (static_cast<UT> (sx) & static_cast<UT> (sy)))
-            return true;
-          if ((sx | sy) != (static_cast<UT> (sx) | static_cast<UT> (sy)))
-            return true;
-          if ((sx ^ sy) != (static_cast<UT> (sx) ^ static_cast<UT> (sy)))
-            return true;
-          if ((-1 >> 1) != -1) return true;
-          return false;
-        }
-
-        #define DO_TEST(T) \
-          if (do_test (static_cast<unsigned T> (0), static_cast<signed T> (0)))\
-            return sizeof (T);
-
-        ]],[[
-
-        DO_TEST(char)
-        DO_TEST(short)
-        DO_TEST(int)
-        DO_TEST(long)
-        #if (defined(OCTAVE_HAVE_LONG_LONG_INT) && defined(OCTAVE_HAVE_UNSIGNED_LONG_LONG_INT))
-          DO_TEST(long long)
-        #endif
-      ]])],
-      octave_cv_fast_int_ops=yes,
-      octave_cv_fast_int_ops=no,
-      octave_cv_fast_int_ops=yes)
-    AC_LANG_POP(C++)
-  ])
-  if test $octave_cv_fast_int_ops = yes; then
-    AC_DEFINE(OCTAVE_HAVE_FAST_INT_OPS, 1,
-      [Define to 1 if signed integers use two's complement.])
-  fi
-])
-dnl
 dnl Check to see if the compiler and the linker can handle the flags
 dnl "-framework $1" for the given prologue $2 and the given body $3 of
 dnl a source file.  Arguments 2 and 3 optionally can also be empty.
@@ -2652,7 +2609,7 @@ dnl
 dnl Check for CallInst::addAttribute API
 dnl
 AC_DEFUN([OCTAVE_LLVM_CALLINST_ADDATTRIBUTE_API], [
-  AC_CACHE_CHECK([check LLVM::CallInst::addAttribute arg type is llvm::Attributes],
+  AC_CACHE_CHECK([if llvm::CallInst::addAttribute's arg type is llvm::Attributes],
     [octave_cv_callinst_addattribute_arg_is_attributes],
     [AC_LANG_PUSH(C++)
       AC_COMPILE_IFELSE(
@@ -2684,7 +2641,7 @@ dnl
 dnl Check for Function::addAttribute API
 dnl
 AC_DEFUN([OCTAVE_LLVM_FUNCTION_ADDATTRIBUTE_API], [
-  AC_CACHE_CHECK([check llvm::Function::addAttribute arg type is llvm::Attributes],
+  AC_CACHE_CHECK([if llvm::Function::addAttribute's arg type is llvm::Attributes],
     [octave_cv_function_addattribute_arg_is_attributes],
     [AC_LANG_PUSH(C++)
       AC_COMPILE_IFELSE(
@@ -2718,7 +2675,7 @@ dnl
 dnl Check for Function::addFnAttr API
 dnl
 AC_DEFUN([OCTAVE_LLVM_FUNCTION_ADDFNATTR_API], [
-  AC_CACHE_CHECK([check LLVM::Function::addFnAttr arg type is llvm::Attributes],
+  AC_CACHE_CHECK([if llvm::Function::addFnAttr's arg type is llvm::Attributes],
     [octave_cv_function_addfnattr_arg_is_attributes],
     [AC_LANG_PUSH(C++)
       AC_COMPILE_IFELSE(
@@ -2747,7 +2704,7 @@ dnl
 dnl Check for legacy::PassManager API
 dnl
 AC_DEFUN([OCTAVE_LLVM_LEGACY_PASSMANAGER_API], [
-  AC_CACHE_CHECK([check for LLVM::legacy::PassManager],
+  AC_CACHE_CHECK([if llvm::legacy::PassManager exists],
     [octave_cv_legacy_passmanager],
     [AC_LANG_PUSH(C++)
       save_LIBS="$LIBS"
@@ -2776,7 +2733,7 @@ dnl
 dnl Check for raw_fd_ostream API
 dnl
 AC_DEFUN([OCTAVE_LLVM_RAW_FD_OSTREAM_API], [
-  AC_CACHE_CHECK([check LLVM::raw_fd_ostream arg type is llvm::sys:fs],
+  AC_CACHE_CHECK([if llvm::raw_fd_ostream's arg type is llvm::sys:fs],
     [octave_cv_raw_fd_ostream_arg_is_llvm_sys_fs],
     [AC_LANG_PUSH(C++)
       AC_COMPILE_IFELSE(
@@ -2793,6 +2750,95 @@ AC_DEFUN([OCTAVE_LLVM_RAW_FD_OSTREAM_API], [
   if test $octave_cv_raw_fd_ostream_arg_is_llvm_sys_fs = yes; then
     AC_DEFINE(RAW_FD_OSTREAM_ARG_IS_LLVM_SYS_FS, 1,
       [Define to 1 if LLVM::raw_fd_ostream arg type is llvm::sys:fs.])
+  fi
+])
+dnl
+dnl Check llvm::IRBuilder API
+dnl
+AC_DEFUN([OCTAVE_LLVM_IRBUILDER_API], [
+  AC_CACHE_CHECK([if llvm::IRBuilder has two template arguments],
+    [octave_cv_llvm_irbuilder_has_two_template_args],
+    [AC_LANG_PUSH(C++)
+      AC_COMPILE_IFELSE(
+        [AC_LANG_PROGRAM([[
+#if defined (HAVE_LLVM_IR_FUNCTION_H)
+          #include <llvm/IR/LLVMContext.h>
+#else
+          #include <llvm/LLVMContext.h>
+#endif
+#if defined (HAVE_LLVM_IR_IRBUILDER_H)
+          #include <llvm/IR/IRBuilder.h>
+#elif defined (HAVE_LLVM_SUPPORT_IRBUILDER_H)
+          #include <llvm/Support/IRBuilder.h>
+#else
+          #include <llvm/IRBuilder.h>
+#endif
+          using namespace llvm;
+          ]], [[
+          LLVMContext c;
+          IRBuilder<ConstantFolder,IRBuilderDefaultInserter>  irb (c);
+        ]])],
+        octave_cv_llvm_irbuilder_has_two_template_args=yes,
+        octave_cv_llvm_irbuilder_has_two_template_args=no)
+    AC_LANG_POP(C++)
+  ])
+  if test $octave_cv_llvm_irbuilder_has_two_template_args = yes; then
+    AC_DEFINE(LLVM_IRBUILDER_HAS_TWO_TEMPLATE_ARGS, 1,
+      [Define to 1 if llvm::IRBuilder has two template arguments.])
+  fi
+])
+dnl
+dnl Check for llvm::createAlwaysInlinerPass
+dnl
+AC_DEFUN([OCTAVE_LLVM_HAS_CREATEALWAYSINLINERPASS], [
+  AC_CACHE_CHECK([if llvm::createAlwaysInlinerPass exists],
+    [octave_cv_llvm_has_createalwaysinlinerpass],
+    [AC_LANG_PUSH(C++)
+      AC_COMPILE_IFELSE(
+        [AC_LANG_PROGRAM([[
+          #include <llvm/Transforms/IPO.h>
+          ]], [[
+          llvm::Pass *p;
+          p = llvm::createAlwaysInlinerPass ();
+        ]])],
+        octave_cv_llvm_has_createalwaysinlinerpass=yes,
+        octave_cv_llvm_has_createalwaysinlinerpass=no)
+    AC_LANG_POP(C++)
+  ])
+  if test $octave_cv_llvm_has_createalwaysinlinerpass = yes; then
+    AC_DEFINE(LLVM_HAS_CREATEALWAYSINLINERPASS, 1,
+      [Define to 1 if llvm::createAlwaysInlinerPass exists.])
+  fi
+])
+dnl
+dnl Check llvm::IRBuilder::CreateConstInBoundsGEP1_32 API
+dbl
+AC_DEFUN([OCTAVE_LLVM_IRBUILDER_CREATECONSTINBOUNDSGEP1_32_API], [
+  AC_CACHE_CHECK([if llvm::IRBuilder::CreateConstInBoundsGEP1_32 requires a type argument],
+    [octave_cv_llvm_irbuilder_createconstinboundsgep1_32_requires_type],
+    [AC_LANG_PUSH(C++)
+      AC_COMPILE_IFELSE(
+        [AC_LANG_PROGRAM([[
+#if defined (HAVE_LLVM_IR_IRBUILDER_H)
+          #include <llvm/IR/IRBuilder.h>
+#elif defined (HAVE_LLVM_SUPPORT_IRBUILDER_H)
+          #include <llvm/Support/IRBuilder.h>
+#else
+          #include <llvm/IRBuilder.h>
+#endif
+          ]], [[
+          llvm::LLVMContext c;
+          llvm::IRBuilder<>  irb (c);
+          llvm::Value *v;
+          v = irb.CreateConstInBoundsGEP1_32 ((llvm::Value *) nullptr, 0);
+        ]])],
+        octave_cv_llvm_irbuilder_createconstinboundsgep1_32_requires_type=no,
+        octave_cv_llvm_irbuilder_createconstinboundsgep1_32_requires_type=yes)
+    AC_LANG_POP(C++)
+  ])
+  if test $octave_cv_llvm_irbuilder_createconstinboundsgep1_32_requires_type = yes; then
+    AC_DEFINE(LLVM_IRBUILDER_CREATECONSTINBOUNDSGEP1_32_REQUIRES_TYPE, 1,
+      [Define to 1 if llvm::IRBuilder::CreateConstInBoundsGEP1_32 requires a type argument.])
   fi
 ])
 dnl
@@ -3134,6 +3180,7 @@ dnl Check for bison.
 dnl
 AC_DEFUN([OCTAVE_PROG_BISON], [
   AC_PROG_YACC
+  WARN_YFLAGS=
 
   case "`$YACC --version`" in
     *bison*) tmp_have_bison=yes ;;
@@ -3141,6 +3188,13 @@ AC_DEFUN([OCTAVE_PROG_BISON], [
   esac
 
   if test $tmp_have_bison = yes; then
+    dnl FIXME: Call GNU bison with the `-Wno-yacc` option, which works with
+    dnl bison 2.5 and all later versions, as recommended by the bison NEWS.
+    dnl This is needed as long as Octave supports Autoconf version 2.69 or
+    dnl older.  In Autoconf 2.70, AC_PROG_YACC no longer adds the `-y`
+    dnl option to emulate POSIX yacc.
+    WARN_YFLAGS="-Wno-yacc"
+
     AC_CACHE_CHECK([syntax of bison api.prefix (or name-prefix) declaration],
                    [octave_cv_bison_api_prefix_decl_style], [
       style="api name"
@@ -3168,7 +3222,7 @@ input:;
 %%
 EOF
           ## Older versions of bison only warn and exit with success.
-          octave_bison_output=`$YACC conftest.yy 2>&1`
+          octave_bison_output=`$YACC $WARN_YFLAGS conftest.yy 2>&1`
           ac_status=$?
           if test $ac_status -eq 0 && test -z "$octave_bison_output"; then
             octave_cv_bison_api_prefix_decl_style="$s $q"
@@ -3183,70 +3237,16 @@ EOF
       ])
   fi
 
-  AC_SUBST(BISON_API_PREFIX_DECL_STYLE, $octave_cv_bison_api_prefix_decl_style)
-
-  if test -z "$octave_cv_bison_api_prefix_decl_style"; then
+  if test -z "$octave_cv_bison_api_prefix_decl_style" \
+    || test "$octave_cv_bison_api_prefix_decl_style" != "api brace"; then
     tmp_have_bison=no
     warn_bison_api_prefix_decl_style="
 
 I wasn't able to find a suitable style for declaring the api prefix
-in a bison input file so I'm disabling bison.
+in a bison input file so I'm disabling bison.  We expect bison to
+understand the '%define api.prefix { PREFIX }' syntax.
 "
     OCTAVE_CONFIGURE_WARNING([warn_bison_api_prefix_decl_style])
-  fi
-
-  if test $tmp_have_bison = yes; then
-    AC_CACHE_CHECK([syntax of bison push/pull declaration],
-                   [octave_cv_bison_push_pull_decl_style], [
-      style="dash underscore"
-      quote="noquote quote"
-      for s in $style; do
-        for q in $quote; do
-          if test $s = "dash"; then
-            def="%define api.push-pull"
-          else
-            def="%define api.push_pull"
-          fi
-          if test $q = "quote"; then
-            def="$def \"both\""
-          else
-            def="$def both"
-          fi
-          cat << EOF > conftest.yy
-$def
-%start input
-%%
-input:;
-%%
-EOF
-          octave_bison_output=`$YACC conftest.yy 2>&1`
-          ac_status=$?
-          if test $ac_status -eq 0 && test -z "$octave_bison_output"; then
-            if test $q = noquote; then
-              q=
-            fi
-            octave_cv_bison_push_pull_decl_style="$s $q"
-            break
-          fi
-        done
-        if test -n "$octave_cv_bison_push_pull_decl_style"; then
-          break
-        fi
-      done
-      rm -f conftest.yy y.tab.h y.tab.c
-      ])
-  fi
-
-  AC_SUBST(BISON_PUSH_PULL_DECL_STYLE, $octave_cv_bison_push_pull_decl_style)
-
-  if test -z "$octave_cv_bison_push_pull_decl_style"; then
-    tmp_have_bison=no
-    warn_bison_push_pull_decl_style="
-
-I wasn't able to find a suitable style for declaring a push-pull
-parser in a bison input file so I'm disabling bison.
-"
-    OCTAVE_CONFIGURE_WARNING([warn_bison_push_pull_decl_style])
   fi
 
   if test $tmp_have_bison = no; then
@@ -3260,6 +3260,7 @@ building from VCS sources.
 "
     OCTAVE_CONFIGURE_WARNING([warn_bison])
   fi
+  AC_SUBST(WARN_YFLAGS)
 ])
 dnl
 dnl Find find program.
@@ -3332,11 +3333,14 @@ AC_DEFUN([OCTAVE_PROG_GNUPLOT], [
   ac_octave_gp_default="gnuplot"
   if test "$cross_compiling" = yes; then
     GNUPLOT="$ac_octave_gp_default"
+    GNUPLOT_BINARY=$GNUPLOT
     AC_MSG_RESULT([assuming $GNUPLOT exists on $canonical_host_type host])
   else
     AC_CHECK_PROGS(GNUPLOT, [$ac_octave_gp_names])
+    GNUPLOT_BINARY=$GNUPLOT
     if test -z "$GNUPLOT"; then
-      GNUPLOT="$gp_default"
+      GNUPLOT="$ac_octave_gp_default"
+      GNUPLOT_BINARY=""
       warn_gnuplot="
 
 gnuplot not found.  It isn't necessary to have gnuplot installed, but

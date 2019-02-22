@@ -6,7 +6,8 @@
 // this file.
 
 #include <iomanip>
-#include <iostream>
+#include <ostream>
+#include <sstream>
 
 #include "LSODE-opts.h"
 
@@ -190,56 +191,56 @@ set_LSODE_options (const std::string& keyword, const octave_value& val)
 {
   LSODE_options_struct *list = LSODE_options_table;
 
-  if (keyword_almost_match (list[0].kw_tok, list[0].min_len,
+  if (octave::keyword_almost_match (list[0].kw_tok, list[0].min_len,
            keyword, list[0].min_toks_to_match, MAX_TOKENS))
     {
       Array<double> tmp = val.vector_value ();
 
       lsode_opts.set_absolute_tolerance (tmp);
     }
-  else if (keyword_almost_match (list[1].kw_tok, list[1].min_len,
+  else if (octave::keyword_almost_match (list[1].kw_tok, list[1].min_len,
            keyword, list[1].min_toks_to_match, MAX_TOKENS))
     {
       double tmp = val.double_value ();
 
       lsode_opts.set_relative_tolerance (tmp);
     }
-  else if (keyword_almost_match (list[2].kw_tok, list[2].min_len,
+  else if (octave::keyword_almost_match (list[2].kw_tok, list[2].min_len,
            keyword, list[2].min_toks_to_match, MAX_TOKENS))
     {
       std::string tmp = val.string_value ();
 
       lsode_opts.set_integration_method (tmp);
     }
-  else if (keyword_almost_match (list[3].kw_tok, list[3].min_len,
+  else if (octave::keyword_almost_match (list[3].kw_tok, list[3].min_len,
            keyword, list[3].min_toks_to_match, MAX_TOKENS))
     {
       double tmp = val.double_value ();
 
       lsode_opts.set_initial_step_size (tmp);
     }
-  else if (keyword_almost_match (list[4].kw_tok, list[4].min_len,
+  else if (octave::keyword_almost_match (list[4].kw_tok, list[4].min_len,
            keyword, list[4].min_toks_to_match, MAX_TOKENS))
     {
       int tmp = val.int_value ();
 
       lsode_opts.set_maximum_order (tmp);
     }
-  else if (keyword_almost_match (list[5].kw_tok, list[5].min_len,
+  else if (octave::keyword_almost_match (list[5].kw_tok, list[5].min_len,
            keyword, list[5].min_toks_to_match, MAX_TOKENS))
     {
       double tmp = val.double_value ();
 
       lsode_opts.set_maximum_step_size (tmp);
     }
-  else if (keyword_almost_match (list[6].kw_tok, list[6].min_len,
+  else if (octave::keyword_almost_match (list[6].kw_tok, list[6].min_len,
            keyword, list[6].min_toks_to_match, MAX_TOKENS))
     {
       double tmp = val.double_value ();
 
       lsode_opts.set_minimum_step_size (tmp);
     }
-  else if (keyword_almost_match (list[7].kw_tok, list[7].min_len,
+  else if (octave::keyword_almost_match (list[7].kw_tok, list[7].min_len,
            keyword, list[7].min_toks_to_match, MAX_TOKENS))
     {
       int tmp = val.int_value ();
@@ -259,7 +260,7 @@ show_LSODE_options (const std::string& keyword)
 
   LSODE_options_struct *list = LSODE_options_table;
 
-  if (keyword_almost_match (list[0].kw_tok, list[0].min_len,
+  if (octave::keyword_almost_match (list[0].kw_tok, list[0].min_len,
            keyword, list[0].min_toks_to_match, MAX_TOKENS))
     {
       Array<double> val = lsode_opts.absolute_tolerance ();
@@ -273,47 +274,47 @@ show_LSODE_options (const std::string& keyword)
           retval = ColumnVector (val);
         }
     }
-  else if (keyword_almost_match (list[1].kw_tok, list[1].min_len,
+  else if (octave::keyword_almost_match (list[1].kw_tok, list[1].min_len,
            keyword, list[1].min_toks_to_match, MAX_TOKENS))
     {
       double val = lsode_opts.relative_tolerance ();
 
       retval = val;
     }
-  else if (keyword_almost_match (list[2].kw_tok, list[2].min_len,
+  else if (octave::keyword_almost_match (list[2].kw_tok, list[2].min_len,
            keyword, list[2].min_toks_to_match, MAX_TOKENS))
     {
       retval = lsode_opts.integration_method ();
     }
-  else if (keyword_almost_match (list[3].kw_tok, list[3].min_len,
+  else if (octave::keyword_almost_match (list[3].kw_tok, list[3].min_len,
            keyword, list[3].min_toks_to_match, MAX_TOKENS))
     {
       double val = lsode_opts.initial_step_size ();
 
       retval = val;
     }
-  else if (keyword_almost_match (list[4].kw_tok, list[4].min_len,
+  else if (octave::keyword_almost_match (list[4].kw_tok, list[4].min_len,
            keyword, list[4].min_toks_to_match, MAX_TOKENS))
     {
       int val = lsode_opts.maximum_order ();
 
       retval = static_cast<double> (val);
     }
-  else if (keyword_almost_match (list[5].kw_tok, list[5].min_len,
+  else if (octave::keyword_almost_match (list[5].kw_tok, list[5].min_len,
            keyword, list[5].min_toks_to_match, MAX_TOKENS))
     {
       double val = lsode_opts.maximum_step_size ();
 
       retval = val;
     }
-  else if (keyword_almost_match (list[6].kw_tok, list[6].min_len,
+  else if (octave::keyword_almost_match (list[6].kw_tok, list[6].min_len,
            keyword, list[6].min_toks_to_match, MAX_TOKENS))
     {
       double val = lsode_opts.minimum_step_size ();
 
       retval = val;
     }
-  else if (keyword_almost_match (list[7].kw_tok, list[7].min_len,
+  else if (octave::keyword_almost_match (list[7].kw_tok, list[7].min_len,
            keyword, list[7].min_toks_to_match, MAX_TOKENS))
     {
       int val = lsode_opts.step_limit ();

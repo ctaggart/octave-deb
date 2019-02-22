@@ -3,10 +3,10 @@
 <!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Uibuttongroup Properties (GNU Octave (version 4.4.1))</title>
+<title>Uibuttongroup Properties (GNU Octave (version 5.0.91))</title>
 
-<meta name="description" content="Uibuttongroup Properties (GNU Octave (version 4.4.1))">
-<meta name="keywords" content="Uibuttongroup Properties (GNU Octave (version 4.4.1))">
+<meta name="description" content="Uibuttongroup Properties (GNU Octave (version 5.0.91))">
+<meta name="keywords" content="Uibuttongroup Properties (GNU Octave (version 5.0.91))">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
@@ -67,7 +67,7 @@ Next: <a href="Uicontextmenu-Properties.html#Uicontextmenu-Properties" accesskey
 <dd>
 <a name="XREFuibuttongroupbackgroundcolor"></a><a name="index-uibuttongroup-backgroundcolor"></a>
 </dd>
-<dt><code>backgroundcolor</code>: def. <code>[1   1   1]</code></dt>
+<dt><code>backgroundcolor</code>: def. <code>[0.94000   0.94000   0.94000]</code></dt>
 <dd>
 
 
@@ -211,9 +211,9 @@ See <a href="Callbacks.html#Callbacks">Callbacks&nbsp;section<!-- /@w --></a>.
 
 <a name="XREFuibuttongroupresizefcn"></a><a name="index-uibuttongroup-resizefcn"></a>
 </dd>
-<dt><code>resizefcn</code>: def. <code>[](0x0)</code></dt>
-<dd>
-
+<dt><code>resizefcn</code>: string | function handle, def. <code>[](0x0)</code></dt>
+<dd><p><code>resizefcn</code> is deprecated.  Use <code>sizechangedfcn</code> instead.
+</p>
 
 <a name="XREFuibuttongroupselected"></a><a name="index-uibuttongroup-selected"></a>
 </dd>
@@ -241,15 +241,17 @@ See <a href="Callbacks.html#Callbacks">Callbacks&nbsp;section<!-- /@w --></a>.
 
 <a name="XREFuibuttongroupshadowcolor"></a><a name="index-uibuttongroup-shadowcolor"></a>
 </dd>
-<dt><code>shadowcolor</code>: def. <code>[0   0   0]</code></dt>
+<dt><code>shadowcolor</code>: def. <code>[0.70000   0.70000   0.70000]</code></dt>
 <dd>
 
 
 <a name="XREFuibuttongroupsizechangedfcn"></a><a name="index-uibuttongroup-sizechangedfcn"></a>
 </dd>
-<dt><code>sizechangedfcn</code>: def. <code>[](0x0)</code></dt>
-<dd>
-
+<dt><code>sizechangedfcn</code>: string | function handle, def. <code>[](0x0)</code></dt>
+<dd><p>Callback triggered when the uibuttongroup size is changed.
+</p>
+<p>For information on how to write graphics listener functions see <a href="Callbacks.html#Callbacks">Callbacks&nbsp;section<!-- /@w --></a>.
+</p>
 
 <a name="XREFuibuttongrouptag"></a><a name="index-uibuttongroup-tag"></a>
 </dd>

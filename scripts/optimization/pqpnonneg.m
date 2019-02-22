@@ -1,4 +1,4 @@
-## Copyright (C) 2008-2018 Bill Denney
+## Copyright (C) 2008-2019 Bill Denney
 ## Copyright (C) 2008 Jaroslav Hajek
 ## Copyright (C) 2009 VZLU Prague
 ##
@@ -84,7 +84,7 @@ function [x, minval, exitflag, output, lambda] = pqpnonneg (c, d, x0 = [],
 
   ## Special case: called to find default optimization options
   if (nargin == 1 && ischar (c) && strcmp (c, "defaults"))
-    x = optimset ("MaxIter", 1e5);
+    x = struct ("MaxIter", 1e5);
     return;
   endif
 

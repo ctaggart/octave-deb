@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2016-2018 Francesco Faccio <francesco.faccio@mail.polimi.it>
+Copyright (C) 2016-2019 Francesco Faccio <francesco.faccio@mail.polimi.it>
 
 This file is part of Octave.
 
@@ -35,6 +35,7 @@ along with Octave; see the file COPYING.  If not, see
 #include "oct-map.h"
 #include "ov.h"
 #include "ovl.h"
+#include "pager.h"
 #include "parse.h"
 
 #if defined (HAVE_SUNDIALS)
@@ -890,12 +891,12 @@ namespace octave
     if (IDAGetNumResEvals (mem, &nrevals) != 0)
       error ("IDA failed to return the number of residual evaluations");
 
-    std::cout << nsteps << " successful steps\n";
-    std::cout << netfails << " failed attempts\n";
-    std::cout << nrevals << " function evaluations\n";
-    // std::cout << " partial derivatives\n";
-    // std::cout << " LU decompositions\n";
-    // std::cout << " solutions of linear systems\n";
+    octave_stdout << nsteps << " successful steps\n";
+    octave_stdout << netfails << " failed attempts\n";
+    octave_stdout << nrevals << " function evaluations\n";
+    // octave_stdout << " partial derivatives\n";
+    // octave_stdout << " LU decompositions\n";
+    // octave_stdout << " solutions of linear systems\n";
   }
 
   ColumnVector
@@ -1131,14 +1132,12 @@ Undocumented internal function.
     print_usage ();
 
   // Check odefun
-  octave_function *ida_fcn = nullptr;
-
   octave_value f_arg = args(0);
 
   if (! f_arg.is_function_handle ())
     error ("__ode15__: odefun must be a function handle");
 
-  ida_fcn = f_arg.function_value ();
+  octave_function *ida_fcn = f_arg.function_value ();
 
   // Check input tspan
   ColumnVector tspan
@@ -1150,7 +1149,7 @@ Undocumented internal function.
 
   if (numt < 2)
     error ("__ode15__: TRANGE must contain at least 2 elements");
-  else if (! tspan.issorted () || tspan(0) == tspan(numt - 1))
+  else if (tspan.issorted () == UNSORTED || tspan(0) == tspan(numt - 1))
     error ("__ode15__: TRANGE must be strictly monotonic");
 
   // input y0 and yp0

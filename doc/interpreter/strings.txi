@@ -1,4 +1,4 @@
-@c Copyright (C) 1996-2018 John W. Eaton
+@c Copyright (C) 1996-2019 John W. Eaton
 @c
 @c This file is part of Octave.
 @c
@@ -52,6 +52,9 @@ example, the expression
 @noindent
 produces the string whose contents are @samp{foobarbaz}.  @xref{Numeric Data
 Types}, for more information about creating matrices.
+
+While strings can in principal store arbitrary content, most functions expect
+them to be UTF-8 encoded Unicode strings.
 
 @menu
 * Escape Sequences in String Constants::
@@ -253,8 +256,9 @@ purpose concatenation functions can be used: see @ref{XREFcat,,cat},
 
 @itemize @bullet
 @item All string concatenation functions except @code{cstrcat}
-convert numerical input into character data by taking the corresponding ASCII
-character for each element, as in the following example:
+convert numerical input into character data by taking the corresponding UTF-8
+character for each element (or multi-byte sequence), as in the following
+example:
 
 @example
 @group
@@ -262,6 +266,10 @@ char ([98, 97, 110, 97, 110, 97])
    @result{} banana
 @end group
 @end example
+
+For conversion between locale encodings and UTF-8, see
+@ref{XREFunicode2native,,unicode2native} and
+@ref{XREFnative2unicode,,native2unicode}.
 
 @item
 @code{char} and @code{strvcat}
@@ -360,13 +368,13 @@ from the internal representation of the strings in a string array
 @node Converting Numerical Data to Strings
 @subsection Converting Numerical Data to Strings
 Apart from the string concatenation functions (@pxref{Concatenating Strings})
-which cast numerical data to the corresponding ASCII characters, there are
-several functions that format numerical data as strings.  @code{mat2str} and
-@code{num2str} convert real or complex matrices, while @code{int2str} converts
-integer matrices.  @code{int2str} takes the real part of complex values and
-round fractional values to integer.  A more flexible way to format numerical
-data as strings is the @code{sprintf} function (@pxref{Formatted Output},
-@ref{XREFsprintf,,sprintf}).
+which cast numerical data to the corresponding UTF-8 encoded characters, there
+are several functions that format numerical data as strings.  @code{mat2str}
+and @code{num2str} convert real or complex matrices, while @code{int2str}
+converts integer matrices.  @code{int2str} takes the real part of complex
+values and round fractional values to integer.  A more flexible way to format
+numerical data as strings is the @code{sprintf} function
+(@pxref{Formatted Output}, @ref{XREFsprintf,,sprintf}).
 
 @DOCSTRING(mat2str)
 
@@ -467,6 +475,8 @@ general regular expressions, the following functions come with Octave.
 @DOCSTRING(regexptranslate)
 
 @DOCSTRING(untabify)
+
+@DOCSTRING(unicode_idx)
 
 @node String Conversions
 @section String Conversions

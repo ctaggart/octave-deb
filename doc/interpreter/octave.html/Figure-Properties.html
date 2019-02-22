@@ -3,10 +3,10 @@
 <!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Figure Properties (GNU Octave (version 4.4.1))</title>
+<title>Figure Properties (GNU Octave (version 5.0.91))</title>
 
-<meta name="description" content="Figure Properties (GNU Octave (version 4.4.1))">
-<meta name="keywords" content="Figure Properties (GNU Octave (version 4.4.1))">
+<meta name="description" content="Figure Properties (GNU Octave (version 5.0.91))">
+<meta name="keywords" content="Figure Properties (GNU Octave (version 5.0.91))">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
@@ -267,6 +267,12 @@ See <a href="Callbacks.html#Callbacks">Callbacks&nbsp;section<!-- /@w --></a>.
 <dd><p><code>nextplot</code> is used by high level plotting functions to decide what to do with axes already present in the figure.  See <a href="Manipulation-of-Plot-Windows.html#XREFnewplot">newplot&nbsp;function<!-- /@w --></a>.
 </p>
 
+<a name="XREFfigurenumber"></a><a name="index-figure-number"></a>
+</dd>
+<dt><code>number</code> (read-only):</dt>
+<dd>
+
+
 <a name="XREFfigurenumbertitle"></a><a name="index-figure-numbertitle"></a>
 </dd>
 <dt><code>numbertitle</code>: <code>&quot;off&quot;</code> | {<code>&quot;on&quot;</code>}</dt>
@@ -354,19 +360,19 @@ See <a href="Callbacks.html#Callbacks">Callbacks&nbsp;section<!-- /@w --></a>.
 <a name="XREFfigurerenderer"></a><a name="index-figure-renderer"></a>
 </dd>
 <dt><code>renderer</code>: {<code>&quot;opengl&quot;</code>} | <code>&quot;painters&quot;</code></dt>
-<dd><p><code>renderer</code> is unused.
+<dd><p>Renderering engine used for printing when <code>renderermode</code> is &quot;manual&quot;.  Setting <code>renderer</code> also forces the <code>renderermode</code> property to be set to <code>&quot;manual&quot;</code>.
 </p>
 
 <a name="XREFfigurerenderermode"></a><a name="index-figure-renderermode"></a>
 </dd>
 <dt><code>renderermode</code>: {<code>&quot;auto&quot;</code>} | <code>&quot;manual&quot;</code></dt>
-<dd><p><code>renderermode</code> is unused.
+<dd><p>Control whether the renderering engine used for printing is chosen automatically or specified by the <code>renderer</code> property.  See <a href="Printing-and-Saving-Plots.html#XREFprint">print&nbsp;function<!-- /@w --></a>.
 </p>
 
 <a name="XREFfigureresize"></a><a name="index-figure-resize"></a>
 </dd>
 <dt><code>resize</code>: <code>&quot;off&quot;</code> | {<code>&quot;on&quot;</code>}</dt>
-<dd><p><code>resize</code> is unused.
+<dd><p>Control whether the figure can be resized by dragging the window borders and corners using a mouse.  When <code>resize</code> is <code>&quot;off&quot;</code> mouse interactions are disabled but the figure can still be resized by changing its <code>&quot;position&quot;</code> property.
 </p>
 
 <a name="XREFfigureresizefcn"></a><a name="index-figure-resizefcn"></a>

@@ -3,10 +3,10 @@
 <!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Object Sizes (GNU Octave (version 4.4.1))</title>
+<title>Object Sizes (GNU Octave (version 5.0.91))</title>
 
-<meta name="description" content="Object Sizes (GNU Octave (version 4.4.1))">
-<meta name="keywords" content="Object Sizes (GNU Octave (version 4.4.1))">
+<meta name="description" content="Object Sizes (GNU Octave (version 5.0.91))">
+<meta name="keywords" content="Object Sizes (GNU Octave (version 5.0.91))">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
@@ -69,7 +69,8 @@ data structure type doesn&rsquo;t have rows or columns, so the <code>rows</code>
 <dd><p>Return the number of dimensions of <var>a</var>.
 </p>
 <p>For any array, the result will always be greater than or equal to 2.
-Trailing singleton dimensions are not counted.
+Trailing singleton dimensions are not counted, i.e., tailing dimensions <var>d</var>
+greater than 2, for which <code>size (<var>a</var>, <var>d</var>) = 1</code>.
 </p>
 <div class="example">
 <pre class="example">ndims (ones (4, 1, 2, 1))
@@ -82,7 +83,8 @@ Trailing singleton dimensions are not counted.
 
 <a name="XREFcolumns"></a><dl>
 <dt><a name="index-columns"></a><em></em> <strong>columns</strong> <em>(<var>a</var>)</em></dt>
-<dd><p>Return the number of columns of <var>a</var>.
+<dd><p>Return the number of columns of <var>a</var>.  This is equivalent to
+<code>size (<var>a</var>, 2)</code>.
 </p>
 <p><strong>See also:</strong> <a href="#XREFrows">rows</a>, <a href="#XREFsize">size</a>, <a href="#XREFlength">length</a>, <a href="#XREFnumel">numel</a>, <a href="Predicates-for-Numeric-Objects.html#XREFisscalar">isscalar</a>, <a href="Predicates-for-Numeric-Objects.html#XREFisvector">isvector</a>, <a href="Predicates-for-Numeric-Objects.html#XREFismatrix">ismatrix</a>.
 </p></dd></dl>
@@ -90,7 +92,8 @@ Trailing singleton dimensions are not counted.
 
 <a name="XREFrows"></a><dl>
 <dt><a name="index-rows"></a><em></em> <strong>rows</strong> <em>(<var>a</var>)</em></dt>
-<dd><p>Return the number of rows of <var>a</var>.
+<dd><p>Return the number of rows of <var>a</var>.  This is equivalent to
+<code>size (<var>a</var>, 1)</code>.
 </p>
 <p><strong>See also:</strong> <a href="#XREFcolumns">columns</a>, <a href="#XREFsize">size</a>, <a href="#XREFlength">length</a>, <a href="#XREFnumel">numel</a>, <a href="Predicates-for-Numeric-Objects.html#XREFisscalar">isscalar</a>, <a href="Predicates-for-Numeric-Objects.html#XREFisvector">isvector</a>, <a href="Predicates-for-Numeric-Objects.html#XREFismatrix">ismatrix</a>.
 </p></dd></dl>

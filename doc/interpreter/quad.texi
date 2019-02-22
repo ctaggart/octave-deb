@@ -1,6 +1,6 @@
 @c DO NOT EDIT!  Generated automatically by munge-texi.pl.
 
-@c Copyright (C) 1996-2018 John W. Eaton
+@c Copyright (C) 1996-2019 John W. Eaton
 @c
 @c This file is part of Octave.
 @c
@@ -690,12 +690,15 @@ over the range [0, 1] is @math{x^4/4} or 0.25.  The following code uses
 @group
 x = 0:0.1:1;
 y = x.^3;
+## No scaling
 q = trapz (y)
-  @result{} q = 2.525   # No scaling
+  @result{} q = 2.5250
+## Approximation to integral by scaling
 q * 0.1
-  @result{} q = 0.2525  # Approximation to integral by scaling
+  @result{} 0.25250
+## Same result by specifying @var{x}
 trapz (x, y)
-  @result{} q = 0.2525  # Same result by specifying @var{x}
+  @result{} 0.25250
 @end group
 @end example
 
@@ -1211,7 +1214,7 @@ Example 1 : integrate over a rectangular volume
 @group
 @var{f} = @@(@var{x},@var{y},@var{z}) ones (size (@var{x}));
 @var{q} = integral3 (@var{f}, 0, 1, 0, 1, 0, 1)
-  @result{} @var{q} =  1
+  @result{} @var{q} =  1.00000
 @end group
 @end example
 
@@ -1224,8 +1227,8 @@ Example 2 : integrate over a spherical volume
 @group
 @var{f} = @@(@var{x},@var{y}) ones (size (@var{x}));
 @var{ymax} = @@(@var{x}) sqrt (1 - @var{x}.^2);
-@var{zmax} = @@(@var{x}) sqrt (1 - @var{x}.^2 - @var{y}.^2);
-@var{q} = integral3 (@var{f}, 0, 1, 0, @var{ymax})
+@var{zmax} = @@(@var{x},@var{y}) sqrt (1 - @var{x}.^2 - @var{y}.^2);
+@var{q} = integral3 (@var{f}, 0, 1, 0, @var{ymax}, 0, @var{zmax})
   @result{} @var{q} =  0.52360
 @end group
 @end example

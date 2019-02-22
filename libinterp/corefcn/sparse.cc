@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2004-2018 David Bateman
+Copyright (C) 2004-2019 David Bateman
 Copyright (C) 1998-2004 Andy Adler
 Copyright (C) 2010 VZLU Prague
 
@@ -54,6 +54,27 @@ Return true if @var{x} is a sparse matrix.
   return ovl (args(0).issparse ());
 }
 
+/*
+%!assert (issparse (sparse (1)), true)
+%!assert (issparse (1), false)
+%!assert (issparse (sparse (false)), true)
+%!assert (issparse (true), false)
+%!assert (issparse (sparse (single ([1 2]))), true)
+%!assert (issparse (single ([1, 2])), false)
+%!assert (issparse (sparse ([1+i, 2]')), true)
+%!assert (issparse ([1+i, 2]'), false)
+
+%!assert (issparse ([]), false)
+%!assert (issparse (sparse([])), true)
+%!assert (issparse ("test"), false)
+%!assert (issparse (struct ("one", {1})), false)
+%!assert (issparse (cell (1)), false)
+
+## Test input validation
+%!error issparse ()
+%!error issparse (1,2)
+*/
+
 DEFUN (sparse, args, ,
        doc: /* -*- texinfo -*-
 @deftypefn  {} {@var{s} =} sparse (@var{a})
@@ -99,10 +120,10 @@ Example 1 (sum at repeated indices):
 @var{i} = [1 1 2]; @var{j} = [1 1 2]; @var{sv} = [3 4 5];
 sparse (@var{i}, @var{j}, @var{sv}, 3, 4)
 @result{}
-Compressed Column Sparse (rows = 3, cols = 4, nnz = 2 [17%])
+   Compressed Column Sparse (rows = 3, cols = 4, nnz = 2 [17%])
 
-  (1, 1) ->  7
-  (2, 2) ->  5
+     (1, 1) ->  7
+     (2, 2) ->  5
 @end group
 @end example
 
@@ -113,10 +134,10 @@ Example 2 ("unique" option):
 @var{i} = [1 1 2]; @var{j} = [1 1 2]; @var{sv} = [3 4 5];
 sparse (@var{i}, @var{j}, @var{sv}, 3, 4, "unique")
 @result{}
-Compressed Column Sparse (rows = 3, cols = 4, nnz = 2 [17%])
+   Compressed Column Sparse (rows = 3, cols = 4, nnz = 2 [17%])
 
-  (1, 1) ->  4
-  (2, 2) ->  5
+     (1, 1) ->  4
+     (2, 2) ->  5
 @end group
 @end example
 @seealso{full, accumarray, spalloc, spdiags, speye, spones, sprand, sprandn, sprandsym, spconvert, spfun}
@@ -151,12 +172,12 @@ Compressed Column Sparse (rows = 3, cols = 4, nnz = 2 [17%])
       octave_idx_type m = 0;
       octave_idx_type n = 0;
 
-      get_dimensions (args(0), args(1), "sparse", m, n);
+      octave::get_dimensions (args(0), args(1), "sparse", m, n);
 
-      if (m >= 0 && n >= 0)
-        retval = SparseMatrix (m, n);
-      else
+      if (m < 0 || n < 0)
         error ("sparse: dimensions must be non-negative");
+
+      retval = SparseMatrix (m, n);
     }
   else if (nargin >= 3)
     {
@@ -184,7 +205,7 @@ Compressed Column Sparse (rows = 3, cols = 4, nnz = 2 [17%])
 
       if (nargin == 5)
         {
-          get_dimensions (args(3), args(4), "sparse", m, n);
+          octave::get_dimensions (args(3), args(4), "sparse", m, n);
 
           if (m < 0 || n < 0)
             error ("sparse: dimensions must be non-negative");
@@ -219,6 +240,11 @@ Compressed Column Sparse (rows = 3, cols = 4, nnz = 2 [17%])
 
   return retval;
 }
+
+/*
+## Tests for sparse constructor are in test/sparse.tst
+%!assert (1);
+*/
 
 DEFUN (spalloc, args, ,
        doc: /* -*- texinfo -*-
@@ -270,8 +296,28 @@ the function @code{nzmax}.
   if (nargin == 3)
     nz = args(2).idx_type_value ();
 
-  if (m >= 0 && n >= 0 && nz >= 0)
-    return ovl (SparseMatrix (dim_vector (m, n), nz));
-  else
-    error ("spalloc: M,N,NZ must be non-negative");
+  if (m < 0 || n < 0 || nz < 0)
+    error ("spalloc: M, N, and NZ must be non-negative");
+
+  return ovl (SparseMatrix (dim_vector (m, n), nz));
 }
+
+/*
+%!assert (issparse (spalloc (1,1)))
+%!assert (spalloc (1,1), sparse (1,1))
+%!test
+%! s = spalloc (1,1,5);
+%! assert (s, sparse (1,1));
+%! assert (nzmax (s), 5);
+%!assert (spalloc (1,2), sparse (1,2))
+%!assert (spalloc (1,2,2), sparse (1,2))
+%!assert (spalloc (2,1), sparse (2,1))
+%!assert (spalloc (2,1,2), sparse (2,1))
+
+%!error spalloc ()
+%!error spalloc (1)
+%!error spalloc (1,2,3,4)
+%!error <M, N, and NZ must be non-negative> spalloc (-1, 1, 1)
+%!error <M, N, and NZ must be non-negative> spalloc (1, -1, 1)
+%!error <M, N, and NZ must be non-negative> spalloc (1, 1, -1)
+*/

@@ -1,4 +1,4 @@
-## Copyright (C) 2016-2018 Ben Abbott  <bpabbott@mac.com>
+## Copyright (C) 2016-2019 Ben Abbott  <bpabbott@mac.com>
 ##
 ## This file is part of Octave.
 ##
@@ -86,7 +86,7 @@ function compare_plot_demos (varargin)
   unwind_protect
     addpath (pwd);
     for n = 1:numel (arg.toolkits)
-      if (! isdir (fullfile (cwd, arg.toolkits{n})))
+      if (! isfolder (fullfile (cwd, arg.toolkits{n})))
         mkdir (arg.toolkits{n});
       endif
       cd (arg.toolkits{n});

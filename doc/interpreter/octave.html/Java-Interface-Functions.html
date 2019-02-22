@@ -3,10 +3,10 @@
 <!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Java Interface Functions (GNU Octave (version 4.4.1))</title>
+<title>Java Interface Functions (GNU Octave (version 5.0.91))</title>
 
-<meta name="description" content="Java Interface Functions (GNU Octave (version 4.4.1))">
-<meta name="keywords" content="Java Interface Functions (GNU Octave (version 4.4.1))">
+<meta name="description" content="Java Interface Functions (GNU Octave (version 5.0.91))">
+<meta name="keywords" content="Java Interface Functions (GNU Octave (version 5.0.91))">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
@@ -15,7 +15,7 @@
 <link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
 <link href="Java-Interface.html#Java-Interface" rel="up" title="Java Interface">
 <link href="Test-and-Demo-Functions.html#Test-and-Demo-Functions" rel="next" title="Test and Demo Functions">
-<link href="Passing-parameters-to-the-JVM.html#Passing-parameters-to-the-JVM" rel="prev" title="Passing parameters to the JVM">
+<link href="Set-up-the-JVM.html#Set-up-the-JVM" rel="prev" title="Set up the JVM">
 <style type="text/css">
 <!--
 a.summary-letter {text-decoration: none}
@@ -52,7 +52,7 @@ ul.no-bullet {list-style: none}
 <a name="Java-Interface-Functions"></a>
 <div class="header">
 <p>
-Previous: <a href="Passing-parameters-to-the-JVM.html#Passing-parameters-to-the-JVM" accesskey="p" rel="prev">Passing parameters to the JVM</a>, Up: <a href="Java-Interface.html#Java-Interface" accesskey="u" rel="up">Java Interface</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Concept-Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+Previous: <a href="Set-up-the-JVM.html#Set-up-the-JVM" accesskey="p" rel="prev">Set up the JVM</a>, Up: <a href="Java-Interface.html#Java-Interface" accesskey="u" rel="up">Java Interface</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Concept-Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
 </div>
 <hr>
 <a name="Java-Interface-Functions-1"></a>
@@ -348,12 +348,13 @@ between Octave and the Java Virtual Machine.
 </p>
 <a name="XREFjavachk"></a><dl>
 <dt><a name="index-javachk"></a><em></em> <strong>javachk</strong> <em>(<var>feature</var>)</em></dt>
-<dt><a name="index-javachk-1"></a><em></em> <strong>javachk</strong> <em>(<var>feature</var>, <var>component</var>)</em></dt>
+<dt><a name="index-javachk-1"></a><em></em> <strong>javachk</strong> <em>(<var>feature</var>, <var>caller</var>)</em></dt>
 <dt><a name="index-javachk-2"></a><em><var>msg</var> =</em> <strong>javachk</strong> <em>(&hellip;)</em></dt>
-<dd><p>Check for the presence of the Java <var>feature</var> in the current session
-and print or return an error message if it is not.
+<dd><p>Check for the presence of the Java <var>feature</var> in the current session.
+Return an error structure if <var>feature</var> is not available, not enabled,
+or not recognized.
 </p>
-<p>Possible features are:
+<p>Possible recognized features are:
 </p>
 <dl compact="compact">
 <dt><code>&quot;awt&quot;</code></dt>
@@ -373,41 +374,22 @@ and print or return an error message if it is not.
 </p></dd>
 </dl>
 
-<p>If <var>feature</var> is supported and
+<p>If <var>feature</var> is not supported, a scalar struct with field
+<code>&quot;message&quot;</code> and <code>&quot;identifier&quot;</code> is returned.  The field
+<code>&quot;message&quot;</code> contains an error message mentioning <var>feature</var> as
+well as the optional user-specified <var>caller</var>.  This structure is
+suitable for passing in to the <code>error</code> function.
 </p>
-<ul>
-<li> no output argument is requested:
-
-<p>Return an empty string
-</p>
-</li><li> an output argument is requested:
-
-<p>Return a struct with fields <code>&quot;feature&quot;</code> and <code>&quot;identifier&quot;</code>
-both empty
-</p></li></ul>
-
-<p>If <var>feature</var> is not supported and
-</p>
-<ul>
-<li> no output argument is requested:
-
-<p>Emit an error message
-</p>
-</li><li> an output argument is requested:
-
-<p>Return a struct with field <code>&quot;feature&quot;</code> set to <var>feature</var> and field
-<code>&quot;identifier&quot;</code> set to <var>component</var>
-</p></li></ul>
-
-<p>The optional input <var>component</var> will be used in place of <var>feature</var>
-in any error messages for greater specificity.
+<p>If <var>feature</var> is supported and available, an empty struct array is
+returned with fields <code>&quot;message&quot;</code> and <code>&quot;identifier&quot;</code>.
 </p>
 <p><code>javachk</code> determines if specific Java features are available in an
 Octave session.  This function is provided for scripts which may alter
-their behavior based on the availability of Java.  The feature
-<code>&quot;desktop&quot;</code> is never available as Octave has no Java-based desktop.
-Other features may be available if Octave was compiled with the Java
-Interface and Java is installed.
+their behavior based on the availability of Java or specific Java runtime
+features.
+</p>
+<p>Compatibility Note: The feature <code>&quot;desktop&quot;</code> is never available since
+Octave has no Java-based desktop.
 </p>
 
 <p><strong>See also:</strong> <a href="#XREFusejava">usejava</a>, <a href="Raising-Errors.html#XREFerror">error</a>.
@@ -546,7 +528,7 @@ The original variable value is restored when exiting the function.
 <hr>
 <div class="header">
 <p>
-Previous: <a href="Passing-parameters-to-the-JVM.html#Passing-parameters-to-the-JVM" accesskey="p" rel="prev">Passing parameters to the JVM</a>, Up: <a href="Java-Interface.html#Java-Interface" accesskey="u" rel="up">Java Interface</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Concept-Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+Previous: <a href="Set-up-the-JVM.html#Set-up-the-JVM" accesskey="p" rel="prev">Set up the JVM</a>, Up: <a href="Java-Interface.html#Java-Interface" accesskey="u" rel="up">Java Interface</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Concept-Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
 </div>
 
 

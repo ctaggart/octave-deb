@@ -3,10 +3,10 @@
 <!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Matlab-compatible solvers (GNU Octave (version 4.4.1))</title>
+<title>Matlab-compatible solvers (GNU Octave (version 5.0.91))</title>
 
-<meta name="description" content="Matlab-compatible solvers (GNU Octave (version 4.4.1))">
-<meta name="keywords" content="Matlab-compatible solvers (GNU Octave (version 4.4.1))">
+<meta name="description" content="Matlab-compatible solvers (GNU Octave (version 5.0.91))">
+<meta name="keywords" content="Matlab-compatible solvers (GNU Octave (version 5.0.91))">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
@@ -483,92 +483,91 @@ Empty values in <var>newstruct</var> will not overwrite values in
 by <code>odeset</code>, are the following:
 </p>
 <dl compact="compact">
-<dt>AbsTol</dt>
+<dt><code>AbsTol</code>: positive scalar | vector, def. <code>1e-6</code></dt>
 <dd><p>Absolute error tolerance.
 </p>
 </dd>
-<dt>BDF</dt>
+<dt><code>BDF</code>: {<code>&quot;off&quot;</code>} | <code>&quot;on&quot;</code></dt>
 <dd><p>Use BDF formulas in implicit multistep methods.
 <em>Note</em>: This option is not yet implemented.
 </p>
 </dd>
-<dt>Events</dt>
+<dt><code>Events</code>: function_handle</dt>
 <dd><p>Event function.  An event function must have the form
 <code>[value, isterminal, direction] = my_events_f (t, y)</code>
 </p>
 </dd>
-<dt>InitialSlope</dt>
+<dt><code>InitialSlope</code>: vector</dt>
 <dd><p>Consistent initial slope vector for DAE solvers.
 </p>
 </dd>
-<dt>InitialStep</dt>
+<dt><code>InitialStep</code>: positive scalar</dt>
 <dd><p>Initial time step size.
 </p>
 </dd>
-<dt>Jacobian</dt>
+<dt><code>Jacobian</code>: matrix | function_handle</dt>
 <dd><p>Jacobian matrix, specified as a constant matrix or a function of
 time and state.
 </p>
 </dd>
-<dt>JConstant</dt>
+<dt><code>JConstant</code>: {<code>&quot;off&quot;</code>} | <code>&quot;on&quot;</code></dt>
 <dd><p>Specify whether the Jacobian is a constant matrix or depends on the
 state.
 </p>
 </dd>
-<dt>JPattern</dt>
+<dt><code>JPattern</code>: sparse matrix</dt>
 <dd><p>If the Jacobian matrix is sparse and non-constant but maintains a
 constant sparsity pattern, specify the sparsity pattern.
 </p>
 </dd>
-<dt>Mass</dt>
+<dt><code>Mass</code>: matrix | function_handle</dt>
 <dd><p>Mass matrix, specified as a constant matrix or a function of
 time and state.
 </p>
 </dd>
-<dt>MassSingular</dt>
-<dd><p>Specify whether the mass matrix is singular.  Accepted values include
-<code>&quot;yes&quot;</code>, <code>&quot;no&quot;</code>, <code>&quot;maybe&quot;</code>.
+<dt><code>MassSingular</code>: {<code>&quot;maybe&quot;</code>} | <code>&quot;yes&quot;</code> | <code>&quot;on&quot;</code></dt>
+<dd><p>Specify whether the mass matrix is singular.
 </p>
 </dd>
-<dt>MaxOrder</dt>
+<dt><code>MaxOrder</code>: {<code>5</code>} | <code>4</code> | <code>3</code> | <code>2</code> | <code>1</code></dt>
 <dd><p>Maximum order of formula.
 </p>
 </dd>
-<dt>MaxStep</dt>
+<dt><code>MaxStep</code>: positive scalar</dt>
 <dd><p>Maximum time step value.
 </p>
 </dd>
-<dt>MStateDependence</dt>
+<dt><code>MStateDependence</code>: {<code>&quot;weak&quot;</code>} | <code>&quot;none&quot;</code> | <code>&quot;strong&quot;</code></dt>
 <dd><p>Specify whether the mass matrix depends on the state or only on time.
 </p>
 </dd>
-<dt>MvPattern</dt>
+<dt><code>MvPattern</code>: sparse matrix</dt>
 <dd><p>If the mass matrix is sparse and non-constant but maintains a
 constant sparsity pattern, specify the sparsity pattern.
 <em>Note</em>: This option is not yet implemented.
 </p>
 </dd>
-<dt>NonNegative</dt>
+<dt><code>NonNegative</code>: scalar | vector</dt>
 <dd><p>Specify elements of the state vector that are expected to remain
 non-negative during the simulation.
 </p>
 </dd>
-<dt>NormControl</dt>
+<dt><code>NormControl</code>: {<code>&quot;off&quot;</code>} | <code>&quot;on&quot;</code></dt>
 <dd><p>Control error relative to the 2-norm of the solution, rather than its
 absolute value.
 </p>
 </dd>
-<dt>OutputFcn</dt>
+<dt><code>OutputFcn</code>: function_handle</dt>
 <dd><p>Function to monitor the state during the simulation.  For the form of
 the function to use see <code>odeplot</code>.
 </p>
 </dd>
-<dt>OutputSel</dt>
+<dt><code>OutputSel</code>: scalar | vector</dt>
 <dd><p>Indices of elements of the state vector to be passed to the output
 monitoring function.
 </p>
 </dd>
-<dt>Refine</dt>
+<dt><code>Refine</code>: positive scalar</dt>
 <dd><p>Specify whether output should be returned only at the end of each
 time step or also at intermediate time instances.  The value should be
 a scalar indicating the number of equally spaced time points to use
@@ -576,15 +575,15 @@ within each timestep at which to return output.
 <em>Note</em>: This option is not yet implemented.
 </p>
 </dd>
-<dt>RelTol</dt>
+<dt><code>RelTol</code>: positive scalar</dt>
 <dd><p>Relative error tolerance.
 </p>
 </dd>
-<dt>Stats</dt>
+<dt><code>Stats</code>: {<code>&quot;off&quot;</code>} | <code>&quot;on&quot;</code></dt>
 <dd><p>Print solver statistics after simulation.
 </p>
 </dd>
-<dt>Vectorized</dt>
+<dt><code>Vectorized</code>: {<code>&quot;off&quot;</code>} | <code>&quot;on&quot;</code></dt>
 <dd><p>Specify whether <code>odefun</code> can be passed multiple values of the
 state at once.
 </p>

@@ -3,10 +3,10 @@
 <!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Representing Images (GNU Octave (version 4.4.1))</title>
+<title>Representing Images (GNU Octave (version 5.0.91))</title>
 
-<meta name="description" content="Representing Images (GNU Octave (version 4.4.1))">
-<meta name="keywords" content="Representing Images (GNU Octave (version 4.4.1))">
+<meta name="description" content="Representing Images (GNU Octave (version 5.0.91))">
+<meta name="keywords" content="Representing Images (GNU Octave (version 5.0.91))">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
@@ -82,6 +82,9 @@ index in the color map, and each row in the color map corresponds to
 an RGB color.  The color map must be of class <code>double</code> with values
 between 0 and 1.
 </p>
+<p>The following convenience functions are available for conversion between image
+formats.
+</p>
 <a name="XREFim2double"></a><dl>
 <dt><a name="index-im2double"></a><em></em> <strong>im2double</strong> <em>(<var>img</var>)</em></dt>
 <dt><a name="index-im2double-1"></a><em></em> <strong>im2double</strong> <em>(<var>img</var>, &quot;indexed&quot;)</em></dt>
@@ -117,23 +120,6 @@ be cast to double.  If it is an integer class, a +1 offset is applied.
 </p>
 
 <p><strong>See also:</strong> <a href="Numeric-Data-Types.html#XREFdouble">double</a>.
-</p></dd></dl>
-
-
-<a name="XREFiscolormap"></a><dl>
-<dt><a name="index-iscolormap"></a><em></em> <strong>iscolormap</strong> <em>(<var>cmap</var>)</em></dt>
-<dd><p>Return true if <var>cmap</var> is a colormap.
-</p>
-<p>A colormap is a real matrix, of class single or double, with 3 columns.
-Each row represents a single color.  The 3 columns contain red, green,
-and blue intensities respectively.
-</p>
-<p>All values in a colormap should be in the [0 1] range but this is not
-enforced.  Each function must decide what to do for values outside this
-range.
-</p>
-
-<p><strong>See also:</strong> <a href="#XREFcolormap">colormap</a>, <a href="#XREFrgbplot">rgbplot</a>.
 </p></dd></dl>
 
 
@@ -226,6 +212,10 @@ supported.
 </p></dd></dl>
 
 
+<p>Octave also provides tools to produce and work with movie frame structures.
+Those structures encapsulate the image data (<code>&quot;cdata&quot;</code> field) together
+with the corresponding colormap (<code>&quot;colormap&quot;</code> field).
+</p>
 <a name="XREFgetframe"></a><dl>
 <dt><a name="index-getframe"></a><em><var>frame</var> =</em> <strong>getframe</strong> <em>()</em></dt>
 <dt><a name="index-getframe-1"></a><em><var>frame</var> =</em> <strong>getframe</strong> <em>(<var>hax</var>)</em></dt>
@@ -252,7 +242,51 @@ the figure to be captured.  Regardless of the figure <code>&quot;units&quot;</co
 property, <var>rect</var> must be defined in <strong>pixels</strong>.
 </p>
 
-<p><strong>See also:</strong> <a href="#XREFim2frame">im2frame</a>, <a href="#XREFframe2im">frame2im</a>.
+<p><strong>See also:</strong> <a href="#XREFim2frame">im2frame</a>, <a href="#XREFframe2im">frame2im</a>, <a href="#XREFmovie">movie</a>.
+</p></dd></dl>
+
+
+<a name="XREFmovie"></a><dl>
+<dt><a name="index-movie"></a><em></em> <strong>movie</strong> <em>(<var>mov</var>)</em></dt>
+<dt><a name="index-movie-1"></a><em></em> <strong>movie</strong> <em>(<var>mov</var>, <var>n</var>)</em></dt>
+<dt><a name="index-movie-2"></a><em></em> <strong>movie</strong> <em>(<var>mov</var>, <var>n</var>, <var>fps</var>)</em></dt>
+<dt><a name="index-movie-3"></a><em></em> <strong>movie</strong> <em>(<var>h</var>, &hellip;)</em></dt>
+<dd><p>Play a movie defined by an array of frame structures.
+</p>
+<p>The movie <var>mov</var> must be a struct array of frames with fields
+<code>&quot;cdata&quot;</code> and <code>&quot;colormap&quot;</code>, as returned by the <code>getframe</code>
+function.  By default all images are displayed once, at 12 fps, in the
+current axes.
+</p>
+<p>The optional argument <var>n</var> is a scalar or vector of integers that
+controls the number of times the movie is displayed and which particular
+frames are shown:
+</p>
+<dl compact="compact">
+<dt>First element:</dt>
+<dd>
+<dl compact="compact">
+<dt><var>n</var>(1) &gt; 0</dt>
+<dd><p>Play the movie <var>n</var>(1) times.
+</p>
+</dd>
+<dt><var>n</var>(1) &lt; 0</dt>
+<dd><p>Play the movie <code>abs (<var>n</var>(1)</code> times alternatively in forward and
+backward order.
+</p></dd>
+</dl>
+
+</dd>
+<dt>Other elements (if any):</dt>
+<dd><p>Indices of the frames in <var>mov</var> that will be displayed.
+</p></dd>
+</dl>
+
+<p>If the first argument is a handle to a figure or axes <var>h</var>, the movie is
+played in that figure or axes instead of the current axes.
+</p>
+
+<p><strong>See also:</strong> <a href="#XREFgetframe">getframe</a>, <a href="#XREFim2frame">im2frame</a>, <a href="#XREFframe2im">frame2im</a>.
 </p></dd></dl>
 
 
@@ -291,6 +325,9 @@ array.
 </p></dd></dl>
 
 
+<p>The <code>colormap</code> function is used to change the colormap of the current
+axes or figure.
+</p>
 <a name="XREFcolormap"></a><dl>
 <dt><a name="index-colormap"></a><em><var>cmap</var> =</em> <strong>colormap</strong> <em>()</em></dt>
 <dt><a name="index-colormap-1"></a><em><var>cmap</var> =</em> <strong>colormap</strong> <em>(<var>map</var>)</em></dt>
@@ -354,6 +391,26 @@ command form, <code>colormap <var>map_name</var></code>.
 </p></dd></dl>
 
 
+<a name="XREFiscolormap"></a><dl>
+<dt><a name="index-iscolormap"></a><em></em> <strong>iscolormap</strong> <em>(<var>cmap</var>)</em></dt>
+<dd><p>Return true if <var>cmap</var> is a colormap.
+</p>
+<p>A colormap is a real matrix, of class single or double, with 3 columns.
+Each row represents a single color.  The 3 columns contain red, green,
+and blue intensities respectively.
+</p>
+<p>All values in a colormap should be in the [0 1] range but this is not
+enforced.  Each function must decide what to do for values outside this
+range.
+</p>
+
+<p><strong>See also:</strong> <a href="#XREFcolormap">colormap</a>, <a href="#XREFrgbplot">rgbplot</a>.
+</p></dd></dl>
+
+
+<p>The following functions return predefined colormaps, the same that can be
+requested by name using the <code>colormap</code> function.
+</p>
 <a name="XREFrgbplot"></a><dl>
 <dt><a name="index-rgbplot"></a><em></em> <strong>rgbplot</strong> <em>(<var>cmap</var>)</em></dt>
 <dt><a name="index-rgbplot-1"></a><em></em> <strong>rgbplot</strong> <em>(<var>cmap</var>, <var>style</var>)</em></dt>

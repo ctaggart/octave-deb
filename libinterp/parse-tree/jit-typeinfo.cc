@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2012-2018 Max Brister
+Copyright (C) 2012-2019 Max Brister
 
 This file is part of Octave.
 
@@ -76,7 +76,7 @@ along with Octave; see the file COPYING.  If not, see
 
 namespace octave
 {
-  static llvm::LLVMContext& context = llvm::getGlobalContext ();
+  static llvm::LLVMContext& context = tree_jit::llvm_context;
 
   std::ostream& jit_print (std::ostream& os, jit_type *atype)
   {
@@ -216,7 +216,7 @@ namespace octave
   extern "C" void
   octave_jit_err_nan_to_logical_conversion (void)
   {
-    octave::err_nan_to_logical_conversion ();
+    err_nan_to_logical_conversion ();
   }
 
   extern "C" void
@@ -225,14 +225,14 @@ namespace octave
     // FIXME: 0-argument form of octave::err_invalid_index removed in
     //        cset dd6345fd8a97.  Report -1 as the bad index for all
     //        occurrences.
-    octave::err_invalid_index (static_cast<octave_idx_type> (-1));
+    err_invalid_index (static_cast<octave_idx_type> (-1));
   }
 
   extern "C" void
   octave_jit_gindex_range (int nd, int dim, octave_idx_type iext,
                            octave_idx_type ext)
   {
-    octave::err_index_out_of_range (nd, dim, iext, ext);
+    err_index_out_of_range (nd, dim, iext, ext);
   }
 
   extern "C" jit_matrix
@@ -397,7 +397,7 @@ namespace octave
   static inline int
   xisint (double x)
   {
-    return (octave::math::x_nint (x) == x
+    return (math::x_nint (x) == x
             && ((x >= 0 && x < std::numeric_limits<int>::max ())
                 || (x <= 0 && x > std::numeric_limits<int>::min ())));
   }
@@ -438,7 +438,7 @@ namespace octave
   extern "C" void
   octave_jit_print_matrix (jit_matrix *m)
   {
-    std::cout << *m << std::endl;
+    octave_stdout << *m << std::endl;
   }
 
   OCTAVE_NORETURN static
@@ -586,8 +586,7 @@ namespace octave
           }
       }
 
-    for (std::vector<jit_type *>::const_iterator iter = m_args.begin ();
-         iter != m_args.end (); ++iter)
+    for (auto iter = m_args.cbegin (); iter != m_args.cend (); ++iter)
       {
         jit_type *ty = *iter;
         assert (ty);
@@ -751,7 +750,7 @@ namespace octave
     // FIXME: We should be treating arguments like a list, not a vector.
     // Shouldn't matter much for now, as the number of arguments shouldn't
     // be much bigger than 4
-    llvm::Function::arg_iterator iter = m_llvm_function->arg_begin ();
+    auto iter = m_llvm_function->arg_begin ();
     if (sret ())
       ++iter;
 
@@ -804,8 +803,7 @@ namespace octave
   // -------------------- jit_operation --------------------
   jit_operation::~jit_operation (void)
   {
-    for (generated_map::iterator iter = m_generated.begin ();
-         iter != m_generated.end (); ++iter)
+    for (auto iter = m_generated.begin (); iter != m_generated.end (); ++iter)
       {
         delete iter->first;
         delete iter->second;
@@ -878,7 +876,7 @@ namespace octave
   jit_operation::to_idx (const std::vector<jit_type*>& types) const
   {
     octave_idx_type numel = types.size ();
-    numel = std::max (numel, static_cast<octave_idx_type>(2));
+    numel = std::max (numel, static_cast<octave_idx_type> (2));
 
     Array<octave_idx_type> idx (dim_vector (1, numel));
     for (octave_idx_type i = 0;
@@ -1975,7 +1973,7 @@ namespace octave
     std::vector<jit_type *> args;
     args.resize (1);
 
-    for (std::map<std::string, jit_type *>::iterator iter = m_builtins.begin ();
+    for (auto iter = m_builtins.begin ();
          iter != m_builtins.end (); ++iter)
       {
         jit_type *btype = iter->second;
@@ -2019,8 +2017,8 @@ namespace octave
                                       bool skip_paren)
   {
     // FIXME: Currently our types do *not* form a lattice
-    assert ((name == "any") || (name == "any_ptr") ||
-            (name == "scalar_ptr") || (parent != nullptr));
+    assert ((name == "any") || (name == "any_ptr")
+            || (name == "scalar_ptr") || (parent != nullptr));
 
     jit_type *ret = new jit_type (name, parent, llvm_type, skip_paren,
                                   m_next_id++);
@@ -2214,7 +2212,7 @@ namespace octave
 
     // FIXME: Finalize what we want to store in octave_builtin, then add
     // functions to access these values in octave_value
-    octave_value ov_builtin = symtab.find (name);
+    octave_value ov_builtin = symtab.builtin_find (name);
     return dynamic_cast<octave_builtin *> (ov_builtin.internal_rep ());
   }
 

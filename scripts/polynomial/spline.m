@@ -1,4 +1,4 @@
-## Copyright (C) 2000-2018 Kai Habel
+## Copyright (C) 2000-2019 Kai Habel
 ## Copyright (C) 2006 David Bateman
 ##
 ## This file is part of Octave.
@@ -69,7 +69,7 @@
 ## @seealso{pchip, ppval, mkpp, unmkpp}
 ## @end deftypefn
 
-## This code is based on csape.m from octave-forge, but has been
+## This code is based on csape.m from Octave Forge, but has been
 ## modified to use the sparse solver code in octave that itself allows
 ## special casing of tri-diagonal matrices, modified for NDArrays and
 ## for the treatment of vectors y 2 elements longer than x as complete

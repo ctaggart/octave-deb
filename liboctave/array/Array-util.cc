@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2003-2018 John W. Eaton
+Copyright (C) 2003-2019 John W. Eaton
 Copyright (C) 2009 VZLU Prague
 
 This file is part of Octave.
@@ -565,7 +565,7 @@ sub2ind (const dim_vector& dv, const Array<idx_vector>& idxa)
           e.set_var ();
           std::string msg = e.message ();
           (*current_liboctave_error_with_id_handler)
-            (e.err_id (), msg.c_str ());
+            (e.err_id (), "%s", msg.c_str ());
         }
     }
   // idxa known to be valid.

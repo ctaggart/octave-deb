@@ -1,8 +1,8 @@
-/* A Bison parser, made by GNU Bison 3.0.4.  */
+/* A Bison parser, made by GNU Bison 3.2.4.  */
 
 /* Bison interface for Yacc-like parsers in C
 
-   Copyright (C) 1984, 1989-1990, 2000-2015 Free Software Foundation, Inc.
+   Copyright (C) 1984, 1989-1990, 2000-2015, 2018 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -30,6 +30,9 @@
    This special exception was added by the Free Software Foundation in
    version 2.2 of Bison.  */
 
+/* Undocumented macros, especially those whose name start with YY_,
+   are private implementation details.  Do not rely on them.  */
+
 #ifndef YY_OCTAVE_TEX_LIBINTERP_COREFCN_OCT_TEX_PARSER_H_INCLUDED
 # define YY_OCTAVE_TEX_LIBINTERP_COREFCN_OCT_TEX_PARSER_H_INCLUDED
 /* Debug traces.  */
@@ -48,10 +51,10 @@
 extern int octave_tex_debug;
 #endif
 /* "%code requires" blocks.  */
-#line 57 "libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1909  */
+#line 59 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1906  */
 #include <string>
 
-#line 55 "libinterp/corefcn/oct-tex-parser.h" /* yacc.c:1909  */
+#line 58 "libinterp/corefcn/oct-tex-parser.h" /* yacc.c:1906  */
 
 /* Token type.  */
 #ifndef OCTAVE_TEX_TOKENTYPE
@@ -101,21 +104,21 @@ extern int octave_tex_debug;
 
 union OCTAVE_TEX_STYPE
 {
-#line 60 "libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1909  */
+#line 62 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1906  */
 
   // Leaf symbols produced by the scanner.
-  char                       ch;
-  double                     num;
-  int                        sym;
+  char ch;
+  double num;
+  int sym;
 
   // Used for string buffering.
-  std::string*               str;
+  std::string *str;
 
   // Objects produced by the parser.
-  text_element*              e_base;
-  text_element_list*         e_list;
+  octave::text_element *e_base;
+  octave::text_element_list *e_list;
 
-#line 119 "libinterp/corefcn/oct-tex-parser.h" /* yacc.c:1909  */
+#line 122 "libinterp/corefcn/oct-tex-parser.h" /* yacc.c:1906  */
 };
 
 typedef union OCTAVE_TEX_STYPE OCTAVE_TEX_STYPE;
@@ -125,6 +128,6 @@ typedef union OCTAVE_TEX_STYPE OCTAVE_TEX_STYPE;
 
 
 
-int octave_tex_parse (text_parser_tex& parser);
+int octave_tex_parse (octave::text_parser_tex& parser);
 
 #endif /* !YY_OCTAVE_TEX_LIBINTERP_COREFCN_OCT_TEX_PARSER_H_INCLUDED  */

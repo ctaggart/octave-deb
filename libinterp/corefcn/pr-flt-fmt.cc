@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 1993-2018 John W. Eaton
+Copyright (C) 1993-2019 John W. Eaton
 
 This file is part of Octave.
 
@@ -43,16 +43,6 @@ void
 set_output_prec (int prec)
 {
   Voutput_precision = prec;
-}
-
-DEFUN (output_max_field_width, , ,
-       doc: /* -*- texinfo -*-
-@deftypefn {} {} output_max_field_width
-This function is obsolete and will be removed from a future version
-of Octave.
-@end deftypefn */)
-{
-  return octave_value (20);
 }
 
 DEFUN (output_precision, args, nargout,

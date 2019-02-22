@@ -1,7 +1,7 @@
 #! /usr/bin/perl
 use utf8;
 
-# Copyright (C) 2012-2018 Rik Wehbring
+# Copyright (C) 2012-2019 Rik Wehbring
 #
 # This file is part of Octave.
 #
@@ -57,8 +57,15 @@ MFILE: foreach my $m_fname (@ARGV)
     }
   elsif ($paths[-2] =~ m/^\+/)
     {
-      ## +package functions have package.name their function name
-      $fcn = substr ($paths[-2], 1) . "." . $paths[-1];
+      $fcn = $paths[-1];
+      for (my $i = 2; $i < @paths; $i++)
+        {
+          if ($paths[-$i] =~ m/^\+/)
+            {
+              ## +package functions have package.name their function name
+              $fcn = substr ($paths[-$i], 1) . "." . $fcn;
+            }
+        }
     }
   else
     {

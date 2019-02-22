@@ -1,4 +1,4 @@
-## Copyright (C) 2007-2018 David Bateman
+## Copyright (C) 2007-2019 David Bateman
 ##
 ## This file is part of Octave.
 ##
@@ -36,6 +36,25 @@ function hg = __scatter__ (varargin)
     istart = 7;
   endif
 
+  ## Force mixtures of int and float data to be float (Bug #4116).
+  if (xor (isfloat (x), isfloat (y)))
+    if (isfloat (x))
+      y = cast (y, class (x));
+    else
+      x = cast (x, class (y));
+    endif
+  endif
+  if (nd != 2)
+    if (xor (isfloat (x), isfloat (z)))
+      if (isfloat (x))
+        z = cast (z, class (x));
+      else
+        x = cast (x, class (z));
+        y = cast (y, class (z));
+      endif
+    endif
+  endif
+
   if (istart <= nargin)
     s = varargin{istart}(:);
     if (isempty (s) || ischar (s))
@@ -46,21 +65,6 @@ function hg = __scatter__ (varargin)
     endif
   else
     s = 36;
-  endif
-
-  ## Remove NaNs
-  idx = isnan (x) | isnan (y) | isnan (s);
-  if (nd == 3)
-    idx |= isnan (z);
-    z(idx) = [];
-  endif
-  x(idx) = [];
-  y(idx) = [];
-  if (nd == 2)
-    z = zeros (length (x), 0);
-  endif
-  if (numel (s) > 1)
-    s(idx) = [];
   endif
 
   firstnonnumeric = find (! cellfun ("isnumeric", varargin(istart:nargin)), 1);
@@ -86,6 +90,24 @@ function hg = __scatter__ (varargin)
     endif
   else
     c = [];
+  endif
+
+  ## Remove NaNs
+  idx = isnan (x) | isnan (y) | isnan (s);
+  if (nd == 3)
+    idx |= isnan (z);
+    z(idx) = [];
+  endif
+  x(idx) = [];
+  y(idx) = [];
+  if (nd == 2)
+    z = zeros (length (x), 0);
+  endif
+  if (numel (s) > 1)
+    s(idx) = [];
+  endif
+  if (rows (c) > 1)
+    c(idx,:) = [];
   endif
 
   ## Validate inputs

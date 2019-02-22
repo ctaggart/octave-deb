@@ -23,12 +23,12 @@ versions.
 
 File: octave.info,  Node: Top,  Next: Preface,  Up: (dir)
 
-GNU Octave (version 4.4.1)
-**************************
+GNU Octave (version 5.0.91)
+***************************
 
 This manual documents how to run, install and port GNU Octave, as well
 as its new features and incompatibilities, and how to report bugs.  It
-corresponds to GNU Octave version 4.4.1.
+corresponds to GNU Octave version 5.0.91.
 
 * Menu:
 
@@ -597,6 +597,7 @@ Optimization
 Statistics
 
 * Descriptive Statistics::
+* Statistics on Sliding Windows of Data::
 * Basic Statistical Functions::
 * Correlation and Regression Analysis::
 * Distributions::
@@ -764,7 +765,7 @@ Java Interface
 
 * Making Java Classes Available::
 * How to use Java from within Octave::
-* Passing parameters to the JVM::
+* Set up the JVM::
 * Java Interface Functions::
 
 Test and Demo Functions
@@ -905,20 +906,21 @@ Frias
 Eduardo Gallestey        Walter Gautschi          Klaus Gebhardt
 Driss Ghaddab            Eugenio Gianniti         Hartmut Gimpel
 Michele Ginesi           Nicolo Giorgetti         Arun Giridhar
-Michael D. Godfrey       Michael Goffioul         Glenn Golden
-Tomislav Goles           Keith Goodman            Brian Gough
-Alexander Graf           Michael C. Grant         Steffen Groot
-Etienne Grossmann        David Grundberg          Kyle Guinn
-Vaibhav Gupta            Peter Gustafson          Kai Habel
-Patrick Häcker           William P. Y.            Jaroslav Hajek
-                         Hadisoeseno
-Benjamin Hall            Alexander Hansen         Kim Hansen
-Søren Hauberg            Dave Hawthorne           Oliver Heimlich
-Daniel Heiserer          Piotr Held               Martin Helm
-Stefan Hepp              Martin Hepperle          Jordi Gutiérrez
-                                                  Hermoso
-Israel Herraiz           Yozo Hida                Ryan Hinton
-Roman Hodek              A. Scottedward Hodel     Richard Allan Holcombe
+Michael D. Godfrey       Dave Goel                Michael Goffioul
+Glenn Golden             Tomislav Goles           Keith Goodman
+Brian Gough              Alexander Graf           Michael C. Grant
+Steffen Groot            Etienne Grossmann        David Grundberg
+Kyle Guinn               Vaibhav Gupta            Peter Gustafson
+Kai Habel                Patrick Häcker           William P. Y.
+                                                  Hadisoeseno
+Jaroslav Hajek           Benjamin Hall            Alexander Hansen
+Kim Hansen               Gene Harvey              Søren Hauberg
+Dave Hawthorne           Oliver Heimlich          Daniel Heiserer
+Piotr Held               Martin Helm              Stefan Hepp
+Martin Hepperle          Jordi Gutiérrez          Israel Herraiz
+                         Hermoso
+Yozo Hida                Ryan Hinton              Roman Hodek
+A. Scottedward Hodel     Júlio Hoffimann          Richard Allan Holcombe
 Tom Holroyd              David Hoover             Kurt Hornik
 Craig Hudson             Christopher Hulbert      Cyril Humbert
 John Hunt                Stefan Husmann           Teemu Ikonen
@@ -1012,14 +1014,15 @@ José Vallet              Stefan van der Walt      Peter Van Wieren
 James R. Van Zandt       Risto Vanhanen           Gregory Vanuxem
 Mihas Varantsou          Ivana Varekova           Sébastien Villemot
 Marco Vitetta            Daniel Wagenaar          Thomas Walter
-Andreas Weber            Olaf Weber               Thomas Weber
-Rik Wehbring             Bob Weigel               Andreas Weingessel
-Martin Weiser            Michael Weitzel          David Wells
-Joachim Wiesemann        Alexander Wilms          Joe Winegarden
-Georg Wiora              Sahil Yadav              Fook Fah Yap
-Sean Young               Michele Zaffalon         Serhiy Zahoriya
-Johannes Zarl            Michael Zeising          Federico Zenith
-Claudius Zingerli        Alex Zvoleff             Richard Zweig
+Jun Wang                 Andreas Weber            Olaf Weber
+Thomas Weber             Rik Wehbring             Bob Weigel
+Andreas Weingessel       Martin Weiser            Michael Weitzel
+David Wells              Joachim Wiesemann        Alexander Wilms
+Joe Winegarden           Georg Wiora              Sahil Yadav
+Fook Fah Yap             Sean Young               Michele Zaffalon
+Serhiy Zahoriya          Johannes Zarl            Michael Zeising
+Federico Zenith          Claudius Zingerli        Alex Zvoleff
+Richard Zweig
 
    Special thanks to the following people and organizations for
 supporting the development of Octave:
@@ -1183,7 +1186,7 @@ manual, *note Copying::.
 run, use, and extend GNU Octave.  Additional chapters describe how to
 report bugs and help contribute code.
 
-   This document corresponds to Octave version 4.4.1.
+   This document corresponds to Octave version 5.0.91.
 
 * Menu:
 
@@ -2355,7 +2358,9 @@ and because they may occasionally be useful for users.
      The first sentence is defined as the text after the function
      declaration until either the first period (".")  or the first
      appearance of two consecutive newlines ("\n\n").  The text is
-     truncated to a maximum length of MAX_LEN, which defaults to 80.
+     truncated to a maximum length of MAX_LEN, which defaults to 80.  If
+     the text must be truncated the last three characters of the text
+     are replaced with "..."  to indicate that more text was available.
 
      The optional output argument STATUS returns the status reported by
      ‘makeinfo’.  If only one output argument is requested, and STATUS
@@ -3550,7 +3555,7 @@ use of the following functions.
      For example:
 
           swapbytes (uint16 (1:4))
-          ⇒ [   256   512   768  1024]
+          ⇒   256   512   768  1024
 
      See also: *note typecast: XREFtypecast, *note cast: XREFcast.
 
@@ -3749,7 +3754,8 @@ functions return −1 for structure arguments.
      Return the number of dimensions of A.
 
      For any array, the result will always be greater than or equal to
-     2.  Trailing singleton dimensions are not counted.
+     2.  Trailing singleton dimensions are not counted, i.e., tailing
+     dimensions D greater than 2, for which ‘size (A, D) = 1’.
 
           ndims (ones (4, 1, 2, 1))
               ⇒ 3
@@ -3757,14 +3763,16 @@ functions return −1 for structure arguments.
      See also: *note size: XREFsize.
 
  -- : columns (A)
-     Return the number of columns of A.
+     Return the number of columns of A.  This is equivalent to ‘size (A,
+     2)’.
 
      See also: *note rows: XREFrows, *note size: XREFsize, *note length:
      XREFlength, *note numel: XREFnumel, *note isscalar: XREFisscalar,
      *note isvector: XREFisvector, *note ismatrix: XREFismatrix.
 
  -- : rows (A)
-     Return the number of rows of A.
+     Return the number of rows of A.  This is equivalent to ‘size (A,
+     1)’.
 
      See also: *note columns: XREFcolumns, *note size: XREFsize, *note
      length: XREFlength, *note numel: XREFnumel, *note isscalar:
@@ -4143,10 +4151,6 @@ screen, Octave splits the matrix and displays a header before each
 section to indicate which columns are being displayed.  You can use the
 following variables to control the format of the output.
 
- -- : output_max_field_width
-     This function is obsolete and will be removed from a future version
-     of Octave.
-
  -- : VAL = output_precision ()
  -- : OLD_VAL = output_precision (NEW_VAL)
  -- : output_precision (NEW_VAL, "local")
@@ -4166,9 +4170,8 @@ following variables to control the format of the output.
      XREFfixed_point_format.
 
    It is possible to achieve a wide range of output styles by using
-different values of ‘output_precision’ and ‘output_max_field_width’.
-Reasonable combinations can be set using the ‘format’ function.  *Note
-Basic Input and Output::.
+different values of ‘output_precision’.  Reasonable combinations can be
+set using the ‘format’ function.  *Note Basic Input and Output::.
 
  -- : VAL = split_long_rows ()
  -- : OLD_VAL = split_long_rows (NEW_VAL)
@@ -4220,6 +4223,7 @@ that can easily be misinterpreted.
      output chosen such that the largest matrix element can be written
      with a single leading digit.  For example:
 
+          fixed_point_format (true)
           logspace (1, 7, 5)'
           ans =
 
@@ -4531,83 +4535,115 @@ when converted.
      int16: XREFint16, *note uint16: XREFuint16, *note int32: XREFint32,
      *note uint32: XREFuint32, *note int64: XREFint64.
 
- -- : intmax (TYPE)
-     Return the largest integer that can be represented in an integer
-     type.
+ -- : intmax ()
+ -- : intmax ("TYPE")
+ -- : intmax (VAR)
+     Return the largest integer that can be represented by a specific
+     integer type.
 
-     The variable TYPE can be
+     The input is either a string "TYPE" specifying an integer type, or
+     it is an existing integer variable VAR.
 
-     ‘int8’
+     Possible values for TYPE are
+
+     "int8"
           signed 8-bit integer.
 
-     ‘int16’
+     "int16"
           signed 16-bit integer.
 
-     ‘int32’
+     "int32"
           signed 32-bit integer.
 
-     ‘int64’
+     "int64"
           signed 64-bit integer.
 
-     ‘uint8’
+     "uint8"
           unsigned 8-bit integer.
 
-     ‘uint16’
+     "uint16"
           unsigned 16-bit integer.
 
-     ‘uint32’
+     "uint32"
           unsigned 32-bit integer.
 
-     ‘uint64’
+     "uint64"
           unsigned 64-bit integer.
 
-     The default for TYPE is ‘int32’.
+     The default for TYPE is "int32".
+
+     Example Code - query an existing variable
+
+          x = int8 (1);
+          intmax (x)
+            ⇒ 127
 
      See also: *note intmin: XREFintmin, *note flintmax: XREFflintmax.
 
- -- : intmin (TYPE)
-     Return the smallest integer that can be represented in an integer
-     type.
+ -- : intmin ()
+ -- : intmin ("TYPE")
+ -- : intmin (VAR)
+     Return the smallest integer that can be represented by a specific
+     integer type.
 
-     The variable TYPE can be
+     The input is either a string "TYPE" specifying an integer type, or
+     it is an existing integer variable VAR.
 
-     ‘int8’
+     Possible values for TYPE are
+
+     "int8"
           signed 8-bit integer.
 
-     ‘int16’
+     "int16"
           signed 16-bit integer.
 
-     ‘int32’
+     "int32"
           signed 32-bit integer.
 
-     ‘int64’
+     "int64"
           signed 64-bit integer.
 
-     ‘uint8’
+     "uint8"
           unsigned 8-bit integer.
 
-     ‘uint16’
+     "uint16"
           unsigned 16-bit integer.
 
-     ‘uint32’
+     "uint32"
           unsigned 32-bit integer.
 
-     ‘uint64’
+     "uint64"
           unsigned 64-bit integer.
 
-     The default for TYPE is ‘int32’.
+     The default for TYPE is "int32".
+
+     Example Code - query an existing variable
+
+          x = int8 (1);
+          intmin (x)
+            ⇒ -128
 
      See also: *note intmax: XREFintmax, *note flintmax: XREFflintmax.
 
  -- : flintmax ()
  -- : flintmax ("double")
  -- : flintmax ("single")
+ -- : flintmax (VAR)
      Return the largest integer that can be represented consecutively in
      a floating point value.
 
-     The default class is "double", but "single" is a valid option.  On
+     The input is either a string specifying a floating point type, or
+     it is an existing floating point variable VAR.
+
+     The default type is "double", but "single" is a valid option.  On
      IEEE 754 compatible systems, ‘flintmax’ is 2^{53} for "double" and
      2^{24} for "single".
+
+     Example Code - query an existing variable
+
+          x = single (1);
+          flintmax (x)
+            ⇒ 16777216
 
      See also: *note intmax: XREFintmax, *note realmax: XREFrealmax,
      *note realmin: XREFrealmin.
@@ -4671,13 +4707,13 @@ result of ‘int32 (5) ./ int32 (8)’ is ‘1’.
      these rounding rules is
 
           idivide (int8 ([-3, 3]), int8 (4), "fix")
-            ⇒ int8 ([0, 0])
+            ⇒   0   0
           idivide (int8 ([-3, 3]), int8 (4), "round")
-            ⇒ int8 ([-1, 1])
+            ⇒  -1   1
           idivide (int8 ([-3, 3]), int8 (4), "floor")
-            ⇒ int8 ([-1, 0])
+            ⇒  -1   0
           idivide (int8 ([-3, 3]), int8 (4), "ceil")
-            ⇒ int8 ([0, 1])
+            ⇒   0   1
 
      See also: *note ldivide: XREFldivide, *note rdivide: XREFrdivide.
 
@@ -4695,11 +4731,29 @@ values of individual bits are ‘bitset’ and ‘bitget’.
  -- : C = bitset (A, N, VAL)
      Set or reset bit(s) N of the unsigned integers in A.
 
-     VAL = 0 resets and VAL = 1 sets the bits.  The least significant
-     bit is N = 1.  All variables must be the same size or scalars.
+     The least significant bit is N = 1.  VAL = 0 resets bits and
+     VAL = 1 sets bits.  If no VAL is specified it defaults to 1 (set
+     bit).  All inputs must be the same size or scalars.
 
-          dec2bin (bitset (10, 1))
-            ⇒ 1011
+     Example 1: Set multiple bits
+
+          x = bitset (1, 3:5)
+            ⇒ x =
+
+             5    9   17
+
+          dec2bin (x)
+            ⇒
+               00101
+               01001
+               10001
+
+     Example 2: Reset and set bits
+
+          x = bitset ([15 14], 1, [0 1])
+            ⇒ x =
+
+             14    15
 
      See also: *note bitand: XREFbitand, *note bitor: XREFbitor, *note
      bitxor: XREFbitxor, *note bitget: XREFbitget, *note bitcmp:
@@ -5042,7 +5096,8 @@ variable.
      XREFisa.
 
  -- : ismatrix (A)
-     Return true if A is a 2-D array.
+     Return true if A is a 2-D array, i.e., ‘size (A)’ returns ‘[M N]’
+     with non-negative M and N.
 
      See also: *note isscalar: XREFisscalar, *note isvector:
      XREFisvector, *note iscell: XREFiscell, *note isstruct:
@@ -5059,63 +5114,101 @@ variable.
      columns: XREFcolumns, *note length: XREFlength.
 
  -- : isrow (X)
-     Return true if X is a row vector 1xN with non-negative N.
+     Return true if X is a row vector, i.e., ‘size (X)’ returns ‘[1 N]’
+     with non-negative N.
 
      See also: *note iscolumn: XREFiscolumn, *note isscalar:
      XREFisscalar, *note isvector: XREFisvector, *note ismatrix:
      XREFismatrix.
 
  -- : iscolumn (X)
-     Return true if X is a column vector Nx1 with non-negative N.
+     Return true if X is a column vector, i.e., ‘size (X)’ returns ‘[N
+     1]’ with non-negative N.
 
      See also: *note isrow: XREFisrow, *note isscalar: XREFisscalar,
      *note isvector: XREFisvector, *note ismatrix: XREFismatrix.
 
  -- : isscalar (X)
-     Return true if X is a scalar.
+     Return true if X is a scalar, i.e., ‘size (X)’ returns ‘[1 1]’.
 
      See also: *note isvector: XREFisvector, *note ismatrix:
      XREFismatrix.
 
  -- : issquare (X)
-     Return true if X is a square matrix.
+     Return true if X is a square matrix, i.e., ‘size (X)’ returns ‘[N
+     N]’ with non-negative N.
 
      See also: *note isscalar: XREFisscalar, *note isvector:
      XREFisvector, *note ismatrix: XREFismatrix, *note size: XREFsize.
 
  -- : issymmetric (A)
  -- : issymmetric (A, TOL)
-     Return true if A is a symmetric matrix within the tolerance
-     specified by TOL.
+ -- : issymmetric (A, "skew")
+ -- : issymmetric (A, "skew", TOL)
+     Return true if A is a symmetric or skew-symmetric matrix within the
+     tolerance specified by TOL.
 
      The default tolerance is zero (uses faster code).
 
-     Matrix A is considered symmetric if ‘norm (A - A.', Inf) / norm (A,
-     Inf) < TOL’.
+     The type of symmetry to check may be specified with the additional
+     input "nonskew" (default) for regular symmetry or "skew" for
+     skew-symmetry.
+
+     Background: A matrix is symmetric if the transpose of the matrix is
+     equal to the original matrix: A == A.’.  If a tolerance is given
+     then symmetry is determined by ‘norm (A - A.', Inf) / norm (A, Inf)
+     < TOL’.
+
+     A matrix is skew-symmetric if the transpose of the matrix is equal
+     to the negative of the original matrix: A == -A.’.  If a tolerance
+     is given then skew-symmetry is determined by ‘norm (A + A.', Inf) /
+     norm (A, Inf) < TOL’.
 
      See also: *note ishermitian: XREFishermitian, *note isdefinite:
      XREFisdefinite.
 
  -- : ishermitian (A)
  -- : ishermitian (A, TOL)
-     Return true if A is Hermitian within the tolerance specified by
-     TOL.
+ -- : ishermitian (A, "skew")
+ -- : ishermitian (A, "skew", TOL)
+     Return true if A is a Hermitian or skew-Hermitian matrix within the
+     tolerance specified by TOL.
 
      The default tolerance is zero (uses faster code).
 
-     Matrix A is considered symmetric if ‘norm (A - A', Inf) / norm (A,
-     Inf) < TOL’.
+     The type of symmetry to check may be specified with the additional
+     input "nonskew" (default) for regular Hermitian or "skew" for
+     skew-Hermitian.
+
+     Background: A matrix is Hermitian if the complex conjugate
+     transpose of the matrix is equal to the original matrix: A == A’.
+     If a tolerance is given then the calculation is ‘norm (A - A', Inf)
+     / norm (A, Inf) < TOL’.
+
+     A matrix is skew-Hermitian if the complex conjugate transpose of
+     the matrix is equal to the negative of the original matrix:
+     A == -A’.  If a tolerance is given then the calculation is ‘norm (A
+     + A', Inf) / norm (A, Inf) < TOL’.
 
      See also: *note issymmetric: XREFissymmetric, *note isdefinite:
      XREFisdefinite.
 
  -- : isdefinite (A)
  -- : isdefinite (A, TOL)
-     Return 1 if A is symmetric positive definite within the tolerance
-     specified by TOL or 0 if A is symmetric positive semi-definite.
-     Otherwise, return -1.
+     Return true if A is symmetric positive definite matrix within the
+     tolerance specified by TOL.
 
-     If TOL is omitted, use a tolerance of ‘100 * eps * norm (A, "fro")’
+     If TOL is omitted, use a tolerance of ‘100 * eps * norm (A,
+     "fro")’.
+
+     Background: A positive definite matrix has eigenvalues which are
+     all greater than zero.  A positive semi-definite matrix has
+     eigenvalues which are all greater than or equal to zero.  The
+     matrix A is very likely to be positive semi-definite if the
+     following two conditions hold for a suitably small tolerance TOL.
+
+          isdefinite (A) ⇒ 0
+          isdefinite (A + 5*TOL, TOL) ⇒ 1
 
      See also: *note issymmetric: XREFissymmetric, *note ishermitian:
      XREFishermitian.
@@ -5180,10 +5273,10 @@ variable.
      Examples:
 
           isprime (1:6)
-              ⇒ [0, 1, 1, 0, 1, 0]
+            ⇒  0  1  1  0  1  0
 
           isprime ([i, 2, 3, 5])
-              ⇒ [0, 0, 1, 0]
+            ⇒  0  0  1  0
 
      Programming Note: ‘isprime’ is appropriate if the maximum value in
      X is not too large (< 1e15).  For larger values special purpose
@@ -5227,6 +5320,9 @@ For example, the expression
 
 produces the string whose contents are ‘foobarbaz’.  *Note Numeric Data
 Types::, for more information about creating matrices.
+
+   While strings can in principal store arbitrary content, most
+functions expect them to be UTF-8 encoded Unicode strings.
 
 * Menu:
 
@@ -5480,10 +5576,15 @@ horzcat: XREFhorzcat, and *note vertcat: XREFvertcat.
 
    • All string concatenation functions except ‘cstrcat’ convert
      numerical input into character data by taking the corresponding
-     ASCII character for each element, as in the following example:
+     UTF-8 character for each element (or multi-byte sequence), as in
+     the following example:
 
           char ([98, 97, 110, 97, 110, 97])
              ⇒ banana
+
+     For conversion between locale encodings and UTF-8, see *note
+     unicode2native: XREFunicode2native. and *note native2unicode:
+     XREFnative2unicode.
 
    • ‘char’ and ‘strvcat’ concatenate vertically, while ‘strcat’ and
      ‘cstrcat’ concatenate horizontally.  For example:
@@ -5670,7 +5771,7 @@ File: octave.info,  Node: Converting Numerical Data to Strings,  Prev: Concatena
 ------------------------------------------
 
 Apart from the string concatenation functions (*note Concatenating
-Strings::) which cast numerical data to the corresponding ASCII
+Strings::) which cast numerical data to the corresponding UTF-8 encoded
 characters, there are several functions that format numerical data as
 strings.  ‘mat2str’ and ‘num2str’ convert real or complex matrices,
 while ‘int2str’ converts integer matrices.  ‘int2str’ takes the real
@@ -5726,23 +5827,24 @@ function (*note Formatted Output::, *note sprintf: XREFsprintf.).
      Examples:
 
           num2str (123.456)
-               ⇒ "123.46"
+            ⇒ 123.456
 
           num2str (123.456, 4)
-               ⇒ "123.5"
+            ⇒ 123.5
 
           s = num2str ([1, 1.34; 3, 3.56], "%5.1f")
-               ⇒ s =
-                  1.0  1.3
-                  3.0  3.6
+            ⇒ s =
+                 1.0  1.3
+                 3.0  3.6
           whos s
-               ⇒
-                Attr Name        Size                     Bytes  Class
-                ==== ====        ====                     =====  =====
-                     s           2x8                         16  char
+            ⇒ Variables in the current scope:
+                  Attr Name        Size                     Bytes  Class
+                  ==== ====        ====                     =====  =====
+                       s           2x8                         16  char
+               Total is 16 elements using 16 bytes
 
           num2str (1.234 + 27.3i)
-               ⇒ "1.234+27.3i"
+            ⇒ 1.234+27.3i
 
      The ‘num2str’ function is not very flexible.  For better control
      over the results, use ‘sprintf’ (*note Formatted Output::).
@@ -5770,18 +5872,19 @@ function (*note Formatted Output::, *note sprintf: XREFsprintf.).
      character array).
 
           int2str (123)
-               ⇒ "123"
+            ⇒ 123
 
           s = int2str ([1, 2, 3; 4, 5, 6])
-               ⇒ s =
+            ⇒ s =
                   1  2  3
                   4  5  6
 
           whos s
-               ⇒
-                Attr Name        Size                     Bytes  Class
-                ==== ====        ====                     =====  =====
-                     s           2x7                         14  char
+            ⇒ Variables in the current scope:
+                  Attr Name        Size                     Bytes  Class
+                  ==== ====        ====                     =====  =====
+                       s           2x7                         14  char
+               Total is 14 elements using 14 bytes
 
      This function is not very flexible.  For better control over the
      results, use ‘sprintf’ (*note Formatted Output::).
@@ -5957,6 +6060,9 @@ general regular expressions, the following functions come with Octave.
 
  -- : findstr (S, T)
  -- : findstr (S, T, OVERLAP)
+
+     This function is obsolete.  Use ‘strfind’ instead.
+
      Return the vector of all positions in the longer of the two strings
      S and T where an occurrence of the shorter of the two starts.
 
@@ -5968,8 +6074,7 @@ general regular expressions, the following functions come with Octave.
           findstr ("abababa", "aba", 0)
                ⇒ [1, 5]
 
-     *Caution:* ‘findstr’ is scheduled for deprecation.  Use ‘strfind’
-     in all new code.
+     *Caution:* ‘findstr’ is obsolete.  Use ‘strfind’ in all new code.
 
      See also: *note strfind: XREFstrfind, *note strmatch: XREFstrmatch,
      *note strcmp: XREFstrcmp, *note strncmp: XREFstrncmp, *note
@@ -6058,9 +6163,8 @@ general regular expressions, the following functions come with Octave.
                     [1,3] = [](1x0)
                   }
 
-     See also: *note findstr: XREFfindstr, *note strmatch: XREFstrmatch,
-     *note regexp: XREFregexp, *note regexpi: XREFregexpi, *note find:
-     XREFfind.
+     See also: *note regexp: XREFregexp, *note regexpi: XREFregexpi,
+     *note find: XREFfind.
 
  -- : STR = strjoin (CSTR)
  -- : STR = strjoin (CSTR, DELIMITER)
@@ -6084,6 +6188,10 @@ general regular expressions, the following functions come with Octave.
 
  -- : strmatch (S, A)
  -- : strmatch (S, A, "exact")
+
+     This function is obsolete.  Use an alternative such as ‘strncmp’ or
+     ‘strcmp’ instead.
+
      Return indices of entries of A which begin with the string S.
 
      The second argument A must be a string, character matrix, or a cell
@@ -6104,14 +6212,14 @@ general regular expressions, the following functions come with Octave.
           strmatch ("apple", ["apple  "; "apple juice"; "an apple"], "exact")
                ⇒ [1]
 
-     *Caution:* ‘strmatch’ is scheduled for deprecation.  Use ‘strncmp’
-     (normal case), or ‘strcmp’ ("exact" case), or ‘regexp’ in all new
-     code.
+     *Caution:* ‘strmatch’ is obsolete.  Use ‘strncmp’ (normal case) or
+     ‘strcmp’ ("exact" case) in all new code.  Other replacement
+     possibilities, depending on application, include ‘regexp’ or
+     ‘validatestring’.
 
-     See also: *note strfind: XREFstrfind, *note findstr: XREFfindstr,
-     *note strcmp: XREFstrcmp, *note strncmp: XREFstrncmp, *note
-     strcmpi: XREFstrcmpi, *note strncmpi: XREFstrncmpi, *note find:
-     XREFfind.
+     See also: *note strncmp: XREFstrncmp, *note strcmp: XREFstrcmp,
+     *note regexp: XREFregexp, *note strfind: XREFstrfind, *note
+     validatestring: XREFvalidatestring.
 
  -- : [TOK, REM] = strtok (STR)
  -- : [TOK, REM] = strtok (STR, DELIM)
@@ -6207,7 +6315,8 @@ general regular expressions, the following functions come with Octave.
 
      Examples with regularexpression delimiters:
 
-          strsplit ("a foo b,bar c", ',|\s|foo|bar', "delimitertype", "regularexpression")
+          strsplit ("a foo b,bar c", ',|\s|foo|bar', ...
+                    "delimitertype", "regularexpression")
           ⇒
           {
                       [1,1] = a
@@ -6215,7 +6324,8 @@ general regular expressions, the following functions come with Octave.
                       [1,3] = c
           }
 
-          strsplit ("a,,b, c", '[, ]', "collapsedelimiters", false, "delimitertype", "regularexpression")
+          strsplit ("a,,b, c", '[, ]', "collapsedelimiters", false, ...
+                    "delimitertype", "regularexpression")
           ⇒
           {
                       [1,1] = a
@@ -6285,6 +6395,9 @@ general regular expressions, the following functions come with Octave.
  -- : [A, ...] = strread (STR, FORMAT, PROP1, VALUE1, ...)
  -- : [A, ...] = strread (STR, FORMAT, FORMAT_REPEAT, PROP1, VALUE1,
           ...)
+
+     This function is obsolete.  Use ‘textscan’ instead.
+
      Read data from a string.
 
      The string STR is split into words that are repeatedly matched to
@@ -6427,9 +6540,7 @@ general regular expressions, the following functions come with Octave.
           Data columns are not padded; strread returns columns of
           unequal length
 
-     See also: *note textscan: XREFtextscan, *note textread:
-     XREFtextread, *note load: XREFload, *note dlmread: XREFdlmread,
-     *note fscanf: XREFfscanf.
+     See also: *note textscan: XREFtextscan, *note sscanf: XREFsscanf.
 
  -- : NEWSTR = strrep (STR, PTN, REP)
  -- : NEWSTR = strrep (CELLSTR, PTN, REP)
@@ -6450,7 +6561,7 @@ general regular expressions, the following functions come with Octave.
               ⇒  "Th&%$ &%$ a test string"
 
      See also: *note regexprep: XREFregexprep, *note strfind:
-     XREFstrfind, *note findstr: XREFfindstr.
+     XREFstrfind.
 
  -- : NEWSTR = erase (STR, PTN)
      Delete all occurrences of PTN within STR.
@@ -6469,11 +6580,13 @@ general regular expressions, the following functions come with Octave.
               ⇒ {"Hello", "!"}
 
           ## string, multiple patterns
-          erase ("The Octave interpreter is fabulous", {"interpreter ", "The "})
+          erase ("The Octave interpreter is fabulous", ...
+                 {"interpreter ", "The "})
               ⇒ "Octave is fabulous"
 
           ## cellstr, multiple patterns
-          erase ({"The ", "Octave interpreter ", "is fabulous"}, {"interpreter ", "The "})
+          erase ({"The ", "Octave interpreter ", "is fabulous"}, ...
+                 {"interpreter ", "The "})
               ⇒ {"", "Octave ", "is fabulous"}
 
      Programming Note: ‘erase’ deletes the first instance of a pattern
@@ -6813,6 +6926,13 @@ general regular expressions, the following functions come with Octave.
 
      See also: *note strjust: XREFstrjust, *note strsplit: XREFstrsplit,
      *note deblank: XREFdeblank.
+
+ -- : IDX = unicode_idx (STR)
+     Return an array with the indices for each UTF-8 encoded character
+     in STR.
+
+          unicode_idx ("aäbc")
+               ⇒ [1, 2, 2, 3, 4]
 
 
 File: octave.info,  Node: String Conversions,  Next: Character Class Functions,  Prev: Manipulating Strings,  Up: Strings
@@ -7443,21 +7563,23 @@ three expressions
      x.c = "string";
 
 create a structure with three elements.  The ‘.’ character separates the
-structure name from the field name and indicates to Octave that this
-variable is a structure.  To print the value of the structure you can
-type its name, just as for any other variable:
+structure name (in the example above ‘x’) from the field name and
+indicates to Octave that this variable is a structure.  To print the
+value of the structure you can type its name, just as for any other
+variable:
 
      x
           ⇒ x =
-             {
-               a = 1
-               b =
 
-                 1  2
-                 3  4
+              scalar structure containing the fields:
 
-               c = string
-             }
+                a =  1
+                b =
+
+                   1   2
+                   3   4
+
+                c = string
 
 Note that Octave may print the elements in any order.
 
@@ -7465,39 +7587,47 @@ Note that Octave may print the elements in any order.
 
      y = x
           ⇒ y =
-             {
-               a = 1
-               b =
 
-                 1  2
-                 3  4
+              scalar structure containing the fields:
 
-               c = string
-             }
+                a =  1
+                b =
+
+                   1   2
+                   3   4
+
+                c = string
 
    Since structures are themselves values, structure elements may
-reference other structures.  The following statements change the value
-of the element ‘b’ of the structure ‘x’ to be a data structure
-containing the single element ‘d’, which has a value of 3.
+reference other structures, as well.  The following statement adds the
+field ‘d’ to the structure ‘x’.  The value of field ‘d’ is itself a data
+structure containing the single field ‘a’, which has a value of 3.
 
-     x.b.d = 3;
-     x.b
+     x.d.a = 3;
+     x.d
           ⇒ ans =
-             {
-               d = 3
-             }
+
+              scalar structure containing the fields:
+
+                a =  3
 
      x
           ⇒ x =
-             {
-               a = 1
-               b =
-               {
-                 d = 3
-               }
 
-               c = string
-             }
+              scalar structure containing the fields:
+
+                a =  1
+                b =
+
+                   1   2
+                   3   4
+
+                c = string
+                d =
+
+                  scalar structure containing the fields:
+
+                    a =  3
 
    Note that when Octave prints the value of a structure that contains
 other structures, only a few levels are displayed.  For example:
@@ -7505,17 +7635,18 @@ other structures, only a few levels are displayed.  For example:
      a.b.c.d.e = 1;
      a
           ⇒ a =
-             {
-               b =
-               {
-                 c =
-                 {
-                   1x1 struct array containing the fields:
 
-                   d: 1x1 struct
-                 }
-               }
-             }
+              scalar structure containing the fields:
+
+                b =
+
+                  scalar structure containing the fields:
+
+                    c =
+
+                      scalar structure containing the fields:
+
+                        d: 1x1 scalar struct
 
 This prevents long and confusing output from large deeply nested
 structures.  The number of levels to print for nested structures may be
@@ -7557,56 +7688,57 @@ contents of structure arrays.
 
    Functions can return structures.  For example, the following function
 separates the real and complex parts of a matrix and stores them in two
-elements of the same structure variable.
+elements of the same structure variable ‘y’.
 
      function y = f (x)
        y.re = real (x);
        y.im = imag (x);
      endfunction
 
-   When called with a complex-valued argument, ‘f’ returns the data
-structure containing the real and imaginary parts of the original
-function argument.
+   When called with a complex-valued argument, the function ‘f’ returns
+the data structure containing the real and imaginary parts of the
+original function argument.
 
      f (rand (2) + rand (2) * I)
           ⇒ ans =
-             {
-               im =
 
-                 0.26475  0.14828
-                 0.18436  0.83669
+              scalar structure containing the fields:
 
-               re =
+                re =
 
-                 0.040239  0.242160
-                 0.238081  0.402523
+                   0.040239  0.242160
+                   0.238081  0.402523
 
-             }
+                im =
+
+                   0.26475  0.14828
+                   0.18436  0.83669
 
    Function return lists can include structure elements, and they may be
 indexed like any other variable.  For example:
 
      [ x.u, x.s(2:3,2:3), x.v ] = svd ([1, 2; 3, 4]);
      x
+
           ⇒ x =
-             {
-               u =
 
-                 -0.40455  -0.91451
-                 -0.91451   0.40455
+              scalar structure containing the fields:
 
-               s =
+                u =
 
-                  0.00000   0.00000   0.00000
-                  0.00000   5.46499   0.00000
-                  0.00000   0.00000   0.36597
+                  -0.40455  -0.91451
+                  -0.91451   0.40455
 
-               v =
+                s =
 
-                 -0.57605   0.81742
-                 -0.81742  -0.57605
+                   0.00000   0.00000   0.00000
+                   0.00000   5.46499   0.00000
+                   0.00000   0.00000   0.36597
 
-             }
+                v =
+
+                  -0.57605   0.81742
+                  -0.81742  -0.57605
 
    It is also possible to cycle through all the elements of a structure
 in a loop, using a special form of the ‘for’ statement (*note Looping
@@ -8049,46 +8181,42 @@ below.
 
           s = struct ("d", 4, "b", 2, "a", 1, "c", 3);
           t1 = orderfields (s)
-               ⇒ t1 =
-                  {
-                    a =  1
-                    b =  2
-                    c =  3
-                    d =  4
-                  }
+            ⇒ t1 =
+                 scalar structure containing the fields:
+                   a =  1
+                   b =  2
+                   c =  3
+                   d =  4
 
           t = struct ("d", {}, "c", {}, "b", {}, "a", {});
           t2 = orderfields (s, t)
-               ⇒ t2 =
-                  {
-                    d =  4
-                    c =  3
-                    b =  2
-                    a =  1
-                  }
+            ⇒ t2 =
+                 scalar structure containing the fields:
+                   d =  4
+                   c =  3
+                   b =  2
+                   a =  1
 
           t3 = orderfields (s, [3, 2, 4, 1])
-               ⇒ t3 =
-                  {
-                    a =  1
-                    b =  2
-                    c =  3
-                    d =  4
-                  }
+            ⇒ t3 =
+                 scalar structure containing the fields:
+                   a =  1
+                   b =  2
+                   c =  3
+                   d =  4
 
           [t4, p] = orderfields (s, {"d", "c", "b", "a"})
-               ⇒ t4 =
-                  {
-                    d =  4
-                    c =  3
-                    b =  2
-                    a =  1
-                  }
-                  p =
-                     1
-                     4
-                     2
-                     3
+            ⇒ t4 =
+                 scalar structure containing the fields:
+                   d =  4
+                   c =  3
+                   b =  2
+                   a =  1
+               p =
+                  1
+                  4
+                  2
+                  3
 
      See also: *note fieldnames: XREFfieldnames, *note getfield:
      XREFgetfield, *note setfield: XREFsetfield, *note rmfield:
@@ -8101,21 +8229,19 @@ below.
      For example:
 
           idx = substruct ("()", {3, ":"})
-               ⇒
-                 idx =
-                 {
+            ⇒ idx =
+                 scalar structure containing the fields:
                    type = ()
                    subs =
                    {
                      [1,1] =  3
                      [1,2] = :
                    }
-                 }
           x = [1, 2, 3;
                4, 5, 6;
                7, 8, 9];
           subsref (x, idx)
-             ⇒ 7  8  9
+            ⇒   7   8   9
 
      See also: *note subsref: XREFsubsref, *note subsasgn: XREFsubsasgn.
 
@@ -8384,10 +8510,22 @@ the ‘num2cell’, ‘mat2cell’ and ‘cellslices’ functions.
  -- : C = num2cell (A, DIM)
      Convert the numeric matrix A to a cell array.
 
-     If DIM is defined, the value C is of dimension 1 in this dimension
-     and the elements of A are placed into C in slices.  For example:
+     When no DIM is specified, each element of A becomes a 1x1 element
+     in the output C.
 
-          num2cell ([1,2;3,4])
+     If DIM is defined then individual elements of C contain all of the
+     elements from A along the specified dimension.  DIM may also be a
+     vector of dimensions with the same rule applied.
+
+     For example:
+
+          x = [1,2;3,4]
+          ⇒
+              1    2
+              3    4
+
+          ## each element of A becomes a 1x1 element of C
+          num2cell (x)
              ⇒
                 {
                   [1,1] =  1
@@ -8395,7 +8533,8 @@ the ‘num2cell’, ‘mat2cell’ and ‘cellslices’ functions.
                   [1,2] =  2
                   [2,2] =  4
                 }
-          num2cell ([1,2;3,4],1)
+          ## all rows (dim 1) of A appear in each element of C
+          num2cell (x, 1)
              ⇒
                 {
                   [1,1] =
@@ -8405,44 +8544,104 @@ the ‘num2cell’, ‘mat2cell’ and ‘cellslices’ functions.
                      2
                      4
                 }
+          ## all columns (dim 2) of A appear in each element of C
+          num2cell (x, 2)
+             ⇒
+                {
+                  [1,1] =
+                     1   2
+                  [2,1] =
+                     3   4
+                }
+          ## all rows and cols appear in each element of C
+          ## (hence, only 1 output)
+          num2cell (x, [1, 2])
+             ⇒
+                {
+                  [1,1] =
+                     1   2
+                     3   4
+                }
 
      See also: *note mat2cell: XREFmat2cell.
 
- -- : C = mat2cell (A, M, N)
- -- : C = mat2cell (A, D1, D2, ...)
- -- : C = mat2cell (A, R)
+ -- : C = mat2cell (A, DIM1, DIM2, ..., DIMI, ..., DIMN)
+ -- : C = mat2cell (A, ROWDIM)
      Convert the matrix A to a cell array.
 
-     If A is 2-D, then it is required that ‘sum (M) == size (A, 1)’ and
-     ‘sum (N) == size (A, 2)’.  Similarly, if A is multi-dimensional and
-     the number of dimensional arguments is equal to the dimensions of
-     A, then it is required that ‘sum (DI) == size (A, i)’.
+     Each dimension argument (DIM1, DIM2, etc.) is a vector of integers
+     which specifies how to divide that dimension’s elements amongst the
+     new elements in the output C.  The number of elements in the I-th
+     dimension is ‘size (A, I)’.  Because all elements in A must be
+     partitioned, there is a requirement that ‘sum (DI) == size (A, i)’.
+     The size of the output cell C is numel (DIM1) x numel (DIM2) x ...
+     x numel (DIMN).
 
-     Given a single dimensional argument R, the other dimensional
-     arguments are assumed to equal ‘size (A,I)’.
+     Given a single dimensional argument, ROWDIM, the output is divided
+     into rows as specified.  All other dimensions are not divided and
+     thus all columns (dim 2), pages (dim 3), etc. appear in each output
+     element.
 
-     An example of the use of mat2cell is
+     Examples
 
-          mat2cell (reshape (1:16,4,4), [3,1], [3,1])
+          x = reshape (1:12, [3, 4])'
+          ⇒
+              1    2    3
+              4    5    6
+              7    8    9
+             10   11   12
+
+          ## The 4 rows (dim1) are divided in to two cell elements
+          ## with 2 rows each.
+          ## The 3 cols (dim2) are divided in to three cell elements
+          ## with 1 col each.
+          mat2cell (x, [2,2], [1,1,1])
           ⇒
           {
-             [1,1] =
+            [1,1] =
 
-                1   5   9
-                2   6  10
-                3   7  11
+               1
+               4
 
-             [2,1] =
+            [2,1] =
 
-                4   8  12
+                7
+               10
 
-             [1,2] =
+            [1,2] =
 
-               13
-               14
-               15
+               2
+               5
 
-             [2,2] = 16
+            [2,2] =
+                8
+               11
+
+            [1,3] =
+
+               3
+               6
+
+            [2,3] =
+                9
+               12
+          }
+
+          ## The 4 rows (dim1) are divided in to two cell elements
+          ## with a 3/1 split.
+          ## All columns appear in each output element.
+          mat2cell (x, [3,1])
+          ⇒
+          {
+            [1,1] =
+
+               1   2   3
+               4   5   6
+               7   8   9
+
+            [2,1] =
+
+               10   11   12
           }
 
      See also: *note num2cell: XREFnum2cell, *note cell2mat:
@@ -8759,225 +8958,4 @@ shown in the following subsections.
 
    (1) Comma-separated lists are also sometimes informally referred to
 as “cs-lists”.
-
-
-File: octave.info,  Node: Comma Separated Lists Generated from Cell Arrays,  Next: Comma Separated Lists Generated from Structure Arrays,  Up: Comma Separated Lists
-
-6.4.1 Comma Separated Lists Generated from Cell Arrays
-------------------------------------------------------
-
-As has been mentioned above (*note Indexing Cell Arrays::), elements of
-a cell array can be extracted into a comma separated list with the ‘{’
-and ‘}’ operators.  By surrounding this list with ‘[’ and ‘]’, it can be
-concatenated into an array.  For example:
-
-     a = {1, [2, 3], 4, 5, 6};
-     b = [a{1:4}]
-          ⇒ b =
-              1   2   3   4   5
-
-   Similarly, it is possible to create a new cell array containing cell
-elements selected with ‘{}’.  By surrounding the list with ‘{’ and ‘}’ a
-new cell array will be created, as the following example illustrates:
-
-     a = {1, rand(2, 2), "three"};
-     b = { a{ [1, 3] } }
-          ⇒ b =
-              {
-                [1,1] =  1
-                [1,2] = three
-              }
-
-   Furthermore, cell elements (accessed by ‘{}’) can be passed directly
-to a function.  The list of elements from the cell array will be passed
-as an argument list to a given function as if it is called with the
-elements as individual arguments.  The two calls to ‘printf’ in the
-following example are identical but the latter is simpler and can handle
-cell arrays of an arbitrary size:
-
-     c = {"GNU", "Octave", "is", "Free", "Software"};
-     printf ("%s ", c{1}, c{2}, c{3}, c{4}, c{5});
-          ⊣ GNU Octave is Free Software
-     printf ("%s ", c{:});
-          ⊣ GNU Octave is Free Software
-
-   If used on the left-hand side of an assignment, a comma separated
-list generated with ‘{}’ can be assigned to.  An example is
-
-     in{1} = [10, 20, 30];
-     in{2} = inf;
-     in{3} = "last";
-     in{4} = "first";
-     out = cell (4, 1);
-     [out{1:3}] = in{1 : 3};
-     [out{4:6}] = in{[1, 2, 4]})
-          ⇒ out =
-             {
-                [1,1] =
-
-                   10   20   30
-
-                [2,1] = Inf
-                [3,1] = last
-                [4,1] =
-
-                   10   20   30
-
-                [5,1] = Inf
-                [6,1] = first
-             }
-
-
-File: octave.info,  Node: Comma Separated Lists Generated from Structure Arrays,  Prev: Comma Separated Lists Generated from Cell Arrays,  Up: Comma Separated Lists
-
-6.4.2 Comma Separated Lists Generated from Structure Arrays
------------------------------------------------------------
-
-Structure arrays can equally be used to create comma separated lists.
-This is done by addressing one of the fields of a structure array.  For
-example:
-
-     x = ceil (randn (10, 1));
-     in = struct ("call1", {x, 3, "last"},
-                  "call2", {x, inf, "first"});
-     out = struct ("call1", cell (2, 1), "call2", cell (2, 1));
-     [out.call1] = find (in.call1);
-     [out.call2] = find (in.call2);
-
-
-File: octave.info,  Node: Variables,  Next: Expressions,  Prev: Data Containers,  Up: Top
-
-7 Variables
-***********
-
-Variables let you give names to values and refer to them later.  You
-have already seen variables in many of the examples.  The name of a
-variable must be a sequence of letters, digits and underscores, but it
-may not begin with a digit.  Octave does not enforce a limit on the
-length of variable names, but it is seldom useful to have variables with
-names longer than about 30 characters.  The following are all valid
-variable names
-
-     x
-     x15
-     __foo_bar_baz__
-     fucnrdthsucngtagdjb
-
-However, names like ‘__foo_bar_baz__’ that begin and end with two
-underscores are understood to be reserved for internal use by Octave.
-You should not use them in code you write, except to access Octave’s
-documented internal variables and built-in symbolic constants.
-
-   Case is significant in variable names.  The symbols ‘a’ and ‘A’ are
-distinct variables.
-
-   A variable name is a valid expression by itself.  It represents the
-variable’s current value.  Variables are given new values with
-“assignment operators” and “increment operators”.  *Note Assignment
-Expressions: Assignment Ops.
-
-   There is one built-in variable with a special meaning.  The ‘ans’
-variable always contains the result of the last computation, where the
-output wasn’t assigned to any variable.  The code ‘a = cos (pi)’ will
-assign the value -1 to the variable ‘a’, but will not change the value
-of ‘ans’.  However, the code ‘cos (pi)’ will set the value of ‘ans’ to
--1.
-
-   Variables in Octave do not have fixed types, so it is possible to
-first store a numeric value in a variable and then to later use the same
-name to hold a string value in the same program.  Variables may not be
-used before they have been given a value.  Doing so results in an error.
-
- -- Automatic Variable: ans
-     The most recently computed result that was not explicitly assigned
-     to a variable.
-
-     For example, after the expression
-
-          3^2 + 4^2
-
-     is evaluated, the value returned by ‘ans’ is 25.
-
- -- : isvarname (NAME)
-     Return true if NAME is a valid variable name.
-
-     See also: *note iskeyword: XREFiskeyword, *note exist: XREFexist,
-     *note who: XREFwho.
-
- -- : VARNAME = genvarname (STR)
- -- : VARNAME = genvarname (STR, EXCLUSIONS)
-     Create valid unique variable name(s) from STR.
-
-     If STR is a cellstr, then a unique variable is created for each
-     cell in STR.
-
-          genvarname ({"foo", "foo"})
-            ⇒
-               {
-                 [1,1] = foo
-                 [1,2] = foo1
-               }
-
-     If EXCLUSIONS is given, then the variable(s) will be unique to each
-     other and to EXCLUSIONS (EXCLUSIONS may be either a string or a
-     cellstr).
-
-          x = 3.141;
-          genvarname ("x", who ())
-            ⇒ x1
-
-     Note that the result is a char array or cell array of strings, not
-     the variables themselves.  To define a variable, ‘eval()’ can be
-     used.  The following trivial example sets ‘x’ to 42.
-
-          name = genvarname ("x");
-          eval ([name " = 42"]);
-            ⇒ x =  42
-
-     This can be useful for creating unique struct field names.
-
-          x = struct ();
-          for i = 1:3
-            x.(genvarname ("a", fieldnames (x))) = i;
-          endfor
-            ⇒ x =
-               {
-                 a =  1
-                 a1 =  2
-                 a2 =  3
-               }
-
-     Since variable names may only contain letters, digits, and
-     underscores, ‘genvarname’ will replace any sequence of disallowed
-     characters with an underscore.  Also, variables may not begin with
-     a digit; in this case an ‘x’ is added before the variable name.
-
-     Variable names beginning and ending with two underscores "__" are
-     valid, but they are used internally by Octave and should generally
-     be avoided; therefore, ‘genvarname’ will not generate such names.
-
-     ‘genvarname’ will also ensure that returned names do not clash with
-     keywords such as "for" and "if".  A number will be appended if
-     necessary.  Note, however, that this does *not* include function
-     names such as "sin".  Such names should be included in EXCLUSIONS
-     if necessary.
-
-     See also: *note isvarname: XREFisvarname, *note iskeyword:
-     XREFiskeyword, *note exist: XREFexist, *note who: XREFwho, *note
-     tempname: XREFtempname, *note eval: XREFeval.
-
- -- : namelengthmax ()
-     Return the MATLAB compatible maximum variable name length.
-
-     Octave is capable of storing strings up to 2^{31} - 1 in length.
-     However for MATLAB compatibility all variable, function, and
-     structure field names should be shorter than the length returned by
-     ‘namelengthmax’.  In particular, variables stored to a MATLAB file
-     format (‘*.mat’) will have their names truncated to this length.
-
-* Menu:
-
-* Global Variables::
-* Persistent Variables::
-* Status of Variables::
 

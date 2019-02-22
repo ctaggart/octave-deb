@@ -1,4 +1,4 @@
-## Copyright (C) 2016-2018 Francesco Faccio <francesco.faccio@mail.polimi.it>
+## Copyright (C) 2016-2019 Francesco Faccio <francesco.faccio@mail.polimi.it>
 ##
 ## This file is part of Octave.
 ##
@@ -109,7 +109,7 @@ function varargout = ode15s (fun, trange, y0, varargin)
       catch
         warning (lasterr);
       end_try_catch
-      if (! isa (options.Mass, "function_handle"))
+      if (! is_function_handle (options.Mass))
         error ("Octave:invalid-input-arg",
                [solver ": invalid value assigned to field 'Mass'"]);
       endif
@@ -123,7 +123,7 @@ function varargout = ode15s (fun, trange, y0, varargin)
       catch
         warning (lasterr);
       end_try_catch
-      if (! isa (options.Jacobian, "function_handle"))
+      if (! is_function_handle (options.Jacobian))
         error ("Octave:invalid-input-arg",
                [solver ": invalid value assigned to field 'Jacobian'"]);
       endif
@@ -137,7 +137,7 @@ function varargout = ode15s (fun, trange, y0, varargin)
       catch
         warning (lasterr);
       end_try_catch
-      if (! isa (options.OutputFcn, "function_handle"))
+      if (! is_function_handle (options.OutputFcn))
         error ("Octave:invalid-input-arg",
                [solver ": invalid value assigned to field '%s'"], "OutputFcn");
       endif
@@ -151,7 +151,7 @@ function varargout = ode15s (fun, trange, y0, varargin)
       catch
         warning (lasterr);
       end_try_catch
-      if (! isa (options.Events, "function_handle"))
+      if (! is_function_handle (options.Events))
         error ("Octave:invalid-input-arg",
                [solver ": invalid value assigned to field 'Events'"]);
       endif
@@ -173,7 +173,7 @@ function varargout = ode15s (fun, trange, y0, varargin)
   options.havemasssparse = false;
 
   if (! isempty (options.Mass))
-    if (isa (options.Mass, "function_handle"))
+    if (is_function_handle (options.Mass))
       options.havemassfun = true;
       if (nargin (options.Mass) == 2)
         options.havestatedep = true;
@@ -197,8 +197,8 @@ function varargout = ode15s (fun, trange, y0, varargin)
       endif
     elseif (ismatrix (options.Mass))
       options.havemasssparse = issparse (options.Mass);
-      if (any (size (options.Mass) != [n n]) ||
-          ! isnumeric (options.Mass) || ! isreal (options.Mass))
+      if (any (size (options.Mass) != [n n])
+          || ! isnumeric (options.Mass) || ! isreal (options.Mass))
         error ("Octave:invalid-input-arg",
                [solver ": invalid value assigned to field 'Mass'"]);
       endif
@@ -215,7 +215,7 @@ function varargout = ode15s (fun, trange, y0, varargin)
 
   if (! isempty (options.Jacobian))
     options.havejac = true;
-    if (isa (options.Jacobian, "function_handle"))
+    if (is_function_handle (options.Jacobian))
       options.havejacfun = true;
       if (nargin (options.Jacobian) == 2)
         [A] = options.Jacobian (trange(1), y0);

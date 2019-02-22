@@ -3,10 +3,10 @@
 <!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Matrix Factorizations (GNU Octave (version 4.4.1))</title>
+<title>Matrix Factorizations (GNU Octave (version 5.0.91))</title>
 
-<meta name="description" content="Matrix Factorizations (GNU Octave (version 4.4.1))">
-<meta name="keywords" content="Matrix Factorizations (GNU Octave (version 4.4.1))">
+<meta name="description" content="Matrix Factorizations (GNU Octave (version 5.0.91))">
+<meta name="keywords" content="Matrix Factorizations (GNU Octave (version 5.0.91))">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
@@ -181,7 +181,8 @@ if <var>op</var> is <code>&quot;-&quot;</code>
 <a name="XREFcholinsert"></a><dl>
 <dt><a name="index-cholinsert"></a><em><var>R1</var> =</em> <strong>cholinsert</strong> <em>(<var>R</var>, <var>j</var>, <var>u</var>)</em></dt>
 <dt><a name="index-cholinsert-1"></a><em>[<var>R1</var>, <var>info</var>] =</em> <strong>cholinsert</strong> <em>(<var>R</var>, <var>j</var>, <var>u</var>)</em></dt>
-<dd><p>Update a Cholesky factorization given a row or column to insert in the original factored matrix.
+<dd><p>Update a Cholesky factorization given a row or column to insert in the
+original factored matrix.
 </p>
 <p>Given a Cholesky&nbsp;factorization of a real symmetric or complex Hermitian
 positive definite matrix <var>A</var>&nbsp;=&nbsp;<var>R</var>&rsquo;*<var>R</var><!-- /@w -->, <var>R</var>&nbsp;upper
@@ -207,7 +208,8 @@ p&nbsp;=&nbsp;<span class="nolinebreak">[1:j-1,j+1:n+1]</span><!-- /@w -->.  u(j
 
 <a name="XREFcholdelete"></a><dl>
 <dt><a name="index-choldelete"></a><em><var>R1</var> =</em> <strong>choldelete</strong> <em>(<var>R</var>, <var>j</var>)</em></dt>
-<dd><p>Update a Cholesky factorization given a row or column to delete from the original factored matrix.
+<dd><p>Update a Cholesky factorization given a row or column to delete from the
+original factored matrix.
 </p>
 <p>Given a Cholesky&nbsp;factorization of a real symmetric or complex Hermitian
 positive definite matrix <var>A</var>&nbsp;=&nbsp;<var>R</var>&rsquo;*<var>R</var><!-- /@w -->, <var>R</var>&nbsp;upper
@@ -220,7 +222,8 @@ p&nbsp;=&nbsp;<span class="nolinebreak">[1:j-1,j+1:n+1]</span><!-- /@w -->.
 
 <a name="XREFcholshift"></a><dl>
 <dt><a name="index-cholshift"></a><em><var>R1</var> =</em> <strong>cholshift</strong> <em>(<var>R</var>, <var>i</var>, <var>j</var>)</em></dt>
-<dd><p>Update a Cholesky factorization given a range of columns to shift in the original factored matrix.
+<dd><p>Update a Cholesky factorization given a range of columns to shift in the
+original factored matrix.
 </p>
 <p>Given a Cholesky&nbsp;factorization of a real symmetric or complex Hermitian
 positive definite matrix <var>A</var>&nbsp;=&nbsp;<var>R</var>&rsquo;*<var>R</var><!-- /@w -->, <var>R</var>&nbsp;upper
@@ -551,7 +554,8 @@ economized (R is square).
 
 <a name="XREFqrinsert"></a><dl>
 <dt><a name="index-qrinsert"></a><em>[<var>Q1</var>, <var>R1</var>] =</em> <strong>qrinsert</strong> <em>(<var>Q</var>, <var>R</var>, <var>j</var>, <var>x</var>, <var>orient</var>)</em></dt>
-<dd><p>Update a QR factorization given a row or column to insert in the original factored matrix.
+<dd><p>Update a QR factorization given a row or column to insert in the original
+factored matrix.
 </p>
 
 <p>Given a QR&nbsp;factorization of a real or complex matrix
@@ -581,7 +585,8 @@ be either full (Q is square) or economized (R is square).
 
 <a name="XREFqrdelete"></a><dl>
 <dt><a name="index-qrdelete"></a><em>[<var>Q1</var>, <var>R1</var>] =</em> <strong>qrdelete</strong> <em>(<var>Q</var>, <var>R</var>, <var>j</var>, <var>orient</var>)</em></dt>
-<dd><p>Update a QR factorization given a row or column to delete from the original factored matrix.
+<dd><p>Update a QR factorization given a row or column to delete from the original
+factored matrix.
 </p>
 <p>Given a QR&nbsp;factorization of a real or complex matrix
 <var>A</var>&nbsp;=&nbsp;<var>Q</var>*<var>R</var><!-- /@w -->, <var>Q</var>&nbsp;unitary and
@@ -610,7 +615,8 @@ be either full (Q is square) or economized (R is square).
 
 <a name="XREFqrshift"></a><dl>
 <dt><a name="index-qrshift"></a><em>[<var>Q1</var>, <var>R1</var>] =</em> <strong>qrshift</strong> <em>(<var>Q</var>, <var>R</var>, <var>i</var>, <var>j</var>)</em></dt>
-<dd><p>Update a QR factorization given a range of columns to shift in the original factored matrix.
+<dd><p>Update a QR factorization given a range of columns to shift in the original
+factored matrix.
 </p>
 <p>Given a QR&nbsp;factorization of a real or complex matrix
 <var>A</var>&nbsp;=&nbsp;<var>Q</var>*<var>R</var><!-- /@w -->, <var>Q</var>&nbsp;unitary and
@@ -708,7 +714,7 @@ half-plane
 <code>eig</code>.  The order of output arguments was selected for compatibility with
 <small>MATLAB</small>.
 </p>
-<p><strong>See also:</strong> <a href="Basic-Matrix-Functions.html#XREFeig">eig</a>, <a href="Basic-Matrix-Functions.html#XREFbalance">balance</a>, <a href="#XREFlu">lu</a>, <a href="#XREFchol">chol</a>, <a href="#XREFhess">hess</a>, <a href="#XREFqr">qr</a>, <a href="#XREFqzhess">qzhess</a>, <a href="#XREFschur">schur</a>, <a href="#XREFsvd">svd</a>.
+<p><strong>See also:</strong> <a href="Basic-Matrix-Functions.html#XREFeig">eig</a>, <a href="#XREFordeig">ordeig</a>, <a href="Basic-Matrix-Functions.html#XREFbalance">balance</a>, <a href="#XREFlu">lu</a>, <a href="#XREFchol">chol</a>, <a href="#XREFhess">hess</a>, <a href="#XREFqr">qr</a>, <a href="#XREFqzhess">qzhess</a>, <a href="#XREFschur">schur</a>, <a href="#XREFsvd">svd</a>.
 </p></dd></dl>
 
 
@@ -724,10 +730,19 @@ orthogonal.
 </p>
 <div class="example">
 <pre class="example">[aa, bb, q, z] = qzhess ([1, 2; 3, 4], [5, 6; 7, 8])
-     &rArr; aa = [ -3.02244, -4.41741;  0.92998,  0.69749 ]
-     &rArr; bb = [ -8.60233, -9.99730;  0.00000, -0.23250 ]
-     &rArr;  q = [ -0.58124, -0.81373; -0.81373,  0.58124 ]
-     &rArr;  z = [ 1, 0; 0, 1 ]
+  &rArr; aa =
+      -3.02244  -4.41741
+       0.92998   0.69749
+  &rArr; bb =
+      -8.60233  -9.99730
+       0.00000  -0.23250
+  &rArr; q =
+      -0.58124  -0.81373
+      -0.81373   0.58124
+  &rArr; z =
+     Diagonal Matrix
+       1   0
+       0   1
 </pre></div>
 
 <p>The Hessenberg-triangular decomposition is the first step in
@@ -787,7 +802,7 @@ subspace corresponding to the <var>k</var> leading eigenvalues of <var>S</var>.
 matrix, and has applications in the solution of algebraic Riccati
 equations in control (see <code>are</code> and <code>dare</code>).
 </p>
-<p><strong>See also:</strong> <a href="#XREFrsf2csf">rsf2csf</a>, <a href="#XREFordschur">ordschur</a>, <a href="#XREFlu">lu</a>, <a href="#XREFchol">chol</a>, <a href="#XREFhess">hess</a>, <a href="#XREFqr">qr</a>, <a href="#XREFqz">qz</a>, <a href="#XREFsvd">svd</a>.
+<p><strong>See also:</strong> <a href="#XREFrsf2csf">rsf2csf</a>, <a href="#XREFordschur">ordschur</a>, <a href="#XREFordeig">ordeig</a>, <a href="#XREFlu">lu</a>, <a href="#XREFchol">chol</a>, <a href="#XREFhess">hess</a>, <a href="#XREFqr">qr</a>, <a href="#XREFqz">qz</a>, <a href="#XREFsvd">svd</a>.
 </p></dd></dl>
 
 
@@ -846,7 +861,24 @@ is in the upper left corner, by doing:
 </pre></div>
 
 
-<p><strong>See also:</strong> <a href="#XREFschur">schur</a>.
+<p><strong>See also:</strong> <a href="#XREFschur">schur</a>, <a href="#XREFordeig">ordeig</a>.
+</p></dd></dl>
+
+
+<a name="XREFordeig"></a><dl>
+<dt><a name="index-ordeig"></a><em><var>lambda</var> =</em> <strong>ordeig</strong> <em>(<var>A</var>)</em></dt>
+<dt><a name="index-ordeig-1"></a><em><var>lambda</var> =</em> <strong>ordeig</strong> <em>(<var>A</var>, <var>B</var>)</em></dt>
+<dd><p>Return the eigenvalues of quasi-triangular matrices in their order of
+appearance in the matrix <var>A</var>.
+</p>
+<p>The quasi-triangular matrix <var>A</var> is usually the result of a Schur
+factorization.  If called with a second input <var>B</var> then the generalized
+eigenvalues of the pair <var>A</var>, <var>B</var> are returned in the order of
+appearance of the matrix <code><var>A</var>-<var>lambda</var>*<var>B</var></code>.  The pair
+<var>A</var>, <var>B</var> is usually the result of a QZ decomposition.
+</p>
+
+<p><strong>See also:</strong> <a href="#XREFordschur">ordschur</a>, <a href="Basic-Matrix-Functions.html#XREFeig">eig</a>, <a href="#XREFschur">schur</a>, <a href="#XREFqz">qz</a>.
 </p></dd></dl>
 
 
@@ -947,7 +979,7 @@ and may be less accurate for some matrices.  See the documentation for
 <dd><p>Query or set the underlying <small>LAPACK</small> driver used by <code>svd</code>.
 </p>
 <p>Currently recognized values are <code>&quot;gesdd&quot;</code> and <code>&quot;gesvd&quot;</code>.
-The default is <code>&quot;gesdd&quot;</code>.
+The default is <code>&quot;gesvd&quot;</code>.
 </p>
 <p>When called from inside a function with the <code>&quot;local&quot;</code> option, the
 variable is changed locally for the function and any subroutines it calls.
@@ -958,25 +990,18 @@ the full singular value decomposition (left and right singular matrices as
 well as singular values).  When calculating just the singular values the
 following discussion is not relevant.
 </p>
-<p>The default routine use by Octave is the newer <code>gesdd</code> which is based on a
-Divide-and-Conquer algorithm that is 5X faster than the alternative
-<code>gesvd</code>, which is based on QR factorization.  However, the new algorithm
-can use significantly more memory.  For an MxN input matrix the
-memory usage is of order O(min(M,N) ^ 2), whereas the alternative is of order
-O(max(M,N)).  In general, modern computers have abundant memory so Octave has
-chosen to prioritize speed.
+<p>The newer <code>gesdd</code> routine is based on a Divide-and-Conquer algorithm that
+is 5X faster than the alternative <code>gesvd</code>, which is based on QR
+factorization.  However, the new algorithm can use significantly more memory.
+For an MxN input matrix the memory usage is of order O(min(M,N) ^ 2),
+whereas the alternative is of order O(max(M,N)).
 </p>
-<p>In addition, there have been instances in the past where some input matrices
-were not accurately decomposed by <code>gesdd</code>.  This appears to have been
-resolved with modern versions of <small>LAPACK</small>.  However, if certainty is
-required the accuracy of the decomposition can always be tested after the fact
-with
+<p>Beyond speed and memory issues, there have been instances where some input
+matrices were not accurately decomposed by <code>gesdd</code>.  See currently active
+bug <a href="https://savannah.gnu.org/bugs/?55564">https://savannah.gnu.org/bugs/?55564</a>.  Until these accuracy issues
+are resolved in a new version of the <small>LAPACK</small> library, the default driver
+in Octave has been set to <code>&quot;gesvd&quot;</code>.
 </p>
-<div class="example">
-<pre class="example">[<var>u</var>, <var>s</var>, <var>v</var>] = svd (<var>x</var>);
-norm (<var>x</var> - <var>u</var>*<var>s</var>*<var>v'</var>, &quot;fro&quot;)
-</pre></div>
-
 
 <p><strong>See also:</strong> <a href="#XREFsvd">svd</a>.
 </p></dd></dl>

@@ -1,4 +1,4 @@
-## Copyright (C) 2005-2018 Søren Hauberg
+## Copyright (C) 2005-2019 Søren Hauberg
 ## Copyright (C) 2010 VZLU Prague, a.s.
 ##
 ## This file is part of Octave.
@@ -24,7 +24,7 @@
 
 function emp = dirempty (nm, ign)
 
-  if (exist (nm, "dir"))
+  if (isfolder (nm))
     if (nargin < 2)
       ign = {".", ".."};
     else

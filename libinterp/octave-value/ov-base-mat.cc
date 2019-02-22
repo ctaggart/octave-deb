@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 1996-2018 John W. Eaton
+Copyright (C) 1996-2019 John W. Eaton
 Copyright (C) 2009-2010 VZLU Prague
 
 This file is part of Octave.
@@ -25,7 +25,8 @@ along with Octave; see the file COPYING.  If not, see
 // C++ source files that should have included config.h before including
 // this file.
 
-#include <iostream>
+#include <ostream>
+#include <sstream>
 
 #include "Array-util.h"
 

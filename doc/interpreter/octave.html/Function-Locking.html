@@ -3,10 +3,10 @@
 <!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Function Locking (GNU Octave (version 4.4.1))</title>
+<title>Function Locking (GNU Octave (version 5.0.91))</title>
 
-<meta name="description" content="Function Locking (GNU Octave (version 4.4.1))">
-<meta name="keywords" content="Function Locking (GNU Octave (version 4.4.1))">
+<meta name="description" content="Function Locking (GNU Octave (version 5.0.91))">
+<meta name="keywords" content="Function Locking (GNU Octave (version 5.0.91))">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
@@ -58,11 +58,10 @@ Next: <a href="Function-Precedence.html#Function-Precedence" accesskey="n" rel="
 <a name="Function-Locking-1"></a>
 <h4 class="subsection">11.9.6 Function Locking</h4>
 
-<p>It is sometime desirable to lock a function into memory with the
-<code>mlock</code> function.  This is typically used for dynamically linked
-functions in Oct-files or mex-files that contain some initialization,
-and it is desirable that calling <code>clear</code> does not remove this
-initialization.
+<p>It is sometime desirable to lock a function into memory with the <code>mlock</code>
+function.  This is typically used for dynamically linked functions in
+oct-files or mex-files that contain some initialization, and it is desirable
+that calling <code>clear</code> does not remove this initialization.
 </p>
 <p>As an example,
 </p>
@@ -70,12 +69,13 @@ initialization.
 <pre class="example">function my_function ()
   mlock ();
   &hellip;
+endfunction
 </pre></div>
 
-<p>prevents <code>my_function</code> from being removed from memory after it is
-called, even if <code>clear</code> is called.  It is possible to determine if
-a function is locked into memory with the <code>mislocked</code>, and to unlock
-a function with <code>munlock</code>, which the following illustrates.
+<p>prevents <code>my_function</code> from being removed from memory after it is called,
+even if <code>clear</code> is called.  It is possible to determine if a function is
+locked into memory with the <code>mislocked</code>, and to unlock a function with
+<code>munlock</code>, which the following code illustrates.
 </p>
 <div class="example">
 <pre class="example">my_function ();
@@ -86,56 +86,57 @@ mislocked (&quot;my_function&quot;)
 &rArr; ans = 0
 </pre></div>
 
-<p>A common use of <code>mlock</code> is to prevent persistent variables from
-being removed from memory, as the following example shows:
+<p>A common use of <code>mlock</code> is to prevent persistent variables from being
+removed from memory, as the following example shows:
 </p>
 <div class="example">
 <pre class="example">function count_calls ()
   mlock ();
   persistent calls = 0;
-  printf (&quot;'count_calls' has been called %d times\n&quot;,
-          ++calls);
+  printf (&quot;count_calls() has been called %d times\n&quot;, ++calls);
 endfunction
 
 count_calls ();
--| 'count_calls' has been called 1 times
+-| count_calls() has been called 1 times
 
 clear count_calls
 count_calls ();
--| 'count_calls' has been called 2 times
+-| count_calls() has been called 2 times
 </pre></div>
 
-<p><code>mlock</code> might equally be used to prevent changes to a function from having
-effect in Octave, though a similar effect can be had with the
-<code>ignore_function_time_stamp</code> function.
+<p><code>mlock</code> might also be used to prevent changes to an m-file, such as in an
+external editor, from having any effect in the current Octave session; A
+similar effect can be had with the <code>ignore_function_time_stamp</code> function.
 </p>
 <a name="XREFmlock"></a><dl>
 <dt><a name="index-mlock"></a><em></em> <strong>mlock</strong> <em>()</em></dt>
-<dd><p>Lock the current function into memory so that it can&rsquo;t be cleared.
+<dd><p>Lock the current function into memory so that it can&rsquo;t be removed with
+<code>clear</code>.
 </p>
-<p><strong>See also:</strong> <a href="#XREFmunlock">munlock</a>, <a href="#XREFmislocked">mislocked</a>, <a href="Persistent-Variables.html#XREFpersistent">persistent</a>.
+<p><strong>See also:</strong> <a href="#XREFmunlock">munlock</a>, <a href="#XREFmislocked">mislocked</a>, <a href="Persistent-Variables.html#XREFpersistent">persistent</a>, <a href="Status-of-Variables.html#XREFclear">clear</a>.
 </p></dd></dl>
 
 
 <a name="XREFmunlock"></a><dl>
 <dt><a name="index-munlock"></a><em></em> <strong>munlock</strong> <em>()</em></dt>
 <dt><a name="index-munlock-1"></a><em></em> <strong>munlock</strong> <em>(<var>fcn</var>)</em></dt>
-<dd><p>Unlock the named function <var>fcn</var>.
+<dd><p>Unlock the named function <var>fcn</var> so that it may be removed from memory with
+<code>clear</code>.
 </p>
 <p>If no function is named then unlock the current function.
 </p>
-<p><strong>See also:</strong> <a href="#XREFmlock">mlock</a>, <a href="#XREFmislocked">mislocked</a>, <a href="Persistent-Variables.html#XREFpersistent">persistent</a>.
+<p><strong>See also:</strong> <a href="#XREFmlock">mlock</a>, <a href="#XREFmislocked">mislocked</a>, <a href="Persistent-Variables.html#XREFpersistent">persistent</a>, <a href="Status-of-Variables.html#XREFclear">clear</a>.
 </p></dd></dl>
 
 
 <a name="XREFmislocked"></a><dl>
 <dt><a name="index-mislocked"></a><em></em> <strong>mislocked</strong> <em>()</em></dt>
 <dt><a name="index-mislocked-1"></a><em></em> <strong>mislocked</strong> <em>(<var>fcn</var>)</em></dt>
-<dd><p>Return true if the named function <var>fcn</var> is locked.
+<dd><p>Return true if the named function <var>fcn</var> is locked in memory.
 </p>
 <p>If no function is named then return true if the current function is locked.
 </p>
-<p><strong>See also:</strong> <a href="#XREFmlock">mlock</a>, <a href="#XREFmunlock">munlock</a>, <a href="Persistent-Variables.html#XREFpersistent">persistent</a>.
+<p><strong>See also:</strong> <a href="#XREFmlock">mlock</a>, <a href="#XREFmunlock">munlock</a>, <a href="Persistent-Variables.html#XREFpersistent">persistent</a>, <a href="Status-of-Variables.html#XREFclear">clear</a>.
 </p></dd></dl>
 
 

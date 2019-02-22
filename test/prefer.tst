@@ -1,4 +1,4 @@
-## Copyright (C) 2006-2018 John W. Eaton
+## Copyright (C) 2006-2019 John W. Eaton
 ##
 ## This file is part of Octave.
 ##
@@ -95,8 +95,8 @@
 %! print_empty_dimensions (0);
 %! a = cell (1, 1);
 %! b = type ("-q", "a");
-%! assert (!isempty (findstr (b{1}, "[]")));
-%! assert (isempty (findstr (b{1} ,"[](0x0)")));
+%! assert (! isempty (strfind (b{1}, "[]")));
+%! assert (isempty (strfind (b{1} ,"[](0x0)")));
 %! print_empty_dimensions (ped);
 
 %!test
@@ -104,7 +104,7 @@
 %! print_empty_dimensions (1);
 %! a = cell (1, 1);
 %! b = type ("-q", "a");
-%! assert (!isempty (findstr (b{1}, "[](0x0)")));
+%! assert (! isempty (strfind (b{1}, "[](0x0)")));
 %! print_empty_dimensions (ped);
 
 %!assert (all (size (inv ([])) == [0, 0]))

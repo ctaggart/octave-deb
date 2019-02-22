@@ -3,10 +3,10 @@
 <!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Printing and Saving Plots (GNU Octave (version 4.4.1))</title>
+<title>Printing and Saving Plots (GNU Octave (version 5.0.91))</title>
 
-<meta name="description" content="Printing and Saving Plots (GNU Octave (version 4.4.1))">
-<meta name="keywords" content="Printing and Saving Plots (GNU Octave (version 4.4.1))">
+<meta name="description" content="Printing and Saving Plots (GNU Octave (version 5.0.91))">
+<meta name="keywords" content="Printing and Saving Plots (GNU Octave (version 5.0.91))">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
@@ -96,8 +96,9 @@ plot (x, erf (x));
 hold on;
 plot (x, x, &quot;r&quot;);
 axis ([0, 3, 0, 1]);
-text (0.65, 0.6175, ['$\displaystyle\leftarrow x = {2 \over \sqrt{\pi}}'...
-                     '\int_{0}^{x} e^{-t^2} dt = 0.6175$'],
+text (0.65, 0.6175, ...
+      ['$\displaystyle\leftarrow x = {2 \over \sqrt{\pi}}'...
+       '\int_{0}^{x} e^{-t^2} dt = 0.6175$'],
       &quot;interpreter&quot;, &quot;latex&quot;);
 xlabel (&quot;x&quot;);
 ylabel (&quot;erf (x)&quot;);
@@ -117,45 +118,132 @@ open plot15_7.pdf
 <dt><a name="index-print"></a><em></em> <strong>print</strong> <em>()</em></dt>
 <dt><a name="index-print-1"></a><em></em> <strong>print</strong> <em>(<var>options</var>)</em></dt>
 <dt><a name="index-print-2"></a><em></em> <strong>print</strong> <em>(<var>filename</var>, <var>options</var>)</em></dt>
-<dt><a name="index-print-3"></a><em></em> <strong>print</strong> <em>(<var>h</var>, <var>filename</var>, <var>options</var>)</em></dt>
-<dd><p>Print a plot, or save it to a file.
-</p>
-<p>Both output formatted for printing (PDF and PostScript), and many bitmapped
-and vector image formats are supported.
+<dt><a name="index-print-3"></a><em></em> <strong>print</strong> <em>(<var>hfig</var>, &hellip;)</em></dt>
+<dt><a name="index-print-4"></a><em><var>rgb</var> =</em> <strong>print</strong> <em>(<code>&quot;-RGBImage&quot;</code>, &hellip;)</em></dt>
+<dd><p>Format a figure for printing and either save it to a file, send it to a
+printer, or return an RGB image.
 </p>
 <p><var>filename</var> defines the name of the output file.  If the filename has
-no suffix, one is inferred from the specified device and appended to the
-filename.  If no filename is specified, the output is sent to the
-printer.
+no suffix then one is inferred from the specified device and appended to the
+filename.  When neither a filename nor the <code>&quot;-RGBImage&quot;</code> option is
+present, the output is sent to the printer.  The various options and
+filename arguments may be given in any order, except for the figure handle
+argument <var>hfig</var> which must be first if it is present.
 </p>
-<p><var>h</var> specifies the handle of the figure to print.  If no handle is
-specified the current figure is used.
+<p>Example: Print to a file using PDF and JPEG formats.
 </p>
-<p>For output to a printer, PostScript file, or PDF file, the paper size is
-specified by the figure&rsquo;s <code>papersize</code> property.  The location and
-size of the image on the page are specified by the figure&rsquo;s
-<code>paperposition</code> property.  The orientation of the page is specified
-by the figure&rsquo;s <code>paperorientation</code> property.
+<div class="example">
+<pre class="example">figure (1);
+clf ();
+surf (peaks);
+print figure1.pdf    # The extension specifies the format
+print -djpg figure1  # Will produce &quot;figure1.jpg&quot; file
+</pre></div>
+
+<p>If the first argument is a handle <var>hfig</var> to a figure object then it
+specifies the figure to print.  By default, the current figure returned
+by <code>gcf</code> is printed.
 </p>
-<p>The width and height of images are specified by the figure&rsquo;s
-<code>paperposition(3:4)</code> property values.
+<p>For outputs to paged formats, for example, PostScript and PDF, the page size
+is specified by the figure&rsquo;s <code>papersize</code> property together with the
+<code>paperunits</code> property.  The location and size of the plot on the page
+are specified by the figure&rsquo;s <code>paperposition</code> property.  The
+orientation of the page is specified by the figure&rsquo;s <code>paperorientation</code>
+property.
+</p>
+<p>For non-page formats&mdash;for example, image formats like JPEG&mdash;the width and
+height of the output are specified by the figure&rsquo;s <code>paperposition(3:4)</code>
+property values.
 </p>
 <p>The <code>print</code> command supports many <var>options</var>:
 </p>
 <dl compact="compact">
 <dt><code>-f<var>h</var></code></dt>
-<dd><p>Specify the handle, <var>h</var>, of the figure to be printed.  The default
-is the current figure.
+<dd><p>Specify the handle, <var>h</var>, of the figure to be printed.
 </p>
+<p>Example: Print figure 1.
+</p>
+<div class="example">
+<pre class="example">figure (1);
+clf ();
+surf (peaks);
+figure (2);
+print -f1 figure1.pdf
+## Equivalent functional form:
+print (1, &quot;figure1.pdf&quot;)
+</pre></div>
+
 </dd>
 <dt><code>-P<var>printer</var></code></dt>
-<dd><p>Set the <var>printer</var> name to which the plot is sent if no
-<var>filename</var> is specified.
+<dd><p>Set the <var>printer</var> name to which the plot is sent if no <var>filename</var>
+is specified.
+</p>
+<p>Example: Print to printer named PS_printer using PostScript format.
+</p>
+<div class="example">
+<pre class="example">clf ();
+surf (peaks);
+print -dpswrite -PPS_printer
+</pre></div>
+
+</dd>
+<dt><code>-RGBImage</code></dt>
+<dd><p>Return an M-by-N-by-3 RGB image of the figure.  The size of the image
+depends on the formatting options.  This is similar to taking a screen
+capture of the plot, but formatting options may be changed such as the
+resolution or monochrome/color.
+</p>
+<p>Example: Get the pixels of a figure image.
+</p>
+<div class="example">
+<pre class="example">clf ();
+surf (peaks);
+<var>rgb</var> = print (&quot;-RGBImage&quot;);
+</pre></div>
+
+</dd>
+<dt><code>-opengl</code></dt>
+<dt><code>-painters</code></dt>
+<dd><p>Specifies whether the opengl (pixel-based) or painters (vector-based)
+renderer is used.  This is equivalent to changing the figure&rsquo;s
+<code>&quot;Renderer&quot;</code> property.  When the figure <code>RendererMode</code> property
+is <code>&quot;auto&quot;</code> Octave will use the <code>&quot;opengl&quot;</code> renderer for raster
+formats (e.g., JPEG) and <code>&quot;painters&quot;</code> for vector formats (e.g., PDF).
+Those options are only supported for the &quot;qt&quot; graphics tookit.
 </p>
 </dd>
-<dt><code>-G<var>ghostscript_command</var></code></dt>
-<dd><p>Specify the command for calling Ghostscript.  For Unix and Windows the
-defaults are <code>&quot;gs&quot;</code> and <code>&quot;gswin32c&quot;</code>, respectively.
+<dt><code>-svgconvert</code></dt>
+<dd><p>For OpenGL-based graphic toolkits, this enables a different backend
+toolchain with enhanced characteristics.  The toolchain adds support for
+printing arbitrary characters and fonts in PDF outputs; it avoids some
+anti-aliasing artifacts in the rendering of patch and surface objects
+(particularly for 2-D scenes); and it supports transparency of line, patch,
+and surface objects.
+</p>
+<p>This option only affects PDF outputs, unless it is combined with
+<samp>-painters</samp> option, in which case raster outputs are also affected.
+</p>
+<p>Caution: <samp>-svgconvert</samp> may lead to inaccurate rendering of image
+objects.
+</p>
+</dd>
+<dt><code>-portrait</code></dt>
+<dt><code>-landscape</code></dt>
+<dd><p>Specify the orientation of the plot for printed output.
+For non-printed output the aspect ratio of the output corresponds to the
+plot area defined by the <code>&quot;paperposition&quot;</code> property in the
+orientation specified.  This option is equivalent to changing the figure&rsquo;s
+<code>&quot;paperorientation&quot;</code> property.
+</p>
+</dd>
+<dt><code>-fillpage</code></dt>
+<dt><code>-bestfit</code></dt>
+<dd><p>When using a page-based format (PDF, PostScript, printer) ignore the
+<code>&quot;paperposition&quot;</code> property and have the plot occupy the entire page.
+The option <samp>-fillpage</samp> will stretch the plot to occupy the page with
+0.25 inch margins all around.  The option <samp>-bestfit</samp> will expand the
+plot to take up as much room as possible on the page <strong>without</strong>
+distorting the original aspect ratio of the plot.
 </p>
 </dd>
 <dt><code>-color</code></dt>
@@ -168,35 +256,106 @@ defaults are <code>&quot;gs&quot;</code> and <code>&quot;gswin32c&quot;</code>, 
 <dd><p>Force all lines to be solid or dashed, respectively.
 </p>
 </dd>
-<dt><code>-portrait</code></dt>
-<dt><code>-landscape</code></dt>
-<dd><p>Specify the orientation of the plot for printed output.
-For non-printed output the aspect ratio of the output corresponds to the
-plot area defined by the <code>&quot;paperposition&quot;</code> property in the
-orientation specified.  This option is equivalent to changing the figure&rsquo;s
-<code>&quot;paperorientation&quot;</code> property.
+<dt><code>-noui</code></dt>
+<dd><p>Don&rsquo;t print uicontrol objects such as pushbuttons which may overlay the
+plot.  This is the default behavior and it is not possible to include
+uicontrol objects in the output without using an external screen capture
+tool.
 </p>
 </dd>
-<dt><code>-TextAlphaBits=<var>n</var></code></dt>
-<dt><code>-GraphicsAlphaBits=<var>n</var></code></dt>
-<dd><p>Octave is able to produce output for various printers, bitmaps, and
-vector formats by using Ghostscript.  For bitmap and printer output
-anti-aliasing is applied using Ghostscript&rsquo;s TextAlphaBits and
-GraphicsAlphaBits options.  The default number of bits are 4 and 1
-respectively.  Allowed values for <var>N</var> are 1, 2, or 4.
+<dt><code>-r<var>NUM</var></code></dt>
+<dd><p>Resolution of bitmaps in dots per inch (DPI).  For both metafiles and SVG
+the default is the screen resolution; for other formats the default is 150
+DPI.  To specify screen resolution, use <code>&quot;-r0&quot;</code>.
+</p>
+<p>Example: high resolution raster output.
+</p>
+<div class="example">
+<pre class="example">clf ();
+surf (peaks (), &quot;facelighting&quot;, &quot;gouraud&quot;);
+light ();
+print (&quot;-r600&quot;, &quot;lit_peaks.png&quot;);
+</pre></div>
+
+</dd>
+<dt><code>-S<var>xsize</var>,<var>ysize</var></code></dt>
+<dd><p>Plot size in pixels for raster formats including PNG, JPEG, PNG, and
+(unusually (SVG)).  For all vector formats, including PDF, PS, and EPS, the
+plot size is specified in points.  This option is equivalent to changing the
+width and height of the output by setting the figure property
+<code>paperposition(3:4)</code>.  When using the command form of the print
+function you must quote the <var>xsize</var>,<var>ysize</var> option to prevent the
+Octave interpreter from recognizing the embedded comma (&rsquo;,&rsquo;).  For example,
+by writing <span class="nolinebreak">&quot;-S640,480&quot;</span><!-- /@w -->.
+</p>
+</dd>
+<dt><code>-tight</code></dt>
+<dt><code>-loose</code></dt>
+<dd><p>Force a tight or loose bounding box for EPS files.  The default is tight.
+</p>
+</dd>
+<dt><code>-<var>preview</var></code></dt>
+<dd><p>Add a preview to EPS files.  Supported formats are:
+</p>
+<dl compact="compact">
+<dt><code>-interchange</code></dt>
+<dd><p>Provide an interchange preview.
+</p>
+</dd>
+<dt><code>-metafile</code></dt>
+<dd><p>Provide a metafile preview.
+</p>
+</dd>
+<dt><code>-pict</code></dt>
+<dd><p>Provide a pict preview.
+</p>
+</dd>
+<dt><code>-tiff</code></dt>
+<dd><p>Provide a TIFF preview.
+</p></dd>
+</dl>
+
+</dd>
+<dt><code>-append</code></dt>
+<dd><p>Append PostScript or PDF output to an existing file of the same type.
+</p>
+</dd>
+<dt><code>-F<var>fontname</var></code></dt>
+<dt><code>-F<var>fontname</var>:<var>size</var></code></dt>
+<dt><code>-F:<var>size</var></code></dt>
+<dd><p>Use <var>fontname</var> and/or <var>fontsize</var> for all text.
+<var>fontname</var> is ignored for some devices: dxf, fig, hpgl, etc.
 </p>
 </dd>
 <dt><code>-d<var>device</var></code></dt>
 <dd><p>The available output format is specified by the option <var>device</var>, and
-is one of:
+is one of the following (devices marked with a &quot;*&quot; are only available with
+the Gnuplot toolkit):
+</p>
+<p>Vector Formats
 </p>
 <dl compact="compact">
+<dt><code>pdf</code></dt>
+<dt><code>pdfcrop</code></dt>
+<dd><p>Portable Document Format.  The <code>pdfcrop</code> device removes the default
+surrounding page.
+</p>
+<p>The OpenGL-based graphics toolkits have limited support for text.
+Limitations include using only ASCII characters (e.g., no Greek letters)
+and support for just three base PostScript fonts: Helvetica (the default),
+Times, or Courier.  Any other font will be replaced by Helvetica.
+</p>
+<p>For an enhanced output with complete text support and basic transparency,
+use the <samp>-svgconvert</samp> option.
+</p>
+</dd>
 <dt><code>ps</code></dt>
 <dt><code>ps2</code></dt>
 <dt><code>psc</code></dt>
 <dt><code>psc2</code></dt>
-<dd><p>PostScript (level 1 and 2, mono and color).  The OpenGL-based toolkits
-always generate PostScript level 3.0.
+<dd><p>PostScript (level 1 and 2, mono and color).  The OpenGL-based graphics
+toolkits always generate PostScript level 3.0 and have limited support for
+text.
 </p>
 </dd>
 <dt><code>eps</code></dt>
@@ -204,7 +363,8 @@ always generate PostScript level 3.0.
 <dt><code>epsc</code></dt>
 <dt><code>epsc2</code></dt>
 <dd><p>Encapsulated PostScript (level 1 and 2, mono and color).  The
-OpenGL-based toolkits always generate PostScript level 3.0.
+OpenGL-based toolkits always generate PostScript level 3.0 and have
+limited support for text.
 </p>
 </dd>
 <dt><code>pslatex</code></dt>
@@ -213,58 +373,54 @@ OpenGL-based toolkits always generate PostScript level 3.0.
 <dt><code>pslatexstandalone</code></dt>
 <dt><code>epslatexstandalone</code></dt>
 <dt><code>pdflatexstandalone</code></dt>
-<dd><p>Generate a LaTeX file <samp><var>filename</var>.tex</samp> for the text
-portions of a plot and a file <samp><var>filename</var>.(ps|eps|pdf)</samp> for the
-remaining graphics.  The graphics file suffix .ps|eps|pdf is determined
-by the specified device type.  The LaTeX file produced by the
-&lsquo;<samp>standalone</samp>&rsquo; option can be processed directly by LaTeX.  The file
-generated without the &lsquo;<samp>standalone</samp>&rsquo; option is intended to be included
-from another LaTeX document.  In either case, the LaTeX file
-contains an <code>\includegraphics</code> command so that the generated graphics
-file is automatically included when the LaTeX file is processed.  The
-text that is written to the LaTeX file contains the strings
-<strong>exactly</strong> as they were specified in the plot.  If any special
-characters of the TeX mode interpreter were used, the file must be
-edited before LaTeX processing.  Specifically, the special characters
-must be enclosed with dollar signs (<code>$ &hellip; $</code>), and other
-characters that are recognized by LaTeX may also need editing (.e.g.,
-braces).  The &lsquo;<samp>pdflatex</samp>&rsquo; device, and any of the &lsquo;<samp>standalone</samp>&rsquo;
-formats, are not available with the Gnuplot toolkit.
+<dd><p>Generate a LaTeX file <samp><var>filename</var>.tex</samp> for the text portions
+of a plot and a file <samp><var>filename</var>.(ps|eps|pdf)</samp> for the remaining
+graphics.  The graphics file suffix .ps|eps|pdf is determined by the
+specified device type.  The LaTeX file produced by the &lsquo;<samp>standalone</samp>&rsquo;
+option can be processed directly by LaTeX.  The file generated without
+the &lsquo;<samp>standalone</samp>&rsquo; option is intended to be included from another
+LaTeX document.  In either case, the LaTeX file contains an
+<code>\includegraphics</code> command so that the generated graphics file is
+automatically included when the LaTeX file is processed.  The text that
+is written to the LaTeX file contains the strings <strong>exactly</strong> as
+they were specified in the plot.  If any special characters of the TeX
+mode interpreter were used, the file must be edited before LaTeX
+processing.  Specifically, the special characters must be enclosed with
+dollar signs (<code>$&nbsp;&hellip;&nbsp;$</code>)<!-- /@w -->, and other characters that are
+recognized by LaTeX may also need editing (e.g., braces).  The
+&lsquo;<samp>pdflatex</samp>&rsquo; device, and any of the &lsquo;<samp>standalone</samp>&rsquo; formats, are not
+available with the Gnuplot toolkit.
 </p>
 </dd>
-<dt><code>epscairo</code></dt>
-<dt><code>pdfcairo</code></dt>
-<dt><code>epscairolatex</code></dt>
-<dt><code>pdfcairolatex</code></dt>
-<dt><code>epscairolatexstandalone</code></dt>
-<dt><code>pdfcairolatexstandalone</code></dt>
-<dd><p>Generate Cairo based output when using the Gnuplot graphics toolkit.
-The &lsquo;<samp>epscairo</samp>&rsquo; and &lsquo;<samp>pdfcairo</samp>&rsquo; devices are synonymous with
-the &lsquo;<samp>epsc</samp>&rsquo; device.  The LaTeX variants generate a LaTeX file,
-<samp><var>filename</var>.tex</samp>, for the text portions of a plot, and an image
-file, <samp><var>filename</var>.(eps|pdf)</samp>, for the graph portion of the plot.
-The &lsquo;<samp>standalone</samp>&rsquo; variants behave as described for
-&lsquo;<samp>epslatexstandalone</samp>&rsquo; above.
+<dt><code>epscairo*</code></dt>
+<dt><code>pdfcairo*</code></dt>
+<dt><code>epscairolatex*</code></dt>
+<dt><code>pdfcairolatex*</code></dt>
+<dt><code>epscairolatexstandalone*</code></dt>
+<dt><code>pdfcairolatexstandalone*</code></dt>
+<dd><p>Generate output with Cairo renderer.  The devices &lsquo;<samp>epscairo</samp>&rsquo; and
+&lsquo;<samp>pdfcairo</samp>&rsquo; are synonymous with the &lsquo;<samp>epsc</samp>&rsquo; device.  The LaTeX
+variants generate a LaTeX file, <samp><var>filename</var>.tex</samp>, for the text
+portions of a plot, and an image file, <samp><var>filename</var>.(eps|pdf)</samp>, for
+the graph portion of the plot.  The &lsquo;<samp>standalone</samp>&rsquo; variants behave as
+described for &lsquo;<samp>epslatexstandalone</samp>&rsquo; above.
 </p>
 </dd>
-<dt><code>ill</code></dt>
-<dt><code>aifm</code></dt>
-<dd><p>Adobe Illustrator (Obsolete for Gnuplot versions &gt; 4.2)
+<dt><code>svg</code></dt>
+<dd><p>Scalable Vector Graphics
 </p>
 </dd>
-<dt><code>canvas</code></dt>
-<dd><p>Javascript-based drawing on HTML5 canvas viewable in a web browser
-(only available for the Gnuplot graphics toolkit).
+<dt><code>canvas*</code></dt>
+<dd><p>Javascript-based drawing on an HTML5 canvas viewable in a web browser.
 </p>
 </dd>
-<dt><code>cdr</code></dt>
-<dt><code>corel</code></dt>
+<dt><code>cdr*</code></dt>
+<dt><code>corel*</code></dt>
 <dd><p>CorelDraw
 </p>
 </dd>
-<dt><code>cgm</code></dt>
+<dt><code>cgm*</code></dt>
 <dd><p>Computer Graphics Metafile, Version 1, ANSI X3.122-1986
-(only available for the Gnuplot graphics toolkit).
 </p>
 </dd>
 <dt><code>dxf</code></dt>
@@ -283,13 +439,39 @@ whether the special flag should be set for the text in the figure.
 (default is <samp>-textnormal</samp>)
 </p>
 </dd>
-<dt><code>gif</code></dt>
-<dd><p>GIF image
-(only available for the Gnuplot graphics toolkit).
-</p>
-</dd>
 <dt><code>hpgl</code></dt>
 <dd><p>HP plotter language
+</p>
+</dd>
+<dt><code>ill</code></dt>
+<dt><code>aifm</code></dt>
+<dd><p>Adobe Illustrator (obsolete for Gnuplot versions &gt; 4.2)
+</p>
+</dd>
+<dt><code>latex*</code></dt>
+<dt><code>eepic*</code></dt>
+<dd><p>LaTeX picture environment and extended picture environment.
+</p>
+</dd>
+<dt><code>mf*</code></dt>
+<dd><p>Metafont
+</p>
+</dd>
+<dt><code>tikz</code></dt>
+<dt><code>tikzstandalone*</code></dt>
+<dd><p>Generate a LaTeX file using PGF/TikZ format.  The OpenGL-based
+toolkits create a PGF file while Gnuplot creates a TikZ file.  The
+&lsquo;<samp>tikzstandalone</samp>&rsquo; device produces a LaTeX document which includes the
+TikZ file.
+</p>
+</dd>
+</dl>
+
+<p>Raster Formats
+</p>
+<dl compact="compact">
+<dt><code>png</code></dt>
+<dd><p>Portable Network Graphics
 </p>
 </dd>
 <dt><code>jpg</code></dt>
@@ -297,55 +479,36 @@ whether the special flag should be set for the text in the figure.
 <dd><p>JPEG image
 </p>
 </dd>
-<dt><code>latex</code></dt>
-<dt><code>eepic</code></dt>
-<dd><p>LaTeX picture environment and extended picture environment
-(only available for the Gnuplot graphics toolkit).
+<dt><code>tif</code></dt>
+<dt><code>tiff</code></dt>
+<dt><code>tiffn</code></dt>
+<dd><p>TIFF image with LZW compression (tif, tiff) or uncompressed
+(tiffn).
 </p>
 </dd>
-<dt><code>mf</code></dt>
-<dd><p>Metafont
-</p>
-</dd>
-<dt><code>png</code></dt>
-<dd><p>Portable network graphics
+<dt><code>gif</code></dt>
+<dd><p>GIF image
 </p>
 </dd>
 <dt><code>pbm</code></dt>
 <dd><p>PBMplus
 </p>
 </dd>
-<dt><code>pdf</code></dt>
-<dd><p>Portable document format
+<dt><code>dumb*</code></dt>
+<dd><p>ASCII art
 </p>
 </dd>
-<dt><code>svg</code></dt>
-<dd><p>Scalable vector graphics
-</p>
-</dd>
-<dt><code>tikz</code></dt>
-<dt><code>tikzstandalone</code></dt>
-<dd><p>Generate a LaTeX file using PGF/TikZ format.  The OpenGL-based
-toolkits create a PGF file while Gnuplot creates a TikZ file.  The
-&lsquo;<samp>tikzstandalone</samp>&rsquo; device produces a LaTeX document which includes the
-TikZ file (&lsquo;<samp>tikzstandalone</samp>&rsquo; and is only available for the Gnuplot
-graphics toolkit).
-</p></dd>
 </dl>
 
 <p>If the device is omitted, it is inferred from the file extension,
-or if there is no filename it is sent to the printer as PostScript.
+or if there is no filename then it is sent to the printer as PostScript.
 </p>
 </dd>
 <dt><code>-d<var>ghostscript_device</var></code></dt>
 <dd><p>Additional devices are supported by Ghostscript.
-Some examples are;
+Some examples are:
 </p>
 <dl compact="compact">
-<dt><code>pdfwrite</code></dt>
-<dd><p>Produces pdf output from eps
-</p>
-</dd>
 <dt><code>ljet2p</code></dt>
 <dd><p>HP LaserJet IIP
 </p>
@@ -359,8 +522,8 @@ Some examples are;
 </p></dd>
 </dl>
 
-<p>For a complete list, type <code>system (&quot;gs -h&quot;)</code> to see what formats
-and devices are available.
+<p>For a complete list of available formats and devices type
+<code>system (&quot;gs -h&quot;)</code>.
 </p>
 <p>When Ghostscript output is sent to a printer the size is determined by
 the figure&rsquo;s <code>&quot;papersize&quot;</code> property.  When the output is sent to a
@@ -368,89 +531,23 @@ file the size is determined by the plot box defined by the figure&rsquo;s
 <code>&quot;paperposition&quot;</code> property.
 </p>
 </dd>
-<dt><code>-append</code></dt>
-<dd><p>Append PostScript or PDF output to a pre-existing file of the same type.
+<dt><code>-G<var>ghostscript_command</var></code></dt>
+<dd><p>Specify the command for calling Ghostscript.  For Unix the default is
+<code>&quot;gs&quot;</code> and for Windows it is <code>&quot;gswin32c&quot;</code>.
 </p>
 </dd>
-<dt><code>-r<var>NUM</var></code></dt>
-<dd><p>Resolution of bitmaps in pixels per inch.  For both metafiles and SVG
-the default is the screen resolution; for other formats it is 150 dpi.  To
-specify screen resolution, use <code>&quot;-r0&quot;</code>.
-</p>
-</dd>
-<dt><code>-loose</code></dt>
-<dt><code>-tight</code></dt>
-<dd><p>Force a tight or loose bounding box for eps files.  The default is loose.
-</p>
-</dd>
-<dt><code>-<var>preview</var></code></dt>
-<dd><p>Add a preview to eps files.  Supported formats are:
-</p>
-<dl compact="compact">
-<dt><code>-interchange</code></dt>
-<dd><p>Provide an interchange preview.
-</p>
-</dd>
-<dt><code>-metafile</code></dt>
-<dd><p>Provide a metafile preview.
-</p>
-</dd>
-<dt><code>-pict</code></dt>
-<dd><p>Provide pict preview.
-</p>
-</dd>
-<dt><code>-tiff</code></dt>
-<dd><p>Provide a tiff preview.
+<dt><code>-TextAlphaBits=<var>n</var></code></dt>
+<dt><code>-GraphicsAlphaBits=<var>n</var></code></dt>
+<dd><p>Octave is able to produce output for various printers, bitmaps, and
+vector formats by using Ghostscript.  For bitmap and printer output
+anti-aliasing is applied using Ghostscript&rsquo;s TextAlphaBits and
+GraphicsAlphaBits options.  The default number of bits are 4 and 1
+respectively.  Allowed values for <var>N</var> are 1, 2, or 4.
 </p></dd>
 </dl>
 
-</dd>
-<dt><code>-S<var>xsize</var>,<var>ysize</var></code></dt>
-<dd><p>Plot size in pixels for EMF, GIF, JPEG, PBM, PNG, and SVG.
-For PS, EPS, PDF, and other vector formats the plot size is in points.
-This option is equivalent to changing the size of the plot box associated
-with the <code>&quot;paperposition&quot;</code> property.  When using the command form of
-the print function you must quote the <var>xsize</var>,<var>ysize</var> option.  For
-example, by writing <span class="nolinebreak">&quot;-S640,480&quot;</span><!-- /@w -->.
-</p>
-</dd>
-<dt><code>-F<var>fontname</var></code></dt>
-<dt><code>-F<var>fontname</var>:<var>size</var></code></dt>
-<dt><code>-F:<var>size</var></code></dt>
-<dd><p>Use <var>fontname</var> and/or <var>fontsize</var> for all text.
-<var>fontname</var> is ignored for some devices: dxf, fig, hpgl, etc.
-</p></dd>
-</dl>
 
-<p>The filename and options can be given in any order.
-</p>
-<p>Example: Print to a file using the pdf device.
-</p>
-<div class="example">
-<pre class="example">figure (1);
-clf ();
-surf (peaks);
-print figure1.pdf
-</pre></div>
-
-<p>Example: Print to a file using jpg device.
-</p>
-<div class="example">
-<pre class="example">clf ();
-surf (peaks);
-print -djpg figure2.jpg
-</pre></div>
-
-<p>Example: Print to printer named PS_printer using ps format.
-</p>
-<div class="example">
-<pre class="example">clf ();
-surf (peaks);
-print -dpswrite -PPS_printer
-</pre></div>
-
-
-<p><strong>See also:</strong> <a href="#XREFsaveas">saveas</a>, <a href="#XREFhgsave">hgsave</a>, <a href="#XREForient">orient</a>, <a href="Multiple-Plot-Windows.html#XREFfigure">figure</a>.
+<p><strong>See also:</strong> <a href="#XREFsaveas">saveas</a>, <a href="#XREFhgsave">hgsave</a>, <a href="Representing-Images.html#XREFgetframe">getframe</a>, <a href="#XREForient">orient</a>, <a href="Multiple-Plot-Windows.html#XREFfigure">figure</a>.
 </p></dd></dl>
 
 
@@ -481,11 +578,15 @@ are:
 </p>
 </dd>
 <dt><code>png</code></dt>
-<dd><p>PNG Image
+<dd><p>Portable Network Graphics image
 </p>
 </dd>
 <dt><code>emf</code></dt>
-<dd><p>Enhanced Meta File
+<dd><p>Enhanced MetaFile
+</p>
+</dd>
+<dt><code>tif</code></dt>
+<dd><p>TIFF Image, compressed
 </p>
 </dd>
 </dl>
@@ -546,7 +647,7 @@ commands can be used to save and re-create a graphics object.
 <dt><a name="index-hgsave"></a><em></em> <strong>hgsave</strong> <em>(<var>filename</var>)</em></dt>
 <dt><a name="index-hgsave-1"></a><em></em> <strong>hgsave</strong> <em>(<var>h</var>, <var>filename</var>)</em></dt>
 <dt><a name="index-hgsave-2"></a><em></em> <strong>hgsave</strong> <em>(<var>h</var>, <var>filename</var>, <var>fmt</var>)</em></dt>
-<dd><p>Save the graphics handle <var>h</var> to the file <var>filename</var> in the format
+<dd><p>Save the graphics handle(s) <var>h</var> to the file <var>filename</var> in the format
 <var>fmt</var>.
 </p>
 <p>If unspecified, <var>h</var> is the current figure as returned by <code>gcf</code>.
@@ -554,7 +655,7 @@ commands can be used to save and re-create a graphics object.
 <p>When <var>filename</var> does not have an extension the default filename
 extension <samp>.ofig</samp> will be appended.
 </p>
-<p>If present, <var>fmt</var> should be one of the following:
+<p>If present, <var>fmt</var> must be one of the following:
 </p>
 <ul>
 <li> <samp>-binary</samp>, <samp>-float-binary</samp>
@@ -570,22 +671,90 @@ extension <samp>.ofig</samp> will be appended.
 </li><li> <samp>-zip</samp>, <samp>-z</samp>
 </li></ul>
 
-<p>When producing graphics for final publication use <code>print</code> or
-<code>saveas</code>.  When it is important to be able to continue to edit a
-figure as an Octave object, use <code>hgsave</code>/<code>hgload</code>.
+<p>The default format is <samp>-binary</samp> to minimize storage.
 </p>
-<p><strong>See also:</strong> <a href="#XREFhgload">hgload</a>, <a href="Graphics-Objects.html#XREFhdl2struct">hdl2struct</a>, <a href="#XREFsaveas">saveas</a>, <a href="#XREFprint">print</a>.
+<p>Programming Note: When producing graphics for final publication use
+<code>print</code> or <code>saveas</code>.  When it is important to be able to continue
+to edit a figure as an Octave object, use <code>hgsave</code>/<code>hgload</code>.
+</p>
+<p><strong>See also:</strong> <a href="#XREFhgload">hgload</a>, <a href="Graphics-Objects.html#XREFhdl2struct">hdl2struct</a>, <a href="#XREFsavefig">savefig</a>, <a href="#XREFsaveas">saveas</a>, <a href="#XREFprint">print</a>.
 </p></dd></dl>
 
 
 <a name="XREFhgload"></a><dl>
 <dt><a name="index-hgload"></a><em><var>h</var> =</em> <strong>hgload</strong> <em>(<var>filename</var>)</em></dt>
-<dd><p>Load the graphics object in <var>filename</var> into the graphics handle <var>h</var>.
+<dt><a name="index-hgload-1"></a><em>[<var>h</var>, <var>old_prop</var>] =</em> <strong>hgload</strong> <em>(<var>filename</var>, <var>prop_struct</var>)</em></dt>
+<dd><p>Load the graphics objects in <var>filename</var> into a vector of graphics
+handles <var>h</var>.
 </p>
 <p>If <var>filename</var> has no extension, Octave will try to find the file with
-and without the standard extension of <samp>.ofig</samp>.
+and without the default extension <samp>.ofig</samp>.
 </p>
-<p><strong>See also:</strong> <a href="#XREFhgsave">hgsave</a>, <a href="Graphics-Objects.html#XREFstruct2hdl">struct2hdl</a>.
+<p>If provided, the elements of structure <var>prop_struct</var> will be used to
+override the properties of top-level objects stored in <var>filename</var>, and
+the saved values from <var>filename</var> will be stored in <var>old_prop</var>.
+<var>old_prop</var> is a cell array matching the size of <var>h</var>; each cell
+contains a structure of the existing property names and values before being
+overridden.
+</p>
+
+<p><strong>See also:</strong> <a href="#XREFopenfig">openfig</a>, <a href="#XREFhgsave">hgsave</a>, <a href="Graphics-Objects.html#XREFstruct2hdl">struct2hdl</a>.
+</p></dd></dl>
+
+
+<a name="XREFopenfig"></a><dl>
+<dt><a name="index-openfig"></a><em></em> <strong>openfig</strong></dt>
+<dt><a name="index-openfig-1"></a><em></em> <strong>openfig</strong> <em>(<var>filename</var>)</em></dt>
+<dt><a name="index-openfig-2"></a><em></em> <strong>openfig</strong> <em>(&hellip;, <var>copies</var>)</em></dt>
+<dt><a name="index-openfig-3"></a><em></em> <strong>openfig</strong> <em>(&hellip;, <var>visibility</var>)</em></dt>
+<dt><a name="index-openfig-4"></a><em><var>h</var> =</em> <strong>openfig</strong> <em>(&hellip;)</em></dt>
+<dd><p>Read saved figure window(s) from <var>filename</var> and return graphics
+handle(s) <var>h</var>.
+</p>
+<p>By default, <var>filename</var> is <code>&quot;Untitled.fig&quot;</code>.  If a full path is not
+specified, the file opened will be the first one encountered in the load
+path.  If <var>filename</var> is not found and does not have an extension, a
+search will take place for the first file in the load path with extension
+<code>&quot;.fig&quot;</code> or <code>&quot;.ofig&quot;</code>, in that order.
+</p>
+<p><var>copies</var> is an optional input indicating whether a new figure should
+be created (<code>&quot;new&quot;</code>) or whether an existing figure may be reused
+(<code>&quot;reuse&quot;</code>).  An existing figure may be reused if the
+<code>&quot;FileName&quot;</code> property matches the specified input <var>filename</var>.
+When a figure is reused it becomes the active figure and is shown on top
+of other figures.  If the figure was offscreen, it is re-positioned to be
+onscreen.  The default value for <var>copies</var> is <code>&quot;new&quot;</code>.
+</p>
+<p><var>visibility</var> is an optional input indicating whether to show the figure
+(<code>&quot;visible&quot;</code>) or not (<code>&quot;invisible&quot;</code>).  When <var>visibility</var> is
+specified as an input to <code>openfig</code> it overrides the visibility setting
+stored in <var>filename</var>.
+</p>
+
+<p><strong>See also:</strong> <a href="Controlling-Subprocesses.html#XREFopen">open</a>, <a href="#XREFhgload">hgload</a>, <a href="#XREFsavefig">savefig</a>, <a href="Graphics-Objects.html#XREFstruct2hdl">struct2hdl</a>.
+</p></dd></dl>
+
+
+<a name="XREFsavefig"></a><dl>
+<dt><a name="index-savefig"></a><em></em> <strong>savefig</strong> <em>()</em></dt>
+<dt><a name="index-savefig-1"></a><em></em> <strong>savefig</strong> <em>(<var>h</var>)</em></dt>
+<dt><a name="index-savefig-2"></a><em></em> <strong>savefig</strong> <em>(<var>filename</var>)</em></dt>
+<dt><a name="index-savefig-3"></a><em></em> <strong>savefig</strong> <em>(<var>h</var>, <var>filename</var>)</em></dt>
+<dt><a name="index-savefig-4"></a><em></em> <strong>savefig</strong> <em>(<var>h</var>, <var>filename</var>, <code>&quot;compact&quot;</code>)</em></dt>
+<dd><p>Save figure windows specified by graphics handle(s) <var>h</var> to file
+<var>filename</var>.
+</p>
+<p>If unspecified, <var>h</var> is the current figure returned by <code>gcf</code>.
+</p>
+<p>If unspecified, <var>filename</var> is set to <samp>&quot;Untitled.fig&quot;</samp>.  If
+<var>filename</var> does not have an extension then the default extension
+<samp>&quot;.fig&quot;</samp> will be added.
+</p>
+<p>If the optional third input <code>&quot;compact&quot;</code> is present then the data
+will be compressed to save more space.
+</p>
+
+<p><strong>See also:</strong> <a href="#XREFhgsave">hgsave</a>, <a href="Graphics-Objects.html#XREFhdl2struct">hdl2struct</a>, <a href="#XREFopenfig">openfig</a>.
 </p></dd></dl>
 
 

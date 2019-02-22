@@ -1,7 +1,7 @@
 /*
 
-Copyright (C) 2016-2018 John W. Eaton
-Copyright (C) 2009-2018 Michael Goffioul
+Copyright (C) 2016-2019 John W. Eaton
+Copyright (C) 2009-2019 Michael Goffioul
 
 This file is part of Octave.
 
@@ -32,8 +32,8 @@ along with Octave; see the file COPYING.  If not, see
 #include "dMatrix.h"
 #include "uint8NDArray.h"
 
+#include "text-engine.h"
 #include "text-renderer.h"
-#include "txt-eng.h"
 
 namespace octave
 {

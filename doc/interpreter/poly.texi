@@ -1,6 +1,6 @@
 @c DO NOT EDIT!  Generated automatically by munge-texi.pl.
 
-@c Copyright (C) 1996-2018 John W. Eaton
+@c Copyright (C) 1996-2019 John W. Eaton
 @c
 @c This file is part of Octave.
 @c
@@ -187,17 +187,19 @@ $\pm 2.2361$.
 
 Solve the polynomial eigenvalue problem of degree @var{l}.
 
-Given an @var{n*n} matrix polynomial
+Given an @var{n}x@var{n} matrix polynomial
 
-@code{@var{C}(s) = @var{C0} + @var{C1} s + @dots{} + @var{Cl} s^l}
+@code{@var{C}(@var{s}) = @var{C0} + @var{C1} @var{s} + @dots{} + @var{Cl}
+@var{s}^@var{l}}
 
 @code{polyeig} solves the eigenvalue problem
 
-@code{(@var{C0} + @var{C1} + @dots{} + @var{Cl})v = 0}.
+@code{(@var{C0} + @var{C1} @var{z} + @dots{} + @var{Cl} z^@var{l}) @var{v} =
+0}.
 
 Note that the eigenvalues @var{z} are the zeros of the matrix polynomial.
-@var{z} is a row vector with @var{n*l} elements.  @var{v} is a matrix
-(@var{n} x @var{n}*@var{l}) with columns that correspond to the
+@var{z} is a row vector with @code{@var{n}*@var{l}} elements.  @var{v} is a
+matrix (@var{n} x @var{n}*@var{l}) with columns that correspond to the
 eigenvectors.
 
 @seealso{@ref{XREFeig,,eig}, @ref{XREFeigs,,eigs}, @ref{XREFcompan,,compan}}
@@ -487,8 +489,8 @@ partial fraction expansion; represented by the residues, poles, and a direct
 polynomial specified by @var{r}, @var{p} and @var{k}, and the pole
 multiplicity @var{e}.
 
-If the multiplicity, @var{e}, is not explicitly specified the
-multiplicity is determined by the function @code{mpoles}.
+If the multiplicity, @var{e}, is not explicitly specified the multiplicity
+is determined by the function @code{mpoles}.
 
 For example:
 
@@ -724,7 +726,7 @@ The default is a cubic, @var{order}=3.  A spline with P pieces has
 P+@var{order} degrees of freedom.  With periodic boundary conditions
 the degrees of freedom are reduced to P.
 
-The optional property, @var{constaints}, is a structure specifying linear
+The optional property, @var{constraints}, is a structure specifying linear
 constraints on the fit.  The structure has three fields, @qcode{"xc"},
 @qcode{"yc"}, and @qcode{"cc"}.
 
@@ -1066,17 +1068,23 @@ intervals is given by @code{@var{ni} = length (@var{breaks}) - 1}.
 When @var{m} is the polynomial order @var{coefs} must be of size:
 @w{@var{ni}-by-(@var{m} + 1)}.
 
-The i-th row of @var{coefs}, @code{@var{coefs} (@var{i},:)}, contains the
+The i-th row of @var{coefs}, @code{@var{coefs}(@var{i},:)}, contains the
 coefficients for the polynomial over the @var{i}-th interval, ordered from
-highest (@var{m}) to lowest (@var{0}).
+highest (@var{m}) to lowest (@var{0}) degree.
 
 @var{coefs} may also be a multi-dimensional array, specifying a
 vector-valued or array-valued polynomial.  In that case the polynomial
 order @var{m} is defined by the length of the last dimension of @var{coefs}.
 The size of first dimension(s) are given by the scalar or vector @var{d}.
-If @var{d} is not given it is set to @code{1}.  In any case @var{coefs} is
-reshaped to a 2-D matrix of size @code{[@var{ni}*prod(@var{d}) @var{m}]}.
+If @var{d} is not given it is set to @code{1}.  In this case
+@code{@var{p}(@var{r}, @var{i}, :)} contains the coefficients for the
+@var{r}-th polynomial defined on interval @var{i}.  In any case @var{coefs}
+is reshaped to a 2-D matrix of size @code{[@var{ni}*prod(@var{d}) @var{m}]}.
 
+Programming Note: @code{ppval} evaluates polynomials at
+@code{@var{xi} - @var{breaks}(i)}, i.e., it subtracts the lower endpoint of
+the current interval from @var{xi}.  This must be taken into account when
+creating piecewise polynomials objects with @code{mkpp}.
 @seealso{@ref{XREFunmkpp,,unmkpp}, @ref{XREFppval,,ppval}, @ref{XREFspline,,spline}, @ref{XREFpchip,,pchip}, @ref{XREFppder,,ppder}, @ref{XREFppint,,ppint}, @ref{XREFppjumps,,ppjumps}}
 @end deftypefn
 
@@ -1087,21 +1095,39 @@ reshaped to a 2-D matrix of size @code{[@var{ni}*prod(@var{d}) @var{m}]}.
 
 Extract the components of a piecewise polynomial structure @var{pp}.
 
+This function is the inverse of @code{mkpp}: it extracts the inputs to
+@code{mkpp} needed to create the piecewise polynomial structure @var{PP}.
+The code below makes this relation explicit:
+
+@example
+@group
+[breaks, coefs, numinter, order, dim] = unmkpp (pp);
+pp2  = mkpp (breaks, coefs, dim);
+@end group
+@end example
+
+The piecewise polynomial structure @code{pp2} obtained in this way, is
+identical to the original @code{pp}.  The same can be obtained by directly
+accessing the fields of the structure @code{pp}.
+
 The components are:
 
 @table @asis
 @item @var{x}
-Sample points.
+Sample points or breaks.
 
 @item @var{p}
 Polynomial coefficients for points in sample interval.
-@code{@var{p} (@var{i}, :)} contains the coefficients for the polynomial
-over interval @var{i} ordered from highest to lowest.  If
-@code{@var{d} > 1}, @code{@var{p} (@var{r}, @var{i}, :)} contains the
-coefficients for the r-th polynomial defined on interval @var{i}.
+@code{@var{p}(@var{i}, :)} contains the coefficients for the polynomial
+over interval @var{i} ordered from highest to lowest degree.
+If @code{@var{d} > 1}, then @var{p} is a matrix of size
+@code{[@var{n}*prod(@var{d}) @var{m}]}, where the
+@code{@var{i} + (1:@var{d})} rows are the coefficients of all the @var{d}
+polynomials in the interval @var{i}.
 
 @item @var{n}
-Number of polynomial pieces.
+Number of polynomial pieces or intervals,
+@code{@var{n} = length (@var{x}) - 1}.
 
 @item @var{k}
 Order of the polynomial plus 1.

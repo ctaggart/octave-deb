@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2016-2018 John Donoghue
+Copyright (C) 2016-2019 John Donoghue
 
 This file is part of Octave.
 
@@ -50,7 +50,7 @@ annotation_dialog::init ()
 {
   ui->setupUi (this);
 
-  QSettings *settings = resource_manager::get_settings ();
+  QSettings *settings = octave::resource_manager::get_settings ();
 
   // restore last geometry
   if (settings)
@@ -94,7 +94,7 @@ annotation_dialog::button_clicked (QAbstractButton *button)
   QDialogButtonBox::ButtonRole button_role
     = ui->button_box->buttonRole (button);
 
-  QSettings *settings = resource_manager::get_settings ();
+  QSettings *settings = octave::resource_manager::get_settings ();
 
   // save position
   if (settings)
@@ -192,11 +192,8 @@ annotation_dialog::set_gui_props ()
               ui->sb_width->setValue (position(2));
               ui->sb_height->setValue (position(3));
             }
-          else
-            {
-              ui->sb_width->setValue (position(2));
-              ui->sb_height->setValue (position(3));
-            }
+          // FIXME: Should there be an else branch here?
+          // In annotation.m "textbox" is forced to have a 4-elem vector.
         }
       else if (name == "string")
         {

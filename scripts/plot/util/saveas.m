@@ -1,4 +1,4 @@
-## Copyright (C) 2010-2018 Kai Habel
+## Copyright (C) 2010-2019 Kai Habel
 ##
 ## This file is part of Octave.
 ##
@@ -39,10 +39,13 @@
 ##     JPEG Image
 ##
 ##   @item png
-##     PNG Image
+##     Portable Network Graphics image
 ##
 ##   @item emf
-##     Enhanced Meta File
+##     Enhanced MetaFile
+##
+##   @item tif
+##     TIFF Image, compressed
 ##
 ## @end table
 ##

@@ -1,7 +1,7 @@
 /*
 
-Copyright (C) 2017-2018 John W. Eaton
-Copyright (C) 2001-2018 Ben Sapp
+Copyright (C) 2017-2019 John W. Eaton
+Copyright (C) 2001-2019 Ben Sapp
 
 This file is part of Octave.
 
@@ -27,11 +27,11 @@ along with Octave; see the file COPYING.  If not, see
 
 #include <deque>
 #include <fstream>
-#include <iostream>
 
 #include "file-info.h"
 #include "file-stat.h"
 #include "lo-error.h"
+#include "lo-sysdep.h"
 
 namespace octave
 {
@@ -81,7 +81,9 @@ namespace octave
 
     size_t sz = fs.size ();
 
-    std::ifstream file (fname.c_str (), std::ios::in | std::ios::binary);
+    std::string ascii_fname = octave::sys::get_ASCII_filename (fname);
+
+    std::ifstream file (ascii_fname.c_str (), std::ios::in | std::ios::binary);
 
     if (file)
       {

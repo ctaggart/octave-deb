@@ -1,7 +1,7 @@
 // %NO_EDIT_WARNING%
 /*
 
-Copyright (C) 2017-2018 John W. Eaton
+Copyright (C) 2017-2019 John W. Eaton
 
 This file is part of Octave.
 
@@ -23,10 +23,6 @@ along with Octave; see the file COPYING.  If not, see
 
 // These are used by functions declared in defaults.h and defined in
 // defaults.cc.
-
-#if ! defined (OCTAVE_CANONICAL_HOST_TYPE)
-#  define OCTAVE_CANONICAL_HOST_TYPE %OCTAVE_CANONICAL_HOST_TYPE%
-#endif
 
 #if ! defined (OCTAVE_RELEASE)
 #  define OCTAVE_RELEASE %OCTAVE_RELEASE%

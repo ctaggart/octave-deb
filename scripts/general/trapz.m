@@ -1,4 +1,4 @@
-## Copyright (C) 2000-2018 Kai Habel
+## Copyright (C) 2000-2019 Kai Habel
 ##
 ## This file is part of Octave.
 ##
@@ -43,12 +43,15 @@
 ## @group
 ## x = 0:0.1:1;
 ## y = x.^3;
+## ## No scaling
 ## q = trapz (y)
-##   @result{} q = 2.525   # No scaling
+##   @result{} q = 2.5250
+## ## Approximation to integral by scaling
 ## q * 0.1
-##   @result{} q = 0.2525  # Approximation to integral by scaling
+##   @result{} 0.25250
+## ## Same result by specifying @var{x}
 ## trapz (x, y)
-##   @result{} q = 0.2525  # Same result by specifying @var{x}
+##   @result{} 0.25250
 ## @end group
 ## @end example
 ##

@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2011-2018 Michael Goffioul
+Copyright (C) 2011-2019 Michael Goffioul
 
 This file is part of Octave.
 
@@ -261,7 +261,10 @@ namespace QtHandles
   static void
   autoscale_axes (axes::properties& ap)
   {
-    ap.clear_zoom_stack ();
+    gh_manager::auto_lock lock;
+
+    // Reset zoom stack
+    ap.clear_zoom_stack (false);
 
     ap.set_xlimmode ("auto");
     ap.set_ylimmode ("auto");
@@ -382,7 +385,7 @@ namespace QtHandles
               axesList.append (childObj);
           }
         else if (childObj.isa ("uicontrol") || childObj.isa ("uipanel")
-                 || childObj.isa ("uibuttongroup"))
+                 || childObj.isa ("uibuttongroup") || childObj.isa ("uitable"))
           {
             Matrix bb = childObj.get_properties ().get_boundingbox (false);
             QRectF r (bb(0), bb(1), bb(2), bb(3));
@@ -523,8 +526,8 @@ namespace QtHandles
           {
             graphics_object figObj (obj.get_ancestor ("figure"));
 
-            if (figObj.valid_object () &&
-                ! figObj.get ("windowbuttonmotionfcn").isempty ())
+            if (figObj.valid_object ()
+                && ! figObj.get ("windowbuttonmotionfcn").isempty ())
               {
                 updateCurrentPoint (figObj, obj, event);
                 gh_manager::post_callback (figObj.get_handle (),

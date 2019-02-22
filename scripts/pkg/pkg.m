@@ -1,4 +1,4 @@
-## Copyright (C) 2005-2018 Søren Hauberg
+## Copyright (C) 2005-2019 Søren Hauberg
 ## Copyright (C) 2010 VZLU Prague, a.s.
 ## Copyright (C) 2012 Carlo de Falco
 ##
@@ -79,7 +79,7 @@
 ## the user doesn't normally have system privileges.
 ##
 ## @item -forge
-## Install a package directly from the Octave-Forge repository.  This
+## Install a package directly from the Octave Forge repository.  This
 ## requires an internet connection and the cURL library.
 ##
 ## @emph{Security risk}: no verification of the package is performed
@@ -94,13 +94,16 @@
 ## @end table
 ##
 ## @item update
-## Check installed Octave-Forge packages against repository and update any
+## Check installed Octave Forge packages against repository and update any
 ## outdated items.  This requires an internet connection and the cURL library.
 ## Usage:
 ##
 ## @example
 ## pkg update
 ## @end example
+##
+## @noindent
+## To update a single package use @code{pkg install -forge}
 ##
 ## @item uninstall
 ## Uninstall named packages.  For example,
@@ -161,7 +164,7 @@
 ## [user_packages, system_packages] = pkg ("list")
 ## @end example
 ##
-## The @qcode{"-forge"} option lists packages available at the Octave-Forge
+## The @qcode{"-forge"} option lists packages available at the Octave Forge
 ## repository.  This requires an internet connection and the cURL library.
 ## For example:
 ##
@@ -183,7 +186,8 @@
 ## Display can be limited to a set of packages:
 ##
 ## @example
-## pkg describe control signal # describe control and signal packages
+## ## describe control and signal packages
+## pkg describe control signal
 ## @end example
 ##
 ## If one output is requested a cell of structure containing the
@@ -309,10 +313,10 @@ function [local_packages, global_packages] = pkg (varargin)
 
   confirm_recursive_rmdir (false, "local");
 
-  available_actions = {"list", "install", "uninstall", "load", ...
-                       "unload", "prefix", "local_list", ...
-                       "global_list", "rebuild", "build", ...
-                       "describe", "update"};
+  # valid actions in alphabetical order
+  available_actions = {"build", "describe", "global_list",  "install", ...
+                       "list", "load", "local_list", "prefix", "rebuild", ...
+                       "uninstall", "unload", "update"};
 
   ## Parse input arguments
   if (isempty (varargin) || ! iscellstr (varargin))
@@ -342,7 +346,7 @@ function [local_packages, global_packages] = pkg (varargin)
         page_output_immediately (true, "local");
       case "-forge"
         if (! __octave_config_info__ ("CURL_LIBS"))
-          error ("pkg: can't download from forge without the cURL library");
+          error ("pkg: can't download from Octave Forge without the cURL library");
         endif
         octave_forge = true;
       case "-local"
@@ -471,25 +475,10 @@ function [local_packages, global_packages] = pkg (varargin)
         global_packages = archprefix;
       elseif (numel (files) >= 1 && ischar (files{1}))
         prefix = tilde_expand (files{1});
-        if (! exist (prefix, "dir"))
-          [status, msg] = mkdir (prefix);
-          if (status == 0)
-            error ("pkg: cannot create prefix %s: %s", prefix, msg);
-          endif
-          warning ("pkg: creating the directory %s\n", prefix);
-        endif
-        local_packages = prefix = canonicalize_file_name (prefix);
+        local_packages = prefix = make_absolute_filename (prefix);
         user_prefix = true;
         if (numel (files) >= 2 && ischar (files{2}))
-          archprefix = tilde_expand (files{2});
-          if (! exist (archprefix, "dir"))
-            [status, msg] = mkdir (archprefix);
-            if (status == 0)
-              error ("pkg: cannot create archprefix %s: %s", archprefix, msg);
-            endif
-            warning ("pkg: creating the directory %s\n", archprefix);
-            global_packages = archprefix = canonicalize_file_name (archprefix);
-          endif
+          archprefix = make_absolute_filename (tilde_expand (files{2}));
         endif
       else
         error ("pkg: prefix action requires a directory input, or an output argument");
@@ -571,26 +560,31 @@ function [local_packages, global_packages] = pkg (varargin)
 
     case "update"
       installed_pkgs_lst = installed_packages (local_list, global_list);
+
+      ## Explicit list of packages to update, rather than all packages
       if (numel (files) > 0)
-         update_lst = {};
-         installed_names = {installed_pkgs_lst.name}';
-         for i = 1:numel (files)
-           idx = find (strcmp (files{i}, installed_names), 1);
-           if (isempty (idx))
-             warning ("pkg: package %s is not installed - skipping update", files{i});
-           else
-             update_lst = { update_lst, installed_pkgs_lst{idx} };
-           endif
-         endfor
-         installed_pkgs_lst = update_lst;
+        update_lst = {};
+        installed_names = cellfun (@(idx) idx.name, installed_pkgs_lst,
+                                   "UniformOutput", false);
+        for i = 1:numel (files)
+          idx = find (strcmp (files{i}, installed_names), 1);
+          if (isempty (idx))
+            warning ("pkg: package %s is not installed - skipping update",
+                     files{i});
+          else
+            update_lst = [ update_lst, installed_pkgs_lst(idx) ];
+          endif
+        endfor
+        installed_pkgs_lst = update_lst;
       endif
+
       for i = 1:numel (installed_pkgs_lst)
         installed_pkg_name = installed_pkgs_lst{i}.name;
         installed_pkg_version = installed_pkgs_lst{i}.version;
         try
           forge_pkg_version = get_forge_pkg (installed_pkg_name);
         catch
-          warning ("pkg: package %s not found on forge - skipping update\n",
+          warning ("pkg: package %s not found on Octave Forge - skipping update\n",
                    installed_pkg_name);
           forge_pkg_version = "0";
         end_try_catch

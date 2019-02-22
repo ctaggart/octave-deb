@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 1993-2018 John W. Eaton
+Copyright (C) 1993-2019 John W. Eaton
 
 This file is part of Octave.
 
@@ -84,11 +84,9 @@ namespace octave
   {
     if (m_type_tag == string_token)
       delete m_tok_info.m_str;
-
-    if (m_type_tag == sym_rec_token)
+    else if (m_type_tag == sym_rec_token)
       delete m_tok_info.m_sr;
-
-    if (m_type_tag == scls_name_token)
+    else if (m_type_tag == scls_name_token)
       delete m_tok_info.m_superclass_info;
   }
 

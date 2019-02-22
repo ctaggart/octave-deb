@@ -1,4 +1,4 @@
-## Copyright (C) 2014-2018 Jacopo Corno <jacopo.corno@gmail.com>
+## Copyright (C) 2014-2019 Jacopo Corno <jacopo.corno@gmail.com>
 ## Copyright (C) 2013 Roberto Porcu' <roberto.porcu@polimi.it>
 ##
 ## This file is part of Octave.
@@ -25,10 +25,10 @@
 function retval = AbsRel_norm (x, x_old, AbsTol, RelTol, normcontrol, y = zeros (size (x)))
 
   if (normcontrol)
-    sc = max (AbsTol, RelTol * max (sqrt (sumsq (x)), sqrt (sumsq (x_old))));
+    sc = max (AbsTol(:), RelTol * max (sqrt (sumsq (x)), sqrt (sumsq (x_old))));
     retval = sqrt (sumsq ((x - y))) / sc;
   else
-    sc = max (AbsTol, RelTol .* max (abs (x), abs (x_old)));
+    sc = max (AbsTol(:), RelTol .* max (abs (x), abs (x_old)));
     retval = max (abs (x - y) ./ sc);
   endif
 

@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 1996-2018 John W. Eaton
+Copyright (C) 1996-2019 John W. Eaton
 
 This file is part of Octave.
 
@@ -134,12 +134,5 @@ namespace octave
     };
   }
 }
-
-#if defined (OCTAVE_USE_DEPRECATED_FUNCTIONS)
-
-OCTAVE_DEPRECATED (4.2, "use 'octave::sys::password' instead")
-typedef octave::sys::password octave_passwd;
-
-#endif
 
 #endif

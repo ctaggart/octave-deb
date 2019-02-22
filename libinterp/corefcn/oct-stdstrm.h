@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 1996-2018 John W. Eaton
+Copyright (C) 1996-2019 John W. Eaton
 
 This file is part of Octave.
 
@@ -24,6 +24,8 @@ along with Octave; see the file COPYING.  If not, see
 #define octave_oct_stdstrm_h 1
 
 #include "octave-config.h"
+
+#include <iomanip>
 
 #include "oct-stream.h"
 #include "c-file-ptr-stream.h"

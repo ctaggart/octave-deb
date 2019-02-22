@@ -3,10 +3,10 @@
 <!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Uipanel Properties (GNU Octave (version 4.4.1))</title>
+<title>Uipanel Properties (GNU Octave (version 5.0.91))</title>
 
-<meta name="description" content="Uipanel Properties (GNU Octave (version 4.4.1))">
-<meta name="keywords" content="Uipanel Properties (GNU Octave (version 4.4.1))">
+<meta name="description" content="Uipanel Properties (GNU Octave (version 5.0.91))">
+<meta name="keywords" content="Uipanel Properties (GNU Octave (version 5.0.91))">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
@@ -67,7 +67,7 @@ Next: <a href="Uicontrol-Properties.html#Uicontrol-Properties" accesskey="n" rel
 <dd>
 <a name="XREFuipanelbackgroundcolor"></a><a name="index-uipanel-backgroundcolor"></a>
 </dd>
-<dt><code>backgroundcolor</code>: def. <code>[1   1   1]</code></dt>
+<dt><code>backgroundcolor</code>: def. <code>[0.94000   0.94000   0.94000]</code></dt>
 <dd>
 
 
@@ -211,9 +211,9 @@ See <a href="Callbacks.html#Callbacks">Callbacks&nbsp;section<!-- /@w --></a>.
 
 <a name="XREFuipanelresizefcn"></a><a name="index-uipanel-resizefcn"></a>
 </dd>
-<dt><code>resizefcn</code>: def. <code>[](0x0)</code></dt>
-<dd>
-
+<dt><code>resizefcn</code>: string | function handle, def. <code>[](0x0)</code></dt>
+<dd><p><code>resizefcn</code> is deprecated.  Use <code>sizechangedfcn</code> instead.
+</p>
 
 <a name="XREFuipanelselected"></a><a name="index-uipanel-selected"></a>
 </dd>
@@ -229,9 +229,17 @@ See <a href="Callbacks.html#Callbacks">Callbacks&nbsp;section<!-- /@w --></a>.
 
 <a name="XREFuipanelshadowcolor"></a><a name="index-uipanel-shadowcolor"></a>
 </dd>
-<dt><code>shadowcolor</code>: def. <code>[0   0   0]</code></dt>
+<dt><code>shadowcolor</code>: def. <code>[0.70000   0.70000   0.70000]</code></dt>
 <dd>
 
+
+<a name="XREFuipanelsizechangedfcn"></a><a name="index-uipanel-sizechangedfcn"></a>
+</dd>
+<dt><code>sizechangedfcn</code>: string | function handle, def. <code>[](0x0)</code></dt>
+<dd><p>Callback triggered when the uipanel size is changed.
+</p>
+<p>For information on how to write graphics listener functions see <a href="Callbacks.html#Callbacks">Callbacks&nbsp;section<!-- /@w --></a>.
+</p>
 
 <a name="XREFuipaneltag"></a><a name="index-uipanel-tag"></a>
 </dd>

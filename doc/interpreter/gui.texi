@@ -1,6 +1,6 @@
 @c DO NOT EDIT!  Generated automatically by munge-texi.pl.
 
-@c Copyright (C) 2012-2018 Rik Wehbring
+@c Copyright (C) 2012-2019 Rik Wehbring
 @c
 @c This file is part of Octave.
 @c
@@ -30,7 +30,8 @@ for plot windows.  For example, rather than hardcoding a filename for output
 results a script can open a dialog box and allow the user to choose a file.
 Similarly, if a calculation is expected to take a long time a script can
 display a progress bar.  The various UI elements can be used to fully customize
-the plot window with menubars, context menus,
+the plot window with menubars, toolbars, context menus, pushbuttons, sliders,
+etc.
 
 Several utility functions make it possible to store private data for use with
 a GUI which will not pollute the user's variable space.
@@ -171,30 +172,31 @@ If, in addition, a path is given it is also used as current path.
 @end deftypefn
 
 
-Additionally, there are dialog boxes for printing further help, warnings or
-errors and to get textual input from the user.
+Additionally, there are dialog boxes for displaying help messages, warnings, or
+errors, and for getting text input from the user.
 
 @cindex dialog, displaying an error dialog
 @c errordlg scripts/gui/errordlg.m
 @anchor{XREFerrordlg}
-@deftypefn  {} {@var{h} =} errordlg ()
-@deftypefnx {} {@var{h} =} errordlg (@var{msg})
-@deftypefnx {} {@var{h} =} errordlg (@var{msg}, @var{title})
-@deftypefnx {} {@var{h} =} errordlg (@var{msg}, @var{title}, @var{createmode})
+@deftypefn  {} {} errordlg ()
+@deftypefnx {} {} errordlg (@var{msg})
+@deftypefnx {} {} errordlg (@var{msg}, @var{title})
+@deftypefnx {} {} errordlg (@var{msg}, @var{title}, @var{opt})
+@deftypefnx {} {@var{h} =} errordlg (@dots{})
 Display an error dialog box with error message @var{msg} and caption
 @var{title}.
 
-The default error message is @qcode{"This is the default error string."} and
-the default caption is @qcode{"Error Dialog"}.
+The default error message is @qcode{"This is the default error string.@:"}
+and the default caption is @qcode{"Error Dialog"}.
 
 The error message may have multiple lines separated by newline characters
 ("\n"), or it may be a cellstr array with one element for each line.
 
-The return value @var{h} is always 1.
+The third optional argument @var{opt} controls the behavior of the dialog.
+See @code{msgbox} for details.
 
-Compatibility Note: The optional argument @var{createmode} is accepted for
-@sc{matlab} compatibility, but is not implemented.  See @code{msgbox} for
-details.
+The return value @var{h} is a handle to the figure object used for
+building the dialog.
 
 Examples:
 
@@ -207,26 +209,28 @@ errordlg ("Some fancy error occurred.", "Fancy caption");
 @end group
 @end example
 
-@seealso{@ref{XREFhelpdlg,,helpdlg}, @ref{XREFinputdlg,,inputdlg}, @ref{XREFlistdlg,,listdlg}, @ref{XREFmsgbox,,msgbox}, @ref{XREFquestdlg,,questdlg}, @ref{XREFwarndlg,,warndlg}}
+@seealso{@ref{XREFhelpdlg,,helpdlg}, @ref{XREFwarndlg,,warndlg}, @ref{XREFmsgbox,,msgbox}, @ref{XREFinputdlg,,inputdlg}, @ref{XREFlistdlg,,listdlg}, @ref{XREFquestdlg,,questdlg}}
 @end deftypefn
 
 
 @cindex dialog, displaying a help dialog
 @c helpdlg scripts/gui/helpdlg.m
 @anchor{XREFhelpdlg}
-@deftypefn  {} {@var{h} =} helpdlg ()
-@deftypefnx {} {@var{h} =} helpdlg (@var{msg})
-@deftypefnx {} {@var{h} =} helpdlg (@var{msg}, @var{title})
+@deftypefn  {} {} helpdlg ()
+@deftypefnx {} {} helpdlg (@var{msg})
+@deftypefnx {} {} helpdlg (@var{msg}, @var{title})
+@deftypefnx {} {@var{h} =} helpdlg (@dots{})
 Display a help dialog box with help message @var{msg} and caption
 @var{title}.
 
-The default help message is @qcode{"This is the default help string."} and
-the default caption is @qcode{"Help Dialog"}.
+The default help message is @qcode{"This is the default help string.@:"}
+and the default caption is @qcode{"Help Dialog"}.
 
 The help message may have multiple lines separated by newline characters
 ("\n"), or it may be a cellstr array with one element for each line.
 
-The return value @var{h} is always 1.
+The return value @var{h} is a handle to the figure object used for
+building the dialog.
 
 Examples:
 
@@ -239,7 +243,7 @@ helpdlg ("Some helpful text for the user.", "Fancy caption");
 @end group
 @end example
 
-@seealso{@ref{XREFerrordlg,,errordlg}, @ref{XREFinputdlg,,inputdlg}, @ref{XREFlistdlg,,listdlg}, @ref{XREFmsgbox,,msgbox}, @ref{XREFquestdlg,,questdlg}, @ref{XREFwarndlg,,warndlg}}
+@seealso{@ref{XREFerrordlg,,errordlg}, @ref{XREFwarndlg,,warndlg}, @ref{XREFmsgbox,,msgbox}, @ref{XREFinputdlg,,inputdlg}, @ref{XREFlistdlg,,listdlg}, @ref{XREFquestdlg,,questdlg}}
 @end deftypefn
 
 
@@ -269,15 +273,20 @@ String to use for the caption of the dialog.  The default is
 Specifies the size of the text fields and can take three forms:
 
 @enumerate
-@item a scalar value which defines the number of rows used for each text field.
+@item a scalar value which defines the number of rows used for each text
+field.
 
-@item a vector which defines the individual number of rows used for each text field.
+@item a vector which defines the individual number of rows used for each
+text field.
 
-@item a matrix which defines the individual number of rows and columns used for each text field.  In the matrix each row describes a single text field.  The first column specifies the number of input rows to use and the second column specifies the text field width.
+@item a matrix which defines the individual number of rows and columns used
+for each text field.  In the matrix each row describes a single text field.
+The first column specifies the number of input rows to use and the second
+column specifies the text field width.
 @end enumerate
 
 @item defaults
-A list of default values to place in each text fields.  It must be a cell
+A list of default values to place in each text field.  It must be a cell
 array of strings with the same size as @var{prompt}.
 
 @item options
@@ -291,7 +300,8 @@ Example:
 prompt = @{"Width", "Height", "Depth"@};
 defaults = @{"1.10", "2.20", "3.30"@};
 rowscols = [1,10; 2,20; 3,30];
-dims = inputdlg (prompt, "Enter Box Dimensions", rowscols, defaults);
+dims = inputdlg (prompt, "Enter Box Dimensions", ...
+                 rowscols, defaults);
 @end group
 @end example
 
@@ -313,30 +323,32 @@ The value of @var{ok} is 1 if the user closed the box with the OK button,
 otherwise it is 0 and @var{sel} is empty.
 
 Input arguments are specified in form of @var{key}, @var{value} pairs.
-The @qcode{"ListString"} argument pair must be specified.
+The @qcode{"ListString"} argument pair @strong{must} be specified.
 
 Valid @var{key} and @var{value} pairs are:
 
 @table @asis
 @item @qcode{"ListString"}
-a cell array of strings with the contents of the list.
+a cell array of strings specifying the items to list in the dialog.
 
 @item @qcode{"SelectionMode"}
-can be either @qcode{"Single"} or @qcode{"Multiple"} (default).
+can be either @qcode{"Single"} (only one item may be selected at a time) or
+@qcode{"Multiple"} (default).
 
 @item @qcode{"ListSize"}
-a vector with two elements @var{width} and @var{height} defining the size
-of the list field in pixels.  Default is [160 300].
+a two-element vector @code{[@var{width}, @var{height}]} specifying the size
+of the list field in pixels.  The default is [160, 300].
 
 @item @qcode{"InitialValue"}
-a vector containing 1-based indices of preselected elements.
-Default is 1 (first item).
+a vector containing 1-based indices of elements which will be pre-selected
+when the list dialog is first displayed.
+The default is 1 (first item).
 
 @item @qcode{"Name"}
 a string to be used as the dialog caption.  Default is "".
 
 @item @qcode{"PromptString"}
-a cell array of strings to be displayed above the list field.
+a cell array of strings to be displayed above the list of items.
 Default is @{@}.
 
 @item @qcode{"OKString"}
@@ -374,7 +386,9 @@ endif
 @deftypefn  {} {@var{h} =} msgbox (@var{msg})
 @deftypefnx {} {@var{h} =} msgbox (@var{msg}, @var{title})
 @deftypefnx {} {@var{h} =} msgbox (@var{msg}, @var{title}, @var{icon})
-@deftypefnx {} {@var{h} =} msgbox (@dots{}, @var{createmode})
+@deftypefnx {} {@var{h} =} msgbox (@var{msg}, @var{title}, "custom", @var{cdata})
+@deftypefnx {} {@var{h} =} msgbox (@var{msg}, @var{title}, "custom", @var{cdata}, @var{colormap})
+@deftypefnx {} {@var{h} =} msgbox (@dots{}, @var{opt})
 Display @var{msg} using a message dialog box.
 
 The message may have multiple lines separated by newline characters ("\n"),
@@ -385,15 +399,41 @@ the dialog caption.
 
 The optional argument @var{icon} selects a dialog icon.
 It can be one of @qcode{"none"} (default), @qcode{"error"}, @qcode{"help"},
-or @qcode{"warn"}.
+@qcode{"warn"}, or @qcode{"custom"}.  The latter must be followed by an
+image array @var{cdata}, and for indexed images the associated colormap.
 
-The return value is always 1.
+The final optional argument @var{opt} controls the behavior of the dialog.
+If @var{opt} is a string, it may be one of
 
-Compatibility Note: The optional argument @var{createmode} is accepted for
-@sc{matlab} compatibility, but is not implemented.  A valid @var{createmode}
-is either one of the character strings @qcode{"nonmodal"}, @qcode{"modal"},
-or @qcode{"replace"}, or a structure containing a field
-@qcode{"WindowStyle"} with one of the three character strings.
+@table @asis
+@item @qcode{"non-modal"} (default)
+The dialog is normal.
+
+@item @qcode{"modal"}
+The dialog is displayed @qcode{"modal"} which means it prevents users from
+interacting with any other GUI element until the dialog has been closed.
+
+@item @qcode{"replace"}
+If any dialogs already exist with the same title, the most recent is reused
+and all others are closed.  The resulting dialog is set @qcode{"non-modal"}.
+@end table
+
+If @var{opt} is a structure, it must contain fields @qcode{"WindowStyle"}
+and @qcode{"Interpreter"}:
+
+@table @asis
+@item @qcode{"WindowStyle"}
+The value must be @qcode{"non-modal"}, @qcode{"modal"}, or
+@qcode{"replace"}.  See above.
+
+@item @qcode{"Interpreter"}
+Controls the @qcode{"interpreter"} property of the text object used for
+displaying the message.  The value must be @qcode{"tex"} (default),
+@qcode{"none"}, or @qcode{"latex"}.
+@end table
+
+The return value @var{h} is a handle to the figure object used for building
+the dialog.
 
 Examples:
 
@@ -404,7 +444,7 @@ msgbox ("Some message\nwith two lines.");
 msgbox (@{"Some message", "with two lines."@});
 msgbox ("Some message for the user.", "Fancy caption");
 
-% A message dialog box with error icon
+## A message dialog box with error icon
 msgbox ("Some message for the user.", "Fancy caption", "error");
 @end group
 @end example
@@ -446,7 +486,8 @@ Examples:
 
 @example
 @group
-btn = questdlg ("Close Octave?", "Some fancy title", "Yes", "No", "No");
+btn = questdlg ("Close Octave?", "Some fancy title", ...
+                "Yes", "No", "No");
 if (strcmp (btn, "Yes"))
   exit ();
 endif
@@ -460,24 +501,26 @@ endif
 @cindex dialog, displaying a warning dialog
 @c warndlg scripts/gui/warndlg.m
 @anchor{XREFwarndlg}
-@deftypefn  {} {@var{h} =} warndlg ()
-@deftypefnx {} {@var{h} =} warndlg (@var{msg})
-@deftypefnx {} {@var{h} =} warndlg (@var{msg}, @var{title})
-@deftypefnx {} {@var{h} =} warndlg (@var{msg}, @var{title}, @var{createmode})
+@deftypefn  {} {} warndlg ()
+@deftypefnx {} {} warndlg (@var{msg})
+@deftypefnx {} {} warndlg (@var{msg}, @var{title})
+@deftypefnx {} {} warndlg (@var{msg}, @var{title}, @var{opt})
+@deftypefnx {} {@var{h} =} warndlg (@dots{})
 Display a warning dialog box with warning message @var{msg} and caption
 @var{title}.
 
-The default warning message is @qcode{"This is the default warning string."}
-and the default caption is @qcode{"Warning Dialog"}.
+The default warning message is
+@qcode{"This is the default warning string.@:"} and the default caption is
+@qcode{"Warning Dialog"}.
 
 The warning message may have multiple lines separated by newline characters
 ("\n"), or it may be a cellstr array with one element for each line.
 
-The return value @var{h} is always 1.
+The third optional argument @var{opt} controls the behavior of the dialog.
+See @code{msgbox} for details.
 
-Compatibility Note: The optional argument @var{createmode} is accepted for
-@sc{matlab} compatibility, but is not implemented.  See @code{msgbox} for
-details.
+The return value @var{h} is a handle to the figure object used for
+building the dialog.
 
 Examples:
 
@@ -490,7 +533,7 @@ warndlg ("Some warning text for the user.", "Fancy caption");
 @end group
 @end example
 
-@seealso{@ref{XREFerrordlg,,errordlg}, @ref{XREFhelpdlg,,helpdlg}, @ref{XREFinputdlg,,inputdlg}, @ref{XREFlistdlg,,listdlg}, @ref{XREFmsgbox,,msgbox}, @ref{XREFquestdlg,,questdlg}}
+@seealso{@ref{XREFerrordlg,,errordlg}, @ref{XREFhelpdlg,,helpdlg}, @ref{XREFmsgbox,,msgbox}, @ref{XREFinputdlg,,inputdlg}, @ref{XREFlistdlg,,listdlg}, @ref{XREFquestdlg,,questdlg}}
 @end deftypefn
 
 
@@ -619,6 +662,379 @@ The @nospell{ui*} series of functions work best with the @code{qt} graphics
 toolkit, although some functionality is available with the @code{fltk} toolkit.
 There is no support for the @code{gnuplot} toolkit.
 
+@c uipanel scripts/gui/uipanel.m
+@anchor{XREFuipanel}
+@deftypefn  {} {} uipanel (@var{property}, @var{value}, @dots{})
+@deftypefnx {} {} uipanel (@var{parent}, @var{property}, @var{value}, @dots{})
+@deftypefnx {} {@var{hui} =} uipanel (@dots{})
+
+Create a uipanel object.
+
+uipanels are used as containers to group other uicontrol objects.
+
+If @var{parent} is omitted then a uipanel for the current figure is
+created.  If no figure is available, a new figure is created first.
+
+If @var{parent} is given then a uipanel relative to @var{parent} is created.
+
+Any provided property value pairs will override the default values of the
+created uipanel object.
+
+Uipanel properties are documented at @ref{Uipanel Properties}.
+
+The optional return value @var{hui} is a graphics handle to the created
+uipanel object.
+
+Examples:
+
+@example
+@group
+## create figure and panel on it
+f = figure;
+p = uipanel ("title", "Panel Title", "position", [.25 .25 .5 .5]);
+
+## add two buttons to the panel
+b1 = uicontrol ("parent", p, "string", "A Button", ...
+                "position", [18 10 150 36]);
+b2 = uicontrol ("parent", p, "string", "Another Button", ...
+                "position",[18 60 150 36]);
+
+@end group
+@end example
+@seealso{@ref{XREFfigure,,figure}, @ref{XREFuicontrol,,uicontrol}}
+@end deftypefn
+
+
+@c uibuttongroup scripts/gui/uibuttongroup.m
+@anchor{XREFuibuttongroup}
+@deftypefn  {} {@var{hui} =} uibuttongroup (@var{property}, @var{value}, @dots{})
+@deftypefnx {} {@var{hui} =} uibuttongroup (@var{parent}, @var{property}, @var{value}, @dots{})
+@deftypefnx {} {} uibuttongroup (@var{h})
+
+Create a uibuttongroup object and return a handle to it.
+
+A uibuttongroup is used to group uicontrol objects.
+
+If @var{parent} is omitted then a uibuttongroup for the current figure is
+created.  If no figure is available, a new figure is created first.
+
+If @var{parent} is given then a uibuttongroup relative to @var{parent} is
+created.
+
+Any provided property value pairs will override the default values of the
+created uibuttongroup object.
+
+Properties of uibuttongroup objects are documented at
+@ref{Uibuttongroup Properties}.
+
+Examples:
+
+@example
+@group
+## Create figure and panel on it
+f = figure;
+## Create a button group
+gp = uibuttongroup (f, "Position", [ 0 0.5 1 1])
+## Create a buttons in the group
+b1 = uicontrol (gp, "style", "radiobutton", ...
+                "string", "Choice 1", ...
+                "Position", [ 10 150 100 50 ]);
+b2 = uicontrol (gp, "style", "radiobutton", ...
+                "string", "Choice 2", ...
+                "Position", [ 10 50 100 30 ]);
+## Create a button not in the group
+b3 = uicontrol (f, "style", "radiobutton", ...
+                "string", "Not in the group", ...
+                "Position", [ 10 50 100 50 ]);
+@end group
+@end example
+
+When called with a single argument @var{h} which is a handle to an existing
+uibuttongroup object, switch the focus to the specified uibuttongroup.  This
+functionality is not currently implemented.
+@seealso{@ref{XREFfigure,,figure}, @ref{XREFuipanel,,uipanel}}
+@end deftypefn
+
+
+@c uicontrol scripts/gui/uicontrol.m
+@anchor{XREFuicontrol}
+@deftypefn  {} {@var{hui} =} uicontrol (@var{property}, @var{value}, @dots{})
+@deftypefnx {} {@var{hui} =} uicontrol (@var{parent}, @var{property}, @var{value}, @dots{})
+@deftypefnx {} {} uicontrol (@var{h})
+
+Create a uicontrol object and return a handle to it.
+
+A uicontrol object is used to create simple interactive controls such as
+push buttons, checkboxes, edit and list controls.
+
+If @var{parent} is omitted then a uicontrol for the current figure is
+created.  If no figure is available, a new figure is created first.
+
+If @var{parent} is given then a uicontrol relative to @var{parent} is
+created.
+
+Any provided property value pairs will override the default values of the
+created uicontrol object.
+
+Properties of uicontrol objects are documented at
+@ref{Uicontrol Properties}.
+
+The type of uicontrol created is specified by the @var{style} property.  If
+no style property is provided, a push button will be created.
+
+Valid styles for uicontrol are:
+
+@table @asis
+@item @qcode{"checkbox"}
+Create a checkbox control that allows user on/off selection.
+
+@item @qcode{"edit"}
+Create an edit control that allows user input of single or multiple lines
+of text.
+
+@item @qcode{"listbox"}
+Create a listbox control that displays a list of items and allows user
+selection of single or multiple items.
+
+@item @qcode{"popupmenu"}
+Create a popupmenu control that displays a list of options that can be
+selected when the user clicks on the control.
+
+@item @qcode{"pushbutton"}
+Create a push button control that allows user to press to cause an action.
+
+@item @qcode{"radiobutton"}
+Create a radio button control intended to be used for mutually exclusive
+input in a group of radiobutton controls.
+
+@item @qcode{"slider"}
+Create a slider control that allows user selection from a range of values
+by sliding knob on the control.
+
+@item @qcode{"text"}
+Create a static text control to display single or multiple lines of text.
+
+@item @qcode{"togglebutton"}
+Create a toggle button control that appears like a push button but allows
+the user to select between two states.
+
+@end table
+
+Examples:
+
+@example
+@group
+## Create figure and panel on it
+f = figure;
+## Create a button (default style)
+b1 = uicontrol (f, "string", "A Button", ...
+                   "position", [10 10 150 40]);
+## Create an edit control
+e1 = uicontrol (f, "style", "edit", "string", "editable text", ...
+                   "position", [10 60 300 40]);
+## Create a checkbox
+c1 = uicontrol (f, "style", "checkbox", "string", "a checkbox", ...
+                   "position", [10 120 150 40]);
+@end group
+@end example
+
+When called with a single argument @var{h} which is a handle to an existing
+uicontrol object, switch the keyboard focus to the specified
+uicontrol.  As a result, the uicontrol object will receive keyboard
+events that can be processed using the @qcode{"keypressfcn"} callback.
+@seealso{@ref{XREFfigure,,figure}, @ref{XREFuipanel,,uipanel}}
+@end deftypefn
+
+
+@c uitable scripts/gui/uitable.m
+@anchor{XREFuitable}
+@deftypefn  {} {@var{hui} =} uitable (@var{property}, @var{value}, @dots{})
+@deftypefnx {} {@var{hui} =} uitable (@var{parent}, @var{property}, @var{value}, @dots{})
+Create a uitable object and return a handle to it.
+
+A uitable object is used to show tables of data in a figure window.
+
+If @var{parent} is omitted then a uitable for the current figure is
+created.  If no figure is available, a new figure is created first.
+
+If @var{parent} is given then a uitable relative to @var{parent} is
+created.
+
+Any provided property value pairs will override the default values of the
+created uitable object.
+
+Properties of uitable objects are documented at
+@ref{Uitable Properties}.
+
+Examples:
+
+@example
+@group
+## Create figure and place a table on it
+f = figure ();
+m = magic (8);
+t = uitable (f, "Data", m, "ColumnWidth", @{ 40 @});
+@end group
+
+@group
+## Create a table with labeled rows and columns
+f = figure ();
+d = reshape (1:9, [3, 3]);
+row_names = @{ "Row1", "Row2", "Row3" @};
+col_names = @{ "Col1", "Col2", "Col3" @};
+t = uitable (f, "Data", d, ...
+             "RowName", row_names, "ColumnName", col_names);
+
+p = get (t, "Position");
+e = get (t, "Extent");
+p(3:4) = e(3:4);
+set (t, "Position", p);
+@end group
+
+## Long demo with callbacks
+function uitable_demo ()
+  f = figure ("Name", "uitable Demo", "Menu", "none", ...
+              "Position", [10 10 1000 680]);
+
+  ## A basic example
+  d = @{ "char"   , "A string";
+        "double" , 12.3456789;
+        "complex", 1+2i;
+        "bool"   , true;
+        "single" , single (12.3456789);
+        "int8"   , int8 (-128);
+        "uint8"  , uint8 (128);
+        "int16"  , int16 (-32768);
+        "uint16" , uint16 (32768);
+        "int32"  , int32 (-2147483648);
+        "uint32" , uint32 (2147483648);
+        "int64"  , int64 (-2147483649);
+        "uint64" , uint64 (2147843649)@};
+
+  popup_options = @{"A", "B", "C", "D", "E"@};
+
+  columnformat_options = @{ "[]", "char", "pop-up", "numeric", ...
+                           "short", "short e", "short eng", ...
+                           "short g", "long", "long e", ...
+                           "long eng", "long g", "bank", "+", ...
+                           "rat", "logical"@};
+  columnformat_values = columnformat_options;
+  columnformat_values@{1@} = "";
+  columnformat_values@{3@} = popup_options;
+
+  default_data = repmat (d(:,2), 1, columns (columnformat_options));
+  b_add = uicontrol (f, "Position", [285 630 600 50], ...
+            "UserData", [rows(d), 1], ...
+            "Style", "pushbutton", ...
+            "String", "Set data at selected point to selected datatype");
+
+  l_type_table = uicontrol (f, "Position", [ 0 603 120 25 ], ...
+      "String", "Datatype Table:", ...
+      "Style", "text");
+  t_type_table = uitable (f, "Position", [ 0 530 1000 70 ], ...
+      "Data", transpose (d(:, 2)), ...
+      "ColumnName", transpose (d(:, 1)), ...
+      "RowName", "Value", ...
+      "CellSelectionCallback", ...
+           @@(x, y) set (b_add, "UserData", y.Indices ));
+
+  l_point_table = uicontrol (f, "Position", [ 0 640 60 25 ], ...
+      "String", "Point:", ...
+      "Style", "text");
+  t_point_table = uitable (f, "Position", [ 80 630 160 42 ], ...
+      "RowName", [], ...
+      "ColumnName", @{"x", "y"@}, ...
+      "Data", [ 1, 1 ], ...
+      "ColumnEditable", true);
+
+  l_editable_table = uicontrol (f, "Position", [ 0 502 200 25 ], ...
+      "Style", "text", ...
+      "String", "Set Data Columns Editable:");
+  t_editable_table = ...
+    uitable (f, "Position", [ 0 434 1000 65 ], ...
+                "Data", repmat (false, 1, columns (default_data)), ...
+                "ColumnEditable", true);
+
+  l_format_table = uicontrol (f, "Position", [ 0 406 200 25 ], ...
+      "Style", "text", ...
+      "String", "Set Data Column Format:");
+  t_format_table = ...
+    uitable (f, "Position", [ 0 338 1000 65 ], ...
+                "Data", columnformat_options, ...
+                "ColumnEditable", true, ...
+                "ColumnFormat", arrayfun (@@(x) @{columnformat_options@}, ...
+                                          1:columns (columnformat_options)));
+
+  l_data_table = uicontrol (f, "Style", "text", ...
+                               "String", "Data:", ...
+                               "Position", [ 0 310 60 25 ]);
+  t_data_table = uitable (f, "Position", [ 0 15 1000 290 ], ...
+      "Data", default_data, ...
+      "ColumnFormat", columnformat_values);
+
+  set (t_format_table, ...
+       "CellEditCallback", ...
+       @@(x, y) update_column_format (y.NewData, y.Indices, ...
+                                      t_data_table, popup_options));
+  set (t_point_table, "CellEditCallback", ...
+       @@(x, y) validate_point_table (x, y, t_data_table));
+  set (t_editable_table, "CellEditCallback", ...
+       @@(x,y) set (t_data_table, ...
+                    "ColumnEditable", get (t_editable_table, "Data")));
+  set (b_add, ...
+       "Callback", @@(x, y) update_data (b_add, t_point_table, ...
+                                         t_type_table, t_data_table));
+  set (t_data_table, "CellSelectionCallback", ...
+       @@(x, y) update_point_table (y.Indices, t_point_table));
+endfunction
+
+function validate_point_table (h, dat, t_data_table)
+  if (! (dat.NewData > 0 && ...
+    dat.NewData < size (get (t_data_table, "Data"), dat.Indices(1, 1)) + 1))
+
+    d = get (h, "Data");
+    d(dat.Indices) = 1;
+    set (h, "Data", d);
+  endif
+endfunction
+
+function update_column_format (format, indices, t_data_table, ...
+                               popup_options)
+  cf = get (t_data_table, "ColumnFormat");
+  if (strcmp (format, "[]"))
+    format = "";
+  elseif (strcmp (format, "pop-up"))
+    format = popup_options;
+  endif
+  cf@{indices(1,2)@} = format;
+  set (t_data_table, "ColumnFormat", cf);
+endfunction
+
+function update_point_table (indices, t_point_table)
+  if (isempty (indices))
+    indices = [1, 1];
+  endif
+  set (t_point_table, "Data", indices(1,:));
+endfunction
+
+function update_data (b_add, t_point_table, t_type_table, ...
+                      t_data_table)
+  indices = get (b_add, "UserData");
+  if (isempty (indices))
+    indices = [1, 1];
+  endif
+  d = get (t_data_table, "Data");
+  t_type_table_data = get (t_type_table, "Data");
+  p = get (t_point_table, "Data");
+  d(p(1,2), p(1,1)) = t_type_table_data(indices(1,2));
+  set (t_data_table, "Data", d);
+endfunction
+@end example
+
+@seealso{@ref{XREFfigure,,figure}, @ref{XREFuicontrol,,uicontrol}}
+@end deftypefn
+
+
 @c uimenu scripts/gui/uimenu.m
 @anchor{XREFuimenu}
 @deftypefn  {} {@var{hui} =} uimenu (@var{property}, @var{value}, @dots{})
@@ -685,52 +1101,6 @@ uimenu (e, "label", "Toggle &Grid", "accelerator", "g", ...
 @end deftypefn
 
 
-@c uibuttongroup scripts/gui/uibuttongroup.m
-@anchor{XREFuibuttongroup}
-@deftypefn  {} {@var{hui} =} uibuttongroup (@var{property}, @var{value}, @dots{})
-@deftypefnx {} {@var{hui} =} uibuttongroup (@var{parent}, @var{property}, @var{value}, @dots{})
-@deftypefnx {} {} uibuttongroup (@var{h})
-
-Create a uibuttongroup object and return a handle to it.
-
-uibuttongroups are used to create group uicontrols.
-
-If @var{parent} is omitted then a uibuttongroup for the current figure is
-created.  If no figure is available, a new figure is created first.
-
-If @var{parent} is given then a uibuttongroup relative to @var{parent} is
-created.
-
-Any provided property value pairs will override the default values of the
-created uibuttongroup object.
-
-Uibuttongroup properties are documented at @ref{Uibuttongroup Properties}.
-
-Examples:
-
-@example
-@group
-% create figure and panel on it
-f = figure;
-% create a button group
-gp = uibuttongroup (f, "Position", [ 0 0.5 1 1])
-% create a buttons in the group
-b1 = uicontrol (gp, "style", "radiobutton", ...
-                "string", "Choice 1", ...
-                "Position", [ 10 150 100 50 ]);
-b2 = uicontrol (gp, "style", "radiobutton", ...
-                "string", "Choice 2", ...
-                "Position", [ 10 50 100 30 ]);
-% create a button not in the group
-b3 = uicontrol (f, "style", "radiobutton", ...
-                "string", "Not in the group", ...
-                "Position", [ 10 50 100 50 ]);
-@end group
-@end example
-@seealso{@ref{XREFfigure,,figure}, @ref{XREFuipanel,,uipanel}}
-@end deftypefn
-
-
 @c uicontextmenu scripts/gui/uicontextmenu.m
 @anchor{XREFuicontextmenu}
 @deftypefn  {} {@var{hui} =} uicontextmenu (@var{property}, @var{value}, @dots{})
@@ -752,15 +1122,17 @@ Examples:
 
 @example
 @group
-% create figure and uicontextmenu
-f = figure;
+## create figure and uicontextmenu
+f = figure ();
 c = uicontextmenu (f);
 
-% create menus in the context menu
-m1 = uimenu ("parent",c,"label","Menu item 1","callback","disp('menu item 1')");
-m2 = uimenu ("parent",c,"label","Menu item 2","callback","disp('menu item 2')");
+## create menus in the context menu
+m1 = uimenu ("parent", c, "label", "Menu item 1", ...
+             "callback", "disp('menu item 1')");
+m2 = uimenu ("parent", c, "label", "Menu item 2", ...
+             "callback", "disp('menu item 2')");
 
-% set the context menu for the figure
+## set the context menu for the figure
 set (f, "uicontextmenu", c);
 @end group
 @end example
@@ -768,126 +1140,40 @@ set (f, "uicontextmenu", c);
 @end deftypefn
 
 
-@c uicontrol scripts/gui/uicontrol.m
-@anchor{XREFuicontrol}
-@deftypefn  {} {@var{hui} =} uicontrol (@var{property}, @var{value}, @dots{})
-@deftypefnx {} {@var{hui} =} uicontrol (@var{parent}, @var{property}, @var{value}, @dots{})
-@deftypefnx {} {} uicontrol (@var{h})
+@c uitoolbar scripts/gui/uitoolbar.m
+@anchor{XREFuitoolbar}
+@deftypefn  {} {} uitoolbar (@var{property}, @var{value}, @dots{})
+@deftypefnx {} {} uitoolbar (@var{parent}, @var{property}, @var{value}, @dots{})
+@deftypefnx {} {@var{hui} =} uitoolbar (@dots{})
 
-Create a uicontrol object and return a handle to it.
+Create a uitoolbar object.  A uitoolbar displays uitoggletool and uipushtool
+buttons.
 
-uicontrols are used to create simple interactive controls such as push
-buttons, checkboxes, edit and list controls.
-
-If @var{parent} is omitted then a uicontrol for the current figure is
+If @var{parent} is omitted then a uitoolbar for the current figure is
 created.  If no figure is available, a new figure is created first.
 
-If @var{parent} is given then a uicontrol relative to @var{parent} is
+If @var{parent} is given then a uitoolbar relative to @var{parent} is
 created.
 
 Any provided property value pairs will override the default values of the
-created uicontrol object.
+created uitoolbar object.
 
-Uicontrol properties are documented at @ref{Uicontrol Properties}.
-
-Control of the type of uicontrol created is through the use of the
-@var{style} property.  If no style property is provided, a push button will
-be created.
-
-Valid styles for uicontrol are:
-
-@table @asis
-@item @qcode{"checkbox"}
-Create a checkbox control that allows user on/off selection.
-
-@item @qcode{"edit"}
-Create an edit control that allows user input of single or multiple lines
-of text.
-
-@item @qcode{"listbox"}
-Create a listbox control that displays a list of items and allows user
-selection of single or multiple items.
-
-@item @qcode{"popupmenu"}
-Create a popupmenu control that displays a list of options that can be
-selected when the user clicks on the control.
-
-@item @qcode{"pushbutton"}
-Create a push button control that allows user to press to cause an action.
-
-@item @qcode{"radiobutton"}
-Create a radio button control intended to be used for mutually exclusive
-input in a group of radiobutton controls.
-
-@item @qcode{"slider"}
-Create a slider control that allows user selection from a range of values
-by sliding knob on the control.
-
-@item @qcode{"text"}
-Create a static text control to display single or multiple lines of text.
-
-@item @qcode{"togglebutton"}
-Create a toggle button control that appears like a push button but allows
-the user to select between two states.
-
-@end table
-
-Examples:
-
-@example
-@group
-% create figure and panel on it
-f = figure;
-% create a button (default style)
-b1 = uicontrol (f, "string", "A Button", "position",[10 10 150 40]);
-% create an edit control
-e1 = uicontrol (f, "style", "edit", "string", "editable text", "position",[10 60 300 40]);
-% create a checkbox
-c1 = uicontrol (f, "style", "checkbox", "string", "a checkbox", "position",[10 120 150 40]);
-@end group
-@end example
-@seealso{@ref{XREFfigure,,figure}, @ref{XREFuipanel,,uipanel}}
-@end deftypefn
-
-
-@c uipanel scripts/gui/uipanel.m
-@anchor{XREFuipanel}
-@deftypefn  {} {} uipanel (@var{property}, @var{value}, @dots{})
-@deftypefnx {} {} uipanel (@var{parent}, "@var{property}, @var{value}, @dots{})
-@deftypefnx {} {@var{hui} =} uipanel (@dots{})
-
-Create a uipanel object.
-
-uipanels are used as containers to group other uicontrol objects.
-
-If @var{parent} is omitted then a uipanel for the current figure is
-created.  If no figure is available, a new figure is created first.
-
-If @var{parent} is given then a uipanel relative to @var{parent} is created.
-
-Any provided property value pairs will override the default values of the
-created uipanel object.
-
-Uipanel properties are documented at @ref{Uipanel Properties}.
+Uitoolbar properties are documented at @ref{Uitoolbar Properties}.
 
 The optional return value @var{hui} is a graphics handle to the created
-uipanel object.
+uitoolbar object.
 
 Examples:
 
 @example
 @group
-% create figure and panel on it
-f = figure;
-p = uipanel ("title", "Panel Title", "position", [.25 .25 .5 .5]);
-
-% add two buttons to the panel
-b1 = uicontrol ("parent", p, "string", "A Button", "position",[18 10 150 36]);
-b2 = uicontrol ("parent", p, "string", "Another Button", "position",[18 60 150 36]);
-
+% create figure without a default toolbar
+f = figure ("toolbar", "none");
+% create empty toolbar
+t = uitoolbar (f);
 @end group
 @end example
-@seealso{@ref{XREFfigure,,figure}, @ref{XREFuicontrol,,uicontrol}}
+@seealso{@ref{XREFfigure,,figure}, @ref{XREFuitoggletool,,uitoggletool}, @ref{XREFuipushtool,,uipushtool}}
 @end deftypefn
 
 
@@ -983,43 +1269,6 @@ b = uitoggletool (t, "cdata", img);
 @end deftypefn
 
 
-@c uitoolbar scripts/gui/uitoolbar.m
-@anchor{XREFuitoolbar}
-@deftypefn  {} {} uitoolbar (@var{property}, @var{value}, @dots{})
-@deftypefnx {} {} uitoolbar (@var{parent}, @var{property}, @var{value}, @dots{})
-@deftypefnx {} {@var{hui} =} uitoolbar (@dots{})
-
-Create a uitoolbar object.  A uitoolbar displays uitoggletool and uipushtool
-buttons.
-
-If @var{parent} is omitted then a uitoolbar for the current figure is
-created.  If no figure is available, a new figure is created first.
-
-If @var{parent} is given then a uitoolbar relative to @var{parent} is
-created.
-
-Any provided property value pairs will override the default values of the
-created uitoolbar object.
-
-Uitoolbar properties are documented at @ref{Uitoolbar Properties}.
-
-The optional return value @var{hui} is a graphics handle to the created
-uitoolbar object.
-
-Examples:
-
-@example
-@group
-% create figure without a default toolbar
-f = figure ("toolbar", "none");
-% create empty toolbar
-t = uitoolbar (f);
-@end group
-@end example
-@seealso{@ref{XREFfigure,,figure}, @ref{XREFuitoggletool,,uitoggletool}, @ref{XREFuipushtool,,uipushtool}}
-@end deftypefn
-
-
 @node GUI Utility Functions
 @section GUI Utility Functions
 
@@ -1080,6 +1329,73 @@ Return true if Octave is running in GUI mode and false otherwise.
 @end deftypefn
 
 
+@c movegui scripts/gui/movegui.m
+@anchor{XREFmovegui}
+@deftypefn  {} {} movegui
+@deftypefnx {} {} movegui (@var{h})
+@deftypefnx {} {} movegui (@var{pos})
+@deftypefnx {} {} movegui (@var{h}, @var{pos})
+@deftypefnx {} {} movegui (@var{h}, @var{event})
+@deftypefnx {} {} movegui (@var{h}, @var{event}, @var{pos})
+Move a figure specified by figure handle @var{h} to a position on the screen
+defined by @var{pos}.
+
+@var{h} is a figure handle, or a handle to a graphics object.  In the latter
+case, its parent figure will be used.  If unspecified, @var{h} will be
+set to the handle of the relevant figure if a callback is being executed
+(@code{gcbf}), otherwise it will be set to the handle of the current figure
+(@code{gcf}).
+
+@var{pos} is either a two-value numeric vector or a string.  If @var{pos} is
+numeric then it must be of the form @code{[h, v]} specifying the horizontal
+and vertical offsets of the figure with respect to the screen.  A positive
+value indicates the offset between the left (or bottom for the vertical
+component) of the screen, and the left (or bottom) of the figure.  A
+negative value indicates the offset between the right (or top) of the screen
+and the right (or top) of the figure.
+
+Possible values for @var{pos} as a string are
+
+@table @code
+@item north
+Top center of the screen.
+
+@item south
+Bottom center of the screen.
+
+@item east
+Right center of the screen.
+
+@item west
+Left center of the screen.
+
+@item northeast
+Top right of the screen.
+
+@item northwest
+Top left of the screen.
+
+@item southeast
+Bottom right of the screen.
+
+@item southwest
+Bottom left of the screen.
+
+@item center
+Center of the screen.
+
+@item onscreen (default)
+The figure will be minimally moved to be entirely visible on the screen,
+with a 30 pixel extra padding from the sides of the screen.  This is the
+default value if none is provided.
+@end table
+
+@var{event} contains event data that will be ignored.  This construct
+facilitates a call to movegui from a callback.
+
+@end deftypefn
+
+
 @c Not sure where this should go...
 @c openvar libinterp/corefcn/octave-link.cc
 @anchor{XREFopenvar}
@@ -1137,7 +1453,8 @@ is reentrant and can be called from a callback, while another @code{waitfor}
 call is pending at the top-level.
 
 In the first form, program execution is suspended until the graphics object
-@var{h} is destroyed.  If the graphics handle is invalid, the function
+@var{h} is destroyed.  If the graphics handle is invalid or if @var{h} is
+the root figure handle and no property @var{prop} was provided, the function
 returns immediately.
 
 In the second form, execution is suspended until the graphics object is

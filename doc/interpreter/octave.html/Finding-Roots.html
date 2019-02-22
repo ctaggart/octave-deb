@@ -3,10 +3,10 @@
 <!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Finding Roots (GNU Octave (version 4.4.1))</title>
+<title>Finding Roots (GNU Octave (version 5.0.91))</title>
 
-<meta name="description" content="Finding Roots (GNU Octave (version 4.4.1))">
-<meta name="keywords" content="Finding Roots (GNU Octave (version 4.4.1))">
+<meta name="description" content="Finding Roots (GNU Octave (version 5.0.91))">
+<meta name="keywords" content="Finding Roots (GNU Octave (version 5.0.91))">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
@@ -105,17 +105,19 @@ which is roughly
 <dd>
 <p>Solve the polynomial eigenvalue problem of degree <var>l</var>.
 </p>
-<p>Given an <var>n*n</var> matrix polynomial
+<p>Given an <var>n</var>x<var>n</var> matrix polynomial
 </p>
-<p><code><var>C</var>(s) = <var>C0</var> + <var>C1</var> s + &hellip; + <var>Cl</var> s^l</code>
+<p><code><var>C</var>(<var>s</var>) = <var>C0</var> + <var>C1</var> <var>s</var> + &hellip; + <var>Cl</var>
+<var>s</var>^<var>l</var></code>
 </p>
 <p><code>polyeig</code> solves the eigenvalue problem
 </p>
-<p><code>(<var>C0</var> + <var>C1</var> + &hellip; + <var>Cl</var>)v = 0</code>.
+<p><code>(<var>C0</var> + <var>C1</var> <var>z</var> + &hellip; + <var>Cl</var> z^<var>l</var>) <var>v</var> =
+0</code>.
 </p>
 <p>Note that the eigenvalues <var>z</var> are the zeros of the matrix polynomial.
-<var>z</var> is a row vector with <var>n*l</var> elements.  <var>v</var> is a matrix
-(<var>n</var> x <var>n</var>*<var>l</var>) with columns that correspond to the
+<var>z</var> is a row vector with <code><var>n</var>*<var>l</var></code> elements.  <var>v</var> is a
+matrix (<var>n</var> x <var>n</var>*<var>l</var>) with columns that correspond to the
 eigenvectors.
 </p>
 

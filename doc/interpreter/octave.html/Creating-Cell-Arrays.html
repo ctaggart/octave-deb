@@ -3,10 +3,10 @@
 <!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Creating Cell Arrays (GNU Octave (version 4.4.1))</title>
+<title>Creating Cell Arrays (GNU Octave (version 5.0.91))</title>
 
-<meta name="description" content="Creating Cell Arrays (GNU Octave (version 4.4.1))">
-<meta name="keywords" content="Creating Cell Arrays (GNU Octave (version 4.4.1))">
+<meta name="description" content="Creating Cell Arrays (GNU Octave (version 5.0.91))">
+<meta name="keywords" content="Creating Cell Arrays (GNU Octave (version 5.0.91))">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
@@ -125,12 +125,23 @@ is possible to convert numerical arrays into cell arrays using the
 <dt><a name="index-num2cell-1"></a><em><var>C</var> =</em> <strong>num2cell</strong> <em>(<var>A</var>, <var>dim</var>)</em></dt>
 <dd><p>Convert the numeric matrix <var>A</var> to a cell array.
 </p>
-<p>If <var>dim</var> is defined, the value <var>C</var> is of dimension 1 in this
-dimension and the elements of <var>A</var> are placed into <var>C</var> in slices.
-For example:
+<p>When no <var>dim</var> is specified, each element of <var>A</var> becomes a 1x1 element
+in the output <var>C</var>.
+</p>
+<p>If <var>dim</var> is defined then individual elements of <var>C</var> contain all of the
+elements from <var>A</var> along the specified dimension.  <var>dim</var> may also be a
+vector of dimensions with the same rule applied.
+</p>
+<p>For example:
 </p>
 <div class="example">
-<pre class="example">num2cell ([1,2;3,4])
+<pre class="example">x = [1,2;3,4]
+&rArr;
+    1    2
+    3    4
+
+## each element of A becomes a 1x1 element of C
+num2cell (x)
    &rArr;
       {
         [1,1] =  1
@@ -138,7 +149,8 @@ For example:
         [1,2] =  2
         [2,2] =  4
       }
-num2cell ([1,2;3,4],1)
+## all rows (dim 1) of A appear in each element of C
+num2cell (x, 1)
    &rArr;
       {
         [1,1] =
@@ -148,6 +160,24 @@ num2cell ([1,2;3,4],1)
            2
            4
       }
+## all columns (dim 2) of A appear in each element of C
+num2cell (x, 2)
+   &rArr;
+      {
+        [1,1] =
+           1   2
+        [2,1] =
+           3   4
+      }
+## all rows and cols appear in each element of C
+## (hence, only 1 output)
+num2cell (x, [1, 2])
+   &rArr;
+      {
+        [1,1] =
+           1   2
+           3   4
+      }
 </pre></div>
 
 
@@ -156,46 +186,87 @@ num2cell ([1,2;3,4],1)
 
 
 <a name="XREFmat2cell"></a><dl>
-<dt><a name="index-mat2cell"></a><em><var>C</var> =</em> <strong>mat2cell</strong> <em>(<var>A</var>, <var>m</var>, <var>n</var>)</em></dt>
-<dt><a name="index-mat2cell-1"></a><em><var>C</var> =</em> <strong>mat2cell</strong> <em>(<var>A</var>, <var>d1</var>, <var>d2</var>, &hellip;)</em></dt>
-<dt><a name="index-mat2cell-2"></a><em><var>C</var> =</em> <strong>mat2cell</strong> <em>(<var>A</var>, <var>r</var>)</em></dt>
+<dt><a name="index-mat2cell"></a><em><var>C</var> =</em> <strong>mat2cell</strong> <em>(<var>A</var>, <var>dim1</var>, <var>dim2</var>, &hellip;, <var>dimi</var>, &hellip;, <var>dimn</var>)</em></dt>
+<dt><a name="index-mat2cell-1"></a><em><var>C</var> =</em> <strong>mat2cell</strong> <em>(<var>A</var>, <var>rowdim</var>)</em></dt>
 <dd><p>Convert the matrix <var>A</var> to a cell array.
 </p>
-<p>If <var>A</var> is 2-D, then it is required that
-<code>sum (<var>m</var>) == size (<var>A</var>, 1)</code> and
-<code>sum (<var>n</var>) == size (<var>A</var>, 2)</code>.  Similarly, if <var>A</var> is
-multi-dimensional and the number of dimensional arguments is equal to the
-dimensions of <var>A</var>, then it is required that
-<code>sum (<var>di</var>) == size (<var>A</var>, i)</code>.
+<p>Each dimension argument (<var>dim1</var>, <var>dim2</var>, etc.) is a vector of
+integers which specifies how to divide that dimension&rsquo;s elements amongst the
+new elements in the output <var>C</var>.  The number of elements in the <var>i</var>-th
+dimension is <code>size (<var>A</var>, <var>i</var>)</code>.  Because all elements in <var>A</var>
+must be partitioned, there is a requirement that <code>sum (<var>di</var>) == size
+(<var>A</var>, i)</code>.  The size of the output cell <var>C</var> is numel (<var>dim1</var>) x
+numel (<var>dim2</var>) x &hellip; x numel (<var>dimn</var>).
 </p>
-<p>Given a single dimensional argument <var>r</var>, the other dimensional
-arguments are assumed to equal <code>size (<var>A</var>,<var>i</var>)</code>.
+<p>Given a single dimensional argument, <var>rowdim</var>, the output is divided into
+rows as specified.  All other dimensions are not divided and thus all
+columns (dim 2), pages (dim 3), etc. appear in each output element.
 </p>
-<p>An example of the use of mat2cell is
+<p>Examples
 </p>
 <div class="example">
-<pre class="example">mat2cell (reshape (1:16,4,4), [3,1], [3,1])
+<pre class="example">x = reshape (1:12, [3, 4])'
+&rArr;
+    1    2    3
+    4    5    6
+    7    8    9
+   10   11   12
+
+</pre><pre class="example">## The 4 rows (dim1) are divided in to two cell elements
+## with 2 rows each.
+## The 3 cols (dim2) are divided in to three cell elements
+## with 1 col each.
+mat2cell (x, [2,2], [1,1,1])
 &rArr;
 {
-   [1,1] =
+  [1,1] =
 
-      1   5   9
-      2   6  10
-      3   7  11
+     1
+     4
 
-   [2,1] =
+  [2,1] =
 
-      4   8  12
+      7
+     10
 
-   [1,2] =
+  [1,2] =
 
-     13
-     14
-     15
+     2
+     5
 
-   [2,2] = 16
+  [2,2] =
+      8
+     11
+
+  [1,3] =
+
+     3
+     6
+
+  [2,3] =
+      9
+     12
+}
+</pre><pre class="example">
+
+</pre><pre class="example">## The 4 rows (dim1) are divided in to two cell elements
+## with a 3/1 split.
+## All columns appear in each output element.
+mat2cell (x, [3,1])
+&rArr;
+{
+  [1,1] =
+
+     1   2   3
+     4   5   6
+     7   8   9
+
+  [2,1] =
+
+     10   11   12
 }
 </pre></div>
+
 
 <p><strong>See also:</strong> <a href="#XREFnum2cell">num2cell</a>, <a href="Processing-Data-in-Cell-Arrays.html#XREFcell2mat">cell2mat</a>.
 </p></dd></dl>

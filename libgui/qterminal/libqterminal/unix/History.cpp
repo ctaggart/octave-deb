@@ -24,7 +24,6 @@
 #include "unix/History.h"
 
 // System
-#include <iostream>
 #include <stdlib.h>
 #include <assert.h>
 #include <stdio.h>
@@ -246,7 +245,7 @@ int HistoryScrollFile::startOfLine(int lineno)
 	if (!index.isMapped())
 			index.map();
 	
-	int res;
+	int res = 0;
     index.get((unsigned char*)&res,sizeof(int),(lineno-1)*sizeof(int));
     return res;
     }

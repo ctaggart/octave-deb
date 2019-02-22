@@ -3,10 +3,10 @@
 <!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Image Properties (GNU Octave (version 4.4.1))</title>
+<title>Image Properties (GNU Octave (version 5.0.91))</title>
 
-<meta name="description" content="Image Properties (GNU Octave (version 4.4.1))">
-<meta name="keywords" content="Image Properties (GNU Octave (version 4.4.1))">
+<meta name="description" content="Image Properties (GNU Octave (version 5.0.91))">
+<meta name="keywords" content="Image Properties (GNU Octave (version 5.0.91))">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
@@ -212,7 +212,7 @@ See <a href="Callbacks.html#Callbacks">Callbacks&nbsp;section<!-- /@w --></a>.
 <a name="XREFimagexdata"></a><a name="index-image-xdata"></a>
 </dd>
 <dt><code>xdata</code>: two-element vector, def. <code>[1   64]</code></dt>
-<dd><p>Two-element vector <code>[xmin xmax]</code> specifying the x coordinates of the first and last columns of the image.
+<dd><p>Two-element vector <code>[xfirst xlast]</code> specifying the x coordinates of the centers of the first and last columns of the image.
 </p>
 <p>Setting <code>xdata</code> to the empty matrix ([]) will restore the default value of <code>[1 columns(image)]</code>.
 </p>
@@ -220,7 +220,7 @@ See <a href="Callbacks.html#Callbacks">Callbacks&nbsp;section<!-- /@w --></a>.
 <a name="XREFimageydata"></a><a name="index-image-ydata"></a>
 </dd>
 <dt><code>ydata</code>: two-element vector, def. <code>[1   64]</code></dt>
-<dd><p>Two-element vector <code>[ymin ymax]</code> specifying the y coordinates of the first and last rows of the image.
+<dd><p>Two-element vector <code>[yfirst ylast]</code> specifying the y coordinates of the centers of the first and last rows of the image.
 </p>
 <p>Setting <code>ydata</code> to the empty matrix ([]) will restore the default value of <code>[1 rows(image)]</code>.
 </p>

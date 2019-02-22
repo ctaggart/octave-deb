@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 1996-2018 John W. Eaton
+Copyright (C) 1996-2019 John W. Eaton
 Copyright (C) 2010 VZLU Prague
 
 This file is part of Octave.
@@ -26,8 +26,6 @@ along with Octave; see the file COPYING.  If not, see
 // this file.
 
 #include <cassert>
-
-#include <iostream>
 
 #include <algorithm>
 

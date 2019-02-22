@@ -1,4 +1,4 @@
-## Copyright (C) 2009-2018 John W. Eaton
+## Copyright (C) 2009-2019 John W. Eaton
 ##
 ## This file is part of Octave.
 ##
@@ -54,7 +54,7 @@ function varargout = which (varargin)
         endif
       else
         if (isempty (m(i).type))
-          if (isdir (m(i).file))
+          if (isfolder (m(i).file))
             printf ("'%s' is the directory %s\n",
                     m(i).name, m(i).file);
           else

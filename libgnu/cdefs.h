@@ -72,7 +72,12 @@
 
 #else	/* Not GCC.  */
 
-# define __inline		/* No inline functions.  */
+# if (defined __cplusplus						\
+      || (defined __STDC_VERSION__ && __STDC_VERSION__ >= 199901L))
+#  define __inline	inline
+# else
+#  define __inline		/* No inline functions.  */
+# endif
 
 # define __THROW
 # define __THROWNL
@@ -134,7 +139,7 @@
    Headers that should use flexible arrays only if they're "real"
    (e.g. only if they won't affect sizeof()) should test
    #if __glibc_c99_flexarr_available.  */
-#if defined __STDC_VERSION__ && __STDC_VERSION__ >= 199901L
+#if defined __STDC_VERSION__ && __STDC_VERSION__ >= 199901L && !defined __HP_cc
 # define __flexarr	[]
 # define __glibc_c99_flexarr_available 1
 #elif __GNUC_PREREQ (2,97)
@@ -282,12 +287,15 @@
 # define __attribute_format_strfmon__(a,b) /* Ignore */
 #endif
 
-/* The nonull function attribute allows to mark pointer parameters which
-   must not be NULL.  */
-#if __GNUC_PREREQ (3,3)
-# define __nonnull(params) __attribute__ ((__nonnull__ params))
-#else
-# define __nonnull(params)
+/* The nonnull function attribute marks pointer parameters that
+   must not be NULL.  Do not define __nonnull if it is already defined,
+   for portability when this file is used in Gnulib.  */
+#ifndef __nonnull
+# if __GNUC_PREREQ (3,3)
+#  define __nonnull(params) __attribute__ ((__nonnull__ params))
+# else
+#  define __nonnull(params)
+# endif
 #endif
 
 /* If fortification mode, we warn about unused results of certain
@@ -368,7 +376,11 @@
 
 /* __restrict is known in EGCS 1.2 and above. */
 #if !__GNUC_PREREQ (2,92)
-# define __restrict	/* Ignore */
+# if defined __STDC_VERSION__ && __STDC_VERSION__ >= 199901L
+#  define __restrict	restrict
+# else
+#  define __restrict	/* Ignore */
+# endif
 #endif
 
 /* ISO C99 also allows to declare arrays as non-overlapping.  The syntax is
@@ -397,6 +409,12 @@
 # define __glibc_likely(cond)	(cond)
 #endif
 
+#ifdef __has_attribute
+# define __glibc_has_attribute(attr)	__has_attribute (attr)
+#else
+# define __glibc_has_attribute(attr)	0
+#endif
+
 #if (!defined _Noreturn \
      && (defined __STDC_VERSION__ ? __STDC_VERSION__ : 0) < 201112 \
      &&  !__GNUC_PREREQ (4,7))
@@ -405,6 +423,15 @@
 # else
 #  define _Noreturn
 # endif
+#endif
+
+#if __GNUC_PREREQ (8, 0)
+/* Describes a char array whose address can safely be passed as the first
+   argument to strncpy and strncat, as the char array is not necessarily
+   a NUL-terminated string.  */
+# define __attribute_nonstring__ __attribute__ ((__nonstring__))
+#else
+# define __attribute_nonstring__
 #endif
 
 #if (!defined _Static_assert && !defined __cplusplus \

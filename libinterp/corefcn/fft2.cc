@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 1997-2018 David Bateman
+Copyright (C) 1997-2019 David Bateman
 Copyright (C) 1996-1997 John W. Eaton
 
 This file is part of Octave.
@@ -34,12 +34,6 @@ along with Octave; see the file COPYING.  If not, see
 #include "utils.h"
 
 // This function should be merged with Fifft.
-
-#if defined (HAVE_FFTW)
-#  define FFTSRC "@sc{fftw}"
-#else
-#  define FFTSRC "@sc{fftpack}"
-#endif
 
 static octave_value
 do_fft2 (const octave_value_list& args, const char *fcn, int type)
@@ -182,7 +176,7 @@ of @var{A} is treated separately.
 ## Author: David Billinghurst (David.Billinghurst@riotinto.com.au)
 ##         Comalco Research and Technology
 ##         02 May 2000
-%!test
+%!testif HAVE_FFTW
 %! M = 16;
 %! N = 8;
 %!
@@ -201,7 +195,7 @@ of @var{A} is treated separately.
 ## Author: David Billinghurst (David.Billinghurst@riotinto.com.au)
 ##         Comalco Research and Technology
 ##         02 May 2000
-%!test
+%!testif HAVE_FFTW
 %! M = 12;
 %! N = 7;
 %!
@@ -223,7 +217,7 @@ of @var{A} is treated separately.
 ## Author: David Billinghurst (David.Billinghurst@riotinto.com.au)
 ##         Comalco Research and Technology
 ##         02 May 2000
-%!test
+%!testif HAVE_FFTW
 %! M = 16;
 %! N = 8;
 %!
@@ -242,7 +236,7 @@ of @var{A} is treated separately.
 ## Author: David Billinghurst (David.Billinghurst@riotinto.com.au)
 ##         Comalco Research and Technology
 ##         02 May 2000
-%!test
+%!testif HAVE_FFTW
 %! M = 12;
 %! N = 7;
 %!

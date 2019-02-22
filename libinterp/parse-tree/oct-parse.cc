@@ -1,8 +1,8 @@
-/* A Bison parser, made by GNU Bison 3.0.4.  */
+/* A Bison parser, made by GNU Bison 3.2.4.  */
 
 /* Bison implementation for Yacc-like parsers in C
 
-   Copyright (C) 1984, 1989-1990, 2000-2015 Free Software Foundation, Inc.
+   Copyright (C) 1984, 1989-1990, 2000-2015, 2018 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -40,11 +40,14 @@
    define necessary library symbols; they are noted "INFRINGES ON
    USER NAME SPACE" below.  */
 
+/* Undocumented macros, especially those whose name start with YY_,
+   are private implementation details.  Do not rely on them.  */
+
 /* Identify Bison output.  */
 #define YYBISON 1
 
 /* Bison version.  */
-#define YYBISON_VERSION "3.0.4"
+#define YYBISON_VERSION "3.2.4"
 
 /* Skeleton name.  */
 #define YYSKELETON_NAME "yacc.c"
@@ -73,8 +76,8 @@
 #define yynerrs         octave_nerrs
 
 
-/* Copy the first part of user declarations.  */
-#line 30 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:339  */
+/* First part of user prologue.  */
+#line 30 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:338  */
 
 
 #define YYDEBUG 1
@@ -103,7 +106,6 @@
 #include "Cell.h"
 #include "builtin-defun-decls.h"
 #include "call-stack.h"
-#include "defaults.h"
 #include "defun.h"
 #include "dirfns.h"
 #include "dynamic-ld.h"
@@ -113,6 +115,7 @@
 #include "interpreter.h"
 #include "lex.h"
 #include "load-path.h"
+#include "lo-sysdep.h"
 #include "oct-hist.h"
 #include "oct-map.h"
 #include "ov-classdef.h"
@@ -156,13 +159,16 @@ static void yyerror (octave::base_parser& parser, const char *s);
 #endif
 
 
-#line 160 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:339  */
-
+#line 163 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:338  */
 # ifndef YY_NULLPTR
-#  if defined __cplusplus && 201103L <= __cplusplus
-#   define YY_NULLPTR nullptr
+#  if defined __cplusplus
+#   if 201103L <= __cplusplus
+#    define YY_NULLPTR nullptr
+#   else
+#    define YY_NULLPTR 0
+#   endif
 #  else
-#   define YY_NULLPTR 0
+#   define YY_NULLPTR ((void*)0)
 #  endif
 # endif
 
@@ -364,7 +370,7 @@ extern int octave_debug;
 
 union OCTAVE_STYPE
 {
-#line 136 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:355  */
+#line 136 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:353  */
 
   int dummy_type;
 
@@ -422,7 +428,7 @@ union OCTAVE_STYPE
   octave::tree_classdef_enum_list* tree_classdef_enum_list_type;
   octave::tree_classdef_enum_block* tree_classdef_enum_block_type;
 
-#line 426 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:355  */
+#line 432 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:353  */
 };
 
 typedef union OCTAVE_STYPE OCTAVE_STYPE;
@@ -447,9 +453,7 @@ void octave_pstate_delete (octave_pstate *ps);
 
 #endif /* !YY_OCTAVE_LIBINTERP_PARSE_TREE_OCT_PARSE_H_INCLUDED  */
 
-/* Copy the second part of user declarations.  */
 
-#line 453 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -470,13 +474,13 @@ typedef signed char yytype_int8;
 #ifdef YYTYPE_UINT16
 typedef YYTYPE_UINT16 yytype_uint16;
 #else
-typedef unsigned short int yytype_uint16;
+typedef unsigned short yytype_uint16;
 #endif
 
 #ifdef YYTYPE_INT16
 typedef YYTYPE_INT16 yytype_int16;
 #else
-typedef short int yytype_int16;
+typedef short yytype_int16;
 #endif
 
 #ifndef YYSIZE_T
@@ -488,7 +492,7 @@ typedef short int yytype_int16;
 #  include <stddef.h> /* INFRINGES ON USER NAME SPACE */
 #  define YYSIZE_T size_t
 # else
-#  define YYSIZE_T unsigned int
+#  define YYSIZE_T unsigned
 # endif
 #endif
 
@@ -524,15 +528,6 @@ typedef short int yytype_int16;
 # define YY_ATTRIBUTE_UNUSED YY_ATTRIBUTE ((__unused__))
 #endif
 
-#if !defined _Noreturn \
-     && (!defined __STDC_VERSION__ || __STDC_VERSION__ < 201112)
-# if defined _MSC_VER && 1200 <= _MSC_VER
-#  define _Noreturn __declspec (noreturn)
-# else
-#  define _Noreturn YY_ATTRIBUTE ((__noreturn__))
-# endif
-#endif
-
 /* Suppress unused-variable warnings by "using" E.  */
 #if ! defined lint || defined __GNUC__
 # define YYUSE(E) ((void) (E))
@@ -540,7 +535,7 @@ typedef short int yytype_int16;
 # define YYUSE(E) /* empty */
 #endif
 
-#if defined __GNUC__ && 407 <= __GNUC__ * 100 + __GNUC_MINOR__
+#if defined __GNUC__ && ! defined __ICC && 407 <= __GNUC__ * 100 + __GNUC_MINOR__
 /* Suppress an incorrect diagnostic about yylval being uninitialized.  */
 # define YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN \
     _Pragma ("GCC diagnostic push") \
@@ -684,7 +679,7 @@ union yyalloc
 #define YYMAXUTOK   335
 
 #define YYTRANSLATE(YYX)                                                \
-  ((unsigned int) (YYX) <= YYMAXUTOK ? yytranslate[YYX] : YYUNDEFTOK)
+  ((unsigned) (YYX) <= YYMAXUTOK ? yytranslate[YYX] : YYUNDEFTOK)
 
 /* YYTRANSLATE[TOKEN-NUM] -- Symbol number corresponding to TOKEN-NUM
    as returned by yylex, without out-of-bounds checking.  */
@@ -1508,38 +1503,38 @@ do {                                                                      \
 } while (0)
 
 
-/*----------------------------------------.
-| Print this symbol's value on YYOUTPUT.  |
-`----------------------------------------*/
+/*-----------------------------------.
+| Print this symbol's value on YYO.  |
+`-----------------------------------*/
 
 static void
-yy_symbol_value_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvaluep, octave::base_parser& parser)
+yy_symbol_value_print (FILE *yyo, int yytype, YYSTYPE const * const yyvaluep, octave::base_parser& parser)
 {
-  FILE *yyo = yyoutput;
-  YYUSE (yyo);
+  FILE *yyoutput = yyo;
+  YYUSE (yyoutput);
   YYUSE (parser);
   if (!yyvaluep)
     return;
 # ifdef YYPRINT
   if (yytype < YYNTOKENS)
-    YYPRINT (yyoutput, yytoknum[yytype], *yyvaluep);
+    YYPRINT (yyo, yytoknum[yytype], *yyvaluep);
 # endif
   YYUSE (yytype);
 }
 
 
-/*--------------------------------.
-| Print this symbol on YYOUTPUT.  |
-`--------------------------------*/
+/*---------------------------.
+| Print this symbol on YYO.  |
+`---------------------------*/
 
 static void
-yy_symbol_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvaluep, octave::base_parser& parser)
+yy_symbol_print (FILE *yyo, int yytype, YYSTYPE const * const yyvaluep, octave::base_parser& parser)
 {
-  YYFPRINTF (yyoutput, "%s %s (",
+  YYFPRINTF (yyo, "%s %s (",
              yytype < YYNTOKENS ? "token" : "nterm", yytname[yytype]);
 
-  yy_symbol_value_print (yyoutput, yytype, yyvaluep, parser);
-  YYFPRINTF (yyoutput, ")");
+  yy_symbol_value_print (yyo, yytype, yyvaluep, parser);
+  YYFPRINTF (yyo, ")");
 }
 
 /*------------------------------------------------------------------.
@@ -1573,7 +1568,7 @@ do {                                                            \
 static void
 yy_reduce_print (yytype_int16 *yyssp, YYSTYPE *yyvsp, int yyrule, octave::base_parser& parser)
 {
-  unsigned long int yylno = yyrline[yyrule];
+  unsigned long yylno = yyrline[yyrule];
   int yynrhs = yyr2[yyrule];
   int yyi;
   YYFPRINTF (stderr, "Reducing stack by rule %d (line %lu):\n",
@@ -1706,7 +1701,7 @@ yytnamerr (char *yyres, const char *yystr)
   if (! yyres)
     return yystrlen (yystr);
 
-  return yystpcpy (yyres, yystr) - yyres;
+  return (YYSIZE_T) (yystpcpy (yyres, yystr) - yyres);
 }
 # endif
 
@@ -1799,6 +1794,7 @@ yysyntax_error (YYSIZE_T *yymsg_alloc, char **yymsg,
       case N:                               \
         yyformat = S;                       \
       break
+    default: /* Avoid compiler warnings. */
       YYCASE_(0, YY_("syntax error"));
       YYCASE_(1, YY_("syntax error, unexpected %s"));
       YYCASE_(2, YY_("syntax error, unexpected %s, expecting %s"));
@@ -1863,1071 +1859,1071 @@ yydestruct (const char *yymsg, int yytype, YYSTYPE *yyvaluep, octave::base_parse
   switch (yytype)
     {
           case 3: /* '='  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 1869 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 1865 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 4: /* ':'  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 1875 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 1871 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 5: /* '-'  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 1881 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 1877 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 6: /* '+'  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 1887 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 1883 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 7: /* '*'  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 1893 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 1889 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 8: /* '/'  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 1899 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 1895 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 9: /* ADD_EQ  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 1905 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 1901 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 10: /* SUB_EQ  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 1911 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 1907 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 11: /* MUL_EQ  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 1917 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 1913 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 12: /* DIV_EQ  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 1923 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 1919 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 13: /* LEFTDIV_EQ  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 1929 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 1925 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 14: /* POW_EQ  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 1935 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 1931 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 15: /* EMUL_EQ  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 1941 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 1937 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 16: /* EDIV_EQ  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 1947 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 1943 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 17: /* ELEFTDIV_EQ  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 1953 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 1949 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 18: /* EPOW_EQ  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 1959 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 1955 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 19: /* AND_EQ  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 1965 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 1961 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 20: /* OR_EQ  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 1971 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 1967 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 21: /* EXPR_AND_AND  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 1977 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 1973 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 22: /* EXPR_OR_OR  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 1983 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 1979 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 23: /* EXPR_AND  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 1989 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 1985 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 24: /* EXPR_OR  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 1995 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 1991 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 25: /* EXPR_NOT  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 2001 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 1997 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 26: /* EXPR_LT  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 2007 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2003 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 27: /* EXPR_LE  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 2013 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2009 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 28: /* EXPR_EQ  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 2019 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2015 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 29: /* EXPR_NE  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 2025 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2021 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 30: /* EXPR_GE  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 2031 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2027 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 31: /* EXPR_GT  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 2037 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2033 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 32: /* LEFTDIV  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 2043 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2039 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 33: /* EMUL  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 2049 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2045 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 34: /* EDIV  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 2055 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2051 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 35: /* ELEFTDIV  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 2061 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2057 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 36: /* EPLUS  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 2067 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2063 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 37: /* EMINUS  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 2073 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2069 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 38: /* HERMITIAN  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 2079 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2075 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 39: /* TRANSPOSE  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 2085 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2081 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 40: /* PLUS_PLUS  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 2091 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2087 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 41: /* MINUS_MINUS  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 2097 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2093 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 42: /* POW  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 2103 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2099 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 43: /* EPOW  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 2109 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2105 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 44: /* NUM  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 2115 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2111 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 45: /* IMAG_NUM  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 2121 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2117 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 46: /* STRUCT_ELT  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 2127 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2123 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 47: /* NAME  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 2133 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2129 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 48: /* END  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 2139 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2135 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 49: /* DQ_STRING  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 2145 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2141 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 50: /* SQ_STRING  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 2151 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2147 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 51: /* FOR  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 2157 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2153 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 52: /* PARFOR  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 2163 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2159 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 53: /* WHILE  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 2169 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2165 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 54: /* DO  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 2175 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2171 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 55: /* UNTIL  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 2181 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2177 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 56: /* IF  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 2187 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2183 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 57: /* ELSEIF  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 2193 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2189 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 58: /* ELSE  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 2199 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2195 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 59: /* SWITCH  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 2205 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2201 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 60: /* CASE  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 2211 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2207 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 61: /* OTHERWISE  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 2217 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2213 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 62: /* BREAK  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 2223 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2219 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 63: /* CONTINUE  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 2229 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2225 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 64: /* FUNC_RET  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 2235 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2231 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 65: /* UNWIND  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 2241 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2237 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 66: /* CLEANUP  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 2247 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2243 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 67: /* TRY  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 2253 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2249 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 68: /* CATCH  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 2259 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2255 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 69: /* GLOBAL  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 2265 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2261 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 70: /* PERSISTENT  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 2271 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2267 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 71: /* FCN_HANDLE  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 2277 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2273 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 72: /* CLASSDEF  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 2283 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2279 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 73: /* PROPERTIES  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 2289 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2285 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 74: /* METHODS  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 2295 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2291 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 75: /* EVENTS  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 2301 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2297 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 76: /* ENUMERATION  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 2307 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2303 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 77: /* METAQUERY  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 2313 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2309 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 78: /* SUPERCLASSREF  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 2319 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2315 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 79: /* FQ_IDENT  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 2325 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2321 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 80: /* GET  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 2331 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2327 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 81: /* SET  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 2337 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2333 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 82: /* FCN  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 2343 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2339 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 83: /* LEXICAL_ERROR  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 2349 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2345 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 97: /* UNARY  */
-#line 320 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 320 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 2355 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2351 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 99: /* input  */
-#line 322 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 322 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_type); }
-#line 2361 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2357 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 100: /* simple_list  */
-#line 346 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 346 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_statement_list_type); }
-#line 2367 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2363 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 101: /* simple_list1  */
-#line 346 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 346 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_statement_list_type); }
-#line 2373 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2369 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 102: /* opt_list  */
-#line 346 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 346 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_statement_list_type); }
-#line 2379 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2375 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 103: /* list  */
-#line 346 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 346 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_statement_list_type); }
-#line 2385 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2381 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 104: /* list1  */
-#line 346 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 346 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_statement_list_type); }
-#line 2391 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2387 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 105: /* opt_fcn_list  */
-#line 346 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 346 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_statement_list_type); }
-#line 2397 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2393 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 106: /* fcn_list  */
-#line 346 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 346 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_statement_list_type); }
-#line 2403 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2399 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 107: /* fcn_list1  */
-#line 346 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 346 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_statement_list_type); }
-#line 2409 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2405 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 108: /* statement  */
-#line 345 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 345 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_statement_type); }
-#line 2415 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2411 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 109: /* word_list_cmd  */
-#line 332 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 332 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_index_expression_type); }
-#line 2421 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2417 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 110: /* word_list  */
-#line 333 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 333 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_argument_list_type); }
-#line 2427 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2423 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 111: /* identifier  */
-#line 331 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 331 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_identifier_type); }
-#line 2433 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2429 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 112: /* superclass_identifier  */
-#line 328 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 328 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_funcall_type); }
-#line 2439 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2435 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 113: /* meta_identifier  */
-#line 328 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 328 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_funcall_type); }
-#line 2445 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2441 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 114: /* string  */
-#line 326 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 326 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_constant_type); }
-#line 2451 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2447 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 115: /* constant  */
-#line 326 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 326 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_constant_type); }
-#line 2457 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2453 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 116: /* matrix  */
-#line 325 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 325 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_expression_type); }
-#line 2463 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2459 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 117: /* matrix_rows  */
-#line 323 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 323 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_matrix_type); }
-#line 2469 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2465 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 118: /* cell  */
-#line 325 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 325 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_expression_type); }
-#line 2475 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2471 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 119: /* cell_rows  */
-#line 324 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 324 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_cell_type); }
-#line 2481 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2477 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 120: /* cell_or_matrix_row  */
-#line 333 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 333 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_argument_list_type); }
-#line 2487 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2483 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 121: /* fcn_handle  */
-#line 327 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 327 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_fcn_handle_type); }
-#line 2493 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2489 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 122: /* anon_fcn_handle  */
-#line 330 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 330 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_anon_fcn_handle_type); }
-#line 2499 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2495 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 123: /* primary_expr  */
-#line 325 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 325 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_expression_type); }
-#line 2505 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2501 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 124: /* magic_colon  */
-#line 326 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 326 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_constant_type); }
-#line 2511 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2507 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 125: /* magic_tilde  */
-#line 331 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 331 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_identifier_type); }
-#line 2517 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2513 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 126: /* arg_list  */
-#line 333 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 333 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_argument_list_type); }
-#line 2523 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2519 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 128: /* oper_expr  */
-#line 325 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 325 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_expression_type); }
-#line 2529 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2525 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 129: /* power_expr  */
-#line 325 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 325 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_expression_type); }
-#line 2535 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2531 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 130: /* colon_expr  */
-#line 325 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 325 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_expression_type); }
-#line 2541 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2537 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 131: /* simple_expr  */
-#line 325 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 325 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_expression_type); }
-#line 2547 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2543 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 132: /* assign_lhs  */
-#line 333 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 333 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_argument_list_type); }
-#line 2553 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2549 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 133: /* assign_expr  */
-#line 325 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 325 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_expression_type); }
-#line 2559 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2555 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 134: /* expr_no_assign  */
-#line 325 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 325 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_expression_type); }
-#line 2565 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2561 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 135: /* expression  */
-#line 325 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 325 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_expression_type); }
-#line 2571 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2567 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 136: /* command  */
-#line 335 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 335 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_command_type); }
-#line 2577 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2573 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 137: /* declaration  */
-#line 344 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 344 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_decl_command_type); }
-#line 2583 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2579 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 138: /* decl1  */
-#line 343 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 343 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_decl_init_list_type); }
-#line 2589 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2585 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 140: /* decl2  */
-#line 342 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 342 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_decl_elt_type); }
-#line 2595 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2591 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 141: /* select_command  */
-#line 335 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 335 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_command_type); }
-#line 2601 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2597 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 142: /* if_command  */
-#line 336 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 336 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_if_command_type); }
-#line 2607 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2603 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 143: /* if_cmd_list  */
-#line 338 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 338 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_if_command_list_type); }
-#line 2613 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2609 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 144: /* if_cmd_list1  */
-#line 338 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 338 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_if_command_list_type); }
-#line 2619 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2615 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 145: /* elseif_clause  */
-#line 337 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 337 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_if_clause_type); }
-#line 2625 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2621 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 146: /* else_clause  */
-#line 337 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 337 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_if_clause_type); }
-#line 2631 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2627 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 147: /* switch_command  */
-#line 339 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 339 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_switch_command_type); }
-#line 2637 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2633 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 148: /* case_list  */
-#line 341 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 341 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_switch_case_list_type); }
-#line 2643 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2639 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 149: /* case_list1  */
-#line 341 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 341 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_switch_case_list_type); }
-#line 2649 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2645 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 150: /* switch_case  */
-#line 340 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 340 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_switch_case_type); }
-#line 2655 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2651 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 151: /* default_case  */
-#line 340 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 340 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_switch_case_type); }
-#line 2661 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2657 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 152: /* loop_command  */
-#line 335 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 335 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_command_type); }
-#line 2667 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2663 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 153: /* jump_command  */
-#line 335 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 335 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_command_type); }
-#line 2673 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2669 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 154: /* except_command  */
-#line 335 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 335 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_command_type); }
-#line 2679 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2675 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 158: /* opt_param_list  */
-#line 334 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 334 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_parameter_list_type); }
-#line 2685 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2681 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 159: /* param_list  */
-#line 334 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 334 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_parameter_list_type); }
-#line 2691 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2687 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 160: /* param_list1  */
-#line 334 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 334 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_parameter_list_type); }
-#line 2697 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2693 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 161: /* param_list2  */
-#line 334 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 334 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_parameter_list_type); }
-#line 2703 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2699 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 162: /* param_list_elt  */
-#line 342 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 342 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_decl_elt_type); }
-#line 2709 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2705 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 163: /* return_list  */
-#line 334 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 334 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_parameter_list_type); }
-#line 2715 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2711 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 164: /* return_list1  */
-#line 334 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 334 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_parameter_list_type); }
-#line 2721 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2717 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 168: /* file  */
-#line 335 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 335 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_command_type); }
-#line 2727 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2723 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 169: /* function_beg  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 2733 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2729 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 170: /* fcn_name  */
-#line 331 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 331 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_identifier_type); }
-#line 2739 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2735 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 171: /* function_end  */
-#line 345 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 345 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_statement_type); }
-#line 2745 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2741 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 172: /* function  */
-#line 329 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 329 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_function_def_type); }
-#line 2751 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2747 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 173: /* classdef_beg  */
-#line 317 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 317 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 2757 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2753 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 174: /* classdef  */
-#line 349 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 349 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_classdef_type); }
-#line 2763 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2759 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 175: /* opt_attr_list  */
-#line 351 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 351 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_classdef_attribute_list_type); }
-#line 2769 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2765 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 176: /* attr_list  */
-#line 351 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 351 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_classdef_attribute_list_type); }
-#line 2775 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2771 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 177: /* attr  */
-#line 350 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 350 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_classdef_attribute_type); }
-#line 2781 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2777 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 178: /* opt_superclass_list  */
-#line 353 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 353 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_classdef_superclass_list_type); }
-#line 2787 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2783 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 179: /* superclass_list  */
-#line 353 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 353 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_classdef_superclass_list_type); }
-#line 2793 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2789 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 182: /* superclass  */
-#line 352 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 352 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_classdef_superclass_type); }
-#line 2799 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2795 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 183: /* class_body  */
-#line 354 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 354 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_classdef_body_type); }
-#line 2805 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2801 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 184: /* properties_block  */
-#line 357 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 357 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_classdef_properties_block_type); }
-#line 2811 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2807 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 185: /* property_list  */
-#line 356 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 356 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_classdef_property_list_type); }
-#line 2817 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2813 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 186: /* class_property  */
-#line 355 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 355 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_classdef_property_type); }
-#line 2823 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2819 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 187: /* methods_block  */
-#line 359 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 359 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_classdef_methods_block_type); }
-#line 2829 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2825 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 188: /* method_decl1  */
-#line 347 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 347 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).octave_user_function_type); }
-#line 2835 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2831 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 189: /* method_decl  */
-#line 329 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 329 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_function_def_type); }
-#line 2841 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2837 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 191: /* method  */
-#line 329 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 329 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_function_def_type); }
-#line 2847 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2843 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 192: /* methods_list  */
-#line 358 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 358 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_classdef_methods_list_type); }
-#line 2853 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2849 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 193: /* events_block  */
-#line 362 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 362 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_classdef_events_block_type); }
-#line 2859 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2855 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 194: /* events_list  */
-#line 361 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 361 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_classdef_events_list_type); }
-#line 2865 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2861 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 195: /* class_event  */
-#line 360 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 360 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_classdef_event_type); }
-#line 2871 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2867 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 196: /* enum_block  */
-#line 365 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 365 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_classdef_enum_block_type); }
-#line 2877 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2873 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 197: /* enum_list  */
-#line 364 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 364 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_classdef_enum_list_type); }
-#line 2883 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2879 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 198: /* class_enum  */
-#line 363 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 363 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { delete ((*yyvaluep).tree_classdef_enum_type); }
-#line 2889 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2885 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 200: /* stash_comment  */
-#line 319 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 319 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 2895 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2891 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 202: /* sep_no_nl  */
-#line 318 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 318 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 2901 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2897 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 203: /* opt_sep_no_nl  */
-#line 318 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 318 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 2907 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2903 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 204: /* opt_nl  */
-#line 318 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 318 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 2913 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2909 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 205: /* nl  */
-#line 318 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 318 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 2919 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2915 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 206: /* sep  */
-#line 318 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 318 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 2925 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2921 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
     case 207: /* opt_sep  */
-#line 318 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1257  */
+#line 318 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1254  */
       { }
-#line 2931 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1257  */
+#line 2927 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1254  */
         break;
 
 
@@ -3020,13 +3016,16 @@ yypstate_new (void)
 void
 yypstate_delete (yypstate *yyps)
 {
+  if (yyps)
+    {
 #ifndef yyoverflow
-  /* If the stack was reallocated but the parse did not complete, then the
-     stack still needs to be freed.  */
-  if (!yyps->yynew && yyps->yyss != yyps->yyssa)
-    YYSTACK_FREE (yyps->yyss);
+      /* If the stack was reallocated but the parse did not complete, then the
+         stack still needs to be freed.  */
+      if (!yyps->yynew && yyps->yyss != yyps->yyssa)
+        YYSTACK_FREE (yyps->yyss);
 #endif
-  free (yyps);
+      free (yyps);
+    }
 }
 
 #define octave_nerrs yyps->octave_nerrs
@@ -3106,12 +3105,12 @@ YYSTYPE yylval YY_INITIAL_VALUE (= yyval_default);
   yyssp++;
 
  yysetstate:
-  *yyssp = yystate;
+  *yyssp = (yytype_int16) yystate;
 
   if (yyss + yystacksize - 1 <= yyssp)
     {
       /* Get the current used size of the three stacks, in elements.  */
-      YYSIZE_T yysize = yyssp - yyss + 1;
+      YYSIZE_T yysize = (YYSIZE_T) (yyssp - yyss + 1);
 
 #ifdef yyoverflow
       {
@@ -3129,7 +3128,6 @@ YYSTYPE yylval YY_INITIAL_VALUE (= yyval_default);
                     &yyss1, yysize * sizeof (*yyssp),
                     &yyvs1, yysize * sizeof (*yyvsp),
                     &yystacksize);
-
         yyss = yyss1;
         yyvs = yyvs1;
       }
@@ -3163,7 +3161,7 @@ YYSTYPE yylval YY_INITIAL_VALUE (= yyval_default);
       yyvsp = yyvs + yysize - 1;
 
       YYDPRINTF ((stderr, "Stack size increased to %lu\n",
-                  (unsigned long int) yystacksize));
+                  (unsigned long) yystacksize));
 
       if (yyss + yystacksize - 1 <= yyssp)
         YYABORT;
@@ -3284,153 +3282,153 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 386 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 386 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     (yyval.tree_type) = nullptr;
                     parser.m_stmt_list = (yyvsp[-1].tree_statement_list_type);
                     YYACCEPT;
                   }
-#line 3294 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3292 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 3:
-#line 392 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 392 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     (yyval.tree_type) = nullptr;
                     lexer.m_end_of_input = true;
                     parser.m_stmt_list = (yyvsp[-1].tree_statement_list_type);
                     YYACCEPT;
                   }
-#line 3305 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3303 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 4:
-#line 399 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 399 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     (yyval.tree_type) = nullptr;
                     YYABORT;
                   }
-#line 3314 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3312 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 5:
-#line 406 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 406 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     YYUSE ((yyvsp[0].punct_type));
 
                     (yyval.tree_statement_list_type) = nullptr;
                   }
-#line 3324 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3322 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 6:
-#line 412 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 412 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_statement_list_type) = parser.set_stmt_print_flag ((yyvsp[-1].tree_statement_list_type), (yyvsp[0].punct_type), false); }
-#line 3330 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3328 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 7:
-#line 416 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 416 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_statement_list_type) = parser.make_statement_list ((yyvsp[0].tree_statement_type)); }
-#line 3336 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3334 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 8:
-#line 418 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 418 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_statement_list_type) = parser.append_statement_list ((yyvsp[-2].tree_statement_list_type), (yyvsp[-1].punct_type), (yyvsp[0].tree_statement_type), false); }
-#line 3342 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3340 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 9:
-#line 422 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 422 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_statement_list_type) = new octave::tree_statement_list (); }
-#line 3348 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3346 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 10:
-#line 424 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 424 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_statement_list_type) = (yyvsp[0].tree_statement_list_type); }
-#line 3354 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3352 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 11:
-#line 428 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 428 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_statement_list_type) = parser.set_stmt_print_flag ((yyvsp[-1].tree_statement_list_type), (yyvsp[0].punct_type), true); }
-#line 3360 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3358 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 12:
-#line 432 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 432 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_statement_list_type) = parser.make_statement_list ((yyvsp[0].tree_statement_type)); }
-#line 3366 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3364 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 13:
-#line 434 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 434 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_statement_list_type) = parser.append_statement_list ((yyvsp[-2].tree_statement_list_type), (yyvsp[-1].punct_type), (yyvsp[0].tree_statement_type), true); }
-#line 3372 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3370 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 14:
-#line 438 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 438 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_statement_list_type) = new octave::tree_statement_list (); }
-#line 3378 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3376 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 15:
-#line 440 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 440 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_statement_list_type) = (yyvsp[0].tree_statement_list_type); }
-#line 3384 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3382 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 16:
-#line 444 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 444 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     YYUSE ((yyvsp[0].punct_type));
 
                     (yyval.tree_statement_list_type) = (yyvsp[-1].tree_statement_list_type);
                   }
-#line 3394 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3392 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 17:
-#line 452 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 452 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     octave::tree_statement *stmt = parser.make_statement ((yyvsp[0].tree_function_def_type));
                     (yyval.tree_statement_list_type) = new octave::tree_statement_list (stmt);
                   }
-#line 3403 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3401 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 18:
-#line 457 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 457 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     octave::tree_statement *stmt = parser.make_statement ((yyvsp[0].tree_function_def_type));
                     (yyval.tree_statement_list_type) = parser.append_statement_list ((yyvsp[-2].tree_statement_list_type), (yyvsp[-1].punct_type), stmt, false);
                   }
-#line 3412 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3410 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 19:
-#line 464 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 464 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_statement_type) = parser.make_statement ((yyvsp[0].tree_expression_type)); }
-#line 3418 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3416 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 20:
-#line 466 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 466 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_statement_type) = parser.make_statement ((yyvsp[0].tree_command_type)); }
-#line 3424 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3422 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 21:
-#line 468 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 468 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_statement_type) = parser.make_statement ((yyvsp[0].tree_index_expression_type)); }
-#line 3430 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3428 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 22:
-#line 480 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 480 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     (yyval.tree_index_expression_type) = parser.make_index_expression ((yyvsp[-1].tree_identifier_type), (yyvsp[0].tree_argument_list_type), '(');
                     if (! (yyval.tree_index_expression_type))
@@ -3439,98 +3437,98 @@ yyreduce:
                         YYABORT;
                       }
                   }
-#line 3443 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3441 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 23:
-#line 491 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 491 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_argument_list_type) = new octave::tree_argument_list ((yyvsp[0].tree_constant_type)); }
-#line 3449 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3447 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 24:
-#line 493 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 493 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     (yyvsp[-1].tree_argument_list_type)->append ((yyvsp[0].tree_constant_type));
                     (yyval.tree_argument_list_type) = (yyvsp[-1].tree_argument_list_type);
                   }
-#line 3458 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3456 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 25:
-#line 504 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 504 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     octave::symbol_record sr = (yyvsp[0].tok_val)->sym_rec ();
                     (yyval.tree_identifier_type) = new octave::tree_identifier (sr, (yyvsp[0].tok_val)->line (), (yyvsp[0].tok_val)->column ());
                   }
-#line 3467 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3465 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 26:
-#line 512 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 512 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     std::string method_nm = (yyvsp[0].tok_val)->superclass_method_name ();
                     std::string class_nm = (yyvsp[0].tok_val)->superclass_class_name ();
 
                     (yyval.tree_funcall_type) = parser.make_superclass_ref (method_nm, class_nm);
                   }
-#line 3478 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3476 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 27:
-#line 521 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 521 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     std::string class_nm = (yyvsp[0].tok_val)->text ();
 
                     (yyval.tree_funcall_type) = parser.make_meta_class_query (class_nm);
                   }
-#line 3488 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3486 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 28:
-#line 529 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 529 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_constant_type) = parser.make_constant (DQ_STRING, (yyvsp[0].tok_val)); }
-#line 3494 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3492 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 29:
-#line 531 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 531 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_constant_type) = parser.make_constant (SQ_STRING, (yyvsp[0].tok_val)); }
-#line 3500 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3498 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 30:
-#line 535 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 535 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_constant_type) = parser.make_constant (NUM, (yyvsp[0].tok_val)); }
-#line 3506 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3504 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 31:
-#line 537 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 537 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_constant_type) = parser.make_constant (IMAG_NUM, (yyvsp[0].tok_val)); }
-#line 3512 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3510 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 32:
-#line 539 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 539 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_constant_type) = (yyvsp[0].tree_constant_type); }
-#line 3518 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3516 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 33:
-#line 543 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 543 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_expression_type) = parser.finish_matrix ((yyvsp[-1].tree_matrix_type)); }
-#line 3524 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3522 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 34:
-#line 547 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 547 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_matrix_type) = (yyvsp[0].tree_argument_list_type) ? new octave::tree_matrix ((yyvsp[0].tree_argument_list_type)) : nullptr; }
-#line 3530 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3528 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 35:
-#line 549 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 549 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     if ((yyvsp[-2].tree_matrix_type))
                       {
@@ -3542,23 +3540,23 @@ yyreduce:
                     else
                       (yyval.tree_matrix_type) = (yyvsp[0].tree_argument_list_type) ? new octave::tree_matrix ((yyvsp[0].tree_argument_list_type)) : nullptr;
                   }
-#line 3546 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3544 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 36:
-#line 563 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 563 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_expression_type) = parser.finish_cell ((yyvsp[-1].tree_cell_type)); }
-#line 3552 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3550 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 37:
-#line 567 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 567 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_cell_type) = (yyvsp[0].tree_argument_list_type) ? new octave::tree_cell ((yyvsp[0].tree_argument_list_type)) : nullptr; }
-#line 3558 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3556 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 38:
-#line 569 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 569 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     if ((yyvsp[-2].tree_cell_type))
                       {
@@ -3570,65 +3568,65 @@ yyreduce:
                     else
                       (yyval.tree_cell_type) = (yyvsp[0].tree_argument_list_type) ? new octave::tree_cell ((yyvsp[0].tree_argument_list_type)) : nullptr;
                   }
-#line 3574 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3572 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 39:
-#line 587 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 587 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_argument_list_type) = nullptr; }
-#line 3580 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3578 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 40:
-#line 589 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 589 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_argument_list_type) = nullptr; }
-#line 3586 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3584 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 41:
-#line 591 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 591 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_argument_list_type) = (yyvsp[0].tree_argument_list_type); }
-#line 3592 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3590 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 42:
-#line 593 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 593 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_argument_list_type) = (yyvsp[-1].tree_argument_list_type); }
-#line 3598 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3596 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 43:
-#line 595 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 595 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_argument_list_type) = (yyvsp[0].tree_argument_list_type); }
-#line 3604 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3602 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 44:
-#line 597 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 597 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_argument_list_type) = (yyvsp[-1].tree_argument_list_type); }
-#line 3610 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3608 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 45:
-#line 601 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 601 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     (yyval.tree_fcn_handle_type) = parser.make_fcn_handle ((yyvsp[0].tok_val));
                     lexer.m_looking_at_function_handle--;
                   }
-#line 3619 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3617 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 46:
-#line 608 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 608 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     (yyval.tree_anon_fcn_handle_type) = parser.make_anon_fcn_handle ((yyvsp[-2].tree_parameter_list_type), (yyvsp[0].tree_expression_type));
                     lexer.m_nesting_level.remove ();
                   }
-#line 3628 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3626 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 47:
-#line 613 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 613 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     YYUSE ((yyvsp[-2].tree_parameter_list_type));
 
@@ -3636,155 +3634,155 @@ yyreduce:
                     parser.bison_error ("anonymous function bodies must be single expressions");
                     YYABORT;
                   }
-#line 3640 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3638 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 48:
-#line 623 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 623 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_expression_type) = (yyvsp[0].tree_identifier_type); }
-#line 3646 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3644 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 49:
-#line 625 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 625 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_expression_type) = (yyvsp[0].tree_constant_type); }
-#line 3652 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3650 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 50:
-#line 627 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 627 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_expression_type) = (yyvsp[0].tree_fcn_handle_type); }
-#line 3658 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3656 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 51:
-#line 629 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 629 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     lexer.m_looking_at_matrix_or_assign_lhs = false;
                     (yyval.tree_expression_type) = (yyvsp[0].tree_expression_type);
                   }
-#line 3667 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3665 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 52:
-#line 634 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 634 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_expression_type) = (yyvsp[0].tree_expression_type); }
-#line 3673 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3671 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 53:
-#line 636 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 636 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_expression_type) = (yyvsp[0].tree_funcall_type); }
-#line 3679 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3677 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 54:
-#line 638 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 638 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_expression_type) = (yyvsp[0].tree_funcall_type); }
-#line 3685 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3683 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 55:
-#line 640 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 640 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_expression_type) = (yyvsp[-1].tree_expression_type)->mark_in_parens (); }
-#line 3691 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3689 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 56:
-#line 644 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 644 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     YYUSE ((yyvsp[0].tok_val));
 
                     octave_value tmp (octave_value::magic_colon_t);
                     (yyval.tree_constant_type) = new octave::tree_constant (tmp);
                   }
-#line 3702 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3700 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 57:
-#line 653 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 653 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     YYUSE ((yyvsp[0].tok_val));
 
                     (yyval.tree_identifier_type) = new octave::tree_black_hole ();
                   }
-#line 3712 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3710 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 58:
-#line 661 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 661 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_argument_list_type) = new octave::tree_argument_list ((yyvsp[0].tree_expression_type)); }
-#line 3718 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3716 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 59:
-#line 663 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 663 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_argument_list_type) = new octave::tree_argument_list ((yyvsp[0].tree_constant_type)); }
-#line 3724 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3722 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 60:
-#line 665 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 665 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_argument_list_type) = new octave::tree_argument_list ((yyvsp[0].tree_identifier_type)); }
-#line 3730 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3728 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 61:
-#line 667 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 667 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     (yyvsp[-2].tree_argument_list_type)->append ((yyvsp[0].tree_constant_type));
                     (yyval.tree_argument_list_type) = (yyvsp[-2].tree_argument_list_type);
                   }
-#line 3739 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3737 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 62:
-#line 672 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 672 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     (yyvsp[-2].tree_argument_list_type)->append ((yyvsp[0].tree_identifier_type));
                     (yyval.tree_argument_list_type) = (yyvsp[-2].tree_argument_list_type);
                   }
-#line 3748 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3746 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 63:
-#line 677 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 677 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     (yyvsp[-2].tree_argument_list_type)->append ((yyvsp[0].tree_expression_type));
                     (yyval.tree_argument_list_type) = (yyvsp[-2].tree_argument_list_type);
                   }
-#line 3757 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3755 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 64:
-#line 684 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 684 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     (yyval.dummy_type) = 0;
                     lexer.m_looking_at_indirect_ref = true;
                   }
-#line 3766 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3764 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 65:
-#line 691 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 691 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_expression_type) = (yyvsp[0].tree_expression_type); }
-#line 3772 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3770 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 66:
-#line 693 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 693 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_expression_type) = parser.make_postfix_op (PLUS_PLUS, (yyvsp[-1].tree_expression_type), (yyvsp[0].tok_val)); }
-#line 3778 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3776 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 67:
-#line 695 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 695 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_expression_type) = parser.make_postfix_op (MINUS_MINUS, (yyvsp[-1].tree_expression_type), (yyvsp[0].tok_val)); }
-#line 3784 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3782 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 68:
-#line 697 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 697 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     (yyval.tree_expression_type) = parser.make_index_expression ((yyvsp[-2].tree_expression_type), nullptr, '(');
                     if (! (yyval.tree_expression_type))
@@ -3793,11 +3791,11 @@ yyreduce:
                         YYABORT;
                       }
                   }
-#line 3797 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3795 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 69:
-#line 706 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 706 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     (yyval.tree_expression_type) = parser.make_index_expression ((yyvsp[-3].tree_expression_type), (yyvsp[-1].tree_argument_list_type), '(');
                     if (! (yyval.tree_expression_type))
@@ -3806,11 +3804,11 @@ yyreduce:
                         YYABORT;
                       }
                   }
-#line 3810 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3808 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 70:
-#line 715 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 715 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     (yyval.tree_expression_type) = parser.make_index_expression ((yyvsp[-2].tree_expression_type), nullptr, '{');
                     if (! (yyval.tree_expression_type))
@@ -3819,11 +3817,11 @@ yyreduce:
                         YYABORT;
                       }
                   }
-#line 3823 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3821 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 71:
-#line 724 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 724 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     (yyval.tree_expression_type) = parser.make_index_expression ((yyvsp[-3].tree_expression_type), (yyvsp[-1].tree_argument_list_type), '{');
                     if (! (yyval.tree_expression_type))
@@ -3832,155 +3830,155 @@ yyreduce:
                         YYABORT;
                       }
                   }
-#line 3836 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3834 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 72:
-#line 733 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 733 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_expression_type) = parser.make_postfix_op (HERMITIAN, (yyvsp[-1].tree_expression_type), (yyvsp[0].tok_val)); }
-#line 3842 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3840 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 73:
-#line 735 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 735 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_expression_type) = parser.make_postfix_op (TRANSPOSE, (yyvsp[-1].tree_expression_type), (yyvsp[0].tok_val)); }
-#line 3848 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3846 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 74:
-#line 737 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 737 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_expression_type) = parser.make_indirect_ref ((yyvsp[-2].tree_expression_type), (yyvsp[0].tok_val)->text ()); }
-#line 3854 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3852 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 75:
-#line 739 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 739 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_expression_type) = parser.make_indirect_ref ((yyvsp[-4].tree_expression_type), (yyvsp[-1].tree_expression_type)); }
-#line 3860 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3858 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 76:
-#line 741 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 741 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_expression_type) = parser.make_prefix_op (PLUS_PLUS, (yyvsp[0].tree_expression_type), (yyvsp[-1].tok_val)); }
-#line 3866 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3864 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 77:
-#line 743 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 743 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_expression_type) = parser.make_prefix_op (MINUS_MINUS, (yyvsp[0].tree_expression_type), (yyvsp[-1].tok_val)); }
-#line 3872 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3870 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 78:
-#line 745 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 745 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_expression_type) = parser.make_prefix_op (EXPR_NOT, (yyvsp[0].tree_expression_type), (yyvsp[-1].tok_val)); }
-#line 3878 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3876 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 79:
-#line 747 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 747 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_expression_type) = parser.make_prefix_op ('+', (yyvsp[0].tree_expression_type), (yyvsp[-1].tok_val)); }
-#line 3884 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3882 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 80:
-#line 749 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 749 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_expression_type) = parser.make_prefix_op ('-', (yyvsp[0].tree_expression_type), (yyvsp[-1].tok_val)); }
-#line 3890 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3888 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 81:
-#line 751 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 751 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_expression_type) = parser.make_binary_op (POW, (yyvsp[-2].tree_expression_type), (yyvsp[-1].tok_val), (yyvsp[0].tree_expression_type)); }
-#line 3896 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3894 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 82:
-#line 753 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 753 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_expression_type) = parser.make_binary_op (EPOW, (yyvsp[-2].tree_expression_type), (yyvsp[-1].tok_val), (yyvsp[0].tree_expression_type)); }
-#line 3902 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3900 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 83:
-#line 755 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 755 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_expression_type) = parser.make_binary_op ('+', (yyvsp[-2].tree_expression_type), (yyvsp[-1].tok_val), (yyvsp[0].tree_expression_type)); }
-#line 3908 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3906 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 84:
-#line 757 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 757 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_expression_type) = parser.make_binary_op ('-', (yyvsp[-2].tree_expression_type), (yyvsp[-1].tok_val), (yyvsp[0].tree_expression_type)); }
-#line 3914 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3912 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 85:
-#line 759 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 759 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_expression_type) = parser.make_binary_op ('*', (yyvsp[-2].tree_expression_type), (yyvsp[-1].tok_val), (yyvsp[0].tree_expression_type)); }
-#line 3920 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3918 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 86:
-#line 761 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 761 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_expression_type) = parser.make_binary_op ('/', (yyvsp[-2].tree_expression_type), (yyvsp[-1].tok_val), (yyvsp[0].tree_expression_type)); }
-#line 3926 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3924 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 87:
-#line 763 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 763 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_expression_type) = parser.make_binary_op ('+', (yyvsp[-2].tree_expression_type), (yyvsp[-1].tok_val), (yyvsp[0].tree_expression_type)); }
-#line 3932 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3930 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 88:
-#line 765 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 765 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_expression_type) = parser.make_binary_op ('-', (yyvsp[-2].tree_expression_type), (yyvsp[-1].tok_val), (yyvsp[0].tree_expression_type)); }
-#line 3938 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3936 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 89:
-#line 767 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 767 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_expression_type) = parser.make_binary_op (EMUL, (yyvsp[-2].tree_expression_type), (yyvsp[-1].tok_val), (yyvsp[0].tree_expression_type)); }
-#line 3944 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3942 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 90:
-#line 769 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 769 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_expression_type) = parser.make_binary_op (EDIV, (yyvsp[-2].tree_expression_type), (yyvsp[-1].tok_val), (yyvsp[0].tree_expression_type)); }
-#line 3950 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3948 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 91:
-#line 771 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 771 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_expression_type) = parser.make_binary_op (LEFTDIV, (yyvsp[-2].tree_expression_type), (yyvsp[-1].tok_val), (yyvsp[0].tree_expression_type)); }
-#line 3956 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3954 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 92:
-#line 773 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 773 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_expression_type) = parser.make_binary_op (ELEFTDIV, (yyvsp[-2].tree_expression_type), (yyvsp[-1].tok_val), (yyvsp[0].tree_expression_type)); }
-#line 3962 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3960 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 93:
-#line 777 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 777 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_expression_type) = (yyvsp[0].tree_expression_type); }
-#line 3968 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3966 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 94:
-#line 779 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 779 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_expression_type) = parser.make_postfix_op (PLUS_PLUS, (yyvsp[-1].tree_expression_type), (yyvsp[0].tok_val)); }
-#line 3974 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3972 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 95:
-#line 781 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 781 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_expression_type) = parser.make_postfix_op (MINUS_MINUS, (yyvsp[-1].tree_expression_type), (yyvsp[0].tok_val)); }
-#line 3980 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3978 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 96:
-#line 783 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 783 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     (yyval.tree_expression_type) = parser.make_index_expression ((yyvsp[-2].tree_expression_type), nullptr, '(');
                     if (! (yyval.tree_expression_type))
@@ -3989,11 +3987,11 @@ yyreduce:
                         YYABORT;
                       }
                   }
-#line 3993 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 3991 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 97:
-#line 792 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 792 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     (yyval.tree_expression_type) = parser.make_index_expression ((yyvsp[-3].tree_expression_type), (yyvsp[-1].tree_argument_list_type), '(');
                     if (! (yyval.tree_expression_type))
@@ -4002,11 +4000,11 @@ yyreduce:
                         YYABORT;
                       }
                   }
-#line 4006 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4004 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 98:
-#line 801 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 801 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     (yyval.tree_expression_type) = parser.make_index_expression ((yyvsp[-2].tree_expression_type), nullptr, '{');
                     if (! (yyval.tree_expression_type))
@@ -4015,11 +4013,11 @@ yyreduce:
                         YYABORT;
                       }
                   }
-#line 4019 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4017 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 99:
-#line 810 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 810 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     (yyval.tree_expression_type) = parser.make_index_expression ((yyvsp[-3].tree_expression_type), (yyvsp[-1].tree_argument_list_type), '{');
                     if (! (yyval.tree_expression_type))
@@ -4028,53 +4026,53 @@ yyreduce:
                         YYABORT;
                       }
                   }
-#line 4032 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4030 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 100:
-#line 819 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 819 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_expression_type) = parser.make_indirect_ref ((yyvsp[-2].tree_expression_type), (yyvsp[0].tok_val)->text ()); }
-#line 4038 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4036 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 101:
-#line 821 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 821 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_expression_type) = parser.make_indirect_ref ((yyvsp[-4].tree_expression_type), (yyvsp[-1].tree_expression_type)); }
-#line 4044 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4042 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 102:
-#line 823 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 823 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_expression_type) = parser.make_prefix_op (PLUS_PLUS, (yyvsp[0].tree_expression_type), (yyvsp[-1].tok_val)); }
-#line 4050 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4048 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 103:
-#line 825 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 825 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_expression_type) = parser.make_prefix_op (MINUS_MINUS, (yyvsp[0].tree_expression_type), (yyvsp[-1].tok_val)); }
-#line 4056 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4054 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 104:
-#line 827 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 827 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_expression_type) = parser.make_prefix_op (EXPR_NOT, (yyvsp[0].tree_expression_type), (yyvsp[-1].tok_val)); }
-#line 4062 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4060 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 105:
-#line 829 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 829 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_expression_type) = parser.make_prefix_op ('+', (yyvsp[0].tree_expression_type), (yyvsp[-1].tok_val)); }
-#line 4068 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4066 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 106:
-#line 831 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 831 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_expression_type) = parser.make_prefix_op ('-', (yyvsp[0].tree_expression_type), (yyvsp[-1].tok_val)); }
-#line 4074 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4072 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 107:
-#line 835 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 835 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     YYUSE ((yyvsp[-1].tok_val));
 
@@ -4086,11 +4084,11 @@ yyreduce:
                         YYABORT;
                       }
                   }
-#line 4090 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4088 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 108:
-#line 847 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 847 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     YYUSE ((yyvsp[-3].tok_val));
                     YYUSE ((yyvsp[-1].tok_val));
@@ -4103,83 +4101,83 @@ yyreduce:
                         YYABORT;
                       }
                   }
-#line 4107 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4105 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 109:
-#line 862 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 862 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_expression_type) = (yyvsp[0].tree_expression_type); }
-#line 4113 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4111 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 110:
-#line 864 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 864 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_expression_type) = (yyvsp[0].tree_expression_type); }
-#line 4119 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4117 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 111:
-#line 866 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 866 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_expression_type) = parser.make_binary_op (EXPR_LT, (yyvsp[-2].tree_expression_type), (yyvsp[-1].tok_val), (yyvsp[0].tree_expression_type)); }
-#line 4125 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4123 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 112:
-#line 868 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 868 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_expression_type) = parser.make_binary_op (EXPR_LE, (yyvsp[-2].tree_expression_type), (yyvsp[-1].tok_val), (yyvsp[0].tree_expression_type)); }
-#line 4131 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4129 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 113:
-#line 870 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 870 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_expression_type) = parser.make_binary_op (EXPR_EQ, (yyvsp[-2].tree_expression_type), (yyvsp[-1].tok_val), (yyvsp[0].tree_expression_type)); }
-#line 4137 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4135 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 114:
-#line 872 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 872 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_expression_type) = parser.make_binary_op (EXPR_GE, (yyvsp[-2].tree_expression_type), (yyvsp[-1].tok_val), (yyvsp[0].tree_expression_type)); }
-#line 4143 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4141 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 115:
-#line 874 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 874 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_expression_type) = parser.make_binary_op (EXPR_GT, (yyvsp[-2].tree_expression_type), (yyvsp[-1].tok_val), (yyvsp[0].tree_expression_type)); }
-#line 4149 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4147 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 116:
-#line 876 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 876 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_expression_type) = parser.make_binary_op (EXPR_NE, (yyvsp[-2].tree_expression_type), (yyvsp[-1].tok_val), (yyvsp[0].tree_expression_type)); }
-#line 4155 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4153 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 117:
-#line 878 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 878 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_expression_type) = parser.make_binary_op (EXPR_AND, (yyvsp[-2].tree_expression_type), (yyvsp[-1].tok_val), (yyvsp[0].tree_expression_type)); }
-#line 4161 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4159 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 118:
-#line 880 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 880 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_expression_type) = parser.make_binary_op (EXPR_OR, (yyvsp[-2].tree_expression_type), (yyvsp[-1].tok_val), (yyvsp[0].tree_expression_type)); }
-#line 4167 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4165 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 119:
-#line 882 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 882 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_expression_type) = parser.make_boolean_op (EXPR_AND_AND, (yyvsp[-2].tree_expression_type), (yyvsp[-1].tok_val), (yyvsp[0].tree_expression_type)); }
-#line 4173 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4171 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 120:
-#line 884 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 884 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_expression_type) = parser.make_boolean_op (EXPR_OR_OR, (yyvsp[-2].tree_expression_type), (yyvsp[-1].tok_val), (yyvsp[0].tree_expression_type)); }
-#line 4179 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4177 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 121:
-#line 888 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 888 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     (yyval.tree_argument_list_type) = parser.validate_matrix_for_assignment ((yyvsp[0].tree_expression_type));
 
@@ -4191,89 +4189,89 @@ yyreduce:
                         YYABORT;
                       }
                   }
-#line 4195 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4193 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 122:
-#line 902 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 902 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_expression_type) = parser.make_assign_op ('=', (yyvsp[-2].tree_argument_list_type), (yyvsp[-1].tok_val), (yyvsp[0].tree_expression_type)); }
-#line 4201 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4199 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 123:
-#line 904 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 904 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_expression_type) = parser.make_assign_op (ADD_EQ, (yyvsp[-2].tree_argument_list_type), (yyvsp[-1].tok_val), (yyvsp[0].tree_expression_type)); }
-#line 4207 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4205 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 124:
-#line 906 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 906 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_expression_type) = parser.make_assign_op (SUB_EQ, (yyvsp[-2].tree_argument_list_type), (yyvsp[-1].tok_val), (yyvsp[0].tree_expression_type)); }
-#line 4213 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4211 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 125:
-#line 908 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 908 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_expression_type) = parser.make_assign_op (MUL_EQ, (yyvsp[-2].tree_argument_list_type), (yyvsp[-1].tok_val), (yyvsp[0].tree_expression_type)); }
-#line 4219 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4217 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 126:
-#line 910 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 910 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_expression_type) = parser.make_assign_op (DIV_EQ, (yyvsp[-2].tree_argument_list_type), (yyvsp[-1].tok_val), (yyvsp[0].tree_expression_type)); }
-#line 4225 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4223 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 127:
-#line 912 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 912 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_expression_type) = parser.make_assign_op (LEFTDIV_EQ, (yyvsp[-2].tree_argument_list_type), (yyvsp[-1].tok_val), (yyvsp[0].tree_expression_type)); }
-#line 4231 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4229 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 128:
-#line 914 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 914 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_expression_type) = parser.make_assign_op (POW_EQ, (yyvsp[-2].tree_argument_list_type), (yyvsp[-1].tok_val), (yyvsp[0].tree_expression_type)); }
-#line 4237 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4235 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 129:
-#line 916 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 916 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_expression_type) = parser.make_assign_op (EMUL_EQ, (yyvsp[-2].tree_argument_list_type), (yyvsp[-1].tok_val), (yyvsp[0].tree_expression_type)); }
-#line 4243 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4241 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 130:
-#line 918 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 918 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_expression_type) = parser.make_assign_op (EDIV_EQ, (yyvsp[-2].tree_argument_list_type), (yyvsp[-1].tok_val), (yyvsp[0].tree_expression_type)); }
-#line 4249 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4247 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 131:
-#line 920 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 920 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_expression_type) = parser.make_assign_op (ELEFTDIV_EQ, (yyvsp[-2].tree_argument_list_type), (yyvsp[-1].tok_val), (yyvsp[0].tree_expression_type)); }
-#line 4255 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4253 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 132:
-#line 922 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 922 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_expression_type) = parser.make_assign_op (EPOW_EQ, (yyvsp[-2].tree_argument_list_type), (yyvsp[-1].tok_val), (yyvsp[0].tree_expression_type)); }
-#line 4261 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4259 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 133:
-#line 924 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 924 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_expression_type) = parser.make_assign_op (AND_EQ, (yyvsp[-2].tree_argument_list_type), (yyvsp[-1].tok_val), (yyvsp[0].tree_expression_type)); }
-#line 4267 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4265 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 134:
-#line 926 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 926 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_expression_type) = parser.make_assign_op (OR_EQ, (yyvsp[-2].tree_argument_list_type), (yyvsp[-1].tok_val), (yyvsp[0].tree_expression_type)); }
-#line 4273 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4271 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 135:
-#line 930 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 930 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     if ((yyvsp[0].tree_expression_type) && ((yyvsp[0].tree_expression_type)->is_matrix () || (yyvsp[0].tree_expression_type)->iscell ()))
                       {
@@ -4288,147 +4286,147 @@ yyreduce:
                     else
                       (yyval.tree_expression_type) = (yyvsp[0].tree_expression_type);
                   }
-#line 4292 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4290 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 136:
-#line 945 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 945 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_expression_type) = (yyvsp[0].tree_anon_fcn_handle_type); }
-#line 4298 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4296 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 137:
-#line 949 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 949 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_expression_type) = (yyvsp[0].tree_expression_type); }
-#line 4304 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4302 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 138:
-#line 951 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 951 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     if (! (yyvsp[0].tree_expression_type))
                       YYABORT;
 
                     (yyval.tree_expression_type) = (yyvsp[0].tree_expression_type);
                   }
-#line 4315 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4313 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 139:
-#line 963 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 963 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_command_type) = (yyvsp[0].tree_decl_command_type); }
-#line 4321 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4319 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 140:
-#line 965 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 965 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_command_type) = (yyvsp[0].tree_command_type); }
-#line 4327 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4325 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 141:
-#line 967 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 967 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_command_type) = (yyvsp[0].tree_command_type); }
-#line 4333 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4331 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 142:
-#line 969 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 969 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_command_type) = (yyvsp[0].tree_command_type); }
-#line 4339 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4337 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 143:
-#line 971 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 971 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_command_type) = (yyvsp[0].tree_command_type); }
-#line 4345 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4343 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 144:
-#line 973 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 973 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_command_type) = (yyvsp[0].tree_function_def_type); }
-#line 4351 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4349 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 145:
-#line 975 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 975 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_command_type) = (yyvsp[0].tree_command_type); }
-#line 4357 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4355 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 146:
-#line 983 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 983 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     (yyval.tree_decl_command_type) = parser.make_decl_command (GLOBAL, (yyvsp[-1].tok_val), (yyvsp[0].tree_decl_init_list_type));
                     lexer.m_looking_at_decl_list = false;
                   }
-#line 4366 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4364 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 147:
-#line 988 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 988 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     (yyval.tree_decl_command_type) = parser.make_decl_command (PERSISTENT, (yyvsp[-1].tok_val), (yyvsp[0].tree_decl_init_list_type));
                     lexer.m_looking_at_decl_list = false;
                   }
-#line 4375 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4373 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 148:
-#line 995 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 995 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_decl_init_list_type) = new octave::tree_decl_init_list ((yyvsp[0].tree_decl_elt_type)); }
-#line 4381 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4379 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 149:
-#line 997 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 997 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     (yyvsp[-1].tree_decl_init_list_type)->append ((yyvsp[0].tree_decl_elt_type));
                     (yyval.tree_decl_init_list_type) = (yyvsp[-1].tree_decl_init_list_type);
                   }
-#line 4390 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4388 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 150:
-#line 1004 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1004 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     (yyval.dummy_type) = 0;
                     lexer.m_looking_at_initializer_expression = true;
                   }
-#line 4399 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4397 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 151:
-#line 1010 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1010 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_decl_elt_type) = new octave::tree_decl_elt ((yyvsp[0].tree_identifier_type)); }
-#line 4405 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4403 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 152:
-#line 1012 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1012 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     YYUSE ((yyvsp[-2].tok_val));
 
                     lexer.m_looking_at_initializer_expression = false;
                     (yyval.tree_decl_elt_type) = new octave::tree_decl_elt ((yyvsp[-3].tree_identifier_type), (yyvsp[0].tree_expression_type));
                   }
-#line 4416 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4414 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 153:
-#line 1025 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1025 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_command_type) = (yyvsp[0].tree_if_command_type); }
-#line 4422 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4420 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 154:
-#line 1027 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1027 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_command_type) = (yyvsp[0].tree_switch_command_type); }
-#line 4428 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4426 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 155:
-#line 1035 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1035 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     if (! ((yyval.tree_if_command_type) = parser.finish_if_command ((yyvsp[-3].tok_val), (yyvsp[-1].tree_if_command_list_type), (yyvsp[0].tok_val), (yyvsp[-2].comment_type))))
                       {
@@ -4436,26 +4434,26 @@ yyreduce:
                         YYABORT;
                       }
                   }
-#line 4440 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4438 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 156:
-#line 1045 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1045 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_if_command_list_type) = (yyvsp[0].tree_if_command_list_type); }
-#line 4446 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4444 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 157:
-#line 1047 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1047 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     (yyvsp[-1].tree_if_command_list_type)->append ((yyvsp[0].tree_if_clause_type));
                     (yyval.tree_if_command_list_type) = (yyvsp[-1].tree_if_command_list_type);
                   }
-#line 4455 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4453 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 158:
-#line 1054 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1054 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     YYUSE ((yyvsp[-1].punct_type));
 
@@ -4463,20 +4461,20 @@ yyreduce:
 
                     (yyval.tree_if_command_list_type) = parser.start_if_command ((yyvsp[-3].tree_expression_type), (yyvsp[0].tree_statement_list_type));
                   }
-#line 4467 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4465 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 159:
-#line 1062 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1062 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     (yyvsp[-1].tree_if_command_list_type)->append ((yyvsp[0].tree_if_clause_type));
                     (yyval.tree_if_command_list_type) = (yyvsp[-1].tree_if_command_list_type);
                   }
-#line 4476 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4474 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 160:
-#line 1069 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1069 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     YYUSE ((yyvsp[-4].punct_type));
                     YYUSE ((yyvsp[-1].punct_type));
@@ -4485,22 +4483,22 @@ yyreduce:
 
                     (yyval.tree_if_clause_type) = parser.make_elseif_clause ((yyvsp[-6].tok_val), (yyvsp[-3].tree_expression_type), (yyvsp[0].tree_statement_list_type), (yyvsp[-5].comment_type));
                   }
-#line 4489 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4487 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 161:
-#line 1080 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1080 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     YYUSE ((yyvsp[-3].tok_val));
                     YYUSE ((yyvsp[-1].punct_type));
 
                     (yyval.tree_if_clause_type) = new octave::tree_if_clause ((yyvsp[0].tree_statement_list_type), (yyvsp[-2].comment_type));
                   }
-#line 4500 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4498 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 162:
-#line 1093 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1093 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     YYUSE ((yyvsp[-2].punct_type));
 
@@ -4510,75 +4508,75 @@ yyreduce:
                         YYABORT;
                       }
                   }
-#line 4514 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4512 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 163:
-#line 1105 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1105 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_switch_case_list_type) = new octave::tree_switch_case_list (); }
-#line 4520 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4518 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 164:
-#line 1107 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1107 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_switch_case_list_type) = new octave::tree_switch_case_list ((yyvsp[0].tree_switch_case_type)); }
-#line 4526 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4524 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 165:
-#line 1109 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1109 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_switch_case_list_type) = (yyvsp[0].tree_switch_case_list_type); }
-#line 4532 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4530 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 166:
-#line 1111 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1111 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     (yyvsp[-1].tree_switch_case_list_type)->append ((yyvsp[0].tree_switch_case_type));
                     (yyval.tree_switch_case_list_type) = (yyvsp[-1].tree_switch_case_list_type);
                   }
-#line 4541 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4539 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 167:
-#line 1118 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1118 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_switch_case_list_type) = new octave::tree_switch_case_list ((yyvsp[0].tree_switch_case_type)); }
-#line 4547 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4545 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 168:
-#line 1120 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1120 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     (yyvsp[-1].tree_switch_case_list_type)->append ((yyvsp[0].tree_switch_case_type));
                     (yyval.tree_switch_case_list_type) = (yyvsp[-1].tree_switch_case_list_type);
                   }
-#line 4556 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4554 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 169:
-#line 1127 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1127 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     YYUSE ((yyvsp[-4].punct_type));
                     YYUSE ((yyvsp[-1].punct_type));
 
                     (yyval.tree_switch_case_type) = parser.make_switch_case ((yyvsp[-6].tok_val), (yyvsp[-3].tree_expression_type), (yyvsp[0].tree_statement_list_type), (yyvsp[-5].comment_type));
                   }
-#line 4567 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4565 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 170:
-#line 1136 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1136 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     YYUSE ((yyvsp[-3].tok_val));
                     YYUSE ((yyvsp[-1].punct_type));
 
                     (yyval.tree_switch_case_type) = new octave::tree_switch_case ((yyvsp[0].tree_statement_list_type), (yyvsp[-2].comment_type));
                   }
-#line 4578 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4576 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 171:
-#line 1149 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1149 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     YYUSE ((yyvsp[-2].punct_type));
 
@@ -4590,22 +4588,22 @@ yyreduce:
                         YYABORT;
                       }
                   }
-#line 4594 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4592 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 172:
-#line 1161 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1161 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     YYUSE ((yyvsp[-5].tok_val));
                     YYUSE ((yyvsp[-3].punct_type));
 
                     (yyval.tree_command_type) = parser.make_do_until_command ((yyvsp[-1].tok_val), (yyvsp[-2].tree_statement_list_type), (yyvsp[0].tree_expression_type), (yyvsp[-4].comment_type));
                   }
-#line 4605 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4603 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 173:
-#line 1168 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1168 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     YYUSE ((yyvsp[-5].tok_val));
                     YYUSE ((yyvsp[-2].punct_type));
@@ -4617,11 +4615,11 @@ yyreduce:
                         YYABORT;
                       }
                   }
-#line 4621 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4619 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 174:
-#line 1180 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1180 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     YYUSE ((yyvsp[-5].tok_val));
                     YYUSE ((yyvsp[-2].punct_type));
@@ -4633,11 +4631,11 @@ yyreduce:
                         YYABORT;
                       }
                   }
-#line 4637 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4635 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 175:
-#line 1192 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1192 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     YYUSE ((yyvsp[-5].tok_val));
                     YYUSE ((yyvsp[-2].punct_type));
@@ -4649,11 +4647,11 @@ yyreduce:
                         YYABORT;
                       }
                   }
-#line 4653 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4651 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 176:
-#line 1204 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1204 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     YYUSE ((yyvsp[-7].tok_val));
                     YYUSE ((yyvsp[-2].punct_type));
@@ -4665,32 +4663,32 @@ yyreduce:
                         YYABORT;
                       }
                   }
-#line 4669 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4667 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 177:
-#line 1222 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1222 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     if (! ((yyval.tree_command_type) = parser.make_break_command ((yyvsp[0].tok_val))))
                       YYABORT;
                   }
-#line 4678 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4676 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 178:
-#line 1227 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1227 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_command_type) = parser.make_continue_command ((yyvsp[0].tok_val)); }
-#line 4684 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4682 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 179:
-#line 1229 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1229 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_command_type) = parser.make_return_command ((yyvsp[0].tok_val)); }
-#line 4690 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4688 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 180:
-#line 1238 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1238 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     YYUSE ((yyvsp[-6].punct_type));
                     YYUSE ((yyvsp[-4].tok_val));
@@ -4702,11 +4700,11 @@ yyreduce:
                         YYABORT;
                       }
                   }
-#line 4706 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4704 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 181:
-#line 1251 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1251 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     YYUSE ((yyvsp[-6].punct_type));
                     YYUSE ((yyvsp[-4].tok_val));
@@ -4718,11 +4716,11 @@ yyreduce:
                         YYABORT;
                       }
                   }
-#line 4722 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4720 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 182:
-#line 1263 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1263 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     YYUSE ((yyvsp[-2].punct_type));
 
@@ -4733,11 +4731,11 @@ yyreduce:
                         YYABORT;
                       }
                   }
-#line 4737 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4735 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 183:
-#line 1280 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1280 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     (yyval.dummy_type) = 0;
 
@@ -4751,23 +4749,23 @@ yyreduce:
                     parser.m_function_scopes.push (lexer.m_symtab_context.curr_scope ());
 
                     if (! lexer.m_reading_script_file
-                        && parser.m_curr_fcn_depth == 1
+                        && parser.m_curr_fcn_depth == 0
                         && ! parser.m_parsing_subfunctions)
                       parser.m_primary_fcn_scope
                         = lexer.m_symtab_context.curr_scope ();
 
                     if (lexer.m_reading_script_file
-                        && parser.m_curr_fcn_depth > 1)
+                        && parser.m_curr_fcn_depth > 0)
                       {
                         parser.bison_error ("nested functions not implemented in this context");
                         YYABORT;
                       }
                   }
-#line 4767 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4765 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 184:
-#line 1312 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1312 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     (yyval.dummy_type) = 0;
                     lexer.m_looking_at_parameter_list = true;
@@ -4780,60 +4778,60 @@ yyreduce:
                         lexer.m_looking_at_anon_fcn_args = true;
                       }
                   }
-#line 4784 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4782 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 185:
-#line 1327 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1327 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     (yyval.dummy_type) = 0;
                     lexer.m_looking_at_parameter_list = false;
                     lexer.m_looking_for_object_index = false;
                   }
-#line 4794 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4792 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 186:
-#line 1335 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1335 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_parameter_list_type) = nullptr; }
-#line 4800 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4798 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 187:
-#line 1337 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1337 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_parameter_list_type) = (yyvsp[0].tree_parameter_list_type); }
-#line 4806 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4804 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 188:
-#line 1341 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1341 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     if ((yyvsp[-1].tree_parameter_list_type))
                       lexer.mark_as_variables ((yyvsp[-1].tree_parameter_list_type)->variable_names ());
 
                     (yyval.tree_parameter_list_type) = (yyvsp[-1].tree_parameter_list_type);
                   }
-#line 4817 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4815 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 189:
-#line 1348 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1348 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     (yyval.tree_parameter_list_type) = nullptr;
                     parser.bison_error ("invalid parameter list");
                     YYABORT;
                   }
-#line 4827 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4825 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 190:
-#line 1356 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1356 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_parameter_list_type) = nullptr; }
-#line 4833 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4831 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 191:
-#line 1358 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1358 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     (yyvsp[0].tree_parameter_list_type)->mark_as_formal_parameters ();
 
@@ -4848,48 +4846,48 @@ yyreduce:
                         YYABORT;
                       }
                   }
-#line 4852 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4850 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 192:
-#line 1375 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1375 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_parameter_list_type) = new octave::tree_parameter_list ((yyvsp[0].tree_decl_elt_type)); }
-#line 4858 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4856 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 193:
-#line 1377 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1377 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     (yyvsp[-2].tree_parameter_list_type)->append ((yyvsp[0].tree_decl_elt_type));
                     (yyval.tree_parameter_list_type) = (yyvsp[-2].tree_parameter_list_type);
                   }
-#line 4867 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4865 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 194:
-#line 1384 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1384 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_decl_elt_type) = (yyvsp[0].tree_decl_elt_type); }
-#line 4873 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4871 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 195:
-#line 1386 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1386 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_decl_elt_type) = new octave::tree_decl_elt ((yyvsp[0].tree_identifier_type)); }
-#line 4879 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4877 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 196:
-#line 1394 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1394 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     lexer.m_looking_at_return_list = false;
 
                     (yyval.tree_parameter_list_type) = new octave::tree_parameter_list ();
                   }
-#line 4889 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4887 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 197:
-#line 1400 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1400 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     lexer.m_looking_at_return_list = false;
 
@@ -4907,11 +4905,11 @@ yyreduce:
                         YYABORT;
                       }
                   }
-#line 4911 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4909 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 198:
-#line 1418 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1418 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     lexer.m_looking_at_return_list = false;
 
@@ -4926,32 +4924,32 @@ yyreduce:
                         YYABORT;
                       }
                   }
-#line 4930 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4928 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 199:
-#line 1435 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1435 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_parameter_list_type) = new octave::tree_parameter_list (new octave::tree_decl_elt ((yyvsp[0].tree_identifier_type))); }
-#line 4936 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4934 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 200:
-#line 1437 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1437 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     (yyvsp[-2].tree_parameter_list_type)->append (new octave::tree_decl_elt ((yyvsp[0].tree_identifier_type)));
                     (yyval.tree_parameter_list_type) = (yyvsp[-2].tree_parameter_list_type);
                   }
-#line 4945 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4943 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 201:
-#line 1449 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1449 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { parser.m_parsing_local_functions = true; }
-#line 4951 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4949 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 202:
-#line 1453 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1453 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     (yyval.dummy_type) = 0;
 
@@ -4959,17 +4957,17 @@ yyreduce:
                     // functions in classdef files..
                     lexer.m_symtab_context.push (octave::symbol_scope ("parser:push_script_symtab"));
                   }
-#line 4963 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4961 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 203:
-#line 1463 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1463 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.dummy_type) = 0; }
-#line 4969 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 4967 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 204:
-#line 1467 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1467 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     YYUSE ((yyvsp[-2].punct_type));
 
@@ -4998,11 +4996,11 @@ yyreduce:
 
                     (yyval.tree_command_type) = nullptr;
                   }
-#line 5002 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5000 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 205:
-#line 1496 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1496 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     YYUSE ((yyvsp[-5].punct_type));
                     YYUSE ((yyvsp[-2].punct_type));
@@ -5014,22 +5012,22 @@ yyreduce:
 
                     (yyval.tree_command_type) = nullptr;
                   }
-#line 5018 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5016 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 206:
-#line 1514 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1514 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     (yyval.tok_val) = (yyvsp[0].tok_val);
                     if (lexer.m_reading_classdef_file
                         || lexer.m_parsing_classdef)
                       lexer.m_maybe_classdef_get_set_method = true;
                   }
-#line 5029 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5027 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 207:
-#line 1523 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1523 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     std::string id = (yyvsp[0].tree_identifier_type)->name ();
 
@@ -5037,7 +5035,7 @@ yyreduce:
                     // classdef methods.
 
                     if (parser.m_parsing_local_functions
-                        && parser.m_curr_fcn_depth == 1)
+                        && parser.m_curr_fcn_depth == 0)
                       id = lexer.m_fcn_file_name + ">" + id;
 
                     if (! parser.m_function_scopes.name_current_scope (id))
@@ -5059,11 +5057,11 @@ yyreduce:
 
                     (yyval.tree_identifier_type) = (yyvsp[0].tree_identifier_type);
                   }
-#line 5063 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5061 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 208:
-#line 1553 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1553 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     YYUSE ((yyvsp[-2].tok_val));
 
@@ -5072,11 +5070,11 @@ yyreduce:
                     lexer.m_parsing_classdef_get_method = true;
                     (yyval.tree_identifier_type) = (yyvsp[0].tree_identifier_type);
                   }
-#line 5076 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5074 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 209:
-#line 1562 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1562 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     YYUSE ((yyvsp[-2].tok_val));
 
@@ -5085,11 +5083,11 @@ yyreduce:
                     lexer.m_parsing_classdef_set_method = true;
                     (yyval.tree_identifier_type) = (yyvsp[0].tree_identifier_type);
                   }
-#line 5089 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5087 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 210:
-#line 1573 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1573 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     parser.m_endfunction_found = true;
 
@@ -5102,11 +5100,11 @@ yyreduce:
                         YYABORT;
                       }
                   }
-#line 5106 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5104 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 211:
-#line 1586 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1586 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
 // A lot of tests are based on the assumption that this is OK
 //                  if (lexer.m_reading_script_file)
@@ -5140,32 +5138,32 @@ yyreduce:
                                           lexer.m_input_line_number,
                                           lexer.m_current_input_column);
                   }
-#line 5144 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5142 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 212:
-#line 1623 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1623 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     YYUSE ((yyvsp[-2].punct_type));
 
                     (yyval.tree_function_def_type) = parser.make_function ((yyvsp[-6].tok_val), nullptr, (yyvsp[-4].tree_identifier_type), (yyvsp[-3].tree_parameter_list_type), (yyvsp[-1].tree_statement_list_type), (yyvsp[0].tree_statement_type), (yyvsp[-5].comment_type));
                   }
-#line 5154 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5152 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 213:
-#line 1630 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1630 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     YYUSE ((yyvsp[-5].tok_val));
                     YYUSE ((yyvsp[-2].punct_type));
 
                     (yyval.tree_function_def_type) = parser.make_function ((yyvsp[-8].tok_val), (yyvsp[-6].tree_parameter_list_type), (yyvsp[-4].tree_identifier_type), (yyvsp[-3].tree_parameter_list_type), (yyvsp[-1].tree_statement_list_type), (yyvsp[0].tree_statement_type), (yyvsp[-7].comment_type));
                   }
-#line 5165 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5163 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 214:
-#line 1643 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1643 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     if (! lexer.m_reading_classdef_file)
                       {
@@ -5178,11 +5176,11 @@ yyreduce:
                     lexer.m_parsing_classdef = true;
                     (yyval.tok_val) = (yyvsp[0].tok_val);
                   }
-#line 5182 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5180 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 215:
-#line 1658 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1658 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     YYUSE ((yyvsp[-3].punct_type));
                     YYUSE ((yyvsp[-1].punct_type));
@@ -5195,11 +5193,11 @@ yyreduce:
                         YYABORT;
                       }
                   }
-#line 5199 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5197 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 216:
-#line 1671 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1671 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     YYUSE ((yyvsp[-1].punct_type));
 
@@ -5212,186 +5210,186 @@ yyreduce:
                         YYABORT;
                       }
                   }
-#line 5216 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5214 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 217:
-#line 1686 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1686 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_classdef_attribute_list_type) = nullptr; }
-#line 5222 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5220 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 218:
-#line 1688 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1688 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_classdef_attribute_list_type) = (yyvsp[-1].tree_classdef_attribute_list_type); }
-#line 5228 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5226 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 219:
-#line 1692 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1692 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_classdef_attribute_list_type) = new octave::tree_classdef_attribute_list ((yyvsp[0].tree_classdef_attribute_type)); }
-#line 5234 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5232 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 220:
-#line 1694 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1694 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     (yyvsp[-2].tree_classdef_attribute_list_type)->append ((yyvsp[0].tree_classdef_attribute_type));
                     (yyval.tree_classdef_attribute_list_type) = (yyvsp[-2].tree_classdef_attribute_list_type);
                   }
-#line 5243 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5241 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 221:
-#line 1701 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1701 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_classdef_attribute_type) = new octave::tree_classdef_attribute ((yyvsp[0].tree_identifier_type)); }
-#line 5249 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5247 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 222:
-#line 1703 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1703 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     YYUSE ((yyvsp[-2].tok_val));
 
                     lexer.m_looking_at_initializer_expression = false;
                     (yyval.tree_classdef_attribute_type) = new octave::tree_classdef_attribute ((yyvsp[-3].tree_identifier_type), (yyvsp[0].tree_expression_type));
                   }
-#line 5260 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5258 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 223:
-#line 1710 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1710 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     YYUSE ((yyvsp[-1].tok_val));
 
                     (yyval.tree_classdef_attribute_type) = new octave::tree_classdef_attribute ((yyvsp[0].tree_identifier_type), false);
                   }
-#line 5270 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5268 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 224:
-#line 1719 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1719 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_classdef_superclass_list_type) = nullptr; }
-#line 5276 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5274 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 225:
-#line 1721 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1721 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_classdef_superclass_list_type) = (yyvsp[0].tree_classdef_superclass_list_type); }
-#line 5282 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5280 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 226:
-#line 1725 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1725 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     YYUSE ((yyvsp[0].tok_val));
 
                     lexer.enable_fq_identifier ();
                   }
-#line 5292 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5290 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 227:
-#line 1731 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1731 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_classdef_superclass_list_type) = new octave::tree_classdef_superclass_list ((yyvsp[0].tree_classdef_superclass_type)); }
-#line 5298 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5296 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 228:
-#line 1733 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1733 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     YYUSE ((yyvsp[0].tok_val));
 
                     lexer.enable_fq_identifier ();
                   }
-#line 5308 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5306 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 229:
-#line 1739 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1739 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     (yyvsp[-3].tree_classdef_superclass_list_type)->append ((yyvsp[0].tree_classdef_superclass_type));
                     (yyval.tree_classdef_superclass_list_type) = (yyvsp[-3].tree_classdef_superclass_list_type);
                   }
-#line 5317 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5315 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 230:
-#line 1746 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1746 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_classdef_superclass_type) = new octave::tree_classdef_superclass ((yyvsp[0].tok_val)->text ()); }
-#line 5323 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5321 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 231:
-#line 1750 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1750 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_classdef_body_type) = new octave::tree_classdef_body ((yyvsp[0].tree_classdef_properties_block_type)); }
-#line 5329 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5327 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 232:
-#line 1752 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1752 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_classdef_body_type) = new octave::tree_classdef_body ((yyvsp[0].tree_classdef_methods_block_type)); }
-#line 5335 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5333 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 233:
-#line 1754 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1754 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_classdef_body_type) = new octave::tree_classdef_body ((yyvsp[0].tree_classdef_events_block_type)); }
-#line 5341 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5339 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 234:
-#line 1756 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1756 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_classdef_body_type) = new octave::tree_classdef_body ((yyvsp[0].tree_classdef_enum_block_type)); }
-#line 5347 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5345 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 235:
-#line 1758 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1758 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     YYUSE ((yyvsp[-1].punct_type));
 
                     (yyvsp[-2].tree_classdef_body_type)->append ((yyvsp[0].tree_classdef_properties_block_type));
                     (yyval.tree_classdef_body_type) = (yyvsp[-2].tree_classdef_body_type);
                   }
-#line 5358 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5356 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 236:
-#line 1765 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1765 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     YYUSE ((yyvsp[-1].punct_type));
 
                     (yyvsp[-2].tree_classdef_body_type)->append ((yyvsp[0].tree_classdef_methods_block_type));
                     (yyval.tree_classdef_body_type) = (yyvsp[-2].tree_classdef_body_type);
                   }
-#line 5369 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5367 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 237:
-#line 1772 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1772 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     YYUSE ((yyvsp[-1].punct_type));
 
                     (yyvsp[-2].tree_classdef_body_type)->append ((yyvsp[0].tree_classdef_events_block_type));
                     (yyval.tree_classdef_body_type) = (yyvsp[-2].tree_classdef_body_type);
                   }
-#line 5380 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5378 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 238:
-#line 1779 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1779 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     YYUSE ((yyvsp[-1].punct_type));
 
                     (yyvsp[-2].tree_classdef_body_type)->append ((yyvsp[0].tree_classdef_enum_block_type));
                     (yyval.tree_classdef_body_type) = (yyvsp[-2].tree_classdef_body_type);
                   }
-#line 5391 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5389 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 239:
-#line 1789 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1789 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     YYUSE ((yyvsp[-3].punct_type));
                     YYUSE ((yyvsp[-1].punct_type));
@@ -5403,11 +5401,11 @@ yyreduce:
                         YYABORT;
                       }
                   }
-#line 5407 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5405 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 240:
-#line 1801 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1801 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     YYUSE ((yyvsp[-1].punct_type));
 
@@ -5418,45 +5416,45 @@ yyreduce:
                         YYABORT;
                       }
                   }
-#line 5422 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5420 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 241:
-#line 1815 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1815 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_classdef_property_list_type) = new octave::tree_classdef_property_list ((yyvsp[0].tree_classdef_property_type)); }
-#line 5428 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5426 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 242:
-#line 1817 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1817 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     YYUSE ((yyvsp[-1].punct_type));
 
                     (yyvsp[-2].tree_classdef_property_list_type)->append ((yyvsp[0].tree_classdef_property_type));
                     (yyval.tree_classdef_property_list_type) = (yyvsp[-2].tree_classdef_property_list_type);
                   }
-#line 5439 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5437 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 243:
-#line 1826 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1826 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_classdef_property_type) = new octave::tree_classdef_property ((yyvsp[0].tree_identifier_type)); }
-#line 5445 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5443 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 244:
-#line 1828 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1828 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     YYUSE ((yyvsp[-2].tok_val));
 
                     lexer.m_looking_at_initializer_expression = false;
                     (yyval.tree_classdef_property_type) = new octave::tree_classdef_property ((yyvsp[-3].tree_identifier_type), (yyvsp[0].tree_expression_type));
                   }
-#line 5456 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5454 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 245:
-#line 1837 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1837 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     YYUSE ((yyvsp[-3].punct_type));
                     YYUSE ((yyvsp[-1].punct_type));
@@ -5468,11 +5466,11 @@ yyreduce:
                         YYABORT;
                       }
                   }
-#line 5472 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5470 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 246:
-#line 1849 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1849 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     YYUSE ((yyvsp[-1].punct_type));
 
@@ -5483,68 +5481,68 @@ yyreduce:
                         YYABORT;
                       }
                   }
-#line 5487 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5485 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 247:
-#line 1863 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1863 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     if (! ((yyval.octave_user_function_type) = parser.start_classdef_external_method ((yyvsp[0].tree_identifier_type), nullptr)))
                       YYABORT;
                   }
-#line 5496 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5494 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 248:
-#line 1868 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1868 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     if (! ((yyval.octave_user_function_type) = parser.start_classdef_external_method ((yyvsp[-1].tree_identifier_type), (yyvsp[0].tree_parameter_list_type))))
                       YYABORT;
                   }
-#line 5505 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5503 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 249:
-#line 1875 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1875 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_function_def_type) = parser.finish_classdef_external_method ((yyvsp[0].octave_user_function_type), nullptr, (yyvsp[-1].comment_type)); }
-#line 5511 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5509 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 250:
-#line 1877 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1877 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     YYUSE ((yyvsp[0].tok_val));
 
                     lexer.m_defining_func++;
                     lexer.m_parsed_function_name.push (false);
                   }
-#line 5522 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5520 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 251:
-#line 1884 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1884 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     lexer.m_defining_func--;
                     lexer.m_parsed_function_name.pop ();
                     (yyval.tree_function_def_type) = parser.finish_classdef_external_method ((yyvsp[0].octave_user_function_type), (yyvsp[-3].tree_parameter_list_type), (yyvsp[-4].comment_type));
                   }
-#line 5532 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5530 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 252:
-#line 1892 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1892 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_function_def_type) = (yyvsp[0].tree_function_def_type); }
-#line 5538 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5536 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 253:
-#line 1894 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1894 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_function_def_type) = (yyvsp[0].tree_function_def_type); }
-#line 5544 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5542 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 254:
-#line 1898 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1898 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     octave_value fcn;
                     if ((yyvsp[0].tree_function_def_type))
@@ -5552,11 +5550,11 @@ yyreduce:
                     delete (yyvsp[0].tree_function_def_type);
                     (yyval.tree_classdef_methods_list_type) = new octave::tree_classdef_methods_list (fcn);
                   }
-#line 5556 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5554 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 255:
-#line 1906 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1906 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     YYUSE ((yyvsp[-1].punct_type));
 
@@ -5568,11 +5566,11 @@ yyreduce:
                     (yyvsp[-2].tree_classdef_methods_list_type)->append (fcn);
                     (yyval.tree_classdef_methods_list_type) = (yyvsp[-2].tree_classdef_methods_list_type);
                   }
-#line 5572 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5570 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 256:
-#line 1920 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1920 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     YYUSE ((yyvsp[-3].punct_type));
                     YYUSE ((yyvsp[-1].punct_type));
@@ -5584,11 +5582,11 @@ yyreduce:
                         YYABORT;
                       }
                   }
-#line 5588 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5586 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 257:
-#line 1932 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1932 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     YYUSE ((yyvsp[-1].punct_type));
 
@@ -5599,34 +5597,34 @@ yyreduce:
                         YYABORT;
                       }
                   }
-#line 5603 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5601 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 258:
-#line 1945 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1945 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_classdef_events_list_type) = new octave::tree_classdef_events_list ((yyvsp[0].tree_classdef_event_type)); }
-#line 5609 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5607 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 259:
-#line 1947 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1947 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     YYUSE ((yyvsp[-1].punct_type));
 
                     (yyvsp[-2].tree_classdef_events_list_type)->append ((yyvsp[0].tree_classdef_event_type));
                     (yyval.tree_classdef_events_list_type) = (yyvsp[-2].tree_classdef_events_list_type);
                   }
-#line 5620 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5618 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 260:
-#line 1956 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1956 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_classdef_event_type) = new octave::tree_classdef_event ((yyvsp[0].tree_identifier_type)); }
-#line 5626 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5624 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 261:
-#line 1960 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1960 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     YYUSE ((yyvsp[-3].punct_type));
                     YYUSE ((yyvsp[-1].punct_type));
@@ -5638,11 +5636,11 @@ yyreduce:
                         YYABORT;
                       }
                   }
-#line 5642 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5640 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 262:
-#line 1972 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1972 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     YYUSE ((yyvsp[-1].punct_type));
 
@@ -5653,173 +5651,173 @@ yyreduce:
                         YYABORT;
                       }
                   }
-#line 5657 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5655 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 263:
-#line 1985 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1985 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_classdef_enum_list_type) = new octave::tree_classdef_enum_list ((yyvsp[0].tree_classdef_enum_type)); }
-#line 5663 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5661 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 264:
-#line 1987 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1987 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     YYUSE ((yyvsp[-1].punct_type));
 
                     (yyvsp[-2].tree_classdef_enum_list_type)->append ((yyvsp[0].tree_classdef_enum_type));
                     (yyval.tree_classdef_enum_list_type) = (yyvsp[-2].tree_classdef_enum_list_type);
                   }
-#line 5674 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5672 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 265:
-#line 1996 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 1996 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.tree_classdef_enum_type) = new octave::tree_classdef_enum ((yyvsp[-3].tree_identifier_type), (yyvsp[-1].tree_expression_type)); }
-#line 5680 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5678 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 266:
-#line 2004 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 2004 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     (yyval.dummy_type) = 0;
                     lexer.m_at_beginning_of_statement = true;
                   }
-#line 5689 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5687 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 267:
-#line 2011 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 2011 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.comment_type) = lexer.get_comment (); }
-#line 5695 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5693 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 268:
-#line 2015 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 2015 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     {
                     (yyval.dummy_type) = 0;
                     std::string msg = (yyvsp[0].tok_val)->text ();
                     parser.bison_error (msg.c_str ());
                   }
-#line 5705 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5703 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 269:
-#line 2021 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 2021 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.dummy_type) = 0; }
-#line 5711 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5709 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 270:
-#line 2025 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 2025 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.punct_type) = ','; }
-#line 5717 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5715 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 271:
-#line 2027 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 2027 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.punct_type) = ';'; }
-#line 5723 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5721 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 272:
-#line 2029 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 2029 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.punct_type) = (yyvsp[-1].punct_type); }
-#line 5729 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5727 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 273:
-#line 2031 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 2031 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.punct_type) = (yyvsp[-1].punct_type); }
-#line 5735 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5733 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 274:
-#line 2035 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 2035 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.punct_type) = 0; }
-#line 5741 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5739 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 275:
-#line 2037 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 2037 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.punct_type) = (yyvsp[0].punct_type); }
-#line 5747 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5745 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 276:
-#line 2041 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 2041 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.punct_type) = 0; }
-#line 5753 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5751 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 277:
-#line 2043 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 2043 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.punct_type) = (yyvsp[0].punct_type); }
-#line 5759 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5757 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 278:
-#line 2047 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 2047 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.punct_type) = '\n'; }
-#line 5765 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5763 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 279:
-#line 2049 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 2049 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.punct_type) = (yyvsp[-1].punct_type); }
-#line 5771 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5769 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 280:
-#line 2053 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 2053 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.punct_type) = ','; }
-#line 5777 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5775 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 281:
-#line 2055 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 2055 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.punct_type) = ';'; }
-#line 5783 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5781 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 282:
-#line 2057 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 2057 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.punct_type) = '\n'; }
-#line 5789 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5787 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 283:
-#line 2059 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 2059 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.punct_type) = (yyvsp[-1].punct_type); }
-#line 5795 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5793 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 284:
-#line 2061 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 2061 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.punct_type) = (yyvsp[-1].punct_type); }
-#line 5801 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5799 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 285:
-#line 2063 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 2063 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.punct_type) = (yyvsp[-1].punct_type); }
-#line 5807 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5805 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 286:
-#line 2067 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 2067 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.punct_type) = 0; }
-#line 5813 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5811 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
   case 287:
-#line 2069 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1646  */
+#line 2069 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1645  */
     { (yyval.punct_type) = (yyvsp[0].punct_type); }
-#line 5819 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5817 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
     break;
 
 
-#line 5823 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1646  */
+#line 5821 "libinterp/parse-tree/oct-parse.cc" /* yacc.c:1645  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -5844,14 +5842,13 @@ yyreduce:
   /* Now 'shift' the result of the reduction.  Determine what state
      that goes to, based on the state we popped back to and the rule
      number reduced by.  */
-
-  yyn = yyr1[yyn];
-
-  yystate = yypgoto[yyn - YYNTOKENS] + *yyssp;
-  if (0 <= yystate && yystate <= YYLAST && yycheck[yystate] == *yyssp)
-    yystate = yytable[yystate];
-  else
-    yystate = yydefgoto[yyn - YYNTOKENS];
+  {
+    const int yylhs = yyr1[yyn] - YYNTOKENS;
+    const int yyi = yypgoto[yylhs] + *yyssp;
+    yystate = (0 <= yyi && yyi <= YYLAST && yycheck[yyi] == *yyssp
+               ? yytable[yyi]
+               : yydefgoto[yylhs]);
+  }
 
   goto yynewstate;
 
@@ -6050,7 +6047,7 @@ yypushreturn:
 #endif
   return yyresult;
 }
-#line 2072 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1906  */
+#line 2072 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1903  */
 
 
 #if defined (HAVE_PRAGMA_GCC_DIAGNOSTIC)
@@ -6159,7 +6156,7 @@ namespace octave
     : m_endfunction_found (false), m_autoloading (false),
       m_fcn_file_from_relative_lookup (false),
       m_parsing_subfunctions (false), m_parsing_local_functions (false),
-      m_max_fcn_depth (0), m_curr_fcn_depth (0), m_primary_fcn_scope (),
+      m_max_fcn_depth (-1), m_curr_fcn_depth (-1), m_primary_fcn_scope (),
       m_curr_class_name (), m_curr_package_name (), m_function_scopes (),
       m_primary_fcn_ptr (nullptr), m_subfunction_names (),
       m_classdef_object (nullptr), m_stmt_list (nullptr), m_lexer (lxr),
@@ -6191,8 +6188,8 @@ namespace octave
     m_fcn_file_from_relative_lookup = false;
     m_parsing_subfunctions = false;
     m_parsing_local_functions = false;
-    m_max_fcn_depth = 0;
-    m_curr_fcn_depth = 0;
+    m_max_fcn_depth = -1;
+    m_curr_fcn_depth = -1;
     m_primary_fcn_scope = symbol_scope ();
     m_curr_class_name = "";
     m_curr_package_name = "";
@@ -6209,83 +6206,80 @@ namespace octave
     yypstate_delete (static_cast<yypstate *> (m_parser_state));
     m_parser_state = yypstate_new ();
   }
-}
 
-// Error mesages for mismatched end tokens.
+  // Error mesages for mismatched end tokens.
 
-static std::string
-end_token_as_string (octave::token::end_tok_type ettype)
-{
-  std::string retval = "<unknown>";
+  static std::string
+  end_token_as_string (token::end_tok_type ettype)
+  {
+    std::string retval = "<unknown>";
 
-  switch (ettype)
-    {
-    case octave::token::simple_end:
-      retval = "end";
-      break;
+    switch (ettype)
+      {
+      case token::simple_end:
+        retval = "end";
+        break;
 
-    case octave::token::classdef_end:
-      retval = "endclassdef";
-      break;
+      case token::classdef_end:
+        retval = "endclassdef";
+        break;
 
-    case octave::token::enumeration_end:
-      retval = "endenumeration";
-      break;
+      case token::enumeration_end:
+        retval = "endenumeration";
+        break;
 
-    case octave::token::events_end:
-      retval = "endevents";
-      break;
+      case token::events_end:
+        retval = "endevents";
+        break;
 
-    case octave::token::for_end:
-      retval = "endfor";
-      break;
+      case token::for_end:
+        retval = "endfor";
+        break;
 
-    case octave::token::function_end:
-      retval = "endfunction";
-      break;
+      case token::function_end:
+        retval = "endfunction";
+        break;
 
-    case octave::token::if_end:
-      retval = "endif";
-      break;
+      case token::if_end:
+        retval = "endif";
+        break;
 
-    case octave::token::methods_end:
-      retval = "endmethods";
-      break;
+      case token::methods_end:
+        retval = "endmethods";
+        break;
 
-    case octave::token::parfor_end:
-      retval = "endparfor";
-      break;
+      case token::parfor_end:
+        retval = "endparfor";
+        break;
 
-    case octave::token::properties_end:
-      retval = "endproperties";
-      break;
+      case token::properties_end:
+        retval = "endproperties";
+        break;
 
-    case octave::token::switch_end:
-      retval = "endswitch";
-      break;
+      case token::switch_end:
+        retval = "endswitch";
+        break;
 
-    case octave::token::try_catch_end:
-      retval = "end_try_catch";
-      break;
+      case token::try_catch_end:
+        retval = "end_try_catch";
+        break;
 
-    case octave::token::unwind_protect_end:
-      retval = "end_unwind_protect";
-      break;
+      case token::unwind_protect_end:
+        retval = "end_unwind_protect";
+        break;
 
-    case octave::token::while_end:
-      retval = "endwhile";
-      break;
+      case token::while_end:
+        retval = "endwhile";
+        break;
 
-    default:
-      panic_impossible ();
-      break;
-    }
+      default:
+        panic_impossible ();
+        break;
+      }
 
-  return retval;
-}
+    return retval;
+  }
 
-namespace octave
-{
   void
   base_parser::end_token_error (token *tok, token::end_tok_type expected)
   {
@@ -6503,7 +6497,7 @@ namespace octave
       = new tree_colon_expression (base, limit, incr, l, c);
 
     if (base->is_constant () && limit->is_constant ()
-        && (! incr || (incr && incr->is_constant ())))
+        && (! incr || incr->is_constant ()))
       {
         try
           {
@@ -6628,7 +6622,7 @@ namespace octave
     int l = tok_val->line ();
     int c = tok_val->column ();
 
-    return new tree_binary_expression (op1, op2, l, c, t);
+    return maybe_compound_binary_expression (op1, op2, l, c, t);
   }
 
   // Build a boolean expression.
@@ -7200,7 +7194,7 @@ namespace octave
         tree_expression *tmp = lhs->remove_front ();
 
         if ((tmp->is_identifier () || tmp->is_index_expression ())
-            && is_keyword (tmp->name ()))
+            && iskeyword (tmp->name ()))
           {
             std::string kw = tmp->name ();
 
@@ -7223,7 +7217,7 @@ namespace octave
 
         for (const auto& kw : names)
           {
-            if (is_keyword (kw))
+            if (iskeyword (kw))
               {
                 delete lhs;
                 delete rhs;
@@ -7284,15 +7278,13 @@ namespace octave
                               tree_statement *end_fcn_stmt,
                               comment_list *lc)
   {
-    tree_function_def *retval = nullptr;
-
     int l = fcn_tok->line ();
     int c = fcn_tok->column ();
 
     octave_user_function *tmp_fcn
       = start_function (id, param_list, body, end_fcn_stmt);
 
-    retval = finish_function (ret_list, tmp_fcn, lc, l, c);
+    tree_function_def *retval = finish_function (ret_list, tmp_fcn, lc, l, c);
 
     recover_from_parsing_function ();
 
@@ -7344,7 +7336,7 @@ namespace octave
     // file.  Matlab doesn't provide a diagnostic (it ignores the stated
     // name).
     if (! m_autoloading && m_lexer.m_reading_fcn_file
-        && m_curr_fcn_depth == 1 && ! m_parsing_subfunctions)
+        && m_curr_fcn_depth == 0 && ! m_parsing_subfunctions)
       {
         // FIXME: should m_lexer.m_fcn_file_name already be
         // preprocessed when we get here?  It seems to only be a
@@ -7399,7 +7391,7 @@ namespace octave
           warning_with_id ("Octave:future-time-stamp",
                            "time stamp for '%s' is in the future", nm.c_str ());
       }
-    else if (! input_from_tmp_history_file
+    else if (! m_lexer.input_from_tmp_history_file ()
              && ! m_lexer.m_force_script
              && m_lexer.m_reading_script_file
              && m_lexer.m_fcn_file_name == id_name)
@@ -7415,14 +7407,14 @@ namespace octave
     // because the doc_string of the outermost function is read first,
     // whereas this function is called for the innermost function first.
     // We could have a stack of help_text in lexer.
-    if (! m_lexer.m_help_text.empty () && m_curr_fcn_depth == 1)
+    if (! m_lexer.m_help_text.empty () && m_curr_fcn_depth == 0)
       {
         fcn->document (m_lexer.m_help_text);
 
         m_lexer.m_help_text = "";
       }
 
-    if (m_lexer.m_reading_fcn_file && m_curr_fcn_depth == 1
+    if (m_lexer.m_reading_fcn_file && m_curr_fcn_depth == 0
         && ! m_parsing_subfunctions)
       m_primary_fcn_ptr = fcn;
 
@@ -7457,13 +7449,14 @@ namespace octave
 
         symbol_scope fcn_scope = fcn->scope ();
         fcn_scope.cache_name (tmp);
+        fcn_scope.install_auto_fcn_vars ();
 
         if (lc)
           fcn->stash_leading_comment (lc);
 
         fcn->define_ret_list (ret_list);
 
-        if (m_curr_fcn_depth > 1 || m_parsing_subfunctions)
+        if (m_curr_fcn_depth > 0 || m_parsing_subfunctions)
           {
             fcn->stash_fcn_location (l, c);
             fcn->stash_parent_fcn_name (m_lexer.m_fcn_file_name);
@@ -7473,10 +7466,11 @@ namespace octave
             if (m_endfunction_found && m_function_scopes.size () > 1)
               {
                 fcn->mark_as_nested_function ();
-                fcn_scope.mark_nested ();
+                fcn_scope.set_nesting_depth (m_curr_fcn_depth);
 
                 symbol_scope pscope = m_function_scopes.parent_scope ();
                 fcn_scope.set_parent (pscope);
+                fcn_scope.set_primary_parent (m_primary_fcn_scope);
                 pscope.install_nestfunction (nm, ov_fcn, fcn_scope);
               }
             else
@@ -7488,10 +7482,10 @@ namespace octave
               }
           }
 
-        if (m_curr_fcn_depth == 1)
+        if (m_curr_fcn_depth == 0)
           fcn_scope.update_nest ();
 
-        if (! m_lexer.m_reading_fcn_file && m_curr_fcn_depth == 1)
+        if (! m_lexer.m_reading_fcn_file && m_curr_fcn_depth == 0)
           {
             // We are either reading a script file or defining a function
             // at the command line, so this definition creates a
@@ -7522,7 +7516,7 @@ namespace octave
   {
     m_lexer.m_symtab_context.pop ();
 
-    if (m_lexer.m_reading_fcn_file && m_curr_fcn_depth == 1
+    if (m_lexer.m_reading_fcn_file && m_curr_fcn_depth == 0
         && ! m_parsing_subfunctions)
       m_parsing_subfunctions = true;
 
@@ -7984,7 +7978,7 @@ namespace octave
         break;
 
       case PERSISTENT:
-        if (m_curr_fcn_depth > 0)
+        if (m_curr_fcn_depth >= 0)
           {
             retval = new tree_decl_command ("persistent", lst, l, c);
             retval->mark_persistent ();
@@ -8224,7 +8218,7 @@ namespace octave
   void
   base_parser::maybe_warn_missing_semi (tree_statement_list *t)
   {
-    if (m_curr_fcn_depth > 0)
+    if (m_curr_fcn_depth >= 0)
       {
         tree_statement *tmp = t->back ();
 
@@ -8457,131 +8451,127 @@ namespace octave
 
     return status;
   }
-}
 
-static void
-safe_fclose (FILE *f)
-{
-  if (f)
-    fclose (static_cast<FILE *> (f));
-}
+  static void
+  safe_fclose (FILE *f)
+  {
+    if (f)
+      fclose (static_cast<FILE *> (f));
+  }
 
-static octave_value
-parse_fcn_file (const std::string& full_file, const std::string& file,
-                const std::string& dir_name, const std::string& dispatch_type,
-                const std::string& package_name, bool require_file,
-                bool force_script, bool autoload, bool relative_lookup,
-                const std::string& warn_for)
-{
-  octave_value retval;
+  static octave_value
+  parse_fcn_file (const std::string& full_file, const std::string& file,
+                  const std::string& dir_name, const std::string& dispatch_type,
+                  const std::string& package_name, bool require_file,
+                  bool force_script, bool autoload, bool relative_lookup,
+                  const std::string& warn_for)
+  {
+    octave_value retval;
 
-  octave::unwind_protect frame;
+    unwind_protect frame;
 
-  octave_function *fcn_ptr = nullptr;
+    octave_function *fcn_ptr = nullptr;
 
-  // Open function file and parse.
+    // Open function file and parse.
 
-  FILE *in_stream = octave::command_editor::get_input_stream ();
+    FILE *in_stream = command_editor::get_input_stream ();
 
-  frame.add_fcn (octave::command_editor::set_input_stream, in_stream);
+    frame.add_fcn (command_editor::set_input_stream, in_stream);
 
-  frame.add_fcn (octave::command_history::ignore_entries,
-                 octave::command_history::ignoring_entries ());
+    frame.add_fcn (command_history::ignore_entries,
+                   command_history::ignoring_entries ());
 
-  octave::command_history::ignore_entries ();
+    command_history::ignore_entries ();
 
-  FILE *ffile = nullptr;
+    FILE *ffile = nullptr;
 
-  if (! full_file.empty ())
-    ffile = std::fopen (full_file.c_str (), "rb");
+    if (! full_file.empty ())
+      ffile = octave::sys::fopen (full_file, "rb");
 
-  if (ffile)
-    {
-      frame.add_fcn (safe_fclose, ffile);
+    if (ffile)
+      {
+        frame.add_fcn (safe_fclose, ffile);
 
-      octave::parser parser (ffile);
+        interpreter& interp = __get_interpreter__ ("parse_fcn_file");
 
-      parser.m_curr_class_name = dispatch_type;
-      parser.m_curr_package_name = package_name;
-      parser.m_autoloading = autoload;
-      parser.m_fcn_file_from_relative_lookup = relative_lookup;
+        parser parser (ffile, interp);
 
-      parser.m_lexer.m_force_script = force_script;
-      parser.m_lexer.prep_for_file ();
-      parser.m_lexer.m_parsing_class_method = ! dispatch_type.empty ();
+        parser.m_curr_class_name = dispatch_type;
+        parser.m_curr_package_name = package_name;
+        parser.m_autoloading = autoload;
+        parser.m_fcn_file_from_relative_lookup = relative_lookup;
 
-      parser.m_lexer.m_fcn_file_name = file;
-      parser.m_lexer.m_fcn_file_full_name = full_file;
-      parser.m_lexer.m_dir_name = dir_name;
-      parser.m_lexer.m_package_name = package_name;
+        parser.m_lexer.m_force_script = force_script;
+        parser.m_lexer.prep_for_file ();
+        parser.m_lexer.m_parsing_class_method = ! dispatch_type.empty ();
 
-      int status = parser.run ();
+        parser.m_lexer.m_fcn_file_name = file;
+        parser.m_lexer.m_fcn_file_full_name = full_file;
+        parser.m_lexer.m_dir_name = dir_name;
+        parser.m_lexer.m_package_name = package_name;
 
-      fcn_ptr = parser.m_primary_fcn_ptr;
+        int status = parser.run ();
 
-      if (status == 0)
-        {
-          if (parser.m_lexer.m_reading_classdef_file
-              && parser.m_classdef_object)
-            {
-              // Convert parse tree for classdef object to
-              // meta.class info (and stash it in the symbol
-              // table?).  Return pointer to constructor?
+        fcn_ptr = parser.m_primary_fcn_ptr;
 
-              if (fcn_ptr)
-                panic_impossible ();
+        if (status == 0)
+          {
+            if (parser.m_lexer.m_reading_classdef_file
+                && parser.m_classdef_object)
+              {
+                // Convert parse tree for classdef object to
+                // meta.class info (and stash it in the symbol
+                // table?).  Return pointer to constructor?
 
-              bool is_at_folder = ! dispatch_type.empty ();
+                if (fcn_ptr)
+                  panic_impossible ();
 
-              octave::interpreter& interp
-                = octave::__get_interpreter__ ("parse_fcn_file");
+                bool is_at_folder = ! dispatch_type.empty ();
 
-              try
-                {
-                  fcn_ptr = parser.m_classdef_object->make_meta_class (interp, is_at_folder);
-                }
-              catch (const octave::execution_exception&)
-                {
-                  delete parser.m_classdef_object;
-                  throw;
-                }
+                try
+                  {
+                    fcn_ptr = parser.m_classdef_object->make_meta_class (interp, is_at_folder);
+                  }
+                catch (const execution_exception&)
+                  {
+                    delete parser.m_classdef_object;
+                    throw;
+                  }
 
-              if (fcn_ptr)
+                if (fcn_ptr)
+                  retval = octave_value (fcn_ptr);
+
+                delete parser.m_classdef_object;
+
+                parser.m_classdef_object = nullptr;
+              }
+            else if (fcn_ptr)
+              {
                 retval = octave_value (fcn_ptr);
 
-              delete parser.m_classdef_object;
+                fcn_ptr->maybe_relocate_end ();
 
-              parser.m_classdef_object = nullptr;
-            }
-          else if (fcn_ptr)
-            {
-              retval = octave_value (fcn_ptr);
+                if (parser.m_parsing_subfunctions)
+                  {
+                    if (! parser.m_endfunction_found)
+                      parser.m_subfunction_names.reverse ();
 
-              fcn_ptr->maybe_relocate_end ();
+                    fcn_ptr->stash_subfunction_names (parser.m_subfunction_names);
+                  }
+              }
+          }
+        else
+          error ("parse error while reading file %s", full_file.c_str ());
+      }
+    else if (require_file)
+      error ("no such file, '%s'", full_file.c_str ());
+    else if (! warn_for.empty ())
+      error ("%s: unable to open file '%s'", warn_for.c_str (),
+             full_file.c_str ());
 
-              if (parser.m_parsing_subfunctions)
-                {
-                  if (! parser.m_endfunction_found)
-                    parser.m_subfunction_names.reverse ();
+    return retval;
+  }
 
-                  fcn_ptr->stash_subfunction_names (parser.m_subfunction_names);
-                }
-            }
-        }
-      else
-        error ("parse error while reading file %s", full_file.c_str ());
-    }
-  else if (require_file)
-    error ("no such file, '%s'", full_file.c_str ());
-  else if (! warn_for.empty ())
-    error ("%s: unable to open file '%s'", warn_for.c_str (),
-           full_file.c_str ());
-
-  return retval;
-}
-
-namespace octave
-{
   std::string
   get_help_from_file (const std::string& nm, bool& symbol_found,
                       std::string& full_file)
@@ -8993,8 +8983,8 @@ namespace octave
     std::string full_name = sys::canonicalize_file_name (file_name);
 
     // Check if this file is already loaded (or in the path)
-    symbol_table& symtab = __get_symbol_table__ ("source_file");
-    octave_value ov_code = symtab.find (symbol);
+    symbol_scope curr_scope = __get_current_scope__ ("source_file");
+    octave_value ov_code = curr_scope.find (symbol);
 
     // For compatibility with Matlab, accept both scripts and
     // functions.
@@ -9045,8 +9035,8 @@ namespace octave
 
     if (verbose)
       {
-        std::cout << "executing commands from " << full_name << " ... ";
-        std::cout.flush ();
+        octave_stdout << "executing commands from " << full_name << " ... ";
+        octave_stdout.flush ();
       }
 
     octave_user_code *code = ov_code.user_code_value ();
@@ -9054,7 +9044,7 @@ namespace octave
     code->call (tw, 0, octave_value_list ());
 
     if (verbose)
-      std::cout << "done." << std::endl;
+      octave_stdout << "done." << std::endl;
   }
 }
 
@@ -9065,13 +9055,16 @@ DEFMETHOD (mfilename, interp, args, ,
 @deftypefnx {} {} mfilename ("fullpathext")
 Return the name of the currently executing file.
 
-When called from outside an m-file return the empty string.
+The base name of the currently executing script or function is returned without
+any extension.  If called from outside an m-file, such as the command line,
+return the empty string.
 
 Given the argument @qcode{"fullpath"}, include the directory part of the
 filename, but not the extension.
 
 Given the argument @qcode{"fullpathext"}, include the directory part of
 the filename and the extension.
+@seealso{inputname, dbstack}
 @end deftypefn */)
 {
   octave_value retval;
@@ -9107,7 +9100,7 @@ the filename and the extension.
       size_t dpos = fname.rfind (octave::sys::file_ops::dir_sep_char ());
       size_t epos = fname.rfind ('.');
 
-      if (epos <= dpos)
+      if (epos <= dpos+1)
         epos = std::string::npos;
 
       fname = (epos != std::string::npos) ? fname.substr (0, epos) : fname;
@@ -9231,16 +9224,13 @@ namespace octave
 
     return ovl ();
   }
-}
 
-static octave_value_list
-get_feval_args (const octave_value_list& args)
-{
-  return args.slice (1, args.length () - 1, true);
-}
+  static octave_value_list
+  get_feval_args (const octave_value_list& args)
+  {
+    return args.slice (1, args.length () - 1, true);
+  }
 
-namespace octave
-{
   //! Evaluate an Octave function (built-in or interpreted) and return
   //! the list of result values.
   //!
@@ -9367,97 +9357,17 @@ namespace octave
   eval_string (const std::string& eval_str, bool silent,
                int& parse_status, int nargout)
   {
-    octave_value_list retval;
+    interpreter& interp = __get_interpreter__ ("eval_string");
 
-    parser parser (eval_str);
-
-    do
-      {
-        parser.reset ();
-
-        parse_status = parser.run ();
-
-        if (parse_status == 0)
-          {
-            if (parser.m_stmt_list)
-              {
-                tree_statement *stmt = nullptr;
-
-                tree_evaluator& tw = __get_evaluator__ ("eval_string");
-
-                if (parser.m_stmt_list->length () == 1
-                    && (stmt = parser.m_stmt_list->front ())
-                    && stmt->is_expression ())
-                  {
-                    tree_expression *expr = stmt->expression ();
-
-                    if (silent)
-                      expr->set_print_flag (false);
-
-                    bool do_bind_ans = false;
-
-                    if (expr->is_identifier ())
-                      {
-                        octave::symbol_scope scope = tw.get_current_scope ();
-
-                        octave::symbol_record::context_id context
-                          = scope.current_context ();
-
-                        tree_identifier *id
-                          = dynamic_cast<tree_identifier *> (expr);
-
-                        do_bind_ans = (! id->is_variable (context));
-                      }
-                    else
-                      do_bind_ans = (! expr->is_assignment_expression ());
-
-                    retval = tw.evaluate_n (expr, nargout);
-
-                    if (do_bind_ans && ! retval.empty ())
-                      tw.bind_ans (retval(0), expr->print_result ());
-
-                    if (nargout == 0)
-                      retval = octave_value_list ();
-                  }
-                else if (nargout == 0)
-                  parser.m_stmt_list->accept (tw);
-                else
-                  error ("eval: invalid use of statement list");
-
-                if (tree_return_command::returning
-                    || tree_break_command::breaking
-                    || tree_continue_command::continuing)
-                  break;
-              }
-            else if (parser.m_lexer.m_end_of_input)
-              break;
-          }
-      }
-    while (parse_status == 0);
-
-    return retval;
+    return interp.eval_string (eval_str, silent, parse_status, nargout);
   }
 
   octave_value
   eval_string (const std::string& eval_str, bool silent, int& parse_status)
   {
-    octave_value retval;
+    interpreter& interp = __get_interpreter__ ("eval_string");
 
-    octave_value_list tmp = eval_string (eval_str, silent, parse_status, 1);
-
-    if (! tmp.empty ())
-      retval = tmp(0);
-
-    return retval;
-  }
-
-  static octave_value_list
-  eval_string (const octave_value& arg, bool silent, int& parse_status,
-               int nargout)
-  {
-    std::string s = arg.xstring_value ("eval: expecting std::string argument");
-
-    return eval_string (s, silent, parse_status, nargout);
+    return interp.eval_string (eval_str, silent, parse_status);
   }
 
   void
@@ -9471,8 +9381,25 @@ namespace octave
   }
 }
 
-DEFUN (eval, args, nargout,
-       doc: /* -*- texinfo -*-
+octave_value_list
+eval_string (const std::string& str, bool silent, int& parse_status,
+             int nargout)
+{
+  octave::interpreter& interp = octave::__get_interpreter__ ("eval_string");
+
+  return interp.eval_string (str, silent, parse_status, nargout);
+}
+
+octave_value
+eval_string (const std::string& str, bool silent, int& parse_status)
+{
+  octave::interpreter& interp = octave::__get_interpreter__ ("eval_string");
+
+  return interp.eval_string (str, silent, parse_status);
+}
+
+DEFMETHOD (eval, interp, args, nargout,
+           doc: /* -*- texinfo -*-
 @deftypefn  {} {} eval (@var{try})
 @deftypefnx {} {} eval (@var{try}, @var{catch})
 Parse the string @var{try} and evaluate it as if it were an Octave
@@ -9534,7 +9461,7 @@ does.
 
   try
     {
-      tmp = octave::eval_string (args(0), nargout > 0, parse_status, nargout);
+      tmp = interp.eval_string (args(0), nargout > 0, parse_status, nargout);
     }
   catch (const octave::execution_exception&)
     {
@@ -9550,7 +9477,7 @@ does.
 
       buffer_error_messages--;
 
-      tmp = octave::eval_string (args(1), nargout > 0, parse_status, nargout);
+      tmp = interp.eval_string (args(1), nargout > 0, parse_status, nargout);
 
       if (nargout > 0)
         retval = tmp;
@@ -9639,13 +9566,13 @@ may be either @qcode{"base"} or @qcode{"caller"}.
 
   std::string nm = args(1).xstring_value ("assignin: VARNAME must be a string");
 
-  if (valid_identifier (nm))
+  if (octave::valid_identifier (nm))
     {
       // Put the check here so that we don't slow down assignments
       // generally.  Any that go through Octave's parser should have
       // already been checked.
 
-      if (octave::is_keyword (nm))
+      if (octave::iskeyword (nm))
         error ("assignin: invalid assignment to keyword '%s'", nm.c_str ());
 
       octave::symbol_scope scope = interp.get_current_scope ();
@@ -9710,8 +9637,7 @@ Like @code{eval}, except that the expressions are evaluated in the context
 
   try
     {
-      tmp = octave::eval_string (args(1), nargout > 0,
-                                 parse_status, nargout);
+      tmp = interp.eval_string (args(1), nargout > 0, parse_status, nargout);
     }
   catch (const octave::execution_exception&)
     {
@@ -9727,8 +9653,7 @@ Like @code{eval}, except that the expressions are evaluated in the context
 
       buffer_error_messages--;
 
-      tmp = octave::eval_string (args(2), nargout > 0,
-                                 parse_status, nargout);
+      tmp = interp.eval_string (args(2), nargout > 0, parse_status, nargout);
 
       retval = (nargout > 0) ? tmp : octave_value_list ();
     }
@@ -9754,7 +9679,7 @@ maybe_print_last_error_message (bool *doit)
     // Print error message again, which was lost because of the stderr buffer
     // Note: this keeps error_state and last_error_stack intact
     message_with_id ("error", last_error_id ().c_str (),
-                     last_error_message ().c_str ());
+                     "%s", last_error_message ().c_str ());
 }
 
 static void
@@ -9771,8 +9696,8 @@ restore_octave_stderr (std::streambuf *buf)
   std::cerr.rdbuf (buf);
 }
 
-DEFUN (evalc, args, nargout,
-       doc: /* -*- texinfo -*-
+DEFMETHOD (evalc, interp, args, nargout,
+           doc: /* -*- texinfo -*-
 @deftypefn  {} {@var{s} =} evalc (@var{try})
 @deftypefnx {} {@var{s} =} evalc (@var{try}, @var{catch})
 Parse and evaluate the string @var{try} as if it were an Octave program,
@@ -9829,7 +9754,7 @@ s = evalc ("t = 42"), t
   octave_value_list retval;
   int eval_nargout = std::max (0, nargout - 1);
 
-  retval = Feval (args, eval_nargout);
+  retval = Feval (interp, args, eval_nargout);
   eval_error_occurred = false;
 
   retval.prepend (buffer.str ());
@@ -9873,10 +9798,17 @@ s = evalc ("t = 42"), t
 %!  b = 2;
 %!endfunction
 %!test
-%! [s, a, b] = evalc ("__f_evalc ()");
-%! assert (s, "foobar 3.1416\n");
-%! assert (a, 1);
-%! assert (b, 2);
+%! [old_fmt, old_spacing] = format ();
+%! unwind_protect
+%!   format short;
+%!   [s, a, b] = evalc ("__f_evalc ()");
+%!   assert (s, "foobar 3.1416\n");
+%!   assert (a, 1);
+%!   assert (b, 2);
+%! unwind_protect_cleanup
+%!   format (old_fmt);
+%!   format (old_spacing);
+%! end_unwind_protect
 
 %!error <foo> (evalc ("error ('foo')"))
 %!error <bar> (evalc ("error ('foo')", "error ('bar')"))
@@ -9957,8 +9889,8 @@ Undocumented internal function.
     octave_stdout << "parsing " << full_file << std::endl;
 
   octave_value ov_fcn
-    = parse_fcn_file (full_file, file, dir_name, "", "", true, false,
-                      false, false, "__parse_file__");
+    = octave::parse_fcn_file (full_file, file, dir_name, "", "", true, false,
+                              false, false, "__parse_file__");
 
   return retval;
 }

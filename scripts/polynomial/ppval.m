@@ -1,4 +1,4 @@
-## Copyright (C) 2000-2018 Paul Kienzle
+## Copyright (C) 2000-2019 Paul Kienzle
 ##
 ## This file is part of Octave.
 ##
@@ -80,7 +80,7 @@ function yi = ppval (pp, xi)
     yi = shiftdim (reshape (Pidx, dimvec), ndv - 1);
   endif
 
-  for i = 2 : k;
+  for i = 2 : k
     yi .*= dx;
     yi += shiftdim (reshape (Pidx(i,:), dimvec), ndv - 1);
   endfor

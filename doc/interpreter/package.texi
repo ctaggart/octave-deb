@@ -1,6 +1,6 @@
 @c DO NOT EDIT!  Generated automatically by munge-texi.pl.
 
-@c Copyright (C) 2007-2018 Søren Hauberg
+@c Copyright (C) 2007-2019 Søren Hauberg
 @c
 @c This file is part of Octave.
 @c
@@ -23,9 +23,9 @@
 
 Since Octave is Free Software users are encouraged to share their
 programs with others.  To aid this sharing Octave supports the
-installation of extra packages.  The `Octave-Forge' project is a
+installation of extra packages.  The `Octave Forge' project is a
 community-maintained set of packages that can be downloaded and
-installed in Octave.  At the time of writing the `Octave-Forge' project
+installed in Octave.  At the time of writing the `Octave Forge' project
 can be found online at @url{https://octave.sourceforge.io}, but
 since the Internet is an ever-changing place this may not be true at
 the time of reading.  Therefore it is recommended to see the Octave
@@ -171,7 +171,7 @@ A global installation (package available to all users) is forced, even if
 the user doesn't normally have system privileges.
 
 @item -forge
-Install a package directly from the Octave-Forge repository.  This
+Install a package directly from the Octave Forge repository.  This
 requires an internet connection and the cURL library.
 
 @emph{Security risk}: no verification of the package is performed
@@ -186,13 +186,16 @@ they are performed.
 @end table
 
 @item update
-Check installed Octave-Forge packages against repository and update any
+Check installed Octave Forge packages against repository and update any
 outdated items.  This requires an internet connection and the cURL library.
 Usage:
 
 @example
 pkg update
 @end example
+
+@noindent
+To update a single package use @code{pkg install -forge}
 
 @item uninstall
 Uninstall named packages.  For example,
@@ -253,7 +256,7 @@ and those which were installed by the system administrator.
 [user_packages, system_packages] = pkg ("list")
 @end example
 
-The @qcode{"-forge"} option lists packages available at the Octave-Forge
+The @qcode{"-forge"} option lists packages available at the Octave Forge
 repository.  This requires an internet connection and the cURL library.
 For example:
 
@@ -275,7 +278,8 @@ will describe all installed packages and the functions they provide.
 Display can be limited to a set of packages:
 
 @example
-pkg describe control signal # describe control and signal packages
+## describe control and signal packages
+pkg describe control signal
 @end example
 
 If one output is requested a cell of structure containing the

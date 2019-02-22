@@ -1,4 +1,4 @@
-## Copyright (C) 1995-2018 John W. Eaton
+## Copyright (C) 1995-2019 John W. Eaton
 ##
 ## This file is part of Octave.
 ##
@@ -29,7 +29,7 @@
 ## @example
 ## @group
 ## fix (clock ())
-##      @result{} [ 1993, 8, 20, 4, 56, 1 ]
+##   @result{}   1993      8     20      4     56      1
 ## @end group
 ## @end example
 ##

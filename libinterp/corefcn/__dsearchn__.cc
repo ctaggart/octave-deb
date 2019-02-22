@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2007-2018 David Bateman
+Copyright (C) 2007-2019 David Bateman
 
 This file is part of Octave.
 
@@ -26,8 +26,6 @@ along with Octave; see the file COPYING.  If not, see
 
 #include <cmath>
 
-#include <iostream>
-#include <fstream>
 #include <string>
 
 #include "defun.h"
@@ -82,7 +80,7 @@ Undocumented internal function.
           if (d < d0)
             {
               d0 = d;
-              *pidx = static_cast<double>(j + 1);
+              *pidx = static_cast<double> (j + 1);
             }
           octave_quit ();
         }

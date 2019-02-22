@@ -3,10 +3,10 @@
 <!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Function Handles (GNU Octave (version 4.4.1))</title>
+<title>Function Handles (GNU Octave (version 5.0.91))</title>
 
-<meta name="description" content="Function Handles (GNU Octave (version 4.4.1))">
-<meta name="keywords" content="Function Handles (GNU Octave (version 4.4.1))">
+<meta name="description" content="Function Handles (GNU Octave (version 5.0.91))">
+<meta name="keywords" content="Function Handles (GNU Octave (version 5.0.91))">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
@@ -173,11 +173,11 @@ function handle <var>fcn_handle</var>.
 
 <a name="XREFstr2func"></a><dl>
 <dt><a name="index-str2func"></a><em></em> <strong>str2func</strong> <em>(<var>fcn_name</var>)</em></dt>
-<dt><a name="index-str2func-1"></a><em></em> <strong>str2func</strong> <em>(<var>fcn_name</var>, &quot;global&quot;)</em></dt>
 <dd><p>Return a function handle constructed from the string <var>fcn_name</var>.
 </p>
-<p>If the optional <code>&quot;global&quot;</code> argument is passed, locally visible
-functions are ignored in the lookup.
+<p>Previous versions of Octave accepted an optional second argument,
+<code>&quot;global&quot;</code>, that caused str2func to ignore locally visible
+functions.  This option is no longer supported.
 </p>
 <p><strong>See also:</strong> <a href="#XREFfunc2str">func2str</a>, <a href="Inline-Functions.html#XREFinline">inline</a>, <a href="#XREFfunctions">functions</a>.
 </p></dd></dl>

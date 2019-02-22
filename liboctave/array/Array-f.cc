@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 1994-2018 John W. Eaton
+Copyright (C) 1994-2019 John W. Eaton
 Copyright (C) 2009 VZLU Prague
 
 This file is part of Octave.
@@ -102,9 +102,9 @@ Array<float>::issorted (sortmode mode) const
   const float *el = data ();
 
   if (n <= 1)
-    return mode ? mode : ASCENDING;
+    return (mode == UNSORTED) ? ASCENDING : mode;
 
-  if (! mode)
+  if (mode == UNSORTED)
     {
       // Auto-detect mode.
       if (el[n-1] < el[0] || octave::math::isnan (el[0]))
@@ -135,7 +135,7 @@ Array<float>::issorted (sortmode mode) const
         }
 
     }
-  else if (mode == ASCENDING)
+  else  // mode == ASCENDING
     {
       // Sort out NaNs.
       while (n > 0 && octave::math::isnan (el[n-1]))

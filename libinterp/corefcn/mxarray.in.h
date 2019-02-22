@@ -1,7 +1,7 @@
 // %NO_EDIT_WARNING%
 /*
 
-Copyright (C) 2001-2018 Paul Kienzle
+Copyright (C) 2001-2019 Paul Kienzle
 
 This file is part of Octave.
 
@@ -303,12 +303,6 @@ protected:
 
   mxArray_base (const mxArray_base&) { }
 
-  OCTAVE_DEPRECATED (4.2, "use 'err_invalid_type' instead")
-  void invalid_type_error (void) const
-  {
-    error ("invalid type for operation");
-  }
-
   OCTAVE_NORETURN void err_invalid_type (void) const
   {
     error ("invalid type for operation");
@@ -538,8 +532,11 @@ public:
     if (str)
       {
         mwSize sz = sizeof (mxChar) * (strlen (str) + 1);
+
         retval = static_cast<char *> (mxArray::malloc (sz));
-        strcpy (retval, str);
+
+        if (retval)
+          strcpy (retval, str);
       }
 
     return retval;

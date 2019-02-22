@@ -1,4 +1,4 @@
-## Copyright (C) 1996-2018 John W. Eaton
+## Copyright (C) 1996-2019 John W. Eaton
 ##
 ## This file is part of Octave.
 ##
@@ -282,8 +282,9 @@ function hglist = bars (hax, vertical, x, y, xb, yb, width, group, have_color_sp
     if (i == 1)
       ## Add baseline object the first time through loop
       x_axis_range = get (hax, "xlim");
-      h_baseline = line (hax, x_axis_range, [base_value, base_value],
-                             "color", [0, 0, 0]);
+      h_baseline = __go_line__ (hax, "xdata", x_axis_range,
+                                     "ydata", [base_value, base_value],
+                                     "color", [0, 0, 0]);
       set (h_baseline, "handlevisibility", "off", "xliminclude", "off");
       set (h_baseline, "parent", get (hg, "parent"));
     endif

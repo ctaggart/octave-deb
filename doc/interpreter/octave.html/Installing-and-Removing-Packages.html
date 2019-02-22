@@ -3,10 +3,10 @@
 <!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Installing and Removing Packages (GNU Octave (version 4.4.1))</title>
+<title>Installing and Removing Packages (GNU Octave (version 5.0.91))</title>
 
-<meta name="description" content="Installing and Removing Packages (GNU Octave (version 4.4.1))">
-<meta name="keywords" content="Installing and Removing Packages (GNU Octave (version 4.4.1))">
+<meta name="description" content="Installing and Removing Packages (GNU Octave (version 5.0.91))">
+<meta name="keywords" content="Installing and Removing Packages (GNU Octave (version 5.0.91))">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
@@ -178,7 +178,7 @@ the user doesn&rsquo;t normally have system privileges.
 </p>
 </dd>
 <dt><code>-forge</code></dt>
-<dd><p>Install a package directly from the Octave-Forge repository.  This
+<dd><p>Install a package directly from the Octave Forge repository.  This
 requires an internet connection and the cURL library.
 </p>
 <p><em>Security risk</em>: no verification of the package is performed
@@ -196,7 +196,7 @@ they are performed.
 
 </dd>
 <dt>&lsquo;<samp>update</samp>&rsquo;</dt>
-<dd><p>Check installed Octave-Forge packages against repository and update any
+<dd><p>Check installed Octave Forge packages against repository and update any
 outdated items.  This requires an internet connection and the cURL library.
 Usage:
 </p>
@@ -204,6 +204,8 @@ Usage:
 <pre class="example">pkg update
 </pre></div>
 
+<p>To update a single package use <code>pkg install -forge</code>
+</p>
 </dd>
 <dt>&lsquo;<samp>uninstall</samp>&rsquo;</dt>
 <dd><p>Uninstall named packages.  For example,
@@ -264,7 +266,7 @@ and those which were installed by the system administrator.
 <pre class="example">[user_packages, system_packages] = pkg (&quot;list&quot;)
 </pre></div>
 
-<p>The <code>&quot;-forge&quot;</code> option lists packages available at the Octave-Forge
+<p>The <code>&quot;-forge&quot;</code> option lists packages available at the Octave Forge
 repository.  This requires an internet connection and the cURL library.
 For example:
 </p>
@@ -286,7 +288,8 @@ example,
 Display can be limited to a set of packages:
 </p>
 <div class="example">
-<pre class="example">pkg describe control signal # describe control and signal packages
+<pre class="example">## describe control and signal packages
+pkg describe control signal
 </pre></div>
 
 <p>If one output is requested a cell of structure containing the

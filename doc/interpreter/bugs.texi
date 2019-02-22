@@ -1,6 +1,6 @@
 @c DO NOT EDIT!  Generated automatically by munge-texi.pl.
 
-@c Copyright (C) 1996-2018 John W. Eaton
+@c Copyright (C) 1996-2019 John W. Eaton
 @c
 @c This file is part of Octave.
 @c
@@ -32,7 +32,7 @@
 This file documents known bugs in Octave and describes where and how to
 report any bugs that you may find.
 
-Copyright (C) 1996-2018 John W. Eaton.  You may copy, distribute, and
+Copyright (C) 1996-2019 John W. Eaton.  You may copy, distribute, and
 modify it freely as long as you preserve this copyright notice and
 permission notice.
 

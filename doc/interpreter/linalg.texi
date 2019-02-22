@@ -1,6 +1,6 @@
 @c DO NOT EDIT!  Generated automatically by munge-texi.pl.
 
-@c Copyright (C) 1996-2018 John W. Eaton
+@c Copyright (C) 1996-2019 John W. Eaton
 @c
 @c This file is part of Octave.
 @c
@@ -224,7 +224,9 @@ Example
 @group
 a = [1, 2; 3, 4];
 c = condeig (a)
-@result{} [1.0150; 1.0150]
+  @result{} c =
+       1.0150
+       1.0150
 @end group
 @end example
 @seealso{@ref{XREFeig,,eig}, @ref{XREFcond,,cond}, @ref{XREFbalance,,balance}}
@@ -1043,7 +1045,8 @@ If @var{info} is not present, an error message is printed in cases 1 and 2.
 @anchor{XREFcholinsert}
 @deftypefn  {} {@var{R1} =} cholinsert (@var{R}, @var{j}, @var{u})
 @deftypefnx {} {[@var{R1}, @var{info}] =} cholinsert (@var{R}, @var{j}, @var{u})
-Update a Cholesky factorization given a row or column to insert in the original factored matrix.
+Update a Cholesky factorization given a row or column to insert in the
+original factored matrix.
 
 Given a Cholesky@tie{}factorization of a real symmetric or complex Hermitian
 positive definite matrix @w{@var{A} = @var{R}'*@var{R}}, @var{R}@tie{}upper
@@ -1069,7 +1072,8 @@ If @var{info} is not present, an error message is printed in cases 1 and 2.
 @c choldelete libinterp/dldfcn/chol.cc
 @anchor{XREFcholdelete}
 @deftypefn {} {@var{R1} =} choldelete (@var{R}, @var{j})
-Update a Cholesky factorization given a row or column to delete from the original factored matrix.
+Update a Cholesky factorization given a row or column to delete from the
+original factored matrix.
 
 Given a Cholesky@tie{}factorization of a real symmetric or complex Hermitian
 positive definite matrix @w{@var{A} = @var{R}'*@var{R}}, @var{R}@tie{}upper
@@ -1082,7 +1086,8 @@ triangular, return the Cholesky@tie{}factorization of @w{A(p,p)}, where
 @c cholshift libinterp/dldfcn/chol.cc
 @anchor{XREFcholshift}
 @deftypefn {} {@var{R1} =} cholshift (@var{R}, @var{i}, @var{j})
-Update a Cholesky factorization given a range of columns to shift in the original factored matrix.
+Update a Cholesky factorization given a range of columns to shift in the
+original factored matrix.
 
 Given a Cholesky@tie{}factorization of a real symmetric or complex Hermitian
 positive definite matrix @w{@var{A} = @var{R}'*@var{R}}, @var{R}@tie{}upper
@@ -1463,7 +1468,8 @@ economized (R is square).
 @c qrinsert libinterp/dldfcn/qr.cc
 @anchor{XREFqrinsert}
 @deftypefn {} {[@var{Q1}, @var{R1}] =} qrinsert (@var{Q}, @var{R}, @var{j}, @var{x}, @var{orient})
-Update a QR factorization given a row or column to insert in the original factored matrix.
+Update a QR factorization given a row or column to insert in the original
+factored matrix.
 
 
 Given a QR@tie{}factorization of a real or complex matrix
@@ -1493,7 +1499,8 @@ If @var{orient} is @qcode{"row"}, full factorization is needed.
 @c qrdelete libinterp/dldfcn/qr.cc
 @anchor{XREFqrdelete}
 @deftypefn {} {[@var{Q1}, @var{R1}] =} qrdelete (@var{Q}, @var{R}, @var{j}, @var{orient})
-Update a QR factorization given a row or column to delete from the original factored matrix.
+Update a QR factorization given a row or column to delete from the original
+factored matrix.
 
 Given a QR@tie{}factorization of a real or complex matrix
 @w{@var{A} = @var{Q}*@var{R}}, @var{Q}@tie{}unitary and
@@ -1522,7 +1529,8 @@ If @var{orient} is @qcode{"row"}, full factorization is needed.
 @c qrshift libinterp/dldfcn/qr.cc
 @anchor{XREFqrshift}
 @deftypefn {} {[@var{Q1}, @var{R1}] =} qrshift (@var{Q}, @var{R}, @var{i}, @var{j})
-Update a QR factorization given a range of columns to shift in the original factored matrix.
+Update a QR factorization given a range of columns to shift in the original
+factored matrix.
 
 Given a QR@tie{}factorization of a real or complex matrix
 @w{@var{A} = @var{Q}*@var{R}}, @var{Q}@tie{}unitary and
@@ -1641,7 +1649,7 @@ Note: @code{qz} performs permutation balancing, but not scaling
 (@pxref{XREFbalance,,balance}), which may be lead to less accurate results than
 @code{eig}.  The order of output arguments was selected for compatibility with
 @sc{matlab}.
-@seealso{@ref{XREFeig,,eig}, @ref{XREFbalance,,balance}, @ref{XREFlu,,lu}, @ref{XREFchol,,chol}, @ref{XREFhess,,hess}, @ref{XREFqr,,qr}, @ref{XREFqzhess,,qzhess}, @ref{XREFschur,,schur}, @ref{XREFsvd,,svd}}
+@seealso{@ref{XREFeig,,eig}, @ref{XREFordeig,,ordeig}, @ref{XREFbalance,,balance}, @ref{XREFlu,,lu}, @ref{XREFchol,,chol}, @ref{XREFhess,,hess}, @ref{XREFqr,,qr}, @ref{XREFqzhess,,qzhess}, @ref{XREFschur,,schur}, @ref{XREFsvd,,svd}}
 @end deftypefn
 
 
@@ -1659,10 +1667,19 @@ For example:
 @example
 @group
 [aa, bb, q, z] = qzhess ([1, 2; 3, 4], [5, 6; 7, 8])
-     @result{} aa = [ -3.02244, -4.41741;  0.92998,  0.69749 ]
-     @result{} bb = [ -8.60233, -9.99730;  0.00000, -0.23250 ]
-     @result{}  q = [ -0.58124, -0.81373; -0.81373,  0.58124 ]
-     @result{}  z = [ 1, 0; 0, 1 ]
+  @result{} aa =
+      -3.02244  -4.41741
+       0.92998   0.69749
+  @result{} bb =
+      -8.60233  -9.99730
+       0.00000  -0.23250
+  @result{} q =
+      -0.58124  -0.81373
+      -0.81373   0.58124
+  @result{} z =
+     Diagonal Matrix
+       1   0
+       0   1
 @end group
 @end example
 
@@ -1744,7 +1761,7 @@ subspace corresponding to the @var{k} leading eigenvalues of @var{S}.
 The Schur@tie{}decomposition is used to compute eigenvalues of a square
 matrix, and has applications in the solution of algebraic @nospell{Riccati}
 equations in control (see @code{are} and @code{dare}).
-@seealso{@ref{XREFrsf2csf,,rsf2csf}, @ref{XREFordschur,,ordschur}, @ref{XREFlu,,lu}, @ref{XREFchol,,chol}, @ref{XREFhess,,hess}, @ref{XREFqr,,qr}, @ref{XREFqz,,qz}, @ref{XREFsvd,,svd}}
+@seealso{@ref{XREFrsf2csf,,rsf2csf}, @ref{XREFordschur,,ordschur}, @ref{XREFordeig,,ordeig}, @ref{XREFlu,,lu}, @ref{XREFchol,,chol}, @ref{XREFhess,,hess}, @ref{XREFqr,,qr}, @ref{XREFqz,,qz}, @ref{XREFsvd,,svd}}
 @end deftypefn
 
 
@@ -1812,7 +1829,24 @@ is in the upper left corner, by doing:
 [@var{U}, @var{S}] = ordschur (@var{U}, @var{S}, [0,1])
 @end example
 
-@seealso{@ref{XREFschur,,schur}}
+@seealso{@ref{XREFschur,,schur}, @ref{XREFordeig,,ordeig}}
+@end deftypefn
+
+
+@c ordeig scripts/linear-algebra/ordeig.m
+@anchor{XREFordeig}
+@deftypefn  {} {@var{lambda} =} ordeig (@var{A})
+@deftypefnx {} {@var{lambda} =} ordeig (@var{A}, @var{B})
+Return the eigenvalues of quasi-triangular matrices in their order of
+appearance in the matrix @var{A}.
+
+The quasi-triangular matrix @var{A} is usually the result of a Schur
+factorization.  If called with a second input @var{B} then the generalized
+eigenvalues of the pair @var{A}, @var{B} are returned in the order of
+appearance of the matrix @code{@var{A}-@var{lambda}*@var{B}}.  The pair
+@var{A}, @var{B} is usually the result of a QZ decomposition.
+
+@seealso{@ref{XREFordschur,,ordschur}, @ref{XREFeig,,eig}, @ref{XREFschur,,schur}, @ref{XREFqz,,qz}}
 @end deftypefn
 
 
@@ -1934,7 +1968,7 @@ and may be less accurate for some matrices.  See the documentation for
 Query or set the underlying @sc{lapack} driver used by @code{svd}.
 
 Currently recognized values are @qcode{"gesdd"} and @qcode{"gesvd"}.
-The default is @qcode{"gesdd"}.
+The default is @qcode{"gesvd"}.
 
 When called from inside a function with the @qcode{"local"} option, the
 variable is changed locally for the function and any subroutines it calls.
@@ -1945,26 +1979,17 @@ the full singular value decomposition (left and right singular matrices as
 well as singular values).  When calculating just the singular values the
 following discussion is not relevant.
 
-The default routine use by Octave is the newer @code{gesdd} which is based on a
-Divide-and-Conquer algorithm that is 5X faster than the alternative
-@code{gesvd}, which is based on QR factorization.  However, the new algorithm
-can use significantly more memory.  For an @nospell{MxN} input matrix the
-memory usage is of order O(min(M,N) ^ 2), whereas the alternative is of order
-O(max(M,N)).  In general, modern computers have abundant memory so Octave has
-chosen to prioritize speed.
+The newer @code{gesdd} routine is based on a Divide-and-Conquer algorithm that
+is 5X faster than the alternative @code{gesvd}, which is based on QR
+factorization.  However, the new algorithm can use significantly more memory.
+For an @nospell{MxN} input matrix the memory usage is of order O(min(M,N) ^ 2),
+whereas the alternative is of order O(max(M,N)).
 
-In addition, there have been instances in the past where some input matrices
-were not accurately decomposed by @code{gesdd}.  This appears to have been
-resolved with modern versions of @sc{lapack}.  However, if certainty is
-required the accuracy of the decomposition can always be tested after the fact
-with
-
-@example
-@group
-[@var{u}, @var{s}, @var{v}] = svd (@var{x});
-norm (@var{x} - @var{u}*@var{s}*@var{v'}, "fro")
-@end group
-@end example
+Beyond speed and memory issues, there have been instances where some input
+matrices were not accurately decomposed by @code{gesdd}.  See currently active
+bug @url{https://savannah.gnu.org/bugs/?55564}.  Until these accuracy issues
+are resolved in a new version of the @sc{lapack} library, the default driver
+in Octave has been set to @qcode{"gesvd"}.
 
 @seealso{@ref{XREFsvd,,svd}}
 @end deftypefn

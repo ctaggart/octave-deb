@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2016-2018 John W. Eaton
+Copyright (C) 2016-2019 John W. Eaton
 
 This file is part of Octave.
 
@@ -168,13 +168,6 @@ octave_get_sig_number (const char *signame, int *signum)
     {
 #if defined (SIGINFO)
       *signum = SIGINFO;
-      return true;
-#endif
-    }
-  else if (! strcmp (signame, "SIGINT"))
-    {
-#if defined (SIGINT)
-      *signum = SIGINT;
       return true;
 #endif
     }

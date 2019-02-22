@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2002-2018 John W. Eaton
+Copyright (C) 2002-2019 John W. Eaton
 
 This file is part of Octave.
 
@@ -47,6 +47,9 @@ namespace octave
     cmdline_options (const cmdline_options&) = default;
 
     cmdline_options& operator = (const cmdline_options&) = default;
+
+    int sys_argc (void) const { return m_all_args.numel (); }
+    char **sys_argv (void) const { return m_all_args.c_str_vec (); }
 
     bool debug_jit (void) const { return m_debug_jit; }
     bool echo_commands (void) const { return m_echo_commands; }
@@ -255,6 +258,9 @@ namespace octave
 
     virtual ~application (void);
 
+    int sys_argc (void) const { return m_options.sys_argc (); }
+    char **sys_argv (void) const { return m_options.sys_argv (); }
+
     void set_program_names (const std::string& pname);
 
     void intern_argv (const string_vector& args);
@@ -351,9 +357,6 @@ namespace octave
     // needed.  For example, an octave program with shebang line, or code
     // from eval without persist.
     bool m_is_octave_program = false;
-
-    // If TRUE, the GUI should be started.
-    bool m_gui_running = false;
 
     interpreter *m_interpreter = nullptr;
   };

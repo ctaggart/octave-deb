@@ -1,4 +1,4 @@
-## Copyright (C) 2003-2018 John W. Eaton
+## Copyright (C) 2003-2019 John W. Eaton
 ##
 ## This file is part of Octave.
 ##
@@ -37,7 +37,7 @@ function dirname = tempdir ()
     dirname = [dirname filesep];
   endif
 
-  if (! isdir (dirname))
+  if (! isfolder (dirname))
     warning ("tempdir: '%s' does not exist or is not a directory", dirname);
   endif
 

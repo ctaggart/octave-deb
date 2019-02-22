@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 1996-2018 John W. Eaton
+Copyright (C) 1996-2019 John W. Eaton
 Copyright (C) 2009-2010 VZLU Prague, a.s.
 
 This file is part of Octave.
@@ -25,7 +25,7 @@ along with Octave; see the file COPYING.  If not, see
 #  include "config.h"
 #endif
 
-#include <iostream>
+#include <ostream>
 
 #include "Array-util.h"
 #include "boolMatrix.h"

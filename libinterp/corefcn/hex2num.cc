@@ -1,7 +1,7 @@
 /*
 
-Copyright (C) 2017-2018 John W. Eaton
-Copyright (C) 2008-2018 David Bateman
+Copyright (C) 2017-2019 John W. Eaton
+Copyright (C) 2008-2019 David Bateman
 
 This file is part of Octave.
 
@@ -68,7 +68,7 @@ hex2num (const std::string& hex, void *num, size_t nbytes, bool swap_bytes)
   const size_t nchars = 2 * nbytes;
 
   if (nc > nchars)
-    error ("hex2num: S must be no more than %d characters", nchars);
+    error ("hex2num: S must be no more than %zd characters", nchars);
 
   size_t j = 0;
 

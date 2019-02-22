@@ -3,10 +3,10 @@
 <!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Surface Properties (GNU Octave (version 4.4.1))</title>
+<title>Surface Properties (GNU Octave (version 5.0.91))</title>
 
-<meta name="description" content="Surface Properties (GNU Octave (version 4.4.1))">
-<meta name="keywords" content="Surface Properties (GNU Octave (version 4.4.1))">
+<meta name="description" content="Surface Properties (GNU Octave (version 5.0.91))">
+<meta name="keywords" content="Surface Properties (GNU Octave (version 5.0.91))">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
@@ -205,14 +205,14 @@ See <a href="Callbacks.html#Callbacks">Callbacks&nbsp;section<!-- /@w --></a>.
 <a name="XREFsurfacefacenormals"></a><a name="index-surface-facenormals"></a>
 </dd>
 <dt><code>facenormals</code>: def. <code>[](0x0)</code></dt>
-<dd>
-
+<dd><p>Face normals are used for lighting the edges or faces if the <code>edgelighting</code> or <code>facelighting</code> properties are set to <code>&quot;flat&quot;</code>.  Setting <code>facenormals</code> also forces the <code>facenormalsmode</code> property to be set to <code>&quot;manual&quot;</code>
+</p>
 
 <a name="XREFsurfacefacenormalsmode"></a><a name="index-surface-facenormalsmode"></a>
 </dd>
 <dt><code>facenormalsmode</code>: {<code>&quot;auto&quot;</code>} | <code>&quot;manual&quot;</code></dt>
-<dd>
-
+<dd><p>If this property is set to <code>&quot;auto&quot;</code>, <code>facenormals</code> are automatically calculated if the <code>edgelighting</code> or <code>facelighting</code> property are set to <code>&quot;flat&quot;</code> and at least one <code>light</code> object is present and visible in the same axes.
+</p>
 
 <a name="XREFsurfacehandlevisibility"></a><a name="index-surface-handlevisibility"></a>
 </dd>
@@ -343,15 +343,15 @@ See <a href="Callbacks.html#Callbacks">Callbacks&nbsp;section<!-- /@w --></a>.
 
 <a name="XREFsurfacevertexnormals"></a><a name="index-surface-vertexnormals"></a>
 </dd>
-<dt><code>vertexnormals</code>: def. 3-by-3-by-3 double</dt>
-<dd>
-
+<dt><code>vertexnormals</code>: def. <code>[](0x0)</code></dt>
+<dd><p>Vertex normals are used for lighting the edges or faces if the <code>edgelighting</code> or <code>facelighting</code> properties are set to <code>&quot;gouraud&quot;</code>.  Setting <code>vertexnormals</code> also forces the <code>vertexnormalsmode</code> property to be set to <code>&quot;manual&quot;</code>
+</p>
 
 <a name="XREFsurfacevertexnormalsmode"></a><a name="index-surface-vertexnormalsmode"></a>
 </dd>
 <dt><code>vertexnormalsmode</code>: {<code>&quot;auto&quot;</code>} | <code>&quot;manual&quot;</code></dt>
-<dd>
-
+<dd><p>If this property is set to <code>&quot;auto&quot;</code>, <code>vertexnormals</code> are automatically calculated if the <code>edgelighting</code> or <code>facelighting</code> property are set to <code>&quot;gouraud&quot;</code> and at least one <code>light</code> object is present and visible in the same axes.
+</p>
 
 <a name="XREFsurfacevisible"></a><a name="index-surface-visible"></a>
 </dd>

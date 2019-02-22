@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2011-2018 Michael Goffioul
+Copyright (C) 2011-2019 Michael Goffioul
 
 This file is part of Octave.
 
@@ -37,10 +37,17 @@ namespace QtHandles
     Q_OBJECT
 
   public:
-    FigureWindow (QWidget *parent = nullptr);
+    explicit FigureWindow (QWidget *parent = nullptr);
     ~FigureWindow (void);
 
     QMenu * createPopupMenu (void);
+
+  protected:
+    void showEvent(QShowEvent *ev);
+
+  signals:
+    void figureWindowShown();
+
   };
 
 }

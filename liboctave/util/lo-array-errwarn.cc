@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2016-2018 Rik Wehbring
+Copyright (C) 2016-2019 Rik Wehbring
 
 This file is part of Octave.
 
@@ -23,6 +23,9 @@ along with Octave; see the file COPYING.  If not, see
 #if defined (HAVE_CONFIG_H)
 #  include "config.h"
 #endif
+
+#include <cinttypes>
+#include <cmath>
 
 #include <sstream>
 
@@ -64,7 +67,8 @@ namespace octave
     const char *err_id = error_id_nonconformant_args;
 
     (*current_liboctave_error_with_id_handler)
-      (err_id, "%s: nonconformant arguments (op1 len: %d, op2 len: %d)",
+      (err_id, "%s: nonconformant arguments (op1 len: %" OCTAVE_IDX_TYPE_FORMAT
+       ", op2 len: % " OCTAVE_IDX_TYPE_FORMAT ")",
        op, op1_len, op2_len);
   }
 
@@ -76,7 +80,9 @@ namespace octave
     const char *err_id = error_id_nonconformant_args;
 
     (*current_liboctave_error_with_id_handler)
-      (err_id, "%s: nonconformant arguments (op1 is %dx%d, op2 is %dx%d)",
+      (err_id, "%s: nonconformant arguments "
+       "(op1 is %" OCTAVE_IDX_TYPE_FORMAT "x%" OCTAVE_IDX_TYPE_FORMAT ", "
+       "op2 is %" OCTAVE_IDX_TYPE_FORMAT"x%" OCTAVE_IDX_TYPE_FORMAT ")",
        op, op1_nr, op1_nc, op2_nr, op2_nc);
   }
 
@@ -101,7 +107,8 @@ namespace octave
     const char *err_id = error_id_index_out_of_bounds;
 
     (*current_liboctave_error_with_id_handler)
-      (err_id, "A(%s) = []: index out of bounds: value %d out of bound %d",
+      (err_id, "A(%s) = []: index out of bounds: value %" OCTAVE_IDX_TYPE_FORMAT
+       " out of bound %" OCTAVE_IDX_TYPE_FORMAT,
        is1d ? "I" : "..,I,..", idx, ext);
   }
 
@@ -215,6 +222,15 @@ namespace octave
   {
     std::ostringstream buf;
     buf << n + 1;
+
+    if (! std::isnan (n))
+      {
+        // if  n  not an integer, but would be printed as one, show diff
+        double nearest = std::floor (n + 1.5);
+        if (n + 1 != nearest && (buf.str ().find ('.') == std::string::npos))
+          buf << std::showpos << (n + 1 - nearest);
+      }
+
     err_invalid_index (buf.str (), nd, dim, var);
   }
 

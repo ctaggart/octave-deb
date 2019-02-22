@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 1996-2018 John W. Eaton
+Copyright (C) 1996-2019 John W. Eaton
 Copyright (C) 2009-2010 VZLU Prague
 
 This file is part of Octave.
@@ -25,8 +25,9 @@ along with Octave; see the file COPYING.  If not, see
 #  include "config.h"
 #endif
 
-#include <iostream>
+#include <istream>
 #include <limits>
+#include <ostream>
 
 #include "lo-ieee.h"
 #include "lo-mappers.h"
@@ -192,7 +193,7 @@ octave_base_value::size (void)
 octave_idx_type
 octave_base_value::numel (const octave_value_list& idx)
 {
-  return dims_to_numel (dims (), idx);
+  return octave::dims_to_numel (dims (), idx);
 }
 
 octave_value
@@ -1410,7 +1411,7 @@ make_idx_args (const std::string& type,
   Cell type_field (1, len);
   Cell subs_field (1, len);
 
-  std::list<octave_value_list>::const_iterator p = idx.begin ();
+  auto p = idx.begin ();
 
   for (size_t i = 0; i < len; i++)
     {

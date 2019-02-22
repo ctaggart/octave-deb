@@ -3,10 +3,10 @@
 <!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Functions of Multiple Variables (GNU Octave (version 4.4.1))</title>
+<title>Functions of Multiple Variables (GNU Octave (version 5.0.91))</title>
 
-<meta name="description" content="Functions of Multiple Variables (GNU Octave (version 4.4.1))">
-<meta name="keywords" content="Functions of Multiple Variables (GNU Octave (version 4.4.1))">
+<meta name="description" content="Functions of Multiple Variables (GNU Octave (version 5.0.91))">
+<meta name="keywords" content="Functions of Multiple Variables (GNU Octave (version 5.0.91))">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
@@ -453,7 +453,7 @@ integral.
 <div class="example">
 <pre class="example"><var>f</var> = @(<var>x</var>,<var>y</var>,<var>z</var>) ones (size (<var>x</var>));
 <var>q</var> = integral3 (<var>f</var>, 0, 1, 0, 1, 0, 1)
-  &rArr; <var>q</var> =  1
+  &rArr; <var>q</var> =  1.00000
 </pre></div>
 
 <p>For this constant-value integrand, the result is a volume which is just
@@ -464,8 +464,8 @@ integral.
 <div class="example">
 <pre class="example"><var>f</var> = @(<var>x</var>,<var>y</var>) ones (size (<var>x</var>));
 <var>ymax</var> = @(<var>x</var>) sqrt (1 - <var>x</var>.^2);
-<var>zmax</var> = @(<var>x</var>) sqrt (1 - <var>x</var>.^2 - <var>y</var>.^2);
-<var>q</var> = integral3 (<var>f</var>, 0, 1, 0, <var>ymax</var>)
+<var>zmax</var> = @(<var>x</var>,<var>y</var>) sqrt (1 - <var>x</var>.^2 - <var>y</var>.^2);
+<var>q</var> = integral3 (<var>f</var>, 0, 1, 0, <var>ymax</var>, 0, <var>zmax</var>)
   &rArr; <var>q</var> =  0.52360
 </pre></div>
 

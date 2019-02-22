@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2005-2018 David Bateman
+Copyright (C) 2005-2019 David Bateman
 Copyright (C) 2002-2005 Paul Kienzle
 Copyright (C) 2012 John W. Eaton
 
@@ -459,7 +459,7 @@ namespace octave
   {
     std::string retval;
 
-    regexp::match_data rx_lst = match (buffer);
+    const regexp::match_data rx_lst = match (buffer);
 
     size_t num_matches = rx_lst.size ();
 
@@ -518,7 +518,7 @@ namespace octave
         // Determine replacement length
         const size_t replen = repstr.size () - 2*num_tokens;
         int delta = 0;
-        regexp::match_data::const_iterator p = rx_lst.begin ();
+        auto p = rx_lst.begin ();
         for (size_t i = 0; i < num_matches; i++)
           {
             octave_quit ();
@@ -595,7 +595,7 @@ namespace octave
         // Determine repstr length
         const size_t replen = repstr.size ();
         int delta = 0;
-        regexp::match_data::const_iterator p = rx_lst.begin ();
+        auto p = rx_lst.begin ();
         for (size_t i = 0; i < num_matches; i++)
           {
             octave_quit ();

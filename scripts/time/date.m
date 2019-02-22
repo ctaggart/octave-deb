@@ -1,4 +1,4 @@
-## Copyright (C) 1995-2018 John W. Eaton
+## Copyright (C) 1995-2019 John W. Eaton
 ##
 ## This file is part of Octave.
 ##
@@ -25,7 +25,7 @@
 ## @example
 ## @group
 ## date ()
-##   @result{} "20-Aug-1993"
+##   @result{} 20-Aug-1993
 ## @end group
 ## @end example
 ## @seealso{now, clock, datestr, localtime}

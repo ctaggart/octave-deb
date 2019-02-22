@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 1996-2018 John W. Eaton
+Copyright (C) 1996-2019 John W. Eaton
 
 This file is part of Octave.
 
@@ -28,7 +28,9 @@ along with Octave; see the file COPYING.  If not, see
 #include <cstring>
 
 #include <complex>
+#include <istream>
 #include <limits>
+#include <ostream>
 #include <string>
 
 #include "quit.h"
@@ -37,7 +39,6 @@ along with Octave; see the file COPYING.  If not, see
 #include "lo-ieee.h"
 #include "lo-mappers.h"
 #include "lo-utils.h"
-#include "putenv-wrapper.h"
 
 bool xis_int_or_inf_or_nan (double x)
 { return octave::math::isnan (x) || octave::math::x_nint (x) == x; }
@@ -83,30 +84,6 @@ strsave (const char *s)
   return tmp;
 }
 
-// This function was adapted from xputenv from Karl Berry's kpathsearch
-// library.
-
-// FIXME: make this do the right thing if we don't have a SMART_PUTENV.
-
-void
-octave_putenv (const std::string& name, const std::string& value)
-{
-  int new_len = name.length () + value.length () + 2;
-
-  // FIXME: This leaks memory, but so would a call to setenv.
-  // Short of extreme measures to track memory, altering the environment
-  // always leaks memory, but the saving grace is that the leaks are small.
-  char *new_item = static_cast<char *> (std::malloc (new_len));
-
-  sprintf (new_item, "%s=%s", name.c_str (), value.c_str ());
-
-  // As far as I can see there's no way to distinguish between the
-  // various errors; putenv doesn't have errno values.
-
-  if (octave_putenv_wrapper (new_item) < 0)
-    (*current_liboctave_error_handler) ("putenv (%s) failed", new_item);
-}
-
 std::string
 octave_fgets (FILE *f)
 {
@@ -125,6 +102,9 @@ octave_fgets (FILE *f, bool& eof)
   int max_size = grow_size;
 
   char *buf = static_cast<char *> (std::malloc (max_size));
+  if (! buf)
+    (*current_liboctave_error_handler) ("octave_fgets: unable to malloc %d bytes", max_size);
+
   char *bufptr = buf;
   int len = 0;
 
@@ -139,7 +119,13 @@ octave_fgets (FILE *f, bool& eof)
               int tmp = bufptr - buf + grow_size - 1;
               grow_size *= 2;
               max_size += grow_size;
-              buf = static_cast<char *> (std::realloc (buf, max_size));
+              auto tmpbuf = static_cast<char *> (std::realloc (buf, max_size));
+              if (! tmpbuf)
+                {
+                  free (buf);
+                  (*current_liboctave_error_handler) ("octave_fgets: unable to realloc %d bytes", max_size);
+                }
+              buf = tmpbuf;
               bufptr = buf + tmp;
 
               if (*(bufptr-1) == '\n')
@@ -237,6 +223,8 @@ read_inf_nan_na (std::istream& is, char c0)
                 val = octave::numeric_limits<T>::NA ();
                 if (c2 != std::istream::traits_type::eof ())
                   is.putback (c2);
+                else
+                  is.clear (is.rdstate () & ~std::ios::failbit);
               }
           }
         else
@@ -245,7 +233,8 @@ read_inf_nan_na (std::istream& is, char c0)
       break;
 
     default:
-      (*current_liboctave_error_handler) ("read_inf_nan_na: invalid character '%c'");
+      (*current_liboctave_error_handler)
+        ("read_inf_nan_na: invalid character '%c'", c0);
     }
 
   return val;

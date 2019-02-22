@@ -1,4 +1,4 @@
-## Copyright (C) 1993-2018 John W. Eaton
+## Copyright (C) 1993-2019 John W. Eaton
 ##
 ## This file is part of Octave.
 ##
@@ -29,10 +29,19 @@
 ## @example
 ## @group
 ## [aa, bb, q, z] = qzhess ([1, 2; 3, 4], [5, 6; 7, 8])
-##      @result{} aa = [ -3.02244, -4.41741;  0.92998,  0.69749 ]
-##      @result{} bb = [ -8.60233, -9.99730;  0.00000, -0.23250 ]
-##      @result{}  q = [ -0.58124, -0.81373; -0.81373,  0.58124 ]
-##      @result{}  z = [ 1, 0; 0, 1 ]
+##   @result{} aa =
+##       -3.02244  -4.41741
+##        0.92998   0.69749
+##   @result{} bb =
+##       -8.60233  -9.99730
+##        0.00000  -0.23250
+##   @result{} q =
+##       -0.58124  -0.81373
+##       -0.81373   0.58124
+##   @result{} z =
+##      Diagonal Matrix
+##        1   0
+##        0   1
 ## @end group
 ## @end example
 ##

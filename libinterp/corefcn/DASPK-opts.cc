@@ -6,7 +6,8 @@
 // this file.
 
 #include <iomanip>
-#include <iostream>
+#include <ostream>
+#include <sstream>
 
 #include "DASPK-opts.h"
 
@@ -318,91 +319,91 @@ set_DASPK_options (const std::string& keyword, const octave_value& val)
 {
   DASPK_options_struct *list = DASPK_options_table;
 
-  if (keyword_almost_match (list[0].kw_tok, list[0].min_len,
+  if (octave::keyword_almost_match (list[0].kw_tok, list[0].min_len,
            keyword, list[0].min_toks_to_match, MAX_TOKENS))
     {
       Array<double> tmp = val.vector_value ();
 
       daspk_opts.set_absolute_tolerance (tmp);
     }
-  else if (keyword_almost_match (list[1].kw_tok, list[1].min_len,
+  else if (octave::keyword_almost_match (list[1].kw_tok, list[1].min_len,
            keyword, list[1].min_toks_to_match, MAX_TOKENS))
     {
       Array<double> tmp = val.vector_value ();
 
       daspk_opts.set_relative_tolerance (tmp);
     }
-  else if (keyword_almost_match (list[2].kw_tok, list[2].min_len,
+  else if (octave::keyword_almost_match (list[2].kw_tok, list[2].min_len,
            keyword, list[2].min_toks_to_match, MAX_TOKENS))
     {
       int tmp = val.int_value ();
 
       daspk_opts.set_compute_consistent_initial_condition (tmp);
     }
-  else if (keyword_almost_match (list[3].kw_tok, list[3].min_len,
+  else if (octave::keyword_almost_match (list[3].kw_tok, list[3].min_len,
            keyword, list[3].min_toks_to_match, MAX_TOKENS))
     {
       int tmp = val.int_value ();
 
       daspk_opts.set_use_initial_condition_heuristics (tmp);
     }
-  else if (keyword_almost_match (list[4].kw_tok, list[4].min_len,
+  else if (octave::keyword_almost_match (list[4].kw_tok, list[4].min_len,
            keyword, list[4].min_toks_to_match, MAX_TOKENS))
     {
       Array<double> tmp = val.vector_value ();
 
       daspk_opts.set_initial_condition_heuristics (tmp);
     }
-  else if (keyword_almost_match (list[5].kw_tok, list[5].min_len,
+  else if (octave::keyword_almost_match (list[5].kw_tok, list[5].min_len,
            keyword, list[5].min_toks_to_match, MAX_TOKENS))
     {
       int tmp = val.int_value ();
 
       daspk_opts.set_print_initial_condition_info (tmp);
     }
-  else if (keyword_almost_match (list[6].kw_tok, list[6].min_len,
+  else if (octave::keyword_almost_match (list[6].kw_tok, list[6].min_len,
            keyword, list[6].min_toks_to_match, MAX_TOKENS))
     {
       int tmp = val.int_value ();
 
       daspk_opts.set_exclude_algebraic_variables_from_error_test (tmp);
     }
-  else if (keyword_almost_match (list[7].kw_tok, list[7].min_len,
+  else if (octave::keyword_almost_match (list[7].kw_tok, list[7].min_len,
            keyword, list[7].min_toks_to_match, MAX_TOKENS))
     {
       Array<int> tmp = val.int_vector_value ();
 
       daspk_opts.set_algebraic_variables (tmp);
     }
-  else if (keyword_almost_match (list[8].kw_tok, list[8].min_len,
+  else if (octave::keyword_almost_match (list[8].kw_tok, list[8].min_len,
            keyword, list[8].min_toks_to_match, MAX_TOKENS))
     {
       int tmp = val.int_value ();
 
       daspk_opts.set_enforce_inequality_constraints (tmp);
     }
-  else if (keyword_almost_match (list[9].kw_tok, list[9].min_len,
+  else if (octave::keyword_almost_match (list[9].kw_tok, list[9].min_len,
            keyword, list[9].min_toks_to_match, MAX_TOKENS))
     {
       Array<int> tmp = val.int_vector_value ();
 
       daspk_opts.set_inequality_constraint_types (tmp);
     }
-  else if (keyword_almost_match (list[10].kw_tok, list[10].min_len,
+  else if (octave::keyword_almost_match (list[10].kw_tok, list[10].min_len,
            keyword, list[10].min_toks_to_match, MAX_TOKENS))
     {
       double tmp = val.double_value ();
 
       daspk_opts.set_initial_step_size (tmp);
     }
-  else if (keyword_almost_match (list[11].kw_tok, list[11].min_len,
+  else if (octave::keyword_almost_match (list[11].kw_tok, list[11].min_len,
            keyword, list[11].min_toks_to_match, MAX_TOKENS))
     {
       int tmp = val.int_value ();
 
       daspk_opts.set_maximum_order (tmp);
     }
-  else if (keyword_almost_match (list[12].kw_tok, list[12].min_len,
+  else if (octave::keyword_almost_match (list[12].kw_tok, list[12].min_len,
            keyword, list[12].min_toks_to_match, MAX_TOKENS))
     {
       double tmp = val.double_value ();
@@ -422,7 +423,7 @@ show_DASPK_options (const std::string& keyword)
 
   DASPK_options_struct *list = DASPK_options_table;
 
-  if (keyword_almost_match (list[0].kw_tok, list[0].min_len,
+  if (octave::keyword_almost_match (list[0].kw_tok, list[0].min_len,
            keyword, list[0].min_toks_to_match, MAX_TOKENS))
     {
       Array<double> val = daspk_opts.absolute_tolerance ();
@@ -436,7 +437,7 @@ show_DASPK_options (const std::string& keyword)
           retval = ColumnVector (val);
         }
     }
-  else if (keyword_almost_match (list[1].kw_tok, list[1].min_len,
+  else if (octave::keyword_almost_match (list[1].kw_tok, list[1].min_len,
            keyword, list[1].min_toks_to_match, MAX_TOKENS))
     {
       Array<double> val = daspk_opts.relative_tolerance ();
@@ -450,21 +451,21 @@ show_DASPK_options (const std::string& keyword)
           retval = ColumnVector (val);
         }
     }
-  else if (keyword_almost_match (list[2].kw_tok, list[2].min_len,
+  else if (octave::keyword_almost_match (list[2].kw_tok, list[2].min_len,
            keyword, list[2].min_toks_to_match, MAX_TOKENS))
     {
       int val = daspk_opts.compute_consistent_initial_condition ();
 
       retval = static_cast<double> (val);
     }
-  else if (keyword_almost_match (list[3].kw_tok, list[3].min_len,
+  else if (octave::keyword_almost_match (list[3].kw_tok, list[3].min_len,
            keyword, list[3].min_toks_to_match, MAX_TOKENS))
     {
       int val = daspk_opts.use_initial_condition_heuristics ();
 
       retval = static_cast<double> (val);
     }
-  else if (keyword_almost_match (list[4].kw_tok, list[4].min_len,
+  else if (octave::keyword_almost_match (list[4].kw_tok, list[4].min_len,
            keyword, list[4].min_toks_to_match, MAX_TOKENS))
     {
       Array<double> val = daspk_opts.initial_condition_heuristics ();
@@ -478,21 +479,21 @@ show_DASPK_options (const std::string& keyword)
           retval = ColumnVector (val);
         }
     }
-  else if (keyword_almost_match (list[5].kw_tok, list[5].min_len,
+  else if (octave::keyword_almost_match (list[5].kw_tok, list[5].min_len,
            keyword, list[5].min_toks_to_match, MAX_TOKENS))
     {
       int val = daspk_opts.print_initial_condition_info ();
 
       retval = static_cast<double> (val);
     }
-  else if (keyword_almost_match (list[6].kw_tok, list[6].min_len,
+  else if (octave::keyword_almost_match (list[6].kw_tok, list[6].min_len,
            keyword, list[6].min_toks_to_match, MAX_TOKENS))
     {
       int val = daspk_opts.exclude_algebraic_variables_from_error_test ();
 
       retval = static_cast<double> (val);
     }
-  else if (keyword_almost_match (list[7].kw_tok, list[7].min_len,
+  else if (octave::keyword_almost_match (list[7].kw_tok, list[7].min_len,
            keyword, list[7].min_toks_to_match, MAX_TOKENS))
     {
       Array<octave_idx_type> val = daspk_opts.algebraic_variables ();
@@ -510,14 +511,14 @@ show_DASPK_options (const std::string& keyword)
           retval = tmp;
         }
     }
-  else if (keyword_almost_match (list[8].kw_tok, list[8].min_len,
+  else if (octave::keyword_almost_match (list[8].kw_tok, list[8].min_len,
            keyword, list[8].min_toks_to_match, MAX_TOKENS))
     {
       int val = daspk_opts.enforce_inequality_constraints ();
 
       retval = static_cast<double> (val);
     }
-  else if (keyword_almost_match (list[9].kw_tok, list[9].min_len,
+  else if (octave::keyword_almost_match (list[9].kw_tok, list[9].min_len,
            keyword, list[9].min_toks_to_match, MAX_TOKENS))
     {
       Array<octave_idx_type> val = daspk_opts.inequality_constraint_types ();
@@ -535,21 +536,21 @@ show_DASPK_options (const std::string& keyword)
           retval = tmp;
         }
     }
-  else if (keyword_almost_match (list[10].kw_tok, list[10].min_len,
+  else if (octave::keyword_almost_match (list[10].kw_tok, list[10].min_len,
            keyword, list[10].min_toks_to_match, MAX_TOKENS))
     {
       double val = daspk_opts.initial_step_size ();
 
       retval = val;
     }
-  else if (keyword_almost_match (list[11].kw_tok, list[11].min_len,
+  else if (octave::keyword_almost_match (list[11].kw_tok, list[11].min_len,
            keyword, list[11].min_toks_to_match, MAX_TOKENS))
     {
       int val = daspk_opts.maximum_order ();
 
       retval = static_cast<double> (val);
     }
-  else if (keyword_almost_match (list[12].kw_tok, list[12].min_len,
+  else if (octave::keyword_almost_match (list[12].kw_tok, list[12].min_len,
            keyword, list[12].min_toks_to_match, MAX_TOKENS))
     {
       double val = daspk_opts.maximum_step_size ();

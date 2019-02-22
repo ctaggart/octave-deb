@@ -1,6 +1,6 @@
 @c DO NOT EDIT!  Generated automatically by munge-texi.pl.
 
-@c Copyright (C) 1996-2018 John W. Eaton
+@c Copyright (C) 1996-2019 John W. Eaton
 @c
 @c This file is part of Octave.
 @c
@@ -428,7 +428,7 @@ For example:
 @example
 @group
 fix (clock ())
-     @result{} [ 1993, 8, 20, 4, 56, 1 ]
+  @result{}   1993      8     20      4     56      1
 @end group
 @end example
 
@@ -448,7 +448,7 @@ For example:
 @example
 @group
 date ()
-  @result{} "20-Aug-1993"
+  @result{} 20-Aug-1993
 @end group
 @end example
 @seealso{@ref{XREFnow,,now}, @ref{XREFclock,,clock}, @ref{XREFdatestr,,datestr}, @ref{XREFlocaltime,,localtime}}
@@ -594,13 +594,14 @@ seconds elapsed since the timer @var{id} was initialized.
 @anchor{XREFpause}
 @deftypefn  {} {} pause ()
 @deftypefnx {} {} pause (@var{n})
-Suspend the execution of the program for @var{n} seconds.
+@deftypefnx {} {@var{old_state} =} pause ("on")
+@deftypefnx {} {@var{old_state} =} pause ("off")
+@deftypefnx {} {@var{old_state} =} pause ("query")
+Suspend the execution of the program or change the state of the pause function.
 
 If invoked without an input arguments then the program is suspended until a
-character is typed.
-
-@var{n} is a positive real value and may be a fraction of a second,
-for example:
+character is typed.  If argument @var{n} is a positive real value, it indicates
+the number of seconds the program shall be suspended, for example:
 
 @example
 @group
@@ -619,6 +620,24 @@ pause (5);
 clc;
 @end group
 @end example
+
+If invoked with a string argument @qcode{"on"}, @qcode{"off"}, or
+@qcode{"query"}, the state of the pause function is changed or queried.  When
+the state is @qcode{"off"}, the pause function returns immediately.  The
+optional return value contains the previous state of the pause function.  In
+the following example pause is disabled locally:
+
+@example
+@group
+old_state = pause ("off");
+tic; pause (0.05); toc
+     @print{} Elapsed time is 3.00407e-05 seconds.
+pause (old_state);
+@end group
+@end example
+
+While the program is suspended Octave still handles figures painting and
+graphics callbacks execution.
 
 @seealso{@ref{XREFkbhit,,kbhit}}
 @end deftypefn
@@ -684,6 +703,13 @@ Days before the beginning of the month go to the previous month.
 Days can be fractional.
 @end itemize
 
+@strong{Caution:} datenums represent a specific time for the Earth as a
+a whole.  They do not take in to account time zones (shifts in time based
+on location), nor seasonal changes due to Daylight Savings Time (shifts in
+time based on local regulation).  Be aware that it is possible to create
+datenums that, when interpreted by a function which accounts for time zone
+and DST shifts such as @code{datestr}, are nonexistent or ambiguous.
+
 @strong{Caution:} this function does not attempt to handle Julian calendars
 so dates before October 15, 1582 are wrong by as much as eleven days.  Also,
 be aware that only Roman Catholic countries adopted the calendar in 1582.
@@ -692,6 +718,7 @@ on the Gregorian calendar for more details.
 
 @strong{Warning:} leap seconds are ignored.  A table of leap seconds is
 available on the Wikipedia entry for leap seconds.
+
 @seealso{@ref{XREFdatestr,,datestr}, @ref{XREFdatevec,,datevec}, @ref{XREFnow,,now}, @ref{XREFclock,,clock}, @ref{XREFdate,,date}}
 @end deftypefn
 
@@ -704,9 +731,9 @@ available on the Wikipedia entry for leap seconds.
 Format the given date/time according to the format @var{f} and return
 the result in @var{str}.
 
-@var{date} is a serial date number (see @code{datenum}) or a date vector
-(see @code{datevec}).  The value of @var{date} may also be a string or cell
-array of strings.
+@var{date} is a serial date number (see @code{datenum}), a date vector (see
+@code{datevec}), or a string or cell array of strings.  In the latter case,
+it is passed to @code{datevec} to guess the input date format.
 
 @var{f} can be an integer which corresponds to one of the codes in the table
 below, or a date format string.
@@ -1054,15 +1081,16 @@ error message.
 Create a directory named @var{dirname} in the directory @var{parent},
 creating any intermediate directories if necessary.
 
-If @var{dir} is a relative path, and no @var{parent} directory is specified,
-then the present working directory is used.
+If @var{dirname} is a relative path, and no @var{parent} directory is
+specified, then the present working directory is used.
 
 If successful, @var{status} is 1, and @var{msg} and @var{msgid} are empty
 strings ("").  Otherwise, @var{status} is 0, @var{msg} contains a
 system-dependent error message, and @var{msgid} contains a unique message
 identifier.
 
-When creating a directory permissions will be set to @code{0777 - UMASK}.
+When creating a directory permissions will be set to
+@w{@code{0777 - UMASK}}.
 
 @seealso{@ref{XREFrmdir,,rmdir}, @ref{XREFpwd,,pwd}, @ref{XREFcd,,cd}, @ref{XREFumask,,umask}}
 @end deftypefn
@@ -1231,7 +1259,7 @@ For example:
   @result{} err = 0
   @result{} msg =
 @end example
-@seealso{@ref{XREFlstat,,lstat}, @ref{XREFls,,ls}, @ref{XREFdir,,dir}}
+@seealso{@ref{XREFlstat,,lstat}, @ref{XREFls,,ls}, @ref{XREFdir,,dir}, @ref{XREFisfile,,isfile}, @ref{XREFisfolder,,isfolder}}
 @end deftypefn
 
 
@@ -1368,11 +1396,47 @@ the matching files.
 @end deftypefn
 
 
-@c isdir scripts/miscellaneous/isdir.m
+@c isfile scripts/miscellaneous/isfile.m
+@anchor{XREFisfile}
+@deftypefn {} {@var{tf} =} isfile (@var{f})
+Return true if @var{f} is a regular file and false otherwise.
+
+If @var{f} is a cell array of strings, @var{tf} is a logical array of the
+same size.
+@seealso{@ref{XREFisfolder,,isfolder}, @ref{XREFexist,,exist}, @ref{XREFstat,,stat}, @ref{XREFis_absolute_filename,,is_absolute_filename}, @ref{XREFis_rooted_relative_filename,,is_rooted_relative_filename}}
+@end deftypefn
+
+
+@c isdir scripts/legacy/isdir.m
 @anchor{XREFisdir}
 @deftypefn {} {} isdir (@var{f})
-Return true if @var{f} is a directory.
-@seealso{@ref{XREFexist,,exist}, @ref{XREFstat,,stat}, @ref{XREFis_absolute_filename,,is_absolute_filename}, @ref{XREFis_rooted_relative_filename,,is_rooted_relative_filename}}
+
+This function is not recommended.  Use @code{isfolder} or
+@code{file_in_loadpath} instead.
+
+Return true if @var{f} is a directory and false otherwise.
+
+Compatibility Note: The @sc{matlab} function of the same name will also
+search for @var{f} in the load path directories.  To emulate this behavior
+use
+
+@example
+@var{tf} = ! isempty (file_in_loadpath (@var{f}))
+@end example
+
+@seealso{@ref{XREFisfolder,,isfolder}, @ref{XREFfile_in_loadpath,,file_in_loadpath}, @ref{XREFexist,,exist}, @ref{XREFstat,,stat}, @ref{XREFis_absolute_filename,,is_absolute_filename}, @ref{XREFis_rooted_relative_filename,,is_rooted_relative_filename}}
+@end deftypefn
+
+
+@c isfolder scripts/miscellaneous/isfolder.m
+@anchor{XREFisfolder}
+@deftypefn  {} {} isfolder (@var{f})
+@deftypefnx {} {@var{tf} =} isfolder (@var{f})
+Return true if @var{f} is a directory and false otherwise.
+
+If @var{f} is a cell array of strings, @var{tf} is a logical array of the
+same size.
+@seealso{@ref{XREFisfile,,isfile}, @ref{XREFexist,,exist}, @ref{XREFstat,,stat}, @ref{XREFis_absolute_filename,,is_absolute_filename}, @ref{XREFis_rooted_relative_filename,,is_rooted_relative_filename}}
 @end deftypefn
 
 
@@ -1512,9 +1576,12 @@ filepaths, one for each element in the last component, e.g.:
 @example
 @group
 fullfile ("/home/username", "data", @{"f1.csv", "f2.csv", "f3.csv"@})
-@result{}  /home/username/data/f1.csv
-    /home/username/data/f2.csv
-    /home/username/data/f3.csv
+  @result{}
+      @{
+        [1,1] = /home/username/data/f1.csv
+        [1,2] = /home/username/data/f2.csv
+        [1,3] = /home/username/data/f3.csv
+      @}
 @end group
 @end example
 
@@ -1574,7 +1641,7 @@ Return the full name of @var{file} beginning from the root of the file
 system.
 
 No check is done for the existence of @var{file}.
-@seealso{@ref{XREFcanonicalize_file_name,,canonicalize_file_name}, @ref{XREFis_absolute_filename,,is_absolute_filename}, @ref{XREFis_rooted_relative_filename,,is_rooted_relative_filename}, @ref{XREFisdir,,isdir}}
+@seealso{@ref{XREFcanonicalize_file_name,,canonicalize_file_name}, @ref{XREFis_absolute_filename,,is_absolute_filename}, @ref{XREFis_rooted_relative_filename,,is_rooted_relative_filename}, @ref{XREFisfolder,,isfolder}}
 @end deftypefn
 
 
@@ -1582,7 +1649,7 @@ No check is done for the existence of @var{file}.
 @anchor{XREFis_absolute_filename}
 @deftypefn {} {} is_absolute_filename (@var{file})
 Return true if @var{file} is an absolute filename.
-@seealso{@ref{XREFis_rooted_relative_filename,,is_rooted_relative_filename}, @ref{XREFmake_absolute_filename,,make_absolute_filename}, @ref{XREFisdir,,isdir}}
+@seealso{@ref{XREFis_rooted_relative_filename,,is_rooted_relative_filename}, @ref{XREFmake_absolute_filename,,make_absolute_filename}, @ref{XREFisfolder,,isfolder}}
 @end deftypefn
 
 
@@ -1590,7 +1657,7 @@ Return true if @var{file} is an absolute filename.
 @anchor{XREFis_rooted_relative_filename}
 @deftypefn {} {} is_rooted_relative_filename (@var{file})
 Return true if @var{file} is a rooted-relative filename.
-@seealso{@ref{XREFis_absolute_filename,,is_absolute_filename}, @ref{XREFmake_absolute_filename,,make_absolute_filename}, @ref{XREFisdir,,isdir}}
+@seealso{@ref{XREFis_absolute_filename,,is_absolute_filename}, @ref{XREFmake_absolute_filename,,make_absolute_filename}, @ref{XREFisfolder,,isfolder}}
 @end deftypefn
 
 
@@ -1616,8 +1683,9 @@ loss an error will be raised if an attempt is made to enable file recycling.
 
 @c bunzip2 scripts/miscellaneous/bunzip2.m
 @anchor{XREFbunzip2}
-@deftypefn  {} {@var{filelist} =} bunzip2 (@var{bzfile})
-@deftypefnx {} {@var{filelist} =} bunzip2 (@var{bzfile}, @var{dir})
+@deftypefn  {} {} bunzip2 (@var{bzfile})
+@deftypefnx {} {} bunzip2 (@var{bzfile}, @var{dir})
+@deftypefnx {} {@var{filelist} =} bunzip2 (@dots{})
 Unpack the bzip2 archive @var{bzfile}.
 
 If @var{dir} is specified the files are unpacked in this directory rather
@@ -1657,8 +1725,9 @@ The optional output @var{filelist} is a list of the compressed files.
 
 @c gunzip scripts/miscellaneous/gunzip.m
 @anchor{XREFgunzip}
-@deftypefn  {} {@var{filelist} =} gunzip (@var{gzfile})
-@deftypefnx {} {@var{filelist} =} gunzip (@var{gzfile}, @var{dir})
+@deftypefn  {} {} gunzip (@var{gzfile})
+@deftypefnx {} {} gunzip (@var{gzfile}, @var{dir})
+@deftypefnx {} {@var{filelist} =} gunzip (@dots{})
 Unpack the gzip archive @var{gzfile}.
 
 If @var{gzfile} is a directory, all gzfiles in the directory will be
@@ -1697,6 +1766,7 @@ in the archive.
 @anchor{XREFuntar}
 @deftypefn  {} {} untar (@var{tarfile})
 @deftypefnx {} {} untar (@var{tarfile}, @var{dir})
+@deftypefnx {} {@var{filelist} =} untar (@dots{})
 Unpack the TAR archive @var{tarfile}.
 
 If @var{dir} is specified the files are unpacked in this directory rather
@@ -1730,8 +1800,9 @@ in the archive.
 
 @c unzip scripts/miscellaneous/unzip.m
 @anchor{XREFunzip}
-@deftypefn  {} {@var{filelist} =} unzip (@var{zipfile})
-@deftypefnx {} {@var{filelist} =} unzip (@var{zipfile}, @var{dir})
+@deftypefn  {} {} unzip (@var{zipfile})
+@deftypefnx {} {} unzip (@var{zipfile}, @var{dir})
+@deftypefnx {} {@var{filelist} =} unzip (@dots{})
 Unpack the ZIP archive @var{zipfile}.
 
 If @var{dir} is specified the files are unpacked in this directory rather
@@ -2253,18 +2324,44 @@ given, then @var{text} is also sent to standard output.
 Open the file @var{file} in Octave or in an external application based on
 the file type as determined by the filename extension.
 
-Recognized file types are
+By default, recognized file types are
 
 @table @code
 @item .m
-Open file in the editor.
+Open file in the editor.  No @var{output} value is returned.
 
-@item .mat
-Load the file in the base workspace.
+@item  .mat
+@itemx octave-workspace
+Open the data file with @code{load}.  If no return value @var{output}
+is requested, variables are loaded in the base workspace.  Otherwise
+@var{output} will be a structure containing loaded data.
+@xref{XREFload, , load function}.
+
+@item .ofig
+Open the figure with hgload.  @xref{XREFhgload, , hgload function}.
+
+@item .fig, .ofig
+Load the figure
 
 @item .exe
-Execute the program (on Windows systems only).
+Execute the program (on Windows systems only).  No @var{output} value
+is returned.
 @end table
+
+Custom file extensions may also be handled if a function @code{openxxx},
+where @code{xxx} is the extension, is found in the load path.  The function
+must accept the file name as input.  For example, in order to load
+@nospell{@qcode{".dat"}} data files in the base workspace, as is done by
+default for @qcode{".mat"} files, one may define
+@nospell{@qcode{"opendat.m"}} with the following contents:
+
+@example
+@group
+function retval = opendat (fname)
+  evalin ("base", sprintf ("load ('%s');", fname));
+endfunction
+@end group
+@end example
 
 Other file types are opened in the appropriate external application.
 @end deftypefn
@@ -3178,10 +3275,10 @@ printed.  For example:
 @example
 @group
 computer ()
-   @print{} i586-pc-linux-gnu
+   @print{} x86_64-pc-linux-gnu
 
 mycomp = computer ()
-   @result{} mycomp = "i586-pc-linux-gnu"
+   @result{} mycomp = x86_64-pc-linux-gnu
 @end group
 @end example
 

@@ -1,7 +1,7 @@
 /*
 
-Copyright (C) 2013-2018 John W. Eaton
-Copyright (C) 2011-2018 Jacob Dawid
+Copyright (C) 2013-2019 John W. Eaton
+Copyright (C) 2011-2019 Jacob Dawid
 
 This file is part of Octave.
 
@@ -26,6 +26,7 @@ along with Octave; see the file COPYING.  If not, see
 #endif
 
 #include <QApplication>
+#include <QDesktopWidget>
 #include <QPushButton>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
@@ -63,8 +64,18 @@ namespace octave
     setWindowTitle (tr ("Welcome to GNU Octave"));
 
     setEnabled (true);
-    resize (600, 480);
-    setMinimumSize (QSize (600, 480));
+
+    QDesktopWidget *m_desktop = QApplication::desktop ();
+    int screen = m_desktop->screenNumber (this);  // screen of the main window
+    QRect screen_geo = m_desktop->availableGeometry (screen);
+
+    int win_x = screen_geo.width ();        // width of the screen
+    int win_y = screen_geo.height ();       // height of the screen
+    int ww_x = std::max (win_x/2, 600);    // desired width
+    int ww_y = std::max (win_y*2/3, 480);  // desired height
+
+    resize (ww_x, ww_y);
+    setMinimumSize (QSize (ww_x, ww_y));
 
     show_page ();
 
@@ -309,11 +320,11 @@ namespace octave
            "<style>\n"
            "a:link { text-decoration: underline; color: #0000ff; }\n"
            "</style>\n"
-           "<head/><body>\n"
+           "</head><body>\n"
            "<p>For more information about Octave:</p>\n"
            "<ul>\n"
            "<li>Visit <a href=\"https://octave.org\">https://octave.org</a> (opens in external browser)</li>\n"
-           "<li>Get the documentation online as <a href=\"https://www.gnu.org/software/octave/doc/interpreter/index.html\">html</a>- or <a href=\"https://www.gnu.org/software/octave/octave.pdf\">pdf</span></a>-document (opens in external browser)</li>\n"
+           "<li>Get the documentation online as <a href=\"https://www.gnu.org/software/octave/doc/interpreter/index.html\">html</a>- or <a href=\"https://www.gnu.org/software/octave/octave.pdf\">pdf</a>-document (opens in external browser)</li>\n"
            "<li>Open the documentation browser of the Octave GUI with the help menu</li>\n"
            "</ul>\n"
            "</body></html>"));

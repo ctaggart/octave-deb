@@ -1,4 +1,4 @@
-## Copyright (C) 2007-2018 Jordi Gutiérrez Hermoso
+## Copyright (C) 2007-2019 Jordi Gutiérrez Hermoso
 ## Copyright (C) 2007 Stallmanfacts.com
 ##
 ## This file is part of Octave.
@@ -274,7 +274,7 @@ function out = wordwrap (w)
   out = "\n";
   i = 1;
   numwords = numel (wc);
-  while (i <= numwords);
+  while (i <= numwords)
     line = wc{i};
     while (i < numwords
            && length (newline = [line " " wc{i+1}]) < ncol)

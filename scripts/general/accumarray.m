@@ -1,4 +1,4 @@
-## Copyright (C) 2007-2018 David Bateman
+## Copyright (C) 2007-2019 David Bateman
 ## Copyright (C) 2009-2010 VZLU Prague
 ##
 ## This file is part of Octave.
@@ -278,7 +278,7 @@ function A = accumarray (subs, vals, sz = [], func = [], fillval = [], issparse 
       ## Fast maximization.
 
       if (isinteger (vals))
-        zero = intmin (class (vals));
+        zero = intmin (vals);
       elseif (islogical (vals))
         zero = false;
       elseif (fillval == 0 && all (vals(:) >= 0))
@@ -305,7 +305,7 @@ function A = accumarray (subs, vals, sz = [], func = [], fillval = [], issparse 
       ## Fast minimization.
 
       if (isinteger (vals))
-        zero = intmax (class (vals));
+        zero = intmax (vals);
       elseif (islogical (vals))
         zero = true;
       elseif (fillval == 0 && all (vals(:) <= 0))

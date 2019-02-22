@@ -3,10 +3,10 @@
 <!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Patch Properties (GNU Octave (version 4.4.1))</title>
+<title>Patch Properties (GNU Octave (version 5.0.91))</title>
 
-<meta name="description" content="Patch Properties (GNU Octave (version 4.4.1))">
-<meta name="keywords" content="Patch Properties (GNU Octave (version 4.4.1))">
+<meta name="description" content="Patch Properties (GNU Octave (version 5.0.91))">
+<meta name="keywords" content="Patch Properties (GNU Octave (version 5.0.91))">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
@@ -200,18 +200,18 @@ Patch color can be defined for faces or for vertices.
 <a name="XREFpatchfacenormals"></a><a name="index-patch-facenormals"></a>
 </dd>
 <dt><code>facenormals</code>: def. <code>[](0x0)</code></dt>
-<dd>
-
+<dd><p>Face normals are used for lighting the edges or faces if the <code>edgelighting</code> or <code>facelighting</code> properties are set to <code>&quot;flat&quot;</code>.  Setting <code>facenormals</code> also forces the <code>facenormalsmode</code> property to be set to <code>&quot;manual&quot;</code>
+</p>
 
 <a name="XREFpatchfacenormalsmode"></a><a name="index-patch-facenormalsmode"></a>
 </dd>
 <dt><code>facenormalsmode</code>: {<code>&quot;auto&quot;</code>} | <code>&quot;manual&quot;</code></dt>
-<dd>
-
+<dd><p>If this property is set to <code>&quot;auto&quot;</code>, <code>facenormals</code> are automatically calculated if the <code>edgelighting</code> or <code>facelighting</code> property are set to <code>&quot;flat&quot;</code> and at least one <code>light</code> object is present and visible in the same axes.
+</p>
 
 <a name="XREFpatchfaces"></a><a name="index-patch-faces"></a>
 </dd>
-<dt><code>faces</code>: def. <code>[1   2   3]</code></dt>
+<dt><code>faces</code>: vector | matrix, def. <code>[1   2   3]</code></dt>
 <dd>
 
 
@@ -351,14 +351,14 @@ See <a href="Callbacks.html#Callbacks">Callbacks&nbsp;section<!-- /@w --></a>.
 <a name="XREFpatchvertexnormals"></a><a name="index-patch-vertexnormals"></a>
 </dd>
 <dt><code>vertexnormals</code>: def. <code>[](0x0)</code></dt>
-<dd>
-
+<dd><p>Vertex normals are used for lighting the edges or faces if the <code>edgelighting</code> or <code>facelighting</code> properties are set to <code>&quot;gouraud&quot;</code>.  Setting <code>vertexnormals</code> also forces the <code>vertexnormalsmode</code> property to be set to <code>&quot;manual&quot;</code>
+</p>
 
 <a name="XREFpatchvertexnormalsmode"></a><a name="index-patch-vertexnormalsmode"></a>
 </dd>
 <dt><code>vertexnormalsmode</code>: {<code>&quot;auto&quot;</code>} | <code>&quot;manual&quot;</code></dt>
-<dd>
-
+<dd><p>If this property is set to <code>&quot;auto&quot;</code>, <code>vertexnormals</code> are automatically calculated if the <code>edgelighting</code> or <code>facelighting</code> property are set to <code>&quot;gouraud&quot;</code> and at least one <code>light</code> object is present and visible in the same axes.
+</p>
 
 <a name="XREFpatchvertices"></a><a name="index-patch-vertices"></a>
 </dd>

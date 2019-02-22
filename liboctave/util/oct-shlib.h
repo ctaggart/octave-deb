@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 1999-2018 John W. Eaton
+Copyright (C) 1999-2019 John W. Eaton
 Copyright (C) 2009 VZLU Prague
 
 This file is part of Octave.
@@ -201,12 +201,5 @@ namespace octave
     dynlib_rep *rep;
   };
 }
-
-#if defined (OCTAVE_USE_DEPRECATED_FUNCTIONS)
-
-OCTAVE_DEPRECATED (4.2, "use 'octave::dynamic_library' instead")
-typedef octave::dynamic_library octave_shlib;
-
-#endif
 
 #endif

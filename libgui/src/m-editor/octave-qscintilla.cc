@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2013-2018 Torsten
+Copyright (C) 2013-2019 Torsten
 
 This file is part of Octave.
 
@@ -46,18 +46,19 @@ along with Octave; see the file COPYING.  If not, see
 #include <Qsci/qscicommandset.h>
 
 #include <QKeySequence>
+#include <QMimeData>
 #include <QShortcut>
 #include <QToolTip>
 #include <QVBoxLayout>
 
-// FIXME: hardwired marker numbers?
-#include "marker.h"
+#include "gui-preferences.h"
+#include "resource-manager.h"
+#include "shortcut-manager.h"
 
 #include "octave-qscintilla.h"
 #include "file-editor-tab.h"
-#include "shortcut-manager.h"
-#include "resource-manager.h"
-#include "octave-settings.h"
+// FIXME: hardwired marker numbers?
+#include "marker.h"
 
 // Return true if CANDIDATE is a "closing" that matches OPENING,
 // such as "end" or "endif" for "if", or "catch" for "try".
@@ -184,8 +185,8 @@ namespace octave
         // Primary key
         int key = cmd_list_mac.at (i)->key ();
 
-        if (static_cast<int> (key | Qt::META) == key &&
-            static_cast<int> (key | Qt::CTRL) != key)
+        if (static_cast<int> (key | Qt::META) == key
+            && static_cast<int> (key | Qt::CTRL) != key)
           key = (key ^ Qt::META) | Qt::CTRL;
         else if (static_cast<int> (key | Qt::CTRL) == key)
           key = (key ^ Qt::CTRL) | Qt::META;
@@ -195,8 +196,8 @@ namespace octave
         // Alternate key
         key = cmd_list_mac.at (i)->alternateKey ();
 
-        if (static_cast<int> (key | Qt::META) == key &&
-            static_cast<int> (key | Qt::CTRL) != key)
+        if (static_cast<int> (key | Qt::META) == key
+            && static_cast<int> (key | Qt::CTRL) != key)
           key = (key ^ Qt::META) | Qt::CTRL;
         else if (static_cast<int> (key | Qt::CTRL) == key)
           key = (key ^ Qt::CTRL) | Qt::META;
@@ -392,29 +393,29 @@ namespace octave
           if (comment)
             {
               // The commenting string is requested
-              if (settings->contains (oct_comment_str))
+              if (settings->contains (ed_comment_str.key))
                 // new version (radio buttons)
-                comment_string = settings->value (oct_comment_str,
-                                                  oct_comment_str_d).toInt ();
+                comment_string = settings->value (ed_comment_str.key,
+                                                  ed_comment_str.def).toInt ();
               else
                 // old version (combo box)
-                comment_string = settings->value (oct_comment_str_old,
-                                                  oct_comment_str_d).toInt ();
+                comment_string = settings->value (ed_comment_str_old.key,
+                                                  ed_comment_str.def).toInt ();
 
-              return (QStringList (oct_comment_strings.at (comment_string)));
+              return (QStringList (ed_comment_strings.at (comment_string)));
             }
           else
             {
               QStringList c_str;
 
               // The possible uncommenting string(s) are requested
-              comment_string = settings->value (oct_uncomment_str,
-                                                oct_uncomment_str_d).toInt ();
+              comment_string = settings->value (ed_uncomment_str.key,
+                                                ed_uncomment_str.def).toInt ();
 
-              for (int i = 0; i < oct_comment_strings_count; i++)
+              for (int i = 0; i < ed_comment_strings_count; i++)
                 {
                   if (1 << i & comment_string)
-                    c_str.append (oct_comment_strings.at (i));
+                    c_str.append (ed_comment_strings.at (i));
                 }
 
               return c_str;
@@ -503,9 +504,9 @@ namespace octave
   {
     QString prevline = text (line);
 
-    QRegExp bkey = QRegExp ("^[\t ]*(if|for|while|switch|case|otherwise"
+    QRegExp bkey = QRegExp ("^[\t ]*(if|for|while|switch"
                             "|do|function|properties|events|classdef"
-                            "|unwind_protect|unwind_protect_cleanup|try"
+                            "|unwind_protect|try"
                             "|parfor|methods)"
                             "[\r]?[\n\t #%]");
     // last word except for comments, assuming no ' or " in comment.
@@ -548,7 +549,8 @@ namespace octave
         return;
       }
 
-    QRegExp mkey = QRegExp ("^[\t ]*(else|elseif|catch)[\r]?[\t #%\n]");
+    QRegExp mkey = QRegExp ("^[\t ]*(else|elseif|catch|unwind_protect_cleanup)"
+                            "[\r]?[\t #%\n]");
     if (prevline.contains (mkey))
       {
         int prev_ind = indentation (line-1);
@@ -564,8 +566,26 @@ namespace octave
         return;
       }
 
+    QRegExp case_key = QRegExp ("^[\t ]*(case|otherwise)[\r]?[\t #%\n]");
+    if (prevline.contains (case_key) && do_smart_indent)
+      {
+        QString last_line = text (line-1);
+        int act_ind = indentation (line);
+
+        if (last_line.contains ("switch"))
+          {
+            indent (line+1);
+            act_ind = indentation (line+1);
+          }
+        else
+          unindent (line);
+
+        setIndentation (line+1, act_ind);
+        setCursorPosition (line+1, act_ind);
+      }
+
     ekey = QRegExp ("^[\t ]*(end|endif|endfor|endwhile|until|endfunction"
-                    "|end_try_catch|end_unwind_protext)[\r]?[\t #%\n(;]");
+                    "|end_try_catch|end_unwind_protect)[\r]?[\t #%\n(;]");
     if (prevline.contains (ekey))
       {
         if (indentation (line-1) <= indentation (line))
@@ -594,6 +614,12 @@ namespace octave
                  "|unwind_protect|unwind_protect_cleanup|try|catch)"
                  "[\r\n\t #%]");
 
+    QRegExp mid_block_regexp
+      = QRegExp ("^([\t ]*)(elseif|else"
+                 "|otherwise"
+                 "|unwind_protect_cleanup|catch)"
+                 "[\r\n\t #%]");
+
     QRegExp end_block_regexp
       = QRegExp ("^([\t ]*)(end"
                  "|end(for|function|if|parfor|switch|while"
@@ -602,8 +628,13 @@ namespace octave
                  "|until)"
                  "[\r\n\t #%]");
 
+    QRegExp case_block_regexp
+      = QRegExp ("^([\t ]*)(case|otherwise)"
+                 "[\r\n\t #%]");
+
     int indent_column = -1;
     int indent_increment = indentationWidth ();
+    bool in_switch = false;
 
     for (int line = lineFrom-1; line >= 0; line--)
       {
@@ -619,7 +650,11 @@ namespace octave
             indent_column = indentation (line);
 
             if (begin_block_regexp.indexIn (line_text) > -1)
-              indent_column += indent_increment;
+              {
+                indent_column += indent_increment;
+                if (line_text.contains ("switch"))
+                  in_switch = true;
+              }
 
             break;
           }
@@ -628,17 +663,44 @@ namespace octave
     if (indent_column < 0)
       indent_column = indentation (lineFrom);
 
+    QString prev_line;
     for (int line = lineFrom; line <= lineTo; line++)
       {
         QString line_text = text (line);
 
         if (end_block_regexp.indexIn (line_text) > -1)
-          indent_column -= indent_increment;
+          {
+            indent_column -= indent_increment;
+            if (line_text.contains ("endswitch"))
+              {
+                // need a double de-indent for endswitch
+                if (in_switch)
+                  indent_column -= indent_increment;
+                in_switch = false;
+              }
+          }
+
+        if (mid_block_regexp.indexIn (line_text) > -1)
+            indent_column -= indent_increment;
+
+        if (case_block_regexp.indexIn (line_text) > -1)
+          {
+            if (case_block_regexp.indexIn (prev_line) < 0 && !prev_line.contains("switch"))
+              indent_column -= indent_increment;
+            in_switch = true;
+          }
 
         setIndentation (line, indent_column);
 
         if (begin_block_regexp.indexIn (line_text) > -1)
-          indent_column += indent_increment;
+          {
+            indent_column += indent_increment;
+            if (line_text.contains ("switch"))
+              in_switch = true;
+          }
+
+        if (blank_line_regexp.indexIn (line_text) < 0)
+          prev_line = line_text;
       }
   }
 
@@ -961,6 +1023,21 @@ namespace octave
       }
 
     insertAt (QString (start, ' ') + next_line, linenr + 2, 0);
+  }
+
+  void octave_qscintilla::dragEnterEvent (QDragEnterEvent *e)
+  {
+    // if is not dragging a url, pass to qscintilla to handle,
+    // otherwise ignore it so that it will be handled by
+    // the parent
+    if (!e->mimeData ()->hasUrls ())
+      {
+        QsciScintilla::dragEnterEvent (e);
+      }
+    else
+      {
+        e->ignore();
+      }
   }
 }
 

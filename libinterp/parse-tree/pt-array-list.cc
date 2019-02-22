@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2013-2018 John W. Eaton
+Copyright (C) 2013-2019 John W. Eaton
 
 This file is part of Octave.
 
@@ -24,8 +24,6 @@ along with Octave; see the file COPYING.  If not, see
 #  include "config.h"
 #endif
 
-#include <iostream>
-
 #include "quit.h"
 
 #include "error.h"
@@ -37,7 +35,7 @@ namespace octave
   {
     while (! empty ())
       {
-        iterator p = begin ();
+        auto p = begin ();
         delete *p;
         erase (p);
       }

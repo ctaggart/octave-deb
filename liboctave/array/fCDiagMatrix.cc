@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 1994-2018 John W. Eaton
+Copyright (C) 1994-2019 John W. Eaton
 Copyright (C) 2009 VZLU Prague
 
 This file is part of Octave.
@@ -25,7 +25,7 @@ along with Octave; see the file COPYING.  If not, see
 #  include "config.h"
 #endif
 
-#include <iostream>
+#include <ostream>
 
 #include "Array-util.h"
 #include "lo-error.h"
@@ -251,7 +251,7 @@ FloatComplexDiagMatrix::row (octave_idx_type i) const
     (*current_liboctave_error_handler) ("invalid row selection");
 
   FloatComplexRowVector retval (c, 0.0);
-  if (r <= c || (r > c && i < c))
+  if (r <= c || i < c)
     retval.elem (i) = elem (i, i);
 
   return retval;
@@ -263,9 +263,9 @@ FloatComplexDiagMatrix::row (char *s) const
   if (! s)
     (*current_liboctave_error_handler) ("invalid row selection");
 
-  char c = *s;
+  char c = s[0];
   if (c == 'f' || c == 'F')
-    return row (static_cast<octave_idx_type>(0));
+    return row (static_cast<octave_idx_type> (0));
   else if (c == 'l' || c == 'L')
     return row (rows () - 1);
   else
@@ -281,7 +281,7 @@ FloatComplexDiagMatrix::column (octave_idx_type i) const
     (*current_liboctave_error_handler) ("invalid column selection");
 
   FloatComplexColumnVector retval (r, 0.0);
-  if (r >= c || (r < c && i < r))
+  if (r >= c || i < r)
     retval.elem (i) = elem (i, i);
 
   return retval;
@@ -293,9 +293,9 @@ FloatComplexDiagMatrix::column (char *s) const
   if (! s)
     (*current_liboctave_error_handler) ("invalid column selection");
 
-  char c = *s;
+  char c = s[0];
   if (c == 'f' || c == 'F')
-    return column (static_cast<octave_idx_type>(0));
+    return column (static_cast<octave_idx_type> (0));
   else if (c == 'l' || c == 'L')
     return column (cols () - 1);
   else

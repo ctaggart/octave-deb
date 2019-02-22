@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 1996-2018 John W. Eaton
+Copyright (C) 1996-2019 John W. Eaton
 
 This file is part of Octave.
 
@@ -105,7 +105,6 @@ find_nonzero_elem_idx (const Sparse<T>& v, int nargout,
       start_nc = 0;
       end_nc = nc;
       n_to_find = nz;
-      count = nz;
     }
   else if (direction > 0)
     {
@@ -399,7 +398,7 @@ b = sparse (i, j, v, sz(1), sz(2));
       double val = args(1).xscalar_value ("find: N must be an integer");
 
       if (val < 0 || (! octave::math::isinf (val)
-                      && val != octave::math::round (val)))
+                      && val != octave::math::fix (val)))
         error ("find: N must be a non-negative integer");
       else if (! octave::math::isinf (val))
         n_to_find = val;
@@ -409,8 +408,6 @@ b = sparse (i, j, v, sz(1), sz(2));
   int direction = 1;
   if (nargin > 2)
     {
-      direction = 0;
-
       std::string s_arg = args(2).string_value ();
 
       if (s_arg == "first")

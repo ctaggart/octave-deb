@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 1994-2018 John W. Eaton
+Copyright (C) 1994-2019 John W. Eaton
 
 This file is part of Octave.
 
@@ -35,7 +35,7 @@ namespace octave
   {
     while (! empty ())
       {
-        iterator p = begin ();
+        auto p = begin ();
         delete *p;
         erase (p);
       }
@@ -96,7 +96,7 @@ namespace octave
   {
     while (! empty ())
       {
-        iterator p = begin ();
+        auto p = begin ();
         delete *p;
         erase (p);
       }

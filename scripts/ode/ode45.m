@@ -1,7 +1,7 @@
-## Copyright (C) 2016-2018 Carlo de Falco
-## Copyright (C) 2016-2018 Francesco Faccio <francesco.faccio@mail.polimi.it>
-## Copyright (C) 2014-2018 Jacopo Corno <jacopo.corno@gmail.com>
-## Copyright (C) 2013-2018 Roberto Porcu' <roberto.porcu@polimi.it>
+## Copyright (C) 2016-2019 Carlo de Falco
+## Copyright (C) 2016-2019 Francesco Faccio <francesco.faccio@mail.polimi.it>
+## Copyright (C) 2014-2019 Jacopo Corno <jacopo.corno@gmail.com>
+## Copyright (C) 2013-2019 Roberto Porcu' <roberto.porcu@polimi.it>
 ## Copyright (C) 2006-2012 Thomas Treichl <treichl@users.sourceforge.net>
 ##
 ## This file is part of Octave.
@@ -142,7 +142,7 @@ function varargout = ode45 (fun, trange, init, varargin)
       warning (lasterr);
     end_try_catch
   endif
-  if (! isa (fun, "function_handle"))
+  if (! is_function_handle (fun))
     error ("Octave:invalid-input-arg",
            "ode45: FUN must be a valid function handle");
   endif
@@ -199,7 +199,7 @@ function varargout = ode45 (fun, trange, init, varargin)
   if (! isempty (odeopts.Mass) && isnumeric (odeopts.Mass))
     havemasshandle = false;
     mass = odeopts.Mass;  # constant mass
-  elseif (isa (odeopts.Mass, "function_handle"))
+  elseif (is_function_handle (odeopts.Mass))
     havemasshandle = true;    # mass defined by a function handle
   else  # no mass matrix - creating a diag-matrix of ones for mass
     havemasshandle = false;   # mass = diag (ones (length (init), 1), 0);

@@ -1,4 +1,4 @@
-## Copyright (C) 2010-2018 John W. Eaton
+## Copyright (C) 2010-2019 John W. Eaton
 ##
 ## This file is part of Octave.
 ##
@@ -81,6 +81,11 @@ function retval = chop (x, ndigits, base = 10)
 
 endfunction
 
+
+## First test is necessary to provoke 1-time legacy warning
+%!test
+%! warning ("off", "Octave:deprecated-function", "local");
+%! chop (0, 1);
 
 %!assert (chop (e, 3), 2.72)
 %!assert (chop (e, 4), 2.718)

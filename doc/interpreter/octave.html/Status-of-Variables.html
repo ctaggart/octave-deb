@@ -3,10 +3,10 @@
 <!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Status of Variables (GNU Octave (version 4.4.1))</title>
+<title>Status of Variables (GNU Octave (version 5.0.91))</title>
 
-<meta name="description" content="Status of Variables (GNU Octave (version 4.4.1))">
-<meta name="keywords" content="Status of Variables (GNU Octave (version 4.4.1))">
+<meta name="description" content="Status of Variables (GNU Octave (version 5.0.91))">
+<meta name="keywords" content="Status of Variables (GNU Octave (version 5.0.91))">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
@@ -381,13 +381,112 @@ program allocates a matrix that requires around 128 MB memory.
 
 <p>Since having this variable in memory might slow down other computations,
 it can be necessary to remove it manually from memory.  The <code>clear</code>
-function allows this.
+or <code>clearvars</code> functions do this.
 </p>
 <a name="XREFclear"></a><dl>
-<dt><a name="index-clear"></a><em></em> <strong>clear</strong> <em>[options] pattern &hellip;</em></dt>
-<dd><p>Delete the names matching the given patterns from the symbol table.
+<dt><a name="index-clear"></a><em></em> <strong>clear</strong></dt>
+<dt><a name="index-clear-1"></a><em></em> <strong>clear</strong> <em><var>pattern</var> &hellip;</em></dt>
+<dt><a name="index-clear-2"></a><em></em> <strong>clear</strong> <em><var>options</var> <var>pattern</var> &hellip;</em></dt>
+<dd><p>Delete the names matching the given <var>pattern</var>s from the symbol table.
 </p>
-<p>The pattern may contain the following special characters:
+<p>The <var>pattern</var> may contain the following special characters:
+</p>
+<dl compact="compact">
+<dt><code>?</code></dt>
+<dd><p>Match any single character.
+</p>
+</dd>
+<dt><code>*</code></dt>
+<dd><p>Match zero or more characters.
+</p>
+</dd>
+<dt><code>[ <var>list</var> ]</code></dt>
+<dd><p>Match the list of characters specified by <var>list</var>.  If the first character
+is <code>!</code> or <code>^</code>, match all characters except those specified by
+<var>list</var>.  For example, the pattern <code>[a-zA-Z]</code> will match all lowercase
+and uppercase alphabetic characters.
+</p></dd>
+</dl>
+
+<p>For example, the command
+</p>
+<div class="example">
+<pre class="example">clear foo b*r
+</pre></div>
+
+<p>clears the name <code>foo</code> and all names that begin with the letter &lsquo;<samp>b</samp>&rsquo;
+and end with the letter &lsquo;<samp>r</samp>&rsquo;.
+</p>
+<p>If <code>clear</code> is called without any arguments, all user-defined variables
+are cleared from the current workspace (i.e., local variables).  Any global
+variables present will no longer be visible in the current workspace, but they
+will continue to exist in the global workspace.  Functions are unaffected by
+this form of <code>clear</code>.
+</p>
+<p>The following options are available in both long and short form
+</p>
+<dl compact="compact">
+<dt><code>all, -all, -a</code></dt>
+<dd><p>Clear all local and global user-defined variables, and all functions from the
+symbol table.
+</p>
+</dd>
+<dt><code>-exclusive, -x</code></dt>
+<dd><p>Clear variables that do <strong>not</strong> match the following pattern.
+</p>
+</dd>
+<dt><code>functions, -functions, -f</code></dt>
+<dd><p>Clear function names from the function symbol table.  Persistent variables
+will be re-initialized to their default value unless the function has been
+locked in memory with <code>mlock</code>.
+</p>
+</dd>
+<dt><code>global, -global, -g</code></dt>
+<dd><p>Clear global variable names.
+</p>
+</dd>
+<dt><code>variables, -variables, -v</code></dt>
+<dd><p>Clear local variable names.
+</p>
+</dd>
+<dt><code>classes, -classes, -c</code></dt>
+<dd><p>Clear the class structure table and all objects.
+</p>
+</dd>
+<dt><code>-regexp, -r</code></dt>
+<dd><p>The <var>pattern</var> arguments are treated as regular expressions and any matches
+will be cleared.
+</p></dd>
+</dl>
+
+<p>With the exception of <samp>-exclusive</samp> and <samp>-regexp</samp>, all long
+options can be used without the dash as well.  Note that, aside from
+<samp>-exclusive</samp>, only one other option may appear.  All options must
+appear before any patterns.
+</p>
+<p>Programming Note: The command <code>clear <var>name</var></code> only clears the variable
+<var>name</var> when both a variable and a (shadowed) function named <var>name</var>
+are currently defined.  For example, suppose you have defined a function
+<code>foo</code>, and then hidden it by performing the assignment <code>foo = 2</code>.
+Executing the command <code>clear foo</code> once will clear the variable
+definition and restore the definition of <code>foo</code> as a function.
+Executing <code>clear foo</code> a second time will clear the function definition.
+</p>
+
+<p><strong>See also:</strong> <a href="#XREFwho">who</a>, <a href="#XREFwhos">whos</a>, <a href="#XREFexist">exist</a>, <a href="Function-Locking.html#XREFmlock">mlock</a>.
+</p></dd></dl>
+
+
+<a name="XREFclearvars"></a><dl>
+<dt><a name="index-clearvars"></a><em></em> <strong>clearvars</strong></dt>
+<dt><a name="index-clearvars-1"></a><em></em> <strong>clearvars</strong> <em><var>pattern</var> &hellip;</em></dt>
+<dt><a name="index-clearvars-2"></a><em></em> <strong>clearvars</strong> <em>-regexp <var>pattern</var> &hellip;</em></dt>
+<dt><a name="index-clearvars-3"></a><em></em> <strong>clearvars</strong> <em>&hellip; -except <var>pattern</var> &hellip;</em></dt>
+<dt><a name="index-clearvars-4"></a><em></em> <strong>clearvars</strong> <em>&hellip; -except -regexp <var>pattern</var> &hellip;</em></dt>
+<dt><a name="index-clearvars-5"></a><em></em> <strong>clearvars</strong> <em>-global &hellip;</em></dt>
+<dd><p>Delete the variables matching the given <var>pattern</var>s from memory.
+</p>
+<p>The <var>pattern</var> may contain the following special characters:
 </p>
 <dl compact="compact">
 <dt><code>?</code></dt>
@@ -401,69 +500,53 @@ function allows this.
 <dt><code>[ <var>list</var> ]</code></dt>
 <dd><p>Match the list of characters specified by <var>list</var>.  If the first
 character is <code>!</code> or <code>^</code>, match all characters except those
-specified by <var>list</var>.  For example, the pattern &lsquo;<samp>[a-zA-Z]</samp>&rsquo; will
+specified by <var>list</var>.  For example, the pattern <code>[a-zA-Z]</code> will
 match all lowercase and uppercase alphabetic characters.
 </p></dd>
 </dl>
 
-<p>For example, the command
+<p>If the <samp>-regexp</samp> option is given then subsequent patterns are treated
+as regular expressions and any matches will be cleared.
+</p>
+<p>If the <samp>-except</samp> option is given then subsequent patterns select
+variables that will <strong>not</strong> be cleared.
+</p>
+<p>If the <samp>-global</samp> option is given then all patterns will be applied
+to global variables rather than local variables.
+</p>
+<p>When called with no arguments, <code>clearvars</code> deletes all local variables.
+</p>
+<p>Example Code:
+</p>
+<p>Clear all variables starting with <code>'x'</code> and the specific variable
+<code>&quot;foobar&quot;</code>
 </p>
 <div class="example">
-<pre class="example">clear foo b*r
+<pre class="example">clearvars x* foobar
 </pre></div>
 
-<p>clears the name <code>foo</code> and all names that begin with the letter
-<code>b</code> and end with the letter <code>r</code>.
+<p>Clear the specific variable <code>&quot;foobar&quot;</code> and use regular expressions to
+clear all variables starting with <code>'x'</code> or <code>'y'</code>.
 </p>
-<p>If <code>clear</code> is called without any arguments, all user-defined
-variables (local and global) are cleared from the symbol table.
-</p>
-<p>If <code>clear</code> is called with at least one argument, only the visible
-names matching the arguments are cleared.  For example, suppose you have
-defined a function <code>foo</code>, and then hidden it by performing the
-assignment <code>foo = 2</code>.  Executing the command <kbd>clear foo</kbd> once
-will clear the variable definition and restore the definition of
-<code>foo</code> as a function.  Executing <kbd>clear foo</kbd> a second time will
-clear the function definition.
-</p>
-<p>The following options are available in both long and short form
-</p>
-<dl compact="compact">
-<dt><code>-all, -a</code></dt>
-<dd><p>Clear all local and global user-defined variables and all functions from the
-symbol table.
-</p>
-</dd>
-<dt><code>-exclusive, -x</code></dt>
-<dd><p>Clear the variables that don&rsquo;t match the following pattern.
-</p>
-</dd>
-<dt><code>-functions, -f</code></dt>
-<dd><p>Clear the function names and the built-in symbols names.
-</p>
-</dd>
-<dt><code>-global, -g</code></dt>
-<dd><p>Clear global symbol names.
-</p>
-</dd>
-<dt><code>-variables, -v</code></dt>
-<dd><p>Clear local variable names.
-</p>
-</dd>
-<dt><code>-classes, -c</code></dt>
-<dd><p>Clears the class structure table and clears all objects.
-</p>
-</dd>
-<dt><code>-regexp, -r</code></dt>
-<dd><p>The arguments are treated as regular expressions as any variables that
-match will be cleared.
-</p></dd>
-</dl>
+<div class="example">
+<pre class="example">clearvars foobar -regexp ^x ^y
+</pre></div>
 
-<p>With the exception of <code>exclusive</code>, all long options can be used
-without the dash as well.
+<p>Clear all variables except for <code>&quot;foobar&quot;</code>
 </p>
-<p><strong>See also:</strong> <a href="#XREFwho">who</a>, <a href="#XREFwhos">whos</a>, <a href="#XREFexist">exist</a>.
+<div class="example">
+<pre class="example">clearvars -except foobar
+</pre></div>
+
+<p>Clear all variables beginning with <code>&quot;foo&quot;</code>, except for those ending
+in <code>&quot;bar&quot;</code>
+</p>
+<div class="example">
+<pre class="example">clearvars foo* -except -regexp bar$
+</pre></div>
+
+
+<p><strong>See also:</strong> <a href="#XREFclear">clear</a>, <a href="#XREFwho">who</a>, <a href="#XREFwhos">whos</a>, <a href="#XREFexist">exist</a>.
 </p></dd></dl>
 
 

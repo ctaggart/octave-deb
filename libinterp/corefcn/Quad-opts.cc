@@ -6,7 +6,8 @@
 // this file.
 
 #include <iomanip>
-#include <iostream>
+#include <ostream>
+#include <sstream>
 
 #include "Quad-opts.h"
 
@@ -118,28 +119,28 @@ set_Quad_options (const std::string& keyword, const octave_value& val)
 {
   Quad_options_struct *list = Quad_options_table;
 
-  if (keyword_almost_match (list[0].kw_tok, list[0].min_len,
+  if (octave::keyword_almost_match (list[0].kw_tok, list[0].min_len,
            keyword, list[0].min_toks_to_match, MAX_TOKENS))
     {
       double tmp = val.double_value ();
 
       quad_opts.set_absolute_tolerance (tmp);
     }
-  else if (keyword_almost_match (list[1].kw_tok, list[1].min_len,
+  else if (octave::keyword_almost_match (list[1].kw_tok, list[1].min_len,
            keyword, list[1].min_toks_to_match, MAX_TOKENS))
     {
       double tmp = val.double_value ();
 
       quad_opts.set_relative_tolerance (tmp);
     }
-  else if (keyword_almost_match (list[2].kw_tok, list[2].min_len,
+  else if (octave::keyword_almost_match (list[2].kw_tok, list[2].min_len,
            keyword, list[2].min_toks_to_match, MAX_TOKENS))
     {
       float tmp = val.float_value ();
 
       quad_opts.set_single_precision_absolute_tolerance (tmp);
     }
-  else if (keyword_almost_match (list[3].kw_tok, list[3].min_len,
+  else if (octave::keyword_almost_match (list[3].kw_tok, list[3].min_len,
            keyword, list[3].min_toks_to_match, MAX_TOKENS))
     {
       float tmp = val.float_value ();
@@ -159,28 +160,28 @@ show_Quad_options (const std::string& keyword)
 
   Quad_options_struct *list = Quad_options_table;
 
-  if (keyword_almost_match (list[0].kw_tok, list[0].min_len,
+  if (octave::keyword_almost_match (list[0].kw_tok, list[0].min_len,
            keyword, list[0].min_toks_to_match, MAX_TOKENS))
     {
       double val = quad_opts.absolute_tolerance ();
 
       retval = val;
     }
-  else if (keyword_almost_match (list[1].kw_tok, list[1].min_len,
+  else if (octave::keyword_almost_match (list[1].kw_tok, list[1].min_len,
            keyword, list[1].min_toks_to_match, MAX_TOKENS))
     {
       double val = quad_opts.relative_tolerance ();
 
       retval = val;
     }
-  else if (keyword_almost_match (list[2].kw_tok, list[2].min_len,
+  else if (octave::keyword_almost_match (list[2].kw_tok, list[2].min_len,
            keyword, list[2].min_toks_to_match, MAX_TOKENS))
     {
       float val = quad_opts.single_precision_absolute_tolerance ();
 
       retval = val;
     }
-  else if (keyword_almost_match (list[3].kw_tok, list[3].min_len,
+  else if (octave::keyword_almost_match (list[3].kw_tok, list[3].min_len,
            keyword, list[3].min_toks_to_match, MAX_TOKENS))
     {
       float val = quad_opts.single_precision_relative_tolerance ();

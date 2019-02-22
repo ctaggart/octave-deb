@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2011-2018 Michael Goffioul
+Copyright (C) 2011-2019 Michael Goffioul
 
 This file is part of Octave.
 
@@ -104,7 +104,7 @@ namespace QtHandles
 
           if (value.numel () > 0)
             {
-              if (value(0) != static_cast<int>(value(0)))
+              if (value(0) != static_cast<int> (value(0)))
                 warning ("popupmenu value should be integer");
               else
                 {

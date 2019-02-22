@@ -1,4 +1,4 @@
-## Copyright (C) 2007-2018 Michael Goffioul
+## Copyright (C) 2007-2019 Michael Goffioul
 ##
 ## This file is part of Octave.
 ##
@@ -51,7 +51,7 @@ function state = hidden (mode = "toggle")
     endif
   endif
 
-  for h = (get (gca (), "children")).';
+  for h = (get (gca (), "children")).'
     [htype, htag] = get (h, {"type", "tag"}){:};
     if (strcmp (htype, "surface") || strcmp (htag, "trimesh"))
       fc = get (h, "facecolor");

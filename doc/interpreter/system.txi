@@ -1,4 +1,4 @@
-@c Copyright (C) 1996-2018 John W. Eaton
+@c Copyright (C) 1996-2019 John W. Eaton
 @c
 @c This file is part of Octave.
 @c
@@ -196,7 +196,11 @@ status information on files; and for manipulating file and path names.
 
 @DOCSTRING(fileattrib)
 
+@DOCSTRING(isfile)
+
 @DOCSTRING(isdir)
+
+@DOCSTRING(isfolder)
 
 @DOCSTRING(readdir)
 

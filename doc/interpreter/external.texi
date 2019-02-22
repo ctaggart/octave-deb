@@ -1,6 +1,6 @@
 @c DO NOT EDIT!  Generated automatically by munge-texi.pl.
 
-@c Copyright (C) 2007-2018 John W. Eaton and David Bateman
+@c Copyright (C) 2007-2019 John W. Eaton and David Bateman
 @c Copyright (C) 2010 Martin Hepperle
 @c Copyright (C) 2007 Paul Thomas and Christoph Spiel
 @c
@@ -205,36 +205,86 @@ specified) unless linking a stand-alone executable.
 
 @item  -p VAR
 @itemx --print VAR
-Print the configuration variable VAR@.  Recognized variables are:
+Print configuration variable VAR@.  There are three categories of
+variables:
+
+Octave configuration variables that users may override with environment
+variables.  These are used in commands that @code{mkoctfile} executes.
 
 @example
-   ALL_CFLAGS                  INCFLAGS
-   ALL_CXXFLAGS                INCLUDEDIR
-   ALL_FFLAGS                  LAPACK_LIBS
-   ALL_LDFLAGS                 LD_CXX
-   AR                          LDFLAGS
-   BLAS_LIBS                   LD_STATIC_FLAG
-   CC                          LFLAGS
-   CFLAGS                      LIBDIR
-   CPICFLAG                    LIBOCTAVE
-   CPPFLAGS                    LIBOCTINTERP
-   CXX                         LIBS
-   CXXFLAGS                    OCTAVE_HOME
-   CXXPICFLAG                  OCTAVE_LIBS
-   DEPEND_EXTRA_SED_PATTERN    OCTAVE_LINK_DEPS
-   DEPEND_FLAGS                OCTAVE_LINK_OPTS
-   DL_LD                       OCTAVE_PREFIX
-   DL_LDFLAGS                  OCTINCLUDEDIR
-   F77                         OCTLIBDIR
-   F77_INTEGER8_FLAG           OCT_LINK_DEPS
-   FFLAGS                      OCT_LINK_OPTS
-   FFTW3F_LDFLAGS              RANLIB
-   FFTW3F_LIBS                 RDYNAMIC_FLAG
-   FFTW3_LDFLAGS               READLINE_LIBS
-   FFTW3_LIBS                  SED
-   FFTW_LIBS                   SPECIAL_MATH_LIB
-   FLIBS                       XTRA_CFLAGS
-   FPICFLAG                    XTRA_CXXFLAGS
+   ALL_CFLAGS                  LAPACK_LIBS
+   ALL_CXXFLAGS                LDFLAGS
+   ALL_FFLAGS                  LD_CXX
+   ALL_LDFLAGS                 LD_STATIC_FLAG
+   BLAS_LIBS                   LFLAGS
+   CC                          LIBDIR
+   CFLAGS                      LIBOCTAVE
+   CPICFLAG                    LIBOCTINTERP
+   CPPFLAGS                    OCTAVE_LINK_OPTS
+   CXX                         OCTINCLUDEDIR
+   CXXFLAGS                    OCTAVE_LIBS
+   CXXPICFLAG                  OCTAVE_LINK_DEPS
+   DL_LD                       OCTLIBDIR
+   DL_LDFLAGS                  OCT_LINK_DEPS
+   F77                         OCT_LINK_OPTS
+   F77_INTEGER8_FLAG           RDYNAMIC_FLAG
+   FFLAGS                      SPECIAL_MATH_LIB
+   FPICFLAG                    XTRA_CFLAGS
+   INCFLAGS                    XTRA_CXXFLAGS
+   INCLUDEDIR
+@end example
+
+Octave configuration variables as above, but currently unused by
+@code{mkoctfile}.
+
+@example
+@group
+   AR
+   DEPEND_EXTRA_SED_PATTERN
+   DEPEND_FLAGS
+   FFTW3F_LDFLAGS
+   FFTW3F_LIBS
+   FFTW3_LDFLAGS
+   FFTW3_LIBS
+   FFTW_LIBS
+   FLIBS
+   LIBS
+   RANLIB
+   READLINE_LIBS
+@end group
+@end example
+
+Octave configuration variables that are provided for informational
+purposes only.  Except for @samp{OCTAVE_HOME} and @samp{OCTAVE_EXEC_HOME},
+users may not override these variables.
+
+If @w{@env{OCTAVE_HOME}} or @w{@env{OCTAVE_EXEC_HOME}} are set in the
+environment, then other variables are adjusted accordingly with
+@w{@env{OCTAVE_HOME}} or @w{@env{OCTAVE_EXEC_HOME}} substituted for the
+original value of the directory specified by the @option{--prefix} or
+@option{--exec-prefix} options that were used when Octave was configured.
+
+@example
+@group
+   API_VERSION                 LOCALFCNFILEDIR
+   ARCHLIBDIR                  LOCALOCTFILEDIR
+   BINDIR                      LOCALSTARTUPFILEDIR
+   CANONICAL_HOST_TYPE         LOCALVERARCHLIBDIR
+   DATADIR                     LOCALVERFCNFILEDIR
+   DATAROOTDIR                 LOCALVEROCTFILEDIR
+   DEFAULT_PAGER               MAN1DIR
+   EXEC_PREFIX                 MAN1EXT
+   EXEEXT                      MANDIR
+   FCNFILEDIR                  OCTAVE_EXEC_HOME
+   IMAGEDIR                    OCTAVE_HOME
+   INFODIR                     OCTAVE_VERSION
+   INFOFILE                    OCTDATADIR
+   LIBEXECDIR                  OCTDOCDIR
+   LOCALAPIARCHLIBDIR          OCTFILEDIR
+   LOCALAPIFCNFILEDIR          OCTFONTSDIR
+   LOCALAPIOCTFILEDIR          STARTUPFILEDIR
+   LOCALARCHLIBDIR
+@end group
 @end example
 
 @item --link-stand-alone
@@ -253,14 +303,18 @@ Strip the output file.
 Echo commands as they are executed.
 
 @item file
-The file to compile or link.  Recognized file types are
+The file to compile or link.  Recognized file types are:
 
 @example
 @group
    .c    C source
    .cc   C++ source
-   .C    C++ source
+   .cp   C++ source
    .cpp  C++ source
+   .CPP  C++ source
+   .cxx  C++ source
+   .c++  C++ source
+   .C    C++ source
    .f    Fortran source (fixed form)
    .F    Fortran source (fixed form)
    .f90  Fortran source (free form)
@@ -2667,7 +2721,7 @@ like @code{joPas} (@url{http://jopas.sourceforge.net}).
 @menu
 * Making Java Classes Available::
 * How to use Java from within Octave::
-* Passing parameters to the JVM::
+* Set up the JVM::
 * Java Interface Functions::
 @end menu
 
@@ -2951,18 +3005,33 @@ javaObject ("java.math.BigDecimal", "1") ...
 
 
 
-@node Passing parameters to the JVM
-@subsection Passing parameters to the JVM
+@node Set up the JVM
+@subsection Set up the JVM
 @cindex memory, limitations on JVM
+@cindex select JVM version
 
-In order to execute Java code Octave creates a Java Virtual Machine (JVM).
-Such a JVM allocates a fixed amount of initial memory and may expand this pool
-up to a fixed maximum memory limit.  The default values depend on the Java
-version (@pxref{XREFjavamem,,javamem}).  The memory pool is shared by all Java
-objects running in the JVM@.  This strict memory limit is intended mainly to
-avoid runaway applications inside web browsers or in enterprise servers which
-can consume all memory and crash the system.  When the maximum memory limit is
-hit, Java code will throw exceptions so that applications will fail or behave
+In order to execute Java code Octave creates a Java Virtual Machine (JVM).  By
+default the version of the JVM is used that was detected during configuration
+on Unix-like systems or that is pointed to from the registry keys at
+@file{HKEY_LOCAL_MACHINE\SOFTWARE\JavaSoft\JRE} or
+@file{HKEY_LOCAL_MACHINE\SOFTWARE\JavaSoft\Java Runtime Environment} on
+Windows.  The default path to the JVM can be overridden by setting the
+environment variable @w{@env{JAVA_HOME}} to the path where the JVM is
+installed.  On Windows that might be, for example,
+@file{C:\Program Files\Java\jre-10.0.2}.  Make sure that you select a directory
+that contains the JVM with a @nospell{bit-ness} that matches Octave's.
+
+The JVM is only loaded once per Octave session.  Thus, to change the used
+version of the JVM, you might have to re-start Octave.  To check which version
+of the JVM is currently being used, run @code{version -java}.
+
+The JVM allocates a fixed amount of initial memory and may expand this pool up
+to a fixed maximum memory limit.  The default values depend on the Java version
+(@pxref{XREFjavamem,,javamem}).  The memory pool is shared by all Java objects
+running in the JVM@.  This strict memory limit is intended mainly to avoid
+runaway applications inside web browsers or in enterprise servers which can
+consume all memory and crash the system.  When the maximum memory limit is hit,
+Java code will throw exceptions so that applications will fail or behave
 unexpectedly.
 
 You can specify options for the creation of the JVM inside a file named
@@ -3338,12 +3407,13 @@ between Octave and the Java Virtual Machine.
 @c javachk scripts/java/javachk.m
 @anchor{XREFjavachk}
 @deftypefn  {} {} javachk (@var{feature})
-@deftypefnx {} {} javachk (@var{feature}, @var{component})
+@deftypefnx {} {} javachk (@var{feature}, @var{caller})
 @deftypefnx {} {@var{msg} =} javachk (@dots{})
-Check for the presence of the Java @var{feature} in the current session
-and print or return an error message if it is not.
+Check for the presence of the Java @var{feature} in the current session.
+Return an error structure if @var{feature} is not available, not enabled,
+or not recognized.
 
-Possible features are:
+Possible recognized features are:
 
 @table @asis
 @item @nospell{@qcode{"awt"}}
@@ -3359,45 +3429,22 @@ Java Virtual Machine.
 Swing components for lightweight GUIs.
 @end table
 
-If @var{feature} is supported and
+If @var{feature} is not supported, a scalar struct with field
+@qcode{"message"} and @qcode{"identifier"} is returned.  The field
+@qcode{"message"} contains an error message mentioning @var{feature} as
+well as the optional user-specified @var{caller}.  This structure is
+suitable for passing in to the @code{error} function.
 
-@itemize @bullet
-@item
-no output argument is requested:
-
-Return an empty string
-
-@item
-an output argument is requested:
-
-Return a struct with fields @qcode{"feature"} and @qcode{"identifier"}
-both empty
-@end itemize
-
-If @var{feature} is not supported and
-
-@itemize @bullet
-@item
-no output argument is requested:
-
-Emit an error message
-
-@item
-an output argument is requested:
-
-Return a struct with field @qcode{"feature"} set to @var{feature} and field
-@qcode{"identifier"} set to @var{component}
-@end itemize
-
-The optional input @var{component} will be used in place of @var{feature}
-in any error messages for greater specificity.
+If @var{feature} is supported and available, an empty struct array is
+returned with fields @qcode{"message"} and @qcode{"identifier"}.
 
 @code{javachk} determines if specific Java features are available in an
 Octave session.  This function is provided for scripts which may alter
-their behavior based on the availability of Java.  The feature
-@qcode{"desktop"} is never available as Octave has no Java-based desktop.
-Other features may be available if Octave was compiled with the Java
-Interface and Java is installed.
+their behavior based on the availability of Java or specific Java runtime
+features.
+
+Compatibility Note: The feature @qcode{"desktop"} is never available since
+Octave has no Java-based desktop.
 
 @seealso{@ref{XREFusejava,,usejava}, @ref{XREFerror,,error}}
 @end deftypefn

@@ -1,9 +1,9 @@
 /*
 
-Copyright (C) 1993-2018 John W. Eaton
+Copyright (C) 1993-2019 John W. Eaton
 Copyright (C) 2009 David Grundberg
 Copyright (C) 2009-2010 VZLU Prague
-Copyright (C) 2016-2018 Oliver Heimlich
+Copyright (C) 2016-2019 Oliver Heimlich
 
 This file is part of Octave.
 
@@ -55,7 +55,6 @@ along with Octave; see the file COPYING.  If not, see
 #include "Cell.h"
 #include "builtin-defun-decls.h"
 #include "call-stack.h"
-#include "defaults.h"
 #include "defun.h"
 #include "dirfns.h"
 #include "dynamic-ld.h"
@@ -65,6 +64,7 @@ along with Octave; see the file COPYING.  If not, see
 #include "interpreter.h"
 #include "lex.h"
 #include "load-path.h"
+#include "lo-sysdep.h"
 #include "oct-hist.h"
 #include "oct-map.h"
 #include "ov-classdef.h"
@@ -116,8 +116,6 @@ static void yyerror (octave::base_parser& parser, const char *s);
 
 %expect 9
 
-%define api.prefix {octave_}
-
 // We are using the pure parser interface and the reentrant lexer
 // interface but the Octave parser and lexer are NOT properly
 // reentrant because both still use many global variables.  It should be
@@ -128,6 +126,8 @@ static void yyerror (octave::base_parser& parser, const char *s);
 // object) relevant global values before and after the nested call.
 
 %define api.pure
+// No spaces inside the braces for the prefix and push-pull definitions!
+%define api.prefix {octave_}
 %define api.push-pull both
 %parse-param { octave::base_parser& parser }
 %lex-param { void *lexer.scanner }
@@ -1290,13 +1290,13 @@ push_fcn_symtab : // empty
                     parser.m_function_scopes.push (lexer.m_symtab_context.curr_scope ());
 
                     if (! lexer.m_reading_script_file
-                        && parser.m_curr_fcn_depth == 1
+                        && parser.m_curr_fcn_depth == 0
                         && ! parser.m_parsing_subfunctions)
                       parser.m_primary_fcn_scope
                         = lexer.m_symtab_context.curr_scope ();
 
                     if (lexer.m_reading_script_file
-                        && parser.m_curr_fcn_depth > 1)
+                        && parser.m_curr_fcn_depth > 0)
                       {
                         parser.bison_error ("nested functions not implemented in this context");
                         YYABORT;
@@ -1527,7 +1527,7 @@ fcn_name        : identifier
                     // classdef methods.
 
                     if (parser.m_parsing_local_functions
-                        && parser.m_curr_fcn_depth == 1)
+                        && parser.m_curr_fcn_depth == 0)
                       id = lexer.m_fcn_file_name + ">" + id;
 
                     if (! parser.m_function_scopes.name_current_scope (id))
@@ -2177,7 +2177,7 @@ namespace octave
     : m_endfunction_found (false), m_autoloading (false),
       m_fcn_file_from_relative_lookup (false),
       m_parsing_subfunctions (false), m_parsing_local_functions (false),
-      m_max_fcn_depth (0), m_curr_fcn_depth (0), m_primary_fcn_scope (),
+      m_max_fcn_depth (-1), m_curr_fcn_depth (-1), m_primary_fcn_scope (),
       m_curr_class_name (), m_curr_package_name (), m_function_scopes (),
       m_primary_fcn_ptr (nullptr), m_subfunction_names (),
       m_classdef_object (nullptr), m_stmt_list (nullptr), m_lexer (lxr),
@@ -2209,8 +2209,8 @@ namespace octave
     m_fcn_file_from_relative_lookup = false;
     m_parsing_subfunctions = false;
     m_parsing_local_functions = false;
-    m_max_fcn_depth = 0;
-    m_curr_fcn_depth = 0;
+    m_max_fcn_depth = -1;
+    m_curr_fcn_depth = -1;
     m_primary_fcn_scope = symbol_scope ();
     m_curr_class_name = "";
     m_curr_package_name = "";
@@ -2227,83 +2227,80 @@ namespace octave
     yypstate_delete (static_cast<yypstate *> (m_parser_state));
     m_parser_state = yypstate_new ();
   }
-}
 
-// Error mesages for mismatched end tokens.
+  // Error mesages for mismatched end tokens.
 
-static std::string
-end_token_as_string (octave::token::end_tok_type ettype)
-{
-  std::string retval = "<unknown>";
+  static std::string
+  end_token_as_string (token::end_tok_type ettype)
+  {
+    std::string retval = "<unknown>";
 
-  switch (ettype)
-    {
-    case octave::token::simple_end:
-      retval = "end";
-      break;
+    switch (ettype)
+      {
+      case token::simple_end:
+        retval = "end";
+        break;
 
-    case octave::token::classdef_end:
-      retval = "endclassdef";
-      break;
+      case token::classdef_end:
+        retval = "endclassdef";
+        break;
 
-    case octave::token::enumeration_end:
-      retval = "endenumeration";
-      break;
+      case token::enumeration_end:
+        retval = "endenumeration";
+        break;
 
-    case octave::token::events_end:
-      retval = "endevents";
-      break;
+      case token::events_end:
+        retval = "endevents";
+        break;
 
-    case octave::token::for_end:
-      retval = "endfor";
-      break;
+      case token::for_end:
+        retval = "endfor";
+        break;
 
-    case octave::token::function_end:
-      retval = "endfunction";
-      break;
+      case token::function_end:
+        retval = "endfunction";
+        break;
 
-    case octave::token::if_end:
-      retval = "endif";
-      break;
+      case token::if_end:
+        retval = "endif";
+        break;
 
-    case octave::token::methods_end:
-      retval = "endmethods";
-      break;
+      case token::methods_end:
+        retval = "endmethods";
+        break;
 
-    case octave::token::parfor_end:
-      retval = "endparfor";
-      break;
+      case token::parfor_end:
+        retval = "endparfor";
+        break;
 
-    case octave::token::properties_end:
-      retval = "endproperties";
-      break;
+      case token::properties_end:
+        retval = "endproperties";
+        break;
 
-    case octave::token::switch_end:
-      retval = "endswitch";
-      break;
+      case token::switch_end:
+        retval = "endswitch";
+        break;
 
-    case octave::token::try_catch_end:
-      retval = "end_try_catch";
-      break;
+      case token::try_catch_end:
+        retval = "end_try_catch";
+        break;
 
-    case octave::token::unwind_protect_end:
-      retval = "end_unwind_protect";
-      break;
+      case token::unwind_protect_end:
+        retval = "end_unwind_protect";
+        break;
 
-    case octave::token::while_end:
-      retval = "endwhile";
-      break;
+      case token::while_end:
+        retval = "endwhile";
+        break;
 
-    default:
-      panic_impossible ();
-      break;
-    }
+      default:
+        panic_impossible ();
+        break;
+      }
 
-  return retval;
-}
+    return retval;
+  }
 
-namespace octave
-{
   void
   base_parser::end_token_error (token *tok, token::end_tok_type expected)
   {
@@ -2521,7 +2518,7 @@ namespace octave
       = new tree_colon_expression (base, limit, incr, l, c);
 
     if (base->is_constant () && limit->is_constant ()
-        && (! incr || (incr && incr->is_constant ())))
+        && (! incr || incr->is_constant ()))
       {
         try
           {
@@ -2646,7 +2643,7 @@ namespace octave
     int l = tok_val->line ();
     int c = tok_val->column ();
 
-    return new tree_binary_expression (op1, op2, l, c, t);
+    return maybe_compound_binary_expression (op1, op2, l, c, t);
   }
 
   // Build a boolean expression.
@@ -3218,7 +3215,7 @@ namespace octave
         tree_expression *tmp = lhs->remove_front ();
 
         if ((tmp->is_identifier () || tmp->is_index_expression ())
-            && is_keyword (tmp->name ()))
+            && iskeyword (tmp->name ()))
           {
             std::string kw = tmp->name ();
 
@@ -3241,7 +3238,7 @@ namespace octave
 
         for (const auto& kw : names)
           {
-            if (is_keyword (kw))
+            if (iskeyword (kw))
               {
                 delete lhs;
                 delete rhs;
@@ -3302,15 +3299,13 @@ namespace octave
                               tree_statement *end_fcn_stmt,
                               comment_list *lc)
   {
-    tree_function_def *retval = nullptr;
-
     int l = fcn_tok->line ();
     int c = fcn_tok->column ();
 
     octave_user_function *tmp_fcn
       = start_function (id, param_list, body, end_fcn_stmt);
 
-    retval = finish_function (ret_list, tmp_fcn, lc, l, c);
+    tree_function_def *retval = finish_function (ret_list, tmp_fcn, lc, l, c);
 
     recover_from_parsing_function ();
 
@@ -3362,7 +3357,7 @@ namespace octave
     // file.  Matlab doesn't provide a diagnostic (it ignores the stated
     // name).
     if (! m_autoloading && m_lexer.m_reading_fcn_file
-        && m_curr_fcn_depth == 1 && ! m_parsing_subfunctions)
+        && m_curr_fcn_depth == 0 && ! m_parsing_subfunctions)
       {
         // FIXME: should m_lexer.m_fcn_file_name already be
         // preprocessed when we get here?  It seems to only be a
@@ -3417,7 +3412,7 @@ namespace octave
           warning_with_id ("Octave:future-time-stamp",
                            "time stamp for '%s' is in the future", nm.c_str ());
       }
-    else if (! input_from_tmp_history_file
+    else if (! m_lexer.input_from_tmp_history_file ()
              && ! m_lexer.m_force_script
              && m_lexer.m_reading_script_file
              && m_lexer.m_fcn_file_name == id_name)
@@ -3433,14 +3428,14 @@ namespace octave
     // because the doc_string of the outermost function is read first,
     // whereas this function is called for the innermost function first.
     // We could have a stack of help_text in lexer.
-    if (! m_lexer.m_help_text.empty () && m_curr_fcn_depth == 1)
+    if (! m_lexer.m_help_text.empty () && m_curr_fcn_depth == 0)
       {
         fcn->document (m_lexer.m_help_text);
 
         m_lexer.m_help_text = "";
       }
 
-    if (m_lexer.m_reading_fcn_file && m_curr_fcn_depth == 1
+    if (m_lexer.m_reading_fcn_file && m_curr_fcn_depth == 0
         && ! m_parsing_subfunctions)
       m_primary_fcn_ptr = fcn;
 
@@ -3475,13 +3470,14 @@ namespace octave
 
         symbol_scope fcn_scope = fcn->scope ();
         fcn_scope.cache_name (tmp);
+        fcn_scope.install_auto_fcn_vars ();
 
         if (lc)
           fcn->stash_leading_comment (lc);
 
         fcn->define_ret_list (ret_list);
 
-        if (m_curr_fcn_depth > 1 || m_parsing_subfunctions)
+        if (m_curr_fcn_depth > 0 || m_parsing_subfunctions)
           {
             fcn->stash_fcn_location (l, c);
             fcn->stash_parent_fcn_name (m_lexer.m_fcn_file_name);
@@ -3491,10 +3487,11 @@ namespace octave
             if (m_endfunction_found && m_function_scopes.size () > 1)
               {
                 fcn->mark_as_nested_function ();
-                fcn_scope.mark_nested ();
+                fcn_scope.set_nesting_depth (m_curr_fcn_depth);
 
                 symbol_scope pscope = m_function_scopes.parent_scope ();
                 fcn_scope.set_parent (pscope);
+                fcn_scope.set_primary_parent (m_primary_fcn_scope);
                 pscope.install_nestfunction (nm, ov_fcn, fcn_scope);
               }
             else
@@ -3506,10 +3503,10 @@ namespace octave
               }
           }
 
-        if (m_curr_fcn_depth == 1)
+        if (m_curr_fcn_depth == 0)
           fcn_scope.update_nest ();
 
-        if (! m_lexer.m_reading_fcn_file && m_curr_fcn_depth == 1)
+        if (! m_lexer.m_reading_fcn_file && m_curr_fcn_depth == 0)
           {
             // We are either reading a script file or defining a function
             // at the command line, so this definition creates a
@@ -3540,7 +3537,7 @@ namespace octave
   {
     m_lexer.m_symtab_context.pop ();
 
-    if (m_lexer.m_reading_fcn_file && m_curr_fcn_depth == 1
+    if (m_lexer.m_reading_fcn_file && m_curr_fcn_depth == 0
         && ! m_parsing_subfunctions)
       m_parsing_subfunctions = true;
 
@@ -4002,7 +3999,7 @@ namespace octave
         break;
 
       case PERSISTENT:
-        if (m_curr_fcn_depth > 0)
+        if (m_curr_fcn_depth >= 0)
           {
             retval = new tree_decl_command ("persistent", lst, l, c);
             retval->mark_persistent ();
@@ -4242,7 +4239,7 @@ namespace octave
   void
   base_parser::maybe_warn_missing_semi (tree_statement_list *t)
   {
-    if (m_curr_fcn_depth > 0)
+    if (m_curr_fcn_depth >= 0)
       {
         tree_statement *tmp = t->back ();
 
@@ -4475,131 +4472,127 @@ namespace octave
 
     return status;
   }
-}
 
-static void
-safe_fclose (FILE *f)
-{
-  if (f)
-    fclose (static_cast<FILE *> (f));
-}
+  static void
+  safe_fclose (FILE *f)
+  {
+    if (f)
+      fclose (static_cast<FILE *> (f));
+  }
 
-static octave_value
-parse_fcn_file (const std::string& full_file, const std::string& file,
-                const std::string& dir_name, const std::string& dispatch_type,
-                const std::string& package_name, bool require_file,
-                bool force_script, bool autoload, bool relative_lookup,
-                const std::string& warn_for)
-{
-  octave_value retval;
+  static octave_value
+  parse_fcn_file (const std::string& full_file, const std::string& file,
+                  const std::string& dir_name, const std::string& dispatch_type,
+                  const std::string& package_name, bool require_file,
+                  bool force_script, bool autoload, bool relative_lookup,
+                  const std::string& warn_for)
+  {
+    octave_value retval;
 
-  octave::unwind_protect frame;
+    unwind_protect frame;
 
-  octave_function *fcn_ptr = nullptr;
+    octave_function *fcn_ptr = nullptr;
 
-  // Open function file and parse.
+    // Open function file and parse.
 
-  FILE *in_stream = octave::command_editor::get_input_stream ();
+    FILE *in_stream = command_editor::get_input_stream ();
 
-  frame.add_fcn (octave::command_editor::set_input_stream, in_stream);
+    frame.add_fcn (command_editor::set_input_stream, in_stream);
 
-  frame.add_fcn (octave::command_history::ignore_entries,
-                 octave::command_history::ignoring_entries ());
+    frame.add_fcn (command_history::ignore_entries,
+                   command_history::ignoring_entries ());
 
-  octave::command_history::ignore_entries ();
+    command_history::ignore_entries ();
 
-  FILE *ffile = nullptr;
+    FILE *ffile = nullptr;
 
-  if (! full_file.empty ())
-    ffile = std::fopen (full_file.c_str (), "rb");
+    if (! full_file.empty ())
+      ffile = octave::sys::fopen (full_file, "rb");
 
-  if (ffile)
-    {
-      frame.add_fcn (safe_fclose, ffile);
+    if (ffile)
+      {
+        frame.add_fcn (safe_fclose, ffile);
 
-      octave::parser parser (ffile);
+        interpreter& interp = __get_interpreter__ ("parse_fcn_file");
 
-      parser.m_curr_class_name = dispatch_type;
-      parser.m_curr_package_name = package_name;
-      parser.m_autoloading = autoload;
-      parser.m_fcn_file_from_relative_lookup = relative_lookup;
+        parser parser (ffile, interp);
 
-      parser.m_lexer.m_force_script = force_script;
-      parser.m_lexer.prep_for_file ();
-      parser.m_lexer.m_parsing_class_method = ! dispatch_type.empty ();
+        parser.m_curr_class_name = dispatch_type;
+        parser.m_curr_package_name = package_name;
+        parser.m_autoloading = autoload;
+        parser.m_fcn_file_from_relative_lookup = relative_lookup;
 
-      parser.m_lexer.m_fcn_file_name = file;
-      parser.m_lexer.m_fcn_file_full_name = full_file;
-      parser.m_lexer.m_dir_name = dir_name;
-      parser.m_lexer.m_package_name = package_name;
+        parser.m_lexer.m_force_script = force_script;
+        parser.m_lexer.prep_for_file ();
+        parser.m_lexer.m_parsing_class_method = ! dispatch_type.empty ();
 
-      int status = parser.run ();
+        parser.m_lexer.m_fcn_file_name = file;
+        parser.m_lexer.m_fcn_file_full_name = full_file;
+        parser.m_lexer.m_dir_name = dir_name;
+        parser.m_lexer.m_package_name = package_name;
 
-      fcn_ptr = parser.m_primary_fcn_ptr;
+        int status = parser.run ();
 
-      if (status == 0)
-        {
-          if (parser.m_lexer.m_reading_classdef_file
-              && parser.m_classdef_object)
-            {
-              // Convert parse tree for classdef object to
-              // meta.class info (and stash it in the symbol
-              // table?).  Return pointer to constructor?
+        fcn_ptr = parser.m_primary_fcn_ptr;
 
-              if (fcn_ptr)
-                panic_impossible ();
+        if (status == 0)
+          {
+            if (parser.m_lexer.m_reading_classdef_file
+                && parser.m_classdef_object)
+              {
+                // Convert parse tree for classdef object to
+                // meta.class info (and stash it in the symbol
+                // table?).  Return pointer to constructor?
 
-              bool is_at_folder = ! dispatch_type.empty ();
+                if (fcn_ptr)
+                  panic_impossible ();
 
-              octave::interpreter& interp
-                = octave::__get_interpreter__ ("parse_fcn_file");
+                bool is_at_folder = ! dispatch_type.empty ();
 
-              try
-                {
-                  fcn_ptr = parser.m_classdef_object->make_meta_class (interp, is_at_folder);
-                }
-              catch (const octave::execution_exception&)
-                {
-                  delete parser.m_classdef_object;
-                  throw;
-                }
+                try
+                  {
+                    fcn_ptr = parser.m_classdef_object->make_meta_class (interp, is_at_folder);
+                  }
+                catch (const execution_exception&)
+                  {
+                    delete parser.m_classdef_object;
+                    throw;
+                  }
 
-              if (fcn_ptr)
+                if (fcn_ptr)
+                  retval = octave_value (fcn_ptr);
+
+                delete parser.m_classdef_object;
+
+                parser.m_classdef_object = nullptr;
+              }
+            else if (fcn_ptr)
+              {
                 retval = octave_value (fcn_ptr);
 
-              delete parser.m_classdef_object;
+                fcn_ptr->maybe_relocate_end ();
 
-              parser.m_classdef_object = nullptr;
-            }
-          else if (fcn_ptr)
-            {
-              retval = octave_value (fcn_ptr);
+                if (parser.m_parsing_subfunctions)
+                  {
+                    if (! parser.m_endfunction_found)
+                      parser.m_subfunction_names.reverse ();
 
-              fcn_ptr->maybe_relocate_end ();
+                    fcn_ptr->stash_subfunction_names (parser.m_subfunction_names);
+                  }
+              }
+          }
+        else
+          error ("parse error while reading file %s", full_file.c_str ());
+      }
+    else if (require_file)
+      error ("no such file, '%s'", full_file.c_str ());
+    else if (! warn_for.empty ())
+      error ("%s: unable to open file '%s'", warn_for.c_str (),
+             full_file.c_str ());
 
-              if (parser.m_parsing_subfunctions)
-                {
-                  if (! parser.m_endfunction_found)
-                    parser.m_subfunction_names.reverse ();
+    return retval;
+  }
 
-                  fcn_ptr->stash_subfunction_names (parser.m_subfunction_names);
-                }
-            }
-        }
-      else
-        error ("parse error while reading file %s", full_file.c_str ());
-    }
-  else if (require_file)
-    error ("no such file, '%s'", full_file.c_str ());
-  else if (! warn_for.empty ())
-    error ("%s: unable to open file '%s'", warn_for.c_str (),
-           full_file.c_str ());
-
-  return retval;
-}
-
-namespace octave
-{
   std::string
   get_help_from_file (const std::string& nm, bool& symbol_found,
                       std::string& full_file)
@@ -5011,8 +5004,8 @@ namespace octave
     std::string full_name = sys::canonicalize_file_name (file_name);
 
     // Check if this file is already loaded (or in the path)
-    symbol_table& symtab = __get_symbol_table__ ("source_file");
-    octave_value ov_code = symtab.find (symbol);
+    symbol_scope curr_scope = __get_current_scope__ ("source_file");
+    octave_value ov_code = curr_scope.find (symbol);
 
     // For compatibility with Matlab, accept both scripts and
     // functions.
@@ -5063,8 +5056,8 @@ namespace octave
 
     if (verbose)
       {
-        std::cout << "executing commands from " << full_name << " ... ";
-        std::cout.flush ();
+        octave_stdout << "executing commands from " << full_name << " ... ";
+        octave_stdout.flush ();
       }
 
     octave_user_code *code = ov_code.user_code_value ();
@@ -5072,7 +5065,7 @@ namespace octave
     code->call (tw, 0, octave_value_list ());
 
     if (verbose)
-      std::cout << "done." << std::endl;
+      octave_stdout << "done." << std::endl;
   }
 }
 
@@ -5083,13 +5076,16 @@ DEFMETHOD (mfilename, interp, args, ,
 @deftypefnx {} {} mfilename ("fullpathext")
 Return the name of the currently executing file.
 
-When called from outside an m-file return the empty string.
+The base name of the currently executing script or function is returned without
+any extension.  If called from outside an m-file, such as the command line,
+return the empty string.
 
 Given the argument @qcode{"fullpath"}, include the directory part of the
 filename, but not the extension.
 
 Given the argument @qcode{"fullpathext"}, include the directory part of
 the filename and the extension.
+@seealso{inputname, dbstack}
 @end deftypefn */)
 {
   octave_value retval;
@@ -5125,7 +5121,7 @@ the filename and the extension.
       size_t dpos = fname.rfind (octave::sys::file_ops::dir_sep_char ());
       size_t epos = fname.rfind ('.');
 
-      if (epos <= dpos)
+      if (epos <= dpos+1)
         epos = std::string::npos;
 
       fname = (epos != std::string::npos) ? fname.substr (0, epos) : fname;
@@ -5249,16 +5245,13 @@ namespace octave
 
     return ovl ();
   }
-}
 
-static octave_value_list
-get_feval_args (const octave_value_list& args)
-{
-  return args.slice (1, args.length () - 1, true);
-}
+  static octave_value_list
+  get_feval_args (const octave_value_list& args)
+  {
+    return args.slice (1, args.length () - 1, true);
+  }
 
-namespace octave
-{
   //! Evaluate an Octave function (built-in or interpreted) and return
   //! the list of result values.
   //!
@@ -5385,97 +5378,17 @@ namespace octave
   eval_string (const std::string& eval_str, bool silent,
                int& parse_status, int nargout)
   {
-    octave_value_list retval;
+    interpreter& interp = __get_interpreter__ ("eval_string");
 
-    parser parser (eval_str);
-
-    do
-      {
-        parser.reset ();
-
-        parse_status = parser.run ();
-
-        if (parse_status == 0)
-          {
-            if (parser.m_stmt_list)
-              {
-                tree_statement *stmt = nullptr;
-
-                tree_evaluator& tw = __get_evaluator__ ("eval_string");
-
-                if (parser.m_stmt_list->length () == 1
-                    && (stmt = parser.m_stmt_list->front ())
-                    && stmt->is_expression ())
-                  {
-                    tree_expression *expr = stmt->expression ();
-
-                    if (silent)
-                      expr->set_print_flag (false);
-
-                    bool do_bind_ans = false;
-
-                    if (expr->is_identifier ())
-                      {
-                        octave::symbol_scope scope = tw.get_current_scope ();
-
-                        octave::symbol_record::context_id context
-                          = scope.current_context ();
-
-                        tree_identifier *id
-                          = dynamic_cast<tree_identifier *> (expr);
-
-                        do_bind_ans = (! id->is_variable (context));
-                      }
-                    else
-                      do_bind_ans = (! expr->is_assignment_expression ());
-
-                    retval = tw.evaluate_n (expr, nargout);
-
-                    if (do_bind_ans && ! retval.empty ())
-                      tw.bind_ans (retval(0), expr->print_result ());
-
-                    if (nargout == 0)
-                      retval = octave_value_list ();
-                  }
-                else if (nargout == 0)
-                  parser.m_stmt_list->accept (tw);
-                else
-                  error ("eval: invalid use of statement list");
-
-                if (tree_return_command::returning
-                    || tree_break_command::breaking
-                    || tree_continue_command::continuing)
-                  break;
-              }
-            else if (parser.m_lexer.m_end_of_input)
-              break;
-          }
-      }
-    while (parse_status == 0);
-
-    return retval;
+    return interp.eval_string (eval_str, silent, parse_status, nargout);
   }
 
   octave_value
   eval_string (const std::string& eval_str, bool silent, int& parse_status)
   {
-    octave_value retval;
+    interpreter& interp = __get_interpreter__ ("eval_string");
 
-    octave_value_list tmp = eval_string (eval_str, silent, parse_status, 1);
-
-    if (! tmp.empty ())
-      retval = tmp(0);
-
-    return retval;
-  }
-
-  static octave_value_list
-  eval_string (const octave_value& arg, bool silent, int& parse_status,
-               int nargout)
-  {
-    std::string s = arg.xstring_value ("eval: expecting std::string argument");
-
-    return eval_string (s, silent, parse_status, nargout);
+    return interp.eval_string (eval_str, silent, parse_status);
   }
 
   void
@@ -5489,8 +5402,25 @@ namespace octave
   }
 }
 
-DEFUN (eval, args, nargout,
-       doc: /* -*- texinfo -*-
+octave_value_list
+eval_string (const std::string& str, bool silent, int& parse_status,
+             int nargout)
+{
+  octave::interpreter& interp = octave::__get_interpreter__ ("eval_string");
+
+  return interp.eval_string (str, silent, parse_status, nargout);
+}
+
+octave_value
+eval_string (const std::string& str, bool silent, int& parse_status)
+{
+  octave::interpreter& interp = octave::__get_interpreter__ ("eval_string");
+
+  return interp.eval_string (str, silent, parse_status);
+}
+
+DEFMETHOD (eval, interp, args, nargout,
+           doc: /* -*- texinfo -*-
 @deftypefn  {} {} eval (@var{try})
 @deftypefnx {} {} eval (@var{try}, @var{catch})
 Parse the string @var{try} and evaluate it as if it were an Octave
@@ -5552,7 +5482,7 @@ does.
 
   try
     {
-      tmp = octave::eval_string (args(0), nargout > 0, parse_status, nargout);
+      tmp = interp.eval_string (args(0), nargout > 0, parse_status, nargout);
     }
   catch (const octave::execution_exception&)
     {
@@ -5568,7 +5498,7 @@ does.
 
       buffer_error_messages--;
 
-      tmp = octave::eval_string (args(1), nargout > 0, parse_status, nargout);
+      tmp = interp.eval_string (args(1), nargout > 0, parse_status, nargout);
 
       if (nargout > 0)
         retval = tmp;
@@ -5657,13 +5587,13 @@ may be either @qcode{"base"} or @qcode{"caller"}.
 
   std::string nm = args(1).xstring_value ("assignin: VARNAME must be a string");
 
-  if (valid_identifier (nm))
+  if (octave::valid_identifier (nm))
     {
       // Put the check here so that we don't slow down assignments
       // generally.  Any that go through Octave's parser should have
       // already been checked.
 
-      if (octave::is_keyword (nm))
+      if (octave::iskeyword (nm))
         error ("assignin: invalid assignment to keyword '%s'", nm.c_str ());
 
       octave::symbol_scope scope = interp.get_current_scope ();
@@ -5728,8 +5658,7 @@ Like @code{eval}, except that the expressions are evaluated in the context
 
   try
     {
-      tmp = octave::eval_string (args(1), nargout > 0,
-                                 parse_status, nargout);
+      tmp = interp.eval_string (args(1), nargout > 0, parse_status, nargout);
     }
   catch (const octave::execution_exception&)
     {
@@ -5745,8 +5674,7 @@ Like @code{eval}, except that the expressions are evaluated in the context
 
       buffer_error_messages--;
 
-      tmp = octave::eval_string (args(2), nargout > 0,
-                                 parse_status, nargout);
+      tmp = interp.eval_string (args(2), nargout > 0, parse_status, nargout);
 
       retval = (nargout > 0) ? tmp : octave_value_list ();
     }
@@ -5772,7 +5700,7 @@ maybe_print_last_error_message (bool *doit)
     // Print error message again, which was lost because of the stderr buffer
     // Note: this keeps error_state and last_error_stack intact
     message_with_id ("error", last_error_id ().c_str (),
-                     last_error_message ().c_str ());
+                     "%s", last_error_message ().c_str ());
 }
 
 static void
@@ -5789,8 +5717,8 @@ restore_octave_stderr (std::streambuf *buf)
   std::cerr.rdbuf (buf);
 }
 
-DEFUN (evalc, args, nargout,
-       doc: /* -*- texinfo -*-
+DEFMETHOD (evalc, interp, args, nargout,
+           doc: /* -*- texinfo -*-
 @deftypefn  {} {@var{s} =} evalc (@var{try})
 @deftypefnx {} {@var{s} =} evalc (@var{try}, @var{catch})
 Parse and evaluate the string @var{try} as if it were an Octave program,
@@ -5847,7 +5775,7 @@ s = evalc ("t = 42"), t
   octave_value_list retval;
   int eval_nargout = std::max (0, nargout - 1);
 
-  retval = Feval (args, eval_nargout);
+  retval = Feval (interp, args, eval_nargout);
   eval_error_occurred = false;
 
   retval.prepend (buffer.str ());
@@ -5891,10 +5819,17 @@ s = evalc ("t = 42"), t
 %!  b = 2;
 %!endfunction
 %!test
-%! [s, a, b] = evalc ("__f_evalc ()");
-%! assert (s, "foobar 3.1416\n");
-%! assert (a, 1);
-%! assert (b, 2);
+%! [old_fmt, old_spacing] = format ();
+%! unwind_protect
+%!   format short;
+%!   [s, a, b] = evalc ("__f_evalc ()");
+%!   assert (s, "foobar 3.1416\n");
+%!   assert (a, 1);
+%!   assert (b, 2);
+%! unwind_protect_cleanup
+%!   format (old_fmt);
+%!   format (old_spacing);
+%! end_unwind_protect
 
 %!error <foo> (evalc ("error ('foo')"))
 %!error <bar> (evalc ("error ('foo')", "error ('bar')"))
@@ -5975,8 +5910,8 @@ Undocumented internal function.
     octave_stdout << "parsing " << full_file << std::endl;
 
   octave_value ov_fcn
-    = parse_fcn_file (full_file, file, dir_name, "", "", true, false,
-                      false, false, "__parse_file__");
+    = octave::parse_fcn_file (full_file, file, dir_name, "", "", true, false,
+                              false, false, "__parse_file__");
 
   return retval;
 }

@@ -1,6 +1,6 @@
 @c DO NOT EDIT!  Generated automatically by munge-texi.pl.
 
-@c Copyright (C) 1996-2018 John W. Eaton
+@c Copyright (C) 1996-2019 John W. Eaton
 @c
 @c This file is part of Octave.
 @c
@@ -439,7 +439,6 @@ dimension.
 Examples:
 
 @example
-@group
 ## row vector
 flip ([1  2  3  4])
       @result{}  4  3  2  1
@@ -460,7 +459,6 @@ flip ([1 2; 3 4])
 flip ([1 2; 3 4], 2)
       @result{}  2  1
           4  3
-@end group
 @end example
 
 @seealso{@ref{XREFfliplr,,fliplr}, @ref{XREFflipud,,flipud}, @ref{XREFrot90,,rot90}, @ref{XREFrotdim,,rotdim}, @ref{XREFpermute,,permute}, @ref{XREFtranspose,,transpose}}
@@ -771,7 +769,8 @@ Circularly shift the values of the array @var{x}.
 in @var{x}.  The values of @var{n} can be either positive or negative, which
 determines the direction in which the values of @var{x} are shifted.  If an
 element of @var{n} is zero, then the corresponding dimension of @var{x} will
-not be shifted.
+not be shifted.  If @var{n} is a scalar and no @var{dim} is specified then
+the shift is applied to the first non-singular dimension.
 
 If a scalar @var{dim} is given then operate along the specified dimension.
 In this case @var{n} must be a scalar as well.
@@ -779,21 +778,33 @@ In this case @var{n} must be a scalar as well.
 Examples:
 
 @example
-@group
-x = [1, 2, 3; 4, 5, 6; 7, 8, 9];
+x = [1, 2, 3;
+     4, 5, 6;
+     7, 8, 9];
+## positive shift on rows (1st non-singular dim)
 circshift (x, 1)
-@result{}  7, 8, 9
-    1, 2, 3
-    4, 5, 6
+  @result{}
+       7   8   9
+       1   2   3
+       4   5   6
+## negative shift on rows (1st non-singular dim)
 circshift (x, -2)
-@result{}  7, 8, 9
-    1, 2, 3
-    4, 5, 6
+  @result{}
+       7   8   9
+       1   2   3
+       4   5   6
+## no shift of rows, shift columns by 1 (2nd dimension)
 circshift (x, [0,1])
-@result{}  3, 1, 2
-    6, 4, 5
-    9, 7, 8
-@end group
+  @result{}
+       3   1   2
+       6   4   5
+       9   7   8
+## shift columns (2nd dimension)
+circshift (x, 1, 2)
+  @result{}
+       3   1   2
+       6   4   5
+       9   7   8
 @end example
 @seealso{@ref{XREFpermute,,permute}, @ref{XREFipermute,,ipermute}, @ref{XREFshiftdim,,shiftdim}}
 @end deftypefn
@@ -834,12 +845,14 @@ For example:
 @group
 x = ones (1, 2, 3);
 size (shiftdim (x, -1))
-   @result{} [1, 1, 2, 3]
+  @result{}   1   1   2   3
 size (shiftdim (x, 1))
-   @result{} [2, 3]
+  @result{}   2   3
 [b, ns] = shiftdim (x)
-   @result{} b = [1, 1, 1; 1, 1, 1]
-   @result{} ns = 1
+  @result{} b =
+        1   1   1
+        1   1   1
+  @result{} ns = 1
 @end group
 @end example
 @seealso{@ref{XREFreshape,,reshape}, @ref{XREFpermute,,permute}, @ref{XREFipermute,,ipermute}, @ref{XREFcircshift,,circshift}, @ref{XREFsqueeze,,squeeze}}
@@ -1401,7 +1414,8 @@ repelem (A, B)
 @example
 @group
 A = magic (3)
-  @result{}   8   1   6
+  @result{} A =
+       8   1   6
        3   5   7
        4   9   2
 B1 = [1 2 3];

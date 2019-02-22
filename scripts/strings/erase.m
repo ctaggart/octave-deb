@@ -1,4 +1,4 @@
-## Copyright (C) 2017-2018 Sahil Yadav
+## Copyright (C) 2017-2019 Sahil Yadav
 ##
 ## This file is part of Octave.
 ##
@@ -36,11 +36,13 @@
 ##     @result{} @{"Hello", "!"@}
 ##
 ## ## string, multiple patterns
-## erase ("The Octave interpreter is fabulous", @{"interpreter ", "The "@})
+## erase ("The Octave interpreter is fabulous", ...
+##        @{"interpreter ", "The "@})
 ##     @result{} "Octave is fabulous"
 ##
 ## ## cellstr, multiple patterns
-## erase (@{"The ", "Octave interpreter ", "is fabulous"@}, @{"interpreter ", "The "@})
+## erase (@{"The ", "Octave interpreter ", "is fabulous"@}, ...
+##        @{"interpreter ", "The "@})
 ##     @result{} @{"", "Octave ", "is fabulous"@}
 ## @end group
 ## @end example

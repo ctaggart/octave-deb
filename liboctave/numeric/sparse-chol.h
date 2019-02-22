@@ -1,7 +1,7 @@
 /*
 
-Copyright (C) 2016-2018 John W. Eaton
-Copyright (C) 2005-2018 David Bateman
+Copyright (C) 2016-2019 John W. Eaton
+Copyright (C) 2005-2019 David Bateman
 Copyright (C) 1998-2005 Andy Adler
 
 This file is part of Octave.
@@ -26,6 +26,8 @@ along with Octave; see the file COPYING.  If not, see
 #define octave_sparse_chol_h 1
 
 #include "octave-config.h"
+
+#include "CSparse.h"
 
 class RowVector;
 class SparseMatrix;

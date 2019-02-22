@@ -3,10 +3,10 @@
 <!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Variables (GNU Octave (version 4.4.1))</title>
+<title>Variables (GNU Octave (version 5.0.91))</title>
 
-<meta name="description" content="Variables (GNU Octave (version 4.4.1))">
-<meta name="keywords" content="Variables (GNU Octave (version 4.4.1))">
+<meta name="description" content="Variables (GNU Octave (version 5.0.91))">
+<meta name="keywords" content="Variables (GNU Octave (version 5.0.91))">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
@@ -118,78 +118,91 @@ variable.
 <dt><a name="index-isvarname"></a><em></em> <strong>isvarname</strong> <em>(<var>name</var>)</em></dt>
 <dd><p>Return true if <var>name</var> is a valid variable name.
 </p>
+<p>A valid variable name is composed of letters, digits, and underscores (&quot;_&quot;),
+and the first character must not be a digit.
+</p>
 <p><strong>See also:</strong> <a href="Keywords.html#XREFiskeyword">iskeyword</a>, <a href="Status-of-Variables.html#XREFexist">exist</a>, <a href="Status-of-Variables.html#XREFwho">who</a>.
 </p></dd></dl>
 
 
-<a name="XREFgenvarname"></a><dl>
-<dt><a name="index-genvarname"></a><em><var>varname</var> =</em> <strong>genvarname</strong> <em>(<var>str</var>)</em></dt>
-<dt><a name="index-genvarname-1"></a><em><var>varname</var> =</em> <strong>genvarname</strong> <em>(<var>str</var>, <var>exclusions</var>)</em></dt>
-<dd><p>Create valid unique variable name(s) from <var>str</var>.
+<a name="XREFmatlab_005flang_005fmakeValidName"></a><dl>
+<dt><a name="index-matlab_002elang_002emakeValidName"></a><em><var>varname</var> =</em> <strong>matlab.lang.makeValidName</strong> <em>(<var>str</var>)</em></dt>
+<dt><a name="index-matlab_002elang_002emakeValidName-1"></a><em><var>varname</var> =</em> <strong>matlab.lang.makeValidName</strong> <em>(&hellip;, <code>&quot;ReplacementStyle&quot;</code>, <var>rs</var>)</em></dt>
+<dt><a name="index-matlab_002elang_002emakeValidName-2"></a><em><var>varname</var> =</em> <strong>matlab.lang.makeValidName</strong> <em>(&hellip;, <code>&quot;Prefix&quot;</code>, <var>pfx</var>)</em></dt>
+<dt><a name="index-matlab_002elang_002emakeValidName-3"></a><em>[<var>varname</var>, <var>ismodified</var>] =</em> <strong>matlab.lang.makeValidName</strong> <em>(&hellip;)</em></dt>
+<dd>
+<p>Create valid variable name <var>varname</var> from <var>str</var>.
 </p>
-<p>If <var>str</var> is a cellstr, then a unique variable is created for each cell
-in <var>str</var>.
+<p>The input <var>str</var> must be a string or a cell array of strings.
+The output <var>varname</var> will be of the same type.
 </p>
-<div class="example">
-<pre class="example">genvarname ({&quot;foo&quot;, &quot;foo&quot;})
-  &rArr;
-     {
-       [1,1] = foo
-       [1,2] = foo1
-     }
-</pre></div>
+<p>A valid variable name is a sequence of letters, digits, and underscores that
+does not begin with a digit.
+</p>
+<p>The <code>&quot;ReplacementStyle&quot;</code> option specifies how invalid characters
+are handled.  Acceptable values are
+</p>
+<dl compact="compact">
+<dt><code>&quot;underscore&quot;</code> (default)</dt>
+<dd><p>Replace all invalid characters with an underscore (<code>&quot;_&quot;</code>).
+</p>
+</dd>
+<dt><code>&quot;delete&quot;</code></dt>
+<dd><p>Remove any invalid character.
+</p>
+</dd>
+<dt><code>&quot;hex&quot;</code></dt>
+<dd><p>Replace all invalid characters with their hexadecimal representation.
+</p></dd>
+</dl>
 
-<p>If <var>exclusions</var> is given, then the variable(s) will be unique to each
-other and to <var>exclusions</var> (<var>exclusions</var> may be either a string or a
-cellstr).
+<p>Whitespace characters are always removed <strong>prior</strong> to the application
+of the <code>&quot;ReplacementStyle&quot;</code>.  Lowercase letters following a whitespace
+will be changed to uppercase.
 </p>
-<div class="example">
-<pre class="example">x = 3.141;
-genvarname (&quot;x&quot;, who ())
-  &rArr; x1
-</pre></div>
+<p>The <code>&quot;Prefix&quot;</code> option specifies the string <var>pfx</var> to add as a
+prefix to the input if it begins with a digit.  <var>pfx</var> must be a valid
+variable name itself.  The default prefix is <code>&quot;x&quot;</code>.
+</p>
+<p>The optional output <var>ismodified</var> is a logical array indicating whether
+the respective element in <var>str</var> was a valid name or not.
+</p>
 
-<p>Note that the result is a char array or cell array of strings, not the
-variables themselves.  To define a variable, <code>eval()</code> can be used.
-The following trivial example sets <code>x</code> to 42.
-</p>
-<div class="example">
-<pre class="example">name = genvarname (&quot;x&quot;);
-eval ([name &quot; = 42&quot;]);
-  &rArr; x =  42
-</pre></div>
+<p><strong>See also:</strong> <a href="Keywords.html#XREFiskeyword">iskeyword</a>, <a href="#XREFisvarname">isvarname</a>, <a href="#XREFmatlab_005flang_005fmakeUniqueStrings">matlab.lang.makeUniqueStrings</a>.
+</p></dd></dl>
 
-<p>This can be useful for creating unique struct field names.
-</p>
-<div class="example">
-<pre class="example">x = struct ();
-for i = 1:3
-  x.(genvarname (&quot;a&quot;, fieldnames (x))) = i;
-endfor
-  &rArr; x =
-     {
-       a =  1
-       a1 =  2
-       a2 =  3
-     }
-</pre></div>
 
-<p>Since variable names may only contain letters, digits, and underscores,
-<code>genvarname</code> will replace any sequence of disallowed characters with
-an underscore.  Also, variables may not begin with a digit; in this case
-an &lsquo;<samp>x</samp>&rsquo; is added before the variable name.
+<a name="XREFmatlab_005flang_005fmakeUniqueStrings"></a><dl>
+<dt><a name="index-matlab_002elang_002emakeUniqueStrings"></a><em><var>uniqstr</var> =</em> <strong>matlab.lang.makeUniqueStrings</strong> <em>(<var>str</var>)</em></dt>
+<dt><a name="index-matlab_002elang_002emakeUniqueStrings-1"></a><em><var>uniqstr</var> =</em> <strong>matlab.lang.makeUniqueStrings</strong> <em>(<var>str</var>, <var>ex</var>)</em></dt>
+<dt><a name="index-matlab_002elang_002emakeUniqueStrings-2"></a><em><var>uniqstr</var> =</em> <strong>matlab.lang.makeUniqueStrings</strong> <em>(<var>str</var>, <var>ex</var>, <var>maxlength</var>)</em></dt>
+<dt><a name="index-matlab_002elang_002emakeUniqueStrings-3"></a><em>[<var>uniqstr</var>, <var>ismodified</var>] =</em> <strong>matlab.lang.makeUniqueStrings</strong> <em>(&hellip;)</em></dt>
+<dd>
+<p>Construct a list of unique strings from a list of strings.
 </p>
-<p>Variable names beginning and ending with two underscores <code>&quot;__&quot;</code> are
-valid, but they are used internally by Octave and should generally be
-avoided; therefore, <code>genvarname</code> will not generate such names.
+<p>The input <var>str</var> must be a string or a cell array of strings.
+The output <var>uniqstr</var> will be of the same type.
 </p>
-<p><code>genvarname</code> will also ensure that returned names do not clash with
-keywords such as <code>&quot;for&quot;</code> and <code>&quot;if&quot;</code>.  A number will be
-appended if necessary.  Note, however, that this does <strong>not</strong> include
-function names such as <code>&quot;sin&quot;</code>.  Such names should be included in
-<var>exclusions</var> if necessary.
+<p>The algorithm makes two strings unique by appending an underscore
+(<code>&quot;_&quot;</code> and a numeric count to the second string.
 </p>
-<p><strong>See also:</strong> <a href="#XREFisvarname">isvarname</a>, <a href="Keywords.html#XREFiskeyword">iskeyword</a>, <a href="Status-of-Variables.html#XREFexist">exist</a>, <a href="Status-of-Variables.html#XREFwho">who</a>, <a href="Temporary-Files.html#XREFtempname">tempname</a>, <a href="Evaluation.html#XREFeval">eval</a>.
+<p>If <var>ex</var> is a string or a cell array of strings, <var>uniqstr</var> will
+contain elements that are unique between themselves and with respect to
+<var>ex</var>.
+</p>
+<p>If <var>ex</var> is an index array or a logical array for <var>str</var> then it
+selects the subset of <var>str</var> that are made unique.  Unselected elements
+are not modified.
+</p>
+<p>The optional input <var>maxlength</var> specifies the maximum length of any
+string in <var>uniqstr</var>.  If an input string cannot be made unique without
+exceeding <var>maxlength</var> an error is emitted.
+</p>
+<p>The optional output <var>ismodified</var> is a logical array indicating whether
+each element in <var>str</var> was modified to make it unique.
+</p>
+
+<p><strong>See also:</strong> <a href="Sets.html#XREFunique">unique</a>, <a href="#XREFmatlab_005flang_005fmakeValidName">matlab.lang.makeValidName</a>.
 </p></dd></dl>
 
 

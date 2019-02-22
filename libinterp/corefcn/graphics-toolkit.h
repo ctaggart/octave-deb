@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2007-2018 John W. Eaton
+Copyright (C) 2007-2019 John W. Eaton
 
 This file is part of Octave.
 
@@ -54,6 +54,9 @@ public:
 
   virtual void redraw_figure (const graphics_object&) const
   { gripe_if_tkit_invalid ("redraw_figure"); }
+
+  virtual void show_figure (const graphics_object&) const
+  { gripe_if_tkit_invalid ("show_figure"); }
 
   virtual void print_figure (const graphics_object&, const std::string&,
                              const std::string&,
@@ -174,6 +177,9 @@ public:
 
   void redraw_figure (const graphics_object& go) const
   { rep->redraw_figure (go); }
+
+  void show_figure (const graphics_object& go) const
+  { rep->show_figure (go); }
 
   void print_figure (const graphics_object& go, const std::string& term,
                      const std::string& file,

@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2002-2018 John W. Eaton
+Copyright (C) 2002-2019 John W. Eaton
 
 This file is part of Octave.
 
@@ -120,15 +120,6 @@ namespace octave
   {
   };
 }
-
-OCTAVE_DEPRECATED (4.2, "use 'octave::execution_exception' instead")
-typedef octave::execution_exception octave_execution_exception;
-
-OCTAVE_DEPRECATED (4.2, "use 'octave::exit_exception' instead")
-typedef octave::exit_exception octave_exit_exception;
-
-OCTAVE_DEPRECATED (4.2, "use 'octave::interrupt_exception' instead")
-typedef octave::interrupt_exception octave_interrupt_exception;
 
 #endif
 

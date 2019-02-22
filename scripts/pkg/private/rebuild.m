@@ -1,4 +1,4 @@
-## Copyright (C) 2005-2018 Søren Hauberg
+## Copyright (C) 2005-2019 Søren Hauberg
 ## Copyright (C) 2010 VZLU Prague, a.s.
 ##
 ## This file is part of Octave.
@@ -25,12 +25,16 @@
 function descriptions = rebuild (prefix, archprefix, list, files, verbose)
 
   if (isempty (files))
-    [dirlist, err, msg] = readdir (prefix);
-    if (err)
-      error ("couldn't read directory %s: %s", prefix, msg);
+    if (! exist (prefix, "dir"))
+      dirlist = [];
+    else
+      [dirlist, err, msg] = readdir (prefix);
+      if (err)
+        error ("couldn't read directory %s: %s", prefix, msg);
+      endif
+      ## the two first entries of dirlist are "." and ".."
+      dirlist([1,2]) = [];
     endif
-    ## the two first entries of dirlist are "." and ".."
-    dirlist([1,2]) = [];
   else
     old_descriptions = installed_packages (list, list);
     wd = pwd ();

@@ -1,6 +1,6 @@
 @c DO NOT EDIT!  Generated automatically by munge-texi.pl.
 
-@c Copyright (C) 1996-2018 John W. Eaton
+@c Copyright (C) 1996-2019 John W. Eaton
 @c
 @c This file is part of Octave.
 @c
@@ -230,7 +230,7 @@ For example:
 @example
 @group
 swapbytes (uint16 (1:4))
-@result{} [   256   512   768  1024]
+@result{}   256   512   768  1024
 @end group
 @end example
 
@@ -461,7 +461,8 @@ data structure type doesn't have rows or columns, so the @code{rows} and
 Return the number of dimensions of @var{a}.
 
 For any array, the result will always be greater than or equal to 2.
-Trailing singleton dimensions are not counted.
+Trailing singleton dimensions are not counted, i.e., tailing dimensions @var{d}
+greater than 2, for which @code{size (@var{a}, @var{d}) = 1}.
 
 @example
 @group
@@ -476,7 +477,8 @@ ndims (ones (4, 1, 2, 1))
 @c columns libinterp/corefcn/data.cc
 @anchor{XREFcolumns}
 @deftypefn {} {} columns (@var{a})
-Return the number of columns of @var{a}.
+Return the number of columns of @var{a}.  This is equivalent to
+@code{size (@var{a}, 2)}.
 @seealso{@ref{XREFrows,,rows}, @ref{XREFsize,,size}, @ref{XREFlength,,length}, @ref{XREFnumel,,numel}, @ref{XREFisscalar,,isscalar}, @ref{XREFisvector,,isvector}, @ref{XREFismatrix,,ismatrix}}
 @end deftypefn
 
@@ -484,7 +486,8 @@ Return the number of columns of @var{a}.
 @c rows libinterp/corefcn/data.cc
 @anchor{XREFrows}
 @deftypefn {} {} rows (@var{a})
-Return the number of rows of @var{a}.
+Return the number of rows of @var{a}.  This is equivalent to
+@code{size (@var{a}, 1)}.
 @seealso{@ref{XREFcolumns,,columns}, @ref{XREFsize,,size}, @ref{XREFlength,,length}, @ref{XREFnumel,,numel}, @ref{XREFisscalar,,isscalar}, @ref{XREFisvector,,isvector}, @ref{XREFismatrix,,ismatrix}}
 @end deftypefn
 

@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 1999-2018 John W. Eaton
+Copyright (C) 1999-2019 John W. Eaton
 
 This file is part of Octave.
 
@@ -23,8 +23,6 @@ along with Octave; see the file COPYING.  If not, see
 #if defined (HAVE_CONFIG_H)
 #  include "config.h"
 #endif
-
-#include <iostream>
 
 #include "Cell.h"
 #include "ovl.h"

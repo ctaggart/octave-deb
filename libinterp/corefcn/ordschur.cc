@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2016-2018 Sébastien Villemot <sebastien@debian.org>
+Copyright (C) 2016-2019 Sébastien Villemot <sebastien@debian.org>
 
 This file is part of Octave.
 
@@ -71,13 +71,13 @@ is in the upper left corner, by doing:
 [@var{U}, @var{S}] = ordschur (@var{U}, @var{S}, [0,1])
 @end example
 
-@seealso{schur}
+@seealso{schur, ordeig}
 @end deftypefn */)
 {
   if (args.length () != 3)
     print_usage ();
 
-  const Array<octave_idx_type> sel_arg = args(2).octave_idx_type_vector_value ("ordschur: SELECT must be an array of integers");
+  const Array<octave_idx_type> sel_arg = args(2).xoctave_idx_type_vector_value ("ordschur: SELECT must be an array of integers");
 
   const octave_idx_type sel_n = sel_arg.numel ();
 

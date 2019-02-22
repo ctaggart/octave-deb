@@ -1,4 +1,4 @@
-## Copyright (C) 2008-2018 Bill Denney
+## Copyright (C) 2008-2019 Bill Denney
 ##
 ## This file is part of Octave.
 ##
@@ -48,13 +48,13 @@ function h = allchild (handles)
 endfunction
 
 
-%!testif HAVE_OPENGL, HAVE_FLTK; have_window_system ()
+%!testif HAVE_OPENGL, HAVE_FLTK; have_window_system () && any (strcmp ("fltk", available_graphics_toolkits ()))
 %! toolkit = graphics_toolkit ("fltk");
 %! hf = figure ("visible", "off");
 %! unwind_protect
 %!   l = line;
 %!   kids = allchild (hf);
-%!   assert (get (kids, "type"), {"axes"; "uimenu"; "uimenu"});
+%!   assert (get (kids, "type"), {"axes"; "uimenu"; "uimenu"; "uimenu"});
 %! unwind_protect_cleanup
 %!   close (hf);
 %!   graphics_toolkit (toolkit);

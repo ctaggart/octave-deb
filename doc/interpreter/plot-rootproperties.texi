@@ -1,6 +1,6 @@
 @c DO NOT EDIT!  Generated automatically by genpropdoc.m.
 
-@c Copyright (C) 2014-2018 Pantxo Diribarne
+@c Copyright (C) 2014-2019 Pantxo Diribarne
 @c
 @c This file is part of Octave.
 @c
@@ -190,7 +190,7 @@ Class name of the graphics object.  @code{type} is always @qcode{"root"}
 
 @anchor{XREFrootunits}
 @prindex root units
-@item @code{units}: @qcode{"centimeters"} | @qcode{"inches"} | @qcode{"normalized"} | @{@qcode{"pixels"}@} | @qcode{"points"}
+@item @code{units}: @qcode{"centimeters"} | @qcode{"characters"} | @qcode{"inches"} | @qcode{"normalized"} | @{@qcode{"pixels"}@} | @qcode{"points"}
 
 
 

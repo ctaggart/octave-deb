@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2011-2018 Michael Goffioul
+Copyright (C) 2011-2019 Michael Goffioul
 
 This file is part of QConsole.
 
@@ -52,7 +52,6 @@ see <https://www.gnu.org/licenses/>.
 #include <versionhelpers.h>
 #include <cstring>
 #include <csignal>
-#include <limits>
 
 #include "QWinTerminalImpl.h"
 #include "QTerminalColors.h"

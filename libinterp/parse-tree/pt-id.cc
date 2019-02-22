@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 1996-2018 John W. Eaton
+Copyright (C) 1996-2019 John W. Eaton
 
 This file is part of Octave.
 
@@ -65,12 +65,12 @@ namespace octave
   }
 
   octave_lvalue
-  tree_identifier::lvalue (tree_evaluator *tw)
+  tree_identifier::lvalue (tree_evaluator& tw)
   {
     if (m_sym.is_added_static ())
       static_workspace_error ();
 
-    symbol_scope scope = tw->get_current_scope ();
+    symbol_scope scope = tw.get_current_scope ();
 
     return octave_lvalue (m_sym, scope.current_context ());
   }

@@ -1,4 +1,4 @@
-## Copyright (C) 2012-2018 Fotios Kasolis
+## Copyright (C) 2012-2019 Fotios Kasolis
 ##
 ## This file is part of Octave.
 ##
@@ -22,23 +22,23 @@
 ##
 ## Solve the polynomial eigenvalue problem of degree @var{l}.
 ##
-## Given an @var{n*n} matrix polynomial
+## Given an @var{n}x@var{n} matrix polynomial
 ##
-## @code{@var{C}(s) = @var{C0} + @var{C1} s + @dots{} + @var{Cl} s^l}
+## @code{@var{C}(@var{s}) = @var{C0} + @var{C1} @var{s} + @dots{} + @var{Cl}
+## @var{s}^@var{l}}
 ##
 ## @code{polyeig} solves the eigenvalue problem
 ##
-## @code{(@var{C0} + @var{C1} + @dots{} + @var{Cl})v = 0}.
+## @code{(@var{C0} + @var{C1} @var{z} + @dots{} + @var{Cl} z^@var{l}) @var{v} =
+## 0}.
 ##
 ## Note that the eigenvalues @var{z} are the zeros of the matrix polynomial.
-## @var{z} is a row vector with @var{n*l} elements.  @var{v} is a matrix
-## (@var{n} x @var{n}*@var{l}) with columns that correspond to the
+## @var{z} is a row vector with @code{@var{n}*@var{l}} elements.  @var{v} is a
+## matrix (@var{n} x @var{n}*@var{l}) with columns that correspond to the
 ## eigenvectors.
 ##
 ## @seealso{eig, eigs, compan}
 ## @end deftypefn
-
-## Author: Fotios Kasolis
 
 function [z, v] = polyeig (varargin)
 
@@ -46,10 +46,9 @@ function [z, v] = polyeig (varargin)
     print_usage ();
   endif
 
-  nin = numel (varargin);
   n = rows (varargin{1});
 
-  for i = 1 : nin
+  for i = 1 : nargin
     if (! issquare (varargin{i}))
       error ("polyeig: coefficients must be square matrices");
     endif
@@ -59,33 +58,33 @@ function [z, v] = polyeig (varargin)
   endfor
 
   ## matrix polynomial degree
-  l = nin - 1;
+  l = nargin - 1;
 
   ## form needed matrices
   C = [ zeros(n * (l - 1), n), eye(n * (l - 1));
        -cell2mat(varargin(1:end-1)) ];
 
   D = [ eye(n * (l - 1)), zeros(n * (l - 1), n);
-       zeros(n, n * (l - 1)), varargin{end} ];
+        zeros(n, n * (l - 1)), varargin{end} ];
 
   ## solve generalized eigenvalue problem
-  if (nargout == 2)
+  if (nargout < 2)
+    z = eig (C, D);
+  else
     [z, v] = eig (C, D);
     v = diag (v);
     ## return n-element eigenvectors normalized so that the infinity-norm = 1
     z = z(1:n,:);
-    ## max() takes the abs if complex:
-    t = max (z);
-    z /= diag (t);
-  else
-    z = eig (C, D);
+    t = max (z);    # max() takes the abs if complex.
+    z ./= t;
   endif
 
 endfunction
 
 
 %!shared C0, C1
-%! C0 = [8, 0; 0, 4]; C1 = [1, 0; 0, 1];
+%! C0 = [8, 0; 0, 4];
+%! C1 = [1, 0; 0, 1];
 
 %!test
 %! z = polyeig (C0, C1);
@@ -102,4 +101,5 @@ endfunction
 %!error polyeig ()
 %!error [a,b,c] = polyeig (1)
 %!error <coefficients must be square matrices> polyeig (ones (3,2))
-%!error <coefficients must have the same dimensions> polyeig (ones (3,3), ones (2,2))
+%!error <coefficients must have the same dimensions>
+%! polyeig (ones (3,3), ones (2,2))

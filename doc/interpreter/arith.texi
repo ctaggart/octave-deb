@@ -1,6 +1,6 @@
 @c DO NOT EDIT!  Generated automatically by munge-texi.pl.
 
-@c Copyright (C) 1996-2018 John W. Eaton
+@c Copyright (C) 1996-2019 John W. Eaton
 @c
 @c This file is part of Octave.
 @c
@@ -183,7 +183,7 @@ f .* (2 .^ e).
 
 @c nextpow2 scripts/general/nextpow2.m
 @anchor{XREFnextpow2}
-@deftypefn {} {} nextpow2 (@var{x})
+@deftypefn {} {@var{n} =} nextpow2 (@var{x})
 Compute the exponent for the smallest power of two larger than the input.
 
 For each element in the input array @var{x}, return the first integer
@@ -1326,8 +1326,9 @@ Example Code:
 
 @example
 @group
-cross ([1,1,0], [0,1,1])
-     @result{} [ 1; -1; 1 ]
+cross ([1, 1, 0], [0, 1, 1])
+  @result{}
+       1   -1   1
 @end group
 @end example
 
@@ -1485,14 +1486,14 @@ Return the prime factorization of @var{q}.
 
 The prime factorization is defined as @code{prod (@var{pf}) == @var{q}}
 where every element of @var{pf} is a prime number.  If @code{@var{q} == 1},
-return 1.
+return 1.  The output @var{pf} is of the same numeric class as the input.
 
 With two output arguments, return the unique prime factors @var{pf} and
 their multiplicities.  That is,
 @code{prod (@var{pf} .^ @var{n}) == @var{q}}.
 
-Implementation Note: The input @var{q} must be less than
-@code{flintmax} (9.0072e+15) in order to factor correctly.
+Implementation Note: The input @var{q} must be less than @code{flintmax}
+(9.0072e+15) in order to factor correctly.
 @seealso{@ref{XREFgcd,,gcd}, @ref{XREFlcm,,lcm}, @ref{XREFisprime,,isprime}, @ref{XREFprimes,,primes}}
 @end deftypefn
 
@@ -1563,9 +1564,12 @@ x - y .* fix (x ./ y)
 An error message is printed if the dimensions of the arguments do not agree,
 or if either argument is complex.
 
-Programming Notes: Floating point numbers within a few eps of an integer
-will be rounded to an integer before computation for compatibility with
-@sc{matlab}.
+Programming Notes: When calculating with floating point numbers (double,
+single), values within a few eps of an integer will be rounded to that
+integer before computation for compatibility with @sc{matlab}.  Any floating
+point integers greater than @code{flintmax} (2^53 for double) will not compute
+correctly.  For larger integer values convert the input to @code{uint64} before
+calling this function.
 
 By convention,
 
@@ -1573,7 +1577,7 @@ By convention,
 @group
 rem (@var{x}, 0) = NaN  if @var{x} is a floating point variable
 rem (@var{x}, 0) = 0    if @var{x} is an integer variable
-rem (@var{x}, @var{y})        returns a value with the signbit from @var{x}
+rem (@var{x}, @var{y})  returns a value with the signbit from @var{x}
 @end group
 @end example
 
@@ -1604,9 +1608,12 @@ This function handles negative values correctly.  That is,
 An error results if the dimensions of the arguments do not agree, or if
 either of the arguments is complex.
 
-Programming Notes: Floating point numbers within a few eps of an integer
-will be rounded to an integer before computation for compatibility with
-@sc{matlab}.
+Programming Notes: When calculating with floating point numbers (double,
+single), values within a few eps of an integer will be rounded to that
+integer before computation for compatibility with @sc{matlab}.  Any floating
+point integers greater than @code{flintmax} (2^53 for double) will not compute
+correctly.  For larger integer values convert the input to @code{uint64} before
+calling this function.
 
 By convention,
 
@@ -3077,25 +3084,43 @@ Reference:
 
 @c rat scripts/general/rat.m
 @anchor{XREFrat}
-@deftypefn  {} {@var{s} =} rat (@var{x}, @var{tol})
-@deftypefnx {} {[@var{n}, @var{d}] =} rat (@var{x}, @var{tol})
+@deftypefn  {} {@var{s} =} rat (@var{x})
+@deftypefnx {} {@var{s} =} rat (@var{x}, @var{tol})
+@deftypefnx {} {[@var{n}, @var{d}] =} rat (@dots{})
 
-Find a rational approximation to @var{x} within the tolerance defined by
-@var{tol} using a continued fraction expansion.
+Find a rational approximation of @var{x} to within the tolerance defined by
+@var{tol}.
+
+If unspecified, the default tolerance is @code{1e-6 * norm (@var{x}(:), 1)}.
+
+When called with one output argument, return a string containing a
+continued fraction expansion (multiple terms).
+
+When called with two output arguments, return numeric matrices for the
+numerator and denominator of a fractional representation of @var{x} such
+that @code{@var{x} = @var{n} ./ @var{d}}.
 
 For example:
 
 @example
 @group
-rat (pi) = 3 + 1/(7 + 1/16) = 355/113
-rat (e) = 3 + 1/(-4 + 1/(2 + 1/(5 + 1/(-2 + 1/(-7)))))
-        = 1457/536
+s = rat (pi)
+@result{} s = 3 + 1/(7 + 1/16)
+
+[n, d] = rat (pi)
+@result{} n =  355
+@result{} d =  113
+
+n / d - pi
+@result{} 0.00000026676
 @end group
 @end example
 
-When called with two output arguments return the numerator and denominator
-separately as two matrices.
-@seealso{@ref{XREFrats,,rats}}
+Programming Note: With one output @code{rat} produces a string which is a
+continued fraction expansion.  To produce a string which is a simple
+fraction (one numerator, one denominator) use @code{rats}.
+
+@seealso{@ref{XREFrats,,rats}, @ref{XREFformat,,format}}
 @end deftypefn
 
 

@@ -1,4 +1,4 @@
-## Copyright (C) 1993-2018 John W. Eaton
+## Copyright (C) 1993-2019 John W. Eaton
 ##
 ## This file is part of Octave.
 ##
@@ -24,18 +24,19 @@
 ## @example
 ## @group
 ## int2str (123)
-##      @result{} "123"
+##   @result{} 123
 ##
 ## s = int2str ([1, 2, 3; 4, 5, 6])
-##      @result{} s =
+##   @result{} s =
 ##         1  2  3
 ##         4  5  6
 ##
 ## whos s
-##      @result{}
-##       Attr Name        Size                     Bytes  Class
-##       ==== ====        ====                     =====  =====
-##            s           2x7                         14  char
+##   @result{} Variables in the current scope:
+##         Attr Name        Size                     Bytes  Class
+##         ==== ====        ====                     =====  =====
+##              s           2x7                         14  char
+##      Total is 14 elements using 14 bytes
 ## @end group
 ## @end example
 ##

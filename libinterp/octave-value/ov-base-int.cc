@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2004-2018 John W. Eaton
+Copyright (C) 2004-2019 John W. Eaton
 
 This file is part of Octave.
 
@@ -24,8 +24,10 @@ along with Octave; see the file COPYING.  If not, see
 // C++ source files that should have included config.h before including
 // this file.
 
-#include <iostream>
+#include <istream>
 #include <limits>
+#include <ostream>
+#include <sstream>
 #include <vector>
 
 #include "dNDArray.h"

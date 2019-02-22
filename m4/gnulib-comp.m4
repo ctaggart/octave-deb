@@ -49,11 +49,13 @@ AC_DEFUN([gl_EARLY],
   # Code from module allocator:
   # Code from module areadlink:
   # Code from module areadlink-with-size:
+  # Code from module array-mergesort:
   # Code from module assure:
   # Code from module at-internal:
   # Code from module base64:
   # Code from module bitrotate:
   # Code from module builtin-expect:
+  # Code from module byteswap:
   # Code from module c-ctype:
   # Code from module c-strcase:
   # Code from module c-strcaseeq:
@@ -66,13 +68,17 @@ AC_DEFUN([gl_EARLY],
   # Code from module cloexec:
   # Code from module close:
   # Code from module closedir:
-  # Code from module configmake:
+  # Code from module crypto/af_alg:
   # Code from module crypto/md2:
   # Code from module crypto/md4:
   # Code from module crypto/md5:
+  # Code from module crypto/md5-buffer:
   # Code from module crypto/sha1:
+  # Code from module crypto/sha1-buffer:
   # Code from module crypto/sha256:
+  # Code from module crypto/sha256-buffer:
   # Code from module crypto/sha512:
+  # Code from module crypto/sha512-buffer:
   # Code from module d-ino:
   # Code from module d-type:
   # Code from module dirent:
@@ -95,6 +101,8 @@ AC_DEFUN([gl_EARLY],
   # Code from module fd-hook:
   # Code from module fd-safer-flag:
   # Code from module fdopendir:
+  # Code from module fflush:
+  AC_REQUIRE([AC_FUNC_FSEEKO])
   # Code from module file-set:
   # Code from module filemode:
   # Code from module filename:
@@ -102,9 +110,12 @@ AC_DEFUN([gl_EARLY],
   # Code from module flexmember:
   # Code from module float:
   # Code from module fnmatch:
+  # Code from module fnmatch-h:
   # Code from module fpieee:
   AC_REQUIRE([gl_FP_IEEE])
   # Code from module fpucw:
+  # Code from module fpurge:
+  # Code from module freading:
   # Code from module frexp:
   # Code from module frexpf:
   # Code from module fseek:
@@ -128,13 +139,13 @@ AC_DEFUN([gl_EARLY],
   # Code from module gettext-h:
   # Code from module gettimeofday:
   # Code from module glob:
+  # Code from module glob-h:
   # Code from module gperf:
   # Code from module hard-locale:
   # Code from module hash:
   # Code from module hash-pjw:
   # Code from module hash-triple:
   # Code from module havelib:
-  # Code from module host-cpu-c-abi:
   # Code from module iconv:
   # Code from module iconv-h:
   # Code from module iconv_open:
@@ -167,6 +178,7 @@ AC_DEFUN([gl_EARLY],
   # Code from module mkdir:
   # Code from module mkfifo:
   # Code from module mkostemp:
+  # Code from module mkostemps:
   # Code from module mktime:
   # Code from module mktime-internal:
   # Code from module msvc-inval:
@@ -227,7 +239,6 @@ AC_DEFUN([gl_EARLY],
   # Code from module streq:
   # Code from module strerror:
   # Code from module strerror-override:
-  # Code from module strftime:
   # Code from module striconveh:
   # Code from module striconveha:
   # Code from module string:
@@ -261,18 +272,54 @@ AC_DEFUN([gl_EARLY],
   # Code from module tzset:
   # Code from module u64:
   # Code from module uname:
+  # Code from module unicase/base:
+  # Code from module unicase/cased:
+  # Code from module unicase/empty-prefix-context:
+  # Code from module unicase/empty-suffix-context:
+  # Code from module unicase/ignorable:
+  # Code from module unicase/special-casing:
+  # Code from module unicase/tolower:
+  # Code from module unicase/toupper:
+  # Code from module unicase/u8-casemap:
+  # Code from module unicase/u8-tolower:
+  # Code from module unicase/u8-toupper:
   # Code from module uniconv/base:
+  # Code from module uniconv/u32-conv-to-enc:
   # Code from module uniconv/u8-conv-from-enc:
   # Code from module uniconv/u8-conv-to-enc:
+  # Code from module unictype/base:
+  # Code from module unictype/combining-class:
+  # Code from module unictype/ctype-alnum:
+  # Code from module unictype/ctype-alpha:
+  # Code from module unictype/ctype-blank:
+  # Code from module unictype/ctype-cntrl:
+  # Code from module unictype/ctype-digit:
+  # Code from module unictype/ctype-graph:
+  # Code from module unictype/ctype-lower:
+  # Code from module unictype/ctype-print:
+  # Code from module unictype/ctype-punct:
+  # Code from module unictype/ctype-space:
+  # Code from module unictype/ctype-upper:
+  # Code from module unictype/ctype-xdigit:
+  # Code from module unictype/property-soft-dotted:
+  # Code from module uninorm/base:
+  # Code from module uninorm/decompose-internal:
+  # Code from module uninorm/u8-normalize:
   # Code from module unistd:
   # Code from module unistd-safer:
   # Code from module unistr/base:
+  # Code from module unistr/u32-mblen:
+  # Code from module unistr/u32-to-u8:
   # Code from module unistr/u8-check:
+  # Code from module unistr/u8-cpy:
   # Code from module unistr/u8-mblen:
   # Code from module unistr/u8-mbtouc:
   # Code from module unistr/u8-mbtouc-unsafe:
   # Code from module unistr/u8-mbtoucr:
   # Code from module unistr/u8-prev:
+  # Code from module unistr/u8-strmblen:
+  # Code from module unistr/u8-strmbtouc:
+  # Code from module unistr/u8-to-u32:
   # Code from module unistr/u8-uctomb:
   # Code from module unitypes:
   # Code from module unlink:
@@ -313,6 +360,7 @@ AC_SUBST([LTALLOCA])
   AC_LIBOBJ([openat-proc])
   gl_FUNC_BASE64
   gl___BUILTIN_EXPECT
+  gl_BYTESWAP
   gl_FUNC_CANONICALIZE_FILENAME_MODE
   gl_MODULE_INDICATOR([canonicalize])
   gl_MODULE_INDICATOR_FOR_TESTS([canonicalize])
@@ -336,11 +384,15 @@ AC_SUBST([LTALLOCA])
     AC_LIBOBJ([closedir])
   fi
   gl_DIRENT_MODULE_INDICATOR([closedir])
-  gl_CONFIGMAKE_PREP
+  gl_AF_ALG
   gl_MD4
+  AC_DEFINE([GL_COMPILE_CRYPTO_STREAM], 1, [Compile Gnulib crypto stream ops.])
   gl_MD5
+  AC_DEFINE([GL_COMPILE_CRYPTO_STREAM], 1, [Compile Gnulib crypto stream ops.])
   gl_SHA1
+  AC_DEFINE([GL_COMPILE_CRYPTO_STREAM], 1, [Compile Gnulib crypto stream ops.])
   gl_SHA256
+  AC_DEFINE([GL_COMPILE_CRYPTO_STREAM], 1, [Compile Gnulib crypto stream ops.])
   gl_SHA512
   gl_CHECK_TYPE_STRUCT_DIRENT_D_INO
   gl_CHECK_TYPE_STRUCT_DIRENT_D_TYPE
@@ -395,6 +447,13 @@ AC_SUBST([LTALLOCA])
   fi
   gl_DIRENT_MODULE_INDICATOR([fdopendir])
   gl_MODULE_INDICATOR([fdopendir])
+  gl_FUNC_FFLUSH
+  if test $REPLACE_FFLUSH = 1; then
+    AC_LIBOBJ([fflush])
+    gl_PREREQ_FFLUSH
+  fi
+  gl_MODULE_INDICATOR([fflush])
+  gl_STDIO_MODULE_INDICATOR([fflush])
   gl_FILEMODE
   gl_FILE_NAME_CONCAT_LGPL
   AC_C_FLEXIBLE_ARRAY_MEMBER
@@ -406,10 +465,18 @@ AC_SUBST([LTALLOCA])
     AC_LIBOBJ([itold])
   fi
   gl_FUNC_FNMATCH_POSIX
-  if test -n "$FNMATCH_H"; then
+  if test $HAVE_FNMATCH = 0 || test $REPLACE_FNMATCH = 1; then
     AC_LIBOBJ([fnmatch])
     gl_PREREQ_FNMATCH
   fi
+  gl_FNMATCH_MODULE_INDICATOR([fnmatch])
+  gl_FNMATCH_H
+  gl_FUNC_FPURGE
+  if test $HAVE_FPURGE = 0 || test $REPLACE_FPURGE = 1; then
+    AC_LIBOBJ([fpurge])
+  fi
+  gl_STDIO_MODULE_INDICATOR([fpurge])
+  gl_FUNC_FREADING
   AC_REQUIRE([gl_FUNC_FREXP])
   if test $gl_func_frexp != yes; then
     AC_LIBOBJ([frexp])
@@ -522,14 +589,16 @@ AC_SUBST([LTALLOCA])
   fi
   gl_SYS_TIME_MODULE_INDICATOR([gettimeofday])
   gl_GLOB
-  if test $REPLACE_GLOB = 1; then
+  if test $HAVE_GLOB = 0 || test $REPLACE_GLOB = 1; then
     AC_LIBOBJ([glob])
-    AC_LIBOBJ([glob_pattern_p])
     AC_LIBOBJ([globfree])
     gl_PREREQ_GLOB
   fi
-  gl_HARD_LOCALE
-  AC_REQUIRE([gl_HOST_CPU_C_ABI])
+  if test $HAVE_GLOB_PATTERN_P = 0 || test $REPLACE_GLOB_PATTERN_P = 1; then
+    AC_LIBOBJ([glob_pattern_p])
+  fi
+  gl_GLOB_MODULE_INDICATOR([glob])
+  gl_GLOB_H
   AM_ICONV
   m4_ifdef([gl_ICONV_MODULE_INDICATOR],
     [gl_ICONV_MODULE_INDICATOR([iconv])])
@@ -563,7 +632,8 @@ AC_SUBST([LTALLOCA])
   fi
   gl_UNISTD_MODULE_INDICATOR([link])
   gl_LOCALCHARSET
-  LOCALCHARSET_TESTS_ENVIRONMENT="CHARSETALIASDIR=\"\$(abs_top_builddir)/$gl_source_base\""
+  dnl For backward compatibility. Some packages still use this.
+  LOCALCHARSET_TESTS_ENVIRONMENT=
   AC_SUBST([LOCALCHARSET_TESTS_ENVIRONMENT])
   AC_REQUIRE([gl_LOCALTIME_BUFFER_DEFAULTS])
   AC_LIBOBJ([localtime-buffer])
@@ -646,6 +716,12 @@ AC_SUBST([LTALLOCA])
   fi
   gl_MODULE_INDICATOR([mkostemp])
   gl_STDLIB_MODULE_INDICATOR([mkostemp])
+  gl_FUNC_MKOSTEMPS
+  if test $HAVE_MKOSTEMPS = 0; then
+    AC_LIBOBJ([mkostemps])
+  fi
+  gl_MODULE_INDICATOR([mkostemps])
+  gl_STDLIB_MODULE_INDICATOR([mkostemps])
   gl_FUNC_MKTIME
   if test $REPLACE_MKTIME = 1; then
     AC_LIBOBJ([mktime])
@@ -917,13 +993,57 @@ AC_SUBST([LTALLOCA])
     gl_PREREQ_UNAME
   fi
   gl_SYS_UTSNAME_MODULE_INDICATOR([uname])
+  gl_LIBUNISTRING_LIBHEADER([0.9.4], [unicase.h])
+  AC_REQUIRE([AC_C_INLINE])
+  gl_LIBUNISTRING_MODULE([0.9.1], [unicase/empty-prefix-context])
+  gl_LIBUNISTRING_MODULE([0.9.1], [unicase/empty-suffix-context])
+  AC_REQUIRE([AC_C_INLINE])
+  gl_LIBUNISTRING_MODULE([0.9.8], [unicase/tolower])
+  gl_LIBUNISTRING_MODULE([0.9.8], [unicase/toupper])
+  gl_LIBUNISTRING_MODULE([0.9.8], [unicase/u8-tolower])
+  gl_LIBUNISTRING_MODULE([0.9.8], [unicase/u8-toupper])
   gl_LIBUNISTRING_LIBHEADER([0.9.4], [uniconv.h])
+  gl_LIBUNISTRING_MODULE([0.9], [uniconv/u32-conv-to-enc])
   gl_LIBUNISTRING_MODULE([0.9], [uniconv/u8-conv-from-enc])
   gl_LIBUNISTRING_MODULE([0.9], [uniconv/u8-conv-to-enc])
+  gl_LIBUNISTRING_LIBHEADER([0.9.4], [unictype.h])
+  gl_LIBUNISTRING_MODULE([0.9.8], [unictype/combining-class])
+  AC_REQUIRE([AC_C_INLINE])
+  gl_LIBUNISTRING_MODULE([0.9.8], [unictype/ctype-alnum])
+  AC_REQUIRE([AC_C_INLINE])
+  gl_LIBUNISTRING_MODULE([0.9.8], [unictype/ctype-alpha])
+  AC_REQUIRE([AC_C_INLINE])
+  gl_LIBUNISTRING_MODULE([0.9.8], [unictype/ctype-blank])
+  AC_REQUIRE([AC_C_INLINE])
+  gl_LIBUNISTRING_MODULE([0.9.8], [unictype/ctype-cntrl])
+  AC_REQUIRE([AC_C_INLINE])
+  gl_LIBUNISTRING_MODULE([0.9.8], [unictype/ctype-digit])
+  AC_REQUIRE([AC_C_INLINE])
+  gl_LIBUNISTRING_MODULE([0.9.8], [unictype/ctype-graph])
+  AC_REQUIRE([AC_C_INLINE])
+  gl_LIBUNISTRING_MODULE([0.9.8], [unictype/ctype-lower])
+  AC_REQUIRE([AC_C_INLINE])
+  gl_LIBUNISTRING_MODULE([0.9.8], [unictype/ctype-print])
+  AC_REQUIRE([AC_C_INLINE])
+  gl_LIBUNISTRING_MODULE([0.9.8], [unictype/ctype-punct])
+  AC_REQUIRE([AC_C_INLINE])
+  gl_LIBUNISTRING_MODULE([0.9.8], [unictype/ctype-space])
+  AC_REQUIRE([AC_C_INLINE])
+  gl_LIBUNISTRING_MODULE([0.9.8], [unictype/ctype-upper])
+  AC_REQUIRE([AC_C_INLINE])
+  gl_LIBUNISTRING_MODULE([0.9.8], [unictype/ctype-xdigit])
+  AC_REQUIRE([AC_C_INLINE])
+  gl_LIBUNISTRING_MODULE([0.9.8], [unictype/property-soft-dotted])
+  gl_LIBUNISTRING_LIBHEADER([0.9.4], [uninorm.h])
+  gl_MODULE_INDICATOR_FOR_TESTS([uninorm/u8-normalize])
+  gl_LIBUNISTRING_MODULE([0.9.8], [uninorm/u8-normalize])
   gl_UNISTD_H
   gl_UNISTD_SAFER
   gl_LIBUNISTRING_LIBHEADER([0.9.4], [unistr.h])
+  gl_LIBUNISTRING_MODULE([0.9], [unistr/u32-mblen])
+  gl_LIBUNISTRING_MODULE([0.9], [unistr/u32-to-u8])
   gl_LIBUNISTRING_MODULE([0.9], [unistr/u8-check])
+  gl_LIBUNISTRING_MODULE([0.9], [unistr/u8-cpy])
   gl_LIBUNISTRING_MODULE([0.9], [unistr/u8-mblen])
   gl_MODULE_INDICATOR([unistr/u8-mbtouc])
   gl_LIBUNISTRING_MODULE([0.9.4], [unistr/u8-mbtouc])
@@ -932,6 +1052,9 @@ AC_SUBST([LTALLOCA])
   gl_MODULE_INDICATOR([unistr/u8-mbtoucr])
   gl_LIBUNISTRING_MODULE([0.9], [unistr/u8-mbtoucr])
   gl_LIBUNISTRING_MODULE([0.9], [unistr/u8-prev])
+  gl_LIBUNISTRING_MODULE([0.9], [unistr/u8-strmblen])
+  gl_LIBUNISTRING_MODULE([0.9], [unistr/u8-strmbtouc])
+  gl_LIBUNISTRING_MODULE([0.9.3], [unistr/u8-to-u32])
   gl_MODULE_INDICATOR([unistr/u8-uctomb])
   gl_LIBUNISTRING_MODULE([0.9], [unistr/u8-uctomb])
   gl_LIBUNISTRING_LIBHEADER([0.9.4], [unitypes.h])
@@ -1101,6 +1224,8 @@ AC_DEFUN([gltests_LIBSOURCES], [
 AC_DEFUN([gl_FILE_LIST], [
   build-aux/config.rpath
   lib/_Noreturn.h
+  lib/af_alg.c
+  lib/af_alg.h
   lib/alloca.c
   lib/alloca.in.h
   lib/allocator.c
@@ -1109,6 +1234,7 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/areadlink.c
   lib/areadlink.h
   lib/arg-nonnull.h
+  lib/array-mergesort.h
   lib/asnprintf.c
   lib/asprintf.c
   lib/assure.h
@@ -1119,6 +1245,7 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/basename.c
   lib/bitrotate.c
   lib/bitrotate.h
+  lib/byteswap.in.h
   lib/c++defs.h
   lib/c-ctype.c
   lib/c-ctype.h
@@ -1137,7 +1264,6 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/cloexec.h
   lib/close.c
   lib/closedir.c
-  lib/config.charset
   lib/dirent-private.h
   lib/dirent.in.h
   lib/dirfd.c
@@ -1162,6 +1288,7 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/fd-safer-flag.c
   lib/fd-safer.c
   lib/fdopendir.c
+  lib/fflush.c
   lib/file-set.c
   lib/file-set.h
   lib/filemode.c
@@ -1177,6 +1304,9 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/fnmatch.in.h
   lib/fnmatch_loop.c
   lib/fpucw.h
+  lib/fpurge.c
+  lib/freading.c
+  lib/freading.h
   lib/frexp.c
   lib/frexpf.c
   lib/fseek.c
@@ -1278,6 +1408,7 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/mkdir.c
   lib/mkfifo.c
   lib/mkostemp.c
+  lib/mkostemps.c
   lib/mktime-internal.h
   lib/mktime.c
   lib/msvc-inval.c
@@ -1309,8 +1440,6 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/readdir.c
   lib/readlink.c
   lib/realloc.c
-  lib/ref-add.sin
-  lib/ref-del.sin
   lib/rewinddir.c
   lib/rmdir.c
   lib/same-inode.h
@@ -1372,6 +1501,7 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/strptime.c
   lib/strsignal.c
   lib/symlink.c
+  lib/sys-limits.h
   lib/sys_resource.in.h
   lib/sys_select.in.h
   lib/sys_socket.c
@@ -1397,15 +1527,79 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/u64.c
   lib/u64.h
   lib/uname.c
+  lib/unicase.in.h
+  lib/unicase/cased.c
+  lib/unicase/cased.h
+  lib/unicase/caseprop.h
+  lib/unicase/context.h
+  lib/unicase/empty-prefix-context.c
+  lib/unicase/empty-suffix-context.c
+  lib/unicase/ignorable.c
+  lib/unicase/ignorable.h
+  lib/unicase/simple-mapping.h
+  lib/unicase/special-casing-table.gperf
+  lib/unicase/special-casing.c
+  lib/unicase/special-casing.in.h
+  lib/unicase/tolower.c
+  lib/unicase/tolower.h
+  lib/unicase/toupper.c
+  lib/unicase/toupper.h
+  lib/unicase/u-casemap.h
+  lib/unicase/u8-casemap.c
+  lib/unicase/u8-tolower.c
+  lib/unicase/u8-toupper.c
+  lib/unicase/unicasemap.h
   lib/uniconv.in.h
+  lib/uniconv/u-conv-to-enc.h
+  lib/uniconv/u32-conv-to-enc.c
   lib/uniconv/u8-conv-from-enc.c
   lib/uniconv/u8-conv-to-enc.c
+  lib/unictype.in.h
+  lib/unictype/bitmap.h
+  lib/unictype/combiningclass.c
+  lib/unictype/combiningclass.h
+  lib/unictype/ctype_alnum.c
+  lib/unictype/ctype_alnum.h
+  lib/unictype/ctype_alpha.c
+  lib/unictype/ctype_alpha.h
+  lib/unictype/ctype_blank.c
+  lib/unictype/ctype_blank.h
+  lib/unictype/ctype_cntrl.c
+  lib/unictype/ctype_cntrl.h
+  lib/unictype/ctype_digit.c
+  lib/unictype/ctype_digit.h
+  lib/unictype/ctype_graph.c
+  lib/unictype/ctype_graph.h
+  lib/unictype/ctype_lower.c
+  lib/unictype/ctype_lower.h
+  lib/unictype/ctype_print.c
+  lib/unictype/ctype_print.h
+  lib/unictype/ctype_punct.c
+  lib/unictype/ctype_punct.h
+  lib/unictype/ctype_space.c
+  lib/unictype/ctype_space.h
+  lib/unictype/ctype_upper.c
+  lib/unictype/ctype_upper.h
+  lib/unictype/ctype_xdigit.c
+  lib/unictype/ctype_xdigit.h
+  lib/unictype/pr_soft_dotted.c
+  lib/unictype/pr_soft_dotted.h
+  lib/uninorm.in.h
+  lib/uninorm/decompose-internal.c
+  lib/uninorm/decompose-internal.h
+  lib/uninorm/normalize-internal.h
+  lib/uninorm/u-normalize-internal.h
+  lib/uninorm/u8-normalize.c
   lib/unistd--.h
   lib/unistd-safer.h
   lib/unistd.c
   lib/unistd.in.h
   lib/unistr.in.h
+  lib/unistr/u-cpy.h
+  lib/unistr/u32-mblen.c
+  lib/unistr/u32-to-u8.c
   lib/unistr/u8-check.c
+  lib/unistr/u8-cpy.c
   lib/unistr/u8-mblen.c
   lib/unistr/u8-mbtouc-aux.c
   lib/unistr/u8-mbtouc-unsafe-aux.c
@@ -1413,6 +1607,9 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/unistr/u8-mbtouc.c
   lib/unistr/u8-mbtoucr.c
   lib/unistr/u8-prev.c
+  lib/unistr/u8-strmblen.c
+  lib/unistr/u8-strmbtouc.c
+  lib/unistr/u8-to-u32.c
   lib/unistr/u8-uctomb-aux.c
   lib/unistr/u8-uctomb.c
   lib/unitypes.in.h
@@ -1442,17 +1639,17 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/00gnulib.m4
   m4/__inline.m4
   m4/absolute-header.m4
+  m4/af_alg.m4
   m4/alloca.m4
-  m4/asm-underscore.m4
   m4/base64.m4
   m4/builtin-expect.m4
+  m4/byteswap.m4
   m4/canonicalize.m4
   m4/chdir-long.m4
   m4/clock_time.m4
   m4/close.m4
   m4/closedir.m4
   m4/codeset.m4
-  m4/configmake.m4
   m4/d-ino.m4
   m4/d-type.m4
   m4/dirent_h.m4
@@ -1473,12 +1670,16 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/fcntl.m4
   m4/fcntl_h.m4
   m4/fdopendir.m4
+  m4/fflush.m4
   m4/filemode.m4
   m4/filenamecat.m4
   m4/flexmember.m4
   m4/float_h.m4
   m4/fnmatch.m4
+  m4/fnmatch_h.m4
   m4/fpieee.m4
+  m4/fpurge.m4
+  m4/freading.m4
   m4/frexp.m4
   m4/frexpf.m4
   m4/fseek.m4
@@ -1496,14 +1697,14 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/getlogin.m4
   m4/getlogin_r.m4
   m4/getopt.m4
+  m4/getpagesize.m4
   m4/getprogname.m4
   m4/getrusage.m4
   m4/gettimeofday.m4
   m4/gl-openssl.m4
-  m4/glibc21.m4
   m4/glob.m4
+  m4/glob_h.m4
   m4/gnulib-common.m4
-  m4/hard-locale.m4
   m4/host-cpu-c-abi.m4
   m4/iconv.m4
   m4/iconv_h.m4
@@ -1547,6 +1748,7 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/mkdir.m4
   m4/mkfifo.m4
   m4/mkostemp.m4
+  m4/mkostemps.m4
   m4/mktime.m4
   m4/mmap-anon.m4
   m4/mode_t.m4

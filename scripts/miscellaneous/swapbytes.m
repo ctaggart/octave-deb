@@ -1,4 +1,4 @@
-## Copyright (C) 2007-2018 David Bateman
+## Copyright (C) 2007-2019 David Bateman
 ##
 ## This file is part of Octave.
 ##
@@ -26,7 +26,7 @@
 ## @example
 ## @group
 ## swapbytes (uint16 (1:4))
-## @result{} [   256   512   768  1024]
+## @result{}   256   512   768  1024
 ## @end group
 ## @end example
 ##

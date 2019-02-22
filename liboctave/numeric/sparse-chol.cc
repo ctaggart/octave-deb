@@ -1,7 +1,7 @@
 /*
 
-Copyright (C) 2016-2018 John W. Eaton
-Copyright (C) 2005-2018 David Bateman
+Copyright (C) 2016-2019 John W. Eaton
+Copyright (C) 2005-2019 David Bateman
 Copyright (C) 1998-2005 Andy Adler
 
 This file is part of Octave.
@@ -102,7 +102,7 @@ namespace octave
       octave_idx_type P (void) const
       {
 #if defined (HAVE_CHOLMOD)
-        return (minor_p == static_cast<octave_idx_type>(Lsparse->ncol) ?
+        return (minor_p == static_cast<octave_idx_type> (Lsparse->ncol) ?
                 0 : minor_p + 1);
 #else
         return 0;
@@ -374,7 +374,7 @@ namespace octave
       for (octave_idx_type i = 0; i < n; i++)
         {
           p.xcidx (i) = i;
-          p.xridx (i) = static_cast<octave_idx_type>(perms (i));
+          p.xridx (i) = static_cast<octave_idx_type> (perms (i));
           p.xdata (i) = 1;
         }
 

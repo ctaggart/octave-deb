@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2004-2018 John W. Eaton
+Copyright (C) 2004-2019 John W. Eaton
 
 This file is part of Octave.
 
@@ -23,9 +23,6 @@ along with Octave; see the file COPYING.  If not, see
 #if defined (HAVE_CONFIG_H)
 #  include "config.h"
 #endif
-
-#include <iostream>
-#include <limits>
 
 #include "lo-ieee.h"
 #include "lo-utils.h"

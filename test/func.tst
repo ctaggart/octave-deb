@@ -1,4 +1,4 @@
-## Copyright (C) 2008-2018 David Bateman
+## Copyright (C) 2008-2019 David Bateman
 ##
 ## This file is part of Octave.
 ##
@@ -163,9 +163,9 @@
 %!test
 %! __fntestfunc__ ("flipud", m3);
 %!test
-%! __fntestfunc__ ("flipdim", m1, 2);
+%! __fntestfunc__ ("flip", m1, 2);
 %!test
-%! __fntestfunc__ ("flipdim", m3, 2);
+%! __fntestfunc__ ("flip", m3, 2);
 %!test
 %! __fntestfunc__ ("transpose", m1);
 %!test

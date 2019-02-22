@@ -1,4 +1,4 @@
-## Copyright (C) 2007-2018 David Bateman
+## Copyright (C) 2007-2019 David Bateman
 ##
 ## This file is part of Octave.
 ##
@@ -51,7 +51,8 @@ function geometryimages (d, nm, typ)
     yc = r * cos (pi*pc) + c(2);
     plot (xc, yc, "g-", "LineWidth", 3);
     axis ([0, 1, 0, 1]);
-    legend ("Delaunay Triangulation", "Voronoi Diagram");
+    set (gca, "dataaspectratio", [1, 1, 1],
+              "plotboxaspectratio", [1, 1, 1]);
     print (outfile, d_typ);
   elseif (strcmp (nm, "triplot"))
     rand ("state", 2)
@@ -156,7 +157,7 @@ function set_graphics_toolkit ()
 endfunction
 
 function set_print_size ()
-  image_size = [8.0, 6.0]; # in inches, 4:3 format
+  image_size = [5.0, 3.5]; # in inches, 16:9 format
   border = 0;              # For postscript use 50/72
   set (groot, "defaultfigurepapertype", "<custom>");
   set (groot, "defaultfigurepaperorientation", "landscape");

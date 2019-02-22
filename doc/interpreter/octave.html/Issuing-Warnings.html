@@ -3,10 +3,10 @@
 <!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Issuing Warnings (GNU Octave (version 4.4.1))</title>
+<title>Issuing Warnings (GNU Octave (version 5.0.91))</title>
 
-<meta name="description" content="Issuing Warnings (GNU Octave (version 4.4.1))">
-<meta name="keywords" content="Issuing Warnings (GNU Octave (version 4.4.1))">
+<meta name="description" content="Issuing Warnings (GNU Octave (version 5.0.91))">
+<meta name="keywords" content="Issuing Warnings (GNU Octave (version 5.0.91))">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
@@ -424,6 +424,16 @@ The <samp>--traditional</samp> or <samp>--braindead</samp> startup options for
 Octave may also be of use, see <a href="Command-Line-Options.html#Command-Line-Options">Command Line Options</a>.
 </p>
 </dd>
+<dt><code>Octave:legacy-function</code></dt>
+<dd><p>If the <code>Octave:legacy-function</code> warning is enabled, a
+warning is issued when Octave encounters a function that <small>MATLAB</small> has
+suggested should be avoided.  The function may become obsolete at some
+point in the future and removed, in which case the warning will change to
+<code>Octave:deprecated-function</code>, and the function will continue to exist
+for two further versions of Octave before being removed.
+By default, the <code>Octave:legacy-function</code> warning is enabled.
+</p>
+</dd>
 <dt><code>Octave:logical-conversion</code></dt>
 <dd><p>By default, the <code>Octave:logical-conversion</code> warning is enabled.
 </p>
@@ -455,7 +465,8 @@ By default, the <code>Octave:mixed-string-concat</code> warning is disabled.
 </dd>
 <dt><code>Octave:nearly-singular-matrix</code></dt>
 <dt><code>Octave:singular-matrix</code></dt>
-<dd><p>By default, the <code>Octave:nearly-singular-matrix</code> and
+<dd><p>These warnings are emitted if a (nearly) singular matrix is inverted.
+By default, the <code>Octave:nearly-singular-matrix</code> and
 <code>Octave:singular-matrix</code> warnings are enabled.
 </p>
 </dd>
@@ -480,7 +491,7 @@ for expressions like
 </dd>
 <dt><code>Octave:num-to-str</code></dt>
 <dd><p>If the <code>Octave:num-to-str</code> warning is enable, a warning is
-printed for implicit conversions of numbers to their ASCII character
+printed for implicit conversions of numbers to their UTF-8 encoded character
 equivalents when strings are constructed using a mixture of strings and
 numbers in matrix notation.  For example,
 </p>
@@ -563,8 +574,8 @@ By default, the <code>Octave:single-quote-string</code> warning is disabled.
 </dd>
 <dt><code>Octave:str-to-num</code></dt>
 <dd><p>If the <code>Octave:str-to-num</code> warning is enabled, a warning is printed
-for implicit conversions of strings to their numeric ASCII equivalents.
-For example,
+for implicit conversions of strings to their numeric UTF-8 encoded byte
+sequences.  For example,
 </p>
 <div class="example">
 <pre class="example">&quot;abc&quot; + 0

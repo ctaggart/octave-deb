@@ -1,4 +1,4 @@
-## Copyright (C) 2015-2018 Daniel Kraft
+## Copyright (C) 2015-2019 Daniel Kraft
 ##
 ## This file is part of Octave.
 ##
@@ -64,7 +64,7 @@ function profexport (dir, name = "", data)
     endif
   endif
 
-  if (! exist (dir, "dir"))
+  if (! isfolder (dir))
     ok = mkdir (dir);
     if (! ok)
       error ("profexport: failed to create output directory '%s'", dir);

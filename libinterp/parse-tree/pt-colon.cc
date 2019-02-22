@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 1996-2018 John W. Eaton
+Copyright (C) 1996-2019 John W. Eaton
 
 This file is part of Octave.
 
@@ -39,7 +39,7 @@ namespace octave
                                    m_increment ? m_increment->dup (scope) : nullptr,
                                    line (), column ());
 
-    new_ce->copy_base (*new_ce);
+    new_ce->copy_base (*this);
 
     return new_ce;
   }

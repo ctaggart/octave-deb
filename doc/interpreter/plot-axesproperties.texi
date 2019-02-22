@@ -1,6 +1,6 @@
 @c DO NOT EDIT!  Generated automatically by genpropdoc.m.
 
-@c Copyright (C) 2014-2018 Pantxo Diribarne
+@c Copyright (C) 2014-2019 Pantxo Diribarne
 @c
 @c This file is part of Octave.
 @c
@@ -461,7 +461,7 @@ Two-element vector @code{[2Dlen 3Dlen]} specifying the length of the tickmarks r
 
 @anchor{XREFaxestightinset}
 @prindex axes tightinset
-@item @code{tightinset} (read-only): four-element vector, def. @code{[0.042857   0.035725   0.000000   0.023810]}
+@item @code{tightinset} (read-only): four-element vector
 Size of the @code{[left bottom right top]} margins around the axes that enclose labels and title annotations.
 
 
@@ -521,7 +521,7 @@ If @code{visible} is @qcode{"off"}, the axes is not rendered on screen.
 
 @anchor{XREFaxesxaxislocation}
 @prindex axes xaxislocation
-@item @code{xaxislocation}: @{@qcode{"bottom"}@} | @qcode{"origin"} | @qcode{"top"} | @qcode{"zero"}
+@item @code{xaxislocation}: @{@qcode{"bottom"}@} | @qcode{"origin"} | @qcode{"top"}
 Control the x axis location.
 
 
@@ -617,7 +617,7 @@ Labels of x tick marks.  Setting @code{xticklabel} also forces the @code{xtickla
 
 @anchor{XREFaxesyaxislocation}
 @prindex axes yaxislocation
-@item @code{yaxislocation}: @{@qcode{"left"}@} | @qcode{"origin"} | @qcode{"right"} | @qcode{"zero"}
+@item @code{yaxislocation}: @{@qcode{"left"}@} | @qcode{"origin"} | @qcode{"right"}
 Control the y-axis location.
 
 

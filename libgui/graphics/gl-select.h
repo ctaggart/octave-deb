@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2011-2018 Michael Goffioul
+Copyright (C) 2011-2019 Michael Goffioul
 
 This file is part of Octave.
 
@@ -24,6 +24,7 @@ along with Octave; see the file COPYING.  If not, see
 #define octave_gl_select_h 1
 
 #include <map>
+#include <string>
 
 #include "gl-render.h"
 #include "oct-opengl.h"
@@ -40,7 +41,9 @@ namespace octave
   class opengl_selector : public opengl_renderer
   {
   public:
-    opengl_selector (void) : size (5) { }
+    opengl_selector (opengl_functions& glfcns)
+      : opengl_renderer (glfcns), size (5)
+    { }
 
     virtual ~opengl_selector (void) = default;
 

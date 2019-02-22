@@ -1,4 +1,4 @@
-## Copyright (C) 2006-2018 John W. Eaton
+## Copyright (C) 2006-2019 John W. Eaton
 ##
 ## This file is part of Octave.
 ##
@@ -27,7 +27,7 @@
 
 function old_val = ls_command (new_val)
 
-  global __ls_command__;
+  persistent __ls_command__;
 
   if (isempty (__ls_command__))
     ## MinGW uses different ls_command

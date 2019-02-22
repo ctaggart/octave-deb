@@ -1,0 +1,343 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Uitable Properties (GNU Octave (version 5.0.91))</title>
+
+<meta name="description" content="Uitable Properties (GNU Octave (version 5.0.91))">
+<meta name="keywords" content="Uitable Properties (GNU Octave (version 5.0.91))">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="Concept-Index.html#Concept-Index" rel="index" title="Concept Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Graphics-Object-Properties.html#Graphics-Object-Properties" rel="up" title="Graphics Object Properties">
+<link href="Uitoolbar-Properties.html#Uitoolbar-Properties" rel="next" title="Uitoolbar Properties">
+<link href="Uicontrol-Properties.html#Uicontrol-Properties" rel="prev" title="Uicontrol Properties">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+<link rel="stylesheet" type="text/css" href="octave.css">
+
+
+</head>
+
+<body lang="en">
+<a name="Uitable-Properties"></a>
+<div class="header">
+<p>
+Next: <a href="Uitoolbar-Properties.html#Uitoolbar-Properties" accesskey="n" rel="next">Uitoolbar Properties</a>, Previous: <a href="Uicontrol-Properties.html#Uicontrol-Properties" accesskey="p" rel="prev">Uicontrol Properties</a>, Up: <a href="Graphics-Object-Properties.html#Graphics-Object-Properties" accesskey="u" rel="up">Graphics Object Properties</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Concept-Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="Uitable-Properties-1"></a>
+<h4 class="subsubsection">15.3.3.15 Uitable Properties</h4>
+<a name="index-uitable-properties"></a>
+
+<p>The <code>uitable</code> properties are:
+</p>
+
+
+<dl compact="compact">
+<dd>
+<a name="XREFuitablebackgroundcolor"></a><a name="index-uitable-backgroundcolor"></a>
+</dd>
+<dt><code>backgroundcolor</code>: def. 2-by-3 double</dt>
+<dd>
+
+
+<a name="XREFuitablebeingdeleted"></a><a name="index-uitable-beingdeleted"></a>
+</dd>
+<dt><code>beingdeleted</code>: {<code>&quot;off&quot;</code>} | <code>&quot;on&quot;</code></dt>
+<dd>
+
+
+<a name="XREFuitablebusyaction"></a><a name="index-uitable-busyaction"></a>
+</dd>
+<dt><code>busyaction</code>: <code>&quot;cancel&quot;</code> | {<code>&quot;queue&quot;</code>}</dt>
+<dd><p>Define how Octave handles the execution of this object&rsquo;s callback properties when it is unable to interrupt another object&rsquo;s executing callback.  This is only relevant when the currently executing callback object has its <code>interruptible</code> property set to <code>&quot;off&quot;</code>.  The <code>busyaction</code> property of the interrupting callback object indicates whether the interrupting callback is queued (<code>&quot;queue&quot;</code> (default)) or discarded (<code>&quot;cancel&quot;</code>).
+See <a href="Callbacks.html#Callbacks">Callbacks&nbsp;section<!-- /@w --></a>.
+</p>
+
+<a name="XREFuitablebuttondownfcn"></a><a name="index-uitable-buttondownfcn"></a>
+</dd>
+<dt><code>buttondownfcn</code>: string | function handle, def. <code>[](0x0)</code></dt>
+<dd><p>For information on how to write graphics listener functions see <a href="Callbacks.html#Callbacks">Callbacks&nbsp;section<!-- /@w --></a>.
+</p>
+
+<a name="XREFuitablecelleditcallback"></a><a name="index-uitable-celleditcallback"></a>
+</dd>
+<dt><code>celleditcallback</code>: def. <code>[](0x0)</code></dt>
+<dd>
+
+
+<a name="XREFuitablecellselectioncallback"></a><a name="index-uitable-cellselectioncallback"></a>
+</dd>
+<dt><code>cellselectioncallback</code>: def. <code>[](0x0)</code></dt>
+<dd>
+
+
+<a name="XREFuitablechildren"></a><a name="index-uitable-children"></a>
+</dd>
+<dt><code>children</code> (read-only): vector of graphics handles, def. <code>[](0x1)</code></dt>
+<dd><p>Graphics handles of the uitable&rsquo;s children.
+</p>
+
+<a name="XREFuitableclipping"></a><a name="index-uitable-clipping"></a>
+</dd>
+<dt><code>clipping</code>: <code>&quot;off&quot;</code> | {<code>&quot;on&quot;</code>}</dt>
+<dd><p>If <code>clipping</code> is <code>&quot;on&quot;</code>, the uitable is clipped in its parent axes limits.
+</p>
+
+<a name="XREFuitablecolumneditable"></a><a name="index-uitable-columneditable"></a>
+</dd>
+<dt><code>columneditable</code>: def. <code>[](0x0)</code></dt>
+<dd>
+
+
+<a name="XREFuitablecolumnformat"></a><a name="index-uitable-columnformat"></a>
+</dd>
+<dt><code>columnformat</code>: def. <code>{}(0x0)</code></dt>
+<dd>
+
+
+<a name="XREFuitablecolumnname"></a><a name="index-uitable-columnname"></a>
+</dd>
+<dt><code>columnname</code>: def. <code>&quot;numbered&quot;</code></dt>
+<dd>
+
+
+<a name="XREFuitablecolumnwidth"></a><a name="index-uitable-columnwidth"></a>
+</dd>
+<dt><code>columnwidth</code>: def. <code>&quot;auto&quot;</code></dt>
+<dd>
+
+
+<a name="XREFuitablecreatefcn"></a><a name="index-uitable-createfcn"></a>
+</dd>
+<dt><code>createfcn</code>: string | function handle, def. <code>[](0x0)</code></dt>
+<dd><p>Callback function executed immediately after uitable has been created.  Function is set by using default property on root object, e.g., <code>set (groot, &quot;defaultuitablecreatefcn&quot;, 'disp (&quot;uitable created!&quot;)')</code>.
+</p>
+<p>For information on how to write graphics listener functions see <a href="Callbacks.html#Callbacks">Callbacks&nbsp;section<!-- /@w --></a>.
+</p>
+
+<a name="XREFuitabledata"></a><a name="index-uitable-data"></a>
+</dd>
+<dt><code>data</code>: def. <code>[](0x0)</code></dt>
+<dd>
+
+
+<a name="XREFuitabledeletefcn"></a><a name="index-uitable-deletefcn"></a>
+</dd>
+<dt><code>deletefcn</code>: string | function handle, def. <code>[](0x0)</code></dt>
+<dd><p>Callback function executed immediately before uitable is deleted.
+</p>
+<p>For information on how to write graphics listener functions see <a href="Callbacks.html#Callbacks">Callbacks&nbsp;section<!-- /@w --></a>.
+</p>
+
+<a name="XREFuitableenable"></a><a name="index-uitable-enable"></a>
+</dd>
+<dt><code>enable</code>: <code>&quot;off&quot;</code> | {<code>&quot;on&quot;</code>}</dt>
+<dd>
+
+
+<a name="XREFuitableextent"></a><a name="index-uitable-extent"></a>
+</dd>
+<dt><code>extent</code> (read-only): four-element vector</dt>
+<dd>
+
+
+<a name="XREFuitablefontangle"></a><a name="index-uitable-fontangle"></a>
+</dd>
+<dt><code>fontangle</code>: <code>&quot;italic&quot;</code> | {<code>&quot;normal&quot;</code>} | <code>&quot;oblique&quot;</code></dt>
+<dd><p>Control whether the font is italic or normal.
+</p>
+
+<a name="XREFuitablefontname"></a><a name="index-uitable-fontname"></a>
+</dd>
+<dt><code>fontname</code>: string, def. <code>&quot;*&quot;</code></dt>
+<dd><p>Name of font used for text rendering.  When setting this property, the text rendering engine will search for a matching font in your system.  If none is found then text is rendered using a default sans serif font (same as the default <code>&quot;*&quot;</code> value).
+</p>
+
+<a name="XREFuitablefontsize"></a><a name="index-uitable-fontsize"></a>
+</dd>
+<dt><code>fontsize</code>: scalar, def. <code>10</code></dt>
+<dd><p>Size of the font used for text rendering.  See <a href="#XREFuitablefontunits">fontunits property</a>.
+</p>
+
+<a name="XREFuitablefontunits"></a><a name="index-uitable-fontunits"></a>
+</dd>
+<dt><code>fontunits</code>: <code>&quot;centimeters&quot;</code> | <code>&quot;inches&quot;</code> | <code>&quot;normalized&quot;</code> | <code>&quot;pixels&quot;</code> | {<code>&quot;points&quot;</code>}</dt>
+<dd><p>Units used to interpret the <code>&quot;fontsize&quot;</code> property.
+</p>
+
+<a name="XREFuitablefontweight"></a><a name="index-uitable-fontweight"></a>
+</dd>
+<dt><code>fontweight</code>: <code>&quot;bold&quot;</code> | <code>&quot;demi&quot;</code> | <code>&quot;light&quot;</code> | {<code>&quot;normal&quot;</code>}</dt>
+<dd><p>Control the variant of the base font used for text rendering.
+</p>
+
+<a name="XREFuitableforegroundcolor"></a><a name="index-uitable-foregroundcolor"></a>
+</dd>
+<dt><code>foregroundcolor</code>: def. <code>[0   0   0]</code></dt>
+<dd>
+
+
+<a name="XREFuitablehandlevisibility"></a><a name="index-uitable-handlevisibility"></a>
+</dd>
+<dt><code>handlevisibility</code>: <code>&quot;callback&quot;</code> | <code>&quot;off&quot;</code> | {<code>&quot;on&quot;</code>}</dt>
+<dd><p>If <code>handlevisibility</code> is <code>&quot;off&quot;</code>, the uitable&rsquo;s handle is not visible in its parent&rsquo;s &quot;children&quot; property.
+</p>
+
+<a name="XREFuitablehittest"></a><a name="index-uitable-hittest"></a>
+</dd>
+<dt><code>hittest</code>: <code>&quot;off&quot;</code> | {<code>&quot;on&quot;</code>}</dt>
+<dd><p>Specify whether uitable processes mouse events or passes them to ancestors of the object.  When enabled, the object may respond to mouse clicks by evaluating the <code>&quot;buttondownfcn&quot;</code>, showing the uicontextmenu, and eventually becoming the root <code>&quot;currentobject&quot;</code>.  This property is only relevant when the object can accept mouse clicks which is determined by the <code>&quot;pickableparts&quot;</code> property.  See <a href="#XREFuitablepickableparts">pickableparts&nbsp;property<!-- /@w --></a>.
+</p>
+
+<a name="XREFuitableinterruptible"></a><a name="index-uitable-interruptible"></a>
+</dd>
+<dt><code>interruptible</code>: <code>&quot;off&quot;</code> | {<code>&quot;on&quot;</code>}</dt>
+<dd><p>Specify whether this object&rsquo;s callback functions may be interrupted by other callbacks.  By default <code>interruptible</code> is <code>&quot;on&quot;</code> and callbacks that make use of <code>drawnow</code>, <code>figure</code>, <code>waitfor</code>, <code>getframe</code> or <code>pause</code> functions are eventually interrupted.
+See <a href="Callbacks.html#Callbacks">Callbacks&nbsp;section<!-- /@w --></a>.
+</p>
+
+<a name="XREFuitablekeypressfcn"></a><a name="index-uitable-keypressfcn"></a>
+</dd>
+<dt><code>keypressfcn</code>: def. <code>[](0x0)</code></dt>
+<dd>
+
+
+<a name="XREFuitablekeyreleasefcn"></a><a name="index-uitable-keyreleasefcn"></a>
+</dd>
+<dt><code>keyreleasefcn</code>: def. <code>[](0x0)</code></dt>
+<dd>
+
+
+<a name="XREFuitableparent"></a><a name="index-uitable-parent"></a>
+</dd>
+<dt><code>parent</code>: graphics handle</dt>
+<dd><p>Handle of the parent graphics object.
+</p>
+
+<a name="XREFuitablepickableparts"></a><a name="index-uitable-pickableparts"></a>
+</dd>
+<dt><code>pickableparts</code>: <code>&quot;all&quot;</code> | <code>&quot;none&quot;</code> | {<code>&quot;visible&quot;</code>}</dt>
+<dd><p>Specify whether uitable will accept mouse clicks.  By default, <code>pickableparts</code> is <code>&quot;visible&quot;</code> and only visible parts of the uitable or its children may react to mouse clicks.  When <code>pickableparts</code> is <code>&quot;all&quot;</code> both visible and invisible parts (or children) may react to mouse clicks.  When <code>pickableparts</code> is <code>&quot;none&quot;</code> mouse clicks on the object are ignored and transmitted to any objects underneath this one.  When an object is configured to accept mouse clicks the <code>&quot;hittest&quot;</code> property will determine how they are processed.  See <a href="#XREFuitablehittest">hittest&nbsp;property<!-- /@w --></a>.
+</p>
+
+<a name="XREFuitableposition"></a><a name="index-uitable-position"></a>
+</dd>
+<dt><code>position</code>: def. <code>[20    20   300   300]</code></dt>
+<dd>
+
+
+<a name="XREFuitablerearrangeablecolumns"></a><a name="index-uitable-rearrangeablecolumns"></a>
+</dd>
+<dt><code>rearrangeablecolumns</code>: {<code>&quot;off&quot;</code>} | <code>&quot;on&quot;</code></dt>
+<dd>
+
+
+<a name="XREFuitablerowname"></a><a name="index-uitable-rowname"></a>
+</dd>
+<dt><code>rowname</code>: def. <code>&quot;numbered&quot;</code></dt>
+<dd>
+
+
+<a name="XREFuitablerowstriping"></a><a name="index-uitable-rowstriping"></a>
+</dd>
+<dt><code>rowstriping</code>: <code>&quot;off&quot;</code> | {<code>&quot;on&quot;</code>}</dt>
+<dd>
+
+
+<a name="XREFuitableselected"></a><a name="index-uitable-selected"></a>
+</dd>
+<dt><code>selected</code>: {<code>&quot;off&quot;</code>} | <code>&quot;on&quot;</code></dt>
+<dd>
+
+
+<a name="XREFuitableselectionhighlight"></a><a name="index-uitable-selectionhighlight"></a>
+</dd>
+<dt><code>selectionhighlight</code>: <code>&quot;off&quot;</code> | {<code>&quot;on&quot;</code>}</dt>
+<dd>
+
+
+<a name="XREFuitabletag"></a><a name="index-uitable-tag"></a>
+</dd>
+<dt><code>tag</code>: string, def. <code>&quot;&quot;</code></dt>
+<dd><p>A user-defined string to label the graphics object.
+</p>
+
+<a name="XREFuitabletooltipstring"></a><a name="index-uitable-tooltipstring"></a>
+</dd>
+<dt><code>tooltipstring</code>: def. <code>&quot;&quot;</code></dt>
+<dd>
+
+
+<a name="XREFuitabletype"></a><a name="index-uitable-type"></a>
+</dd>
+<dt><code>type</code> (read-only): string</dt>
+<dd><p>Class name of the graphics object.  <code>type</code> is always <code>&quot;uitable&quot;</code>
+</p>
+
+<a name="XREFuitableuicontextmenu"></a><a name="index-uitable-uicontextmenu"></a>
+</dd>
+<dt><code>uicontextmenu</code>: graphics handle, def. <code>[](0x0)</code></dt>
+<dd><p>Graphics handle of the uicontextmenu object that is currently associated to this uitable object.
+</p>
+
+<a name="XREFuitableunits"></a><a name="index-uitable-units"></a>
+</dd>
+<dt><code>units</code>: <code>&quot;centimeters&quot;</code> | <code>&quot;characters&quot;</code> | <code>&quot;inches&quot;</code> | <code>&quot;normalized&quot;</code> | {<code>&quot;pixels&quot;</code>} | <code>&quot;points&quot;</code></dt>
+<dd>
+
+
+<a name="XREFuitableuserdata"></a><a name="index-uitable-userdata"></a>
+</dd>
+<dt><code>userdata</code>: Any Octave data, def. <code>[](0x0)</code></dt>
+<dd><p>User-defined data to associate with the graphics object.
+</p>
+
+<a name="XREFuitablevisible"></a><a name="index-uitable-visible"></a>
+</dd>
+<dt><code>visible</code>: <code>&quot;off&quot;</code> | {<code>&quot;on&quot;</code>}</dt>
+<dd><p>If <code>visible</code> is <code>&quot;off&quot;</code>, the uitable is not rendered on screen.
+</p>
+</dd>
+</dl>
+
+<hr>
+<div class="header">
+<p>
+Next: <a href="Uitoolbar-Properties.html#Uitoolbar-Properties" accesskey="n" rel="next">Uitoolbar Properties</a>, Previous: <a href="Uicontrol-Properties.html#Uicontrol-Properties" accesskey="p" rel="prev">Uicontrol Properties</a>, Up: <a href="Graphics-Object-Properties.html#Graphics-Object-Properties" accesskey="u" rel="up">Graphics Object Properties</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Concept-Index.html#Concept-Index" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

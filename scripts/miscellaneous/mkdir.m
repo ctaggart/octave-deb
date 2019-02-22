@@ -1,4 +1,4 @@
-## Copyright (C) 2016-2018 Lachlan Andrew
+## Copyright (C) 2016-2019 Lachlan Andrew
 ## Copyright (C) 2012 Carnë Draug
 ##
 ## Octave is free software: you can redistribute it and/or modify it
@@ -24,15 +24,16 @@
 ## Create a directory named @var{dirname} in the directory @var{parent},
 ## creating any intermediate directories if necessary.
 ##
-## If @var{dir} is a relative path, and no @var{parent} directory is specified,
-## then the present working directory is used.
+## If @var{dirname} is a relative path, and no @var{parent} directory is
+## specified, then the present working directory is used.
 ##
 ## If successful, @var{status} is 1, and @var{msg} and @var{msgid} are empty
 ## strings ("").  Otherwise, @var{status} is 0, @var{msg} contains a
 ## system-dependent error message, and @var{msgid} contains a unique message
 ## identifier.
 ##
-## When creating a directory permissions will be set to @code{0777 - UMASK}.
+## When creating a directory permissions will be set to
+## @w{@code{0777 - UMASK}}.
 ##
 ## @seealso{rmdir, pwd, cd, umask}
 ## @end deftypefn
@@ -71,7 +72,11 @@ function [status, msg, msgid] = mkdir_recur (parent, dirname)
 
   status = 1;
 
-  if (! isdir (parent))
+  if (isempty (parent))
+    error ("mkdir: invalid PARENT");
+  endif
+
+  if (! isfolder (parent))
     [grandparent, name, ext] = fileparts (parent);
     [status, msg, msgid] = mkdir_recur (grandparent, [name, ext]);
   endif
@@ -90,7 +95,7 @@ endfunction
 %! unwind_protect
 %!   status = mkdir (dir);
 %!   assert (status);
-%!   assert (isdir (dir));
+%!   assert (isfolder (dir));
 %! unwind_protect_cleanup
 %!   confirm_recursive_rmdir (false, "local");
 %!   rmdir (dir1, "s");
@@ -104,7 +109,7 @@ endfunction
 %!   setenv ("HOME", tmp_dir);
 %!   status = mkdir ("~/subdir");
 %!   assert (status);
-%!   assert (isdir (fullfile (tmp_dir, "subdir")));
+%!   assert (isfolder (fullfile (tmp_dir, "subdir")));
 %! unwind_protect_cleanup
 %!   rmdir (fullfile (tmp_dir, "subdir"));
 %!   rmdir (tmp_dir);
@@ -114,6 +119,9 @@ endfunction
 %!     setenv ("HOME", HOME);
 %!   endif
 %! end_unwind_protect
+
+%!test <*55540>
+%! fail ('mkdir ("__%hello%__", "world")', "invalid PARENT");
 
 ## Test input validation
 %!error mkdir ()

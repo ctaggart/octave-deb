@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2007-2018 John W. Eaton
+Copyright (C) 2007-2019 John W. Eaton
 
 This file is part of Octave.
 
@@ -97,7 +97,7 @@ namespace octave
     {
       while (! loaded_toolkits.empty ())
         {
-          loaded_toolkits_iterator p = loaded_toolkits.begin ();
+          auto p = loaded_toolkits.begin ();
 
           std::string name = p->first;
 

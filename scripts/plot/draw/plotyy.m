@@ -1,4 +1,4 @@
-## Copyright (C) 2007-2018 David Bateman
+## Copyright (C) 2007-2019 David Bateman
 ##
 ## This file is part of Octave.
 ##
@@ -123,7 +123,7 @@ function [ax, h1, h2] = __plotyy__ (ax, x1, y1, x2, y2, fun1 = @plot, fun2)
   axes (ax(2));
 
   colors = get (ax(1), "colororder");
-  set (ax(2), "colororder", [colors(2:end,:); colors(1,:)]);
+  set (ax(2), "colororder", circshift (colors, -numel (h1), 1));
 
   if (strcmp (get (ax(1), "__autopos_tag__"), "subplot"))
     set (ax(2), "__autopos_tag__", "subplot");

@@ -3,10 +3,10 @@
 <!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>GUI Utility Functions (GNU Octave (version 4.4.1))</title>
+<title>GUI Utility Functions (GNU Octave (version 5.0.91))</title>
 
-<meta name="description" content="GUI Utility Functions (GNU Octave (version 4.4.1))">
-<meta name="keywords" content="GUI Utility Functions (GNU Octave (version 4.4.1))">
+<meta name="description" content="GUI Utility Functions (GNU Octave (version 5.0.91))">
+<meta name="keywords" content="GUI Utility Functions (GNU Octave (version 5.0.91))">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
@@ -115,6 +115,82 @@ and false otherwise.
 </p></dd></dl>
 
 
+<a name="XREFmovegui"></a><dl>
+<dt><a name="index-movegui"></a><em></em> <strong>movegui</strong></dt>
+<dt><a name="index-movegui-1"></a><em></em> <strong>movegui</strong> <em>(<var>h</var>)</em></dt>
+<dt><a name="index-movegui-2"></a><em></em> <strong>movegui</strong> <em>(<var>pos</var>)</em></dt>
+<dt><a name="index-movegui-3"></a><em></em> <strong>movegui</strong> <em>(<var>h</var>, <var>pos</var>)</em></dt>
+<dt><a name="index-movegui-4"></a><em></em> <strong>movegui</strong> <em>(<var>h</var>, <var>event</var>)</em></dt>
+<dt><a name="index-movegui-5"></a><em></em> <strong>movegui</strong> <em>(<var>h</var>, <var>event</var>, <var>pos</var>)</em></dt>
+<dd><p>Move a figure specified by figure handle <var>h</var> to a position on the screen
+defined by <var>pos</var>.
+</p>
+<p><var>h</var> is a figure handle, or a handle to a graphics object.  In the latter
+case, its parent figure will be used.  If unspecified, <var>h</var> will be
+set to the handle of the relevant figure if a callback is being executed
+(<code>gcbf</code>), otherwise it will be set to the handle of the current figure
+(<code>gcf</code>).
+</p>
+<p><var>pos</var> is either a two-value numeric vector or a string.  If <var>pos</var> is
+numeric then it must be of the form <code>[h, v]</code> specifying the horizontal
+and vertical offsets of the figure with respect to the screen.  A positive
+value indicates the offset between the left (or bottom for the vertical
+component) of the screen, and the left (or bottom) of the figure.  A
+negative value indicates the offset between the right (or top) of the screen
+and the right (or top) of the figure.
+</p>
+<p>Possible values for <var>pos</var> as a string are
+</p>
+<dl compact="compact">
+<dt><code>north</code></dt>
+<dd><p>Top center of the screen.
+</p>
+</dd>
+<dt><code>south</code></dt>
+<dd><p>Bottom center of the screen.
+</p>
+</dd>
+<dt><code>east</code></dt>
+<dd><p>Right center of the screen.
+</p>
+</dd>
+<dt><code>west</code></dt>
+<dd><p>Left center of the screen.
+</p>
+</dd>
+<dt><code>northeast</code></dt>
+<dd><p>Top right of the screen.
+</p>
+</dd>
+<dt><code>northwest</code></dt>
+<dd><p>Top left of the screen.
+</p>
+</dd>
+<dt><code>southeast</code></dt>
+<dd><p>Bottom right of the screen.
+</p>
+</dd>
+<dt><code>southwest</code></dt>
+<dd><p>Bottom left of the screen.
+</p>
+</dd>
+<dt><code>center</code></dt>
+<dd><p>Center of the screen.
+</p>
+</dd>
+<dt><code>onscreen (default)</code></dt>
+<dd><p>The figure will be minimally moved to be entirely visible on the screen,
+with a 30 pixel extra padding from the sides of the screen.  This is the
+default value if none is provided.
+</p></dd>
+</dl>
+
+<p><var>event</var> contains event data that will be ignored.  This construct
+facilitates a call to movegui from a callback.
+</p>
+</dd></dl>
+
+
 <a name="XREFopenvar"></a><dl>
 <dt><a name="index-openvar"></a><em></em> <strong>openvar</strong> <em>(<var>name</var>)</em></dt>
 <dd><p>Open the variable <var>name</var> in the graphical Variable Editor.
@@ -169,7 +245,8 @@ is reentrant and can be called from a callback, while another <code>waitfor</cod
 call is pending at the top-level.
 </p>
 <p>In the first form, program execution is suspended until the graphics object
-<var>h</var> is destroyed.  If the graphics handle is invalid, the function
+<var>h</var> is destroyed.  If the graphics handle is invalid or if <var>h</var> is
+the root figure handle and no property <var>prop</var> was provided, the function
 returns immediately.
 </p>
 <p>In the second form, execution is suspended until the graphics object is

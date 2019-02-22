@@ -1,6 +1,6 @@
 @c DO NOT EDIT!  Generated automatically by genpropdoc.m.
 
-@c Copyright (C) 2014-2018 Pantxo Diribarne
+@c Copyright (C) 2014-2019 Pantxo Diribarne
 @c
 @c This file is part of Octave.
 @c
@@ -216,6 +216,12 @@ Name to be displayed in the figure title bar.  The name is displayed to the righ
 @code{nextplot} is used by high level plotting functions to decide what to do with axes already present in the figure.  @xref{XREFnewplot, , @w{newplot function}}.
 
 
+@anchor{XREFfigurenumber}
+@prindex figure number
+@item @code{number} (read-only):
+
+
+
 @anchor{XREFfigurenumbertitle}
 @prindex figure numbertitle
 @item @code{numbertitle}: @qcode{"off"} | @{@qcode{"on"}@}
@@ -303,19 +309,19 @@ Specify the position and size of the figure canvas.  The four elements of the ve
 @anchor{XREFfigurerenderer}
 @prindex figure renderer
 @item @code{renderer}: @{@qcode{"opengl"}@} | @qcode{"painters"}
-@code{renderer} is unused.
+Renderering engine used for printing when @code{renderermode} is "manual".  Setting @code{renderer} also forces the @code{renderermode} property to be set to @qcode{"manual"}.
 
 
 @anchor{XREFfigurerenderermode}
 @prindex figure renderermode
 @item @code{renderermode}: @{@qcode{"auto"}@} | @qcode{"manual"}
-@code{renderermode} is unused.
+Control whether the renderering engine used for printing is chosen automatically or specified by the @code{renderer} property.  @xref{XREFprint, , @w{print function}}.
 
 
 @anchor{XREFfigureresize}
 @prindex figure resize
 @item @code{resize}: @qcode{"off"} | @{@qcode{"on"}@}
-@code{resize} is unused.
+Control whether the figure can be resized by dragging the window borders and corners using a mouse.  When @code{resize} is @qcode{"off"} mouse interactions are disabled but the figure can still be resized by changing its @qcode{"position"} property.
 
 
 @anchor{XREFfigureresizefcn}

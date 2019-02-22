@@ -1,4 +1,4 @@
-## Copyright (C) 2007-2018 David Bateman
+## Copyright (C) 2007-2019 David Bateman
 ## Copyright (C) 2010 Kai Habel
 ##
 ## This file is part of Octave.
@@ -131,8 +131,10 @@ function hlist = __pie__ (caller, varargin)
     elseif (strcmp (caller, "pie"))
       if (xt > 0)
         align = "left";
-      else
+      elseif (xt < 0)
         align = "right";
+      else
+        align = "center";
       endif
 
       hlist = [hlist; patch(xoff + [0, -sind(xn)], yoff + [0, cosd(xn)], i);

@@ -1,4 +1,4 @@
-## Copyright (C) 2013-2018 John Donoghue
+## Copyright (C) 2013-2019 John Donoghue
 ##
 ## This file is part of Octave.
 ##
@@ -48,7 +48,7 @@ function dir = prefdir ()
   dir = get_home_directory ();
 
   if (nargin > 0)
-    if (! exist (dir, "dir"))
+    if (! isfolder (dir))
       mkdir (dir);
     endif
   endif

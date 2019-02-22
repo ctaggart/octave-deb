@@ -3,10 +3,10 @@
 <!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Function Application (GNU Octave (version 4.4.1))</title>
+<title>Function Application (GNU Octave (version 5.0.91))</title>
 
-<meta name="description" content="Function Application (GNU Octave (version 4.4.1))">
-<meta name="keywords" content="Function Application (GNU Octave (version 4.4.1))">
+<meta name="description" content="Function Application (GNU Octave (version 5.0.91))">
+<meta name="keywords" content="Function Application (GNU Octave (version 5.0.91))">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
@@ -351,11 +351,9 @@ placed into a structure with the same fieldnames as the input structure.
 s.name2 = &quot;Jill Jones&quot;;
 structfun (@(x) regexp (x, '(\w+)$', &quot;matches&quot;){1}, s,
            &quot;UniformOutput&quot;, false)
-&rArr;
-   {
-     name1 = Smith
-     name2 = Jones
-   }
+  &rArr; scalar structure containing the fields:
+       name1 = Smith
+       name2 = Jones
 </pre></div>
 
 <p>Given the parameter <code>&quot;ErrorHandler&quot;</code>, <var>errfunc</var> defines a function

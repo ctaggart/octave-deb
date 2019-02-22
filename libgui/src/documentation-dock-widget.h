@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2011-2018 Jacob Dawid
+Copyright (C) 2011-2019 Jacob Dawid
 
 This file is part of Octave.
 
@@ -53,7 +53,7 @@ namespace octave
 
   private:
 
-    octave::documentation *m_docs;
+    documentation *m_docs;
   };
 }
 

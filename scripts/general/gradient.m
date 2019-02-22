@@ -1,4 +1,4 @@
-## Copyright (C) 2000-2018 Kai Habel
+## Copyright (C) 2000-2019 Kai Habel
 ##
 ## This file is part of Octave.
 ##
@@ -72,7 +72,7 @@ function varargout = gradient (m, varargin)
   nargout_with_ans = max (1,nargout);
   if (isnumeric (m))
     [varargout{1:nargout_with_ans}] = matrix_gradient (m, varargin{:});
-  elseif (isa (m, "function_handle"))
+  elseif (is_function_handle (m))
     [varargout{1:nargout_with_ans}] = handle_gradient (m, varargin{:});
   elseif (ischar (m))
     [varargout{1:nargout_with_ans}] = handle_gradient (str2func (m), ...

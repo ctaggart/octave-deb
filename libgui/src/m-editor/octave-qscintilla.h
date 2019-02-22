@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2013-2018 Torsten
+Copyright (C) 2013-2019 Torsten
 
 This file is part of Octave.
 
@@ -105,6 +105,8 @@ namespace octave
     void show_replace_action_tooltip (void);
 
     void keyPressEvent (QKeyEvent *e);
+
+    void dragEnterEvent (QDragEnterEvent *e);
 
   private:
 

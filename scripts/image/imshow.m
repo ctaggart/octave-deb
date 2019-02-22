@@ -1,4 +1,4 @@
-## Copyright (C) 1994-2018 John W. Eaton
+## Copyright (C) 1994-2019 John W. Eaton
 ##
 ## This file is part of Octave.
 ##
@@ -48,15 +48,17 @@
 ## @var{value1} is the colormap to use when displaying an indexed image.
 ##
 ## @item @qcode{"xdata"}
-## If @var{value1} is a two element vector, it must contain horizontal axis
-## limits in the form [xmin xmax]; Otherwise @var{value1} must be a vector and
-## only the first and last elements will be used for xmin and xmax
-## respectively.
+## If @var{value1} is a 2-element vector, it must contain horizontal image
+## limits in the form [xfirst, xlast], where xfirst and xlast are the
+## abscissa of the centers of the corner pixels.  Otherwise @var{value1}
+##  must be a vector and only the first and last elements will be used
+## for xfirst and xlast respectively.
 ##
 ## @item @qcode{"ydata"}
-## If @var{value1} is a two element vector, it must contain vertical axis
-## limits in the form [ymin ymax]; Otherwise @var{value1} must be a vector and
-## only the first and last elements will be used for ymin and ymax
+## If @var{value1} is a 2-element vector, it must contain vertical image
+## limits in the form [yfirst, ylast], where yfirst and ylast are the ordinates
+## of the center of the corner pixels.  Otherwise @var{value1} must be a vector
+## and only the first and last elements will be used for yfirst and ylast
 ## respectively.
 ##
 ## @end table

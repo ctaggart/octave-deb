@@ -1,4 +1,4 @@
-## Copyright (C) 1994-2018 John W. Eaton
+## Copyright (C) 1994-2019 John W. Eaton
 ##
 ## This file is part of Octave.
 ##
@@ -27,11 +27,12 @@
 ## The elements of @var{img} are indices into the current colormap.
 ##
 ## @var{x} and @var{y} are optional 2-element vectors, @w{@code{[min, max]}},
-## which specify the range for the axis labels.  If a range is specified as
-## @w{@code{[max, min]}} then the image will be reversed along that axis.  For
-## convenience, @var{x} and @var{y} may be specified as N-element vectors
-## matching the length of the data in @var{img}.  However, only the first and
-## last elements will be used to determine the axis limits.
+## which specify the coordinates of the centers of the corner pixels.
+## If a range is specified as @w{@code{[max, min]}} then the image will be
+## reversed along that axis.  For convenience, @var{x} and @var{y} may be
+## specified as N-element vectors matching the length of the data in @var{img}.
+## However, only the first and last elements will be used to determine the axis
+## limits.
 ##
 ## Multiple property/value pairs may be specified for the image object, but
 ## they must appear in pairs.
@@ -102,6 +103,10 @@ function h = image (varargin)
     y = varargin{2};
     img = varargin{3};
     chararg = 4;
+  endif
+
+  if (iscomplex (img))
+    error ("image: IMG data can not be complex");
   endif
 
   oldfig = [];
@@ -185,9 +190,8 @@ function h = __img__ (hax, do_new, x, y, img, varargin)
 
       if (ndims (img) == 3)
         if (isinteger (img))
-          cls = class (img);
-          mn = intmin (cls);
-          mx = intmax (cls);
+          mn = intmin (img);
+          mx = intmax (img);
           set (hax, "clim", double ([mn, mx]));
         endif
       endif
@@ -258,3 +262,5 @@ endfunction
 %! end_unwind_protect
 
 ## FIXME: Need %!tests for linear
+
+%!error <IMG data can not be complex> image ([1, i])

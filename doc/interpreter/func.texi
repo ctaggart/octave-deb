@@ -1,6 +1,6 @@
 @c DO NOT EDIT!  Generated automatically by munge-texi.pl.
 
-@c Copyright (C) 1996-2018 John W. Eaton
+@c Copyright (C) 1996-2019 John W. Eaton
 @c
 @c This file is part of Octave.
 @c
@@ -308,7 +308,8 @@ Programming Note: @code{nargin} does not work on compiled functions
 
 @c inputname scripts/miscellaneous/inputname.m
 @anchor{XREFinputname}
-@deftypefn {} {} inputname (@var{n})
+@deftypefn  {} {} inputname (@var{n})
+@deftypefnx {} {} inputname (@var{n}, @var{ids_only})
 Return the name of the @var{n}-th argument to the calling function.
 
 If the argument is not a simple variable name, return an empty string.  As
@@ -317,6 +318,11 @@ not a simple name and will return @qcode{""}.
 
 @code{inputname} is only useful within a function.  When used at the command
 line it always returns an empty string.
+
+By default, return an empty string if the @var{n}-th argument is not
+a valid variable name.  If the optional argument @var{ids_only} is
+false, return the text of the argument even if it is not a valid
+variable name.
 @seealso{@ref{XREFnargin,,nargin}, @ref{XREFnthargout,,nthargout}}
 @end deftypefn
 
@@ -819,18 +825,18 @@ This class is designed to allow easy parsing of function arguments.  The
 class supports four types of arguments:
 
 @enumerate
-@item mandatory (see @command{addRequired});
+@item mandatory (see @code{addRequired});
 
-@item optional (see @command{addOptional});
+@item optional (see @code{addOptional});
 
-@item named (see @command{addParameter});
+@item named (see @code{addParameter});
 
-@item switch (see @command{addSwitch}).
+@item switch (see @code{addSwitch}).
 @end enumerate
 
 After defining the function API with these methods, the supplied arguments
-can be parsed with the @command{parse} method and the parsing results
-accessed with the @command{Results} accessor.
+can be parsed with the @code{parse} method and the parsing results
+accessed with the @code{Results} accessor.
 
 @end deftypefn
 @deftypefn {} {} inputParser.Parameters
@@ -842,8 +848,8 @@ Return structure with argument names as fieldnames and corresponding values.
 
 @end deftypefn
 @deftypefn {} {} inputParser.Unmatched
-Return structure similar to @command{Results}, but for unmatched parameters.
-See the @command{KeepUnmatched} property.
+Return structure similar to @code{Results}, but for unmatched parameters.
+See the @code{KeepUnmatched} property.
 
 @end deftypefn
 @deftypefn {} {} inputParser.UsingDefaults
@@ -863,9 +869,9 @@ Set function name to be used in error messages; Defaults to empty string.
 Set whether an error should be given for non-defined arguments.  Defaults to
 false.  If set to true, the extra arguments can be accessed through
 @code{Unmatched} after the @code{parse} method.  Note that since
-@command{Switch} and @command{Parameter} arguments can be mixed, it is
+@code{Switch} and @code{Parameter} arguments can be mixed, it is
 not possible to know the unmatched type.  If argument is found unmatched
-it is assumed to be of the @command{Parameter} type and it is expected to
+it is assumed to be of the @code{Parameter} type and it is expected to
 be followed by a value.
 
 @end deftypefn
@@ -924,16 +930,16 @@ check ("mech", "~/dev", "type", "linear");
 @end example
 
 @emph{Note 1}: A function can have any mixture of the four API types but
-they must appear in a specific order.  @command{Required} arguments must be
-first and can be followed by any @command{Optional} arguments.  Only
-the @command{Parameter} and @command{Switch} arguments may be mixed
+they must appear in a specific order.  @code{Required} arguments must be
+first and can be followed by any @code{Optional} arguments.  Only
+the @code{Parameter} and @code{Switch} arguments may be mixed
 together and they must appear at the end.
 
-@emph{Note 2}: If both @command{Optional} and @command{Parameter} arguments
+@emph{Note 2}: If both @code{Optional} and @code{Parameter} arguments
 are mixed in a function API then once a string Optional argument fails to
-validate it will be considered the end of the @command{Optional}
+validate it will be considered the end of the @code{Optional}
 arguments.  The remaining arguments will be compared against any
-@command{Parameter} or @command{Switch} arguments.
+@code{Parameter} or @code{Switch} arguments.
 
 @seealso{@ref{XREFnargin,,nargin}, @ref{XREFvalidateattributes,,validateattributes}, @ref{XREFvalidatestring,,validatestring}, @ref{XREFvarargin,,varargin}}
 @end deftypefn
@@ -1542,20 +1548,23 @@ whether they are modifiable or not.  The default is @code{false}.
 @end deftypefn
 
 
-@c mfilename libinterp/parse-tree/oct-parse.in.yy
+@c mfilename libinterp/parse-tree/oct-parse.yy
 @anchor{XREFmfilename}
 @deftypefn  {} {} mfilename ()
 @deftypefnx {} {} mfilename ("fullpath")
 @deftypefnx {} {} mfilename ("fullpathext")
 Return the name of the currently executing file.
 
-When called from outside an m-file return the empty string.
+The base name of the currently executing script or function is returned without
+any extension.  If called from outside an m-file, such as the command line,
+return the empty string.
 
 Given the argument @qcode{"fullpath"}, include the directory part of the
 filename, but not the extension.
 
 Given the argument @qcode{"fullpathext"}, include the directory part of
 the filename and the extension.
+@seealso{@ref{XREFinputname,,inputname}, @ref{XREFdbstack,,dbstack}}
 @end deftypefn
 
 
@@ -2058,7 +2067,7 @@ functions is through classes and object oriented programming
 user overloading and call the default function associated with a specific
 type.  The @code{builtin} function exists for this purpose.
 
-@c builtin libinterp/parse-tree/oct-parse.in.yy
+@c builtin libinterp/parse-tree/oct-parse.yy
 @anchor{XREFbuiltin}
 @deftypefn {} {[@dots{}] =} builtin (@var{f}, @dots{})
 Call the base function @var{f} even if @var{f} is overloaded to another
@@ -2099,7 +2108,7 @@ amount of disk space used by Octave.  Instead Octave supplies the
 @code{autoload} function, that permits the user to define in which
 file a certain function will be found.
 
-@c autoload libinterp/parse-tree/oct-parse.in.yy
+@c autoload libinterp/parse-tree/oct-parse.yy
 @anchor{XREFautoload}
 @deftypefn  {} {@var{autoload_map} =} autoload ()
 @deftypefnx {} {} autoload (@var{function}, @var{file})
@@ -2143,11 +2152,10 @@ not loaded anymore during the current Octave session.
 @node Function Locking
 @subsection Function Locking
 
-It is sometime desirable to lock a function into memory with the
-@code{mlock} function.  This is typically used for dynamically linked
-functions in Oct-files or mex-files that contain some initialization,
-and it is desirable that calling @code{clear} does not remove this
-initialization.
+It is sometime desirable to lock a function into memory with the @code{mlock}
+function.  This is typically used for dynamically linked functions in
+oct-files or mex-files that contain some initialization, and it is desirable
+that calling @code{clear} does not remove this initialization.
 
 As an example,
 
@@ -2156,14 +2164,15 @@ As an example,
 function my_function ()
   mlock ();
   @dots{}
+endfunction
 @end group
 @end example
 
 @noindent
-prevents @code{my_function} from being removed from memory after it is
-called, even if @code{clear} is called.  It is possible to determine if
-a function is locked into memory with the @code{mislocked}, and to unlock
-a function with @code{munlock}, which the following illustrates.
+prevents @code{my_function} from being removed from memory after it is called,
+even if @code{clear} is called.  It is possible to determine if a function is
+locked into memory with the @code{mislocked}, and to unlock a function with
+@code{munlock}, which the following code illustrates.
 
 @example
 @group
@@ -2176,36 +2185,36 @@ mislocked ("my_function")
 @end group
 @end example
 
-A common use of @code{mlock} is to prevent persistent variables from
-being removed from memory, as the following example shows:
+A common use of @code{mlock} is to prevent persistent variables from being
+removed from memory, as the following example shows:
 
 @example
 @group
 function count_calls ()
   mlock ();
   persistent calls = 0;
-  printf ("'count_calls' has been called %d times\n",
-          ++calls);
+  printf ("count_calls() has been called %d times\n", ++calls);
 endfunction
 
 count_calls ();
-@print{} 'count_calls' has been called 1 times
+@print{} count_calls() has been called 1 times
 
 clear count_calls
 count_calls ();
-@print{} 'count_calls' has been called 2 times
+@print{} count_calls() has been called 2 times
 @end group
 @end example
 
-@code{mlock} might equally be used to prevent changes to a function from having
-effect in Octave, though a similar effect can be had with the
-@code{ignore_function_time_stamp} function.
+@code{mlock} might also be used to prevent changes to an m-file, such as in an
+external editor, from having any effect in the current Octave session; A
+similar effect can be had with the @code{ignore_function_time_stamp} function.
 
 @c mlock libinterp/corefcn/variables.cc
 @anchor{XREFmlock}
 @deftypefn {} {} mlock ()
-Lock the current function into memory so that it can't be cleared.
-@seealso{@ref{XREFmunlock,,munlock}, @ref{XREFmislocked,,mislocked}, @ref{XREFpersistent,,persistent}}
+Lock the current function into memory so that it can't be removed with
+@code{clear}.
+@seealso{@ref{XREFmunlock,,munlock}, @ref{XREFmislocked,,mislocked}, @ref{XREFpersistent,,persistent}, @ref{XREFclear,,clear}}
 @end deftypefn
 
 
@@ -2213,10 +2222,11 @@ Lock the current function into memory so that it can't be cleared.
 @anchor{XREFmunlock}
 @deftypefn  {} {} munlock ()
 @deftypefnx {} {} munlock (@var{fcn})
-Unlock the named function @var{fcn}.
+Unlock the named function @var{fcn} so that it may be removed from memory with
+@code{clear}.
 
 If no function is named then unlock the current function.
-@seealso{@ref{XREFmlock,,mlock}, @ref{XREFmislocked,,mislocked}, @ref{XREFpersistent,,persistent}}
+@seealso{@ref{XREFmlock,,mlock}, @ref{XREFmislocked,,mislocked}, @ref{XREFpersistent,,persistent}, @ref{XREFclear,,clear}}
 @end deftypefn
 
 
@@ -2224,10 +2234,10 @@ If no function is named then unlock the current function.
 @anchor{XREFmislocked}
 @deftypefn  {} {} mislocked ()
 @deftypefnx {} {} mislocked (@var{fcn})
-Return true if the named function @var{fcn} is locked.
+Return true if the named function @var{fcn} is locked in memory.
 
 If no function is named then return true if the current function is locked.
-@seealso{@ref{XREFmlock,,mlock}, @ref{XREFmunlock,,munlock}, @ref{XREFpersistent,,persistent}}
+@seealso{@ref{XREFmlock,,mlock}, @ref{XREFmunlock,,munlock}, @ref{XREFpersistent,,persistent}, @ref{XREFclear,,clear}}
 @end deftypefn
 
 
@@ -2373,7 +2383,7 @@ Although Octave normally executes commands from script files that have
 the name @file{@var{file}.m}, you can use the function @code{source} to
 execute commands from any file.
 
-@c source libinterp/parse-tree/oct-parse.in.yy
+@c source libinterp/parse-tree/oct-parse.yy
 @anchor{XREFsource}
 @deftypefn  {} {} source (@var{file})
 @deftypefnx {} {} source (@var{file}, @var{context})
@@ -3089,12 +3099,12 @@ function handle @var{fcn_handle}.
 
 @c str2func libinterp/octave-value/ov-fcn-handle.cc
 @anchor{XREFstr2func}
-@deftypefn  {} {} str2func (@var{fcn_name})
-@deftypefnx {} {} str2func (@var{fcn_name}, "global")
+@deftypefn {} {} str2func (@var{fcn_name})
 Return a function handle constructed from the string @var{fcn_name}.
 
-If the optional @qcode{"global"} argument is passed, locally visible
-functions are ignored in the lookup.
+Previous versions of Octave accepted an optional second argument,
+@qcode{"global"}, that caused str2func to ignore locally visible
+functions.  This option is no longer supported.
 @seealso{@ref{XREFfunc2str,,func2str}, @ref{XREFinline,,inline}, @ref{XREFfunctions,,functions}}
 @end deftypefn
 

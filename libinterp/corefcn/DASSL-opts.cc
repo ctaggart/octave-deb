@@ -6,7 +6,8 @@
 // this file.
 
 #include <iomanip>
-#include <iostream>
+#include <ostream>
+#include <sstream>
 
 #include "DASSL-opts.h"
 
@@ -202,56 +203,56 @@ set_DASSL_options (const std::string& keyword, const octave_value& val)
 {
   DASSL_options_struct *list = DASSL_options_table;
 
-  if (keyword_almost_match (list[0].kw_tok, list[0].min_len,
+  if (octave::keyword_almost_match (list[0].kw_tok, list[0].min_len,
            keyword, list[0].min_toks_to_match, MAX_TOKENS))
     {
       Array<double> tmp = val.vector_value ();
 
       dassl_opts.set_absolute_tolerance (tmp);
     }
-  else if (keyword_almost_match (list[1].kw_tok, list[1].min_len,
+  else if (octave::keyword_almost_match (list[1].kw_tok, list[1].min_len,
            keyword, list[1].min_toks_to_match, MAX_TOKENS))
     {
       Array<double> tmp = val.vector_value ();
 
       dassl_opts.set_relative_tolerance (tmp);
     }
-  else if (keyword_almost_match (list[2].kw_tok, list[2].min_len,
+  else if (octave::keyword_almost_match (list[2].kw_tok, list[2].min_len,
            keyword, list[2].min_toks_to_match, MAX_TOKENS))
     {
       int tmp = val.int_value ();
 
       dassl_opts.set_compute_consistent_initial_condition (tmp);
     }
-  else if (keyword_almost_match (list[3].kw_tok, list[3].min_len,
+  else if (octave::keyword_almost_match (list[3].kw_tok, list[3].min_len,
            keyword, list[3].min_toks_to_match, MAX_TOKENS))
     {
       int tmp = val.int_value ();
 
       dassl_opts.set_enforce_nonnegativity_constraints (tmp);
     }
-  else if (keyword_almost_match (list[4].kw_tok, list[4].min_len,
+  else if (octave::keyword_almost_match (list[4].kw_tok, list[4].min_len,
            keyword, list[4].min_toks_to_match, MAX_TOKENS))
     {
       double tmp = val.double_value ();
 
       dassl_opts.set_initial_step_size (tmp);
     }
-  else if (keyword_almost_match (list[5].kw_tok, list[5].min_len,
+  else if (octave::keyword_almost_match (list[5].kw_tok, list[5].min_len,
            keyword, list[5].min_toks_to_match, MAX_TOKENS))
     {
       int tmp = val.int_value ();
 
       dassl_opts.set_maximum_order (tmp);
     }
-  else if (keyword_almost_match (list[6].kw_tok, list[6].min_len,
+  else if (octave::keyword_almost_match (list[6].kw_tok, list[6].min_len,
            keyword, list[6].min_toks_to_match, MAX_TOKENS))
     {
       double tmp = val.double_value ();
 
       dassl_opts.set_maximum_step_size (tmp);
     }
-  else if (keyword_almost_match (list[7].kw_tok, list[7].min_len,
+  else if (octave::keyword_almost_match (list[7].kw_tok, list[7].min_len,
            keyword, list[7].min_toks_to_match, MAX_TOKENS))
     {
       int tmp = val.int_value ();
@@ -271,7 +272,7 @@ show_DASSL_options (const std::string& keyword)
 
   DASSL_options_struct *list = DASSL_options_table;
 
-  if (keyword_almost_match (list[0].kw_tok, list[0].min_len,
+  if (octave::keyword_almost_match (list[0].kw_tok, list[0].min_len,
            keyword, list[0].min_toks_to_match, MAX_TOKENS))
     {
       Array<double> val = dassl_opts.absolute_tolerance ();
@@ -285,7 +286,7 @@ show_DASSL_options (const std::string& keyword)
           retval = ColumnVector (val);
         }
     }
-  else if (keyword_almost_match (list[1].kw_tok, list[1].min_len,
+  else if (octave::keyword_almost_match (list[1].kw_tok, list[1].min_len,
            keyword, list[1].min_toks_to_match, MAX_TOKENS))
     {
       Array<double> val = dassl_opts.relative_tolerance ();
@@ -299,42 +300,42 @@ show_DASSL_options (const std::string& keyword)
           retval = ColumnVector (val);
         }
     }
-  else if (keyword_almost_match (list[2].kw_tok, list[2].min_len,
+  else if (octave::keyword_almost_match (list[2].kw_tok, list[2].min_len,
            keyword, list[2].min_toks_to_match, MAX_TOKENS))
     {
       int val = dassl_opts.compute_consistent_initial_condition ();
 
       retval = static_cast<double> (val);
     }
-  else if (keyword_almost_match (list[3].kw_tok, list[3].min_len,
+  else if (octave::keyword_almost_match (list[3].kw_tok, list[3].min_len,
            keyword, list[3].min_toks_to_match, MAX_TOKENS))
     {
       int val = dassl_opts.enforce_nonnegativity_constraints ();
 
       retval = static_cast<double> (val);
     }
-  else if (keyword_almost_match (list[4].kw_tok, list[4].min_len,
+  else if (octave::keyword_almost_match (list[4].kw_tok, list[4].min_len,
            keyword, list[4].min_toks_to_match, MAX_TOKENS))
     {
       double val = dassl_opts.initial_step_size ();
 
       retval = val;
     }
-  else if (keyword_almost_match (list[5].kw_tok, list[5].min_len,
+  else if (octave::keyword_almost_match (list[5].kw_tok, list[5].min_len,
            keyword, list[5].min_toks_to_match, MAX_TOKENS))
     {
       int val = dassl_opts.maximum_order ();
 
       retval = static_cast<double> (val);
     }
-  else if (keyword_almost_match (list[6].kw_tok, list[6].min_len,
+  else if (octave::keyword_almost_match (list[6].kw_tok, list[6].min_len,
            keyword, list[6].min_toks_to_match, MAX_TOKENS))
     {
       double val = dassl_opts.maximum_step_size ();
 
       retval = val;
     }
-  else if (keyword_almost_match (list[7].kw_tok, list[7].min_len,
+  else if (octave::keyword_almost_match (list[7].kw_tok, list[7].min_len,
            keyword, list[7].min_toks_to_match, MAX_TOKENS))
     {
       int val = dassl_opts.step_limit ();

@@ -1,6 +1,6 @@
 @c DO NOT EDIT!  Generated automatically by munge-texi.pl.
 
-@c Copyright (C) 2009-2018 Jaroslav Hajek
+@c Copyright (C) 2009-2019 Jaroslav Hajek
 @c
 @c This file is part of Octave.
 @c

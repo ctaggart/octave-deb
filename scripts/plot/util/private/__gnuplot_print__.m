@@ -1,4 +1,4 @@
-## Copyright (C) 1999-2018 Daniel Heiserer
+## Copyright (C) 1999-2019 Daniel Heiserer
 ## Copyright (C) 2001 Laurent Mazet
 ##
 ## This file is part of Octave.
@@ -63,7 +63,7 @@ function opts = __gnuplot_print__ (opts)
       if (any (strcmp (opts.devopt, {"eps", "epsc"})))
         gp_opts = [gp_opts " level1"];
       endif
-      if (opts.tight_flag || ! isempty (opts.preview))
+      if (opts.tight || ! isempty (opts.preview))
         tmp_file = [tempname() ".eps"];
         eps_drawnow (opts, tmp_file, gp_opts);
         if (dos_shell)
@@ -156,6 +156,8 @@ function opts = __gnuplot_print__ (opts)
                "print.m: '%s' output is not available for gnuplot-%s",
                upper (opts.devopt), __gnuplot_version__ ());
       endif
+    case "dumb"
+      local_drawnow ("dumb size 72,24", opts.name, opts);
     case opts.ghostscript.device
       gp_opts = font_spec (opts, "devopt", "eps");
       opts.ghostscript.output = opts.name;

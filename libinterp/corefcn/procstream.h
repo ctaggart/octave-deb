@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 1993-2018 John W. Eaton
+Copyright (C) 1993-2019 John W. Eaton
 
 This file is part of Octave.
 
@@ -25,8 +25,7 @@ along with Octave; see the file COPYING.  If not, see
 
 #include "octave-config.h"
 
-#include <istream>
-#include <ostream>
+#include <iosfwd>
 #include <string>
 
 #include <sys/types.h>

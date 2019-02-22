@@ -1,4 +1,4 @@
-## Copyright (C) 2015-2018 Markus Bergholz
+## Copyright (C) 2015-2019 Markus Bergholz
 ##
 ## This file is part of Octave.
 ##
@@ -54,7 +54,8 @@
 ## @example
 ## @group
 ## A = magic (3)
-##   @result{}   8   1   6
+##   @result{} A =
+##        8   1   6
 ##        3   5   7
 ##        4   9   2
 ## B1 = [1 2 3];

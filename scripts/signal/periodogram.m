@@ -1,6 +1,6 @@
-## Copyright (C) 1995-2018 Friedrich Leisch
+## Copyright (C) 1995-2019 Friedrich Leisch
 ## Copyright (C) 2010 Alois Schloegl
-## Copyright (C) 2014-2018 Drew Abbot
+## Copyright (C) 2014-2019 Drew Abbot
 ##
 ## This file is part of Octave.
 ##
@@ -151,7 +151,7 @@ function [pxx, f] = periodogram (x, varargin)
 
   if (! isempty (window))
     n = sumsq (window);
-  endif;
+  endif
   Pxx = (abs (fft (x, nfft))) .^ 2 / n;
 
   if (use_w_freq)

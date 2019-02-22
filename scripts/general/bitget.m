@@ -1,4 +1,4 @@
-## Copyright (C) 2004-2018 David Bateman
+## Copyright (C) 2004-2019 David Bateman
 ##
 ## This file is part of Octave.
 ##
@@ -31,7 +31,7 @@
 ## @seealso{bitand, bitor, bitxor, bitset, bitcmp, bitshift, intmax, flintmax}
 ## @end deftypefn
 
-## Liberally based of the version by Kai Habel from octave-forge
+## Liberally based of the version by Kai Habel from Octave Forge
 
 function C = bitget (A, n)
 

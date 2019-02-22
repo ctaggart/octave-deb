@@ -1,4 +1,4 @@
-## Copyright (C) 2010-2018 Ben Abbott
+## Copyright (C) 2010-2019 Ben Abbott
 ##
 ## This file is part of Octave.
 ##
@@ -74,6 +74,10 @@ function [gs_cmd, cleanup_cmd] = __ghostscript__ (varargin)
 
   if (! isempty (opts.level) && ismember (opts.level, [1, 2, 3]))
     gs_opts = sprintf ("%s -dLanguageLevel=%d", gs_opts, opts.level);
+  endif
+
+  if (strfind (opts.device, "tiffscaled"))
+    gs_opts = [gs_opts " -sCompression=lzw"];
   endif
 
   if (opts.antialiasing && isempty (strfind (opts.device, "write")))

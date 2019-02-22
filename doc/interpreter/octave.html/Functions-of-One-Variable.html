@@ -3,10 +3,10 @@
 <!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Functions of One Variable (GNU Octave (version 4.4.1))</title>
+<title>Functions of One Variable (GNU Octave (version 5.0.91))</title>
 
-<meta name="description" content="Functions of One Variable (GNU Octave (version 4.4.1))">
-<meta name="keywords" content="Functions of One Variable (GNU Octave (version 4.4.1))">
+<meta name="description" content="Functions of One Variable (GNU Octave (version 5.0.91))">
+<meta name="keywords" content="Functions of One Variable (GNU Octave (version 5.0.91))">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
@@ -688,12 +688,15 @@ over the range [0, 1] is <em>x^4/4</em> or 0.25.  The following code uses
 <div class="example">
 <pre class="example">x = 0:0.1:1;
 y = x.^3;
+## No scaling
 q = trapz (y)
-  &rArr; q = 2.525   # No scaling
+  &rArr; q = 2.5250
+## Approximation to integral by scaling
 q * 0.1
-  &rArr; q = 0.2525  # Approximation to integral by scaling
+  &rArr; 0.25250
+## Same result by specifying <var>x</var>
 trapz (x, y)
-  &rArr; q = 0.2525  # Same result by specifying <var>x</var>
+  &rArr; 0.25250
 </pre></div>
 
 

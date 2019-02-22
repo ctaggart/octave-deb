@@ -3,10 +3,10 @@
 <!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Defining Functions (GNU Octave (version 4.4.1))</title>
+<title>Defining Functions (GNU Octave (version 5.0.91))</title>
 
-<meta name="description" content="Defining Functions (GNU Octave (version 4.4.1))">
-<meta name="keywords" content="Defining Functions (GNU Octave (version 4.4.1))">
+<meta name="description" content="Defining Functions (GNU Octave (version 5.0.91))">
+<meta name="keywords" content="Defining Functions (GNU Octave (version 5.0.91))">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
@@ -256,6 +256,7 @@ nargin (&quot;union&quot;)
 
 <a name="XREFinputname"></a><dl>
 <dt><a name="index-inputname"></a><em></em> <strong>inputname</strong> <em>(<var>n</var>)</em></dt>
+<dt><a name="index-inputname-1"></a><em></em> <strong>inputname</strong> <em>(<var>n</var>, <var>ids_only</var>)</em></dt>
 <dd><p>Return the name of the <var>n</var>-th argument to the calling function.
 </p>
 <p>If the argument is not a simple variable name, return an empty string.  As
@@ -264,6 +265,11 @@ not a simple name and will return <code>&quot;&quot;</code>.
 </p>
 <p><code>inputname</code> is only useful within a function.  When used at the command
 line it always returns an empty string.
+</p>
+<p>By default, return an empty string if the <var>n</var>-th argument is not
+a valid variable name.  If the optional argument <var>ids_only</var> is
+false, return the text of the argument even if it is not a valid
+variable name.
 </p>
 <p><strong>See also:</strong> <a href="#XREFnargin">nargin</a>, <a href="Multiple-Return-Values.html#XREFnthargout">nthargout</a>.
 </p></dd></dl>

@@ -21,6 +21,739 @@ manual into another language, under the above conditions for modified
 versions.
 
 
+File: octave.info,  Node: Use of the interpreter Property,  Next: Printing and Saving Plots,  Prev: Manipulation of Plot Windows,  Up: High-Level Plotting
+
+15.2.8 Use of the ‘interpreter’ Property
+----------------------------------------
+
+All text objects—such as titles, labels, legends, and text—include the
+property "interpreter" that determines the manner in which special
+control sequences in the text are rendered.
+
+   The interpreter property can take three values: "none", "tex",
+"latex".  If the interpreter is set to "none" then no special rendering
+occurs—the displayed text is a verbatim copy of the specified text.
+Currently, the "latex" interpreter is not implemented for on-screen
+display and is equivalent to "none".  Note that Octave does not parse or
+validate the text strings when in "latex" mode—it is the responsibility
+of the programmer to generate valid strings which may include wrapping
+sections that should appear in Math mode with ’$’ characters.
+
+   The "tex" option implements a subset of TeX functionality when
+rendering text.  This allows the insertion of special glyphs such as
+Greek characters or mathematical symbols.  Special characters are
+inserted by using a backslash (\) character followed by a code, as shown
+in *note Table 15.1: tab:extended.
+
+   Besides special glyphs, the formatting of the text can be changed
+within the string by using the codes
+
+               \bf            Bold font
+               \it            Italic font
+               \sl            Oblique Font
+               \rm            Normal font
+
+   These codes may be used in conjunction with the { and } characters to
+limit the change to a part of the string.  For example,
+
+     xlabel ('{\bf H} = a {\bf V}')
+
+where the character ’a’ will not appear in bold font.  Note that to
+avoid having Octave interpret the backslash character in the strings,
+the strings themselves should be in single quotes.
+
+   It is also possible to change the fontname and size within the text
+
+        \fontname{FONTNAME}           Specify the font to use
+        \fontsize{SIZE}               Specify the size of the font to use
+
+   The color of the text may also be changed inline using either a
+string (e.g., "red") or numerically with a Red-Green-Blue (RGB)
+specification (e.g., [1 0 0], also red).
+
+        \color{COLOR}                 Specify the color as a string
+        \color[rgb]{R G B}            Specify the color numerically
+
+   Finally, superscripting and subscripting can be controlled with the
+’^’ and ’_’ characters.  If the ’^’ or ’_’ is followed by a { character,
+then all of the block surrounded by the { } pair is superscripted or
+subscripted.  Without the { } pair, only the character immediately
+following the ’^’ or ’_’ is changed.
+
+Greek Lowercase
+Letters
+                   \alpha             \beta              \gamma
+                   \delta             \epsilon           \zeta
+                   \eta               \theta             \vartheta
+                   \iota              \kappa             \lambda
+                   \mu                \nu                \xi
+                   \o                 \pi                \varpi
+                   \rho               \sigma             \varsigma
+                   \tau               \upsilon           \phi
+                   \chi               \psi               \omega
+Greek Uppercase
+Letters
+                   \Gamma             \Delta             \Theta
+                   \Lambda            \Xi                \Pi
+                   \Sigma             \Upsilon           \Phi
+                   \Psi               \Omega
+Misc Symbols
+Type Ord
+                   \aleph             \wp                \Re
+                   \Im                \partial           \infty
+                   \prime             \nabla             \surd
+                   \angle             \forall            \exists
+                   \neg               \clubsuit          \diamondsuit
+                   \heartsuit         \spadesuit
+“Large”
+Operators
+                   \int
+Binary Operators
+                   \pm                \cdot              \times
+                   \ast               \circ              \bullet
+                   \div               \cap               \cup
+                   \vee               \wedge             \oplus
+                   \otimes            \oslash
+Relations
+                   \leq               \subset            \subseteq
+                   \in                \geq               \supset
+                   \supseteq          \ni                \mid
+                   \equiv             \sim               \approx
+                   \cong              \propto            \perp
+Arrows
+                   \leftarrow         \Leftarrow         \rightarrow
+                   \Rightarrow        \leftrightarrow    \uparrow
+                   \downarrow
+Openings and
+Closings
+                   \lfloor            \langle            \lceil
+                   \rfloor            \rangle            \rceil
+Alternate Names
+                   \neq
+Other
+                   \ldots             \0                 \copyright
+                   \deg
+
+Table 15.1: Available special characters in TeX mode
+
+15.2.8.1 Degree Symbol
+......................
+
+Conformance to both TeX and MATLAB with respect to the ‘\circ’ symbol is
+impossible.  While TeX translates this symbol to Unicode 2218 (U+2218),
+MATLAB maps this to Unicode 00B0 (U+00B0) instead.  Octave has chosen to
+follow the TeX specification, but has added the additional symbol ‘\deg’
+which maps to the degree symbol (U+00B0).
+
+
+File: octave.info,  Node: Printing and Saving Plots,  Next: Interacting with Plots,  Prev: Use of the interpreter Property,  Up: High-Level Plotting
+
+15.2.9 Printing and Saving Plots
+--------------------------------
+
+The ‘print’ command allows you to send plots to you printer and to save
+plots in a variety of formats.  For example,
+
+     print -dpsc
+
+prints the current figure to a color PostScript printer.  And,
+
+     print -deps foo.eps
+
+saves the current figure to an encapsulated PostScript file called
+‘foo.eps’.
+
+   The current graphic toolkits produce very similar graphic displays,
+but differ in their capability to display unusual text and in their
+ability to print such text.  In general, the "tex" interpreter (default)
+is the best all-around performer for both on-screen display and
+printing.  However, for the reproduction of complicated text formulas
+the "latex" interpreter is preferred.  The "latex" interpreter will not
+display symbols on-screen, but the printed output will be correct.  When
+printing, use one of the ‘standalone’ options which provide full access
+to LaTeX commands.
+
+   A complete example showing the capabilities of text printing using
+the ‘-dpdflatexstandalone’ option is:
+
+     x = 0:0.01:3;
+     hf = figure ();
+     plot (x, erf (x));
+     hold on;
+     plot (x, x, "r");
+     axis ([0, 3, 0, 1]);
+     text (0.65, 0.6175, ...
+           ['$\displaystyle\leftarrow x = {2 \over \sqrt{\pi}}'...
+            '\int_{0}^{x} e^{-t^2} dt = 0.6175$'],
+           "interpreter", "latex");
+     xlabel ("x");
+     ylabel ("erf (x)");
+     title ("erf (x) with text annotation");
+     print (hf, "plot15_7.pdf", "-dpdflatexstandalone");
+     system ("pdflatex plot15_7");
+     open plot15_7.pdf
+
+ -- : print ()
+ -- : print (OPTIONS)
+ -- : print (FILENAME, OPTIONS)
+ -- : print (HFIG, ...)
+ -- : RGB = print ("-RGBImage", ...)
+     Format a figure for printing and either save it to a file, send it
+     to a printer, or return an RGB image.
+
+     FILENAME defines the name of the output file.  If the filename has
+     no suffix then one is inferred from the specified device and
+     appended to the filename.  When neither a filename nor the
+     "-RGBImage" option is present, the output is sent to the printer.
+     The various options and filename arguments may be given in any
+     order, except for the figure handle argument HFIG which must be
+     first if it is present.
+
+     Example: Print to a file using PDF and JPEG formats.
+
+          figure (1);
+          clf ();
+          surf (peaks);
+          print figure1.pdf    # The extension specifies the format
+          print -djpg figure1  # Will produce "figure1.jpg" file
+
+     If the first argument is a handle HFIG to a figure object then it
+     specifies the figure to print.  By default, the current figure
+     returned by ‘gcf’ is printed.
+
+     For outputs to paged formats, for example, PostScript and PDF, the
+     page size is specified by the figure’s ‘papersize’ property
+     together with the ‘paperunits’ property.  The location and size of
+     the plot on the page are specified by the figure’s ‘paperposition’
+     property.  The orientation of the page is specified by the figure’s
+     ‘paperorientation’ property.
+
+     For non-page formats—for example, image formats like JPEG—the width
+     and height of the output are specified by the figure’s
+     ‘paperposition(3:4)’ property values.
+
+     The ‘print’ command supports many OPTIONS:
+
+     ‘-fH’
+          Specify the handle, H, of the figure to be printed.
+
+          Example: Print figure 1.
+
+               figure (1);
+               clf ();
+               surf (peaks);
+               figure (2);
+               print -f1 figure1.pdf
+               ## Equivalent functional form:
+               print (1, "figure1.pdf")
+
+     ‘-PPRINTER’
+          Set the PRINTER name to which the plot is sent if no FILENAME
+          is specified.
+
+          Example: Print to printer named PS_printer using PostScript
+          format.
+
+               clf ();
+               surf (peaks);
+               print -dpswrite -PPS_printer
+
+     ‘-RGBImage’
+          Return an M-by-N-by-3 RGB image of the figure.  The size of
+          the image depends on the formatting options.  This is similar
+          to taking a screen capture of the plot, but formatting options
+          may be changed such as the resolution or monochrome/color.
+
+          Example: Get the pixels of a figure image.
+
+               clf ();
+               surf (peaks);
+               RGB = print ("-RGBImage");
+
+     ‘-opengl’
+     ‘-painters’
+          Specifies whether the opengl (pixel-based) or painters
+          (vector-based) renderer is used.  This is equivalent to
+          changing the figure’s "Renderer" property.  When the figure
+          ‘RendererMode’ property is "auto" Octave will use the "opengl"
+          renderer for raster formats (e.g., JPEG) and "painters" for
+          vector formats (e.g., PDF). Those options are only supported
+          for the "qt" graphics tookit.
+
+     ‘-svgconvert’
+          For OpenGL-based graphic toolkits, this enables a different
+          backend toolchain with enhanced characteristics.  The
+          toolchain adds support for printing arbitrary characters and
+          fonts in PDF outputs; it avoids some anti-aliasing artifacts
+          in the rendering of patch and surface objects (particularly
+          for 2-D scenes); and it supports transparency of line, patch,
+          and surface objects.
+
+          This option only affects PDF outputs, unless it is combined
+          with ‘-painters’ option, in which case raster outputs are also
+          affected.
+
+          Caution: ‘-svgconvert’ may lead to inaccurate rendering of
+          image objects.
+
+     ‘-portrait’
+     ‘-landscape’
+          Specify the orientation of the plot for printed output.  For
+          non-printed output the aspect ratio of the output corresponds
+          to the plot area defined by the "paperposition" property in
+          the orientation specified.  This option is equivalent to
+          changing the figure’s "paperorientation" property.
+
+     ‘-fillpage’
+     ‘-bestfit’
+          When using a page-based format (PDF, PostScript, printer)
+          ignore the "paperposition" property and have the plot occupy
+          the entire page.  The option ‘-fillpage’ will stretch the plot
+          to occupy the page with 0.25 inch margins all around.  The
+          option ‘-bestfit’ will expand the plot to take up as much room
+          as possible on the page *without* distorting the original
+          aspect ratio of the plot.
+
+     ‘-color’
+     ‘-mono’
+          Color or monochrome output.
+
+     ‘-solid’
+     ‘-dashed’
+          Force all lines to be solid or dashed, respectively.
+
+     ‘-noui’
+          Don’t print uicontrol objects such as pushbuttons which may
+          overlay the plot.  This is the default behavior and it is not
+          possible to include uicontrol objects in the output without
+          using an external screen capture tool.
+
+     ‘-rNUM’
+          Resolution of bitmaps in dots per inch (DPI). For both
+          metafiles and SVG the default is the screen resolution; for
+          other formats the default is 150 DPI.  To specify screen
+          resolution, use "-r0".
+
+          Example: high resolution raster output.
+
+               clf ();
+               surf (peaks (), "facelighting", "gouraud");
+               light ();
+               print ("-r600", "lit_peaks.png");
+
+     ‘-SXSIZE,YSIZE’
+          Plot size in pixels for raster formats including PNG, JPEG,
+          PNG, and (unusually (SVG)).  For all vector formats, including
+          PDF, PS, and EPS, the plot size is specified in points.  This
+          option is equivalent to changing the width and height of the
+          output by setting the figure property ‘paperposition(3:4)’.
+          When using the command form of the print function you must
+          quote the XSIZE,YSIZE option to prevent the Octave interpreter
+          from recognizing the embedded comma (’,’).  For example, by
+          writing "-S640,480".
+
+     ‘-tight’
+     ‘-loose’
+          Force a tight or loose bounding box for EPS files.  The
+          default is tight.
+
+     ‘-PREVIEW’
+          Add a preview to EPS files.  Supported formats are:
+
+          ‘-interchange’
+               Provide an interchange preview.
+
+          ‘-metafile’
+               Provide a metafile preview.
+
+          ‘-pict’
+               Provide a pict preview.
+
+          ‘-tiff’
+               Provide a TIFF preview.
+
+     ‘-append’
+          Append PostScript or PDF output to an existing file of the
+          same type.
+
+     ‘-FFONTNAME’
+     ‘-FFONTNAME:SIZE’
+     ‘-F:SIZE’
+          Use FONTNAME and/or FONTSIZE for all text.  FONTNAME is
+          ignored for some devices: dxf, fig, hpgl, etc.
+
+     ‘-dDEVICE’
+          The available output format is specified by the option DEVICE,
+          and is one of the following (devices marked with a "*" are
+          only available with the Gnuplot toolkit):
+
+          Vector Formats
+
+          ‘pdf’
+          ‘pdfcrop’
+               Portable Document Format.  The ‘pdfcrop’ device removes
+               the default surrounding page.
+
+               The OpenGL-based graphics toolkits have limited support
+               for text.  Limitations include using only ASCII
+               characters (e.g., no Greek letters) and support for just
+               three base PostScript fonts: Helvetica (the default),
+               Times, or Courier.  Any other font will be replaced by
+               Helvetica.
+
+               For an enhanced output with complete text support and
+               basic transparency, use the ‘-svgconvert’ option.
+
+          ‘ps’
+          ‘ps2’
+          ‘psc’
+          ‘psc2’
+               PostScript (level 1 and 2, mono and color).  The
+               OpenGL-based graphics toolkits always generate PostScript
+               level 3.0 and have limited support for text.
+
+          ‘eps’
+          ‘eps2’
+          ‘epsc’
+          ‘epsc2’
+               Encapsulated PostScript (level 1 and 2, mono and color).
+               The OpenGL-based toolkits always generate PostScript
+               level 3.0 and have limited support for text.
+
+          ‘pslatex’
+          ‘epslatex’
+          ‘pdflatex’
+          ‘pslatexstandalone’
+          ‘epslatexstandalone’
+          ‘pdflatexstandalone’
+               Generate a LaTeX file ‘FILENAME.tex’ for the text
+               portions of a plot and a file ‘FILENAME.(ps|eps|pdf)’ for
+               the remaining graphics.  The graphics file suffix
+               .ps|eps|pdf is determined by the specified device type.
+               The LaTeX file produced by the ‘standalone’ option can be
+               processed directly by LaTeX.  The file generated without
+               the ‘standalone’ option is intended to be included from
+               another LaTeX document.  In either case, the LaTeX file
+               contains an ‘\includegraphics’ command so that the
+               generated graphics file is automatically included when
+               the LaTeX file is processed.  The text that is written to
+               the LaTeX file contains the strings *exactly* as they
+               were specified in the plot.  If any special characters of
+               the TeX mode interpreter were used, the file must be
+               edited before LaTeX processing.  Specifically, the
+               special characters must be enclosed with dollar signs
+               (‘$ ... $’), and other characters that are recognized by
+               LaTeX may also need editing (e.g., braces).  The
+               ‘pdflatex’ device, and any of the ‘standalone’ formats,
+               are not available with the Gnuplot toolkit.
+
+          ‘epscairo*’
+          ‘pdfcairo*’
+          ‘epscairolatex*’
+          ‘pdfcairolatex*’
+          ‘epscairolatexstandalone*’
+          ‘pdfcairolatexstandalone*’
+               Generate output with Cairo renderer.  The devices
+               ‘epscairo’ and ‘pdfcairo’ are synonymous with the ‘epsc’
+               device.  The LaTeX variants generate a LaTeX file,
+               ‘FILENAME.tex’, for the text portions of a plot, and an
+               image file, ‘FILENAME.(eps|pdf)’, for the graph portion
+               of the plot.  The ‘standalone’ variants behave as
+               described for ‘epslatexstandalone’ above.
+
+          ‘svg’
+               Scalable Vector Graphics
+
+          ‘canvas*’
+               Javascript-based drawing on an HTML5 canvas viewable in a
+               web browser.
+
+          ‘cdr*’
+          ‘corel*’
+               CorelDraw
+
+          ‘cgm*’
+               Computer Graphics Metafile, Version 1, ANSI X3.122-1986
+
+          ‘dxf’
+               AutoCAD
+
+          ‘emf’
+          ‘meta’
+               Microsoft Enhanced Metafile
+
+          ‘fig’
+               XFig.  For the Gnuplot graphics toolkit, the additional
+               options ‘-textspecial’ or ‘-textnormal’ can be used to
+               control whether the special flag should be set for the
+               text in the figure.  (default is ‘-textnormal’)
+
+          ‘hpgl’
+               HP plotter language
+
+          ‘ill’
+          ‘aifm’
+               Adobe Illustrator (obsolete for Gnuplot versions > 4.2)
+
+          ‘latex*’
+          ‘eepic*’
+               LaTeX picture environment and extended picture
+               environment.
+
+          ‘mf*’
+               Metafont
+
+          ‘tikz’
+          ‘tikzstandalone*’
+               Generate a LaTeX file using PGF/TikZ format.  The
+               OpenGL-based toolkits create a PGF file while Gnuplot
+               creates a TikZ file.  The ‘tikzstandalone’ device
+               produces a LaTeX document which includes the TikZ file.
+
+          Raster Formats
+
+          ‘png’
+               Portable Network Graphics
+
+          ‘jpg’
+          ‘jpeg’
+               JPEG image
+
+          ‘tif’
+          ‘tiff’
+          ‘tiffn’
+               TIFF image with LZW compression (tif, tiff) or
+               uncompressed (tiffn).
+
+          ‘gif’
+               GIF image
+
+          ‘pbm’
+               PBMplus
+
+          ‘dumb*’
+               ASCII art
+
+          If the device is omitted, it is inferred from the file
+          extension, or if there is no filename then it is sent to the
+          printer as PostScript.
+
+     ‘-dGHOSTSCRIPT_DEVICE’
+          Additional devices are supported by Ghostscript.  Some
+          examples are:
+
+          ‘ljet2p’
+               HP LaserJet IIP
+
+          ‘pcx24b’
+               24-bit color PCX file format
+
+          ‘ppm’
+               Portable Pixel Map file format
+
+          For a complete list of available formats and devices type
+          ‘system ("gs -h")’.
+
+          When Ghostscript output is sent to a printer the size is
+          determined by the figure’s "papersize" property.  When the
+          output is sent to a file the size is determined by the plot
+          box defined by the figure’s "paperposition" property.
+
+     ‘-GGHOSTSCRIPT_COMMAND’
+          Specify the command for calling Ghostscript.  For Unix the
+          default is "gs" and for Windows it is "gswin32c".
+
+     ‘-TextAlphaBits=N’
+     ‘-GraphicsAlphaBits=N’
+          Octave is able to produce output for various printers,
+          bitmaps, and vector formats by using Ghostscript.  For bitmap
+          and printer output anti-aliasing is applied using
+          Ghostscript’s TextAlphaBits and GraphicsAlphaBits options.
+          The default number of bits are 4 and 1 respectively.  Allowed
+          values for N are 1, 2, or 4.
+
+     See also: *note saveas: XREFsaveas, *note hgsave: XREFhgsave, *note
+     getframe: XREFgetframe, *note orient: XREForient, *note figure:
+     XREFfigure.
+
+ -- : saveas (H, FILENAME)
+ -- : saveas (H, FILENAME, FMT)
+     Save graphic object H to the file FILENAME in graphic format FMT.
+
+     All device formats accepted by ‘print’ may be used.  Common formats
+     are:
+
+     ‘ps’
+          PostScript
+
+     ‘eps’
+          Encapsulated PostScript
+
+     ‘pdf’
+          Portable Document Format
+
+     ‘jpg’
+          JPEG Image
+
+     ‘png’
+          Portable Network Graphics image
+
+     ‘emf’
+          Enhanced MetaFile
+
+     ‘tif’
+          TIFF Image, compressed
+
+     If FMT is omitted it is extracted from the extension of FILENAME.
+     The default format when there is no extension is "pdf".
+
+          clf ();
+          surf (peaks);
+          saveas (1, "figure1.png");
+
+     See also: *note print: XREFprint, *note hgsave: XREFhgsave, *note
+     orient: XREForient.
+
+ -- : orient (ORIENTATION)
+ -- : orient (HFIG, ORIENTATION)
+ -- : ORIENTATION = orient ()
+ -- : ORIENTATION = orient (HFIG)
+     Query or set the print orientation for figure HFIG.
+
+     Valid values for ORIENTATION are "portrait", "landscape", and
+     "tall".
+
+     The "landscape" option changes the orientation so the plot width is
+     larger than the plot height.  The "paperposition" is also modified
+     so that the plot fills the page, while leaving a 0.25 inch border.
+
+     The "tall" option sets the orientation to "portrait" and fills the
+     page with the plot, while leaving a 0.25 inch border.
+
+     The "portrait" option (default) changes the orientation so the plot
+     height is larger than the plot width.  It also restores the default
+     "paperposition" property.
+
+     When called with no arguments, return the current print
+     orientation.
+
+     If the argument HFIG is omitted, then operate on the current figure
+     returned by ‘gcf’.
+
+     See also: *note print: XREFprint, *note saveas: XREFsaveas.
+
+   ‘print’ and ‘saveas’ are used when work on a plot has finished and
+the output must be in a publication-ready format.  During intermediate
+stages it is often better to save the graphics object and all of its
+associated information so that changes—to colors, axis limits, marker
+styles, etc.—can be made easily from within Octave.  The
+‘hgsave’/‘hgload’ commands can be used to save and re-create a graphics
+object.
+
+ -- : hgsave (FILENAME)
+ -- : hgsave (H, FILENAME)
+ -- : hgsave (H, FILENAME, FMT)
+     Save the graphics handle(s) H to the file FILENAME in the format
+     FMT.
+
+     If unspecified, H is the current figure as returned by ‘gcf’.
+
+     When FILENAME does not have an extension the default filename
+     extension ‘.ofig’ will be appended.
+
+     If present, FMT must be one of the following:
+
+        • ‘-binary’, ‘-float-binary’
+
+        • ‘-hdf5’, ‘-float-hdf5’
+
+        • ‘-V7’, ‘-v7’, ‘-7’, ‘-mat7-binary’
+
+        • ‘-V6’, ‘-v6’, ‘-6’, ‘-mat6-binary’
+
+        • ‘-text’
+
+        • ‘-zip’, ‘-z’
+
+     The default format is ‘-binary’ to minimize storage.
+
+     Programming Note: When producing graphics for final publication use
+     ‘print’ or ‘saveas’.  When it is important to be able to continue
+     to edit a figure as an Octave object, use ‘hgsave’/‘hgload’.
+
+     See also: *note hgload: XREFhgload, *note hdl2struct:
+     XREFhdl2struct, *note savefig: XREFsavefig, *note saveas:
+     XREFsaveas, *note print: XREFprint.
+
+ -- : H = hgload (FILENAME)
+ -- : [H, OLD_PROP] = hgload (FILENAME, PROP_STRUCT)
+     Load the graphics objects in FILENAME into a vector of graphics
+     handles H.
+
+     If FILENAME has no extension, Octave will try to find the file with
+     and without the default extension ‘.ofig’.
+
+     If provided, the elements of structure PROP_STRUCT will be used to
+     override the properties of top-level objects stored in FILENAME,
+     and the saved values from FILENAME will be stored in OLD_PROP.
+     OLD_PROP is a cell array matching the size of H; each cell contains
+     a structure of the existing property names and values before being
+     overridden.
+
+     See also: *note openfig: XREFopenfig, *note hgsave: XREFhgsave,
+     *note struct2hdl: XREFstruct2hdl.
+
+ -- : openfig
+ -- : openfig (FILENAME)
+ -- : openfig (..., COPIES)
+ -- : openfig (..., VISIBILITY)
+ -- : H = openfig (...)
+     Read saved figure window(s) from FILENAME and return graphics
+     handle(s) H.
+
+     By default, FILENAME is "Untitled.fig".  If a full path is not
+     specified, the file opened will be the first one encountered in the
+     load path.  If FILENAME is not found and does not have an
+     extension, a search will take place for the first file in the load
+     path with extension ".fig" or ".ofig", in that order.
+
+     COPIES is an optional input indicating whether a new figure should
+     be created ("new") or whether an existing figure may be reused
+     ("reuse").  An existing figure may be reused if the "FileName"
+     property matches the specified input FILENAME.  When a figure is
+     reused it becomes the active figure and is shown on top of other
+     figures.  If the figure was offscreen, it is re-positioned to be
+     onscreen.  The default value for COPIES is "new".
+
+     VISIBILITY is an optional input indicating whether to show the
+     figure ("visible") or not ("invisible").  When VISIBILITY is
+     specified as an input to ‘openfig’ it overrides the visibility
+     setting stored in FILENAME.
+
+     See also: *note open: XREFopen, *note hgload: XREFhgload, *note
+     savefig: XREFsavefig, *note struct2hdl: XREFstruct2hdl.
+
+ -- : savefig ()
+ -- : savefig (H)
+ -- : savefig (FILENAME)
+ -- : savefig (H, FILENAME)
+ -- : savefig (H, FILENAME, "compact")
+     Save figure windows specified by graphics handle(s) H to file
+     FILENAME.
+
+     If unspecified, H is the current figure returned by ‘gcf’.
+
+     If unspecified, FILENAME is set to ‘"Untitled.fig"’.  If FILENAME
+     does not have an extension then the default extension ‘".fig"’ will
+     be added.
+
+     If the optional third input "compact" is present then the data will
+     be compressed to save more space.
+
+     See also: *note hgsave: XREFhgsave, *note hdl2struct:
+     XREFhdl2struct, *note openfig: XREFopenfig.
+
+
 File: octave.info,  Node: Interacting with Plots,  Next: Test Plotting Functions,  Prev: Printing and Saving Plots,  Up: High-Level Plotting
 
 15.2.10 Interacting with Plots
@@ -212,13 +945,6 @@ such as a patch or line object, use ‘isgraphics’.  The more specific
 test functions return true only if the argument is both a graphics
 handle and of the correct type (figure, axes, specified object type).
 
-   The ‘whos’ function can be used to show the object type of each
-currently defined graphics handle.  (Note: this is not true today, but
-it is, I hope, considered an error in whos.  It may be better to have
-whos just show graphics_handle as the class, and provide a new function
-which, given a graphics handle, returns its object type.  This could
-generalize the ishandle() functions and, in fact, replace them.)
-
    The ‘get’ and ‘set’ commands are used to obtain and set the values of
 properties of graphics objects.  In addition, the ‘get’ command may be
 used to obtain property names.
@@ -228,49 +954,34 @@ the graphics handle h may be displayed by:
 
      get (h, "type")
 
-   The properties and their current values are returned by ‘get (h)’
-where h is a handle of a graphics object.  If only the names of the
-allowed properties are wanted they may be displayed by: ‘get (h, "")’.
+   The properties and their current values may be obtained in the form
+of a structure using ‘s = get (h)’, where ‘h’ is the handle of a
+graphics object.  If only the names of the properties and the allowed
+values (for radio properties only) are wanted, one may use ‘set (h)’.
 
    Thus, for example:
 
      h = figure ();
      get (h, "type")
-     ans = figure
-     get (h, "");
-     error: get: ambiguous figure property name ; possible matches:
-
-     __gl_extensions__      dockcontrols           renderer
-     __gl_renderer__        doublebuffer           renderermode
-     __gl_vendor__          filename               resize
-     __gl_version__         graphicssmoothing      resizefcn
-     __graphics_toolkit__   handlevisibility       selected
-     __guidata__            hittest                selectionhighlight
-     __modified__           integerhandle          selectiontype
-     __mouse_mode__         interruptible          sizechangedfcn
-     __myhandle__           inverthardcopy         tag
-     __pan_mode__           keypressfcn            toolbar
-     __plot_stream__        keyreleasefcn          type
-     __rotate_mode__        menubar                uicontextmenu
-     __zoom_mode__          mincolormap            units
-     alphamap               name                   userdata
-     beingdeleted           nextplot               visible
-     busyaction             numbertitle            windowbuttondownfcn
-     buttondownfcn          outerposition          windowbuttonmotionfcn
-     children               paperorientation       windowbuttonupfcn
-     clipping               paperposition          windowkeypressfcn
-     closerequestfcn        paperpositionmode      windowkeyreleasefcn
-     color                  papersize              windowscrollwheelfcn
-     colormap               papertype              windowstyle
-     createfcn              paperunits             wvisual
-     currentaxes            parent                 wvisualmode
-     currentcharacter       pointer                xdisplay
-     currentobject          pointershapecdata      xvisual
-     currentpoint           pointershapehotspot    xvisualmode
-     deletefcn              position
-
-   The properties of the root figure may be displayed by: ‘get (groot,
-"")’.
+     ⇒ ans = figure
+     set (h)
+     ⇒
+             alphamap:
+             beingdeleted:  [ {off} | on ]
+             busyaction:  [ cancel | {queue} ]
+             buttondownfcn:
+             clipping:  [ off | {on} ]
+             closerequestfcn:
+             color:
+             colormap:
+             createfcn:
+             currentaxes:
+             deletefcn:
+             dockcontrols:  [ {off} | on ]
+             filename:
+             graphicssmoothing:  [ off | {on} ]
+             handlevisibility:  [ callback | off | {on} ]
+             ...
 
    The uses of ‘get’ and ‘set’ are further explained in *note get:
 XREFget, *note set: XREFset.
@@ -348,13 +1059,16 @@ instead of ‘surface’.  Or use ‘fill’ instead of ‘patch’.
 
  -- : axes ()
  -- : axes (PROPERTY, VALUE, ...)
+ -- : axes (HPAR, PROPERTY, VALUE, ...)
  -- : axes (HAX)
  -- : H = axes (...)
      Create a Cartesian axes object and return a handle to it, or set
      the current axes to HAX.
 
      Called without any arguments, or with PROPERTY/VALUE pairs,
-     construct a new axes.
+     construct a new axes.  The optional argument HPAR is a graphics
+     handle specifying the parent for the new axes and may be a figure,
+     uipanel, or uitab.
 
      Called with a single axes handle argument HAX, the function makes
      HAX the current axes (as returned by ‘gca’).  It also makes the
@@ -374,17 +1088,33 @@ instead of ‘surface’.  Or use ‘fill’ instead of ‘patch’.
 
  -- : line ()
  -- : line (X, Y)
- -- : line (X, Y, PROPERTY, VALUE, ...)
  -- : line (X, Y, Z)
- -- : line (X, Y, Z, PROPERTY, VALUE, ...)
- -- : line (PROPERTY, VALUE, ...)
+ -- : line ("xdata", X, "ydata", Y)
+ -- : line ("xdata", X, "ydata", Y, "zdata", Z)
+ -- : line (..., PROPERTY, VALUE)
  -- : line (HAX, ...)
  -- : H = line (...)
-     Create line object from X and Y (and possibly Z) and insert in the
-     current axes.
+     Create a line object from X and Y (and possibly Z) and insert it in
+     the current axes.
+
+     In the standard calling form the data X, Y, and Z may be scalars,
+     vectors, or matrices.  In the case of matrix inputs, ‘line’ will
+     attempt to orient scalars and vectors so the results can be
+     plotted.  This requires that one of the dimensions of the vector
+     match either the number of rows or the number of columns of the
+     matrix.
+
+     In the low-level calling form (50% higher performance) where the
+     data is specified by name (‘line ("xdata", X, ...)’) the data must
+     be vectors.  If no data is specified (‘line ()’) then
+     ‘X == Y = [0, 1]’.
 
      Multiple property-value pairs may be specified for the line object,
      but they must appear in pairs.
+
+     If called with only PROPERTY/VALUE pairs then any unspecified
+     properties use their default values as specified on the root
+     object.
 
      If the first argument HAX is an axes handle, then plot into this
      axes, rather than the current axes returned by ‘gca’.
@@ -394,6 +1124,9 @@ instead of ‘surface’.  Or use ‘fill’ instead of ‘patch’.
 
      Programming Note: The full list of properties is documented at
      *note Line Properties: Line Properties.
+
+     The function ‘line’ differs from ‘plot’ in that line objects are
+     inserted in to the current axes without first clearing the plot.
 
      See also: *note image: XREFimage, *note patch: XREFpatch, *note
      rectangle: XREFrectangle, *note surface: XREFsurface, *note text:
@@ -494,14 +1227,15 @@ instead of ‘surface’.  Or use ‘fill’ instead of ‘patch’.
      When a light object is present in an axes object, and the
      properties "EdgeLighting" or "FaceLighting" of a ‘patch’ or
      ‘surface’ object are set to a value other than "none", these
-     objects are drawn with light and shadow effects.  Supported values
-     for Lighting properties are "none" (no lighting effects), "flat"
+     objects are drawn with lighting effects.  Supported values for
+     Lighting properties are "none" (no lighting effects), "flat"
      (faceted look of the objects), and "gouraud" (linear interpolation
-     of the lighting effects between the vertices).  For ‘patch’
-     objects, the normals must be set manually (property
-     "VertexNormals").
+     of the lighting effects between the vertices).  If the lighting
+     mode is set to "flat", the "FaceNormals" property is used for
+     lighting.  For "gouraud", the "VertexNormals" property is used.
 
-     Up to eight light objects are supported per axes.
+     Up to eight light objects are supported per axes.  (Implementation
+     dependent)
 
      Lighting is only supported for OpenGL graphic toolkits (i.e.,
      "fltk" and "qt").
@@ -825,9 +1559,9 @@ returned.
 
           hf = figure ();
           set (hf, "paperorientation")
-          ⇒  paperorientation:  [ landscape | {portrait} | rotated ]
+          ⇒  [ landscape | {portrait} ]
 
-     shows the paperorientation property can take three values with the
+     shows the paperorientation property can take two values with the
      default being "portrait".
 
      See also: *note get: XREFget.
@@ -952,6 +1686,7 @@ File: octave.info,  Node: Graphics Object Properties,  Next: Searching Propertie
 * Uicontextmenu Properties::
 * Uipanel Properties::
 * Uicontrol Properties::
+* Uitable Properties::
 * Uitoolbar Properties::
 * Uipushtool Properties::
 * Uitoggletool Properties::
@@ -1058,7 +1793,7 @@ The ‘root figure’ properties are:
 ‘uicontextmenu’: graphics handle, def. ‘[](0x0)’
      ‘uicontextmenu’ is unused.
 
-‘units’: "centimeters" | "inches" | "normalized" | {"pixels"} | "points"
+‘units’: "centimeters" | "characters" | "inches" | "normalized" | {"pixels"} | "points"
 
 ‘userdata’: Any Octave data, def. ‘[](0x0)’
      User-defined data to associate with the graphics object.
@@ -1226,6 +1961,8 @@ The ‘figure’ properties are:
      to do with axes already present in the figure.  *Note
      newplot function: XREFnewplot.
 
+‘number’ (read-only):
+
 ‘numbertitle’: "off" | {"on"}
      Display "Figure" followed by the numerical figure handle value in
      the figure title bar.
@@ -1303,13 +2040,20 @@ The ‘figure’ properties are:
      XREFfigureunits.
 
 ‘renderer’: {"opengl"} | "painters"
-     ‘renderer’ is unused.
+     Renderering engine used for printing when ‘renderermode’ is
+     "manual".  Setting ‘renderer’ also forces the ‘renderermode’
+     property to be set to "manual".
 
 ‘renderermode’: {"auto"} | "manual"
-     ‘renderermode’ is unused.
+     Control whether the renderering engine used for printing is chosen
+     automatically or specified by the ‘renderer’ property.  *Note
+     print function: XREFprint.
 
 ‘resize’: "off" | {"on"}
-     ‘resize’ is unused.
+     Control whether the figure can be resized by dragging the window
+     borders and corners using a mouse.  When ‘resize’ is "off" mouse
+     interactions are disabled but the figure can still be resized by
+     changing its "position" property.
 
 ‘resizefcn’: string | function handle, def. ‘[](0x0)’
      ‘resizefcn’ is deprecated.  Use ‘sizechangedfcn’ instead.
@@ -1686,7 +2430,7 @@ The ‘axes’ properties are:
      Two-element vector ‘[2Dlen 3Dlen]’ specifying the length of the
      tickmarks relative to the longest visible axis.
 
-‘tightinset’ (read-only): four-element vector, def. ‘[0.042857 0.035725 0.000000 0.023810]’
+‘tightinset’ (read-only): four-element vector
      Size of the ‘[left bottom right top]’ margins around the axes that
      enclose labels and title annotations.
 
@@ -1720,7 +2464,7 @@ The ‘axes’ properties are:
 ‘visible’: "off" | {"on"}
      If ‘visible’ is "off", the axes is not rendered on screen.
 
-‘xaxislocation’: {"bottom"} | "origin" | "top" | "zero"
+‘xaxislocation’: {"bottom"} | "origin" | "top"
      Control the x axis location.
 
 ‘xcolor’: {colorspec} | "none", def. ‘[0.15000 0.15000 0.15000]’
@@ -1767,7 +2511,7 @@ The ‘axes’ properties are:
 
 ‘xtickmode’: {"auto"} | "manual"
 
-‘yaxislocation’: {"left"} | "origin" | "right" | "zero"
+‘yaxislocation’: {"left"} | "origin" | "right"
      Control the y-axis location.
 
 ‘ycolor’: {colorspec} | "none", def. ‘[0.15000 0.15000 0.15000]’
@@ -2064,7 +2808,7 @@ The ‘text’ properties are:
 ‘editing’: {"off"} | "on"
      ‘editing’ is unused.
 
-‘extent’ (read-only): four-element vector, def. ‘[0 0 0 0]’
+‘extent’ (read-only): four-element vector
      Vector ‘[x0 y0 width height]’ indicating the size and location of
      the text string.
 
@@ -2119,7 +2863,7 @@ The ‘text’ properties are:
 ‘linewidth’: scalar, def. ‘0.50000’
      Width of the outline.
 
-‘margin’: scalar, def. ‘2’
+‘margin’: scalar, def. ‘3’
      Margins between the borders of the background area and the texts.
      The value is currently interpreted as pixels, regardless of the
      "fontunits" property.
@@ -2286,15 +3030,15 @@ The ‘image’ properties are:
      If ‘visible’ is "off", the image is not rendered on screen.
 
 ‘xdata’: two-element vector, def. ‘[1 64]’
-     Two-element vector ‘[xmin xmax]’ specifying the x coordinates of
-     the first and last columns of the image.
+     Two-element vector ‘[xfirst xlast]’ specifying the x coordinates of
+     the centers of the first and last columns of the image.
 
      Setting ‘xdata’ to the empty matrix ([]) will restore the default
      value of ‘[1 columns(image)]’.
 
 ‘ydata’: two-element vector, def. ‘[1 64]’
-     Two-element vector ‘[ymin ymax]’ specifying the y coordinates of
-     the first and last rows of the image.
+     Two-element vector ‘[yfirst ylast]’ specifying the y coordinates of
+     the centers of the first and last rows of the image.
 
      Setting ‘ydata’ to the empty matrix ([]) will restore the default
      value of ‘[1 rows(image)]’.
@@ -2411,10 +3155,18 @@ The ‘patch’ properties are:
      "phong" is deprecated and has the same effect as "gouraud".
 
 ‘facenormals’: def. ‘[](0x0)’
+     Face normals are used for lighting the edges or faces if the
+     ‘edgelighting’ or ‘facelighting’ properties are set to "flat".
+     Setting ‘facenormals’ also forces the ‘facenormalsmode’ property to
+     be set to "manual"
 
 ‘facenormalsmode’: {"auto"} | "manual"
+     If this property is set to "auto", ‘facenormals’ are automatically
+     calculated if the ‘edgelighting’ or ‘facelighting’ property are set
+     to "flat" and at least one ‘light’ object is present and visible in
+     the same axes.
 
-‘faces’: def. ‘[1 2 3]’
+‘faces’: vector | matrix, def. ‘[1 2 3]’
 
 ‘facevertexalphadata’: scalar | matrix, def. ‘[](0x0)’
      Transparency is not yet implemented for patch objects.
@@ -2502,8 +3254,16 @@ The ‘patch’ properties are:
      User-defined data to associate with the graphics object.
 
 ‘vertexnormals’: def. ‘[](0x0)’
+     Vertex normals are used for lighting the edges or faces if the
+     ‘edgelighting’ or ‘facelighting’ properties are set to "gouraud".
+     Setting ‘vertexnormals’ also forces the ‘vertexnormalsmode’
+     property to be set to "manual"
 
 ‘vertexnormalsmode’: {"auto"} | "manual"
+     If this property is set to "auto", ‘vertexnormals’ are
+     automatically calculated if the ‘edgelighting’ or ‘facelighting’
+     property are set to "gouraud" and at least one ‘light’ object is
+     present and visible in the same axes.
 
 ‘vertices’: vector | matrix, def. 3-by-2 double
 
@@ -2623,8 +3383,16 @@ The ‘surface’ properties are:
      "phong" is deprecated and has the same effect as "gouraud".
 
 ‘facenormals’: def. ‘[](0x0)’
+     Face normals are used for lighting the edges or faces if the
+     ‘edgelighting’ or ‘facelighting’ properties are set to "flat".
+     Setting ‘facenormals’ also forces the ‘facenormalsmode’ property to
+     be set to "manual"
 
 ‘facenormalsmode’: {"auto"} | "manual"
+     If this property is set to "auto", ‘facenormals’ are automatically
+     calculated if the ‘edgelighting’ or ‘facelighting’ property are set
+     to "flat" and at least one ‘light’ object is present and visible in
+     the same axes.
 
 ‘handlevisibility’: "callback" | "off" | {"on"}
      If ‘handlevisibility’ is "off", the surface’s handle is not visible
@@ -2709,9 +3477,17 @@ The ‘surface’ properties are:
 ‘userdata’: Any Octave data, def. ‘[](0x0)’
      User-defined data to associate with the graphics object.
 
-‘vertexnormals’: def. 3-by-3-by-3 double
+‘vertexnormals’: def. ‘[](0x0)’
+     Vertex normals are used for lighting the edges or faces if the
+     ‘edgelighting’ or ‘facelighting’ properties are set to "gouraud".
+     Setting ‘vertexnormals’ also forces the ‘vertexnormalsmode’
+     property to be set to "manual"
 
 ‘vertexnormalsmode’: {"auto"} | "manual"
+     If this property is set to "auto", ‘vertexnormals’ are
+     automatically calculated if the ‘edgelighting’ or ‘facelighting’
+     property are set to "gouraud" and at least one ‘light’ object is
+     present and visible in the same axes.
 
 ‘visible’: "off" | {"on"}
      If ‘visible’ is "off", the surface is not rendered on screen.
@@ -2962,7 +3738,7 @@ File: octave.info,  Node: Uibuttongroup Properties,  Next: Uicontextmenu Propert
 
 The ‘uibuttongroup’ properties are:
 
-‘backgroundcolor’: def. ‘[1 1 1]’
+‘backgroundcolor’: def. ‘[0.94000 0.94000 0.94000]’
 
 ‘beingdeleted’: {"off"} | "on"
 
@@ -3066,7 +3842,8 @@ The ‘uibuttongroup’ properties are:
 
 ‘position’: def. ‘[0 0 1 1]’
 
-‘resizefcn’: def. ‘[](0x0)’
+‘resizefcn’: string | function handle, def. ‘[](0x0)’
+     ‘resizefcn’ is deprecated.  Use ‘sizechangedfcn’ instead.
 
 ‘selected’: {"off"} | "on"
 
@@ -3076,9 +3853,13 @@ The ‘uibuttongroup’ properties are:
 
 ‘selectionhighlight’: "off" | {"on"}
 
-‘shadowcolor’: def. ‘[0 0 0]’
+‘shadowcolor’: def. ‘[0.70000 0.70000 0.70000]’
 
-‘sizechangedfcn’: def. ‘[](0x0)’
+‘sizechangedfcn’: string | function handle, def. ‘[](0x0)’
+     Callback triggered when the uibuttongroup size is changed.
+
+     For information on how to write graphics listener functions see
+     *note Callbacks section: Callbacks.
 
 ‘tag’: string, def. ""
      A user-defined string to label the graphics object.
@@ -3216,7 +3997,7 @@ File: octave.info,  Node: Uipanel Properties,  Next: Uicontrol Properties,  Prev
 
 The ‘uipanel’ properties are:
 
-‘backgroundcolor’: def. ‘[1 1 1]’
+‘backgroundcolor’: def. ‘[0.94000 0.94000 0.94000]’
 
 ‘beingdeleted’: {"off"} | "on"
 
@@ -3319,13 +4100,20 @@ The ‘uipanel’ properties are:
 
 ‘position’: def. ‘[0 0 1 1]’
 
-‘resizefcn’: def. ‘[](0x0)’
+‘resizefcn’: string | function handle, def. ‘[](0x0)’
+     ‘resizefcn’ is deprecated.  Use ‘sizechangedfcn’ instead.
 
 ‘selected’: {"off"} | "on"
 
 ‘selectionhighlight’: "off" | {"on"}
 
-‘shadowcolor’: def. ‘[0 0 0]’
+‘shadowcolor’: def. ‘[0.70000 0.70000 0.70000]’
+
+‘sizechangedfcn’: string | function handle, def. ‘[](0x0)’
+     Callback triggered when the uipanel size is changed.
+
+     For information on how to write graphics listener functions see
+     *note Callbacks section: Callbacks.
 
 ‘tag’: string, def. ""
      A user-defined string to label the graphics object.
@@ -3350,14 +4138,14 @@ The ‘uipanel’ properties are:
      If ‘visible’ is "off", the uipanel is not rendered on screen.
 
 
-File: octave.info,  Node: Uicontrol Properties,  Next: Uitoolbar Properties,  Prev: Uipanel Properties,  Up: Graphics Object Properties
+File: octave.info,  Node: Uicontrol Properties,  Next: Uitable Properties,  Prev: Uipanel Properties,  Up: Graphics Object Properties
 
 15.3.3.14 Uicontrol Properties
 ..............................
 
 The ‘uicontrol’ properties are:
 
-‘backgroundcolor’: def. ‘[1 1 1]’
+‘backgroundcolor’: def. ‘[0.94000 0.94000 0.94000]’
 
 ‘beingdeleted’: {"off"} | "on"
 
@@ -3403,7 +4191,7 @@ The ‘uicontrol’ properties are:
 
 ‘enable’: "inactive" | "off" | {"on"}
 
-‘extent’ (read-only): def. ‘[0 0 0 0]’
+‘extent’ (read-only): four-element vector
 
 ‘fontangle’: "italic" | {"normal"} | "oblique"
      Control whether the font is italic or normal.
@@ -3507,9 +4295,166 @@ The ‘uicontrol’ properties are:
      If ‘visible’ is "off", the uicontrol is not rendered on screen.
 
 
-File: octave.info,  Node: Uitoolbar Properties,  Next: Uipushtool Properties,  Prev: Uicontrol Properties,  Up: Graphics Object Properties
+File: octave.info,  Node: Uitable Properties,  Next: Uitoolbar Properties,  Prev: Uicontrol Properties,  Up: Graphics Object Properties
 
-15.3.3.15 Uitoolbar Properties
+15.3.3.15 Uitable Properties
+............................
+
+The ‘uitable’ properties are:
+
+‘backgroundcolor’: def. 2-by-3 double
+
+‘beingdeleted’: {"off"} | "on"
+
+‘busyaction’: "cancel" | {"queue"}
+     Define how Octave handles the execution of this object’s callback
+     properties when it is unable to interrupt another object’s
+     executing callback.  This is only relevant when the currently
+     executing callback object has its ‘interruptible’ property set to
+     "off".  The ‘busyaction’ property of the interrupting callback
+     object indicates whether the interrupting callback is queued
+     ("queue" (default)) or discarded ("cancel").  *Note
+     Callbacks section: Callbacks.
+
+‘buttondownfcn’: string | function handle, def. ‘[](0x0)’
+     For information on how to write graphics listener functions see
+     *note Callbacks section: Callbacks.
+
+‘celleditcallback’: def. ‘[](0x0)’
+
+‘cellselectioncallback’: def. ‘[](0x0)’
+
+‘children’ (read-only): vector of graphics handles, def. ‘[](0x1)’
+     Graphics handles of the uitable’s children.
+
+‘clipping’: "off" | {"on"}
+     If ‘clipping’ is "on", the uitable is clipped in its parent axes
+     limits.
+
+‘columneditable’: def. ‘[](0x0)’
+
+‘columnformat’: def. ‘{}(0x0)’
+
+‘columnname’: def. "numbered"
+
+‘columnwidth’: def. "auto"
+
+‘createfcn’: string | function handle, def. ‘[](0x0)’
+     Callback function executed immediately after uitable has been
+     created.  Function is set by using default property on root object,
+     e.g., ‘set (groot, "defaultuitablecreatefcn", 'disp ("uitable
+     created!")')’.
+
+     For information on how to write graphics listener functions see
+     *note Callbacks section: Callbacks.
+
+‘data’: def. ‘[](0x0)’
+
+‘deletefcn’: string | function handle, def. ‘[](0x0)’
+     Callback function executed immediately before uitable is deleted.
+
+     For information on how to write graphics listener functions see
+     *note Callbacks section: Callbacks.
+
+‘enable’: "off" | {"on"}
+
+‘extent’ (read-only): four-element vector
+
+‘fontangle’: "italic" | {"normal"} | "oblique"
+     Control whether the font is italic or normal.
+
+‘fontname’: string, def. "*"
+     Name of font used for text rendering.  When setting this property,
+     the text rendering engine will search for a matching font in your
+     system.  If none is found then text is rendered using a default
+     sans serif font (same as the default "*" value).
+
+‘fontsize’: scalar, def. ‘10’
+     Size of the font used for text rendering.  *Note fontunits
+     property: XREFuitablefontunits.
+
+‘fontunits’: "centimeters" | "inches" | "normalized" | "pixels" | {"points"}
+     Units used to interpret the "fontsize" property.
+
+‘fontweight’: "bold" | "demi" | "light" | {"normal"}
+     Control the variant of the base font used for text rendering.
+
+‘foregroundcolor’: def. ‘[0 0 0]’
+
+‘handlevisibility’: "callback" | "off" | {"on"}
+     If ‘handlevisibility’ is "off", the uitable’s handle is not visible
+     in its parent’s "children" property.
+
+‘hittest’: "off" | {"on"}
+     Specify whether uitable processes mouse events or passes them to
+     ancestors of the object.  When enabled, the object may respond to
+     mouse clicks by evaluating the "buttondownfcn", showing the
+     uicontextmenu, and eventually becoming the root "currentobject".
+     This property is only relevant when the object can accept mouse
+     clicks which is determined by the "pickableparts" property.  *Note
+     pickableparts property: XREFuitablepickableparts.
+
+‘interruptible’: "off" | {"on"}
+     Specify whether this object’s callback functions may be interrupted
+     by other callbacks.  By default ‘interruptible’ is "on" and
+     callbacks that make use of ‘drawnow’, ‘figure’, ‘waitfor’,
+     ‘getframe’ or ‘pause’ functions are eventually interrupted.  *Note
+     Callbacks section: Callbacks.
+
+‘keypressfcn’: def. ‘[](0x0)’
+
+‘keyreleasefcn’: def. ‘[](0x0)’
+
+‘parent’: graphics handle
+     Handle of the parent graphics object.
+
+‘pickableparts’: "all" | "none" | {"visible"}
+     Specify whether uitable will accept mouse clicks.  By default,
+     ‘pickableparts’ is "visible" and only visible parts of the uitable
+     or its children may react to mouse clicks.  When ‘pickableparts’ is
+     "all" both visible and invisible parts (or children) may react to
+     mouse clicks.  When ‘pickableparts’ is "none" mouse clicks on the
+     object are ignored and transmitted to any objects underneath this
+     one.  When an object is configured to accept mouse clicks the
+     "hittest" property will determine how they are processed.  *Note
+     hittest property: XREFuitablehittest.
+
+‘position’: def. ‘[20 20 300 300]’
+
+‘rearrangeablecolumns’: {"off"} | "on"
+
+‘rowname’: def. "numbered"
+
+‘rowstriping’: "off" | {"on"}
+
+‘selected’: {"off"} | "on"
+
+‘selectionhighlight’: "off" | {"on"}
+
+‘tag’: string, def. ""
+     A user-defined string to label the graphics object.
+
+‘tooltipstring’: def. ""
+
+‘type’ (read-only): string
+     Class name of the graphics object.  ‘type’ is always "uitable"
+
+‘uicontextmenu’: graphics handle, def. ‘[](0x0)’
+     Graphics handle of the uicontextmenu object that is currently
+     associated to this uitable object.
+
+‘units’: "centimeters" | "characters" | "inches" | "normalized" | {"pixels"} | "points"
+
+‘userdata’: Any Octave data, def. ‘[](0x0)’
+     User-defined data to associate with the graphics object.
+
+‘visible’: "off" | {"on"}
+     If ‘visible’ is "off", the uitable is not rendered on screen.
+
+
+File: octave.info,  Node: Uitoolbar Properties,  Next: Uipushtool Properties,  Prev: Uitable Properties,  Up: Graphics Object Properties
+
+15.3.3.16 Uitoolbar Properties
 ..............................
 
 The ‘uitoolbar’ properties are:
@@ -3608,7 +4553,7 @@ The ‘uitoolbar’ properties are:
 
 File: octave.info,  Node: Uipushtool Properties,  Next: Uitoggletool Properties,  Prev: Uitoolbar Properties,  Up: Graphics Object Properties
 
-15.3.3.16 Uipushtool Properties
+15.3.3.17 Uipushtool Properties
 ...............................
 
 The ‘uipushtool’ properties are:
@@ -3718,7 +4663,7 @@ The ‘uipushtool’ properties are:
 
 File: octave.info,  Node: Uitoggletool Properties,  Prev: Uipushtool Properties,  Up: Graphics Object Properties
 
-15.3.3.17 Uitoggletool Properties
+15.3.3.18 Uitoggletool Properties
 .................................
 
 The ‘uitoggletool’ properties are:
@@ -3979,6 +4924,21 @@ the value "remove".  For example,
 removes the user-defined default line color setting from the current
 axes object.  To quickly remove all user-defined defaults use the
 ‘reset’ function.
+
+   By default, high level plotting functions such as ‘plot’ reset and
+redefine axes properties independently from the defaults.  An example of
+such property is the axes ‘box’ property: it is set ‘on’ by high level
+2-D graphics functions regardless of the property "defaultaxesbox".  Use
+the ‘hold’ function to prevent this behavior:
+
+     set (groot, "defaultaxesbox", "off");
+     subplot (2, 1, 1);
+     plot (1:10)
+     title ("Box is on anyway")
+     subplot (2, 1, 2);
+     hold on
+     plot (1:10)
+     title ("Box is off")
 
  -- : reset (H)
      Reset the properties of the graphic object H to their default
@@ -5791,26 +6751,42 @@ File: octave.info,  Node: Rearranging Matrices,  Next: Special Utility Matrices,
      dimensions in X.  The values of N can be either positive or
      negative, which determines the direction in which the values of X
      are shifted.  If an element of N is zero, then the corresponding
-     dimension of X will not be shifted.
+     dimension of X will not be shifted.  If N is a scalar and no DIM is
+     specified then the shift is applied to the first non-singular
+     dimension.
 
      If a scalar DIM is given then operate along the specified
      dimension.  In this case N must be a scalar as well.
 
      Examples:
 
-          x = [1, 2, 3; 4, 5, 6; 7, 8, 9];
+          x = [1, 2, 3;
+               4, 5, 6;
+               7, 8, 9];
+          ## positive shift on rows (1st non-singular dim)
           circshift (x, 1)
-          ⇒  7, 8, 9
-              1, 2, 3
-              4, 5, 6
+            ⇒
+                 7   8   9
+                 1   2   3
+                 4   5   6
+          ## negative shift on rows (1st non-singular dim)
           circshift (x, -2)
-          ⇒  7, 8, 9
-              1, 2, 3
-              4, 5, 6
+            ⇒
+                 7   8   9
+                 1   2   3
+                 4   5   6
+          ## no shift of rows, shift columns by 1 (2nd dimension)
           circshift (x, [0,1])
-          ⇒  3, 1, 2
-              6, 4, 5
-              9, 7, 8
+            ⇒
+                 3   1   2
+                 6   4   5
+                 9   7   8
+          ## shift columns (2nd dimension)
+          circshift (x, 1, 2)
+            ⇒
+                 3   1   2
+                 6   4   5
+                 9   7   8
 
      See also: *note permute: XREFpermute, *note ipermute: XREFipermute,
      *note shiftdim: XREFshiftdim.
@@ -5842,12 +6818,14 @@ File: octave.info,  Node: Rearranging Matrices,  Next: Special Utility Matrices,
 
           x = ones (1, 2, 3);
           size (shiftdim (x, -1))
-             ⇒ [1, 1, 2, 3]
+            ⇒   1   1   2   3
           size (shiftdim (x, 1))
-             ⇒ [2, 3]
+            ⇒   2   3
           [b, ns] = shiftdim (x)
-             ⇒ b = [1, 1, 1; 1, 1, 1]
-             ⇒ ns = 1
+            ⇒ b =
+                  1   1   1
+                  1   1   1
+            ⇒ ns = 1
 
      See also: *note reshape: XREFreshape, *note permute: XREFpermute,
      *note ipermute: XREFipermute, *note circshift: XREFcircshift, *note
@@ -6307,7 +7285,8 @@ File: octave.info,  Node: Special Utility Matrices,  Next: Famous Matrices,  Pre
             ⇒   1   1   2   4   5   5
 
           A = magic (3)
-            ⇒   8   1   6
+            ⇒ A =
+                 8   1   6
                  3   5   7
                  4   9   2
           B1 = [1 2 3];
@@ -7246,527 +8225,4 @@ The following functions return famous matrix forms.
      testing the behavior and performance of eigenvalue solvers.
 
      See also: *note rosser: XREFrosser, *note eig: XREFeig.
-
-
-File: octave.info,  Node: Arithmetic,  Next: Linear Algebra,  Prev: Matrix Manipulation,  Up: Top
-
-17 Arithmetic
-*************
-
-Unless otherwise noted, all of the functions described in this chapter
-will work for real and complex scalar, vector, or matrix arguments.
-Functions described as “mapping functions” apply the given operation
-individually to each element when given a matrix argument.  For example:
-
-     sin ([1, 2; 3, 4])
-          ⇒  0.84147   0.90930
-              0.14112  -0.75680
-
-* Menu:
-
-* Exponents and Logarithms::
-* Complex Arithmetic::
-* Trigonometry::
-* Sums and Products::
-* Utility Functions::
-* Special Functions::
-* Rational Approximations::
-* Coordinate Transformations::
-* Mathematical Constants::
-
-
-File: octave.info,  Node: Exponents and Logarithms,  Next: Complex Arithmetic,  Up: Arithmetic
-
-17.1 Exponents and Logarithms
-=============================
-
- -- : exp (X)
-     Compute ‘e^x’ for each element of X.
-
-     To compute the matrix exponential, see *note Linear Algebra::.
-
-     See also: *note log: XREFlog.
-
- -- : expm1 (X)
-     Compute ‘exp (X) - 1’ accurately in the neighborhood of zero.
-
-     See also: *note exp: XREFexp.
-
- -- : log (X)
-     Compute the natural logarithm, ‘ln (X)’, for each element of X.
-
-     To compute the matrix logarithm, see *note Linear Algebra::.
-
-     See also: *note exp: XREFexp, *note log1p: XREFlog1p, *note log2:
-     XREFlog2, *note log10: XREFlog10, *note logspace: XREFlogspace.
-
- -- : reallog (X)
-     Return the real-valued natural logarithm of each element of X.
-
-     If any element results in a complex return value ‘reallog’ aborts
-     and issues an error.
-
-     See also: *note log: XREFlog, *note realpow: XREFrealpow, *note
-     realsqrt: XREFrealsqrt.
-
- -- : log1p (X)
-     Compute ‘log (1 + X)’ accurately in the neighborhood of zero.
-
-     See also: *note log: XREFlog, *note exp: XREFexp, *note expm1:
-     XREFexpm1.
-
- -- : log10 (X)
-     Compute the base-10 logarithm of each element of X.
-
-     See also: *note log: XREFlog, *note log2: XREFlog2, *note logspace:
-     XREFlogspace, *note exp: XREFexp.
-
- -- : log2 (X)
- -- : [F, E] = log2 (X)
-     Compute the base-2 logarithm of each element of X.
-
-     If called with two output arguments, split X into binary mantissa
-     and exponent so that ‘1/2 <= abs(f) < 1’ and E is an integer.  If
-     ‘x = 0’, ‘f = e = 0’.
-
-     See also: *note pow2: XREFpow2, *note log: XREFlog, *note log10:
-     XREFlog10, *note exp: XREFexp.
-
- -- : pow2 (X)
- -- : pow2 (F, E)
-     With one input argument, compute 2 .^ x for each element of X.
-
-     With two input arguments, return f .* (2 .^ e).
-
-     See also: *note log2: XREFlog2, *note nextpow2: XREFnextpow2, *note
-     power: XREFpower.
-
- -- : nextpow2 (X)
-     Compute the exponent for the smallest power of two larger than the
-     input.
-
-     For each element in the input array X, return the first integer N
-     such that 2^n ≥ abs (x).
-
-     See also: *note pow2: XREFpow2, *note log2: XREFlog2.
-
- -- : realpow (X, Y)
-     Compute the real-valued, element-by-element power operator.
-
-     This is equivalent to ‘X .^ Y’, except that ‘realpow’ reports an
-     error if any return value is complex.
-
-     See also: *note power: XREFpower, *note reallog: XREFreallog, *note
-     realsqrt: XREFrealsqrt.
-
- -- : sqrt (X)
-     Compute the square root of each element of X.
-
-     If X is negative, a complex result is returned.
-
-     To compute the matrix square root, see *note Linear Algebra::.
-
-     See also: *note realsqrt: XREFrealsqrt, *note nthroot: XREFnthroot.
-
- -- : realsqrt (X)
-     Return the real-valued square root of each element of X.
-
-     If any element results in a complex return value ‘realsqrt’ aborts
-     and issues an error.
-
-     See also: *note sqrt: XREFsqrt, *note realpow: XREFrealpow, *note
-     reallog: XREFreallog.
-
- -- : cbrt (X)
-     Compute the real cube root of each element of X.
-
-     Unlike ‘X^(1/3)’, the result will be negative if X is negative.
-
-     See also: *note nthroot: XREFnthroot.
-
- -- : nthroot (X, N)
-
-     Compute the real (non-complex) N-th root of X.
-
-     X must have all real entries and N must be a scalar.  If N is an
-     even integer and X has negative entries then ‘nthroot’ aborts and
-     issues an error.
-
-     Example:
-
-          nthroot (-1, 3)
-          ⇒ -1
-          (-1) ^ (1 / 3)
-          ⇒ 0.50000 - 0.86603i
-
-     See also: *note realsqrt: XREFrealsqrt, *note sqrt: XREFsqrt, *note
-     cbrt: XREFcbrt.
-
-
-File: octave.info,  Node: Complex Arithmetic,  Next: Trigonometry,  Prev: Exponents and Logarithms,  Up: Arithmetic
-
-17.2 Complex Arithmetic
-=======================
-
-In the descriptions of the following functions, Z is the complex number
-X + IY, where I is defined as ‘sqrt (-1)’.
-
- -- : abs (Z)
-     Compute the magnitude of Z.
-
-     The magnitude is defined as |Z| = ‘sqrt (x^2 + y^2)’.
-
-     For example:
-
-          abs (3 + 4i)
-               ⇒ 5
-
-     See also: *note arg: XREFarg.
-
- -- : arg (Z)
- -- : angle (Z)
-     Compute the argument, i.e., angle of Z.
-
-     This is defined as, THETA = ‘atan2 (Y, X)’, in radians.
-
-     For example:
-
-          arg (3 + 4i)
-               ⇒ 0.92730
-
-     See also: *note abs: XREFabs.
-
- -- : conj (Z)
-     Return the complex conjugate of Z.
-
-     The complex conjugate is defined as ‘conj (Z)’ = X - IY.
-
-     See also: *note real: XREFreal, *note imag: XREFimag.
-
- -- : cplxpair (Z)
- -- : cplxpair (Z, TOL)
- -- : cplxpair (Z, TOL, DIM)
-     Sort the numbers Z into complex conjugate pairs ordered by
-     increasing real part.
-
-     The negative imaginary complex numbers are placed first within each
-     pair.  All real numbers (those with ‘abs (imag (Z)) / abs (Z) <
-     TOL’) are placed after the complex pairs.
-
-     TOL is a weighting factor in the range [0, 1) which determines the
-     tolerance of the matching.  The default value is ‘100 * eps’ and
-     the resulting tolerance for a given complex pair is ‘TOL * abs
-     (Z(i)))’.
-
-     By default the complex pairs are sorted along the first
-     non-singleton dimension of Z.  If DIM is specified, then the
-     complex pairs are sorted along this dimension.
-
-     Signal an error if some complex numbers could not be paired.
-     Signal an error if all complex numbers are not exact conjugates (to
-     within TOL).  Note that there is no defined order for pairs with
-     identical real parts but differing imaginary parts.
-
-          cplxpair (exp (2i*pi*[0:4]'/5)) == exp (2i*pi*[3; 2; 4; 1; 0]/5)
-
- -- : imag (Z)
-     Return the imaginary part of Z as a real number.
-
-     See also: *note real: XREFreal, *note conj: XREFconj.
-
- -- : real (Z)
-     Return the real part of Z.
-
-     See also: *note imag: XREFimag, *note conj: XREFconj.
-
-
-File: octave.info,  Node: Trigonometry,  Next: Sums and Products,  Prev: Complex Arithmetic,  Up: Arithmetic
-
-17.3 Trigonometry
-=================
-
-Octave provides the following trigonometric functions where angles are
-specified in radians.  To convert from degrees to radians multiply by
-‘pi/180’ or use the ‘deg2rad’ function.  For example, ‘sin (30 *
-pi/180)’ returns the sine of 30 degrees.  As an alternative, Octave
-provides a number of trigonometric functions which work directly on an
-argument specified in degrees.  These functions are named after the base
-trigonometric function with a ‘d’ suffix.  As an example, ‘sin’ expects
-an angle in radians while ‘sind’ expects an angle in degrees.
-
-   Octave uses the C library trigonometric functions.  It is expected
-that these functions are defined by the ISO/IEC 9899 Standard.  This
-Standard is available at:
-<http://www.open-std.org/jtc1/sc22/wg14/www/docs/n1124.pdf>.  Section
-F.9.1 deals with the trigonometric functions.  The behavior of most of
-the functions is relatively straightforward.  However, there are some
-exceptions to the standard behavior.  Many of the exceptions involve the
-behavior for -0.  The most complex case is atan2.  Octave exactly
-implements the behavior given in the Standard.  Including ‘atan2(+- 0,
-0)’ returns ‘+- pi’.
-
-   It should be noted that MATLAB uses different definitions which
-apparently do not distinguish -0.
-
- -- : RAD = deg2rad (DEG)
-
-     Convert degrees to radians.
-
-     The input DEG must be a scalar, vector, or N-dimensional array of
-     double or single floating point values.  DEG may be complex in
-     which case the real and imaginary components are converted
-     separately.
-
-     The output RAD is the same size and shape as DEG with degrees
-     converted to radians using the conversion constant ‘pi/180’.
-
-     Example:
-
-          deg2rad ([0, 90, 180, 270, 360])
-            ⇒  0.00000   1.57080   3.14159   4.71239   6.28319
-
-     See also: *note rad2deg: XREFrad2deg.
-
- -- : DEG = rad2deg (RAD)
-
-     Convert radians to degrees.
-
-     The input RAD must be a scalar, vector, or N-dimensional array of
-     double or single floating point values.  RAD may be complex in
-     which case the real and imaginary components are converted
-     separately.
-
-     The output DEG is the same size and shape as RAD with radians
-     converted to degrees using the conversion constant ‘180/pi’.
-
-     Example:
-
-          rad2deg ([0, pi/2, pi, 3/2*pi, 2*pi])
-            ⇒  0    90   180   270   360
-
-     See also: *note deg2rad: XREFdeg2rad.
-
- -- : sin (X)
-     Compute the sine for each element of X in radians.
-
-     See also: *note asin: XREFasin, *note sind: XREFsind, *note sinh:
-     XREFsinh.
-
- -- : cos (X)
-     Compute the cosine for each element of X in radians.
-
-     See also: *note acos: XREFacos, *note cosd: XREFcosd, *note cosh:
-     XREFcosh.
-
- -- : tan (Z)
-     Compute the tangent for each element of X in radians.
-
-     See also: *note atan: XREFatan, *note tand: XREFtand, *note tanh:
-     XREFtanh.
-
- -- : sec (X)
-     Compute the secant for each element of X in radians.
-
-     See also: *note asec: XREFasec, *note secd: XREFsecd, *note sech:
-     XREFsech.
-
- -- : csc (X)
-     Compute the cosecant for each element of X in radians.
-
-     See also: *note acsc: XREFacsc, *note cscd: XREFcscd, *note csch:
-     XREFcsch.
-
- -- : cot (X)
-     Compute the cotangent for each element of X in radians.
-
-     See also: *note acot: XREFacot, *note cotd: XREFcotd, *note coth:
-     XREFcoth.
-
- -- : asin (X)
-     Compute the inverse sine in radians for each element of X.
-
-     See also: *note sin: XREFsin, *note asind: XREFasind.
-
- -- : acos (X)
-     Compute the inverse cosine in radians for each element of X.
-
-     See also: *note cos: XREFcos, *note acosd: XREFacosd.
-
- -- : atan (X)
-     Compute the inverse tangent in radians for each element of X.
-
-     See also: *note tan: XREFtan, *note atand: XREFatand.
-
- -- : asec (X)
-     Compute the inverse secant in radians for each element of X.
-
-     See also: *note sec: XREFsec, *note asecd: XREFasecd.
-
- -- : acsc (X)
-     Compute the inverse cosecant in radians for each element of X.
-
-     See also: *note csc: XREFcsc, *note acscd: XREFacscd.
-
- -- : acot (X)
-     Compute the inverse cotangent in radians for each element of X.
-
-     See also: *note cot: XREFcot, *note acotd: XREFacotd.
-
- -- : sinh (X)
-     Compute the hyperbolic sine for each element of X.
-
-     See also: *note asinh: XREFasinh, *note cosh: XREFcosh, *note tanh:
-     XREFtanh.
-
- -- : cosh (X)
-     Compute the hyperbolic cosine for each element of X.
-
-     See also: *note acosh: XREFacosh, *note sinh: XREFsinh, *note tanh:
-     XREFtanh.
-
- -- : tanh (X)
-     Compute hyperbolic tangent for each element of X.
-
-     See also: *note atanh: XREFatanh, *note sinh: XREFsinh, *note cosh:
-     XREFcosh.
-
- -- : sech (X)
-     Compute the hyperbolic secant of each element of X.
-
-     See also: *note asech: XREFasech.
-
- -- : csch (X)
-     Compute the hyperbolic cosecant of each element of X.
-
-     See also: *note acsch: XREFacsch.
-
- -- : coth (X)
-     Compute the hyperbolic cotangent of each element of X.
-
-     See also: *note acoth: XREFacoth.
-
- -- : asinh (X)
-     Compute the inverse hyperbolic sine for each element of X.
-
-     See also: *note sinh: XREFsinh.
-
- -- : acosh (X)
-     Compute the inverse hyperbolic cosine for each element of X.
-
-     See also: *note cosh: XREFcosh.
-
- -- : atanh (X)
-     Compute the inverse hyperbolic tangent for each element of X.
-
-     See also: *note tanh: XREFtanh.
-
- -- : asech (X)
-     Compute the inverse hyperbolic secant of each element of X.
-
-     See also: *note sech: XREFsech.
-
- -- : acsch (X)
-     Compute the inverse hyperbolic cosecant of each element of X.
-
-     See also: *note csch: XREFcsch.
-
- -- : acoth (X)
-     Compute the inverse hyperbolic cotangent of each element of X.
-
-     See also: *note coth: XREFcoth.
-
- -- : atan2 (Y, X)
-     Compute atan (Y / X) for corresponding elements of Y and X.
-
-     Y and X must match in size and orientation.  The signs of elements
-     of Y and X are used to determine the quadrants of each resulting
-     value.
-
-     This function is equivalent to ‘arg (complex (X, Y))’.
-
-     See also: *note tan: XREFtan, *note tand: XREFtand, *note tanh:
-     XREFtanh, *note atanh: XREFatanh.
-
-   Octave provides the following trigonometric functions where angles
-are specified in degrees.  These functions produce true zeros at the
-appropriate intervals rather than the small round-off error that occurs
-when using radians.  For example:
-
-     cosd (90)
-          ⇒ 0
-     cos (pi/2)
-          ⇒ 6.1230e-17
-
- -- : sind (X)
-     Compute the sine for each element of X in degrees.
-
-     Returns zero for elements where ‘X/180’ is an integer.
-
-     See also: *note asind: XREFasind, *note sin: XREFsin.
-
- -- : cosd (X)
-     Compute the cosine for each element of X in degrees.
-
-     Returns zero for elements where ‘(X-90)/180’ is an integer.
-
-     See also: *note acosd: XREFacosd, *note cos: XREFcos.
-
- -- : tand (X)
-     Compute the tangent for each element of X in degrees.
-
-     Returns zero for elements where ‘X/180’ is an integer and ‘Inf’ for
-     elements where ‘(X-90)/180’ is an integer.
-
-     See also: *note atand: XREFatand, *note tan: XREFtan.
-
- -- : secd (X)
-     Compute the secant for each element of X in degrees.
-
-     See also: *note asecd: XREFasecd, *note sec: XREFsec.
-
- -- : cscd (X)
-     Compute the cosecant for each element of X in degrees.
-
-     See also: *note acscd: XREFacscd, *note csc: XREFcsc.
-
- -- : cotd (X)
-     Compute the cotangent for each element of X in degrees.
-
-     See also: *note acotd: XREFacotd, *note cot: XREFcot.
-
- -- : asind (X)
-     Compute the inverse sine in degrees for each element of X.
-
-     See also: *note sind: XREFsind, *note asin: XREFasin.
-
- -- : acosd (X)
-     Compute the inverse cosine in degrees for each element of X.
-
-     See also: *note cosd: XREFcosd, *note acos: XREFacos.
-
- -- : atand (X)
-     Compute the inverse tangent in degrees for each element of X.
-
-     See also: *note tand: XREFtand, *note atan: XREFatan.
-
- -- : atan2d (Y, X)
-     Compute atan (Y / X) in degrees for corresponding elements from Y
-     and X.
-
-     See also: *note tand: XREFtand, *note atan2: XREFatan2.
-
- -- : asecd (X)
-     Compute the inverse secant in degrees for each element of X.
-
-     See also: *note secd: XREFsecd, *note asec: XREFasec.
-
- -- : acscd (X)
-     Compute the inverse cosecant in degrees for each element of X.
-
-     See also: *note cscd: XREFcscd, *note acsc: XREFacsc.
-
- -- : acotd (X)
-     Compute the inverse cotangent in degrees for each element of X.
-
-     See also: *note cotd: XREFcotd, *note acot: XREFacot.
 

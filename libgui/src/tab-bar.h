@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2018 Torsten <mttl@mailbox.org>
+Copyright (C) 2018-2019 Torsten <mttl@mailbox.org>
 
 This file is part of Octave.
 
@@ -68,9 +68,5 @@ namespace octave
     void switch_tab (int direction, bool movetab = false);
   };
 }
-
-// FIXME: This is temporary and should be removed when all classes that
-// use the tab_bar class are also inside the octave namespace.
-using octave::tab_bar;
 
 #endif

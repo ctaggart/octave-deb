@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 1996-2018 John W. Eaton
+Copyright (C) 1996-2019 John W. Eaton
 
 This file is part of Octave.
 
@@ -31,7 +31,8 @@ along with Octave; see the file COPYING.  If not, see
 
 #include <fstream>
 #include <iomanip>
-#include <iostream>
+#include <istream>
+#include <ostream>
 #include <sstream>
 #include <string>
 
@@ -58,7 +59,6 @@ along with Octave; see the file COPYING.  If not, see
 #include "oct-map.h"
 #include "ov-cell.h"
 #include "pager.h"
-#include "pt-exp.h"
 #include "unwind-prot.h"
 #include "utils.h"
 #include "variables.h"
@@ -232,7 +232,7 @@ extract_keyword (std::istream& is, const char *keyword, const bool next_only)
 // Ugh.  The signature of the compare method is not standard in older
 // versions of the GNU libstdc++.  Do this instead:
 
-#define SUBSTRING_COMPARE_EQ(s, pos, n, t) (s.substr (pos, n) == t)
+#define SUBSTRING_COMPARE_EQ(s, pos, n, t) (s.substr (pos, n) == (t))
 
 std::string
 read_text_data (std::istream& is, const std::string& filename, bool& global,
@@ -252,7 +252,7 @@ read_text_data (std::istream& is, const std::string& filename, bool& global,
     }
 
   if (! (name == ".nargin." || name == ".nargout."
-         || name == CELL_ELT_TAG || valid_identifier (name)))
+         || name == CELL_ELT_TAG || octave::valid_identifier (name)))
     error ("load: invalid identifier '%s' found in file '%s'",
            name.c_str (), filename.c_str ());
 
@@ -308,8 +308,6 @@ save_text_data (std::ostream& os, const octave_value& val_arg,
                 const std::string& name, bool mark_global,
                 int precision)
 {
-  bool success = true;
-
   if (! name.empty ())
     os << "# name: " << name << "\n";
 
@@ -326,7 +324,7 @@ save_text_data (std::ostream& os, const octave_value& val_arg,
   long old_precision = os.precision ();
   os.precision (precision);
 
-  success = val.save_ascii (os);
+  bool success = val.save_ascii (os);
 
   // Insert an extra pair of newline characters after the data so that
   // multiple data elements may be handled separately by gnuplot (see
@@ -355,8 +353,6 @@ save_text_data_for_plotting (std::ostream& os, const octave_value& t,
 bool
 save_three_d (std::ostream& os, const octave_value& tc, bool parametric)
 {
-  bool fail = false;
-
   octave_idx_type nr = tc.rows ();
   octave_idx_type nc = tc.columns ();
 
@@ -375,7 +371,7 @@ save_three_d (std::ostream& os, const octave_value& tc, bool parametric)
     {
       octave_idx_type extras = nc % 3;
       if (extras)
-        warning ("ignoring last %d columns", extras);
+        warning ("ignoring last %" OCTAVE_IDX_TYPE_FORMAT " columns", extras);
 
       Matrix tmp = tc.matrix_value ();
       nr = tmp.rows ();
@@ -402,7 +398,7 @@ save_three_d (std::ostream& os, const octave_value& tc, bool parametric)
 
   os.precision (old_precision);
 
-  return (os && ! fail);
+  return (static_cast<bool> (os));
 }
 
 DEFUN (save_precision, args, nargout,
