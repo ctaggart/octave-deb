@@ -3,22 +3,16 @@
 # The "license" and "copyright" only provide default values when none can be autodetected
 # The "override-license" forces a license (used when autodetection is wrong)
 .*:
-  copyright: 1992-2018, John W. Eaton
+  copyright: 1992-2019, John W. Eaton
   license: GPL-3+
-doc/.*:
+build-aux/texinfo.tex:
   override-license: GPL-3+
-m4/.*:
-  license: permissive-fsf
-m4/ax_compare_version.m4:
-  license: permissive-other
-m4/ax_pthread.m4:
-  override-license: GPL-3+
-m4/libtool.m4:
-  override-license: GPL-2+
-m4/module.mk:
-  license: GPL-3+
 BUGS:
   skip: '1'
+doc/.*:
+  override-license: GPL-3+
+etc/icons/org.octave.Octave.appdata.xml:
+  override-license: FSFAP
 libgui/src/m-editor/find-dialog.*:
   override-license: GPL-3+
 libinterp/corefcn/mex.h:
@@ -33,6 +27,8 @@ libinterp/corefcn/quadcc.cc:
   override-license: GPL-3+
 libgui/graphics/images/.*:
   override-license: LGPL-3+
+libgnu/.*:
+  override-copyright: 1984-2018, Free Software Foundation, Inc.
 liboctave/external/.*:
   license: public-domain
   copyright: none
@@ -45,5 +41,19 @@ liboctave/external/blas-xtra/.*:
 liboctave/external/.*mk$:
   copyright: 1992-2018, John W. Eaton
   license: GPL-3+
-build-aux/texinfo.tex:
+m4/.*:
+  license: FSFULLR
+m4/ax_compare_version.m4:
+  license: FSFAP
+m4/ax_pthread.m4:
+  override-license: GPL-3+
+m4/libtool.m4:
+  override-license: GPL-2+
+m4/module.mk:
+  license: GPL-3+
+m4/pkg.m4:
+  override-license: GPL-2+
+test/pkg/mfile_basic_test/doc/example-package.txi:
+  override-copyright: 2017-2018, Olaf Till <i7tiol@t-online.de>
+test/pkg/mfile_basic_test/doc/macros.texi:
   override-license: GPL-3+
