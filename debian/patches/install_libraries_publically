@@ -9,7 +9,7 @@ Reviewed-by: Rafael Laboissière <rafael@debian.org>
 Last-Update: 2016-11-20
 --- a/Makefile.am
 +++ b/Makefile.am
-@@ -178,6 +178,7 @@ OCTAVE_CROSS_TOOLS =
+@@ -184,6 +184,7 @@ OCTAVE_CROSS_TOOLS =
  OCTAVE_INTERPRETER_TARGETS =
  
  octlib_LTLIBRARIES =
@@ -19,23 +19,23 @@ Last-Update: 2016-11-20
  octinclude_HEADERS =
 --- a/liboctave/module.mk
 +++ b/liboctave/module.mk
-@@ -21,7 +21,7 @@
- 
- %canon_reldir%_%canon_reldir%_la_CXXFLAGS = $(AM_CXXFLAGS) $(WARN_CXXFLAGS)
+@@ -23,7 +23,7 @@ GEN_CONFIG_SHELL += \
+   -I$(srcdir)/%reldir%/util \
+   -I$(srcdir)/%reldir%/wrappers
  
 -octlib_LTLIBRARIES += %reldir%/liboctave.la
 +lib_LTLIBRARIES += %reldir%/liboctave.la
  
- BUILT_INCS = \
-   $(BUILT_LIBOCTAVE_OPERATORS_INC) \
+ %canon_reldir%_pkgconfig_DATA = %reldir%/octave.pc
+ 
 --- a/libinterp/module.mk
 +++ b/libinterp/module.mk
-@@ -26,7 +26,7 @@
- 
- %canon_reldir%_liboctinterp_la_CXXFLAGS = $(AM_CXXFLAGS) $(WARN_CXXFLAGS)
+@@ -24,7 +24,7 @@ LIBINTERP_DEFUN_FILES =
+   $(HDF5_CPPFLAGS) \
+   $(MAGICK_CPPFLAGS)
  
 -octlib_LTLIBRARIES += %reldir%/liboctinterp.la
 +lib_LTLIBRARIES += %reldir%/liboctinterp.la
  
- BUILT_SOURCES += \
-   %reldir%/builtin-defun-decls.h \
+ %canon_reldir%_pkgconfig_DATA = %reldir%/octinterp.pc
+ 

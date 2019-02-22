@@ -6,7 +6,7 @@ Reviewed-by: Rafael Laboissière <rafael@debian.org>
 Last-Update: 2016-11-20
 --- a/src/module.mk
 +++ b/src/module.mk
-@@ -210,7 +210,7 @@ endif
+@@ -203,7 +203,7 @@ endif
  
  ALL_LOCAL_TARGETS += $(OCTAVE_CROSS_TOOLS)
  
@@ -17,7 +17,7 @@ Last-Update: 2016-11-20
  
 --- a/scripts/miscellaneous/mkoctfile.m
 +++ b/scripts/miscellaneous/mkoctfile.m
-@@ -148,7 +148,7 @@ function [output, status] = mkoctfile (v
+@@ -202,7 +202,7 @@ function [output, status] = mkoctfile (v
    ext = __octave_config_info__ ("EXEEXT");
  
    shell_script = fullfile (bindir,

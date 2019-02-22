@@ -39,13 +39,13 @@ This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
  
  JAVA_CLASSES = $(JAVA_SRC:.java=.class)
  
-@@ -41,13 +40,11 @@ $(%canon_reldir%_JAVA_CLASSES) : %.class
+@@ -51,13 +50,11 @@ $(%canon_reldir%_JAVA_CLASSES) : %.class
  	             -d $(abs_top_builddir)/scripts/java \
  	             $(org_octave_dir)/$(<F) )
  
 -if AMCOND_HAVE_JAVA
  %reldir%/octave.jar: $(%canon_reldir%_JAVA_CLASSES)
- 	$(AM_V_GEN)rm -f $@-t $@ && \
+ 	$(OCT_V_JAR)rm -f $@-t $@ && \
  	( cd scripts/java; \
  	  "$(JAR)" cf octave.jar-t $(JAVA_CLASSES) ) && \
  	mv $@-t $@

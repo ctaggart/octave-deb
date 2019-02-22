@@ -4,31 +4,30 @@ Origin: vendor, http://pkgs.fedoraproject.org/cgit/rpms/octave.git/tree/octave-p
 Forwarded: not-needed
 Last-Update: 2016-02-13
 
-diff -up octave-4.0.0-rc1/scripts/pkg/private/install.m.pkgbuilddir octave-4.0.0-rc1/scripts/pkg/private/install.m
---- octave-4.0.0-rc1/scripts/pkg/private/install.m.pkgbuilddir	2015-03-05 08:13:28.000000000 -0700
-+++ octave-4.0.0-rc1/scripts/pkg/private/install.m	2015-03-05 20:43:45.762854275 -0700
-@@ -62,7 +62,10 @@ function install (files, handle_deps, au
+--- a/scripts/pkg/private/install.m
++++ b/scripts/pkg/private/install.m
+@@ -62,7 +62,10 @@ function install (files, handle_deps, pr
      for i = 1:length (files)
        tgz = files{i};
  
 -      if (exist (tgz, "file"))
 +      ## The filename pointed to an uncompressed package to begin with.
-+      if (exist (tgz, "dir"))
++      if (isfolder (tgz))
 +        dirlist = {".", "..", tgz};
 +      elseif (exist (tgz, "file"))
          ## Create a temporary directory.
          tmpdir = tempname ();
          tmpdirs{end+1} = tmpdir;
-@@ -91,17 +94,16 @@ function install (files, handle_deps, au
+@@ -91,17 +94,16 @@ function install (files, handle_deps, pr
          endif
        endif
  
 -      ## The filename pointed to an uncompressed package to begin with.
--      if (exist (tgz, "dir"))
+-      if (isfolder (tgz))
 -        dirlist = {".", "..", tgz};
 -      endif
 -
--      if (exist (tgz, "file") || exist (tgz, "dir"))
+-      if (exist (tgz, "file") || isfolder (tgz))
 +      if (exist (tgz, "file"))
          ## The two first entries of dirlist are "." and "..".
 -        if (exist (tgz, "file"))
