@@ -99,3 +99,7 @@ override_dh_makeshlibs:
 
 # Disable dwz, it fails as of 5.0.91-1
 override_dh_dwz:
+
+# Ensure we package everything
+override_dh_missing:
+	dh_missing --fail-missing

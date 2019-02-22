@@ -1,6 +1,8 @@
-src/mkoctfile /usr/bin/
-src/octave-config /usr/bin/
-usr/include  /usr
+usr/bin/mkoctfile
+usr/bin/octave-config
+usr/include
 debian/defs.make /usr/share/octave/debian/
 usr/lib/*/liboctave.so
 usr/lib/*/liboctinterp.so
+usr/lib/*/pkgconfig/octave.pc
+usr/lib/*/pkgconfig/octinterp.pc

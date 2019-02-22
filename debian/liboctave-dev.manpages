@@ -1,2 +1,2 @@
-doc/interpreter/mkoctfile.1
-doc/interpreter/octave-config.1
+usr/share/man/man1/mkoctfile.1
+usr/share/man/man1/octave-config.1
