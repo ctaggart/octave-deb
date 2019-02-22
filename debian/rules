@@ -96,3 +96,6 @@ override_dh_shlibdeps:
 override_dh_makeshlibs:
 	dh_makeshlibs --package=octave --noscripts
 	dh_makeshlibs --no-package=octave
+
+# Disable dwz, it fails as of 5.0.91-1
+override_dh_dwz:

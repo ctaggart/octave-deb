@@ -4,10 +4,10 @@ octave: hardening-no-fortify-functions *
 
 # The empty directories are created on purpose by the upstream build
 # process
-octave: package-contains-empty-directory usr/lib/*/octave/*/site/exec/*/
+octave: package-contains-empty-directory usr/libexec/octave/*/site/exec/*/
 octave: package-contains-empty-directory usr/lib/*/octave/*/site/oct/*/
 octave: package-contains-empty-directory usr/lib/*/octave/packages/
-octave: package-contains-empty-directory usr/lib/*/octave/site/exec/*/
+octave: package-contains-empty-directory usr/libexec/octave/site/exec/*/
 octave: package-contains-empty-directory usr/lib/*/octave/site/oct/*/
 octave: package-contains-empty-directory usr/share/octave/packages/
 
