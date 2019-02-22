@@ -23,11 +23,9 @@ libinterp/corefcn/*-opts.cc
 libinterp/corefcn/oct-tex-*.cc
 libinterp/corefcn/oct-tex-*.h
 libinterp/corefcn/oct-tex-lexer.ll
-libinterp/corefcn/oct-tex-parser.yy
 libinterp/parse-tree/lex.cc
 libinterp/parse-tree/oct-gperf.h
 libinterp/parse-tree/oct-parse.cc
 libinterp/parse-tree/oct-parse.h
-libinterp/parse-tree/oct-parse.yy
 scripts/DOCSTRINGS
 scripts/java/octave.jar
