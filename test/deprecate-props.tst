@@ -1,4 +1,4 @@
-## Copyright (C) 2017-2018 Pantxo Diribarne
+## Copyright (C) 2017-2019 Pantxo Diribarne
 ##
 ## This file is part of Octave.
 ##
@@ -30,36 +30,6 @@
 %!    endif
 %!  endif
 %!endfunction
-
-## patch/surface "normalmode" deprecated in 4.2, remove from version 5.
-%!test
-%! hf = figure ("visible", "off");
-%! unwind_protect
-%!   hp = patch ();
-%!   testprop (hp, "normalmode", "5.0");
-%! unwind_protect_cleanup
-%!   close (hf);
-%! end_unwind_protect
-
-%! hf = figure ("visible", "off");
-%! unwind_protect
-%!   hs = surface ();
-%!   testprop (hs, "normalmode", "5.0");
-%! unwind_protect_cleanup
-%!   close (hf);
-%! end_unwind_protect
-
-## axes, "zero" value for "x/yaxislocation" deprecated in 4.2, remove
-## from version 5.
-%!test
-%! hf = figure ("visible", "off");
-%! unwind_protect
-%!   ha = axes ();
-%!   testprop (ha, "xaxislocation", "5.0", "zero");
-%!   testprop (ha, "yaxislocation", "5.0", "zero");
-%! unwind_protect_cleanup
-%!   close (hf);
-%! end_unwind_protect
 
 ## annotation rectangle "edgecolor" deprecated in 4.4, remove from version 6.
 %!test

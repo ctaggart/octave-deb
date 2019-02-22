@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2011-2018 Michael Goffioul
+Copyright (C) 2011-2019 Michael Goffioul
 
 This file is part of Octave.
 
@@ -37,6 +37,9 @@ namespace QtHandles
     ~ToggleButtonControl (void);
 
     static ToggleButtonControl * create (const graphics_object& go);
+
+  protected:
+    void update (int pId);
   };
 
 }

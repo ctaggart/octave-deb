@@ -1,6 +1,6 @@
 @c DO NOT EDIT!  Generated automatically by munge-texi.pl.
 
-@c Copyright (C) 1996-2018 John W. Eaton
+@c Copyright (C) 1996-2019 John W. Eaton
 @c
 @c This file is part of Octave.
 @c
@@ -180,7 +180,7 @@ enclosed in quotes.  (This does not apply to conditions entered from the
 editor's context menu.)  For example:
 
 @example
-dbstop in strread at 209 if 'any (format == "%f")'
+dbstop in axis at 246 if 'any (opt == "x")'
 @end example
 
 The form specifying @var{event} does not cause a specific breakpoint at a

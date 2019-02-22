@@ -1,4 +1,4 @@
-## Copyright (C) 2004-2018 John Eaton and David Bateman
+## Copyright (C) 2004-2019 John Eaton and David Bateman
 ##
 ## This file is part of Octave.
 ##
@@ -37,12 +37,14 @@
 ## @group
 ## x = ones (1, 2, 3);
 ## size (shiftdim (x, -1))
-##    @result{} [1, 1, 2, 3]
+##   @result{}   1   1   2   3
 ## size (shiftdim (x, 1))
-##    @result{} [2, 3]
+##   @result{}   2   3
 ## [b, ns] = shiftdim (x)
-##    @result{} b = [1, 1, 1; 1, 1, 1]
-##    @result{} ns = 1
+##   @result{} b =
+##         1   1   1
+##         1   1   1
+##   @result{} ns = 1
 ## @end group
 ## @end example
 ## @seealso{reshape, permute, ipermute, circshift, squeeze}

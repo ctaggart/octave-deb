@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2018 Markus Mützel
+Copyright (C) 2018-2019 Markus Mützel
 
 This file is part of Octave.
 
@@ -66,10 +66,7 @@ namespace octave
           s << "FlexiBLAS Version "
             << v_major << "." << v_minor << "." << v_patch;
 
-          if (! retval.empty ())
-            retval += "\n";
-
-          retval += s.str ();
+          retval = s.str ();
         }
 
       // OpenBLAS

@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2005-2018 David Bateman
+Copyright (C) 2005-2019 David Bateman
 Copyright (C) 2002-2005 Paul Kienzle
 
 This file is part of Octave.
@@ -107,7 +107,6 @@ do_regexp_ptn_string_escapes (const std::string& s, bool is_sq_str)
                 }
               if (bad_esc_seq || (brace && s[k++] != '}'))
                 {
-                  bad_esc_seq = true;
                   tmpi = 0;
                   warning (R"(malformed octal escape sequence '\o' -- converting to '\0')");
                 }
@@ -374,7 +373,7 @@ octregexp (const octave_value_list& args, int nargout,
   bool extra_options = false;
   parse_options (options, args, who, 2, extra_options);
 
-  octave::regexp::match_data rx_lst
+  const octave::regexp::match_data rx_lst
     = octave::regexp::match (pattern, buffer, options, who);
 
   string_vector named_pats = rx_lst.named_patterns ();
@@ -408,7 +407,7 @@ octregexp (const octave_value_list& args, int nargout,
 
   if (options.once ())
     {
-      octave::regexp::match_data::const_iterator p = rx_lst.begin ();
+      auto p = rx_lst.begin ();
 
       retval(4) = (sz ? p->tokens () : Cell ());
       retval(3) = (sz ? p->match_string () : "");
@@ -479,7 +478,7 @@ octregexp (const octave_value_list& args, int nargout,
       octave_value_list new_retval;
       new_retval.resize (nargout);
 
-      int arg_used[7] {};
+      bool arg_used[7] {};
 
       for (int j = 2; j < nargin; j++)
         {

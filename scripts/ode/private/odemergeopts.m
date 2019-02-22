@@ -1,4 +1,4 @@
-## Copyright (C) 2016-2018 Francesco Faccio <francesco.faccio@mail.polimi.it>
+## Copyright (C) 2016-2019 Francesco Faccio <francesco.faccio@mail.polimi.it>
 ##
 ## This file is part of Octave.
 ##
@@ -19,7 +19,7 @@
 function options = odemergeopts (caller, useroptions, options, classes,
                                  attributes);
 
-  for [value, key] = options;
+  for [value, key] = options
 
     if (isfield (useroptions, key) && ! isempty (useroptions.(key)))
 

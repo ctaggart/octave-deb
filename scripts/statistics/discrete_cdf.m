@@ -1,4 +1,4 @@
-## Copyright (C) 2010-2018 David Bateman
+## Copyright (C) 2010-2019 David Bateman
 ## Copyright (C) 2012 Rik Wehbring
 ##
 ## This file is part of Octave.
@@ -42,7 +42,7 @@ function cdf = discrete_cdf (x, v, p)
 
   p = p(:) / sum (p);   # Reshape and normalize probability vector
 
-  if (isa (x, "single") || isa (v, "single") || isa (p, "single"));
+  if (isa (x, "single") || isa (v, "single") || isa (p, "single"))
     cdf = NaN (size (x), "single");
   else
     cdf = NaN (size (x));

@@ -3,10 +3,10 @@
 <!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Manipulation of Plot Windows (GNU Octave (version 4.4.1))</title>
+<title>Manipulation of Plot Windows (GNU Octave (version 5.0.91))</title>
 
-<meta name="description" content="Manipulation of Plot Windows (GNU Octave (version 4.4.1))">
-<meta name="keywords" content="Manipulation of Plot Windows (GNU Octave (version 4.4.1))">
+<meta name="description" content="Manipulation of Plot Windows (GNU Octave (version 5.0.91))">
+<meta name="keywords" content="Manipulation of Plot Windows (GNU Octave (version 5.0.91))">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
@@ -98,10 +98,11 @@ the figure with graphic handle <var>h</var> is redrawn.
 
 
 <p>Normally, high-level plot functions like <code>plot</code> or <code>mesh</code> call
-<code>newplot</code> to initialize the state of the current axes so that the
-next plot is drawn in a blank window with default property settings.  To
-have two plots superimposed over one another, use the <code>hold</code>
-function.  For example,
+<code>newplot</code> to determine whether the state of the target axes should be
+initialized (the default) or if subsequent plots should be drawn on top of
+previous ones.  To have two plots drawn over one another, use the <code>hold</code>
+function or manually change the axes <a href="Axes-Properties.html#XREFaxesnextplot">nextplot</a>
+property.  For example,
 </p>
 <div class="example">
 <pre class="example">hold on;
@@ -281,9 +282,13 @@ this axes rather than the current axes returned by <code>gca</code>.
 <dt><a name="index-shg"></a><em></em> <strong>shg</strong></dt>
 <dd><p>Show the graph window.
 </p>
-<p>Currently, this is the same as executing <code>drawnow</code>.
+<p>This function makes the current figure visible, and places it on top of
+of all other plot windows.
 </p>
-<p><strong>See also:</strong> <a href="#XREFdrawnow">drawnow</a>, <a href="Multiple-Plot-Windows.html#XREFfigure">figure</a>.
+<p>Programming Note: <code>shg</code> is equivalent to <code>figure (gcf)</code> assuming
+that a current figure exists.
+</p>
+<p><strong>See also:</strong> <a href="Multiple-Plot-Windows.html#XREFfigure">figure</a>, <a href="#XREFdrawnow">drawnow</a>, <a href="Graphics-Objects.html#XREFgcf">gcf</a>.
 </p></dd></dl>
 
 

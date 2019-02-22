@@ -3,10 +3,10 @@
 <!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Creating a Class (GNU Octave (version 4.4.1))</title>
+<title>Creating a Class (GNU Octave (version 5.0.91))</title>
 
-<meta name="description" content="Creating a Class (GNU Octave (version 4.4.1))">
-<meta name="keywords" content="Creating a Class (GNU Octave (version 4.4.1))">
+<meta name="description" content="Creating a Class (GNU Octave (version 5.0.91))">
+<meta name="keywords" content="Creating a Class (GNU Octave (version 5.0.91))">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
@@ -206,7 +206,15 @@ contains the list in a cell array of strings.
 </p></dd></dl>
 
 
-<p>For example:
+<p>For a polynomial class it makes sense to have a method to compute its roots.
+</p>
+<div class="example">
+<pre class="verbatim">function r = roots (p)
+  r = roots (fliplr (p.poly));
+endfunction
+</pre></div>
+
+<p>We can check for the existence of the <code>roots</code>-method by calling:
 </p>
 <div class="example">
 <pre class="example">p = polynomial ([1, 0, 1]);

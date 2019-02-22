@@ -1,7 +1,7 @@
 /*
 
-Copyright (C) 2013-2018 John W. Eaton
-Copyright (C) 2013-2018 Daniel J. Sebald
+Copyright (C) 2013-2019 John W. Eaton
+Copyright (C) 2013-2019 Daniel J. Sebald
 
 This file is part of Octave.
 
@@ -26,6 +26,7 @@ along with Octave; see the file COPYING.  If not, see
 #endif
 
 #include "dialog.h"
+#include "resource-manager.h"
 
 #include <QString>
 #include <QStringList>
@@ -70,15 +71,18 @@ namespace octave
     // Wait for link thread to go to sleep state.
     lock ();
 
-    // Check for a matching button text while ignoring accelerators because
-    // the window manager may have added one in the passed button
-    QString text_clean = rm_amp (button->text ());
-    for (int i = 0; i < m_button_list.count (); i++)
+    if (button)   // button is NULL when dialog is closed
       {
-        if (rm_amp (m_button_list.at (i)) == text_clean)
+        // Check for a matching button text while ignoring accelerators because
+        // the window manager may have added one in the passed button
+        QString text_clean = rm_amp (button->text ());
+        for (int i = 0; i < m_button_list.count (); i++)
           {
-            m_dialog_button = m_button_list.at (i); // text w/o extra accelerator
-            break;
+            if (rm_amp (m_button_list.at (i)) == text_clean)
+              {
+                m_dialog_button = m_button_list.at (i); // text w/o extra accelerator
+                break;
+              }
           }
       }
 
@@ -230,8 +234,7 @@ namespace octave
 
     selector = view->selectionModel ();
     int i = 0;
-    for (QList<int>::const_iterator it = initial.begin ();
-         it != initial.end (); it++)
+    for (auto it = initial.begin (); it != initial.end (); it++)
       {
         QModelIndex idx = m_model->index (initial.value (i++) - 1, 0,
                                           QModelIndex ());
@@ -461,6 +464,11 @@ namespace octave
     setWindowTitle (title.isEmpty () ? " " : title);
     setDirectory (dirname);
 
+    // FIXME: Remove, if for all common KDE versions (bug #54607) is resolved.
+    if (! resource_manager::get_settings ()->value ("use_native_file_dialogs",
+                                                    true).toBool ())
+      setOption(QFileDialog::DontUseNativeDialog);
+
     if (multimode == "on")         // uigetfile multiselect=on
       {
         setFileMode (QFileDialog::ExistingFiles);
@@ -513,15 +521,10 @@ namespace octave
 
     string_result = selectedFiles ();
 
-    if (testOption (QFileDialog::ShowDirsOnly)  == true &&
-        string_result.size () > 0)
-      {
-        path = string_result[0];
-      }
+    if (testOption (QFileDialog::ShowDirsOnly) && string_result.size () > 0)
+      path = string_result[0];
     else
-      {
-        path = directory ().absolutePath ();
-      }
+      path = directory ().absolutePath ();
 
     // Matlab expects just the filename, whereas the file dialog gave us
     // full path names, so fix it.

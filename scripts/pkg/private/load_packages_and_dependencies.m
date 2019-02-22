@@ -1,4 +1,4 @@
-## Copyright (C) 2005-2018 Søren Hauberg
+## Copyright (C) 2005-2019 Søren Hauberg
 ## Copyright (C) 2010 VZLU Prague, a.s.
 ##
 ## This file is part of Octave.
@@ -28,16 +28,16 @@ function load_packages_and_dependencies (idx, handle_deps, installed_pkgs_lst,
   idx = load_package_dirs (idx, [], handle_deps, installed_pkgs_lst);
   dirs = {};
   execpath = EXEC_PATH ();
-  for i = idx;
+  for i = idx
     ndir = installed_pkgs_lst{i}.dir;
     dirs{end+1} = ndir;
-    if (exist (fullfile (dirs{end}, "bin"), "dir"))
+    if (isfolder (fullfile (dirs{end}, "bin")))
       execpath = [execpath pathsep() fullfile(dirs{end}, "bin")];
     endif
     tmpdir = getarchdir (installed_pkgs_lst{i});
-    if (exist (tmpdir, "dir"))
+    if (isfolder (tmpdir))
       dirs{end + 1} = tmpdir;
-      if (exist (fullfile (dirs{end}, "bin"), "dir"))
+      if (isfolder (fullfile (dirs{end}, "bin")))
         execpath = [execpath pathsep() fullfile(dirs{end}, "bin")];
       endif
     endif

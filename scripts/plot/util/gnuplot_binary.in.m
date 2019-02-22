@@ -1,4 +1,4 @@
-## Copyright (C) 2008-2018 John W. Eaton
+## Copyright (C) 2008-2019 John W. Eaton
 ##
 ## This file is part of Octave.
 ##
@@ -62,11 +62,14 @@ endfunction
 
 %!test
 %! [orig_val, orig_args] = gnuplot_binary ();
-%! [old_val, old_args] = gnuplot_binary ("__foobar__", "-opt1");
-%! assert (orig_val, old_val);
-%! assert (orig_args, old_args);
-%! assert (gnuplot_binary (), "__foobar__");
-%! [~, new_args] = gnuplot_binary ();
-%! assert (new_args, {"-opt1"});
-%! gnuplot_binary (orig_val, orig_args{:});
+%! unwind_protect
+%!   [old_val, old_args] = gnuplot_binary ("__foobar__", "-opt1");
+%!   assert (orig_val, old_val);
+%!   assert (orig_args, old_args);
+%!   assert (gnuplot_binary (), "__foobar__");
+%!   [~, new_args] = gnuplot_binary ();
+%!   assert (new_args, {"-opt1"});
+%! unwind_protect_cleanup
+%!   gnuplot_binary (orig_val, orig_args{:});
+%! end_unwind_protect
 %! assert (gnuplot_binary (), orig_val);

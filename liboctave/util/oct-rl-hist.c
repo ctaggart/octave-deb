@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2000-2018 John W. Eaton
+Copyright (C) 2000-2019 John W. Eaton
 
 This file is part of Octave.
 
@@ -276,7 +276,10 @@ octave_history_list (int limit, int number_lines)
 
       beg = (limit < 0 || end < limit) ? 0 : (end - limit);
 
-      retval = malloc ((size_t) (end - beg + 1) * sizeof (char **));
+      retval = malloc ((size_t) (end - beg + 1) * sizeof (char *));
+      // FIXME: Should this call current_liboctave_error_handler instead?
+      if (! retval)
+        return retval;
 
       k = 0;
       for (i = beg; i < end; i++)
@@ -285,13 +288,16 @@ octave_history_list (int limit, int number_lines)
           size_t len = line ? strlen (line) : 0;
           char *tmp = malloc (len + 64);
 
-          if (number_lines)
-            sprintf (tmp, "%5d %s", i + history_base,
-                     line ? line : "");
-          else
-            strcpy (tmp, line ? line : "");
+          if (tmp)
+            {
+              if (number_lines)
+                sprintf (tmp, "%5d %s", i + history_base,
+                         line ? line : "");
+              else
+                strcpy (tmp, line ? line : "");
 
-          retval[k++] = tmp;
+              retval[k++] = tmp;
+            }
         }
 
       retval[k] = 0;

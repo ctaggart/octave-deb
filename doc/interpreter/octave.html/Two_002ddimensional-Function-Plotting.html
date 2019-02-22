@@ -3,10 +3,10 @@
 <!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Two-dimensional Function Plotting (GNU Octave (version 4.4.1))</title>
+<title>Two-dimensional Function Plotting (GNU Octave (version 5.0.91))</title>
 
-<meta name="description" content="Two-dimensional Function Plotting (GNU Octave (version 4.4.1))">
-<meta name="keywords" content="Two-dimensional Function Plotting (GNU Octave (version 4.4.1))">
+<meta name="description" content="Two-dimensional Function Plotting (GNU Octave (version 5.0.91))">
+<meta name="keywords" content="Two-dimensional Function Plotting (GNU Octave (version 5.0.91))">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
@@ -74,18 +74,22 @@ example,
 legend displaying the name of the plotted function.
 </p>
 <a name="XREFfplot"></a><dl>
-<dt><a name="index-fplot"></a><em></em> <strong>fplot</strong> <em>(<var>fn</var>, <var>limits</var>)</em></dt>
-<dt><a name="index-fplot-1"></a><em></em> <strong>fplot</strong> <em>(&hellip;, <var>tol</var>)</em></dt>
-<dt><a name="index-fplot-2"></a><em></em> <strong>fplot</strong> <em>(&hellip;, <var>n</var>)</em></dt>
-<dt><a name="index-fplot-3"></a><em></em> <strong>fplot</strong> <em>(&hellip;, <var>fmt</var>)</em></dt>
-<dt><a name="index-fplot-4"></a><em>[<var>x</var>, <var>y</var>] =</em> <strong>fplot</strong> <em>(&hellip;)</em></dt>
+<dt><a name="index-fplot"></a><em></em> <strong>fplot</strong> <em>(<var>fn</var>)</em></dt>
+<dt><a name="index-fplot-1"></a><em></em> <strong>fplot</strong> <em>(<var>fn</var>, <var>limits</var>)</em></dt>
+<dt><a name="index-fplot-2"></a><em></em> <strong>fplot</strong> <em>(&hellip;, <var>tol</var>)</em></dt>
+<dt><a name="index-fplot-3"></a><em></em> <strong>fplot</strong> <em>(&hellip;, <var>n</var>)</em></dt>
+<dt><a name="index-fplot-4"></a><em></em> <strong>fplot</strong> <em>(&hellip;, <var>fmt</var>)</em></dt>
+<dt><a name="index-fplot-5"></a><em></em> <strong>fplot</strong> <em>(&hellip;, <var>property</var>, <var>value</var>, &hellip;)</em></dt>
+<dt><a name="index-fplot-6"></a><em></em> <strong>fplot</strong> <em>(<var>hax</var>, &hellip;)</em></dt>
+<dt><a name="index-fplot-7"></a><em>[<var>x</var>, <var>y</var>] =</em> <strong>fplot</strong> <em>(&hellip;)</em></dt>
 <dd><p>Plot a function <var>fn</var> within the range defined by <var>limits</var>.
 </p>
 <p><var>fn</var> is a function handle, inline function, or string containing the
 name of the function to evaluate.
 </p>
 <p>The limits of the plot are of the form <code>[<var>xlo</var>,&nbsp;<var>xhi</var>]</code><!-- /@w --> or
-<code>[<var>xlo</var>,&nbsp;<var>xhi</var>,&nbsp;<var>ylo</var>,&nbsp;<var>yhi</var>]</code><!-- /@w -->.
+<code>[<var>xlo</var>,&nbsp;<var>xhi</var>,&nbsp;<var>ylo</var>,&nbsp;<var>yhi</var>]</code><!-- /@w -->.  If no limits
+are specified the default is <code>[-5, 5]</code>.
 </p>
 <p>The next three arguments are all optional and any number of them may be
 given in any order.
@@ -101,11 +105,15 @@ tolerance requirement.
 <p>The <var>fmt</var> argument specifies the linestyle to be used by the plot
 command.
 </p>
+<p>Multiple property-value pairs may also be specified, but they must appear
+in pairs.  These arguments are applied to the line objects drawn by
+<code>plot</code>.
+</p>
 <p>If the first argument <var>hax</var> is an axes handle, then plot into this axes,
 rather than the current axes returned by <code>gca</code>.
 </p>
-<p>With no output arguments the results are immediately plotted.  With two
-output arguments the 2-D plot data is returned.  The data can subsequently
+<p>With no output arguments, the results are immediately plotted.  With two
+output arguments, the 2-D plot data is returned.  The data can subsequently
 be plotted manually with <code>plot (<var>x</var>, <var>y</var>)</code>.
 </p>
 <p>Example:

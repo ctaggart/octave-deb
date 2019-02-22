@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 1995-2018 John W. Eaton
+Copyright (C) 1995-2019 John W. Eaton
 
 This file is part of Octave.
 
@@ -30,13 +30,6 @@ along with Octave; see the file COPYING.  If not, see
 #include "MArray.cc"
 
 template class OCTAVE_API MArray<short>;
-
-#if defined (OCTAVE_USE_DEPRECATED_FUNCTIONS)
-// Explicit instantiation, as this seems to be required by weird compilers
-// like MSVC.  This should be harmless on other compilers.
-template short xmin<short> (short, short);
-template short xmax<short> (short, short);
-#endif
 
 INSTANTIATE_MARRAY_FRIENDS (short, OCTAVE_API)
 

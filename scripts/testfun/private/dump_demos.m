@@ -1,4 +1,4 @@
-## Copyright (C) 2010-2018 Søren Hauberg
+## Copyright (C) 2010-2019 Søren Hauberg
 ##
 ## This file is part of Octave.
 ##
@@ -93,7 +93,7 @@ function dump_demos (dirs={"plot/appearance", "plot/draw", "plot/util", "image"}
     if (! is_absolute_filename (d))
       d = dir_in_loadpath (d);
     endif
-    if (! exist (d, "dir"))
+    if (! isfolder (d))
       error ("dump_demos: directory %s does not exist", d);
     endif
     dump_all_demos (d, fid, fmt);

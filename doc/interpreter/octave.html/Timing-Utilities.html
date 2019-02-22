@@ -3,10 +3,10 @@
 <!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Timing Utilities (GNU Octave (version 4.4.1))</title>
+<title>Timing Utilities (GNU Octave (version 5.0.91))</title>
 
-<meta name="description" content="Timing Utilities (GNU Octave (version 4.4.1))">
-<meta name="keywords" content="Timing Utilities (GNU Octave (version 4.4.1))">
+<meta name="description" content="Timing Utilities (GNU Octave (version 5.0.91))">
+<meta name="keywords" content="Timing Utilities (GNU Octave (version 5.0.91))">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
@@ -471,7 +471,7 @@ field has a fractional part after the decimal point for extended accuracy.
 </p>
 <div class="example">
 <pre class="example">fix (clock ())
-     &rArr; [ 1993, 8, 20, 4, 56, 1 ]
+  &rArr;   1993      8     20      4     56      1
 </pre></div>
 
 <p><code>clock</code> is more accurate on systems that have the <code>gettimeofday</code>
@@ -489,7 +489,7 @@ function.
 </p>
 <div class="example">
 <pre class="example">date ()
-  &rArr; &quot;20-Aug-1993&quot;
+  &rArr; 20-Aug-1993
 </pre></div>
 
 <p><strong>See also:</strong> <a href="#XREFnow">now</a>, <a href="#XREFclock">clock</a>, <a href="#XREFdatestr">datestr</a>, <a href="#XREFlocaltime">localtime</a>.
@@ -624,13 +624,14 @@ seconds elapsed since the timer <var>id</var> was initialized.
 <a name="XREFpause"></a><dl>
 <dt><a name="index-pause-2"></a><em></em> <strong>pause</strong> <em>()</em></dt>
 <dt><a name="index-pause-3"></a><em></em> <strong>pause</strong> <em>(<var>n</var>)</em></dt>
-<dd><p>Suspend the execution of the program for <var>n</var> seconds.
+<dt><a name="index-pause-4"></a><em><var>old_state</var> =</em> <strong>pause</strong> <em>(&quot;on&quot;)</em></dt>
+<dt><a name="index-pause-5"></a><em><var>old_state</var> =</em> <strong>pause</strong> <em>(&quot;off&quot;)</em></dt>
+<dt><a name="index-pause-6"></a><em><var>old_state</var> =</em> <strong>pause</strong> <em>(&quot;query&quot;)</em></dt>
+<dd><p>Suspend the execution of the program or change the state of the pause function.
 </p>
 <p>If invoked without an input arguments then the program is suspended until a
-character is typed.
-</p>
-<p><var>n</var> is a positive real value and may be a fraction of a second,
-for example:
+character is typed.  If argument <var>n</var> is a positive real value, it indicates
+the number of seconds the program shall be suspended, for example:
 </p>
 <div class="example">
 <pre class="example">tic; pause (0.05); toc
@@ -646,6 +647,22 @@ pause (5);
 clc;
 </pre></div>
 
+<p>If invoked with a string argument <code>&quot;on&quot;</code>, <code>&quot;off&quot;</code>, or
+<code>&quot;query&quot;</code>, the state of the pause function is changed or queried.  When
+the state is <code>&quot;off&quot;</code>, the pause function returns immediately.  The
+optional return value contains the previous state of the pause function.  In
+the following example pause is disabled locally:
+</p>
+<div class="example">
+<pre class="example">old_state = pause (&quot;off&quot;);
+tic; pause (0.05); toc
+     -| Elapsed time is 3.00407e-05 seconds.
+pause (old_state);
+</pre></div>
+
+<p>While the program is suspended Octave still handles figures painting and
+graphics callbacks execution.
+</p>
 
 <p><strong>See also:</strong> <a href="Terminal-Input.html#XREFkbhit">kbhit</a>.
 </p></dd></dl>
@@ -704,6 +721,13 @@ greater precision than <var>days</var>.
 </li><li> Days can be fractional.
 </li></ul>
 
+<p><strong>Caution:</strong> datenums represent a specific time for the Earth as a
+a whole.  They do not take in to account time zones (shifts in time based
+on location), nor seasonal changes due to Daylight Savings Time (shifts in
+time based on local regulation).  Be aware that it is possible to create
+datenums that, when interpreted by a function which accounts for time zone
+and DST shifts such as <code>datestr</code>, are nonexistent or ambiguous.
+</p>
 <p><strong>Caution:</strong> this function does not attempt to handle Julian calendars
 so dates before October 15, 1582 are wrong by as much as eleven days.  Also,
 be aware that only Roman Catholic countries adopted the calendar in 1582.
@@ -713,6 +737,7 @@ on the Gregorian calendar for more details.
 <p><strong>Warning:</strong> leap seconds are ignored.  A table of leap seconds is
 available on the Wikipedia entry for leap seconds.
 </p>
+
 <p><strong>See also:</strong> <a href="#XREFdatestr">datestr</a>, <a href="#XREFdatevec">datevec</a>, <a href="#XREFnow">now</a>, <a href="#XREFclock">clock</a>, <a href="#XREFdate">date</a>.
 </p></dd></dl>
 
@@ -724,9 +749,9 @@ available on the Wikipedia entry for leap seconds.
 <dd><p>Format the given date/time according to the format <var>f</var> and return
 the result in <var>str</var>.
 </p>
-<p><var>date</var> is a serial date number (see <code>datenum</code>) or a date vector
-(see <code>datevec</code>).  The value of <var>date</var> may also be a string or cell
-array of strings.
+<p><var>date</var> is a serial date number (see <code>datenum</code>), a date vector (see
+<code>datevec</code>), or a string or cell array of strings.  In the latter case,
+it is passed to <code>datevec</code> to guess the input date format.
 </p>
 <p><var>f</var> can be an integer which corresponds to one of the codes in the table
 below, or a date format string.

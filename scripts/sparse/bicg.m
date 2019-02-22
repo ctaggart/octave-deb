@@ -1,6 +1,6 @@
-## Copyright (C) 2016-2018 Cristiano Dorigo, Octave Arena
+## Copyright (C) 2016-2019 Cristiano Dorigo, Octave Arena
 ## Copyright (C) 2006 Sylvain Pelissier
-## Copyright (C) 2012-2018 Carlo de Falco
+## Copyright (C) 2012-2019 Carlo de Falco
 ##
 ## This file is part of Octave.
 ##
@@ -533,7 +533,7 @@ endfunction
 %! b = sum (A, 2);
 %! M = magic (5);
 %! [x, flag, relres] = bicg (A, b, [], 2, M);
-%! assert (norm (b - A * x) / norm (b), 0, relres);
+%! assert (norm (b - A * x) / norm (b), 0, relres + eps);
 
 ## Preconditioned technique
 %!testif HAVE_UMFPACK

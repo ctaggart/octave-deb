@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 1995-2018 John W. Eaton
+Copyright (C) 1995-2019 John W. Eaton
 Copyright (C) 2010 VZLU Prague
 
 This file is part of Octave.
@@ -27,7 +27,7 @@ along with Octave; see the file COPYING.  If not, see
 
 #include <cstring>
 
-#include <iostream>
+#include <ostream>
 #include <string>
 
 #include "lo-error.h"

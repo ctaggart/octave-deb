@@ -1,5 +1,5 @@
 /*
-Copyright (C) 2016-2018 Carnë Draug
+Copyright (C) 2016-2019 Carnë Draug
 
 This file is part of Octave.
 
@@ -23,6 +23,8 @@ along with Octave; see the file COPYING.  If not, see
 #define octave_oct_string_h 1
 
 #include "octave-config.h"
+
+#include "oct-cmplx.h"
 
 namespace octave
 {
@@ -120,7 +122,14 @@ namespace octave
     template <typename T>
     bool strncmpi (const T& str_a, const typename T::value_type *str_b,
                    const typename T::size_type n);
+
+    extern OCTAVE_API Complex
+    str2double (const std::string& str_arg);
   }
 }
+
+template <typename T>
+extern OCTAVE_API std::string
+rational_approx (T val, int len);
 
 #endif

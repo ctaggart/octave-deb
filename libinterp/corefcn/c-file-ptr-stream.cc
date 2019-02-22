@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2000-2018 John W. Eaton
+Copyright (C) 2000-2019 John W. Eaton
 
 This file is part of Octave.
 
@@ -24,7 +24,7 @@ along with Octave; see the file COPYING.  If not, see
 #  include "config.h"
 #endif
 
-#include <iostream>
+#include <iomanip>
 
 #include "filepos-wrappers.h"
 

@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2008-2018 Michael Goffioul
+Copyright (C) 2008-2019 Michael Goffioul
 
 This file is part of Octave.
 
@@ -30,13 +30,15 @@ along with Octave; see the file COPYING.  If not, see
 
 namespace octave
 {
+  class opengl_functions;
+
   class
   OCTINTERP_API
   opengl_renderer
   {
   public:
 
-    opengl_renderer (void);
+    opengl_renderer (opengl_functions& glfcns);
 
     // No copying!
 
@@ -45,6 +47,8 @@ namespace octave
     opengl_renderer& operator = (const opengl_renderer&) = delete;
 
     virtual ~opengl_renderer (void) = default;
+
+    opengl_functions& get_opengl_functions (void) const { return m_glfcns; }
 
     virtual void draw (const graphics_object& go, bool toplevel = true);
 
@@ -62,8 +66,17 @@ namespace octave
     }
 
     virtual void set_viewport (int w, int h);
+    virtual void set_device_pixel_ratio (double dpr) { m_devpixratio = dpr; }
+    virtual Matrix get_viewport_scaled (void) const;
     virtual graphics_xform get_transform (void) const { return xform; }
     virtual uint8NDArray get_pixels (int width, int height);
+
+    virtual void draw_zoom_box (int width, int height,
+                                int x1, int y1, int x2, int y2,
+                                const Matrix& overlaycolor,
+                                double overlayalpha,
+                                const Matrix& bordercolor,
+                                double borderalpha, double borderwidth);
 
     virtual void finish (void);
 
@@ -150,7 +163,13 @@ namespace octave
                                    int xyz, int ha, int va,
                                    int& wmax, int& hmax);
 
+    virtual void draw_zoom_rect (int x1, int y1, int x2, int y2);
+
   private:
+
+    void init_maxlights (void);
+
+    std::string get_string (unsigned int id) const;
 
     bool is_nan_or_inf (double x, double y, double z) const
     {
@@ -160,7 +179,7 @@ namespace octave
               || math::isinf (z));
     }
 
-    octave_uint8 clip_code (double x, double y, double z) const
+    uint8_t clip_code (double x, double y, double z) const
     {
       return ((x < xmin ? 1 : 0)
               | (x > xmax ? 1 : 0) << 1
@@ -189,7 +208,12 @@ namespace octave
     void draw_all_lights (const base_properties& props,
                           std::list<graphics_object>& obj_list);
 
+  protected:
+
+    opengl_functions& m_glfcns;
+
   private:
+
     // The graphics toolkit associated with the figure being rendered.
     graphics_toolkit toolkit;
 
@@ -216,12 +240,15 @@ namespace octave
     text_renderer txt_renderer;
 
     // light object present and visible
-    int num_lights;
-    unsigned int current_light;
-    int max_lights;
+    unsigned int m_current_light;
+    unsigned int m_max_lights;
 
     // Indicate we are drawing for selection purpose
     bool selecting;
+
+    // Factor used for translating Octave pixels to actual device pixels
+    double m_devpixratio;
+
   private:
     class patch_tesselator;
   };

@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2011-2018 Michael Goffioul
+Copyright (C) 2011-2019 Michael Goffioul
 
 This file is part of Octave.
 
@@ -47,6 +47,8 @@ namespace QtHandles
     bool is_valid (void) const { return true; }
 
     void redraw_figure (const graphics_object& h) const;
+
+    void show_figure (const graphics_object& h) const;
 
     void update (const graphics_object& obj, int pId);
 

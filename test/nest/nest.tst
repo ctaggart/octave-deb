@@ -1,4 +1,4 @@
-## Copyright (C) 2006-2018 John W. Eaton
+## Copyright (C) 2006-2019 John W. Eaton
 ##
 ## This file is part of Octave.
 ##
@@ -22,7 +22,9 @@
 ## It relies on the function files defined in the nest/ directory.
 ################################################################################
 
-%!assert (recursive_nest (), 25)
+%!test
+%! assert (recursive_nest (), 25)
+%! clear -global recursive_nest_inc;  # cleanup after test
 
 %!assert (recursive_nest2 (), 20)
 

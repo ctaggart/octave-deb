@@ -3,10 +3,10 @@
 <!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>I/O Dialogs (GNU Octave (version 4.4.1))</title>
+<title>I/O Dialogs (GNU Octave (version 5.0.91))</title>
 
-<meta name="description" content="I/O Dialogs (GNU Octave (version 4.4.1))">
-<meta name="keywords" content="I/O Dialogs (GNU Octave (version 4.4.1))">
+<meta name="description" content="I/O Dialogs (GNU Octave (version 5.0.91))">
+<meta name="keywords" content="I/O Dialogs (GNU Octave (version 5.0.91))">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
@@ -186,29 +186,30 @@ If, in addition, a path is given it is also used as current path.
 </p></dd></dl>
 
 
-<p>Additionally, there are dialog boxes for printing further help, warnings or
-errors and to get textual input from the user.
+<p>Additionally, there are dialog boxes for displaying help messages, warnings, or
+errors, and for getting text input from the user.
 </p>
 <a name="index-dialog_002c-displaying-an-error-dialog"></a>
 <a name="XREFerrordlg"></a><dl>
-<dt><a name="index-errordlg"></a><em><var>h</var> =</em> <strong>errordlg</strong> <em>()</em></dt>
-<dt><a name="index-errordlg-1"></a><em><var>h</var> =</em> <strong>errordlg</strong> <em>(<var>msg</var>)</em></dt>
-<dt><a name="index-errordlg-2"></a><em><var>h</var> =</em> <strong>errordlg</strong> <em>(<var>msg</var>, <var>title</var>)</em></dt>
-<dt><a name="index-errordlg-3"></a><em><var>h</var> =</em> <strong>errordlg</strong> <em>(<var>msg</var>, <var>title</var>, <var>createmode</var>)</em></dt>
+<dt><a name="index-errordlg"></a><em></em> <strong>errordlg</strong> <em>()</em></dt>
+<dt><a name="index-errordlg-1"></a><em></em> <strong>errordlg</strong> <em>(<var>msg</var>)</em></dt>
+<dt><a name="index-errordlg-2"></a><em></em> <strong>errordlg</strong> <em>(<var>msg</var>, <var>title</var>)</em></dt>
+<dt><a name="index-errordlg-3"></a><em></em> <strong>errordlg</strong> <em>(<var>msg</var>, <var>title</var>, <var>opt</var>)</em></dt>
+<dt><a name="index-errordlg-4"></a><em><var>h</var> =</em> <strong>errordlg</strong> <em>(&hellip;)</em></dt>
 <dd><p>Display an error dialog box with error message <var>msg</var> and caption
 <var>title</var>.
 </p>
-<p>The default error message is <code>&quot;This is the default error string.&quot;</code> and
-the default caption is <code>&quot;Error Dialog&quot;</code>.
+<p>The default error message is <code>&quot;This is the default error string.&quot;</code>
+and the default caption is <code>&quot;Error Dialog&quot;</code>.
 </p>
 <p>The error message may have multiple lines separated by newline characters
 (&quot;\n&quot;), or it may be a cellstr array with one element for each line.
 </p>
-<p>The return value <var>h</var> is always 1.
+<p>The third optional argument <var>opt</var> controls the behavior of the dialog.
+See <code>msgbox</code> for details.
 </p>
-<p>Compatibility Note: The optional argument <var>createmode</var> is accepted for
-<small>MATLAB</small> compatibility, but is not implemented.  See <code>msgbox</code> for
-details.
+<p>The return value <var>h</var> is a handle to the figure object used for
+building the dialog.
 </p>
 <p>Examples:
 </p>
@@ -220,25 +221,27 @@ errordlg (&quot;Some fancy error occurred.&quot;, &quot;Fancy caption&quot;);
 </pre></div>
 
 
-<p><strong>See also:</strong> <a href="#XREFhelpdlg">helpdlg</a>, <a href="#XREFinputdlg">inputdlg</a>, <a href="#XREFlistdlg">listdlg</a>, <a href="#XREFmsgbox">msgbox</a>, <a href="#XREFquestdlg">questdlg</a>, <a href="#XREFwarndlg">warndlg</a>.
+<p><strong>See also:</strong> <a href="#XREFhelpdlg">helpdlg</a>, <a href="#XREFwarndlg">warndlg</a>, <a href="#XREFmsgbox">msgbox</a>, <a href="#XREFinputdlg">inputdlg</a>, <a href="#XREFlistdlg">listdlg</a>, <a href="#XREFquestdlg">questdlg</a>.
 </p></dd></dl>
 
 
 <a name="index-dialog_002c-displaying-a-help-dialog"></a>
 <a name="XREFhelpdlg"></a><dl>
-<dt><a name="index-helpdlg"></a><em><var>h</var> =</em> <strong>helpdlg</strong> <em>()</em></dt>
-<dt><a name="index-helpdlg-1"></a><em><var>h</var> =</em> <strong>helpdlg</strong> <em>(<var>msg</var>)</em></dt>
-<dt><a name="index-helpdlg-2"></a><em><var>h</var> =</em> <strong>helpdlg</strong> <em>(<var>msg</var>, <var>title</var>)</em></dt>
+<dt><a name="index-helpdlg"></a><em></em> <strong>helpdlg</strong> <em>()</em></dt>
+<dt><a name="index-helpdlg-1"></a><em></em> <strong>helpdlg</strong> <em>(<var>msg</var>)</em></dt>
+<dt><a name="index-helpdlg-2"></a><em></em> <strong>helpdlg</strong> <em>(<var>msg</var>, <var>title</var>)</em></dt>
+<dt><a name="index-helpdlg-3"></a><em><var>h</var> =</em> <strong>helpdlg</strong> <em>(&hellip;)</em></dt>
 <dd><p>Display a help dialog box with help message <var>msg</var> and caption
 <var>title</var>.
 </p>
-<p>The default help message is <code>&quot;This is the default help string.&quot;</code> and
-the default caption is <code>&quot;Help Dialog&quot;</code>.
+<p>The default help message is <code>&quot;This is the default help string.&quot;</code>
+and the default caption is <code>&quot;Help Dialog&quot;</code>.
 </p>
 <p>The help message may have multiple lines separated by newline characters
 (&quot;\n&quot;), or it may be a cellstr array with one element for each line.
 </p>
-<p>The return value <var>h</var> is always 1.
+<p>The return value <var>h</var> is a handle to the figure object used for
+building the dialog.
 </p>
 <p>Examples:
 </p>
@@ -250,7 +253,7 @@ helpdlg (&quot;Some helpful text for the user.&quot;, &quot;Fancy caption&quot;)
 </pre></div>
 
 
-<p><strong>See also:</strong> <a href="#XREFerrordlg">errordlg</a>, <a href="#XREFinputdlg">inputdlg</a>, <a href="#XREFlistdlg">listdlg</a>, <a href="#XREFmsgbox">msgbox</a>, <a href="#XREFquestdlg">questdlg</a>, <a href="#XREFwarndlg">warndlg</a>.
+<p><strong>See also:</strong> <a href="#XREFerrordlg">errordlg</a>, <a href="#XREFwarndlg">warndlg</a>, <a href="#XREFmsgbox">msgbox</a>, <a href="#XREFinputdlg">inputdlg</a>, <a href="#XREFlistdlg">listdlg</a>, <a href="#XREFquestdlg">questdlg</a>.
 </p></dd></dl>
 
 
@@ -281,16 +284,21 @@ button.
 <dd><p>Specifies the size of the text fields and can take three forms:
 </p>
 <ol>
-<li> a scalar value which defines the number of rows used for each text field.
+<li> a scalar value which defines the number of rows used for each text
+field.
 
-</li><li> a vector which defines the individual number of rows used for each text field.
+</li><li> a vector which defines the individual number of rows used for each
+text field.
 
-</li><li> a matrix which defines the individual number of rows and columns used for each text field.  In the matrix each row describes a single text field.  The first column specifies the number of input rows to use and the second column specifies the text field width.
+</li><li> a matrix which defines the individual number of rows and columns used
+for each text field.  In the matrix each row describes a single text field.
+The first column specifies the number of input rows to use and the second
+column specifies the text field width.
 </li></ol>
 
 </dd>
 <dt><var>defaults</var></dt>
-<dd><p>A list of default values to place in each text fields.  It must be a cell
+<dd><p>A list of default values to place in each text field.  It must be a cell
 array of strings with the same size as <var>prompt</var>.
 </p>
 </dd>
@@ -305,7 +313,8 @@ array of strings with the same size as <var>prompt</var>.
 <pre class="example">prompt = {&quot;Width&quot;, &quot;Height&quot;, &quot;Depth&quot;};
 defaults = {&quot;1.10&quot;, &quot;2.20&quot;, &quot;3.30&quot;};
 rowscols = [1,10; 2,20; 3,30];
-dims = inputdlg (prompt, &quot;Enter Box Dimensions&quot;, rowscols, defaults);
+dims = inputdlg (prompt, &quot;Enter Box Dimensions&quot;, ...
+                 rowscols, defaults);
 </pre></div>
 
 
@@ -326,27 +335,29 @@ dims = inputdlg (prompt, &quot;Enter Box Dimensions&quot;, rowscols, defaults);
 otherwise it is 0 and <var>sel</var> is empty.
 </p>
 <p>Input arguments are specified in form of <var>key</var>, <var>value</var> pairs.
-The <code>&quot;ListString&quot;</code> argument pair must be specified.
+The <code>&quot;ListString&quot;</code> argument pair <strong>must</strong> be specified.
 </p>
 <p>Valid <var>key</var> and <var>value</var> pairs are:
 </p>
 <dl compact="compact">
 <dt><code>&quot;ListString&quot;</code></dt>
-<dd><p>a cell array of strings with the contents of the list.
+<dd><p>a cell array of strings specifying the items to list in the dialog.
 </p>
 </dd>
 <dt><code>&quot;SelectionMode&quot;</code></dt>
-<dd><p>can be either <code>&quot;Single&quot;</code> or <code>&quot;Multiple&quot;</code> (default).
+<dd><p>can be either <code>&quot;Single&quot;</code> (only one item may be selected at a time) or
+<code>&quot;Multiple&quot;</code> (default).
 </p>
 </dd>
 <dt><code>&quot;ListSize&quot;</code></dt>
-<dd><p>a vector with two elements <var>width</var> and <var>height</var> defining the size
-of the list field in pixels.  Default is [160 300].
+<dd><p>a two-element vector <code>[<var>width</var>, <var>height</var>]</code> specifying the size
+of the list field in pixels.  The default is [160, 300].
 </p>
 </dd>
 <dt><code>&quot;InitialValue&quot;</code></dt>
-<dd><p>a vector containing 1-based indices of preselected elements.
-Default is 1 (first item).
+<dd><p>a vector containing 1-based indices of elements which will be pre-selected
+when the list dialog is first displayed.
+The default is 1 (first item).
 </p>
 </dd>
 <dt><code>&quot;Name&quot;</code></dt>
@@ -354,7 +365,7 @@ Default is 1 (first item).
 </p>
 </dd>
 <dt><code>&quot;PromptString&quot;</code></dt>
-<dd><p>a cell array of strings to be displayed above the list field.
+<dd><p>a cell array of strings to be displayed above the list of items.
 Default is {}.
 </p>
 </dd>
@@ -393,7 +404,9 @@ endif
 <dt><a name="index-msgbox"></a><em><var>h</var> =</em> <strong>msgbox</strong> <em>(<var>msg</var>)</em></dt>
 <dt><a name="index-msgbox-1"></a><em><var>h</var> =</em> <strong>msgbox</strong> <em>(<var>msg</var>, <var>title</var>)</em></dt>
 <dt><a name="index-msgbox-2"></a><em><var>h</var> =</em> <strong>msgbox</strong> <em>(<var>msg</var>, <var>title</var>, <var>icon</var>)</em></dt>
-<dt><a name="index-msgbox-3"></a><em><var>h</var> =</em> <strong>msgbox</strong> <em>(&hellip;, <var>createmode</var>)</em></dt>
+<dt><a name="index-msgbox-3"></a><em><var>h</var> =</em> <strong>msgbox</strong> <em>(<var>msg</var>, <var>title</var>, &quot;custom&quot;, <var>cdata</var>)</em></dt>
+<dt><a name="index-msgbox-4"></a><em><var>h</var> =</em> <strong>msgbox</strong> <em>(<var>msg</var>, <var>title</var>, &quot;custom&quot;, <var>cdata</var>, <var>colormap</var>)</em></dt>
+<dt><a name="index-msgbox-5"></a><em><var>h</var> =</em> <strong>msgbox</strong> <em>(&hellip;, <var>opt</var>)</em></dt>
 <dd><p>Display <var>msg</var> using a message dialog box.
 </p>
 <p>The message may have multiple lines separated by newline characters (&quot;\n&quot;),
@@ -404,15 +417,46 @@ the dialog caption.
 </p>
 <p>The optional argument <var>icon</var> selects a dialog icon.
 It can be one of <code>&quot;none&quot;</code> (default), <code>&quot;error&quot;</code>, <code>&quot;help&quot;</code>,
-or <code>&quot;warn&quot;</code>.
+<code>&quot;warn&quot;</code>, or <code>&quot;custom&quot;</code>.  The latter must be followed by an
+image array <var>cdata</var>, and for indexed images the associated colormap.
 </p>
-<p>The return value is always 1.
+<p>The final optional argument <var>opt</var> controls the behavior of the dialog.
+If <var>opt</var> is a string, it may be one of
 </p>
-<p>Compatibility Note: The optional argument <var>createmode</var> is accepted for
-<small>MATLAB</small> compatibility, but is not implemented.  A valid <var>createmode</var>
-is either one of the character strings <code>&quot;nonmodal&quot;</code>, <code>&quot;modal&quot;</code>,
-or <code>&quot;replace&quot;</code>, or a structure containing a field
-<code>&quot;WindowStyle&quot;</code> with one of the three character strings.
+<dl compact="compact">
+<dt><code>&quot;non-modal&quot;</code> (default)</dt>
+<dd><p>The dialog is normal.
+</p>
+</dd>
+<dt><code>&quot;modal&quot;</code></dt>
+<dd><p>The dialog is displayed <code>&quot;modal&quot;</code> which means it prevents users from
+interacting with any other GUI element until the dialog has been closed.
+</p>
+</dd>
+<dt><code>&quot;replace&quot;</code></dt>
+<dd><p>If any dialogs already exist with the same title, the most recent is reused
+and all others are closed.  The resulting dialog is set <code>&quot;non-modal&quot;</code>.
+</p></dd>
+</dl>
+
+<p>If <var>opt</var> is a structure, it must contain fields <code>&quot;WindowStyle&quot;</code>
+and <code>&quot;Interpreter&quot;</code>:
+</p>
+<dl compact="compact">
+<dt><code>&quot;WindowStyle&quot;</code></dt>
+<dd><p>The value must be <code>&quot;non-modal&quot;</code>, <code>&quot;modal&quot;</code>, or
+<code>&quot;replace&quot;</code>.  See above.
+</p>
+</dd>
+<dt><code>&quot;Interpreter&quot;</code></dt>
+<dd><p>Controls the <code>&quot;interpreter&quot;</code> property of the text object used for
+displaying the message.  The value must be <code>&quot;tex&quot;</code> (default),
+<code>&quot;none&quot;</code>, or <code>&quot;latex&quot;</code>.
+</p></dd>
+</dl>
+
+<p>The return value <var>h</var> is a handle to the figure object used for building
+the dialog.
 </p>
 <p>Examples:
 </p>
@@ -422,7 +466,7 @@ msgbox (&quot;Some message\nwith two lines.&quot;);
 msgbox ({&quot;Some message&quot;, &quot;with two lines.&quot;});
 msgbox (&quot;Some message for the user.&quot;, &quot;Fancy caption&quot;);
 
-% A message dialog box with error icon
+## A message dialog box with error icon
 msgbox (&quot;Some message for the user.&quot;, &quot;Fancy caption&quot;, &quot;error&quot;);
 </pre></div>
 
@@ -462,7 +506,8 @@ dialog will have only these two buttons.
 <p>Examples:
 </p>
 <div class="example">
-<pre class="example">btn = questdlg (&quot;Close Octave?&quot;, &quot;Some fancy title&quot;, &quot;Yes&quot;, &quot;No&quot;, &quot;No&quot;);
+<pre class="example">btn = questdlg (&quot;Close Octave?&quot;, &quot;Some fancy title&quot;, ...
+                &quot;Yes&quot;, &quot;No&quot;, &quot;No&quot;);
 if (strcmp (btn, &quot;Yes&quot;))
   exit ();
 endif
@@ -475,24 +520,26 @@ endif
 
 <a name="index-dialog_002c-displaying-a-warning-dialog"></a>
 <a name="XREFwarndlg"></a><dl>
-<dt><a name="index-warndlg"></a><em><var>h</var> =</em> <strong>warndlg</strong> <em>()</em></dt>
-<dt><a name="index-warndlg-1"></a><em><var>h</var> =</em> <strong>warndlg</strong> <em>(<var>msg</var>)</em></dt>
-<dt><a name="index-warndlg-2"></a><em><var>h</var> =</em> <strong>warndlg</strong> <em>(<var>msg</var>, <var>title</var>)</em></dt>
-<dt><a name="index-warndlg-3"></a><em><var>h</var> =</em> <strong>warndlg</strong> <em>(<var>msg</var>, <var>title</var>, <var>createmode</var>)</em></dt>
+<dt><a name="index-warndlg"></a><em></em> <strong>warndlg</strong> <em>()</em></dt>
+<dt><a name="index-warndlg-1"></a><em></em> <strong>warndlg</strong> <em>(<var>msg</var>)</em></dt>
+<dt><a name="index-warndlg-2"></a><em></em> <strong>warndlg</strong> <em>(<var>msg</var>, <var>title</var>)</em></dt>
+<dt><a name="index-warndlg-3"></a><em></em> <strong>warndlg</strong> <em>(<var>msg</var>, <var>title</var>, <var>opt</var>)</em></dt>
+<dt><a name="index-warndlg-4"></a><em><var>h</var> =</em> <strong>warndlg</strong> <em>(&hellip;)</em></dt>
 <dd><p>Display a warning dialog box with warning message <var>msg</var> and caption
 <var>title</var>.
 </p>
-<p>The default warning message is <code>&quot;This is the default warning string.&quot;</code>
-and the default caption is <code>&quot;Warning Dialog&quot;</code>.
+<p>The default warning message is
+<code>&quot;This is the default warning string.&quot;</code> and the default caption is
+<code>&quot;Warning Dialog&quot;</code>.
 </p>
 <p>The warning message may have multiple lines separated by newline characters
 (&quot;\n&quot;), or it may be a cellstr array with one element for each line.
 </p>
-<p>The return value <var>h</var> is always 1.
+<p>The third optional argument <var>opt</var> controls the behavior of the dialog.
+See <code>msgbox</code> for details.
 </p>
-<p>Compatibility Note: The optional argument <var>createmode</var> is accepted for
-<small>MATLAB</small> compatibility, but is not implemented.  See <code>msgbox</code> for
-details.
+<p>The return value <var>h</var> is a handle to the figure object used for
+building the dialog.
 </p>
 <p>Examples:
 </p>
@@ -504,7 +551,7 @@ warndlg (&quot;Some warning text for the user.&quot;, &quot;Fancy caption&quot;)
 </pre></div>
 
 
-<p><strong>See also:</strong> <a href="#XREFerrordlg">errordlg</a>, <a href="#XREFhelpdlg">helpdlg</a>, <a href="#XREFinputdlg">inputdlg</a>, <a href="#XREFlistdlg">listdlg</a>, <a href="#XREFmsgbox">msgbox</a>, <a href="#XREFquestdlg">questdlg</a>.
+<p><strong>See also:</strong> <a href="#XREFerrordlg">errordlg</a>, <a href="#XREFhelpdlg">helpdlg</a>, <a href="#XREFmsgbox">msgbox</a>, <a href="#XREFinputdlg">inputdlg</a>, <a href="#XREFlistdlg">listdlg</a>, <a href="#XREFquestdlg">questdlg</a>.
 </p></dd></dl>
 
 

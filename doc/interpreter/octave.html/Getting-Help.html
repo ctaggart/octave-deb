@@ -3,10 +3,10 @@
 <!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Getting Help (GNU Octave (version 4.4.1))</title>
+<title>Getting Help (GNU Octave (version 5.0.91))</title>
 
-<meta name="description" content="Getting Help (GNU Octave (version 4.4.1))">
-<meta name="keywords" content="Getting Help (GNU Octave (version 4.4.1))">
+<meta name="description" content="Getting Help (GNU Octave (version 5.0.91))">
+<meta name="keywords" content="Getting Help (GNU Octave (version 5.0.91))">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
@@ -386,7 +386,9 @@ The format is a string which is one of <code>&quot;texinfo&quot;</code>,
 <p>The first sentence is defined as the text after the function declaration
 until either the first period (&quot;.&quot;) or the first appearance of two
 consecutive newlines (&quot;\n\n&quot;).  The text is truncated to a maximum length of
-<var>max_len</var>, which defaults to 80.
+<var>max_len</var>, which defaults to 80.  If the text must be truncated the last
+three characters of the text are replaced with <code>&quot;...&quot;</code> to indicate
+that more text was available.
 </p>
 <p>The optional output argument <var>status</var> returns the status reported by
 <code>makeinfo</code>.  If only one output argument is requested, and <var>status</var>

@@ -1,4 +1,4 @@
-## Copyright (C) 2009-2018 John W. Eaton
+## Copyright (C) 2009-2019 John W. Eaton
 ##
 ## This file is part of Octave.
 ##
@@ -21,9 +21,11 @@
 %! gfun = @fB;
 %! y = fA (e);
 %! assert (y, e);
+%! clear -global gfun;  # cleanup after test
 
 %!test
 %! global gfun
 %! gfun = @fC;
 %! y = fA (e);
 %! assert (y, e);
+%! clear -global gfun;  # cleanup after test

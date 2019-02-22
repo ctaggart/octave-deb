@@ -3,10 +3,10 @@
 <!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Manipulating Strings (GNU Octave (version 4.4.1))</title>
+<title>Manipulating Strings (GNU Octave (version 5.0.91))</title>
 
-<meta name="description" content="Manipulating Strings (GNU Octave (version 4.4.1))">
-<meta name="keywords" content="Manipulating Strings (GNU Octave (version 4.4.1))">
+<meta name="description" content="Manipulating Strings (GNU Octave (version 5.0.91))">
+<meta name="keywords" content="Manipulating Strings (GNU Octave (version 5.0.91))">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
@@ -132,7 +132,10 @@ on each cell element and the new cell array is returned.
 <a name="XREFfindstr"></a><dl>
 <dt><a name="index-findstr"></a><em></em> <strong>findstr</strong> <em>(<var>s</var>, <var>t</var>)</em></dt>
 <dt><a name="index-findstr-1"></a><em></em> <strong>findstr</strong> <em>(<var>s</var>, <var>t</var>, <var>overlap</var>)</em></dt>
-<dd><p>Return the vector of all positions in the longer of the two strings <var>s</var>
+<dd>
+<p>This function is obsolete.  Use <code>strfind</code> instead.
+</p>
+<p>Return the vector of all positions in the longer of the two strings <var>s</var>
 and <var>t</var> where an occurrence of the shorter of the two starts.
 </p>
 <p>If the optional argument <var>overlap</var> is true (default), the returned
@@ -145,8 +148,8 @@ findstr (&quot;abababa&quot;, &quot;aba&quot;, 0)
      &rArr; [1, 5]
 </pre></div>
 
-<p><strong>Caution:</strong> <code>findstr</code> is scheduled for deprecation.  Use
-<code>strfind</code> in all new code.
+<p><strong>Caution:</strong> <code>findstr</code> is obsolete.  Use <code>strfind</code> in all new
+code.
 </p>
 <p><strong>See also:</strong> <a href="#XREFstrfind">strfind</a>, <a href="#XREFstrmatch">strmatch</a>, <a href="Comparing-Strings.html#XREFstrcmp">strcmp</a>, <a href="Comparing-Strings.html#XREFstrncmp">strncmp</a>, <a href="Comparing-Strings.html#XREFstrcmpi">strcmpi</a>, <a href="Comparing-Strings.html#XREFstrncmpi">strncmpi</a>, <a href="Finding-Elements-and-Checking-Conditions.html#XREFfind">find</a>.
 </p></dd></dl>
@@ -255,7 +258,7 @@ strfind ({&quot;abababa&quot;, &quot;bebebe&quot;, &quot;ab&quot;}, &quot;aba&qu
         }
 </pre></div>
 
-<p><strong>See also:</strong> <a href="#XREFfindstr">findstr</a>, <a href="#XREFstrmatch">strmatch</a>, <a href="#XREFregexp">regexp</a>, <a href="#XREFregexpi">regexpi</a>, <a href="Finding-Elements-and-Checking-Conditions.html#XREFfind">find</a>.
+<p><strong>See also:</strong> <a href="#XREFregexp">regexp</a>, <a href="#XREFregexpi">regexpi</a>, <a href="Finding-Elements-and-Checking-Conditions.html#XREFfind">find</a>.
 </p></dd></dl>
 
 
@@ -288,7 +291,11 @@ supported.
 <a name="XREFstrmatch"></a><dl>
 <dt><a name="index-strmatch"></a><em></em> <strong>strmatch</strong> <em>(<var>s</var>, <var>A</var>)</em></dt>
 <dt><a name="index-strmatch-1"></a><em></em> <strong>strmatch</strong> <em>(<var>s</var>, <var>A</var>, &quot;exact&quot;)</em></dt>
-<dd><p>Return indices of entries of <var>A</var> which begin with the string <var>s</var>.
+<dd>
+<p>This function is obsolete.  Use an alternative such as <code>strncmp</code>
+or <code>strcmp</code> instead.
+</p>
+<p>Return indices of entries of <var>A</var> which begin with the string <var>s</var>.
 </p>
 <p>The second argument <var>A</var> must be a string, character matrix, or a cell
 array of strings.
@@ -310,11 +317,12 @@ strmatch (&quot;apple&quot;, [&quot;apple  &quot;; &quot;apple juice&quot;; &quo
      &rArr; [1]
 </pre></div>
 
-<p><strong>Caution:</strong> <code>strmatch</code> is scheduled for deprecation.  Use
-<code>strncmp</code> (normal case), or <code>strcmp</code> (<code>&quot;exact&quot;</code> case), or
-<code>regexp</code> in all new code.
+<p><strong>Caution:</strong> <code>strmatch</code> is obsolete.  Use <code>strncmp</code> (normal
+case) or <code>strcmp</code> (<code>&quot;exact&quot;</code> case) in all new code.  Other
+replacement possibilities, depending on application, include <code>regexp</code>
+or <code>validatestring</code>.
 </p>
-<p><strong>See also:</strong> <a href="#XREFstrfind">strfind</a>, <a href="#XREFfindstr">findstr</a>, <a href="Comparing-Strings.html#XREFstrcmp">strcmp</a>, <a href="Comparing-Strings.html#XREFstrncmp">strncmp</a>, <a href="Comparing-Strings.html#XREFstrcmpi">strcmpi</a>, <a href="Comparing-Strings.html#XREFstrncmpi">strncmpi</a>, <a href="Finding-Elements-and-Checking-Conditions.html#XREFfind">find</a>.
+<p><strong>See also:</strong> <a href="Comparing-Strings.html#XREFstrncmp">strncmp</a>, <a href="Comparing-Strings.html#XREFstrcmp">strcmp</a>, <a href="#XREFregexp">regexp</a>, <a href="#XREFstrfind">strfind</a>, <a href="Multiple-Return-Values.html#XREFvalidatestring">validatestring</a>.
 </p></dd></dl>
 
 
@@ -422,7 +430,8 @@ strsplit (&quot;a,,b, c&quot;, {&quot;,&quot;, &quot; &quot;}, &quot;collapsedel
 <p>Examples with regularexpression delimiters:
 </p>
 <div class="smallexample">
-<pre class="smallexample">strsplit (&quot;a foo b,bar c&quot;, ',|\s|foo|bar', &quot;delimitertype&quot;, &quot;regularexpression&quot;)
+<pre class="smallexample">strsplit (&quot;a foo b,bar c&quot;, ',|\s|foo|bar', ...
+          &quot;delimitertype&quot;, &quot;regularexpression&quot;)
 &rArr;
 {
             [1,1] = a
@@ -430,7 +439,8 @@ strsplit (&quot;a,,b, c&quot;, {&quot;,&quot;, &quot; &quot;}, &quot;collapsedel
             [1,3] = c
 }
 
-strsplit (&quot;a,,b, c&quot;, '[, ]', &quot;collapsedelimiters&quot;, false, &quot;delimitertype&quot;, &quot;regularexpression&quot;)
+strsplit (&quot;a,,b, c&quot;, '[, ]', &quot;collapsedelimiters&quot;, false, ...
+          &quot;delimitertype&quot;, &quot;regularexpression&quot;)
 &rArr;
 {
             [1,1] = a
@@ -508,7 +518,10 @@ ostrsplit ([&quot;a,b&quot; ; &quot;cde&quot;], &quot;,&quot;)
 <dt><a name="index-strread-2"></a><em>[<var>a</var>, &hellip;] =</em> <strong>strread</strong> <em>(<var>str</var>, <var>format</var>, <var>format_repeat</var>)</em></dt>
 <dt><a name="index-strread-3"></a><em>[<var>a</var>, &hellip;] =</em> <strong>strread</strong> <em>(<var>str</var>, <var>format</var>, <var>prop1</var>, <var>value1</var>, &hellip;)</em></dt>
 <dt><a name="index-strread-4"></a><em>[<var>a</var>, &hellip;] =</em> <strong>strread</strong> <em>(<var>str</var>, <var>format</var>, <var>format_repeat</var>, <var>prop1</var>, <var>value1</var>, &hellip;)</em></dt>
-<dd><p>Read data from a string.
+<dd>
+<p>This function is obsolete.  Use <code>textscan</code> instead.
+</p>
+<p>Read data from a string.
 </p>
 <p>The string <var>str</var> is split into words that are repeatedly matched to the
 specifiers in <var>format</var>.  The first word is matched to the first
@@ -681,7 +694,7 @@ equal length
 </dl>
 
 
-<p><strong>See also:</strong> <a href="Simple-File-I_002fO.html#XREFtextscan">textscan</a>, <a href="Simple-File-I_002fO.html#XREFtextread">textread</a>, <a href="Simple-File-I_002fO.html#XREFload">load</a>, <a href="Simple-File-I_002fO.html#XREFdlmread">dlmread</a>, <a href="Formatted-Input.html#XREFfscanf">fscanf</a>.
+<p><strong>See also:</strong> <a href="Simple-File-I_002fO.html#XREFtextscan">textscan</a>, <a href="Formatted-Input.html#XREFsscanf">sscanf</a>.
 </p></dd></dl>
 
 
@@ -707,7 +720,7 @@ is done for each element and a cell array is returned.
 </pre></div>
 
 
-<p><strong>See also:</strong> <a href="#XREFregexprep">regexprep</a>, <a href="#XREFstrfind">strfind</a>, <a href="#XREFfindstr">findstr</a>.
+<p><strong>See also:</strong> <a href="#XREFregexprep">regexprep</a>, <a href="#XREFstrfind">strfind</a>.
 </p></dd></dl>
 
 
@@ -730,11 +743,13 @@ erase ({&quot;Hello&quot;, &quot;World!&quot;}, &quot;World&quot;)
     &rArr; {&quot;Hello&quot;, &quot;!&quot;}
 
 ## string, multiple patterns
-erase (&quot;The Octave interpreter is fabulous&quot;, {&quot;interpreter &quot;, &quot;The &quot;})
+erase (&quot;The Octave interpreter is fabulous&quot;, ...
+       {&quot;interpreter &quot;, &quot;The &quot;})
     &rArr; &quot;Octave is fabulous&quot;
 
 ## cellstr, multiple patterns
-erase ({&quot;The &quot;, &quot;Octave interpreter &quot;, &quot;is fabulous&quot;}, {&quot;interpreter &quot;, &quot;The &quot;})
+erase ({&quot;The &quot;, &quot;Octave interpreter &quot;, &quot;is fabulous&quot;}, ...
+       {&quot;interpreter &quot;, &quot;The &quot;})
     &rArr; {&quot;&quot;, &quot;Octave &quot;, &quot;is fabulous&quot;}
 </pre></div>
 
@@ -1161,6 +1176,18 @@ fclose (fid);
 
 <p><strong>See also:</strong> <a href="String-Conversions.html#XREFstrjust">strjust</a>, <a href="#XREFstrsplit">strsplit</a>, <a href="#XREFdeblank">deblank</a>.
 </p></dd></dl>
+
+
+<a name="XREFunicode_005fidx"></a><dl>
+<dt><a name="index-unicode_005fidx"></a><em><var>idx</var> =</em> <strong>unicode_idx</strong> <em>(<var>str</var>)</em></dt>
+<dd><p>Return an array with the indices for each UTF-8 encoded character in <var>str</var>.
+</p>
+<div class="example">
+<pre class="example">unicode_idx (&quot;aäbc&quot;)
+     &rArr; [1, 2, 2, 3, 4]
+</pre></div>
+
+</dd></dl>
 
 
 <hr>

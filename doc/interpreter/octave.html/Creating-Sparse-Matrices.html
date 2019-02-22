@@ -3,10 +3,10 @@
 <!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Creating Sparse Matrices (GNU Octave (version 4.4.1))</title>
+<title>Creating Sparse Matrices (GNU Octave (version 5.0.91))</title>
 
-<meta name="description" content="Creating Sparse Matrices (GNU Octave (version 4.4.1))">
-<meta name="keywords" content="Creating Sparse Matrices (GNU Octave (version 4.4.1))">
+<meta name="description" content="Creating Sparse Matrices (GNU Octave (version 5.0.91))">
+<meta name="keywords" content="Creating Sparse Matrices (GNU Octave (version 5.0.91))">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
@@ -385,10 +385,10 @@ matrix and is equivalent to <code>sparse ([], [], [], <var>m</var>, <var>n</var>
 <pre class="example"><var>i</var> = [1 1 2]; <var>j</var> = [1 1 2]; <var>sv</var> = [3 4 5];
 sparse (<var>i</var>, <var>j</var>, <var>sv</var>, 3, 4)
 &rArr;
-Compressed Column Sparse (rows = 3, cols = 4, nnz = 2 [17%])
+   Compressed Column Sparse (rows = 3, cols = 4, nnz = 2 [17%])
 
-  (1, 1) -&gt;  7
-  (2, 2) -&gt;  5
+     (1, 1) -&gt;  7
+     (2, 2) -&gt;  5
 </pre></div>
 
 <p>Example 2 (&quot;unique&quot; option):
@@ -397,10 +397,10 @@ Compressed Column Sparse (rows = 3, cols = 4, nnz = 2 [17%])
 <pre class="example"><var>i</var> = [1 1 2]; <var>j</var> = [1 1 2]; <var>sv</var> = [3 4 5];
 sparse (<var>i</var>, <var>j</var>, <var>sv</var>, 3, 4, &quot;unique&quot;)
 &rArr;
-Compressed Column Sparse (rows = 3, cols = 4, nnz = 2 [17%])
+   Compressed Column Sparse (rows = 3, cols = 4, nnz = 2 [17%])
 
-  (1, 1) -&gt;  4
-  (2, 2) -&gt;  5
+     (1, 1) -&gt;  4
+     (2, 2) -&gt;  5
 </pre></div>
 
 <p><strong>See also:</strong> <a href="#XREFfull">full</a>, <a href="Accumulation.html#XREFaccumarray">accumarray</a>, <a href="#XREFspalloc">spalloc</a>, <a href="#XREFspdiags">spdiags</a>, <a href="#XREFspeye">speye</a>, <a href="#XREFspones">spones</a>, <a href="#XREFsprand">sprand</a>, <a href="#XREFsprandn">sprandn</a>, <a href="#XREFsprandsym">sprandsym</a>, <a href="#XREFspconvert">spconvert</a>, <a href="Function-Application.html#XREFspfun">spfun</a>.

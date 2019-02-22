@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2013-2018 John W. Eaton
+Copyright (C) 2013-2019 John W. Eaton
 
 This file is part of Octave.
 
@@ -25,6 +25,7 @@ along with Octave; see the file COPYING.  If not, see
 #endif
 
 #include "hook-fcn.h"
+#include "parse.h"
 
 hook_function::hook_function (const octave_value& f, const octave_value& d)
 {
@@ -41,3 +42,24 @@ hook_function::hook_function (const octave_value& f, const octave_value& d)
   else
     error ("invalid hook function");
 }
+
+void named_hook_function::eval (const octave_value_list& initial_args)
+{
+  octave_value_list args = initial_args;
+
+  if (data.is_defined ())
+    args.append (data);
+
+  octave::feval (name, args, 0);
+}
+
+void fcn_handle_hook_function::eval (const octave_value_list& initial_args)
+{
+  octave_value_list args = initial_args;
+
+  if (data.is_defined ())
+    args.append (data);
+
+  octave::feval (fcn_handle, args, 0);
+}
+

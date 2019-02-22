@@ -1,4 +1,4 @@
-## Copyright (C) 2016-2018 Markus Muetzel
+## Copyright (C) 2016-2019 Markus Muetzel
 ##
 ## This file is part of Octave.
 ##
@@ -73,8 +73,8 @@
 
 function retval = material (varargin)
 
-  if (! ((nargout == 0 && (nargin == 1 || nargin == 2)) ||
-         (nargout == 1 && (nargin == 0 || nargin == 1))) )
+  if (! ((nargout == 0 && (nargin == 1 || nargin == 2))
+         || (nargout == 1 && (nargin == 0 || nargin == 1))))
     print_usage ();
   endif
 

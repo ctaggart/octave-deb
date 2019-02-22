@@ -1,4 +1,4 @@
-## Copyright (C) 2007-2018 David Bateman
+## Copyright (C) 2007-2019 David Bateman
 ##
 ## This file is part of Octave.
 ##
@@ -61,7 +61,7 @@ function interpimages (d, nm, typ)
     ys = interp1 (t,y,ti,"spline");
     yp = interp1 (t,y,ti,"pchip");
     plot (ti, ys,"r-", ti, yp,"g-");
-    legend ("spline","pchip", 4);
+    legend ("spline","pchip", "location", "southeast");
     print (outfile, d_typ);
   elseif (strcmp (nm, "interpderiv2"))
     t = -2:2;
@@ -99,7 +99,7 @@ function set_graphics_toolkit ()
 endfunction
 
 function set_print_size ()
-  image_size = [8.0, 6.0]; # in inches, 4:3 format
+  image_size = [5.0, 3.5]; # in inches, 16:9 format
   border = 0;              # For postscript use 50/72
   set (groot, "defaultfigurepapertype", "<custom>");
   set (groot, "defaultfigurepaperorientation", "landscape");

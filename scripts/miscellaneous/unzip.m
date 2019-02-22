@@ -1,4 +1,4 @@
-## Copyright (C) 2005-2018 Søren Hauberg
+## Copyright (C) 2005-2019 Søren Hauberg
 ##
 ## This file is part of Octave.
 ##
@@ -17,8 +17,9 @@
 ## <https://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn  {} {@var{filelist} =} unzip (@var{zipfile})
-## @deftypefnx {} {@var{filelist} =} unzip (@var{zipfile}, @var{dir})
+## @deftypefn  {} {} unzip (@var{zipfile})
+## @deftypefnx {} {} unzip (@var{zipfile}, @var{dir})
+## @deftypefnx {} {@var{filelist} =} unzip (@dots{})
 ## Unpack the ZIP archive @var{zipfile}.
 ##
 ## If @var{dir} is specified the files are unpacked in this directory rather
@@ -42,9 +43,9 @@ function filelist = unzip (zipfile, dir = [])
   endif
 
   if (nargout > 0)
-    filelist = unpack (zipfile, dir, "unzip");
+    filelist = unpack (zipfile, dir, "zip");
   else
-    unpack (zipfile, dir, "unzip");
+    unpack (zipfile, dir, "zip");
   endif
 
 endfunction

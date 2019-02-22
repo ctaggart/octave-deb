@@ -3,10 +3,10 @@
 <!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Displaying Images (GNU Octave (version 4.4.1))</title>
+<title>Displaying Images (GNU Octave (version 5.0.91))</title>
 
-<meta name="description" content="Displaying Images (GNU Octave (version 4.4.1))">
-<meta name="keywords" content="Displaying Images (GNU Octave (version 4.4.1))">
+<meta name="description" content="Displaying Images (GNU Octave (version 5.0.91))">
+<meta name="keywords" content="Displaying Images (GNU Octave (version 5.0.91))">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
@@ -96,16 +96,18 @@ image using the supplied color map.
 </p>
 </dd>
 <dt><code>&quot;xdata&quot;</code></dt>
-<dd><p>If <var>value1</var> is a two element vector, it must contain horizontal axis
-limits in the form [xmin xmax]; Otherwise <var>value1</var> must be a vector and
-only the first and last elements will be used for xmin and xmax
-respectively.
+<dd><p>If <var>value1</var> is a 2-element vector, it must contain horizontal image
+limits in the form [xfirst, xlast], where xfirst and xlast are the
+abscissa of the centers of the corner pixels.  Otherwise <var>value1</var>
+ must be a vector and only the first and last elements will be used
+for xfirst and xlast respectively.
 </p>
 </dd>
 <dt><code>&quot;ydata&quot;</code></dt>
-<dd><p>If <var>value1</var> is a two element vector, it must contain vertical axis
-limits in the form [ymin ymax]; Otherwise <var>value1</var> must be a vector and
-only the first and last elements will be used for ymin and ymax
+<dd><p>If <var>value1</var> is a 2-element vector, it must contain vertical image
+limits in the form [yfirst, ylast], where yfirst and ylast are the ordinates
+of the center of the corner pixels.  Otherwise <var>value1</var> must be a vector
+and only the first and last elements will be used for yfirst and ylast
 respectively.
 </p>
 </dd>
@@ -128,11 +130,12 @@ respectively.
 <p>The elements of <var>img</var> are indices into the current colormap.
 </p>
 <p><var>x</var> and <var>y</var> are optional 2-element vectors, <code>[min,&nbsp;max]</code><!-- /@w -->,
-which specify the range for the axis labels.  If a range is specified as
-<code>[max,&nbsp;min]</code><!-- /@w --> then the image will be reversed along that axis.  For
-convenience, <var>x</var> and <var>y</var> may be specified as N-element vectors
-matching the length of the data in <var>img</var>.  However, only the first and
-last elements will be used to determine the axis limits.
+which specify the coordinates of the centers of the corner pixels.
+If a range is specified as <code>[max,&nbsp;min]</code><!-- /@w --> then the image will be
+reversed along that axis.  For convenience, <var>x</var> and <var>y</var> may be
+specified as N-element vectors matching the length of the data in <var>img</var>.
+However, only the first and last elements will be used to determine the axis
+limits.
 </p>
 <p>Multiple property/value pairs may be specified for the image object, but
 they must appear in pairs.
@@ -176,10 +179,13 @@ and inserts it in the current axes.
 colormap.  If <code><var>climits</var> = [<var>lo</var>, <var>hi</var>]</code> is given, then
 that range is set to the <code>&quot;clim&quot;</code> of the current axes.
 </p>
-<p>The axis values corresponding to the matrix elements are specified in
-<var>x</var> and <var>y</var>, either as pairs giving the minimum and maximum
-values for the respective axes, or as values for each row and column
-of the matrix <var>img</var>.
+<p><var>x</var> and <var>y</var> are optional 2-element vectors, <code>[min,&nbsp;max]</code><!-- /@w -->,
+which specify the coordinates of the centers of the corner pixels.
+If a range is specified as <code>[max,&nbsp;min]</code><!-- /@w --> then the image will be
+reversed along that axis.  For convenience, <var>x</var> and <var>y</var> may be
+specified as N-element vectors matching the length of the data in <var>img</var>.
+However, only the first and last elements will be used to determine
+the image limits.
 </p>
 <p>The optional return value <var>h</var> is a graphics handle to the image.
 </p>

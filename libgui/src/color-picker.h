@@ -4,7 +4,7 @@ This class provides a simple color picker based on tQColorButton
 by Harald Jedele, 23.03.01, GPL version 2 or any later version.
 
 Copyright (C) FZI Forschungszentrum Informatik Karlsruhe
-Copyright (C) 2013-2018 Torsten
+Copyright (C) 2013-2019 Torsten
 
 This file is part of Octave.
 
@@ -55,9 +55,5 @@ namespace octave
     QColor m_color;
   };
 }
-
-// FIXME: This is temporary and should be removed when all classes that
-// use the color_picker class are also inside the octave namespace.
-using octave::color_picker;
 
 #endif

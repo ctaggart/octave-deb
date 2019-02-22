@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2011-2018 Michael Goffioul
+Copyright (C) 2011-2019 Michael Goffioul
 
 This file is part of Octave.
 
@@ -44,6 +44,7 @@ namespace QtHandles
     void update (int pId);
     void finalize (void);
     void redraw (void);
+    void show (void);
     void print (const QString& file_cmd, const QString& term);
     uint8NDArray get_pixels (void);
 
@@ -52,8 +53,8 @@ namespace QtHandles
 
   signals:
     void sendUpdate (int pId);
-    void sendFinalize (void);
     void sendRedraw (void);
+    void sendShow (void);
     void sendPrint (const QString& file_cmd, const QString& term);
 
   private:

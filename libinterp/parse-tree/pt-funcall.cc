@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2012-2018 John W. Eaton
+Copyright (C) 2012-2019 John W. Eaton
 
 This file is part of Octave.
 
@@ -73,7 +73,7 @@ namespace octave
     tree_funcall *new_fc
       = new tree_funcall (m_fcn, m_args, line (), column ());
 
-    new_fc->copy_base (*new_fc);
+    new_fc->copy_base (*this);
 
     return new_fc;
   }

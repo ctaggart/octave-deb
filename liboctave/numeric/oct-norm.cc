@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2008-2018 VZLU Prague, a.s.
+Copyright (C) 2008-2019 VZLU Prague, a.s.
 
 This file is part of Octave.
 
@@ -501,7 +501,7 @@ R svd_matrix_norm (const MatrixT& m, R p, VectorT)
       res = higham (m, p, sqrteps, max_norm_iter, x);
     }
   else
-    (*current_liboctave_error_handler) (p_less1_gripe);
+    (*current_liboctave_error_handler) ("%s", p_less1_gripe);
 
   return res;
 }
@@ -522,7 +522,7 @@ R matrix_norm (const MatrixT& m, R p, VectorT)
       res = higham (m, p, sqrteps, max_norm_iter, x);
     }
   else
-    (*current_liboctave_error_handler) (p_less1_gripe);
+    (*current_liboctave_error_handler) ("%s", p_less1_gripe);
 
   return res;
 }

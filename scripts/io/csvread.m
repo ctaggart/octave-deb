@@ -1,4 +1,4 @@
-## Copyright (C) 2001-2018 Paul Kienzle
+## Copyright (C) 2001-2019 Paul Kienzle
 ##
 ## This file is part of Octave.
 ##
@@ -32,7 +32,7 @@
 ##
 ## Any optional arguments are passed directly to @code{dlmread}
 ## (@pxref{XREFdlmread,,dlmread}).
-## @seealso{dlmread, textread, textscan, csvwrite, dlmwrite}
+## @seealso{dlmread, textscan, csvwrite, dlmwrite}
 ## @end deftypefn
 
 function x = csvread (filename, varargin)

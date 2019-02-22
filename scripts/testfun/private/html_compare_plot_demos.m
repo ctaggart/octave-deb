@@ -1,4 +1,4 @@
-## Copyright (C) 2010-2018 Ben Abbott
+## Copyright (C) 2010-2019 Ben Abbott
 ##
 ## This file is part of Octave.
 ##
@@ -46,7 +46,7 @@
 ## with a parameter named equal to the toolkit.  For example:
 ##
 ## @smallexample
-## @code{html_compare_plot_demos ({"gnuplot", "fltk"}, "gnuplot", " 4.6 patchlevel 5")}
+## @code{html_compare_plot_demos (@{"gnuplot", "fltk"@}, "gnuplot", " 4.6 patchlevel 5")}
 ## @end smallexample
 ##
 ## @seealso{compare_plot_demos, dump_demos, demo}
@@ -80,7 +80,7 @@ function html_compare_plot_demos (toolkits, varargin)
   fclose (fid);
 
   anchor = "<!-- ##ADD TABLE HERE## -->";
-  n = findstr (template, anchor);
+  n = strfind (template, anchor);
   header = strtrim (template(1:n-1));
   trailer = strtrim (template(n+numel(anchor):end));
 

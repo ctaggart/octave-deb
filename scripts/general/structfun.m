@@ -1,4 +1,4 @@
-## Copyright (C) 2007-2018 David Bateman
+## Copyright (C) 2007-2019 David Bateman
 ## Copyright (C) 2010 VZLU Prague
 ##
 ## This file is part of Octave.
@@ -45,11 +45,9 @@
 ## s.name2 = "Jill Jones";
 ## structfun (@@(x) regexp (x, '(\w+)$', "matches")@{1@}, s,
 ##            "UniformOutput", false)
-## @result{}
-##    @{
-##      name1 = Smith
-##      name2 = Jones
-##    @}
+##   @result{} scalar structure containing the fields:
+##        name1 = Smith
+##        name2 = Jones
 ## @end group
 ## @end example
 ##

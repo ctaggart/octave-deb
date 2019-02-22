@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2005-2018 David Bateman
+Copyright (C) 2005-2019 David Bateman
 
 This file is part of Octave.
 
@@ -114,7 +114,7 @@ eigs_complex_func (const ComplexColumnVector& x, int& eigs_error)
 
       if (tmp.length () && tmp(0).is_defined ())
         {
-          retval = tmp(0).complex_vector_value ("eigs: evaluation of user-supplied function failed");
+          retval = tmp(0).xcomplex_vector_value ("eigs: evaluation of user-supplied function failed");
         }
       else
         {
@@ -165,7 +165,7 @@ Undocumented internal function.
   std::string fcn_name;
   octave_idx_type n = 0;
   octave_idx_type k = 6;
-  Complex sigma = 0.;
+  Complex sigma = 0.0;
   double sigmar, sigmai;
   bool have_sigma = false;
   std::string typ = "LM";
@@ -182,6 +182,7 @@ Undocumented internal function.
   bool sym_tested = false;
   bool cholB = false;
   bool a_is_sparse = false;
+  bool b_is_sparse = false;
   ColumnVector permB;
   int arg_offset = 0;
   double tol = std::numeric_limits<double>::epsilon ();
@@ -240,7 +241,7 @@ Undocumented internal function.
           else
             acm = (args(0).complex_matrix_value ());
           a_is_complex = true;
-          symmetric = false; // ARPACK doesn't special case complex symmetric
+          symmetric = false;  // ARPACK doesn't special case complex symmetric
           sym_tested = true;
         }
       else
@@ -265,6 +266,13 @@ Undocumented internal function.
       if (args(1+arg_offset).iscomplex ())
         {
           b_arg = 1+arg_offset;
+          if (args(b_arg).issparse ())
+            {
+              bscm = (args(b_arg).sparse_complex_matrix_value ());
+              b_is_sparse = true;
+            }
+          else
+            bcm = (args(b_arg).complex_matrix_value ());
           have_b = true;
           b_is_complex = true;
           arg_offset++;
@@ -272,6 +280,13 @@ Undocumented internal function.
       else
         {
           b_arg = 1+arg_offset;
+          if (args(b_arg).issparse ())
+            {
+              bsmm = (args(b_arg).sparse_matrix_value ());
+              b_is_sparse = true;
+            }
+          else
+            bmm = (args(b_arg).matrix_value ());
           have_b = true;
           arg_offset++;
         }
@@ -289,7 +304,7 @@ Undocumented internal function.
           // Use STL function to convert to upper case
           transform (typ.begin (), typ.end (), typ.begin (), toupper);
 
-          sigma = 0.;
+          sigma = 0.0;
         }
       else
         {
@@ -312,17 +327,31 @@ Undocumented internal function.
       octave_value tmp;
 
       // issym is ignored for complex matrix inputs
-      tmp = map.getfield ("issym");
-      if (tmp.is_defined () && ! sym_tested)
+      if (! sym_tested)
         {
-          symmetric = tmp.double_value () != 0.;
-          sym_tested = true;
+          tmp = map.getfield ("issym");
+          if (tmp.is_defined ())
+            {
+              if (tmp.numel () != 1)
+                error ("eigs: OPTS.issym must be a scalar value");
+
+              symmetric = tmp.xbool_value ("eigs: OPTS.issym must be a logical value");
+              sym_tested = true;
+            }
         }
 
       // isreal is ignored if A is not a function
-      tmp = map.getfield ("isreal");
-      if (tmp.is_defined () && have_a_fun)
-        a_is_complex = ! (tmp.double_value () != 0.);
+      if (have_a_fun)
+        {
+          tmp = map.getfield ("isreal");
+          if (tmp.is_defined ())
+            {
+              if (tmp.numel () != 1)
+                error ("eigs: OPTS.isreal must be a scalar value");
+
+              a_is_complex = ! tmp.xbool_value ("eigs: OPTS.isreal must be a logical value");
+            }
+        }
 
       tmp = map.getfield ("tol");
       if (tmp.is_defined ())
@@ -351,7 +380,12 @@ Undocumented internal function.
 
       tmp = map.getfield ("cholB");
       if (tmp.is_defined ())
-        cholB = tmp.double_value () != 0.;
+        {
+          if (tmp.numel () != 1)
+            error ("eigs: OPTS.cholB must be a scalar value");
+
+          cholB = tmp.xbool_value ("eigs: OPTS.cholB must be a logical value");
+        }
 
       tmp = map.getfield ("permB");
       if (tmp.is_defined ())
@@ -374,14 +408,14 @@ Undocumented internal function.
     {
       if (a_is_complex || b_is_complex)
         {
-          if (a_is_sparse)
+          if (b_is_sparse)
             bscm = args(b_arg).sparse_complex_matrix_value ();
           else
             bcm = args(b_arg).complex_matrix_value ();
         }
       else
         {
-          if (a_is_sparse)
+          if (b_is_sparse)
             bsmm = args(b_arg).sparse_matrix_value ();
           else
             bmm = args(b_arg).matrix_value ();
@@ -400,10 +434,18 @@ Undocumented internal function.
       ComplexColumnVector eig_val;
 
       if (have_a_fun)
-        nconv = EigsComplexNonSymmetricFunc
-                (eigs_complex_func, n, typ, sigma, k, p, info, eig_vec,
-                 eig_val, cresid, octave_stdout, tol, (nargout > 1), cholB,
-                 disp, maxit);
+        {
+          if (b_is_sparse)
+            nconv = EigsComplexNonSymmetricFunc
+              (eigs_complex_func, n, typ, sigma, k, p, info, eig_vec,
+               eig_val, bscm, permB, cresid, octave_stdout, tol,
+               (nargout > 1), cholB, disp, maxit);
+          else
+            nconv = EigsComplexNonSymmetricFunc
+              (eigs_complex_func, n, typ, sigma, k, p, info, eig_vec,
+               eig_val, bcm, permB, cresid, octave_stdout, tol,
+               (nargout > 1), cholB, disp, maxit);
+        }
       else if (have_sigma)
         {
           if (a_is_sparse)
@@ -436,17 +478,25 @@ Undocumented internal function.
       else
         retval = ovl (eig_vec, ComplexDiagMatrix (eig_val), double (info));
     }
-  else if (sigmai != 0.)
+  else if (sigmai != 0.0)
     {
       // Promote real problem to a complex one.
       ComplexMatrix eig_vec;
       ComplexColumnVector eig_val;
 
       if (have_a_fun)
-        nconv = EigsComplexNonSymmetricFunc
-                (eigs_complex_func, n, typ,  sigma, k, p, info, eig_vec,
-                 eig_val, cresid, octave_stdout, tol, (nargout > 1), cholB,
-                 disp, maxit);
+        {
+          if (b_is_sparse)
+            nconv = EigsComplexNonSymmetricFunc
+              (eigs_complex_func, n, typ, sigma, k, p, info, eig_vec,
+               eig_val, bscm, permB, cresid, octave_stdout, tol,
+               (nargout > 1), cholB, disp, maxit);
+          else
+            nconv = EigsComplexNonSymmetricFunc
+              (eigs_complex_func, n, typ, sigma, k, p, info, eig_vec,
+               eig_val, bcm, permB, cresid, octave_stdout, tol,
+               (nargout > 1), cholB, disp, maxit);
+        }
       else
         {
           if (a_is_sparse)
@@ -474,10 +524,18 @@ Undocumented internal function.
           ColumnVector eig_val;
 
           if (have_a_fun)
-            nconv = EigsRealSymmetricFunc
-                    (eigs_func, n, typ, sigmar, k, p, info, eig_vec,
-                     eig_val, resid, octave_stdout, tol, (nargout > 1),
-                     cholB, disp, maxit);
+            {
+              if (b_is_sparse)
+                nconv = EigsRealSymmetricFunc
+                       (eigs_func, n, typ, sigmar, k, p, info, eig_vec,
+                        eig_val, bsmm, permB, resid, octave_stdout, tol,
+                        (nargout > 1), cholB, disp, maxit);
+              else
+                nconv = EigsRealSymmetricFunc
+                       (eigs_func, n, typ, sigmar, k, p, info, eig_vec,
+                        eig_val, bmm, permB, resid, octave_stdout, tol,
+                        (nargout > 1), cholB, disp, maxit);
+            }
           else if (have_sigma)
             {
               if (a_is_sparse)
@@ -516,10 +574,18 @@ Undocumented internal function.
           ComplexColumnVector eig_val;
 
           if (have_a_fun)
-            nconv = EigsRealNonSymmetricFunc
-                    (eigs_func, n, typ, sigmar, k, p, info, eig_vec,
-                     eig_val, resid, octave_stdout, tol, (nargout > 1),
-                     cholB, disp, maxit);
+            {
+              if (b_is_sparse)
+                nconv = EigsRealNonSymmetricFunc
+                        (eigs_func, n, typ, sigmar, k, p, info, eig_vec,
+                         eig_val, bsmm, permB, resid, octave_stdout, tol,
+                         (nargout > 1), cholB, disp, maxit);
+              else
+                nconv = EigsRealNonSymmetricFunc
+                        (eigs_func, n, typ, sigmar, k, p, info, eig_vec,
+                         eig_val, bmm, permB, resid, octave_stdout, tol,
+                         (nargout > 1), cholB, disp, maxit);
+            }
           else if (have_sigma)
             {
               if (a_is_sparse)
@@ -556,10 +622,13 @@ Undocumented internal function.
 
   if (nconv <= 0)
     warning_with_id ("Octave:eigs:UnconvergedEigenvalues",
-                     "eigs: None of the %d requested eigenvalues converged", k);
+                     "eigs: None of the %" OCTAVE_IDX_TYPE_FORMAT
+                     " requested eigenvalues converged", k);
   else if (nconv < k)
     warning_with_id ("Octave:eigs:UnconvergedEigenvalues",
-                     "eigs: Only %d of the %d requested eigenvalues converged",
+                     "eigs: Only %" OCTAVE_IDX_TYPE_FORMAT
+                     " of the %" OCTAVE_IDX_TYPE_FORMAT
+                     " requested eigenvalues converged",
                      nconv, k);
 
   if (! fcn_name.empty ())

@@ -1,7 +1,7 @@
 /*
 
-Copyright (C) 2013-2018 Vytautas Jančauskas
-Copyright (C) 2016-2018 Damjan Angelovski
+Copyright (C) 2013-2019 Vytautas Jančauskas
+Copyright (C) 2016-2019 Damjan Angelovski
 
 This file is part of Octave.
 
@@ -166,6 +166,9 @@ is stored in the audio file.
               break;
             case SF_FORMAT_PCM_32:
               ret_audio = int32NDArray (audio * 2147483648);
+              break;
+            case SF_FORMAT_FLOAT:
+              ret_audio = FloatNDArray (audio);
               break;
             default:
               ret_audio = audio;
@@ -343,7 +346,6 @@ Comment.
 
   info.channels = audio.columns ();
   info.samplerate = samplerate;
-  info.channels = audio.cols ();
   info.format |= extension_to_format (ext);
 
   std::string title = "";
@@ -374,7 +376,12 @@ Comment.
           else if (bits == 16)
             info.format |= SF_FORMAT_PCM_16;
           else if (bits == 24)
-            info.format |= SF_FORMAT_PCM_32;
+            {
+              if ((info.format & SF_FORMAT_TYPEMASK) == SF_FORMAT_WAV)
+                info.format |= SF_FORMAT_PCM_32;
+              else
+                info.format |= SF_FORMAT_PCM_24;
+            }
           else if (bits == 32)
             {
               if ((info.format & SF_FORMAT_TYPEMASK) == SF_FORMAT_WAV
@@ -449,8 +456,8 @@ Comment.
       sf_count_t items_written = sf_write_float (file, data+offset, chunk_size);
 
       if (items_written != chunk_size)
-        error ("audiowrite: write failed, wrote %ld of %ld items\n",
-               items_written, chunk_size);
+        error ("audiowrite: write failed, wrote %" PRId64 " of %" PRId64
+               " items\n", items_written, chunk_size);
 
       total_items_written += items_written;
       offset += chunk_size;
@@ -583,6 +590,12 @@ Audio bit rate.  Unused, only present for compatibility with @sc{matlab}.
       break;
     case SF_FORMAT_PCM_32:
       bits = 32;
+      break;
+    case SF_FORMAT_FLOAT:
+      bits = 32;
+      break;
+    case SF_FORMAT_DOUBLE:
+      bits = 64;
       break;
     default:
       bits = -1;

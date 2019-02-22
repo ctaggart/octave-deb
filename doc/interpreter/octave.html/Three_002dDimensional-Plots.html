@@ -3,10 +3,10 @@
 <!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Three-Dimensional Plots (GNU Octave (version 4.4.1))</title>
+<title>Three-Dimensional Plots (GNU Octave (version 5.0.91))</title>
 
-<meta name="description" content="Three-Dimensional Plots (GNU Octave (version 4.4.1))">
-<meta name="keywords" content="Three-Dimensional Plots (GNU Octave (version 4.4.1))">
+<meta name="description" content="Three-Dimensional Plots (GNU Octave (version 5.0.91))">
+<meta name="keywords" content="Three-Dimensional Plots (GNU Octave (version 5.0.91))">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
@@ -356,13 +356,14 @@ of <var>z</var> correspond to different <var>y</var> values.
 </p>
 <p>The default lighting mode <code>&quot;cdata&quot;</code>, changes the cdata property of the
 surface object to give the impression of a lighted surface.
-<strong>Warning:</strong> The alternative mode <code>&quot;light&quot;</code> mode which creates a
-light object to illuminate the surface is not implemented (yet).
 </p>
-<p>The light source location can be specified using <var>lsrc</var>.  It can be
-given as a 2-element vector [azimuth, elevation] in degrees, or as a
-3-element vector [lx, ly, lz].  The default value is rotated 45 degrees
-counterclockwise to the current view.
+<p>The alternate mode <code>&quot;light&quot;</code> creates a light object to illuminate the
+surface.
+</p>
+<p>The light source location may be specified using <var>lsrc</var> which can be
+a 2-element vector [azimuth, elevation] in degrees, or a 3-element vector
+[lx, ly, lz].  The default value is rotated 45 degrees counterclockwise to
+the current view.
 </p>
 <p>The material properties of the surface can specified using a 4-element
 vector <var>P</var> = [<var>AM</var> <var>D</var> <var>SP</var> <var>exp</var>] which defaults to
@@ -1072,7 +1073,8 @@ returned.  In both cases, no graphic properties are changed.
 <dt><a name="index-camlight-4"></a><em></em> <strong>camlight</strong> <em>(<var>az</var>, <var>el</var>)</em></dt>
 <dt><a name="index-camlight-5"></a><em></em> <strong>camlight</strong> <em>(&hellip;, <var>style</var>)</em></dt>
 <dt><a name="index-camlight-6"></a><em></em> <strong>camlight</strong> <em>(<var>hl</var>, &hellip;)</em></dt>
-<dt><a name="index-camlight-7"></a><em><var>h</var> =</em> <strong>camlight</strong> <em>(&hellip;)</em></dt>
+<dt><a name="index-camlight-7"></a><em></em> <strong>camlight</strong> <em>(<var>hax</var>, &hellip;)</em></dt>
+<dt><a name="index-camlight-8"></a><em><var>h</var> =</em> <strong>camlight</strong> <em>(&hellip;)</em></dt>
 <dd><p>Add a light object to a figure using a simple interface.
 </p>
 <p>When called with no arguments, a light object is added to the current plot
@@ -1092,6 +1094,9 @@ source (<code>&quot;local&quot;</code>, the default) or placed at infinite dista
 </p>
 <p>If the first argument <var>hl</var> is a handle to a light object, then act on
 this light object rather than creating a new object.
+</p>
+<p>If the first argument <var>hax</var> is an axes handle, then create a new light
+object in this axes, rather than the current axes returned by <code>gca</code>.
 </p>
 <p>The optional return value <var>h</var> is a graphics handle to the light object.
 This can be used to move or further change properties of the light object.

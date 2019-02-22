@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 1993-2018 John W. Eaton
+Copyright (C) 1993-2019 John W. Eaton
 
 This file is part of Octave.
 
@@ -27,8 +27,8 @@ along with Octave; see the file COPYING.  If not, see
 #include <cassert>
 #include <cmath>
 
-#include <iostream>
 #include <limits>
+#include <ostream>
 
 #include "Array.h"
 #include "CollocWt.h"

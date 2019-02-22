@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 1993-2018 John W. Eaton
+Copyright (C) 1993-2019 John W. Eaton
 Copyright (C) 2008-2009 Jaroslav Hajek
 Copyright (C) 2009-2010 VZLU Prague
 
@@ -26,9 +26,10 @@ along with Octave; see the file COPYING.  If not, see
 #  include "config.h"
 #endif
 
+#include <cinttypes>
 #include <cstdlib>
 
-#include <iostream>
+#include <ostream>
 
 #include "idx-vector.h"
 #include "Array.h"
@@ -152,7 +153,7 @@ idx_vector::idx_range_rep::idx_range_rep (const Range& r)
           // find first non-integer, then gripe about it
           double b = r.base ();
           double inc = r.inc ();
-          octave::err_invalid_index (b != std::floor (b) ? b : b + inc);
+          octave::err_invalid_index (b != std::trunc (b) ? b : b + inc);
         }
     }
 }
@@ -1285,7 +1286,7 @@ idx_vector::freeze (octave_idx_type z_len, const char *, bool resize_ok)
   if (! resize_ok && extent (z_len) > z_len)
     {
       (*current_liboctave_error_handler)
-        ("invalid matrix index = %d", extent (z_len));
+        ("invalid matrix index = %" OCTAVE_IDX_TYPE_FORMAT, extent (z_len));
       // FIXME: Should we call this before calling error_handler?
       rep->err = true;
       chkerr ();

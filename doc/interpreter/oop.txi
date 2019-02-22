@@ -1,4 +1,4 @@
-@c Copyright (C) 2008-2018 David Bateman
+@c Copyright (C) 2008-2019 David Bateman
 @c Copyright (C) 2009 VZLU Prague
 @c
 @c This file is part of Octave.
@@ -150,7 +150,15 @@ To inquire whether a particular method exists for a user class, the
 @DOCSTRING(ismethod)
 
 @noindent
-For example:
+For a polynomial class it makes sense to have a method to compute its roots.
+
+@example
+@group
+@EXAMPLEFILE(@polynomial/roots.m)
+@end group
+@end example
+
+We can check for the existence of the @code{roots}-method by calling:
 
 @example
 @group

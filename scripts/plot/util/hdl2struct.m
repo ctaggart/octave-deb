@@ -1,4 +1,4 @@
-## Copyright (C) 2012-2018 pdiribarne
+## Copyright (C) 2012-2019 pdiribarne
 ##
 ## This file is part of Octave.
 ##
@@ -135,15 +135,12 @@ function propstruct = getprops (h)
   persistent excluded;
 
   if (isempty (excluded))
-    excluded = cell2struct (repmat ({[]}, 1, 21),
+    excluded = cell2struct (repmat ({[]}, 1, 15),
                             {"beingdeleted", "busyaction", "buttondownfcn", ...
                              "children", "clipping", "createfcn", ...
                              "deletefcn", "handlevisibility", "hittest", ...
                              "interruptible", "parent", "selected" , ...
-                             "selectionhighlight", "type", "uicontextmenu", ...
-                             "currentaxes", "currentcharacter", ...
-                             "currentobject", "tightinset", "currentpoint", ...
-                             "extent"}, 2);
+                             "selectionhighlight", "type", "uicontextmenu"}, 2);
   endif
 
   obj = get (h);

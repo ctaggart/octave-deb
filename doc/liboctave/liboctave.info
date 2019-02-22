@@ -6,7 +6,7 @@ START-INFO-DIR-ENTRY
 * liboctave: (liboctave).       Octave C++ Classes
 END-INFO-DIR-ENTRY
 
-Copyright (C) 1996-2018 John W. Eaton.
+Copyright (C) 1996-2019 John W. Eaton.
 
    Permission is granted to make and distribute verbatim copies of this
 manual provided the copyright notice and this permission notice are
@@ -29,7 +29,7 @@ Octave C++ Classes
 
 This manual documents how to use, install and port Octave's C++ class
 library, and how to report bugs.  It corresponds to Octave version
-4.4.1.
+5.0.91.
 
 * Menu:
 
@@ -4510,32 +4510,32 @@ Function Index
 
 Tag Table:
 Node: Top799
-Node: Acknowledgements1808
-Node: Contributors2024
-Node: Copying2324
-Node: Introduction39862
-Node: Arrays40113
-Node: Constructors and Assignment40281
-Node: Matrix and Vector Operations48626
-Node: Matrix Factorizations80113
-Node: Ranges86419
-Node: Nonlinear Functions87113
-Node: Nonlinear Equations87657
-Node: Optimization88587
-Node: Objective Functions88866
-Node: Bounds89459
-Node: Linear Constraints90570
-Node: Nonlinear Constraints91557
-Node: Quadratic Programming91950
-Node: Nonlinear Programming93543
-Node: Quadrature95062
-Node: Collocation Weights96754
-Node: Ordinary Differential Equations98047
-Node: Differential Algebraic Equations99583
-Node: Error Handling100385
-Node: Installation100541
-Node: Bugs100665
-Node: Concept Index100772
-Node: Function Index104136
+Node: Acknowledgements1809
+Node: Contributors2025
+Node: Copying2325
+Node: Introduction39863
+Node: Arrays40114
+Node: Constructors and Assignment40282
+Node: Matrix and Vector Operations48627
+Node: Matrix Factorizations80114
+Node: Ranges86420
+Node: Nonlinear Functions87114
+Node: Nonlinear Equations87658
+Node: Optimization88588
+Node: Objective Functions88867
+Node: Bounds89460
+Node: Linear Constraints90571
+Node: Nonlinear Constraints91558
+Node: Quadratic Programming91951
+Node: Nonlinear Programming93544
+Node: Quadrature95063
+Node: Collocation Weights96755
+Node: Ordinary Differential Equations98048
+Node: Differential Algebraic Equations99584
+Node: Error Handling100386
+Node: Installation100542
+Node: Bugs100666
+Node: Concept Index100773
+Node: Function Index104137
 
 End Tag Table

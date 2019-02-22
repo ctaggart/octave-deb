@@ -1,7 +1,7 @@
 /*
 
-Copyright (C) 2013-2018 John W. Eaton
-Copyright (C) 2011-2018 Jacob Dawid
+Copyright (C) 2013-2019 John W. Eaton
+Copyright (C) 2011-2019 Jacob Dawid
 
 This file is part of Octave.
 
@@ -66,10 +66,6 @@ namespace octave
     //! Signal that user wants to edit a variable.
 
     void edit_variable_signal (const QString&, const octave_value&);
-
-  protected:
-
-    void closeEvent (QCloseEvent *event);
 
   protected slots:
 

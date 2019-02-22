@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2011-2018 Michael Goffioul
+Copyright (C) 2011-2019 Michael Goffioul
 
 This file is part of Octave.
 
@@ -52,10 +52,10 @@ namespace QtHandles
           {
             disconnect (this, SIGNAL (sendUpdate (int)),
                         m_object, SLOT (slotUpdate (int)));
-            disconnect (this, SIGNAL (sendFinalize (void)),
-                        m_object, SLOT (slotFinalize (void)));
             disconnect (this, SIGNAL (sendRedraw (void)),
                         m_object, SLOT (slotRedraw (void)));
+            disconnect (this, SIGNAL (sendShow (void)),
+                        m_object, SLOT (slotShow (void)));
             disconnect (this, SIGNAL (sendPrint (const QString&, const QString&)),
                         m_object, SLOT (slotPrint (const QString&, const QString&)));
           }
@@ -66,10 +66,10 @@ namespace QtHandles
           {
             connect (this, SIGNAL (sendUpdate (int)),
                      m_object, SLOT (slotUpdate (int)));
-            connect (this, SIGNAL (sendFinalize (void)),
-                     m_object, SLOT (slotFinalize (void)));
             connect (this, SIGNAL (sendRedraw (void)),
                      m_object, SLOT (slotRedraw (void)));
+            connect (this, SIGNAL (sendShow (void)),
+                     m_object, SLOT (slotShow (void)));
             connect (this, SIGNAL (sendPrint (const QString&, const QString&)),
                      m_object, SLOT (slotPrint (const QString&, const QString&)),
                      Qt::BlockingQueuedConnection);
@@ -80,7 +80,7 @@ namespace QtHandles
   void
   ObjectProxy::setObject (Object *obj)
   {
-    emit sendFinalize ();
+    finalize ();
     init (obj);
   }
 
@@ -96,14 +96,27 @@ namespace QtHandles
   void
   ObjectProxy::finalize (void)
   {
-    emit sendFinalize ();
-    init (nullptr);
+    if (! m_object)
+      return;
+
+    Qt::ConnectionType t = Qt::BlockingQueuedConnection;
+
+    if (QThread::currentThread () == QCoreApplication::instance ()->thread ())
+      t = Qt::DirectConnection;
+
+    QMetaObject::invokeMethod (m_object, "slotFinalize", t);
   }
 
   void
   ObjectProxy::redraw (void)
   {
     emit sendRedraw ();
+  }
+
+  void
+  ObjectProxy::show (void)
+  {
+    emit sendShow ();
   }
 
   void
@@ -129,22 +142,6 @@ namespace QtHandles
 
     QMetaObject::invokeMethod (m_object, "slotGetPixels", t,
                                Q_RETURN_ARG (uint8NDArray, retval));
-
-    // FIXME: The following may fail for obscure reasons, see bug #53328.
-    //        In absence of a solution, we retry twice before calling error().
-    if (! QMetaObject::invokeMethod (m_object, "slotGetPixels", t,
-                                     Q_RETURN_ARG (uint8NDArray, retval)))
-      {
-        octave_sleep (0.1);
-        if (! QMetaObject::invokeMethod (m_object, "slotGetPixels", t,
-                                         Q_RETURN_ARG (uint8NDArray, retval)))
-          {
-            octave_sleep (0.2);
-            if (! QMetaObject::invokeMethod (m_object, "slotGetPixels", t,
-                                             Q_RETURN_ARG (uint8NDArray, retval)))
-              error ("getframe: unable to retrieve figure pixels");
-          }
-      }
 
     return retval;
   }

@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 1993-2018 John W. Eaton
+Copyright (C) 1993-2019 John W. Eaton
 
 This file is part of Octave.
 
@@ -41,8 +41,7 @@ along with Octave; see the file COPYING.  If not, see
 #include <cerrno>
 #include <cstdio>
 
-#include <iostream>
-#include <limits>
+#include <iomanip>
 #include <stack>
 #include <string>
 #include <vector>
@@ -54,6 +53,7 @@ along with Octave; see the file COPYING.  If not, see
 #include "file-ops.h"
 #include "file-stat.h"
 #include "lo-ieee.h"
+#include "lo-sysdep.h"
 #include "mkostemp-wrapper.h"
 #include "oct-env.h"
 #include "oct-locbuf.h"
@@ -425,29 +425,31 @@ do_stream_open (const std::string& name, const std::string& mode_arg,
   octave::sys::file_stat fs (fname);
 
   if (! (md & std::ios::out))
-    fname = find_data_file_in_load_path ("fopen", fname);
+    fname = octave::find_data_file_in_load_path ("fopen", fname);
 
   if (! fs.is_dir ())
     {
 #if defined (HAVE_ZLIB)
       if (use_zlib)
         {
-          FILE *fptr = std::fopen (fname.c_str (), mode.c_str ());
-
-          int fd = fileno (fptr);
-
-          gzFile gzf = ::gzdopen (fd, mode.c_str ());
+          FILE *fptr = octave::sys::fopen (fname.c_str (), mode.c_str ());
 
           if (fptr)
-            retval = octave_zstdiostream::create (fname, gzf, fd,
-                                                  md, flt_fmt);
+            {
+              int fd = fileno (fptr);
+
+              gzFile gzf = ::gzdopen (fd, mode.c_str ());
+
+              retval = octave_zstdiostream::create (fname, gzf, fd,
+                                                    md, flt_fmt);
+            }
           else
             retval.error (std::strerror (errno));
         }
       else
 #endif
         {
-          FILE *fptr = std::fopen (fname.c_str (), mode.c_str ());
+          FILE *fptr = octave::sys::fopen (fname.c_str (), mode.c_str ());
 
           retval = octave_stdiostream::create (fname, fptr, md,
                                                flt_fmt);
@@ -1199,7 +1201,7 @@ textscan_internal (octave::interpreter& interp, const std::string& who,
       fmt = args(1).string_value ();
 
       if (args(1).is_sq_string ())
-        fmt = do_string_escapes (fmt);
+        fmt = octave::do_string_escapes (fmt);
 
       nskip++;
     }
@@ -2277,8 +2279,8 @@ as the name of the function when reporting errors.
 /*
 ## Test input validation
 %!error textscan ()
-%!error textscan (single (40))
-%!error textscan ({40})
+%!error <file id must be> textscan (single (4))
+%!error <file id must be> textscan ({4})
 %!error <must be a string> textscan ("Hello World", 2)
 %!error <at most one character or>
 %! textscan ("Hello World", "%s", "EndOfLine", 3);
@@ -3080,7 +3082,7 @@ environment variable.
   if (args.length () != 0)
     print_usage ();
 
-  return ovl (get_P_tmpdir ());
+  return ovl (octave::get_P_tmpdir ());
 }
 
 // NOTE: the values of SEEK_SET, SEEK_CUR, and SEEK_END have to be

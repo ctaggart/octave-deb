@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 1993-2018 John W. Eaton
+Copyright (C) 1993-2019 John W. Eaton
 Copyright (C) 2009 Jaroslav Hajek
 Copyright (C) 2009 VZLU Prague
 
@@ -672,7 +672,7 @@ xis_false (const FloatComplex& x)
 
 #define OP_RED_SUM(ac, el) ac += el
 #define OP_RED_PROD(ac, el) ac *= el
-#define OP_RED_SUMSQ(ac, el) ac += el*el
+#define OP_RED_SUMSQ(ac, el) ac += ((el)*(el))
 #define OP_RED_SUMSQC(ac, el) ac += cabsq (el)
 
 inline void

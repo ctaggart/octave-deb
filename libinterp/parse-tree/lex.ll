@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 1993-2018 John W. Eaton
+Copyright (C) 1993-2019 John W. Eaton
 
 This file is part of Octave.
 
@@ -323,13 +323,6 @@ object) relevant global values before and after the nested call.
      }                                                                  \
    while (0)
 
-static bool Vdisplay_tokens = false;
-
-static unsigned int Vtoken_count = 0;
-
-// Internal variable for lexer debugging state.
-static bool lexer_debug_flag = false;
-
 %}
 
 D       [0-9]
@@ -395,9 +388,6 @@ ANY_INCLUDING_NL (.|{NL})
     curr_lexer->lexer_debug ("<COMMAND_START>(\\.\\.\\.){ANY_EXCEPT_NL}*{NL}");
 
     COMMAND_ARG_FINISH;
-
-    curr_lexer->m_input_line_number++;
-    curr_lexer->m_current_input_column = 1;
 
     HANDLE_STRING_CONTINUATION;
   }
@@ -514,6 +504,8 @@ ANY_INCLUDING_NL (.|{NL})
 <MATRIX_START>{S}* {
     curr_lexer->lexer_debug ("<MATRIX_START>{S}*");
 
+    curr_lexer->m_current_input_column += yyleng;
+
     curr_lexer->mark_previous_token_trailing_space ();
   }
 
@@ -555,14 +547,7 @@ ANY_INCLUDING_NL (.|{NL})
 <MATRIX_START>\] {
     curr_lexer->lexer_debug ("<MATRIX_START>\\]");
 
-    curr_lexer->m_looking_at_object_index.pop_front ();
-
-    curr_lexer->m_looking_for_object_index = true;
-    curr_lexer->m_at_beginning_of_statement = false;
-
-    curr_lexer->handle_close_bracket (']');
-
-    return curr_lexer->count_token (']');
+    return curr_lexer->handle_close_bracket (']');
   }
 
 %{
@@ -572,14 +557,7 @@ ANY_INCLUDING_NL (.|{NL})
 <MATRIX_START>\} {
     curr_lexer->lexer_debug ("<MATRIX_START>\\}*");
 
-    curr_lexer->m_looking_at_object_index.pop_front ();
-
-    curr_lexer->m_looking_for_object_index = true;
-    curr_lexer->m_at_beginning_of_statement = false;
-
-    curr_lexer->handle_close_bracket ('}');
-
-    return curr_lexer->count_token ('}');
+    return curr_lexer->handle_close_bracket ('}');
   }
 
 \[ {
@@ -877,7 +855,7 @@ ANY_INCLUDING_NL (.|{NL})
 
     curr_lexer->m_current_input_column += yyleng;
 
-    int result;
+    unsigned int result;
     sscanf (yytext+1, "%o", &result);
 
     if (result > 0xff)
@@ -901,7 +879,7 @@ ANY_INCLUDING_NL (.|{NL})
 
     curr_lexer->m_current_input_column += yyleng;
 
-    int result;
+    unsigned int result;
     sscanf (yytext+2, "%x", &result);
 
     // Truncate the value silently instead of checking the range like
@@ -1149,6 +1127,8 @@ ANY_INCLUDING_NL (.|{NL})
           {
             yyless (0);
             unput (',');
+            // Adjust for comma that was not really in the input stream.
+            curr_lexer->m_current_input_column--;
           }
         else
           {
@@ -1184,6 +1164,8 @@ ANY_INCLUDING_NL (.|{NL})
           {
             yyless (0);
             unput (',');
+            // Adjust for comma that was not really in the input stream.
+            curr_lexer->m_current_input_column--;
           }
         else
           {
@@ -1330,6 +1312,8 @@ ANY_INCLUDING_NL (.|{NL})
           {
             yyless (0);
             unput (',');
+            // Adjust for comma that was not really in the input stream.
+            curr_lexer->m_current_input_column--;
           }
         else
           {
@@ -1441,7 +1425,10 @@ ANY_INCLUDING_NL (.|{NL})
                     curr_lexer->begin_string (SQ_STRING_START);
                   }
                 else
-                  return curr_lexer->count_token (HERMITIAN);
+                  {
+                    curr_lexer->m_current_input_column++;
+                    return curr_lexer->count_token (HERMITIAN);
+                  }
               }
           }
         else
@@ -1454,7 +1441,10 @@ ANY_INCLUDING_NL (.|{NL})
                 curr_lexer->begin_string (SQ_STRING_START);
               }
             else
-              return curr_lexer->count_token (HERMITIAN);
+              {
+                curr_lexer->m_current_input_column++;
+                return curr_lexer->count_token (HERMITIAN);
+              }
           }
       }
   }
@@ -1761,7 +1751,7 @@ ANY_INCLUDING_NL (.|{NL})
         std::ostringstream buf;
 
         buf << "invalid character '"
-            << undo_string_escape (static_cast<char> (c))
+            << octave::undo_string_escape (static_cast<char> (c))
             << "' (ASCII " << c << ")";
 
         octave::token *tok
@@ -1959,7 +1949,7 @@ display_character (char c)
 namespace octave
 {
   bool
-  is_keyword (const std::string& s)
+  iskeyword (const std::string& s)
   {
     // Parsing function names like "set.property_name" inside
     // classdef-style class definitions is simplified by handling the
@@ -1996,7 +1986,7 @@ If @var{name} is omitted, return a list of keywords.
   if (nargin == 0)
     {
       // Neither set nor get are keywords.  See the note in the
-      // is_keyword function for additional details.
+      // iskeyword function for additional details.
 
       string_vector lst (TOTAL_KEYWORDS);
 
@@ -2017,7 +2007,7 @@ If @var{name} is omitted, return a list of keywords.
   else
     {
       std::string name = args(0).xstring_value ("iskeyword: NAME must be a string");
-      retval = octave::is_keyword (name);
+      retval = octave::iskeyword (name);
     }
 
   return retval;
@@ -2035,44 +2025,6 @@ If @var{name} is omitted, return a list of keywords.
 %!error <NAME must be a string> iskeyword (1)
 
 */
-
-DEFUN (__display_tokens__, args, nargout,
-       doc: /* -*- texinfo -*-
-@deftypefn {} {} __display_tokens__ ()
-Query or set the internal variable that determines whether Octave's
-lexer displays tokens as they are read.
-@seealso{__lexer_debug_flag__, __token_count__}
-@end deftypefn */)
-{
-  return SET_INTERNAL_VARIABLE (display_tokens);
-}
-
-DEFUN (__token_count__, , ,
-       doc: /* -*- texinfo -*-
-@deftypefn {} {} __token_count__ ()
-Return the number of language tokens processed since Octave startup.
-@seealso{__lexer_debug_flag__, __display_tokens__}
-@end deftypefn */)
-{
-  return octave_value (Vtoken_count);
-}
-
-DEFUN (__lexer_debug_flag__, args, nargout,
-       doc: /* -*- texinfo -*-
-@deftypefn  {} {@var{val} =} __lexer_debug_flag__ ()
-@deftypefnx {} {@var{old_val} =} __lexer_debug_flag__ (@var{new_val})
-Query or set the internal flag that determines whether Octave's lexer prints
-debug information as it processes an expression.
-@seealso{__display_tokens__, __token_count__, __parse_debug_flag__}
-@end deftypefn */)
-{
-  octave_value retval;
-
-  retval = set_internal_variable (lexer_debug_flag, args, nargout,
-                                  "__lexer_debug_flag__");
-
-  return retval;
-}
 
 namespace octave
 {
@@ -2239,7 +2191,7 @@ namespace octave
   lexical_feedback::previous_token_is_keyword (void) const
   {
     const token *tok = m_tokens.front ();
-    return tok ? tok->is_keyword () : false;
+    return tok ? tok->iskeyword () : false;
   }
 
   bool
@@ -2438,7 +2390,7 @@ namespace octave
   {
     int c = yyinput (m_scanner);
 
-    if (lexer_debug_flag)
+    if (debug_flag ())
       {
         std::cerr << "I: ";
         display_character (c);
@@ -2451,7 +2403,7 @@ namespace octave
       {
         c = yyinput (m_scanner);
 
-        if (lexer_debug_flag)
+        if (debug_flag ())
           {
             std::cerr << "I: ";
             display_character (c);
@@ -2473,7 +2425,7 @@ namespace octave
   {
     if (c != EOF)
       {
-        if (lexer_debug_flag)
+        if (debug_flag ())
           {
             std::cerr << "U: ";
             display_character (c);
@@ -2968,7 +2920,12 @@ namespace octave
   int
   base_lexer::handle_close_bracket (int bracket_type)
   {
-    int retval = bracket_type;
+    m_looking_at_object_index.pop_front ();
+
+    m_looking_for_object_index = true;
+    m_at_beginning_of_statement = false;
+
+    m_current_input_column++;
 
     if (! m_nesting_level.none ())
       {
@@ -2984,7 +2941,7 @@ namespace octave
 
     pop_start_state ();
 
-    return retval;
+    return count_token (bracket_type);
   }
 
   bool
@@ -3407,10 +3364,33 @@ namespace octave
     error ("fatal lexer error: %s", msg);
   }
 
+  bool
+  base_lexer::debug_flag (void) const
+  {
+    settings& stgs = m_interpreter.get_settings ();
+    return stgs.lexer_debug_flag ();
+  }
+
+  bool
+  base_lexer::display_tokens (void) const
+  {
+    settings& stgs = m_interpreter.get_settings ();
+    return stgs.display_tokens ();
+  }
+
+  void
+  base_lexer::increment_token_count (void)
+  {
+    settings& stgs = m_interpreter.get_settings ();
+    stgs.increment_token_count ();
+
+    m_token_count++;
+  }
+
   void
   base_lexer::lexer_debug (const char *pattern)
   {
-    if (lexer_debug_flag)
+    if (debug_flag ())
       {
         std::cerr << std::endl;
 
@@ -3419,6 +3399,14 @@ namespace octave
         std::cerr << "P: " << pattern << std::endl;
         std::cerr << "T: " << flex_yytext () << std::endl;
       }
+  }
+
+  bool
+  base_lexer::input_from_tmp_history_file (void)
+  {
+    history_system& history_sys = m_interpreter.get_history_system ();
+
+    return history_sys.input_from_tmp_file ();
   }
 
   void
@@ -3600,10 +3588,7 @@ namespace octave
   base_lexer::count_token_internal (int tok)
   {
     if (tok != '\n')
-      {
-        Vtoken_count++;
-        m_token_count++;
-      }
+      increment_token_count ();
 
     return show_token (tok);
   }
@@ -3611,10 +3596,11 @@ namespace octave
   int
   base_lexer::show_token (int tok)
   {
-    if (Vdisplay_tokens)
+
+    if (display_tokens ())
       display_token (tok);
 
-    if (lexer_debug_flag)
+    if (debug_flag ())
       {
         std::cerr << "R: ";
         display_token (tok);

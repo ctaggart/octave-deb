@@ -1,8 +1,8 @@
-/* A Bison parser, made by GNU Bison 3.0.4.  */
+/* A Bison parser, made by GNU Bison 3.2.4.  */
 
 /* Bison interface for Yacc-like parsers in C
 
-   Copyright (C) 1984, 1989-1990, 2000-2015 Free Software Foundation, Inc.
+   Copyright (C) 1984, 1989-1990, 2000-2015, 2018 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -29,6 +29,9 @@
 
    This special exception was added by the Free Software Foundation in
    version 2.2 of Bison.  */
+
+/* Undocumented macros, especially those whose name start with YY_,
+   are private implementation details.  Do not rely on them.  */
 
 #ifndef YY_OCTAVE_LIBINTERP_PARSE_TREE_OCT_PARSE_H_INCLUDED
 # define YY_OCTAVE_LIBINTERP_PARSE_TREE_OCT_PARSE_H_INCLUDED
@@ -218,7 +221,7 @@ extern int octave_debug;
 
 union OCTAVE_STYPE
 {
-#line 136 "libinterp/parse-tree/oct-parse.yy" /* yacc.c:1909  */
+#line 136 "/home/jwe/src/octave-stable/libinterp/parse-tree/oct-parse.yy" /* yacc.c:1906  */
 
   int dummy_type;
 
@@ -276,7 +279,7 @@ union OCTAVE_STYPE
   octave::tree_classdef_enum_list* tree_classdef_enum_list_type;
   octave::tree_classdef_enum_block* tree_classdef_enum_block_type;
 
-#line 280 "libinterp/parse-tree/oct-parse.h" /* yacc.c:1909  */
+#line 283 "libinterp/parse-tree/oct-parse.h" /* yacc.c:1906  */
 };
 
 typedef union OCTAVE_STYPE OCTAVE_STYPE;

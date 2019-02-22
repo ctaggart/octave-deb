@@ -1,6 +1,6 @@
 @c DO NOT EDIT!  Generated automatically by munge-texi.pl.
 
-@c Copyright (C) 1996-2018 John W. Eaton
+@c Copyright (C) 1996-2019 John W. Eaton
 @c
 @c This file is part of Octave.
 @c
@@ -29,7 +29,7 @@ Sometimes, you may find it necessary to evaluate an expression that has
 been computed and stored in a string, which is exactly what the
 @code{eval} function lets you do.
 
-@c eval libinterp/parse-tree/oct-parse.in.yy
+@c eval libinterp/parse-tree/oct-parse.yy
 @anchor{XREFeval}
 @deftypefn  {} {} eval (@var{try})
 @deftypefnx {} {} eval (@var{try}, @var{catch})
@@ -73,7 +73,7 @@ does.
 The @code{evalc} function additionally captures any console output
 produced by the evaluated expression.
 
-@c evalc libinterp/parse-tree/oct-parse.in.yy
+@c evalc libinterp/parse-tree/oct-parse.yy
 @anchor{XREFevalc}
 @deftypefn  {} {@var{s} =} evalc (@var{try})
 @deftypefnx {} {@var{s} =} evalc (@var{try}, @var{catch})
@@ -157,7 +157,7 @@ function, etc.  @xref{Predicates for Numeric Objects},
 for a list of predicates for numeric objects, and @pxref{Status of
 Variables}, for a description of the @code{exist} function.
 
-@c feval libinterp/parse-tree/oct-parse.in.yy
+@c feval libinterp/parse-tree/oct-parse.yy
 @anchor{XREFfeval}
 @deftypefn {} {} feval (@var{name}, @dots{})
 Evaluate the function named @var{name}.
@@ -313,7 +313,7 @@ the given pattern.  Other examples such as @code{save} and @code{load}
 are written in C++ where all Octave variables
 are in the @samp{caller} context and @code{evalin} is not needed.
 
-@c evalin libinterp/parse-tree/oct-parse.in.yy
+@c evalin libinterp/parse-tree/oct-parse.yy
 @anchor{XREFevalin}
 @deftypefn  {} {} evalin (@var{context}, @var{try})
 @deftypefnx {} {} evalin (@var{context}, @var{try}, @var{catch})
@@ -323,7 +323,7 @@ Like @code{eval}, except that the expressions are evaluated in the context
 @end deftypefn
 
 
-@c assignin libinterp/parse-tree/oct-parse.in.yy
+@c assignin libinterp/parse-tree/oct-parse.yy
 @anchor{XREFassignin}
 @deftypefn {} {} assignin (@var{context}, @var{varname}, @var{value})
 Assign @var{value} to @var{varname} in context @var{context}, which

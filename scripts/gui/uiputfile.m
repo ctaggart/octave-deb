@@ -1,4 +1,4 @@
-## Copyright (C) 2010-2018 Kai Habel
+## Copyright (C) 2010-2019 Kai Habel
 ##
 ## This file is part of Octave.
 ##
@@ -90,7 +90,7 @@ function [retfile, retpath, retindex] = uiputfile (varargin)
 
   if (nargin > 2)
     if (ischar (varargin{3}))
-      if (isdir (varargin{3}))
+      if (isfolder (varargin{3}))
         fdir = varargin{3};
         fname = fext = "";
       else

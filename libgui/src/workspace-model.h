@@ -1,7 +1,7 @@
 /*
 
-Copyright (C) 2013-2018 John W. Eaton
-Copyright (C) 2011-2018 Jacob Dawid
+Copyright (C) 2013-2019 John W. Eaton
+Copyright (C) 2011-2019 Jacob Dawid
 
 This file is part of Octave.
 
@@ -33,7 +33,7 @@ along with Octave; see the file COPYING.  If not, see
 #include <QColor>
 #include <QSettings>
 
-#include "symscope.h"
+#include "syminfo.h"
 
 // Defined for purposes of sending QList<int> as part of signal.
 typedef QList<int> QIntList;
@@ -76,12 +76,12 @@ namespace octave
       return m_storage_class_colors.at (s_class);
     }
 
-    symbol_scope scope (void) const { return m_scope; }
+    symbol_info_list get_symbol_info (void) const { return m_syminfo_list; }
 
   public slots:
 
     void set_workspace (bool top_level, bool debug,
-                        const symbol_scope& scope);
+                        const symbol_info_list& syminfo);
 
     void clear_workspace (void);
 
@@ -100,7 +100,7 @@ namespace octave
     void update_table (void);
 
     bool m_top_level;
-    symbol_scope m_scope;
+    symbol_info_list m_syminfo_list;
     QString m_scopes;
     QStringList m_symbols;
     QStringList m_class_names;
@@ -111,6 +111,7 @@ namespace octave
     QStringList m_columnNames;
 
     QList<QColor>  m_storage_class_colors;
+    bool m_enable_colors;
 
   };
 }

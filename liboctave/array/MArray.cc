@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 1993-2018 John W. Eaton
+Copyright (C) 1993-2019 John W. Eaton
 Copyright (C) 2009 VZLU Prague
 
 This file is part of Octave.
@@ -133,8 +133,6 @@ MArray<T>::idx_max (const idx_vector& idx, const MArray<T>& vals)
   idx.loop (len, _idxbinop_helper<T, octave::math::max> (this->fortran_vec (),
                                                          vals.data ()));
 }
-
-#include <iostream>
 
 template <typename T>
 void MArray<T>::idx_add_nd (const idx_vector& idx, const MArray<T>& vals,

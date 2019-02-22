@@ -3,10 +3,10 @@
 <!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Two-Dimensional Plots (GNU Octave (version 4.4.1))</title>
+<title>Two-Dimensional Plots (GNU Octave (version 5.0.91))</title>
 
-<meta name="description" content="Two-Dimensional Plots (GNU Octave (version 4.4.1))">
-<meta name="keywords" content="Two-Dimensional Plots (GNU Octave (version 4.4.1))">
+<meta name="description" content="Two-Dimensional Plots (GNU Octave (version 5.0.91))">
+<meta name="keywords" content="Two-Dimensional Plots (GNU Octave (version 5.0.91))">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
@@ -1159,7 +1159,7 @@ contourf (x, y, z, -7:9)
 <p>The matrix <var>z</var> contains height values above the rectangular grid
 determined by <var>x</var> and <var>y</var>.  If only a single input <var>z</var> is
 provided then <var>x</var> is taken to be <code>1:columns (<var>z</var>)</code> and <var>y</var>
-is taken to be <code>1:rows (<var>z</var>)</code>.
+is taken to be <code>1:rows (<var>z</var>)</code>.  The minimum data size is 2x2.
 </p>
 <p>The optional input <var>vn</var> is either a scalar denoting the number of
 contour lines to compute or a vector containing the Z values where lines
@@ -1188,9 +1188,10 @@ the contour levels.
 <pre class="example">x = 0:2;
 y = x;
 z = x' * y;
-contourc (x, y, z, 2:3)
-   &rArr;   2.0000   2.0000   1.0000   3.0000   1.5000   2.0000
-        2.0000   1.0000   2.0000   2.0000   2.0000   1.5000
+c = contourc (x, y, z, 2:3)
+  &rArr; c =
+        2.0000   1.0000   1.0000   2.0000   2.0000   3.0000   1.5000   2.0000
+        4.0000   2.0000   2.0000   1.0000   1.0000   2.0000   2.0000   1.5000
 </pre></div>
 
 <p><strong>See also:</strong> <a href="#XREFcontour">contour</a>, <a href="#XREFcontourf">contourf</a>, <a href="#XREFcontour3">contour3</a>, <a href="Plot-Annotations.html#XREFclabel">clabel</a>.

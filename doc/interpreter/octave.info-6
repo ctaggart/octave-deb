@@ -21,6 +21,650 @@ manual into another language, under the above conditions for modified
 versions.
 
 
+File: octave.info,  Node: Sparse Linear Algebra,  Next: Iterative Techniques,  Prev: Basics,  Up: Sparse Matrices
+
+22.2 Linear Algebra on Sparse Matrices
+======================================
+
+Octave includes a polymorphic solver for sparse matrices, where the
+exact solver used to factorize the matrix, depends on the properties of
+the sparse matrix itself.  Generally, the cost of determining the matrix
+type is small relative to the cost of factorizing the matrix itself, but
+in any case the matrix type is cached once it is calculated, so that it
+is not re-determined each time it is used in a linear equation.
+
+   The selection tree for how the linear equation is solve is
+
+  1. If the matrix is diagonal, solve directly and goto 8
+
+  2. If the matrix is a permuted diagonal, solve directly taking into
+     account the permutations.  Goto 8
+
+  3. If the matrix is square, banded and if the band density is less
+     than that given by ‘spparms ("bandden")’ continue, else goto 4.
+
+       a. If the matrix is tridiagonal and the right-hand side is not
+          sparse continue, else goto 3b.
+
+            1. If the matrix is Hermitian, with a positive real
+               diagonal, attempt Cholesky factorization using LAPACK
+               xPTSV.
+
+            2. If the above failed or the matrix is not Hermitian with a
+               positive real diagonal use Gaussian elimination with
+               pivoting using LAPACK xGTSV, and goto 8.
+
+       b. If the matrix is Hermitian with a positive real diagonal,
+          attempt Cholesky factorization using LAPACK xPBTRF.
+
+       c. if the above failed or the matrix is not Hermitian with a
+          positive real diagonal use Gaussian elimination with pivoting
+          using LAPACK xGBTRF, and goto 8.
+
+  4. If the matrix is upper or lower triangular perform a sparse forward
+     or backward substitution, and goto 8
+
+  5. If the matrix is an upper triangular matrix with column
+     permutations or lower triangular matrix with row permutations,
+     perform a sparse forward or backward substitution, and goto 8
+
+  6. If the matrix is square, Hermitian with a real positive diagonal,
+     attempt sparse Cholesky factorization using CHOLMOD.
+
+  7. If the sparse Cholesky factorization failed or the matrix is not
+     Hermitian with a real positive diagonal, and the matrix is square,
+     factorize, solve, and perform one refinement iteration using
+     UMFPACK.
+
+  8. If the matrix is not square, or any of the previous solvers flags a
+     singular or near singular matrix, find a minimum norm solution
+     using CXSPARSE(1).
+
+   The band density is defined as the number of nonzero values in the
+band divided by the total number of values in the full band.  The banded
+matrix solvers can be entirely disabled by using “spparms” to set
+‘bandden’ to 1 (i.e., ‘spparms ("bandden", 1)’).
+
+   The QR solver factorizes the problem with a Dulmage-Mendelsohn
+decomposition, to separate the problem into blocks that can be treated
+as over-determined, multiple well determined blocks, and a final
+over-determined block.  For matrices with blocks of strongly connected
+nodes this is a big win as LU decomposition can be used for many blocks.
+It also significantly improves the chance of finding a solution to
+over-determined problems rather than just returning a vector of “NaN”’s.
+
+   All of the solvers above, can calculate an estimate of the condition
+number.  This can be used to detect numerical stability problems in the
+solution and force a minimum norm solution to be used.  However, for
+narrow banded, triangular or diagonal matrices, the cost of calculating
+the condition number is significant, and can in fact exceed the cost of
+factoring the matrix.  Therefore the condition number is not calculated
+in these cases, and Octave relies on simpler techniques to detect
+singular matrices or the underlying LAPACK code in the case of banded
+matrices.
+
+   The user can force the type of the matrix with the ‘matrix_type’
+function.  This overcomes the cost of discovering the type of the
+matrix.  However, it should be noted that identifying the type of the
+matrix incorrectly will lead to unpredictable results, and so
+‘matrix_type’ should be used with care.
+
+ -- : NEST = normest (A)
+ -- : NEST = normest (A, TOL)
+ -- : [NEST, ITER] = normest (...)
+     Estimate the 2-norm of the matrix A using a power series analysis.
+
+     This is typically used for large matrices, where the cost of
+     calculating ‘norm (A)’ is prohibitive and an approximation to the
+     2-norm is acceptable.
+
+     TOL is the tolerance to which the 2-norm is calculated.  By default
+     TOL is 1e-6.
+
+     The optional output ITER returns the number of iterations that were
+     required for ‘normest’ to converge.
+
+     See also: *note normest1: XREFnormest1, *note norm: XREFnorm, *note
+     cond: XREFcond, *note condest: XREFcondest.
+
+ -- : NEST = normest1 (A)
+ -- : NEST = normest1 (A, T)
+ -- : NEST = normest1 (A, T, X0)
+ -- : NEST = normest1 (AFUN, T, X0, P1, P2, ...)
+ -- : [NEST, V] = normest1 (A, ...)
+ -- : [NEST, V, W] = normest1 (A, ...)
+ -- : [NEST, V, W, ITER] = normest1 (A, ...)
+     Estimate the 1-norm of the matrix A using a block algorithm.
+
+     ‘normest1’ is best for large sparse matrices where only an estimate
+     of the norm is required.  For small to medium sized matrices,
+     consider using ‘norm (A, 1)’.  In addition, ‘normest1’ can be used
+     for the estimate of the 1-norm of a linear operator A when
+     matrix-vector products ‘A * X’ and ‘A' * X’ can be cheaply
+     computed.  In this case, instead of the matrix A, a function ‘AFUN
+     (FLAG, X)’ is used; it must return:
+
+        • the dimension N of A, if FLAG is "dim"
+
+        • true if A is a real operator, if FLAG is "real"
+
+        • the result ‘A * X’, if FLAG is "notransp"
+
+        • the result ‘A' * X’, if FLAG is "transp"
+
+     A typical case is A defined by ‘B ^ M’, in which the result ‘A * X’
+     can be computed without even forming explicitly ‘B ^ M’ by:
+
+          Y = X;
+          for I = 1:M
+            Y = B * Y;
+          endfor
+
+     The parameters P1, P2, ... are arguments of ‘AFUN (FLAG, X, P1, P2,
+     ...)’.
+
+     The default value for T is 2.  The algorithm requires matrix-matrix
+     products with sizes N x N and N x T.
+
+     The initial matrix X0 should have columns of unit 1-norm.  The
+     default initial matrix X0 has the first column ‘ones (N, 1) / N’
+     and, if T > 1, the remaining columns with random elements ‘-1 / N’,
+     ‘1 / N’, divided by N.
+
+     On output, NEST is the desired estimate, V and W are vectors such
+     that ‘W = A * V’, with ‘norm (W, 1)’ = ‘C * norm (V, 1)’.  ITER
+     contains in ‘ITER(1)’ the number of iterations (the maximum is
+     hardcoded to 5) and in ‘ITER(2)’ the total number of products ‘A *
+     X’ or ‘A' * X’ performed by the algorithm.
+
+     Algorithm Note: ‘normest1’ uses random numbers during evaluation.
+     Therefore, if consistent results are required, the "state" of the
+     random generator should be fixed before invoking ‘normest1’.
+
+     Reference: N. J. Higham and F. Tisseur, ‘A block algorithm for
+     matrix 1-norm estimation, with and application to 1-norm
+     pseudospectra’, SIAM J. Matrix Anal.  Appl., pp.  1185–1201, Vol
+     21, No.  4, 2000.
+
+     See also: *note normest: XREFnormest, *note norm: XREFnorm, *note
+     cond: XREFcond, *note condest: XREFcondest.
+
+ -- : CEST = condest (A)
+ -- : CEST = condest (A, T)
+ -- : CEST = condest (A, SOLVEFUN, T, P1, P2, ...)
+ -- : CEST = condest (AFCN, SOLVEFUN, T, P1, P2, ...)
+ -- : [CEST, V] = condest (...)
+
+     Estimate the 1-norm condition number of a square matrix A using T
+     test vectors and a randomized 1-norm estimator.
+
+     The optional input T specifies the number of test vectors (default
+     5).
+
+     If the matrix is not explicit, e.g., when estimating the condition
+     number of A given an LU factorization, ‘condest’ uses the following
+     functions:
+
+        − AFCN which must return
+
+             • the dimension N of A, if FLAG is "dim"
+
+             • true if A is a real operator, if FLAG is "real"
+
+             • the result ‘A * X’, if FLAG is "notransp"
+
+             • the result ‘A' * X’, if FLAG is "transp"
+
+        − SOLVEFUN which must return
+
+             • the dimension N of A, if FLAG is "dim"
+
+             • true if A is a real operator, if FLAG is "real"
+
+             • the result ‘A \ X’, if FLAG is "notransp"
+
+             • the result ‘A' \ X’, if FLAG is "transp"
+
+     The parameters P1, P2, ... are arguments of ‘AFCN (FLAG, X, P1, P2,
+     ...)’ and ‘SOLVEFCN (FLAG, X, P1, P2, ...)’.
+
+     The principal output is the 1-norm condition number estimate CEST.
+
+     The optional second output is an approximate null vector when CEST
+     is large; it satisfies the equation ‘norm (A*v, 1) == norm (A, 1) *
+     norm (V, 1) / EST’.
+
+     Algorithm Note: ‘condest’ uses a randomized algorithm to
+     approximate the 1-norms.  Therefore, if consistent results are
+     required, the "state" of the random generator should be fixed
+     before invoking ‘condest’.
+
+     References:
+
+        • N.J. Higham and F. Tisseur, ‘A Block Algorithm for Matrix
+          1-Norm Estimation, with an Application to 1-Norm
+          Pseudospectra’.  SIMAX vol 21, no 4, pp 1185-1201.
+          <https://dx.doi.org/10.1137/S0895479899356080>
+
+        • N.J. Higham and F. Tisseur, ‘A Block Algorithm for Matrix
+          1-Norm Estimation, with an Application to 1-Norm
+          Pseudospectra’.  <https://citeseer.ist.psu.edu/223007.html>
+
+     See also: *note cond: XREFcond, *note norm: XREFnorm, *note
+     normest1: XREFnormest1, *note normest: XREFnormest.
+
+ -- : spparms ()
+ -- : VALS = spparms ()
+ -- : [KEYS, VALS] = spparms ()
+ -- : VAL = spparms (KEY)
+ -- : spparms (VALS)
+ -- : spparms ("default")
+ -- : spparms ("tight")
+ -- : spparms (KEY, VAL)
+     Query or set the parameters used by the sparse solvers and
+     factorization functions.
+
+     The first four calls above get information about the current
+     settings, while the others change the current settings.  The
+     parameters are stored as pairs of keys and values, where the values
+     are all floats and the keys are one of the following strings:
+
+     ‘spumoni’
+          Printing level of debugging information of the solvers
+          (default 0)
+
+     ‘ths_rel’
+          Included for compatibility.  Not used.  (default 1)
+
+     ‘ths_abs’
+          Included for compatibility.  Not used.  (default 1)
+
+     ‘exact_d’
+          Included for compatibility.  Not used.  (default 0)
+
+     ‘supernd’
+          Included for compatibility.  Not used.  (default 3)
+
+     ‘rreduce’
+          Included for compatibility.  Not used.  (default 3)
+
+     ‘wh_frac’
+          Included for compatibility.  Not used.  (default 0.5)
+
+     ‘autommd’
+          Flag whether the LU/QR and the ’\’ and ’/’ operators will
+          automatically use the sparsity preserving mmd functions
+          (default 1)
+
+     ‘autoamd’
+          Flag whether the LU and the ’\’ and ’/’ operators will
+          automatically use the sparsity preserving amd functions
+          (default 1)
+
+     ‘piv_tol’
+          The pivot tolerance of the UMFPACK solvers (default 0.1)
+
+     ‘sym_tol’
+          The pivot tolerance of the UMFPACK symmetric solvers (default
+          0.001)
+
+     ‘bandden’
+          The density of nonzero elements in a banded matrix before it
+          is treated by the LAPACK banded solvers (default 0.5)
+
+     ‘umfpack’
+          Flag whether the UMFPACK or mmd solvers are used for the LU,
+          ’\’ and ’/’ operations (default 1)
+
+     The value of individual keys can be set with ‘spparms (KEY, VAL)’.
+     The default values can be restored with the special keyword
+     "default".  The special keyword "tight" can be used to set the mmd
+     solvers to attempt a sparser solution at the potential cost of
+     longer running time.
+
+     See also: *note chol: XREFchol, *note colamd: XREFcolamd, *note lu:
+     XREFlu, *note qr: XREFqr, *note symamd: XREFsymamd.
+
+ -- : P = sprank (S)
+
+     Calculate the structural rank of the sparse matrix S.
+
+     Note that only the structure of the matrix is used in this
+     calculation based on a Dulmage-Mendelsohn permutation to block
+     triangular form.  As such the numerical rank of the matrix S is
+     bounded by ‘sprank (S) >= rank (S)’.  Ignoring floating point
+     errors ‘sprank (S) == rank (S)’.
+
+     See also: *note dmperm: XREFdmperm.
+
+ -- : [COUNT, H, PARENT, POST, R] = symbfact (S)
+ -- : [...] = symbfact (S, TYP)
+ -- : [...] = symbfact (S, TYP, MODE)
+
+     Perform a symbolic factorization analysis of the sparse matrix S.
+
+     The input variables are
+
+     S
+          S is a real or complex sparse matrix.
+
+     TYP
+          Is the type of the factorization and can be one of
+
+          "sym" (default)
+               Factorize S.  Assumes S is symmetric and uses the upper
+               triangular portion of the matrix.
+
+          "col"
+               Factorize S’ * S.
+
+          "row"
+               Factorize S * S’.
+
+          "lo"
+               Factorize S’.  Assumes S is symmetric and uses the lower
+               triangular portion of the matrix.
+
+     MODE
+          When MODE is unspecified return the Cholesky factorization for
+          R.  If MODE is "lower" or "L" then return the conjugate
+          transpose R’ which is a lower triangular factor.  The
+          conjugate transpose version is faster and uses less memory,
+          but still returns the same values for all other outputs:
+          COUNT, H, PARENT, and POST.
+
+     The output variables are:
+
+     COUNT
+          The row counts of the Cholesky factorization as determined by
+          TYP.  The computational difficulty of performing the true
+          factorization using ‘chol’ is ‘sum (COUNT .^ 2)’.
+
+     H
+          The height of the elimination tree.
+
+     PARENT
+          The elimination tree itself.
+
+     POST
+          A sparse boolean matrix whose structure is that of the
+          Cholesky factorization as determined by TYP.
+
+     See also: *note chol: XREFchol, *note etree: XREFetree, *note
+     treelayout: XREFtreelayout.
+
+   For non square matrices, the user can also utilize the ‘spaugment’
+function to find a least squares solution to a linear equation.
+
+ -- : S = spaugment (A, C)
+     Create the augmented matrix of A.
+
+     This is given by
+
+          [C * eye(M, M), A;
+                      A', zeros(N, N)]
+
+     This is related to the least squares solution of ‘A \ B’, by
+
+          S * [ R / C; x] = [ B, zeros(N, columns(B)) ]
+
+     where R is the residual error
+
+          R = B - A * X
+
+     As the matrix S is symmetric indefinite it can be factorized with
+     ‘lu’, and the minimum norm solution can therefore be found without
+     the need for a ‘qr’ factorization.  As the residual error will be
+     ‘zeros (M, M)’ for underdetermined problems, and example can be
+
+          m = 11; n = 10; mn = max (m, n);
+          A = spdiags ([ones(mn,1), 10*ones(mn,1), -ones(mn,1)],
+                       [-1, 0, 1], m, n);
+          x0 = A \ ones (m,1);
+          s = spaugment (A);
+          [L, U, P, Q] = lu (s);
+          x1 = Q * (U \ (L \ (P  * [ones(m,1); zeros(n,1)])));
+          x1 = x1(end - n + 1 : end);
+
+     To find the solution of an overdetermined problem needs an estimate
+     of the residual error R and so it is more complex to formulate a
+     minimum norm solution using the ‘spaugment’ function.
+
+     In general the left division operator is more stable and faster
+     than using the ‘spaugment’ function.
+
+     See also: *note mldivide: XREFmldivide.
+
+   Finally, the function ‘eigs’ can be used to calculate a limited
+number of eigenvalues and eigenvectors based on a selection criteria and
+likewise for ‘svds’ which calculates a limited number of singular values
+and vectors.
+
+ -- : D = eigs (A)
+ -- : D = eigs (A, K)
+ -- : D = eigs (A, K, SIGMA)
+ -- : D = eigs (A, K, SIGMA, OPTS)
+ -- : D = eigs (A, B)
+ -- : D = eigs (A, B, K)
+ -- : D = eigs (A, B, K, SIGMA)
+ -- : D = eigs (A, B, K, SIGMA, OPTS)
+ -- : D = eigs (AF, N)
+ -- : D = eigs (AF, N, B)
+ -- : D = eigs (AF, N, K)
+ -- : D = eigs (AF, N, B, K)
+ -- : D = eigs (AF, N, K, SIGMA)
+ -- : D = eigs (AF, N, B, K, SIGMA)
+ -- : D = eigs (AF, N, K, SIGMA, OPTS)
+ -- : D = eigs (AF, N, B, K, SIGMA, OPTS)
+ -- : [V, D] = eigs (A, ...)
+ -- : [V, D] = eigs (AF, N, ...)
+ -- : [V, D, FLAG] = eigs (A, ...)
+ -- : [V, D, FLAG] = eigs (AF, N, ...)
+     Calculate a limited number of eigenvalues and eigenvectors of A,
+     based on a selection criteria.
+
+     The number of eigenvalues and eigenvectors to calculate is given by
+     K and defaults to 6.
+
+     By default, ‘eigs’ solve the equation ‘A * v = lambda * v’, where
+     ‘lambda’ is a scalar representing one of the eigenvalues, and ‘v’
+     is the corresponding eigenvector.  If given the positive definite
+     matrix B then ‘eigs’ solves the general eigenvalue equation ‘A * v
+     = lambda * B * v’.
+
+     The argument SIGMA determines which eigenvalues are returned.
+     SIGMA can be either a scalar or a string.  When SIGMA is a scalar,
+     the K eigenvalues closest to SIGMA are returned.  If SIGMA is a
+     string, it must have one of the following values.
+
+     "lm"
+          Largest Magnitude (default).
+
+     "sm"
+          Smallest Magnitude.
+
+     "la"
+          Largest Algebraic (valid only for real symmetric problems).
+
+     "sa"
+          Smallest Algebraic (valid only for real symmetric problems).
+
+     "be"
+          Both Ends, with one more from the high-end if K is odd (valid
+          only for real symmetric problems).
+
+     "lr"
+          Largest Real part (valid only for complex or unsymmetric
+          problems).
+
+     "sr"
+          Smallest Real part (valid only for complex or unsymmetric
+          problems).
+
+     "li"
+          Largest Imaginary part (valid only for complex or unsymmetric
+          problems).
+
+     "si"
+          Smallest Imaginary part (valid only for complex or unsymmetric
+          problems).
+
+     If OPTS is given, it is a structure defining possible options that
+     ‘eigs’ should use.  The fields of the OPTS structure are:
+
+     ‘issym’
+          If AF is given, then flags whether the function AF defines a
+          symmetric problem.  It is ignored if A is given.  The default
+          is false.
+
+     ‘isreal’
+          If AF is given, then flags whether the function AF defines a
+          real problem.  It is ignored if A is given.  The default is
+          true.
+
+     ‘tol’
+          Defines the required convergence tolerance, calculated as ‘tol
+          * norm (A)’.  The default is ‘eps’.
+
+     ‘maxit’
+          The maximum number of iterations.  The default is 300.
+
+     ‘p’
+          The number of Lanzcos basis vectors to use.  More vectors will
+          result in faster convergence, but a greater use of memory.
+          The optimal value of ‘p’ is problem dependent and should be in
+          the range ‘K + 1’ to N.  The default value is ‘2 * K’.
+
+     ‘v0’
+          The starting vector for the algorithm.  An initial vector
+          close to the final vector will speed up convergence.  The
+          default is for ARPACK to randomly generate a starting vector.
+          If specified, ‘v0’ must be an N-by-1 vector where ‘N = rows
+          (A)’
+
+     ‘disp’
+          The level of diagnostic printout (0|1|2).  If ‘disp’ is 0 then
+          diagnostics are disabled.  The default value is 0.
+
+     ‘cholB’
+          Flag if ‘chol (B)’ is passed rather than B.  The default is
+          false.
+
+     ‘permB’
+          The permutation vector of the Cholesky factorization of B if
+          ‘cholB’ is true.  It is obtained by ‘[R, ~, permB] = chol (B,
+          "vector")’.  The default is ‘1:N’.
+
+     It is also possible to represent A by a function denoted AF.  AF
+     must be followed by a scalar argument N defining the length of the
+     vector argument accepted by AF.  AF can be a function handle, an
+     inline function, or a string.  When AF is a string it holds the
+     name of the function to use.
+
+     AF is a function of the form ‘y = af (x)’ where the required return
+     value of AF is determined by the value of SIGMA.  The four possible
+     forms are
+
+     ‘A * x’
+          if SIGMA is not given or is a string other than "sm".
+
+     ‘A \ x’
+          if SIGMA is 0 or "sm".
+
+     ‘(A - sigma * I) \ x’
+          for the standard eigenvalue problem, where ‘I’ is the identity
+          matrix of the same size as A.
+
+     ‘(A - sigma * B) \ x’
+          for the general eigenvalue problem.
+
+     The return arguments of ‘eigs’ depend on the number of return
+     arguments requested.  With a single return argument, a vector D of
+     length K is returned containing the K eigenvalues that have been
+     found.  With two return arguments, V is a N-by-K matrix whose
+     columns are the K eigenvectors corresponding to the returned
+     eigenvalues.  The eigenvalues themselves are returned in D in the
+     form of a N-by-K matrix, where the elements on the diagonal are the
+     eigenvalues.
+
+     Given a third return argument FLAG, ‘eigs’ returns the status of
+     the convergence.  If FLAG is 0 then all eigenvalues have converged.
+     Any other value indicates a failure to converge.
+
+     This function is based on the ARPACK package, written by R.
+     Lehoucq, K. Maschhoff, D. Sorensen, and C. Yang.  For more
+     information see <http://www.caam.rice.edu/software/ARPACK/>.
+
+     See also: *note eig: XREFeig, *note svds: XREFsvds.
+
+ -- : S = svds (A)
+ -- : S = svds (A, K)
+ -- : S = svds (A, K, SIGMA)
+ -- : S = svds (A, K, SIGMA, OPTS)
+ -- : [U, S, V] = svds (...)
+ -- : [U, S, V, FLAG] = svds (...)
+
+     Find a few singular values of the matrix A.
+
+     The singular values are calculated using
+
+          [M, N] = size (A);
+          S = eigs ([sparse(M, M), A;
+                               A', sparse(N, N)])
+
+     The eigenvalues returned by ‘eigs’ correspond to the singular
+     values of A.  The number of singular values to calculate is given
+     by K and defaults to 6.
+
+     The argument SIGMA specifies which singular values to find.  When
+     SIGMA is the string ’L’, the default, the largest singular values
+     of A are found.  Otherwise, SIGMA must be a real scalar and the
+     singular values closest to SIGMA are found.  As a corollary, ‘SIGMA
+     = 0’ finds the smallest singular values.  Note that for relatively
+     small values of SIGMA, there is a chance that the requested number
+     of singular values will not be found.  In that case SIGMA should be
+     increased.
+
+     OPTS is a structure defining options that ‘svds’ will pass to
+     ‘eigs’.  The possible fields of this structure are documented in
+     ‘eigs’.  By default, ‘svds’ sets the following three fields:
+
+     ‘tol’
+          The required convergence tolerance for the singular values.
+          The default value is 1e-10.  ‘eigs’ is passed ‘TOL / sqrt(2)’.
+
+     ‘maxit’
+          The maximum number of iterations.  The default is 300.
+
+     ‘disp’
+          The level of diagnostic printout (0|1|2).  If ‘disp’ is 0 then
+          diagnostics are disabled.  The default value is 0.
+
+     If more than one output is requested then ‘svds’ will return an
+     approximation of the singular value decomposition of A
+
+          A_approx = U*S*V'
+
+     where A_approx is a matrix of size A but only rank K.
+
+     FLAG returns 0 if the algorithm has succesfully converged, and 1
+     otherwise.  The test for convergence is
+
+          norm (A*V - U*S, 1) <= TOL * norm (A, 1)
+
+     ‘svds’ is best for finding only a few singular values from a large
+     sparse matrix.  Otherwise, ‘svd (full (A))’ will likely be more
+     efficient.
+
+     See also: *note svd: XREFsvd, *note eigs: XREFeigs.
+
+   ---------- Footnotes ----------
+
+   (1) The CHOLMOD, UMFPACK and CXSPARSE packages were written by Tim
+Davis and are available at
+<http://faculty.cse.tamu.edu/davis/suitesparse.html>
+
+
 File: octave.info,  Node: Iterative Techniques,  Next: Real Life Example,  Prev: Sparse Linear Algebra,  Up: Sparse Matrices
 
 22.3 Iterative Techniques Applied to Sparse Matrices
@@ -1326,12 +1970,15 @@ must remain aware of this issue when using ‘trapz’.
 
           x = 0:0.1:1;
           y = x.^3;
+          ## No scaling
           q = trapz (y)
-            ⇒ q = 2.525   # No scaling
+            ⇒ q = 2.5250
+          ## Approximation to integral by scaling
           q * 0.1
-            ⇒ q = 0.2525  # Approximation to integral by scaling
+            ⇒ 0.25250
+          ## Same result by specifying X
           trapz (x, y)
-            ⇒ q = 0.2525  # Same result by specifying X
+            ⇒ 0.25250
 
      See also: *note cumtrapz: XREFcumtrapz.
 
@@ -1743,7 +2390,7 @@ between iterated and tiled integration methods and, unlike ‘dblquad’ and
 
           F = @(X,Y,Z) ones (size (X));
           Q = integral3 (F, 0, 1, 0, 1, 0, 1)
-            ⇒ Q =  1
+            ⇒ Q =  1.00000
 
      For this constant-value integrand, the result is a volume which is
      just ‘LENGTH * WIDTH * HEIGHT’.
@@ -1752,8 +2399,8 @@ between iterated and tiled integration methods and, unlike ‘dblquad’ and
 
           F = @(X,Y) ones (size (X));
           YMAX = @(X) sqrt (1 - X.^2);
-          ZMAX = @(X) sqrt (1 - X.^2 - Y.^2);
-          Q = integral3 (F, 0, 1, 0, YMAX)
+          ZMAX = @(X,Y) sqrt (1 - X.^2 - Y.^2);
+          Q = integral3 (F, 0, 1, 0, YMAX, 0, ZMAX)
             ⇒ Q =  0.52360
 
      For this constant-value integrand, the result is a volume which is
@@ -2407,89 +3054,88 @@ The options for this class of methods are set using the functions.
      The most commonly used ODE options, which are always assigned a
      value by ‘odeset’, are the following:
 
-     AbsTol
+     ‘AbsTol’: positive scalar | vector, def. ‘1e-6’
           Absolute error tolerance.
 
-     BDF
+     ‘BDF’: {"off"} | "on"
           Use BDF formulas in implicit multistep methods.  _Note_: This
           option is not yet implemented.
 
-     Events
+     ‘Events’: function_handle
           Event function.  An event function must have the form ‘[value,
           isterminal, direction] = my_events_f (t, y)’
 
-     InitialSlope
+     ‘InitialSlope’: vector
           Consistent initial slope vector for DAE solvers.
 
-     InitialStep
+     ‘InitialStep’: positive scalar
           Initial time step size.
 
-     Jacobian
+     ‘Jacobian’: matrix | function_handle
           Jacobian matrix, specified as a constant matrix or a function
           of time and state.
 
-     JConstant
+     ‘JConstant’: {"off"} | "on"
           Specify whether the Jacobian is a constant matrix or depends
           on the state.
 
-     JPattern
+     ‘JPattern’: sparse matrix
           If the Jacobian matrix is sparse and non-constant but
           maintains a constant sparsity pattern, specify the sparsity
           pattern.
 
-     Mass
+     ‘Mass’: matrix | function_handle
           Mass matrix, specified as a constant matrix or a function of
           time and state.
 
-     MassSingular
-          Specify whether the mass matrix is singular.  Accepted values
-          include "yes", "no", "maybe".
+     ‘MassSingular’: {"maybe"} | "yes" | "on"
+          Specify whether the mass matrix is singular.
 
-     MaxOrder
+     ‘MaxOrder’: {5} | 4 | 3 | 2 | 1
           Maximum order of formula.
 
-     MaxStep
+     ‘MaxStep’: positive scalar
           Maximum time step value.
 
-     MStateDependence
+     ‘MStateDependence’: {"weak"} | "none" | "strong"
           Specify whether the mass matrix depends on the state or only
           on time.
 
-     MvPattern
+     ‘MvPattern’: sparse matrix
           If the mass matrix is sparse and non-constant but maintains a
           constant sparsity pattern, specify the sparsity pattern.
           _Note_: This option is not yet implemented.
 
-     NonNegative
+     ‘NonNegative’: scalar | vector
           Specify elements of the state vector that are expected to
           remain non-negative during the simulation.
 
-     NormControl
+     ‘NormControl’: {"off"} | "on"
           Control error relative to the 2-norm of the solution, rather
           than its absolute value.
 
-     OutputFcn
+     ‘OutputFcn’: function_handle
           Function to monitor the state during the simulation.  For the
           form of the function to use see ‘odeplot’.
 
-     OutputSel
+     ‘OutputSel’: scalar | vector
           Indices of elements of the state vector to be passed to the
           output monitoring function.
 
-     Refine
+     ‘Refine’: positive scalar
           Specify whether output should be returned only at the end of
           each time step or also at intermediate time instances.  The
           value should be a scalar indicating the number of equally
           spaced time points to use within each timestep at which to
           return output.  _Note_: This option is not yet implemented.
 
-     RelTol
+     ‘RelTol’: positive scalar
           Relative error tolerance.
 
-     Stats
+     ‘Stats’: {"off"} | "on"
           Print solver statistics after simulation.
 
-     Vectorized
+     ‘Vectorized’: {"off"} | "on"
           Specify whether ‘odefun’ can be passed multiple values of the
           state at once.
 
@@ -4086,13 +4732,14 @@ with explicitly.  See *note isnan: XREFisnan, *note isna: XREFisna,
 * Menu:
 
 * Descriptive Statistics::
+* Statistics on Sliding Windows of Data::
 * Basic Statistical Functions::
 * Correlation and Regression Analysis::
 * Distributions::
 * Random Number Generation::
 
 
-File: octave.info,  Node: Descriptive Statistics,  Next: Basic Statistical Functions,  Up: Statistics
+File: octave.info,  Node: Descriptive Statistics,  Next: Statistics on Sliding Windows of Data,  Up: Statistics
 
 26.1 Descriptive Statistics
 ===========================
@@ -4616,9 +5263,1069 @@ allowing arbitrary shape measures to be developed.
      skewness: XREFskewness, *note kurtosis: XREFkurtosis.
 
 
-File: octave.info,  Node: Basic Statistical Functions,  Next: Correlation and Regression Analysis,  Prev: Descriptive Statistics,  Up: Statistics
+File: octave.info,  Node: Statistics on Sliding Windows of Data,  Next: Basic Statistical Functions,  Prev: Descriptive Statistics,  Up: Statistics
 
-26.2 Basic Statistical Functions
+26.2 Statistics on Sliding Windows of Data
+==========================================
+
+It is often useful to calculate descriptive statistics over a subsection
+(i.e., window) of a full dataset.  Octave provides the function ‘movfun’
+which will call an arbitrary function handle with windows of data and
+accumulate the results.  Many of the most commonly desired functions,
+such as the moving average over a window of data (‘movmean’), are
+already provided.
+
+ -- : Y = movfun (FCN, X, WLEN)
+ -- : Y = movfun (FCN, X, [NB, NA])
+ -- : Y = movfun (..., "PROPERTY", VALUE)
+
+     Apply function FCN to a moving window of length WLEN on data X.
+
+     If WLEN is a scalar, the function FCN is applied to a moving window
+     of length WLEN.  When WLEN is an odd number the window is symmetric
+     and includes ‘(WLEN - 1) / 2’ elements on either side of the
+     central element.  For example, when calculating the output at index
+     5 with a window length of 3, ‘movfun’ uses data elements
+     ‘[4, 5, 6]’.  If WLEN is an even number, the window is asymmetric
+     and has ‘WLEN/2’ elements to the left of the central element and
+     ‘WLEN/2 - 1’ elements to the right of the central element.  For
+     example, when calculating the output at index 5 with a window
+     length of 4, ‘movfun’ uses data elements ‘[3, 4, 5, 6]’.
+
+     If WLEN is an array with two elements ‘[NB, NA]’, the function is
+     applied to a moving window ‘-NB:NA’.  This window includes NB
+     number of elements _before_ the current element and NA number of
+     elements _after_ the current element.  The current element is
+     always included.  For example, given ‘WLEN = [3, 0]’, the data used
+     to calculate index 5 is ‘[2, 3, 4, 5]’.
+
+     During calculations the data input X is reshaped into a
+     2-dimensional WLEN-by-N matrix and FCN is called on this new
+     matrix.  Therefore, FCN must accept an array input argument and
+     apply the computation along dimension 1, i.e., down the columns of
+     the array.
+
+     When applied to an array (possibly multi-dimensional) with N
+     columns, FCN may return a result in either of two formats:
+     Format 1) an array of size 1-by-N-by-DIM3-by-...-by-DIMN.  This is
+     the typical output format from Octave core functions.  Type ‘demo
+     ("movfun", 5)’ for an example of this use case. Format 2) a row
+     vector of length ‘N * NUMEL_HIGHER_DIMS’ where NUMEL_HIGHER_DIMS is
+     ‘prod (size (X)(3:end))’.  The output of FCN for the i-th input
+     column must be found in the output at indices
+     ‘i:N:(N*NUMEL_HIGHER_DIMS)’.  This format is useful when
+     concatenating functions into arrays, or when using ‘nthargout’.
+     Type ‘demo ("movfun", 6)’ for an example of this case.
+
+     The calculation can be controlled by specifying PROPERTY/VALUE
+     pairs.  Valid properties are
+
+     "dim"
+          Operate along the dimension specified, rather than the default
+          of the first non-singleton dimension.
+
+     "Endpoints"
+
+          This property controls how results are calculated at the
+          boundaries (endpoints) of the window.  Possible values are:
+
+          "shrink" (default)
+               The window is truncated at the beginning and end of the
+               array to exclude elements for which there is no source
+               data.  For example, with a window of length 3, ‘Y(1) =
+               FCN (X(1:2))’, and ‘Y(end) = FCN (X(end-1:end))’.
+
+          "discard"
+               Any Y values that use a window extending beyond the
+               original data array are deleted.  For example, with a
+               10-element data vector and a window of length 3, the
+               output will contain only 8 elements.  The first element
+               would require calculating the function over indices
+               ‘[0, 1, 2]’ and is therefore discarded.  The last element
+               would require calculating the function over indices
+               ‘[9, 10, 11]’ and is therefore discarded.
+
+          "fill"
+               Any window elements outside the data array are replaced
+               by ‘NaN’.  For example, with a window of length 3, ‘Y(1)
+               = FCN ([NaN, X(1:2)])’, and ‘Y(end) = FCN ([X(end-1:end),
+               NaN])’.  This option usually results in Y having ‘NaN’
+               values at the boundaries, although it is influenced by
+               how FCN handles ‘NaN’, and also by the property
+               "nancond".
+
+          USER_VALUE
+               Any window elements outside the data array are replaced
+               by the specified value USER_VALUE which must be a numeric
+               scalar.  For example, with a window of length 3, ‘Y(1) =
+               FCN ([USER_VALUE, X(1:2)])’, and ‘Y(end) = FCN
+               ([X(end-1:end), USER_VALUE])’.  A common choice for
+               USER_VALUE is 0.
+
+          "same"
+               Any window elements outside the data array are replaced
+               by the value of X at the boundary.  For example, with a
+               window of length 3, ‘Y(1) = FCN ([X(1), X(1:2)])’, and
+               ‘Y(end) = FCN ([X(end-1:end), X(end)])’.
+
+          "periodic"
+               The window is wrapped so that any missing data elements
+               are taken from the other side of the data.  For example,
+               with a window of length 3, ‘Y(1) = FCN ([X(end),
+               X(1:2)])’, and ‘Y(end) = FCN ([X(end-1:end), X(1)])’.
+
+          Note that for some of these choices, the window size at the
+          boundaries is not the same as for the central part, and FCN
+          must work in these cases.
+
+     "nancond"
+          Controls whether ‘NaN’ and ‘NA’ values should be included
+          (value: "includenan"), or excluded (value: "omitnan"), from
+          the data passed to FCN.  The default is "includenan".
+          Caution: The "omitnan" option is not yet implemented.
+
+     "outdim"
+          A row vector that selects which dimensions of the calculation
+          will appear in the output Y.  This is only useful when FCN
+          returns an N-dimensional array in Format 1.  The default is to
+          return all output dimensions.
+
+     Programming Note: The property "outdim" can be used to save memory
+     when the output of FCN has many dimensions, or when a wrapper to
+     the base function that selects the desired outputs is too costly.
+     When memory is not an issue, the easiest way to select output
+     dimensions is to first calculate the complete result with ‘movfun’
+     and then filter that result with indexing.  If code complexity is
+     not an issue then a wrapper can be created using anonymous
+     functions.  For example, if ‘basefcn’ is a function returning a
+     K-dimensional row output, and only dimension D is desired, then the
+     following wrapper could be used.
+
+          FCN = @(x) basefcn (x)(:,size(x,2) * (D-1) + (1:size(x,2)));
+          Y = movfun (@fcn, ...);
+
+     See also: *note movslice: XREFmovslice, *note prepad: XREFprepad,
+     *note postpad: XREFpostpad, *note permute: XREFpermute, *note
+     reshape: XREFreshape.
+
+ -- : SLCIDX = movslice (N, WLEN)
+ -- : [SLCIDX, C, CPRE, CPOST, WIN] = movslice (...)
+     Generate indices to slice a vector of length N in to windows of
+     length WLEN.
+
+     FIXME: Document inputs N, wlen
+
+     FIXME: Document outputs slcidx, C, Cpre, Cpost, win.
+
+     See also: *note movfun: XREFmovfun.
+
+ -- : Y = movmad (X, WLEN)
+ -- : Y = movmad (X, [NA, NB])
+ -- : Y = movmad (..., DIM)
+ -- : Y = movmad (..., "NANCOND")
+ -- : Y = movmad (..., PROPERTY, VALUE)
+     Calculate the moving mean absolute deviation over a sliding window
+     of length WLEN on data X.
+
+     If WLEN is a scalar, the function ‘mad’ is applied to a moving
+     window of length WLEN.  When WLEN is an odd number the window is
+     symmetric and includes ‘(WLEN - 1) / 2’ elements on either side of
+     the central element.  For example, when calculating the output at
+     index 5 with a window length of 3, ‘movmad’ uses data elements
+     ‘[4, 5, 6]’.  If WLEN is an even number, the window is asymmetric
+     and has ‘WLEN/2’ elements to the left of the central element and
+     ‘WLEN/2 - 1’ elements to the right of the central element.  For
+     example, when calculating the output at index 5 with a window
+     length of 4, ‘movmad’ uses data elements ‘[3, 4, 5, 6]’.
+
+     If WLEN is an array with two elements ‘[NB, NA]’, the function is
+     applied to a moving window ‘-NB:NA’.  This window includes NB
+     number of elements _before_ the current element and NA number of
+     elements _after_ the current element.  The current element is
+     always included.  For example, given ‘WLEN = [3, 0]’, the data used
+     to calculate index 5 is ‘[2, 3, 4, 5]’.
+
+     If the optional argument DIM is given, operate along this
+     dimension.
+
+     The optional string argument "NANCOND" controls whether ‘NaN’ and
+     ‘NA’ values should be included ("includenan"), or excluded
+     ("omitnan"), from the data passed to ‘mad’.  The default is
+     "includenan".  Caution: the "omitnan" option is not yet
+     implemented.
+
+     The calculation can be controlled by specifying PROPERTY/VALUE
+     pairs.  Valid properties are
+
+     "Endpoints"
+
+          This property controls how results are calculated at the
+          boundaries (endpoints) of the window.  Possible values are:
+
+          "shrink" (default)
+               The window is truncated at the beginning and end of the
+               array to exclude elements for which there is no source
+               data.  For example, with a window of length 3, ‘Y(1) =
+               mad (X(1:2))’, and ‘Y(end) = mad (X(end-1:end))’.
+
+          "discard"
+               Any Y values that use a window extending beyond the
+               original data array are deleted.  For example, with a
+               10-element data vector and a window of length 3, the
+               output will contain only 8 elements.  The first element
+               would require calculating the function over indices
+               ‘[0, 1, 2]’ and is therefore discarded.  The last element
+               would require calculating the function over indices
+               ‘[9, 10, 11]’ and is therefore discarded.
+
+          "fill"
+               Any window elements outside the data array are replaced
+               by ‘NaN’.  For example, with a window of length 3, ‘Y(1)
+               = mad ([NaN, X(1:2)])’, and ‘Y(end) = mad ([X(end-1:end),
+               NaN])’.  This option usually results in Y having ‘NaN’
+               values at the boundaries, although it is influenced by
+               how ‘mad’ handles ‘NaN’, and also by the property
+               "nancond".
+
+          USER_VALUE
+               Any window elements outside the data array are replaced
+               by the specified value USER_VALUE which must be a numeric
+               scalar.  For example, with a window of length 3, ‘Y(1) =
+               mad ([USER_VALUE, X(1:2)])’, and ‘Y(end) = mad
+               ([X(end-1:end), USER_VALUE])’.  A common choice for
+               USER_VALUE is 0.
+
+          "same"
+               Any window elements outside the data array are replaced
+               by the value of X at the boundary.  For example, with a
+               window of length 3, ‘Y(1) = mad ([X(1), X(1:2)])’, and
+               ‘Y(end) = mad ([X(end-1:end), X(end)])’.
+
+          "periodic"
+               The window is wrapped so that any missing data elements
+               are taken from the other side of the data.  For example,
+               with a window of length 3, ‘Y(1) = mad ([X(end),
+               X(1:2)])’, and ‘Y(end) = mad ([X(end-1:end), X(1)])’.
+
+     "SamplePoints"
+          Caution: This option is not yet implemented.
+
+     Programming Note: This function is a wrapper which calls ‘movfun’.
+     For additional options and documentation, *Note movfun: XREFmovfun.
+
+     See also: *note movfun: XREFmovfun, *note movslice: XREFmovslice,
+     *note movmax: XREFmovmax, *note movmean: XREFmovmean, *note
+     movmedian: XREFmovmedian, *note movmin: XREFmovmin, *note movprod:
+     XREFmovprod, *note movstd: XREFmovstd, *note movsum: XREFmovsum,
+     *note movvar: XREFmovvar.
+
+ -- : Y = movmax (X, WLEN)
+ -- : Y = movmax (X, [NA, NB])
+ -- : Y = movmax (..., DIM)
+ -- : Y = movmax (..., "NANCOND")
+ -- : Y = movmax (..., PROPERTY, VALUE)
+     Calculate the moving maximum over a sliding window of length WLEN
+     on data X.
+
+     If WLEN is a scalar, the function ‘max’ is applied to a moving
+     window of length WLEN.  When WLEN is an odd number the window is
+     symmetric and includes ‘(WLEN - 1) / 2’ elements on either side of
+     the central element.  For example, when calculating the output at
+     index 5 with a window length of 3, ‘movmax’ uses data elements
+     ‘[4, 5, 6]’.  If WLEN is an even number, the window is asymmetric
+     and has ‘WLEN/2’ elements to the left of the central element and
+     ‘WLEN/2 - 1’ elements to the right of the central element.  For
+     example, when calculating the output at index 5 with a window
+     length of 4, ‘movmax’ uses data elements ‘[3, 4, 5, 6]’.
+
+     If WLEN is an array with two elements ‘[NB, NA]’, the function is
+     applied to a moving window ‘-NB:NA’.  This window includes NB
+     number of elements _before_ the current element and NA number of
+     elements _after_ the current element.  The current element is
+     always included.  For example, given ‘WLEN = [3, 0]’, the data used
+     to calculate index 5 is ‘[2, 3, 4, 5]’.
+
+     If the optional argument DIM is given, operate along this
+     dimension.
+
+     The optional string argument "NANCOND" controls whether ‘NaN’ and
+     ‘NA’ values should be included ("includenan"), or excluded
+     ("omitnan"), from the data passed to ‘max’.  The default is
+     "includenan".  Caution: the "omitnan" option is not yet
+     implemented.
+
+     The calculation can be controlled by specifying PROPERTY/VALUE
+     pairs.  Valid properties are
+
+     "Endpoints"
+
+          This property controls how results are calculated at the
+          boundaries (endpoints) of the window.  Possible values are:
+
+          "shrink" (default)
+               The window is truncated at the beginning and end of the
+               array to exclude elements for which there is no source
+               data.  For example, with a window of length 3, ‘Y(1) =
+               max (X(1:2))’, and ‘Y(end) = max (X(end-1:end))’.
+
+          "discard"
+               Any Y values that use a window extending beyond the
+               original data array are deleted.  For example, with a
+               10-element data vector and a window of length 3, the
+               output will contain only 8 elements.  The first element
+               would require calculating the function over indices
+               ‘[0, 1, 2]’ and is therefore discarded.  The last element
+               would require calculating the function over indices
+               ‘[9, 10, 11]’ and is therefore discarded.
+
+          "fill"
+               Any window elements outside the data array are replaced
+               by ‘NaN’.  For example, with a window of length 3, ‘Y(1)
+               = max ([NaN, X(1:2)])’, and ‘Y(end) = max ([X(end-1:end),
+               NaN])’.  This option usually results in Y having ‘NaN’
+               values at the boundaries, although it is influenced by
+               how ‘max’ handles ‘NaN’, and also by the property
+               "nancond".
+
+          USER_VALUE
+               Any window elements outside the data array are replaced
+               by the specified value USER_VALUE which must be a numeric
+               scalar.  For example, with a window of length 3, ‘Y(1) =
+               max ([USER_VALUE, X(1:2)])’, and ‘Y(end) = max
+               ([X(end-1:end), USER_VALUE])’.  A common choice for
+               USER_VALUE is 0.
+
+          "same"
+               Any window elements outside the data array are replaced
+               by the value of X at the boundary.  For example, with a
+               window of length 3, ‘Y(1) = max ([X(1), X(1:2)])’, and
+               ‘Y(end) = max ([X(end-1:end), X(end)])’.
+
+          "periodic"
+               The window is wrapped so that any missing data elements
+               are taken from the other side of the data.  For example,
+               with a window of length 3, ‘Y(1) = max ([X(end),
+               X(1:2)])’, and ‘Y(end) = max ([X(end-1:end), X(1)])’.
+
+     "SamplePoints"
+          Caution: This option is not yet implemented.
+
+     Programming Note: This function is a wrapper which calls ‘movfun’.
+     For additional options and documentation, *Note movfun: XREFmovfun.
+
+     See also: *note movfun: XREFmovfun, *note movslice: XREFmovslice,
+     *note movmad: XREFmovmad, *note movmean: XREFmovmean, *note
+     movmedian: XREFmovmedian, *note movmin: XREFmovmin, *note movprod:
+     XREFmovprod, *note movstd: XREFmovstd, *note movsum: XREFmovsum,
+     *note movvar: XREFmovvar.
+
+ -- : Y = movmean (X, WLEN)
+ -- : Y = movmean (X, [NA, NB])
+ -- : Y = movmean (..., DIM)
+ -- : Y = movmean (..., "NANCOND")
+ -- : Y = movmean (..., PROPERTY, VALUE)
+     Calculate the moving average over a sliding window of length WLEN
+     on data X.
+
+     If WLEN is a scalar, the function ‘mean’ is applied to a moving
+     window of length WLEN.  When WLEN is an odd number the window is
+     symmetric and includes ‘(WLEN - 1) / 2’ elements on either side of
+     the central element.  For example, when calculating the output at
+     index 5 with a window length of 3, ‘movmean’ uses data elements
+     ‘[4, 5, 6]’.  If WLEN is an even number, the window is asymmetric
+     and has ‘WLEN/2’ elements to the left of the central element and
+     ‘WLEN/2 - 1’ elements to the right of the central element.  For
+     example, when calculating the output at index 5 with a window
+     length of 4, ‘movmean’ uses data elements ‘[3, 4, 5, 6]’.
+
+     If WLEN is an array with two elements ‘[NB, NA]’, the function is
+     applied to a moving window ‘-NB:NA’.  This window includes NB
+     number of elements _before_ the current element and NA number of
+     elements _after_ the current element.  The current element is
+     always included.  For example, given ‘WLEN = [3, 0]’, the data used
+     to calculate index 5 is ‘[2, 3, 4, 5]’.
+
+     If the optional argument DIM is given, operate along this
+     dimension.
+
+     The optional string argument "NANCOND" controls whether ‘NaN’ and
+     ‘NA’ values should be included ("includenan"), or excluded
+     ("omitnan"), from the data passed to ‘mean’.  The default is
+     "includenan".  Caution: the "omitnan" option is not yet
+     implemented.
+
+     The calculation can be controlled by specifying PROPERTY/VALUE
+     pairs.  Valid properties are
+
+     "Endpoints"
+
+          This property controls how results are calculated at the
+          boundaries (endpoints) of the window.  Possible values are:
+
+          "shrink" (default)
+               The window is truncated at the beginning and end of the
+               array to exclude elements for which there is no source
+               data.  For example, with a window of length 3, ‘Y(1) =
+               mean (X(1:2))’, and ‘Y(end) = mean (X(end-1:end))’.
+
+          "discard"
+               Any Y values that use a window extending beyond the
+               original data array are deleted.  For example, with a
+               10-element data vector and a window of length 3, the
+               output will contain only 8 elements.  The first element
+               would require calculating the function over indices
+               ‘[0, 1, 2]’ and is therefore discarded.  The last element
+               would require calculating the function over indices
+               ‘[9, 10, 11]’ and is therefore discarded.
+
+          "fill"
+               Any window elements outside the data array are replaced
+               by ‘NaN’.  For example, with a window of length 3, ‘Y(1)
+               = mean ([NaN, X(1:2)])’, and ‘Y(end) = mean
+               ([X(end-1:end), NaN])’.  This option usually results in Y
+               having ‘NaN’ values at the boundaries, although it is
+               influenced by how ‘mean’ handles ‘NaN’, and also by the
+               property "nancond".
+
+          USER_VALUE
+               Any window elements outside the data array are replaced
+               by the specified value USER_VALUE which must be a numeric
+               scalar.  For example, with a window of length 3, ‘Y(1) =
+               mean ([USER_VALUE, X(1:2)])’, and ‘Y(end) = mean
+               ([X(end-1:end), USER_VALUE])’.  A common choice for
+               USER_VALUE is 0.
+
+          "same"
+               Any window elements outside the data array are replaced
+               by the value of X at the boundary.  For example, with a
+               window of length 3, ‘Y(1) = mean ([X(1), X(1:2)])’, and
+               ‘Y(end) = mean ([X(end-1:end), X(end)])’.
+
+          "periodic"
+               The window is wrapped so that any missing data elements
+               are taken from the other side of the data.  For example,
+               with a window of length 3, ‘Y(1) = mean ([X(end),
+               X(1:2)])’, and ‘Y(end) = mean ([X(end-1:end), X(1)])’.
+
+     "SamplePoints"
+          Caution: This option is not yet implemented.
+
+     Programming Note: This function is a wrapper which calls ‘movfun’.
+     For additional options and documentation, *Note movfun: XREFmovfun.
+
+     See also: *note movfun: XREFmovfun, *note movslice: XREFmovslice,
+     *note movmad: XREFmovmad, *note movmax: XREFmovmax, *note
+     movmedian: XREFmovmedian, *note movmin: XREFmovmin, *note movprod:
+     XREFmovprod, *note movstd: XREFmovstd, *note movsum: XREFmovsum,
+     *note movvar: XREFmovvar.
+
+ -- : Y = movmedian (X, WLEN)
+ -- : Y = movmedian (X, [NA, NB])
+ -- : Y = movmedian (..., DIM)
+ -- : Y = movmedian (..., "NANCOND")
+ -- : Y = movmedian (..., PROPERTY, VALUE)
+     Calculate the moving median over a sliding window of length WLEN on
+     data X.
+
+     If WLEN is a scalar, the function ‘movmedian’ is applied to a
+     moving window of length WLEN.  When WLEN is an odd number the
+     window is symmetric and includes ‘(WLEN - 1) / 2’ elements on
+     either side of the central element.  For example, when calculating
+     the output at index 5 with a window length of 3, ‘movmedian’ uses
+     data elements ‘[4, 5, 6]’.  If WLEN is an even number, the window
+     is asymmetric and has ‘WLEN/2’ elements to the left of the central
+     element and ‘WLEN/2 - 1’ elements to the right of the central
+     element.  For example, when calculating the output at index 5 with
+     a window length of 4, ‘movmedian’ uses data elements
+     ‘[3, 4, 5, 6]’.
+
+     If WLEN is an array with two elements ‘[NB, NA]’, the function is
+     applied to a moving window ‘-NB:NA’.  This window includes NB
+     number of elements _before_ the current element and NA number of
+     elements _after_ the current element.  The current element is
+     always included.  For example, given ‘WLEN = [3, 0]’, the data used
+     to calculate index 5 is ‘[2, 3, 4, 5]’.
+
+     If the optional argument DIM is given, operate along this
+     dimension.
+
+     The optional string argument "NANCOND" controls whether ‘NaN’ and
+     ‘NA’ values should be included ("includenan"), or excluded
+     ("omitnan"), from the data passed to ‘movmedian’.  The default is
+     "includenan".  Caution: the "omitnan" option is not yet
+     implemented.
+
+     The calculation can be controlled by specifying PROPERTY/VALUE
+     pairs.  Valid properties are
+
+     "Endpoints"
+
+          This property controls how results are calculated at the
+          boundaries (endpoints) of the window.  Possible values are:
+
+          "shrink" (default)
+               The window is truncated at the beginning and end of the
+               array to exclude elements for which there is no source
+               data.  For example, with a window of length 3, ‘Y(1) =
+               movmedian (X(1:2))’, and ‘Y(end) = movmedian
+               (X(end-1:end))’.
+
+          "discard"
+               Any Y values that use a window extending beyond the
+               original data array are deleted.  For example, with a
+               10-element data vector and a window of length 3, the
+               output will contain only 8 elements.  The first element
+               would require calculating the function over indices
+               ‘[0, 1, 2]’ and is therefore discarded.  The last element
+               would require calculating the function over indices
+               ‘[9, 10, 11]’ and is therefore discarded.
+
+          "fill"
+               Any window elements outside the data array are replaced
+               by ‘NaN’.  For example, with a window of length 3, ‘Y(1)
+               = movmedian ([NaN, X(1:2)])’, and ‘Y(end) = movmedian
+               ([X(end-1:end), NaN])’.  This option usually results in Y
+               having ‘NaN’ values at the boundaries, although it is
+               influenced by how ‘movmedian’ handles ‘NaN’, and also by
+               the property "nancond".
+
+          USER_VALUE
+               Any window elements outside the data array are replaced
+               by the specified value USER_VALUE which must be a numeric
+               scalar.  For example, with a window of length 3, ‘Y(1) =
+               movmedian ([USER_VALUE, X(1:2)])’, and ‘Y(end) =
+               movmedian ([X(end-1:end), USER_VALUE])’.  A common choice
+               for USER_VALUE is 0.
+
+          "same"
+               Any window elements outside the data array are replaced
+               by the value of X at the boundary.  For example, with a
+               window of length 3, ‘Y(1) = movmedian ([X(1), X(1:2)])’,
+               and ‘Y(end) = movmedian ([X(end-1:end), X(end)])’.
+
+          "periodic"
+               The window is wrapped so that any missing data elements
+               are taken from the other side of the data.  For example,
+               with a window of length 3, ‘Y(1) = movmedian ([X(end),
+               X(1:2)])’, and ‘Y(end) = movmedian ([X(end-1:end),
+               X(1)])’.
+
+     "SamplePoints"
+          Caution: This option is not yet implemented.
+
+     Programming Note: This function is a wrapper which calls ‘movfun’.
+     For additional options and documentation, *Note movfun: XREFmovfun.
+
+     See also: *note movfun: XREFmovfun, *note movslice: XREFmovslice,
+     *note movmad: XREFmovmad, *note movmax: XREFmovmax, *note movmean:
+     XREFmovmean, *note movmin: XREFmovmin, *note movprod: XREFmovprod,
+     *note movstd: XREFmovstd, *note movsum: XREFmovsum, *note movvar:
+     XREFmovvar.
+
+ -- : Y = movmin (X, WLEN)
+ -- : Y = movmin (X, [NA, NB])
+ -- : Y = movmin (..., DIM)
+ -- : Y = movmin (..., "NANCOND")
+ -- : Y = movmin (..., PROPERTY, VALUE)
+     Calculate the moving minimum over a sliding window of length WLEN
+     on data X.
+
+     If WLEN is a scalar, the function ‘min’ is applied to a moving
+     window of length WLEN.  When WLEN is an odd number the window is
+     symmetric and includes ‘(WLEN - 1) / 2’ elements on either side of
+     the central element.  For example, when calculating the output at
+     index 5 with a window length of 3, ‘movmin’ uses data elements
+     ‘[4, 5, 6]’.  If WLEN is an even number, the window is asymmetric
+     and has ‘WLEN/2’ elements to the left of the central element and
+     ‘WLEN/2 - 1’ elements to the right of the central element.  For
+     example, when calculating the output at index 5 with a window
+     length of 4, ‘movmin’ uses data elements ‘[3, 4, 5, 6]’.
+
+     If WLEN is an array with two elements ‘[NB, NA]’, the function is
+     applied to a moving window ‘-NB:NA’.  This window includes NB
+     number of elements _before_ the current element and NA number of
+     elements _after_ the current element.  The current element is
+     always included.  For example, given ‘WLEN = [3, 0]’, the data used
+     to calculate index 5 is ‘[2, 3, 4, 5]’.
+
+     If the optional argument DIM is given, operate along this
+     dimension.
+
+     The optional string argument "NANCOND" controls whether ‘NaN’ and
+     ‘NA’ values should be included ("includenan"), or excluded
+     ("omitnan"), from the data passed to ‘min’.  The default is
+     "includenan".  Caution: the "omitnan" option is not yet
+     implemented.
+
+     The calculation can be controlled by specifying PROPERTY/VALUE
+     pairs.  Valid properties are
+
+     "Endpoints"
+
+          This property controls how results are calculated at the
+          boundaries (endpoints) of the window.  Possible values are:
+
+          "shrink" (default)
+               The window is truncated at the beginning and end of the
+               array to exclude elements for which there is no source
+               data.  For example, with a window of length 3, ‘Y(1) =
+               min (X(1:2))’, and ‘Y(end) = min (X(end-1:end))’.
+
+          "discard"
+               Any Y values that use a window extending beyond the
+               original data array are deleted.  For example, with a
+               10-element data vector and a window of length 3, the
+               output will contain only 8 elements.  The first element
+               would require calculating the function over indices
+               ‘[0, 1, 2]’ and is therefore discarded.  The last element
+               would require calculating the function over indices
+               ‘[9, 10, 11]’ and is therefore discarded.
+
+          "fill"
+               Any window elements outside the data array are replaced
+               by ‘NaN’.  For example, with a window of length 3, ‘Y(1)
+               = min ([NaN, X(1:2)])’, and ‘Y(end) = min ([X(end-1:end),
+               NaN])’.  This option usually results in Y having ‘NaN’
+               values at the boundaries, although it is influenced by
+               how ‘min’ handles ‘NaN’, and also by the property
+               "nancond".
+
+          USER_VALUE
+               Any window elements outside the data array are replaced
+               by the specified value USER_VALUE which must be a numeric
+               scalar.  For example, with a window of length 3, ‘Y(1) =
+               min ([USER_VALUE, X(1:2)])’, and ‘Y(end) = min
+               ([X(end-1:end), USER_VALUE])’.  A common choice for
+               USER_VALUE is 0.
+
+          "same"
+               Any window elements outside the data array are replaced
+               by the value of X at the boundary.  For example, with a
+               window of length 3, ‘Y(1) = min ([X(1), X(1:2)])’, and
+               ‘Y(end) = min ([X(end-1:end), X(end)])’.
+
+          "periodic"
+               The window is wrapped so that any missing data elements
+               are taken from the other side of the data.  For example,
+               with a window of length 3, ‘Y(1) = min ([X(end),
+               X(1:2)])’, and ‘Y(end) = min ([X(end-1:end), X(1)])’.
+
+     "SamplePoints"
+          Caution: This option is not yet implemented.
+
+     Programming Note: This function is a wrapper which calls ‘movfun’.
+     For additional options and documentation, *Note movfun: XREFmovfun.
+
+     See also: *note movfun: XREFmovfun, *note movslice: XREFmovslice,
+     *note movmad: XREFmovmad, *note movmax: XREFmovmax, *note movmean:
+     XREFmovmean, *note movmedian: XREFmovmedian, *note movprod:
+     XREFmovprod, *note movstd: XREFmovstd, *note movsum: XREFmovsum,
+     *note movvar: XREFmovvar.
+
+ -- : Y = movprod (X, WLEN)
+ -- : Y = movprod (X, [NA, NB])
+ -- : Y = movprod (..., DIM)
+ -- : Y = movprod (..., "NANCOND")
+ -- : Y = movprod (..., PROPERTY, VALUE)
+     Calculate the moving product over a sliding window of length WLEN
+     on data X.
+
+     If WLEN is a scalar, the function ‘movprod’ is applied to a moving
+     window of length WLEN.  When WLEN is an odd number the window is
+     symmetric and includes ‘(WLEN - 1) / 2’ elements on either side of
+     the central element.  For example, when calculating the output at
+     index 5 with a window length of 3, ‘movprod’ uses data elements
+     ‘[4, 5, 6]’.  If WLEN is an even number, the window is asymmetric
+     and has ‘WLEN/2’ elements to the left of the central element and
+     ‘WLEN/2 - 1’ elements to the right of the central element.  For
+     example, when calculating the output at index 5 with a window
+     length of 4, ‘movprod’ uses data elements ‘[3, 4, 5, 6]’.
+
+     If WLEN is an array with two elements ‘[NB, NA]’, the function is
+     applied to a moving window ‘-NB:NA’.  This window includes NB
+     number of elements _before_ the current element and NA number of
+     elements _after_ the current element.  The current element is
+     always included.  For example, given ‘WLEN = [3, 0]’, the data used
+     to calculate index 5 is ‘[2, 3, 4, 5]’.
+
+     If the optional argument DIM is given, operate along this
+     dimension.
+
+     The optional string argument "NANCOND" controls whether ‘NaN’ and
+     ‘NA’ values should be included ("includenan"), or excluded
+     ("omitnan"), from the data passed to ‘movprod’.  The default is
+     "includenan".  Caution: the "omitnan" option is not yet
+     implemented.
+
+     The calculation can be controlled by specifying PROPERTY/VALUE
+     pairs.  Valid properties are
+
+     "Endpoints"
+
+          This property controls how results are calculated at the
+          boundaries (endpoints) of the window.  Possible values are:
+
+          "shrink" (default)
+               The window is truncated at the beginning and end of the
+               array to exclude elements for which there is no source
+               data.  For example, with a window of length 3, ‘Y(1) =
+               movprod (X(1:2))’, and ‘Y(end) = movprod (X(end-1:end))’.
+
+          "discard"
+               Any Y values that use a window extending beyond the
+               original data array are deleted.  For example, with a
+               10-element data vector and a window of length 3, the
+               output will contain only 8 elements.  The first element
+               would require calculating the function over indices
+               ‘[0, 1, 2]’ and is therefore discarded.  The last element
+               would require calculating the function over indices
+               ‘[9, 10, 11]’ and is therefore discarded.
+
+          "fill"
+               Any window elements outside the data array are replaced
+               by ‘NaN’.  For example, with a window of length 3, ‘Y(1)
+               = movprod ([NaN, X(1:2)])’, and ‘Y(end) = movprod
+               ([X(end-1:end), NaN])’.  This option usually results in Y
+               having ‘NaN’ values at the boundaries, although it is
+               influenced by how ‘movprod’ handles ‘NaN’, and also by
+               the property "nancond".
+
+          USER_VALUE
+               Any window elements outside the data array are replaced
+               by the specified value USER_VALUE which must be a numeric
+               scalar.  For example, with a window of length 3, ‘Y(1) =
+               movprod ([USER_VALUE, X(1:2)])’, and ‘Y(end) = movprod
+               ([X(end-1:end), USER_VALUE])’.  A common choice for
+               USER_VALUE is 0.
+
+          "same"
+               Any window elements outside the data array are replaced
+               by the value of X at the boundary.  For example, with a
+               window of length 3, ‘Y(1) = movprod ([X(1), X(1:2)])’,
+               and ‘Y(end) = movprod ([X(end-1:end), X(end)])’.
+
+          "periodic"
+               The window is wrapped so that any missing data elements
+               are taken from the other side of the data.  For example,
+               with a window of length 3, ‘Y(1) = movprod ([X(end),
+               X(1:2)])’, and ‘Y(end) = movprod ([X(end-1:end), X(1)])’.
+
+     "SamplePoints"
+          Caution: This option is not yet implemented.
+
+     Programming Note: This function is a wrapper which calls ‘movfun’.
+     For additional options and documentation, *Note movfun: XREFmovfun.
+
+     See also: *note movfun: XREFmovfun, *note movslice: XREFmovslice,
+     *note movmad: XREFmovmad, *note movmax: XREFmovmax, *note movmean:
+     XREFmovmean, *note movmedian: XREFmovmedian, *note movmin:
+     XREFmovmin, *note movstd: XREFmovstd, *note movsum: XREFmovsum,
+     *note movvar: XREFmovvar.
+
+ -- : Y = movstd (X, WLEN)
+ -- : Y = movstd (X, [NA, NB])
+ -- : Y = movstd (..., DIM)
+ -- : Y = movstd (..., "NANCOND")
+ -- : Y = movstd (..., PROPERTY, VALUE)
+     Calculate the moving standard deviation over a sliding window of
+     length WLEN on data X.
+
+     If WLEN is a scalar, the function ‘movstd’ is applied to a moving
+     window of length WLEN.  When WLEN is an odd number the window is
+     symmetric and includes ‘(WLEN - 1) / 2’ elements on either side of
+     the central element.  For example, when calculating the output at
+     index 5 with a window length of 3, ‘movstd’ uses data elements
+     ‘[4, 5, 6]’.  If WLEN is an even number, the window is asymmetric
+     and has ‘WLEN/2’ elements to the left of the central element and
+     ‘WLEN/2 - 1’ elements to the right of the central element.  For
+     example, when calculating the output at index 5 with a window
+     length of 4, ‘movstd’ uses data elements ‘[3, 4, 5, 6]’.
+
+     If WLEN is an array with two elements ‘[NB, NA]’, the function is
+     applied to a moving window ‘-NB:NA’.  This window includes NB
+     number of elements _before_ the current element and NA number of
+     elements _after_ the current element.  The current element is
+     always included.  For example, given ‘WLEN = [3, 0]’, the data used
+     to calculate index 5 is ‘[2, 3, 4, 5]’.
+
+     If the optional argument DIM is given, operate along this
+     dimension.
+
+     The optional string argument "NANCOND" controls whether ‘NaN’ and
+     ‘NA’ values should be included ("includenan"), or excluded
+     ("omitnan"), from the data passed to ‘movstd’.  The default is
+     "includenan".  Caution: the "omitnan" option is not yet
+     implemented.
+
+     The calculation can be controlled by specifying PROPERTY/VALUE
+     pairs.  Valid properties are
+
+     "Endpoints"
+
+          This property controls how results are calculated at the
+          boundaries (endpoints) of the window.  Possible values are:
+
+          "shrink" (default)
+               The window is truncated at the beginning and end of the
+               array to exclude elements for which there is no source
+               data.  For example, with a window of length 3, ‘Y(1) =
+               movstd (X(1:2))’, and ‘Y(end) = movstd (X(end-1:end))’.
+
+          "discard"
+               Any Y values that use a window extending beyond the
+               original data array are deleted.  For example, with a
+               10-element data vector and a window of length 3, the
+               output will contain only 8 elements.  The first element
+               would require calculating the function over indices
+               ‘[0, 1, 2]’ and is therefore discarded.  The last element
+               would require calculating the function over indices
+               ‘[9, 10, 11]’ and is therefore discarded.
+
+          "fill"
+               Any window elements outside the data array are replaced
+               by ‘NaN’.  For example, with a window of length 3, ‘Y(1)
+               = movstd ([NaN, X(1:2)])’, and ‘Y(end) = movstd
+               ([X(end-1:end), NaN])’.  This option usually results in Y
+               having ‘NaN’ values at the boundaries, although it is
+               influenced by how ‘movstd’ handles ‘NaN’, and also by the
+               property "nancond".
+
+          USER_VALUE
+               Any window elements outside the data array are replaced
+               by the specified value USER_VALUE which must be a numeric
+               scalar.  For example, with a window of length 3, ‘Y(1) =
+               movstd ([USER_VALUE, X(1:2)])’, and ‘Y(end) = movstd
+               ([X(end-1:end), USER_VALUE])’.  A common choice for
+               USER_VALUE is 0.
+
+          "same"
+               Any window elements outside the data array are replaced
+               by the value of X at the boundary.  For example, with a
+               window of length 3, ‘Y(1) = movstd ([X(1), X(1:2)])’, and
+               ‘Y(end) = movstd ([X(end-1:end), X(end)])’.
+
+          "periodic"
+               The window is wrapped so that any missing data elements
+               are taken from the other side of the data.  For example,
+               with a window of length 3, ‘Y(1) = movstd ([X(end),
+               X(1:2)])’, and ‘Y(end) = movstd ([X(end-1:end), X(1)])’.
+
+     "SamplePoints"
+          Caution: This option is not yet implemented.
+
+     Programming Note: This function is a wrapper which calls ‘movfun’.
+     For additional options and documentation, *Note movfun: XREFmovfun.
+
+     See also: *note movfun: XREFmovfun, *note movslice: XREFmovslice,
+     *note movmad: XREFmovmad, *note movmax: XREFmovmax, *note movmean:
+     XREFmovmean, *note movmedian: XREFmovmedian, *note movmin:
+     XREFmovmin, *note movprod: XREFmovprod, *note movsum: XREFmovsum,
+     *note movvar: XREFmovvar.
+
+ -- : Y = movsum (X, WLEN)
+ -- : Y = movsum (X, [NA, NB])
+ -- : Y = movsum (..., DIM)
+ -- : Y = movsum (..., "NANCOND")
+ -- : Y = movsum (..., PROPERTY, VALUE)
+     Calculate the moving sum over a sliding window of length WLEN on
+     data X.
+
+     If WLEN is a scalar, the function ‘movsum’ is applied to a moving
+     window of length WLEN.  When WLEN is an odd number the window is
+     symmetric and includes ‘(WLEN - 1) / 2’ elements on either side of
+     the central element.  For example, when calculating the output at
+     index 5 with a window length of 3, ‘movsum’ uses data elements
+     ‘[4, 5, 6]’.  If WLEN is an even number, the window is asymmetric
+     and has ‘WLEN/2’ elements to the left of the central element and
+     ‘WLEN/2 - 1’ elements to the right of the central element.  For
+     example, when calculating the output at index 5 with a window
+     length of 4, ‘movsum’ uses data elements ‘[3, 4, 5, 6]’.
+
+     If WLEN is an array with two elements ‘[NB, NA]’, the function is
+     applied to a moving window ‘-NB:NA’.  This window includes NB
+     number of elements _before_ the current element and NA number of
+     elements _after_ the current element.  The current element is
+     always included.  For example, given ‘WLEN = [3, 0]’, the data used
+     to calculate index 5 is ‘[2, 3, 4, 5]’.
+
+     If the optional argument DIM is given, operate along this
+     dimension.
+
+     The optional string argument "NANCOND" controls whether ‘NaN’ and
+     ‘NA’ values should be included ("includenan"), or excluded
+     ("omitnan"), from the data passed to ‘movsum’.  The default is
+     "includenan".  Caution: the "omitnan" option is not yet
+     implemented.
+
+     The calculation can be controlled by specifying PROPERTY/VALUE
+     pairs.  Valid properties are
+
+     "Endpoints"
+
+          This property controls how results are calculated at the
+          boundaries (endpoints) of the window.  Possible values are:
+
+          "shrink" (default)
+               The window is truncated at the beginning and end of the
+               array to exclude elements for which there is no source
+               data.  For example, with a window of length 3, ‘Y(1) =
+               movsum (X(1:2))’, and ‘Y(end) = movsum (X(end-1:end))’.
+
+          "discard"
+               Any Y values that use a window extending beyond the
+               original data array are deleted.  For example, with a
+               10-element data vector and a window of length 3, the
+               output will contain only 8 elements.  The first element
+               would require calculating the function over indices
+               ‘[0, 1, 2]’ and is therefore discarded.  The last element
+               would require calculating the function over indices
+               ‘[9, 10, 11]’ and is therefore discarded.
+
+          "fill"
+               Any window elements outside the data array are replaced
+               by ‘NaN’.  For example, with a window of length 3, ‘Y(1)
+               = movsum ([NaN, X(1:2)])’, and ‘Y(end) = movsum
+               ([X(end-1:end), NaN])’.  This option usually results in Y
+               having ‘NaN’ values at the boundaries, although it is
+               influenced by how ‘movsum’ handles ‘NaN’, and also by the
+               property "nancond".
+
+          USER_VALUE
+               Any window elements outside the data array are replaced
+               by the specified value USER_VALUE which must be a numeric
+               scalar.  For example, with a window of length 3, ‘Y(1) =
+               movsum ([USER_VALUE, X(1:2)])’, and ‘Y(end) = movsum
+               ([X(end-1:end), USER_VALUE])’.  A common choice for
+               USER_VALUE is 0.
+
+          "same"
+               Any window elements outside the data array are replaced
+               by the value of X at the boundary.  For example, with a
+               window of length 3, ‘Y(1) = movsum ([X(1), X(1:2)])’, and
+               ‘Y(end) = movsum ([X(end-1:end), X(end)])’.
+
+          "periodic"
+               The window is wrapped so that any missing data elements
+               are taken from the other side of the data.  For example,
+               with a window of length 3, ‘Y(1) = movsum ([X(end),
+               X(1:2)])’, and ‘Y(end) = movsum ([X(end-1:end), X(1)])’.
+
+     "SamplePoints"
+          Caution: This option is not yet implemented.
+
+     Programming Note: This function is a wrapper which calls ‘movfun’.
+     For additional options and documentation, *Note movfun: XREFmovfun.
+
+     See also: *note movfun: XREFmovfun, *note movslice: XREFmovslice,
+     *note movmad: XREFmovmad, *note movmax: XREFmovmax, *note movmean:
+     XREFmovmean, *note movmedian: XREFmovmedian, *note movmin:
+     XREFmovmin, *note movprod: XREFmovprod, *note movstd: XREFmovstd,
+     *note movvar: XREFmovvar.
+
+ -- : Y = movvar (X, WLEN)
+ -- : Y = movvar (X, [NA, NB])
+ -- : Y = movvar (..., DIM)
+ -- : Y = movvar (..., "NANCOND")
+ -- : Y = movvar (..., PROPERTY, VALUE)
+     Calculate the moving variance over a sliding window of length WLEN
+     on data X.
+
+     If WLEN is a scalar, the function ‘var’ is applied to a moving
+     window of length WLEN.  When WLEN is an odd number the window is
+     symmetric and includes ‘(WLEN - 1) / 2’ elements on either side of
+     the central element.  For example, when calculating the output at
+     index 5 with a window length of 3, ‘movvar’ uses data elements
+     ‘[4, 5, 6]’.  If WLEN is an even number, the window is asymmetric
+     and has ‘WLEN/2’ elements to the left of the central element and
+     ‘WLEN/2 - 1’ elements to the right of the central element.  For
+     example, when calculating the output at index 5 with a window
+     length of 4, ‘movvar’ uses data elements ‘[3, 4, 5, 6]’.
+
+     If WLEN is an array with two elements ‘[NB, NA]’, the function is
+     applied to a moving window ‘-NB:NA’.  This window includes NB
+     number of elements _before_ the current element and NA number of
+     elements _after_ the current element.  The current element is
+     always included.  For example, given ‘WLEN = [3, 0]’, the data used
+     to calculate index 5 is ‘[2, 3, 4, 5]’.
+
+     If the optional argument DIM is given, operate along this
+     dimension.
+
+     The optional string argument "NANCOND" controls whether ‘NaN’ and
+     ‘NA’ values should be included ("includenan"), or excluded
+     ("omitnan"), from the data passed to ‘var’.  The default is
+     "includenan".  Caution: the "omitnan" option is not yet
+     implemented.
+
+     The calculation can be controlled by specifying PROPERTY/VALUE
+     pairs.  Valid properties are
+
+     "Endpoints"
+
+          This property controls how results are calculated at the
+          boundaries (endpoints) of the window.  Possible values are:
+
+          "shrink" (default)
+               The window is truncated at the beginning and end of the
+               array to exclude elements for which there is no source
+               data.  For example, with a window of length 3, ‘Y(1) =
+               var (X(1:2))’, and ‘Y(end) = var (X(end-1:end))’.
+
+          "discard"
+               Any Y values that use a window extending beyond the
+               original data array are deleted.  For example, with a
+               10-element data vector and a window of length 3, the
+               output will contain only 8 elements.  The first element
+               would require calculating the function over indices
+               ‘[0, 1, 2]’ and is therefore discarded.  The last element
+               would require calculating the function over indices
+               ‘[9, 10, 11]’ and is therefore discarded.
+
+          "fill"
+               Any window elements outside the data array are replaced
+               by ‘NaN’.  For example, with a window of length 3, ‘Y(1)
+               = var ([NaN, X(1:2)])’, and ‘Y(end) = var ([X(end-1:end),
+               NaN])’.  This option usually results in Y having ‘NaN’
+               values at the boundaries, although it is influenced by
+               how ‘var’ handles ‘NaN’, and also by the property
+               "nancond".
+
+          USER_VALUE
+               Any window elements outside the data array are replaced
+               by the specified value USER_VALUE which must be a numeric
+               scalar.  For example, with a window of length 3, ‘Y(1) =
+               var ([USER_VALUE, X(1:2)])’, and ‘Y(end) = var
+               ([X(end-1:end), USER_VALUE])’.  A common choice for
+               USER_VALUE is 0.
+
+          "same"
+               Any window elements outside the data array are replaced
+               by the value of X at the boundary.  For example, with a
+               window of length 3, ‘Y(1) = var ([X(1), X(1:2)])’, and
+               ‘Y(end) = var ([X(end-1:end), X(end)])’.
+
+          "periodic"
+               The window is wrapped so that any missing data elements
+               are taken from the other side of the data.  For example,
+               with a window of length 3, ‘Y(1) = var ([X(end),
+               X(1:2)])’, and ‘Y(end) = var ([X(end-1:end), X(1)])’.
+
+     "SamplePoints"
+          Caution: This option is not yet implemented.
+
+     Programming Note: This function is a wrapper which calls ‘movfun’.
+     For additional options and documentation, *Note movfun: XREFmovfun.
+
+     See also: *note movfun: XREFmovfun, *note movslice: XREFmovslice,
+     *note movmad: XREFmovmad, *note movmax: XREFmovmax, *note movmean:
+     XREFmovmean, *note movmedian: XREFmovmedian, *note movmin:
+     XREFmovmin, *note movprod: XREFmovprod, *note movstd: XREFmovstd,
+     *note movsum: XREFmovsum.
+
+
+File: octave.info,  Node: Basic Statistical Functions,  Next: Correlation and Regression Analysis,  Prev: Statistics on Sliding Windows of Data,  Up: Statistics
+
+26.3 Basic Statistical Functions
 ================================
 
 Octave supports various helpful statistical functions.  Many are useful
@@ -4766,12 +6473,28 @@ useful for statistics.
      See also: *note permute: XREFpermute, *note randperm: XREFrandperm,
      *note nchoosek: XREFnchoosek.
 
+ -- : ranks (X)
  -- : ranks (X, DIM)
-     Return the ranks of X along the first non-singleton dimension
-     adjusted for ties.
+ -- : ranks (X, DIM, RTYPE)
+     Return the ranks (in the sense of order statistics) of X along the
+     first non-singleton dimension adjusted for ties.
 
-     If the optional argument DIM is given, operate along this
+     If the optional DIM argument is given, operate along this
      dimension.
+
+     The optional parameter RTYPE determines how ties are handled.  All
+     examples below assume an input of ‘[ 1, 2, 2, 4 ]’.
+
+     0 or "fractional" (default) for fractional ranking (1, 2.5,
+          2.5, 4);
+
+     1 or "competition" for competition ranking (1, 2, 2, 4);
+
+     2 or "modified" for modified competition ranking (1, 3, 3, 4);
+
+     3 or "ordinal" for ordinal ranking (1, 2, 3, 4);
+
+     4 or "dense" for dense ranking (1, 2, 2, 3).
 
      See also: *note spearman: XREFspearman, *note kendall: XREFkendall.
 
@@ -4795,14 +6518,14 @@ useful for statistics.
      the sequence.
 
           runlength ([2, 2, 0, 4, 4, 4, 0, 1, 1, 1, 1])
-          ⇒  [2, 1, 3, 1, 4]
+          ⇒   2   1   3   1   4
 
      See also: *note run_count: XREFrun_count.
 
 
 File: octave.info,  Node: Correlation and Regression Analysis,  Next: Distributions,  Prev: Basic Statistical Functions,  Up: Statistics
 
-26.3 Correlation and Regression Analysis
+26.4 Correlation and Regression Analysis
 ========================================
 
  -- : cov (X)
@@ -4862,9 +6585,9 @@ File: octave.info,  Node: Correlation and Regression Analysis,  Next: Distributi
 
  -- : R = corrcoef (X)
  -- : R = corrcoef (X, Y)
+ -- : R = corrcoef (..., PARAM, VALUE, ...)
  -- : [R, P] = corrcoef (...)
  -- : [R, P, LCI, HCI] = corrcoef (...)
- -- : [...] = corrcoef (..., PARAM, VALUE, ...)
      Compute a matrix of correlation coefficients.
 
      X is an array where each column contains a variable and each row is
@@ -4873,23 +6596,13 @@ File: octave.info,  Node: Correlation and Regression Analysis,  Next: Distributi
      If a second input Y (of the same size as X) is given then calculate
      the correlation coefficients between X and Y.
 
-     R is a matrix of Pearson’s product moment correlation coefficients
-     for each pair of variables.
-
-     P is a matrix of pair-wise p-values testing for the null hypothesis
-     of a correlation coefficient of zero.
-
-     LCI and HCI are matrices containing, respectively, the lower and
-     higher bounds of the 95% confidence interval of each correlation
-     coefficient.
-
-     PARAM, VALUE are pairs of optional parameters and values.  Valid
-     options are:
+     PARAM, VALUE are optional pairs of parameters and values which
+     modify the calculation.  Valid options are:
 
      "alpha"
-          Confidence level used for the definition of the bounds of the
-          confidence interval, LCI and HCI.  Default is 0.05, i.e., 95%
-          confidence interval.
+          Confidence level used for the bounds of the confidence
+          interval, LCI and HCI.  Default is 0.05, i.e., 95% confidence
+          interval.
 
      "rows"
           Determine processing of NaN values.  Acceptable values are
@@ -4897,6 +6610,16 @@ File: octave.info,  Node: Correlation and Regression Analysis,  Next: Distributi
           "complete", only the rows without NaN values are considered.
           With "pairwise", the selection of NaN-free rows is made for
           each pair of variables.
+
+     Output R is a matrix of Pearson’s product moment correlation
+     coefficients for each pair of variables.
+
+     Output P is a matrix of pair-wise p-values testing for the null
+     hypothesis of a correlation coefficient of zero.
+
+     Outputs LCI and HCI are matrices containing, respectively, the
+     lower and higher bounds of the 95% confidence interval of each
+     correlation coefficient.
 
      See also: *note corr: XREFcorr, *note cov: XREFcov.
 
@@ -4940,7 +6663,7 @@ File: octave.info,  Node: Correlation and Regression Analysis,  Next: Distributi
 
 File: octave.info,  Node: Distributions,  Next: Random Number Generation,  Prev: Correlation and Regression Analysis,  Up: Statistics
 
-26.4 Distributions
+26.5 Distributions
 ==================
 
 Octave has functions for computing the Probability Density Function
@@ -4991,7 +6714,7 @@ Distribution
 
 File: octave.info,  Node: Random Number Generation,  Prev: Distributions,  Up: Statistics
 
-26.5 Random Number Generation
+26.6 Random Number Generation
 =============================
 
 Octave can generate random numbers from a large number of distributions.
@@ -5331,2797 +7054,4 @@ algorithm.
 
      See also: *note polyval: XREFpolyval, *note roots: XREFroots, *note
      poly: XREFpoly.
-
-
-File: octave.info,  Node: Finding Roots,  Next: Products of Polynomials,  Prev: Evaluating Polynomials,  Up: Polynomial Manipulations
-
-28.2 Finding Roots
-==================
-
-Octave can find the roots of a given polynomial.  This is done by
-computing the companion matrix of the polynomial (see the ‘compan’
-function for a definition), and then finding its eigenvalues.
-
- -- : roots (C)
-
-     Compute the roots of the polynomial C.
-
-     For a vector C with N components, return the roots of the
-     polynomial
-
-          c(1) * x^(N-1) + ... + c(N-1) * x + c(N)
-
-     As an example, the following code finds the roots of the quadratic
-     polynomial
-
-          p(x) = x^2 - 5.
-
-          c = [1, 0, -5];
-          roots (c)
-          ⇒  2.2361
-          ⇒ -2.2361
-
-     Note that the true result is +/- sqrt(5) which is roughly +/-
-     2.2361.
-
-     See also: *note poly: XREFpoly, *note compan: XREFcompan, *note
-     fzero: XREFfzero.
-
- -- : Z = polyeig (C0, C1, ..., CL)
- -- : [V, Z] = polyeig (C0, C1, ..., CL)
-
-     Solve the polynomial eigenvalue problem of degree L.
-
-     Given an N*N matrix polynomial
-
-     ‘C(s) = C0 + C1 s + ... + CL s^l’
-
-     ‘polyeig’ solves the eigenvalue problem
-
-     ‘(C0 + C1 + ... + CL)v = 0’.
-
-     Note that the eigenvalues Z are the zeros of the matrix polynomial.
-     Z is a row vector with N*L elements.  V is a matrix (N x N*L) with
-     columns that correspond to the eigenvectors.
-
-     See also: *note eig: XREFeig, *note eigs: XREFeigs, *note compan:
-     XREFcompan.
-
- -- : compan (C)
-     Compute the companion matrix corresponding to polynomial
-     coefficient vector C.
-
-     The companion matrix is
-
-               _                                                        _
-              |  -c(2)/c(1)   -c(3)/c(1)  ...  -c(N)/c(1)  -c(N+1)/c(1)  |
-              |       1            0      ...       0             0      |
-              |       0            1      ...       0             0      |
-          A = |       .            .      .         .             .      |
-              |       .            .       .        .             .      |
-              |       .            .        .       .             .      |
-              |_      0            0      ...       1             0     _|
-
-     The eigenvalues of the companion matrix are equal to the roots of
-     the polynomial.
-
-     See also: *note roots: XREFroots, *note poly: XREFpoly, *note eig:
-     XREFeig.
-
- -- : [MULTP, IDXP] = mpoles (P)
- -- : [MULTP, IDXP] = mpoles (P, TOL)
- -- : [MULTP, IDXP] = mpoles (P, TOL, REORDER)
-     Identify unique poles in P and their associated multiplicity.
-
-     The output is ordered from largest pole to smallest pole.
-
-     If the relative difference of two poles is less than TOL then they
-     are considered to be multiples.  The default value for TOL is
-     0.001.
-
-     If the optional parameter REORDER is zero, poles are not sorted.
-
-     The output MULTP is a vector specifying the multiplicity of the
-     poles.  ‘MULTP(n)’ refers to the multiplicity of the Nth pole
-     ‘P(IDXP(n))’.
-
-     For example:
-
-          p = [2 3 1 1 2];
-          [m, n] = mpoles (p)
-             ⇒ m = [1; 1; 2; 1; 2]
-             ⇒ n = [2; 5; 1; 4; 3]
-             ⇒ p(n) = [3, 2, 2, 1, 1]
-
-     See also: *note residue: XREFresidue, *note poly: XREFpoly, *note
-     roots: XREFroots, *note conv: XREFconv, *note deconv: XREFdeconv.
-
-
-File: octave.info,  Node: Products of Polynomials,  Next: Derivatives / Integrals / Transforms,  Prev: Finding Roots,  Up: Polynomial Manipulations
-
-28.3 Products of Polynomials
-============================
-
- -- : conv (A, B)
- -- : conv (A, B, SHAPE)
-     Convolve two vectors A and B.
-
-     When A and B are the coefficient vectors of two polynomials, the
-     convolution represents the coefficient vector of the product
-     polynomial.
-
-     The size of the result is determined by the optional SHAPE argument
-     which takes the following values
-
-     SHAPE = "full"
-          Return the full convolution.  (default) The result is a vector
-          with length equal to ‘length (A) + length (B) - 1’.
-
-     SHAPE = "same"
-          Return the central part of the convolution with the same size
-          as A.
-
-     SHAPE = "valid"
-          Return only the parts which do not include zero-padded edges.
-          The size of the result is ‘max (size (A) - size (B) + 1, 0)’.
-
-     See also: *note deconv: XREFdeconv, *note conv2: XREFconv2, *note
-     convn: XREFconvn, *note fftconv: XREFfftconv.
-
- -- : C = convn (A, B)
- -- : C = convn (A, B, SHAPE)
-     Return the n-D convolution of A and B.
-
-     The size of the result is determined by the optional SHAPE argument
-     which takes the following values
-
-     SHAPE = "full"
-          Return the full convolution.  (default)
-
-     SHAPE = "same"
-          Return central part of the convolution with the same size as
-          A.  The central part of the convolution begins at the indices
-          ‘floor ([size(B)/2] + 1)’.
-
-     SHAPE = "valid"
-          Return only the parts which do not include zero-padded edges.
-          The size of the result is ‘max (size (A) - size (B) + 1, 0)’.
-
-     See also: *note conv2: XREFconv2, *note conv: XREFconv.
-
- -- : B = deconv (Y, A)
- -- : [B, R] = deconv (Y, A)
-     Deconvolve two vectors (polynomial division).
-
-     ‘[B, R] = deconv (Y, A)’ solves for B and R such that ‘Y = conv (A,
-     B) + R’.
-
-     If Y and A are polynomial coefficient vectors, B will contain the
-     coefficients of the polynomial quotient and R will be a remainder
-     polynomial of lowest order.
-
-     See also: *note conv: XREFconv, *note residue: XREFresidue.
-
- -- : conv2 (A, B)
- -- : conv2 (V1, V2, M)
- -- : conv2 (..., SHAPE)
-     Return the 2-D convolution of A and B.
-
-     The size of the result is determined by the optional SHAPE argument
-     which takes the following values
-
-     SHAPE = "full"
-          Return the full convolution.  (default)
-
-     SHAPE = "same"
-          Return the central part of the convolution with the same size
-          as A.  The central part of the convolution begins at the
-          indices ‘floor ([size(B)/2] + 1)’.
-
-     SHAPE = "valid"
-          Return only the parts which do not include zero-padded edges.
-          The size of the result is ‘max (size (A) - size (B) + 1, 0)’.
-
-     When the third argument is a matrix, return the convolution of the
-     matrix M by the vector V1 in the column direction and by the vector
-     V2 in the row direction.
-
-     See also: *note conv: XREFconv, *note convn: XREFconvn.
-
- -- : Q = polygcd (B, A)
- -- : Q = polygcd (B, A, TOL)
-
-     Find the greatest common divisor of two polynomials.
-
-     This is equivalent to the polynomial found by multiplying together
-     all the common roots.  Together with deconv, you can reduce a ratio
-     of two polynomials.
-
-     The tolerance TOL defaults to ‘sqrt (eps)’.
-
-     *Caution:* This is a numerically unstable algorithm and should not
-     be used on large polynomials.
-
-     Example code:
-
-          polygcd (poly (1:8), poly (3:12)) - poly (3:8)
-          ⇒ [ 0, 0, 0, 0, 0, 0, 0 ]
-          deconv (poly (1:8), polygcd (poly (1:8), poly (3:12))) - poly (1:2)
-          ⇒ [ 0, 0, 0 ]
-
-     See also: *note poly: XREFpoly, *note roots: XREFroots, *note conv:
-     XREFconv, *note deconv: XREFdeconv, *note residue: XREFresidue.
-
- -- : [R, P, K, E] = residue (B, A)
- -- : [B, A] = residue (R, P, K)
- -- : [B, A] = residue (R, P, K, E)
-     The first calling form computes the partial fraction expansion for
-     the quotient of the polynomials, B and A.
-
-     The quotient is defined as
-
-          B(s)    M       r(m)        N
-          ---- = SUM ------------- + SUM k(i)*s^(N-i)
-          A(s)   m=1 (s-p(m))^e(m)   i=1
-
-     where M is the number of poles (the length of the R, P, and E), the
-     K vector is a polynomial of order N-1 representing the direct
-     contribution, and the E vector specifies the multiplicity of the
-     m-th residue’s pole.
-
-     For example,
-
-          b = [1, 1, 1];
-          a = [1, -5, 8, -4];
-          [r, p, k, e] = residue (b, a)
-             ⇒ r = [-2; 7; 3]
-             ⇒ p = [2; 2; 1]
-             ⇒ k = [](0x0)
-             ⇒ e = [1; 2; 1]
-
-     which represents the following partial fraction expansion
-
-                  s^2 + s + 1       -2        7        3
-             ------------------- = ----- + ------- + -----
-             s^3 - 5s^2 + 8s - 4   (s-2)   (s-2)^2   (s-1)
-
-     The second calling form performs the inverse operation and computes
-     the reconstituted quotient of polynomials, B(s)/A(s), from the
-     partial fraction expansion; represented by the residues, poles, and
-     a direct polynomial specified by R, P and K, and the pole
-     multiplicity E.
-
-     If the multiplicity, E, is not explicitly specified the
-     multiplicity is determined by the function ‘mpoles’.
-
-     For example:
-
-          r = [-2; 7; 3];
-          p = [2; 2; 1];
-          k = [1, 0];
-          [b, a] = residue (r, p, k)
-             ⇒ b = [1, -5, 9, -3, 1]
-             ⇒ a = [1, -5, 8, -4]
-
-          where mpoles is used to determine e = [1; 2; 1]
-
-     Alternatively the multiplicity may be defined explicitly, for
-     example,
-
-          r = [7; 3; -2];
-          p = [2; 1; 2];
-          k = [1, 0];
-          e = [2; 1; 1];
-          [b, a] = residue (r, p, k, e)
-             ⇒ b = [1, -5, 9, -3, 1]
-             ⇒ a = [1, -5, 8, -4]
-
-     which represents the following partial fraction expansion
-
-           -2        7        3         s^4 - 5s^3 + 9s^2 - 3s + 1
-          ----- + ------- + ----- + s = --------------------------
-          (s-2)   (s-2)^2   (s-1)          s^3 - 5s^2 + 8s - 4
-
-     See also: *note mpoles: XREFmpoles, *note poly: XREFpoly, *note
-     roots: XREFroots, *note conv: XREFconv, *note deconv: XREFdeconv.
-
-
-File: octave.info,  Node: Derivatives / Integrals / Transforms,  Next: Polynomial Interpolation,  Prev: Products of Polynomials,  Up: Polynomial Manipulations
-
-28.4 Derivatives / Integrals / Transforms
-=========================================
-
-Octave comes with functions for computing the derivative and the
-integral of a polynomial.  The functions ‘polyder’ and ‘polyint’ both
-return new polynomials describing the result.  As an example we’ll
-compute the definite integral of p(x) = x^2 + 1 from 0 to 3.
-
-     c = [1, 0, 1];
-     integral = polyint (c);
-     area = polyval (integral, 3) - polyval (integral, 0)
-     ⇒ 12
-
- -- : polyder (P)
- -- : [K] = polyder (A, B)
- -- : [Q, D] = polyder (B, A)
-     Return the coefficients of the derivative of the polynomial whose
-     coefficients are given by the vector P.
-
-     If a pair of polynomials is given, return the derivative of the
-     product A*B.
-
-     If two inputs and two outputs are given, return the derivative of
-     the polynomial quotient B/A.  The quotient numerator is in Q and
-     the denominator in D.
-
-     See also: *note polyint: XREFpolyint, *note polyval: XREFpolyval,
-     *note polyreduce: XREFpolyreduce.
-
- -- : polyint (P)
- -- : polyint (P, K)
-     Return the coefficients of the integral of the polynomial whose
-     coefficients are represented by the vector P.
-
-     The variable K is the constant of integration, which by default is
-     set to zero.
-
-     See also: *note polyder: XREFpolyder, *note polyval: XREFpolyval.
-
- -- : polyaffine (F, MU)
-     Return the coefficients of the polynomial vector F after an affine
-     transformation.
-
-     If F is the vector representing the polynomial f(x), then ‘G =
-     polyaffine (F, MU)’ is the vector representing:
-
-          g(x) = f( (x - MU(1)) / MU(2) )
-
-     See also: *note polyval: XREFpolyval, *note polyfit: XREFpolyfit.
-
-
-File: octave.info,  Node: Polynomial Interpolation,  Next: Miscellaneous Functions,  Prev: Derivatives / Integrals / Transforms,  Up: Polynomial Manipulations
-
-28.5 Polynomial Interpolation
-=============================
-
-Octave comes with good support for various kinds of interpolation, most
-of which are described in *note Interpolation::.  One simple alternative
-to the functions described in the aforementioned chapter, is to fit a
-single polynomial, or a piecewise polynomial (spline) to some given data
-points.  To avoid a highly fluctuating polynomial, one most often wants
-to fit a low-order polynomial to data.  This usually means that it is
-necessary to fit the polynomial in a least-squares sense, which just is
-what the ‘polyfit’ function does.
-
- -- : P = polyfit (X, Y, N)
- -- : [P, S] = polyfit (X, Y, N)
- -- : [P, S, MU] = polyfit (X, Y, N)
-     Return the coefficients of a polynomial P(X) of degree N that
-     minimizes the least-squares-error of the fit to the points ‘[X,
-     Y]’.
-
-     If N is a logical vector, it is used as a mask to selectively force
-     the corresponding polynomial coefficients to be used or ignored.
-
-     The polynomial coefficients are returned in a row vector.
-
-     The optional output S is a structure containing the following
-     fields:
-
-     ‘R’
-          Triangular factor R from the QR decomposition.
-
-     ‘X’
-          The Vandermonde matrix used to compute the polynomial
-          coefficients.
-
-     ‘C’
-          The unscaled covariance matrix, formally equal to the inverse
-          of X’*X, but computed in a way minimizing roundoff error
-          propagation.
-
-     ‘df’
-          The degrees of freedom.
-
-     ‘normr’
-          The norm of the residuals.
-
-     ‘yf’
-          The values of the polynomial for each value of X.
-
-     The second output may be used by ‘polyval’ to calculate the
-     statistical error limits of the predicted values.  In particular,
-     the standard deviation of P coefficients is given by
-
-     ‘sqrt (diag (s.C)/s.df)*s.normr’.
-
-     When the third output, MU, is present the coefficients, P, are
-     associated with a polynomial in
-
-     ‘XHAT = (X - MU(1)) / MU(2)’
-     where MU(1) = mean (X), and MU(2) = std (X).
-
-     This linear transformation of X improves the numerical stability of
-     the fit.
-
-     See also: *note polyval: XREFpolyval, *note polyaffine:
-     XREFpolyaffine, *note roots: XREFroots, *note vander: XREFvander,
-     *note zscore: XREFzscore.
-
-   In situations where a single polynomial isn’t good enough, a solution
-is to use several polynomials pieced together.  The function ‘splinefit’
-fits a piecewise polynomial (spline) to a set of data.
-
- -- : PP = splinefit (X, Y, BREAKS)
- -- : PP = splinefit (X, Y, P)
- -- : PP = splinefit (..., "periodic", PERIODIC)
- -- : PP = splinefit (..., "robust", ROBUST)
- -- : PP = splinefit (..., "beta", BETA)
- -- : PP = splinefit (..., "order", ORDER)
- -- : PP = splinefit (..., "constraints", CONSTRAINTS)
-
-     Fit a piecewise cubic spline with breaks (knots) BREAKS to the
-     noisy data, X and Y.
-
-     X is a vector, and Y is a vector or N-D array.  If Y is an N-D
-     array, then X(j) is matched to Y(:,...,:,j).
-
-     P is a positive integer defining the number of intervals along X,
-     and P+1 is the number of breaks.  The number of points in each
-     interval differ by no more than 1.
-
-     The optional property PERIODIC is a logical value which specifies
-     whether a periodic boundary condition is applied to the spline.
-     The length of the period is ‘max (BREAKS) - min (BREAKS)’.  The
-     default value is ‘false’.
-
-     The optional property ROBUST is a logical value which specifies if
-     robust fitting is to be applied to reduce the influence of outlying
-     data points.  Three iterations of weighted least squares are
-     performed.  Weights are computed from previous residuals.  The
-     sensitivity of outlier identification is controlled by the property
-     BETA.  The value of BETA is restricted to the range, 0 < BETA < 1.
-     The default value is BETA = 1/2.  Values close to 0 give all data
-     equal weighting.  Increasing values of BETA reduce the influence of
-     outlying data.  Values close to unity may cause instability or rank
-     deficiency.
-
-     The fitted spline is returned as a piecewise polynomial, PP, and
-     may be evaluated using ‘ppval’.
-
-     The splines are constructed of polynomials with degree ORDER.  The
-     default is a cubic, ORDER=3.  A spline with P pieces has P+ORDER
-     degrees of freedom.  With periodic boundary conditions the degrees
-     of freedom are reduced to P.
-
-     The optional property, CONSTAINTS, is a structure specifying linear
-     constraints on the fit.  The structure has three fields, "xc",
-     "yc", and "cc".
-
-     "xc"
-          Vector of the x-locations of the constraints.
-
-     "yc"
-          Constraining values at the locations XC.  The default is an
-          array of zeros.
-
-     "cc"
-          Coefficients (matrix).  The default is an array of ones.  The
-          number of rows is limited to the order of the piecewise
-          polynomials, ORDER.
-
-     Constraints are linear combinations of derivatives of order 0 to
-     ORDER-1 according to
-
-          cc(1,j) * y(xc(j)) + cc(2,j) * y'(xc(j)) + ... = yc(:,...,:,j).
-
-     See also: *note interp1: XREFinterp1, *note unmkpp: XREFunmkpp,
-     *note ppval: XREFppval, *note spline: XREFspline, *note pchip:
-     XREFpchip, *note ppder: XREFppder, *note ppint: XREFppint, *note
-     ppjumps: XREFppjumps.
-
-   The number of BREAKS (or knots) used to construct the piecewise
-polynomial is a significant factor in suppressing the noise present in
-the input data, X and Y.  This is demonstrated by the example below.
-
-     x = 2 * pi * rand (1, 200);
-     y = sin (x) + sin (2 * x) + 0.2 * randn (size (x));
-     ## Uniform breaks
-     breaks = linspace (0, 2 * pi, 41); % 41 breaks, 40 pieces
-     pp1 = splinefit (x, y, breaks);
-     ## Breaks interpolated from data
-     pp2 = splinefit (x, y, 10);  % 11 breaks, 10 pieces
-     ## Plot
-     xx = linspace (0, 2 * pi, 400);
-     y1 = ppval (pp1, xx);
-     y2 = ppval (pp2, xx);
-     plot (x, y, ".", xx, [y1; y2])
-     axis tight
-     ylim auto
-     legend ({"data", "41 breaks, 40 pieces", "11 breaks, 10 pieces"})
-
-   The piecewise polynomial fit, provided by ‘splinefit’, has continuous
-derivatives up to the ORDER-1.  For example, a cubic fit has continuous
-first and second derivatives.  This is demonstrated by the code
-
-     ## Data (200 points)
-     x = 2 * pi * rand (1, 200);
-     y = sin (x) + sin (2 * x) + 0.1 * randn (size (x));
-     ## Piecewise constant
-     pp1 = splinefit (x, y, 8, "order", 0);
-     ## Piecewise linear
-     pp2 = splinefit (x, y, 8, "order", 1);
-     ## Piecewise quadratic
-     pp3 = splinefit (x, y, 8, "order", 2);
-     ## Piecewise cubic
-     pp4 = splinefit (x, y, 8, "order", 3);
-     ## Piecewise quartic
-     pp5 = splinefit (x, y, 8, "order", 4);
-     ## Plot
-     xx = linspace (0, 2 * pi, 400);
-     y1 = ppval (pp1, xx);
-     y2 = ppval (pp2, xx);
-     y3 = ppval (pp3, xx);
-     y4 = ppval (pp4, xx);
-     y5 = ppval (pp5, xx);
-     plot (x, y, ".", xx, [y1; y2; y3; y4; y5])
-     axis tight
-     ylim auto
-     legend ({"data", "order 0", "order 1", "order 2", "order 3", "order 4"})
-
-   When the underlying function to provide a fit to is periodic,
-‘splinefit’ is able to apply the boundary conditions needed to manifest
-a periodic fit.  This is demonstrated by the code below.
-
-     ## Data (100 points)
-     x = 2 * pi * [0, (rand (1, 98)), 1];
-     y = sin (x) - cos (2 * x) + 0.2 * randn (size (x));
-     ## No constraints
-     pp1 = splinefit (x, y, 10, "order", 5);
-     ## Periodic boundaries
-     pp2 = splinefit (x, y, 10, "order", 5, "periodic", true);
-     ## Plot
-     xx = linspace (0, 2 * pi, 400);
-     y1 = ppval (pp1, xx);
-     y2 = ppval (pp2, xx);
-     plot (x, y, ".", xx, [y1; y2])
-     axis tight
-     ylim auto
-     legend ({"data", "no constraints", "periodic"})
-
-   More complex constraints may be added as well.  For example, the code
-below illustrates a periodic fit with values that have been clamped at
-the endpoints, and a second periodic fit which is hinged at the
-endpoints.
-
-     ## Data (200 points)
-     x = 2 * pi * rand (1, 200);
-     y = sin (2 * x) + 0.1 * randn (size (x));
-     ## Breaks
-     breaks = linspace (0, 2 * pi, 10);
-     ## Clamped endpoints, y = y' = 0
-     xc = [0, 0, 2*pi, 2*pi];
-     cc = [(eye (2)), (eye (2))];
-     con = struct ("xc", xc, "cc", cc);
-     pp1 = splinefit (x, y, breaks, "constraints", con);
-     ## Hinged periodic endpoints, y = 0
-     con = struct ("xc", 0);
-     pp2 = splinefit (x, y, breaks, "constraints", con, "periodic", true);
-     ## Plot
-     xx = linspace (0, 2 * pi, 400);
-     y1 = ppval (pp1, xx);
-     y2 = ppval (pp2, xx);
-     plot (x, y, ".", xx, [y1; y2])
-     axis tight
-     ylim auto
-     legend ({"data", "clamped", "hinged periodic"})
-
-   The ‘splinefit’ function also provides the convenience of a ROBUST
-fitting, where the effect of outlying data is reduced.  In the example
-below, three different fits are provided.  Two with differing levels of
-outlier suppression and a third illustrating the non-robust solution.
-
-     ## Data
-     x = linspace (0, 2*pi, 200);
-     y = sin (x) + sin (2 * x) + 0.05 * randn (size (x));
-     ## Add outliers
-     x = [x, linspace(0,2*pi,60)];
-     y = [y, -ones(1,60)];
-     ## Fit splines with hinged conditions
-     con = struct ("xc", [0, 2*pi]);
-     ## Robust fitting, beta = 0.25
-     pp1 = splinefit (x, y, 8, "constraints", con, "beta", 0.25);
-     ## Robust fitting, beta = 0.75
-     pp2 = splinefit (x, y, 8, "constraints", con, "beta", 0.75);
-     ## No robust fitting
-     pp3 = splinefit (x, y, 8, "constraints", con);
-     ## Plot
-     xx = linspace (0, 2*pi, 400);
-     y1 = ppval (pp1, xx);
-     y2 = ppval (pp2, xx);
-     y3 = ppval (pp3, xx);
-     plot (x, y, ".", xx, [y1; y2; y3])
-     legend ({"data with outliers","robust, beta = 0.25", ...
-              "robust, beta = 0.75", "no robust fitting"})
-     axis tight
-     ylim auto
-
-   A very specific form of polynomial interpretation is the Padé
-approximant.  For control systems, a continuous-time delay can be
-modeled very simply with the approximant.
-
- -- : [NUM, DEN] = padecoef (T)
- -- : [NUM, DEN] = padecoef (T, N)
-     Compute the Nth-order Padé approximant of the continuous-time delay
-     T in transfer function form.
-
-     The Padé approximant of ‘exp (-sT)’ is defined by the following
-     equation
-
-                       Pn(s)
-          exp (-sT) ~ -------
-                       Qn(s)
-
-     Where both Pn(s) and Qn(s) are Nth-order rational functions defined
-     by the following expressions
-
-                   N    (2N - k)!N!        k
-          Pn(s) = SUM --------------- (-sT)
-                  k=0 (2N)!k!(N - k)!
-
-          Qn(s) = Pn(-s)
-
-     The inputs T and N must be non-negative numeric scalars.  If N is
-     unspecified it defaults to 1.
-
-     The output row vectors NUM and DEN contain the numerator and
-     denominator coefficients in descending powers of s.  Both are
-     Nth-order polynomials.
-
-     For example:
-
-          t = 0.1;
-          n = 4;
-          [num, den] = padecoef (t, n)
-          ⇒ num =
-
-                1.0000e-04  -2.0000e-02   1.8000e+00  -8.4000e+01   1.6800e+03
-
-          ⇒ den =
-
-                1.0000e-04   2.0000e-02   1.8000e+00   8.4000e+01   1.6800e+03
-
-   The function, ‘ppval’, evaluates the piecewise polynomials, created
-by ‘mkpp’ or other means, and ‘unmkpp’ returns detailed information
-about the piecewise polynomial.
-
-   The following example shows how to combine two linear functions and a
-quadratic into one function.  Each of these functions is expressed on
-adjoined intervals.
-
-     x = [-2, -1, 1, 2];
-     p = [ 0,  1, 0;
-           1, -2, 1;
-           0, -1, 1 ];
-     pp = mkpp (x, p);
-     xi = linspace (-2, 2, 50);
-     yi = ppval (pp, xi);
-     plot (xi, yi);
-
- -- : PP = mkpp (BREAKS, COEFS)
- -- : PP = mkpp (BREAKS, COEFS, D)
-
-     Construct a piecewise polynomial (pp) structure from sample points
-     BREAKS and coefficients COEFS.
-
-     BREAKS must be a vector of strictly increasing values.  The number
-     of intervals is given by ‘NI = length (BREAKS) - 1’.
-
-     When M is the polynomial order COEFS must be of size:
-     NI-by-(M + 1).
-
-     The i-th row of COEFS, ‘COEFS (I,:)’, contains the coefficients for
-     the polynomial over the I-th interval, ordered from highest (M) to
-     lowest (0).
-
-     COEFS may also be a multi-dimensional array, specifying a
-     vector-valued or array-valued polynomial.  In that case the
-     polynomial order M is defined by the length of the last dimension
-     of COEFS.  The size of first dimension(s) are given by the scalar
-     or vector D.  If D is not given it is set to ‘1’.  In any case
-     COEFS is reshaped to a 2-D matrix of size ‘[NI*prod(D) M]’.
-
-     See also: *note unmkpp: XREFunmkpp, *note ppval: XREFppval, *note
-     spline: XREFspline, *note pchip: XREFpchip, *note ppder: XREFppder,
-     *note ppint: XREFppint, *note ppjumps: XREFppjumps.
-
- -- : [X, P, N, K, D] = unmkpp (PP)
-
-     Extract the components of a piecewise polynomial structure PP.
-
-     The components are:
-
-     X
-          Sample points.
-
-     P
-          Polynomial coefficients for points in sample interval.  ‘P (I,
-          :)’ contains the coefficients for the polynomial over interval
-          I ordered from highest to lowest.  If ‘D > 1’, ‘P (R, I, :)’
-          contains the coefficients for the r-th polynomial defined on
-          interval I.
-
-     N
-          Number of polynomial pieces.
-
-     K
-          Order of the polynomial plus 1.
-
-     D
-          Number of polynomials defined for each interval.
-
-     See also: *note mkpp: XREFmkpp, *note ppval: XREFppval, *note
-     spline: XREFspline, *note pchip: XREFpchip.
-
- -- : YI = ppval (PP, XI)
-     Evaluate the piecewise polynomial structure PP at the points XI.
-
-     If PP describes a scalar polynomial function, the result is an
-     array of the same shape as XI.  Otherwise, the size of the result
-     is ‘[pp.dim, length(XI)]’ if XI is a vector, or ‘[pp.dim,
-     size(XI)]’ if it is a multi-dimensional array.
-
-     See also: *note mkpp: XREFmkpp, *note unmkpp: XREFunmkpp, *note
-     spline: XREFspline, *note pchip: XREFpchip.
-
- -- : ppd = ppder (pp)
- -- : ppd = ppder (pp, m)
-     Compute the piecewise M-th derivative of a piecewise polynomial
-     struct PP.
-
-     If M is omitted the first derivative is calculated.
-
-     See also: *note mkpp: XREFmkpp, *note ppval: XREFppval, *note
-     ppint: XREFppint.
-
- -- : PPI = ppint (PP)
- -- : PPI = ppint (PP, C)
-     Compute the integral of the piecewise polynomial struct PP.
-
-     C, if given, is the constant of integration.
-
-     See also: *note mkpp: XREFmkpp, *note ppval: XREFppval, *note
-     ppder: XREFppder.
-
- -- : JUMPS = ppjumps (PP)
-     Evaluate the boundary jumps of a piecewise polynomial.
-
-     If there are n intervals, and the dimensionality of PP is d, the
-     resulting array has dimensions ‘[d, n-1]’.
-
-     See also: *note mkpp: XREFmkpp.
-
-
-File: octave.info,  Node: Miscellaneous Functions,  Prev: Polynomial Interpolation,  Up: Polynomial Manipulations
-
-28.6 Miscellaneous Functions
-============================
-
- -- : poly (A)
- -- : poly (X)
-     If A is a square N-by-N matrix, ‘poly (A)’ is the row vector of the
-     coefficients of ‘det (z * eye (N) - A)’, the characteristic
-     polynomial of A.
-
-     For example, the following code finds the eigenvalues of A which
-     are the roots of ‘poly (A)’.
-
-          roots (poly (eye (3)))
-              ⇒ 1.00001 + 0.00001i
-                 1.00001 - 0.00001i
-                 0.99999 + 0.00000i
-
-     In fact, all three eigenvalues are exactly 1 which emphasizes that
-     for numerical performance the ‘eig’ function should be used to
-     compute eigenvalues.
-
-     If X is a vector, ‘poly (X)’ is a vector of the coefficients of the
-     polynomial whose roots are the elements of X.  That is, if C is a
-     polynomial, then the elements of ‘D = roots (poly (C))’ are
-     contained in C.  The vectors C and D are not identical, however,
-     due to sorting and numerical errors.
-
-     See also: *note roots: XREFroots, *note eig: XREFeig.
-
- -- : polyout (C)
- -- : polyout (C, X)
- -- : STR = polyout (...)
-     Display a formatted version of the polynomial C.
-
-     The formatted polynomial
-
-          c(x) = c(1) * x^n + ... + c(n) x + c(n+1)
-
-     is returned as a string or written to the screen if ‘nargout’ is
-     zero.
-
-     The second argument X specifies the variable name to use for each
-     term and defaults to the string "s".
-
-     See also: *note polyreduce: XREFpolyreduce.
-
- -- : polyreduce (C)
-     Reduce a polynomial coefficient vector to a minimum number of terms
-     by stripping off any leading zeros.
-
-     See also: *note polyout: XREFpolyout.
-
-
-File: octave.info,  Node: Interpolation,  Next: Geometry,  Prev: Polynomial Manipulations,  Up: Top
-
-29 Interpolation
-****************
-
-* Menu:
-
-* One-dimensional Interpolation::
-* Multi-dimensional Interpolation::
-
-
-File: octave.info,  Node: One-dimensional Interpolation,  Next: Multi-dimensional Interpolation,  Up: Interpolation
-
-29.1 One-dimensional Interpolation
-==================================
-
-Octave supports several methods for one-dimensional interpolation, most
-of which are described in this section.  *note Polynomial
-Interpolation:: and *note Interpolation on Scattered Data:: describe
-additional methods.
-
- -- : YI = interp1 (X, Y, XI)
- -- : YI = interp1 (Y, XI)
- -- : YI = interp1 (..., METHOD)
- -- : YI = interp1 (..., EXTRAP)
- -- : YI = interp1 (..., "left")
- -- : YI = interp1 (..., "right")
- -- : PP = interp1 (..., "pp")
-
-     One-dimensional interpolation.
-
-     Interpolate input data to determine the value of YI at the points
-     XI.  If not specified, X is taken to be the indices of Y (‘1:length
-     (Y)’).  If Y is a matrix or an N-dimensional array, the
-     interpolation is performed on each column of Y.
-
-     The interpolation METHOD is one of:
-
-     "nearest"
-          Return the nearest neighbor.
-
-     "previous"
-          Return the previous neighbor.
-
-     "next"
-          Return the next neighbor.
-
-     "linear" (default)
-          Linear interpolation from nearest neighbors.
-
-     "pchip"
-          Piecewise cubic Hermite interpolating
-          polynomial—shape-preserving interpolation with smooth first
-          derivative.
-
-     "cubic"
-          Cubic interpolation (same as "pchip").
-
-     "spline"
-          Cubic spline interpolation—smooth first and second derivatives
-          throughout the curve.
-
-     Adding ’*’ to the start of any method above forces ‘interp1’ to
-     assume that X is uniformly spaced, and only ‘X(1)’ and ‘X(2)’ are
-     referenced.  This is usually faster, and is never slower.  The
-     default method is "linear".
-
-     If EXTRAP is the string "extrap", then extrapolate values beyond
-     the endpoints using the current METHOD.  If EXTRAP is a number,
-     then replace values beyond the endpoints with that number.  When
-     unspecified, EXTRAP defaults to ‘NA’.
-
-     If the string argument "pp" is specified, then XI should not be
-     supplied and ‘interp1’ returns a piecewise polynomial object.  This
-     object can later be used with ‘ppval’ to evaluate the
-     interpolation.  There is an equivalence, such that ‘ppval (interp1
-     (X, Y, METHOD, "pp"), XI) == interp1 (X, Y, XI, METHOD, "extrap")’.
-
-     Duplicate points in X specify a discontinuous interpolant.  There
-     may be at most 2 consecutive points with the same value.  If X is
-     increasing, the default discontinuous interpolant is
-     right-continuous.  If X is decreasing, the default discontinuous
-     interpolant is left-continuous.  The continuity condition of the
-     interpolant may be specified by using the options "left" or "right"
-     to select a left-continuous or right-continuous interpolant,
-     respectively.  Discontinuous interpolation is only allowed for
-     "nearest" and "linear" methods; in all other cases, the X-values
-     must be unique.
-
-     An example of the use of ‘interp1’ is
-
-          xf = [0:0.05:10];
-          yf = sin (2*pi*xf/5);
-          xp = [0:10];
-          yp = sin (2*pi*xp/5);
-          lin = interp1 (xp, yp, xf);
-          near = interp1 (xp, yp, xf, "nearest");
-          pch = interp1 (xp, yp, xf, "pchip");
-          spl = interp1 (xp, yp, xf, "spline");
-          plot (xf,yf,"r", xf,near,"g", xf,lin,"b", xf,pch,"c", xf,spl,"m",
-                xp,yp,"r*");
-          legend ("original", "nearest", "linear", "pchip", "spline");
-
-     See also: *note pchip: XREFpchip, *note spline: XREFspline, *note
-     interpft: XREFinterpft, *note interp2: XREFinterp2, *note interp3:
-     XREFinterp3, *note interpn: XREFinterpn.
-
-   There are some important differences between the various
-interpolation methods.  The "spline" method enforces that both the first
-and second derivatives of the interpolated values have a continuous
-derivative, whereas the other methods do not.  This means that the
-results of the "spline" method are generally smoother.  If the function
-to be interpolated is in fact smooth, then "spline" will give excellent
-results.  However, if the function to be evaluated is in some manner
-discontinuous, then "pchip" interpolation might give better results.
-
-   This can be demonstrated by the code
-
-     t = -2:2;
-     dt = 1;
-     ti =-2:0.025:2;
-     dti = 0.025;
-     y = sign (t);
-     ys = interp1 (t,y,ti,"spline");
-     yp = interp1 (t,y,ti,"pchip");
-     ddys = diff (diff (ys)./dti) ./ dti;
-     ddyp = diff (diff (yp)./dti) ./ dti;
-     figure (1);
-     plot (ti,ys,"r-", ti,yp,"g-");
-     legend ("spline", "pchip", 4);
-     figure (2);
-     plot (ti,ddys,"r+", ti,ddyp,"g*");
-     legend ("spline", "pchip");
-
-   Fourier interpolation, is a resampling technique where a signal is
-converted to the frequency domain, padded with zeros and then
-reconverted to the time domain.
-
- -- : interpft (X, N)
- -- : interpft (X, N, DIM)
-
-     Fourier interpolation.
-
-     If X is a vector then X is resampled with N points.  The data in X
-     is assumed to be equispaced.  If X is a matrix or an N-dimensional
-     array, the interpolation is performed on each column of X.
-
-     If DIM is specified, then interpolate along the dimension DIM.
-
-     ‘interpft’ assumes that the interpolated function is periodic, and
-     so assumptions are made about the endpoints of the interpolation.
-
-     See also: *note interp1: XREFinterp1.
-
-   There are two significant limitations on Fourier interpolation.
-First, the function signal is assumed to be periodic, and so
-non-periodic signals will be poorly represented at the edges.  Second,
-both the signal and its interpolation are required to be sampled at
-equispaced points.  An example of the use of ‘interpft’ is
-
-     t = 0 : 0.3 : pi; dt = t(2)-t(1);
-     n = length (t); k = 100;
-     ti = t(1) + [0 : k-1]*dt*n/k;
-     y = sin (4*t + 0.3) .* cos (3*t - 0.1);
-     yp = sin (4*ti + 0.3) .* cos (3*ti - 0.1);
-     plot (ti, yp, "g", ti, interp1 (t, y, ti, "spline"), "b", ...
-           ti, interpft (y, k), "c", t, y, "r+");
-     legend ("sin(4t+0.3)cos(3t-0.1)", "spline", "interpft", "data");
-
-which demonstrates the poor behavior of Fourier interpolation for
-non-periodic functions.
-
-   In addition, the support functions ‘spline’ and ‘lookup’ that
-underlie the ‘interp1’ function can be called directly.
-
- -- : PP = spline (X, Y)
- -- : YI = spline (X, Y, XI)
-     Return the cubic spline interpolant of points X and Y.
-
-     When called with two arguments, return the piecewise polynomial PP
-     that may be used with ‘ppval’ to evaluate the polynomial at
-     specific points.
-
-     When called with a third input argument, ‘spline’ evaluates the
-     spline at the points XI.  The third calling form ‘spline (X, Y,
-     XI)’ is equivalent to ‘ppval (spline (X, Y), XI)’.
-
-     The variable X must be a vector of length N.
-
-     Y can be either a vector or array.  If Y is a vector it must have a
-     length of either N or ‘N + 2’.  If the length of Y is N, then the
-     "not-a-knot" end condition is used.  If the length of Y is ‘N + 2’,
-     then the first and last values of the vector Y are the values of
-     the first derivative of the cubic spline at the endpoints.
-
-     If Y is an array, then the size of Y must have the form ‘[S1, S2,
-     ..., SK, N]’ or ‘[S1, S2, ..., SK, N + 2]’.  The array is reshaped
-     internally to a matrix where the leading dimension is given by ‘S1
-     * S2 * ... * SK’ and each row of this matrix is then treated
-     separately.  Note that this is exactly the opposite of ‘interp1’
-     but is done for MATLAB compatibility.
-
-     See also: *note pchip: XREFpchip, *note ppval: XREFppval, *note
-     mkpp: XREFmkpp, *note unmkpp: XREFunmkpp.
-
-
-File: octave.info,  Node: Multi-dimensional Interpolation,  Prev: One-dimensional Interpolation,  Up: Interpolation
-
-29.2 Multi-dimensional Interpolation
-====================================
-
-There are three multi-dimensional interpolation functions in Octave,
-with similar capabilities.  Methods using Delaunay tessellation are
-described in *note Interpolation on Scattered Data::.
-
- -- : ZI = interp2 (X, Y, Z, XI, YI)
- -- : ZI = interp2 (Z, XI, YI)
- -- : ZI = interp2 (Z, N)
- -- : ZI = interp2 (Z)
- -- : ZI = interp2 (..., METHOD)
- -- : ZI = interp2 (..., METHOD, EXTRAP)
-
-     Two-dimensional interpolation.
-
-     Interpolate reference data X, Y, Z to determine ZI at the
-     coordinates XI, YI.  The reference data X, Y can be matrices, as
-     returned by ‘meshgrid’, in which case the sizes of X, Y, and Z must
-     be equal.  If X, Y are vectors describing a grid then ‘length (X)
-     == columns (Z)’ and ‘length (Y) == rows (Z)’.  In either case the
-     input data must be strictly monotonic.
-
-     If called without X, Y, and just a single reference data matrix Z,
-     the 2-D region ‘X = 1:columns (Z), Y = 1:rows (Z)’ is assumed.
-     This saves memory if the grid is regular and the distance between
-     points is not important.
-
-     If called with a single reference data matrix Z and a refinement
-     value N, then perform interpolation over a grid where each original
-     interval has been recursively subdivided N times.  This results in
-     ‘2^N-1’ additional points for every interval in the original grid.
-     If N is omitted a value of 1 is used.  As an example, the interval
-     [0,1] with ‘N==2’ results in a refined interval with points at [0,
-     1/4, 1/2, 3/4, 1].
-
-     The interpolation METHOD is one of:
-
-     "nearest"
-          Return the nearest neighbor.
-
-     "linear" (default)
-          Linear interpolation from nearest neighbors.
-
-     "pchip"
-          Piecewise cubic Hermite interpolating
-          polynomial—shape-preserving interpolation with smooth first
-          derivative.
-
-     "cubic"
-          Cubic interpolation (same as "pchip").
-
-     "spline"
-          Cubic spline interpolation—smooth first and second derivatives
-          throughout the curve.
-
-     EXTRAP is a scalar number.  It replaces values beyond the endpoints
-     with EXTRAP.  Note that if EXTRAP is used, METHOD must be specified
-     as well.  If EXTRAP is omitted and the METHOD is "spline", then the
-     extrapolated values of the "spline" are used.  Otherwise the
-     default EXTRAP value for any other METHOD is "NA".
-
-     See also: *note interp1: XREFinterp1, *note interp3: XREFinterp3,
-     *note interpn: XREFinterpn, *note meshgrid: XREFmeshgrid.
-
- -- : VI = interp3 (X, Y, Z, V, XI, YI, ZI)
- -- : VI = interp3 (V, XI, YI, ZI)
- -- : VI = interp3 (V, N)
- -- : VI = interp3 (V)
- -- : VI = interp3 (..., METHOD)
- -- : VI = interp3 (..., METHOD, EXTRAPVAL)
-
-     Three-dimensional interpolation.
-
-     Interpolate reference data X, Y, Z, V to determine VI at the
-     coordinates XI, YI, ZI.  The reference data X, Y, Z can be
-     matrices, as returned by ‘meshgrid’, in which case the sizes of X,
-     Y, Z, and V must be equal.  If X, Y, Z are vectors describing a
-     cubic grid then ‘length (X) == columns (V)’, ‘length (Y) == rows
-     (V)’, and ‘length (Z) == size (V, 3)’.  In either case the input
-     data must be strictly monotonic.
-
-     If called without X, Y, Z, and just a single reference data matrix
-     V, the 3-D region ‘X = 1:columns (V), Y = 1:rows (V), Z = 1:size
-     (V, 3)’ is assumed.  This saves memory if the grid is regular and
-     the distance between points is not important.
-
-     If called with a single reference data matrix V and a refinement
-     value N, then perform interpolation over a 3-D grid where each
-     original interval has been recursively subdivided N times.  This
-     results in ‘2^N-1’ additional points for every interval in the
-     original grid.  If N is omitted a value of 1 is used.  As an
-     example, the interval [0,1] with ‘N==2’ results in a refined
-     interval with points at [0, 1/4, 1/2, 3/4, 1].
-
-     The interpolation METHOD is one of:
-
-     "nearest"
-          Return the nearest neighbor.
-
-     "linear" (default)
-          Linear interpolation from nearest neighbors.
-
-     "cubic"
-          Piecewise cubic Hermite interpolating
-          polynomial—shape-preserving interpolation with smooth first
-          derivative (not implemented yet).
-
-     "spline"
-          Cubic spline interpolation—smooth first and second derivatives
-          throughout the curve.
-
-     EXTRAPVAL is a scalar number.  It replaces values beyond the
-     endpoints with EXTRAPVAL.  Note that if EXTRAPVAL is used, METHOD
-     must be specified as well.  If EXTRAPVAL is omitted and the METHOD
-     is "spline", then the extrapolated values of the "spline" are used.
-     Otherwise the default EXTRAPVAL value for any other METHOD is "NA".
-
-     See also: *note interp1: XREFinterp1, *note interp2: XREFinterp2,
-     *note interpn: XREFinterpn, *note meshgrid: XREFmeshgrid.
-
- -- : VI = interpn (X1, X2, ..., V, Y1, Y2, ...)
- -- : VI = interpn (V, Y1, Y2, ...)
- -- : VI = interpn (V, M)
- -- : VI = interpn (V)
- -- : VI = interpn (..., METHOD)
- -- : VI = interpn (..., METHOD, EXTRAPVAL)
-
-     Perform N-dimensional interpolation, where N is at least two.
-
-     Each element of the N-dimensional array V represents a value at a
-     location given by the parameters X1, X2, ..., XN.  The parameters
-     X1, X2, ..., XN are either N-dimensional arrays of the same size as
-     the array V in the "ndgrid" format or vectors.  The parameters Y1,
-     etc.  respect a similar format to X1, etc., and they represent the
-     points at which the array VI is interpolated.
-
-     If X1, ..., XN are omitted, they are assumed to be ‘x1 = 1 : size
-     (V, 1)’, etc.  If M is specified, then the interpolation adds a
-     point half way between each of the interpolation points.  This
-     process is performed M times.  If only V is specified, then M is
-     assumed to be ‘1’.
-
-     The interpolation METHOD is one of:
-
-     "nearest"
-          Return the nearest neighbor.
-
-     "linear" (default)
-          Linear interpolation from nearest neighbors.
-
-     "pchip"
-          Piecewise cubic Hermite interpolating
-          polynomial—shape-preserving interpolation with smooth first
-          derivative (not implemented yet).
-
-     "cubic"
-          Cubic interpolation (same as "pchip" [not implemented yet]).
-
-     "spline"
-          Cubic spline interpolation—smooth first and second derivatives
-          throughout the curve.
-
-     The default method is "linear".
-
-     EXTRAPVAL is a scalar number.  It replaces values beyond the
-     endpoints with EXTRAPVAL.  Note that if EXTRAPVAL is used, METHOD
-     must be specified as well.  If EXTRAPVAL is omitted and the METHOD
-     is "spline", then the extrapolated values of the "spline" are used.
-     Otherwise the default EXTRAPVAL value for any other METHOD is "NA".
-
-     See also: *note interp1: XREFinterp1, *note interp2: XREFinterp2,
-     *note interp3: XREFinterp3, *note spline: XREFspline, *note ndgrid:
-     XREFndgrid.
-
-   A significant difference between ‘interpn’ and the other two
-multi-dimensional interpolation functions is the fashion in which the
-dimensions are treated.  For ‘interp2’ and ‘interp3’, the y-axis is
-considered to be the columns of the matrix, whereas the x-axis
-corresponds to the rows of the array.  As Octave indexes arrays in
-column major order, the first dimension of any array is the columns, and
-so ‘interpn’ effectively reverses the ’x’ and ’y’ dimensions.  Consider
-the example,
-
-     x = y = z = -1:1;
-     f = @(x,y,z) x.^2 - y - z.^2;
-     [xx, yy, zz] = meshgrid (x, y, z);
-     v = f (xx,yy,zz);
-     xi = yi = zi = -1:0.1:1;
-     [xxi, yyi, zzi] = meshgrid (xi, yi, zi);
-     vi = interp3 (x, y, z, v, xxi, yyi, zzi, "spline");
-     [xxi, yyi, zzi] = ndgrid (xi, yi, zi);
-     vi2 = interpn (x, y, z, v, xxi, yyi, zzi, "spline");
-     mesh (zi, yi, squeeze (vi2(1,:,:)));
-
-where ‘vi’ and ‘vi2’ are identical.  The reversal of the dimensions is
-treated in the ‘meshgrid’ and ‘ndgrid’ functions respectively.
-
-
-File: octave.info,  Node: Geometry,  Next: Signal Processing,  Prev: Interpolation,  Up: Top
-
-30 Geometry
-***********
-
-Much of the geometry code in Octave is based on the Qhull library(1).
-Some of the documentation for Qhull, particularly for the options that
-can be passed to ‘delaunay’, ‘voronoi’ and ‘convhull’, etc., is relevant
-to Octave users.
-
-* Menu:
-
-* Delaunay Triangulation::
-* Voronoi Diagrams::
-* Convex Hull::
-* Interpolation on Scattered Data::
-
-   ---------- Footnotes ----------
-
-   (1) Barber, C.B., Dobkin, D.P., and Huhdanpaa, H.T., ‘The Quickhull
-Algorithm for Convex Hulls’, ACM Trans.  on Mathematical Software,
-22(4):469–483, Dec 1996, <http://www.qhull.org>
-
-
-File: octave.info,  Node: Delaunay Triangulation,  Next: Voronoi Diagrams,  Up: Geometry
-
-30.1 Delaunay Triangulation
-===========================
-
-The Delaunay triangulation is constructed from a set of circum-circles.
-These circum-circles are chosen so that there are at least three of the
-points in the set to triangulation on the circumference of the
-circum-circle.  None of the points in the set of points falls within any
-of the circum-circles.
-
-   In general there are only three points on the circumference of any
-circum-circle.  However, in some cases, and in particular for the case
-of a regular grid, 4 or more points can be on a single circum-circle.
-In this case the Delaunay triangulation is not unique.
-
- -- : TRI = delaunay (X, Y)
- -- : TETR = delaunay (X, Y, Z)
- -- : TRI = delaunay (X)
- -- : TRI = delaunay (..., OPTIONS)
-     Compute the Delaunay triangulation for a 2-D or 3-D set of points.
-
-     For 2-D sets, the return value TRI is a set of triangles which
-     satisfies the Delaunay circum-circle criterion, i.e., no data point
-     from [X, Y] is within the circum-circle of the defining triangle.
-     The set of triangles TRI is a matrix of size [n, 3].  Each row
-     defines a triangle and the three columns are the three vertices of
-     the triangle.  The value of ‘TRI(i,j)’ is an index into X and Y for
-     the location of the j-th vertex of the i-th triangle.
-
-     For 3-D sets, the return value TETR is a set of tetrahedrons which
-     satisfies the Delaunay circum-circle criterion, i.e., no data point
-     from [X, Y, Z] is within the circum-circle of the defining
-     tetrahedron.  The set of tetrahedrons is a matrix of size [n, 4].
-     Each row defines a tetrahedron and the four columns are the four
-     vertices of the tetrahedron.  The value of ‘TETR(i,j)’ is an index
-     into X, Y, Z for the location of the j-th vertex of the i-th
-     tetrahedron.
-
-     The input X may also be a matrix with two or three columns where
-     the first column contains x-data, the second y-data, and the
-     optional third column contains z-data.
-
-     The optional last argument, which must be a string or cell array of
-     strings, contains options passed to the underlying qhull command.
-     See the documentation for the Qhull library for details
-     <http://www.qhull.org/html/qh-quick.htm#options>.  The default
-     options are ‘{"Qt", "Qbb", "Qc", "Qz"}’.
-
-     If OPTIONS is not present or ‘[]’ then the default arguments are
-     used.  Otherwise, OPTIONS replaces the default argument list.  To
-     append user options to the defaults it is necessary to repeat the
-     default arguments in OPTIONS.  Use a null string to pass no
-     arguments.
-
-          x = rand (1, 10);
-          y = rand (1, 10);
-          tri = delaunay (x, y);
-          triplot (tri, x, y);
-          hold on;
-          plot (x, y, "r*");
-          axis ([0,1,0,1]);
-
-     See also: *note delaunayn: XREFdelaunayn, *note convhull:
-     XREFconvhull, *note voronoi: XREFvoronoi, *note triplot:
-     XREFtriplot, *note trimesh: XREFtrimesh, *note tetramesh:
-     XREFtetramesh, *note trisurf: XREFtrisurf.
-
-   For 3-D inputs ‘delaunay’ returns a set of tetrahedra that satisfy
-the Delaunay circum-circle criteria.  Similarly, ‘delaunayn’ returns the
-N-dimensional simplex satisfying the Delaunay circum-circle criteria.
-The N-dimensional extension of a triangulation is called a tessellation.
-
- -- : T = delaunayn (PTS)
- -- : T = delaunayn (PTS, OPTIONS)
-     Compute the Delaunay triangulation for an N-dimensional set of
-     points.
-
-     The Delaunay triangulation is a tessellation of the convex hull of
-     a set of points such that no N-sphere defined by the N-triangles
-     contains any other points from the set.
-
-     The input matrix PTS of size [n, dim] contains n points in a space
-     of dimension dim.  The return matrix T has size [m, dim+1].  Each
-     row of T contains a set of indices back into the original set of
-     points PTS which describes a simplex of dimension dim.  For
-     example, a 2-D simplex is a triangle and 3-D simplex is a
-     tetrahedron.
-
-     An optional second argument, which must be a string or cell array
-     of strings, contains options passed to the underlying qhull
-     command.  See the documentation for the Qhull library for details
-     <http://www.qhull.org/html/qh-quick.htm#options>.  The default
-     options depend on the dimension of the input:
-
-        • 2-D and 3-D: OPTIONS = ‘{"Qt", "Qbb", "Qc", "Qz"}’
-
-        • 4-D and higher: OPTIONS = ‘{"Qt", "Qbb", "Qc", "Qx"}’
-
-     If OPTIONS is not present or ‘[]’ then the default arguments are
-     used.  Otherwise, OPTIONS replaces the default argument list.  To
-     append user options to the defaults it is necessary to repeat the
-     default arguments in OPTIONS.  Use a null string to pass no
-     arguments.
-
-     See also: *note delaunay: XREFdelaunay, *note convhulln:
-     XREFconvhulln, *note voronoin: XREFvoronoin, *note trimesh:
-     XREFtrimesh, *note tetramesh: XREFtetramesh.
-
-   An example of a Delaunay triangulation of a set of points is
-
-     rand ("state", 2);
-     x = rand (10, 1);
-     y = rand (10, 1);
-     T = delaunay (x, y);
-     X = [ x(T(:,1)); x(T(:,2)); x(T(:,3)); x(T(:,1)) ];
-     Y = [ y(T(:,1)); y(T(:,2)); y(T(:,3)); y(T(:,1)) ];
-     axis ([0, 1, 0, 1]);
-     plot (X, Y, "b", x, y, "r*");
-
-* Menu:
-
-* Plotting the Triangulation::
-* Identifying Points in Triangulation::
-
-
-File: octave.info,  Node: Plotting the Triangulation,  Next: Identifying Points in Triangulation,  Up: Delaunay Triangulation
-
-30.1.1 Plotting the Triangulation
----------------------------------
-
-Octave has the functions ‘triplot’, ‘trimesh’, and ‘trisurf’ to plot the
-Delaunay triangulation of a 2-dimensional set of points.  ‘tetramesh’
-will plot the triangulation of a 3-dimensional set of points.
-
- -- : triplot (TRI, X, Y)
- -- : triplot (TRI, X, Y, LINESPEC)
- -- : H = triplot (...)
-     Plot a 2-D triangular mesh.
-
-     TRI is typically the output of a Delaunay triangulation over the
-     grid of X, Y.  Every row of TRI represents one triangle and
-     contains three indices into [X, Y] which are the vertices of the
-     triangles in the x-y plane.
-
-     The linestyle to use for the plot can be defined with the argument
-     LINESPEC of the same format as the ‘plot’ command.
-
-     The optional return value H is a graphics handle to the created
-     patch object.
-
-     See also: *note plot: XREFplot, *note trimesh: XREFtrimesh, *note
-     trisurf: XREFtrisurf, *note delaunay: XREFdelaunay.
-
- -- : trimesh (TRI, X, Y, Z, C)
- -- : trimesh (TRI, X, Y, Z)
- -- : trimesh (TRI, X, Y)
- -- : trimesh (..., PROP, VAL, ...)
- -- : H = trimesh (...)
-     Plot a 3-D triangular wireframe mesh.
-
-     In contrast to ‘mesh’, which plots a mesh using rectangles,
-     ‘trimesh’ plots the mesh using triangles.
-
-     TRI is typically the output of a Delaunay triangulation over the
-     grid of X, Y.  Every row of TRI represents one triangle and
-     contains three indices into [X, Y] which are the vertices of the
-     triangles in the x-y plane.  Z determines the height above the
-     plane of each vertex.  If no Z input is given then the triangles
-     are plotted as a 2-D figure.
-
-     The color of the trimesh is computed by linearly scaling the Z
-     values to fit the range of the current colormap.  Use ‘caxis’
-     and/or change the colormap to control the appearance.
-
-     Optionally, the color of the mesh can be specified independently of
-     Z by supplying C, which is a vector for colormap data, or a matrix
-     with three columns for RGB data.  The number of colors specified in
-     C must either equal the number of vertices in Z or the number of
-     triangles in TRI.
-
-     Any property/value pairs are passed directly to the underlying
-     patch object.
-
-     The optional return value H is a graphics handle to the created
-     patch object.
-
-     See also: *note mesh: XREFmesh, *note tetramesh: XREFtetramesh,
-     *note triplot: XREFtriplot, *note trisurf: XREFtrisurf, *note
-     delaunay: XREFdelaunay, *note patch: XREFpatch, *note hidden:
-     XREFhidden.
-
- -- : trisurf (TRI, X, Y, Z, C)
- -- : trisurf (TRI, X, Y, Z)
- -- : trisurf (..., PROP, VAL, ...)
- -- : H = trisurf (...)
-     Plot a 3-D triangular surface.
-
-     In contrast to ‘surf’, which plots a surface mesh using rectangles,
-     ‘trisurf’ plots the mesh using triangles.
-
-     TRI is typically the output of a Delaunay triangulation over the
-     grid of X, Y.  Every row of TRI represents one triangle and
-     contains three indices into [X, Y] which are the vertices of the
-     triangles in the x-y plane.  Z determines the height above the
-     plane of each vertex.
-
-     The color of the trisurf is computed by linearly scaling the Z
-     values to fit the range of the current colormap.  Use ‘caxis’
-     and/or change the colormap to control the appearance.
-
-     Optionally, the color of the mesh can be specified independently of
-     Z by supplying C, which is a vector for colormap data, or a matrix
-     with three columns for RGB data.  The number of colors specified in
-     C must either equal the number of vertices in Z or the number of
-     triangles in TRI.  When specifying the color at each vertex the
-     triangle will be colored according to the color of the first vertex
-     only (see patch documentation and the "FaceColor" property when set
-     to "flat").
-
-     Any property/value pairs are passed directly to the underlying
-     patch object.
-
-     The optional return value H is a graphics handle to the created
-     patch object.
-
-     See also: *note surf: XREFsurf, *note triplot: XREFtriplot, *note
-     trimesh: XREFtrimesh, *note delaunay: XREFdelaunay, *note patch:
-     XREFpatch, *note shading: XREFshading.
-
- -- : tetramesh (T, X)
- -- : tetramesh (T, X, C)
- -- : tetramesh (..., PROPERTY, VAL, ...)
- -- : H = tetramesh (...)
-     Display the tetrahedrons defined in the m-by-4 matrix T as 3-D
-     patches.
-
-     T is typically the output of a Delaunay triangulation of a 3-D set
-     of points.  Every row of T contains four indices into the n-by-3
-     matrix X of the vertices of a tetrahedron.  Every row in X
-     represents one point in 3-D space.
-
-     The vector C specifies the color of each tetrahedron as an index
-     into the current colormap.  The default value is 1:m where m is the
-     number of tetrahedrons; the indices are scaled to map to the full
-     range of the colormap.  If there are more tetrahedrons than colors
-     in the colormap then the values in C are cyclically repeated.
-
-     Calling ‘tetramesh (..., "property", "value", ...)’ passes all
-     property/value pairs directly to the patch function as additional
-     arguments.
-
-     The optional return value H is a vector of patch handles where each
-     handle represents one tetrahedron in the order given by T.  A
-     typical use case for H is to turn the respective patch "visible"
-     property "on" or "off".
-
-     Type ‘demo tetramesh’ to see examples on using ‘tetramesh’.
-
-     See also: *note trimesh: XREFtrimesh, *note delaunay: XREFdelaunay,
-     *note delaunayn: XREFdelaunayn, *note patch: XREFpatch.
-
-   The difference between ‘triplot’, and ‘trimesh’ or ‘trisurf’, is that
-the former only plots the 2-dimensional triangulation itself, whereas
-the second two plot the value of a function ‘f (X, Y)’.  An example of
-the use of the ‘triplot’ function is
-
-     rand ("state", 2)
-     x = rand (20, 1);
-     y = rand (20, 1);
-     tri = delaunay (x, y);
-     triplot (tri, x, y);
-
-which plots the Delaunay triangulation of a set of random points in
-2-dimensions.
-
-
-File: octave.info,  Node: Identifying Points in Triangulation,  Prev: Plotting the Triangulation,  Up: Delaunay Triangulation
-
-30.1.2 Identifying Points in Triangulation
-------------------------------------------
-
-It is often necessary to identify whether a particular point in the
-N-dimensional space is within the Delaunay tessellation of a set of
-points in this N-dimensional space, and if so which N-simplex contains
-the point and which point in the tessellation is closest to the desired
-point.  The functions ‘tsearch’ and ‘dsearch’ perform this function in a
-triangulation, and ‘tsearchn’ and ‘dsearchn’ in an N-dimensional
-tessellation.
-
-   To identify whether a particular point represented by a vector P
-falls within one of the simplices of an N-simplex, we can write the
-Cartesian coordinates of the point in a parametric form with respect to
-the N-simplex.  This parametric form is called the Barycentric
-Coordinates of the point.  If the points defining the N-simplex are
-given by N + 1 vectors ‘T(I,:)’, then the Barycentric coordinates
-defining the point P are given by
-
-     P = BETA * T
-
-where BETA contains N + 1 values that together as a vector represent the
-Barycentric coordinates of the point P.  To ensure a unique solution for
-the values of BETA an additional criteria of
-
-     sum (BETA) == 1
-
-is imposed, and we can therefore write the above as
-
-     P - T(end, :) = BETA(1:end-1) * (T(1:end-1, :)
-                     - ones (N, 1) * T(end, :)
-
-Solving for BETA we can then write
-
-     BETA(1:end-1) = (P - T(end, :)) /
-                     (T(1:end-1, :) - ones (N, 1) * T(end, :))
-     BETA(end) = sum (BETA(1:end-1))
-
-which gives the formula for the conversion of the Cartesian coordinates
-of the point P to the Barycentric coordinates BETA.  An important
-property of the Barycentric coordinates is that for all points in the
-N-simplex
-
-     0 <= BETA(I) <= 1
-
-Therefore, the test in ‘tsearch’ and ‘tsearchn’ essentially only needs
-to express each point in terms of the Barycentric coordinates of each of
-the simplices of the N-simplex and test the values of BETA.  This is
-exactly the implementation used in ‘tsearchn’.  ‘tsearch’ is optimized
-for 2-dimensions and the Barycentric coordinates are not explicitly
-formed.
-
- -- : IDX = tsearch (X, Y, T, XI, YI)
-     Search for the enclosing Delaunay convex hull.
-
-     For ‘T = delaunay (X, Y)’, finds the index in T containing the
-     points ‘(XI, YI)’.  For points outside the convex hull, IDX is NaN.
-
-     See also: *note delaunay: XREFdelaunay, *note delaunayn:
-     XREFdelaunayn.
-
- -- : IDX = tsearchn (X, T, XI)
- -- : [IDX, P] = tsearchn (X, T, XI)
-     Search for the enclosing Delaunay convex hull.
-
-     For ‘T = delaunayn (X)’, finds the index in T containing the points
-     XI.  For points outside the convex hull, IDX is NaN.
-
-     If requested ‘tsearchn’ also returns the Barycentric coordinates P
-     of the enclosing triangles.
-
-     See also: *note delaunay: XREFdelaunay, *note delaunayn:
-     XREFdelaunayn.
-
-   An example of the use of ‘tsearch’ can be seen with the simple
-triangulation
-
-     X = [-1; -1; 1; 1];
-     Y = [-1; 1; -1; 1];
-     TRI = [1, 2, 3; 2, 3, 4];
-
-consisting of two triangles defined by TRI.  We can then identify which
-triangle a point falls in like
-
-     tsearch (X, Y, TRI, -0.5, -0.5)
-     ⇒ 1
-     tsearch (X, Y, TRI, 0.5, 0.5)
-     ⇒ 2
-
-and we can confirm that a point doesn’t lie within one of the triangles
-like
-
-     tsearch (X, Y, TRI, 2, 2)
-     ⇒ NaN
-
-   The ‘dsearch’ and ‘dsearchn’ find the closest point in a tessellation
-to the desired point.  The desired point does not necessarily have to be
-in the tessellation, and even if it the returned point of the
-tessellation does not have to be one of the vertexes of the N-simplex
-within which the desired point is found.
-
- -- : IDX = dsearch (X, Y, TRI, XI, YI)
- -- : IDX = dsearch (X, Y, TRI, XI, YI, S)
-     Return the index IDX of the closest point in ‘X, Y’ to the elements
-     ‘[XI(:), YI(:)]’.
-
-     The variable S is accepted for compatibility but is ignored.
-
-     See also: *note dsearchn: XREFdsearchn, *note tsearch: XREFtsearch.
-
- -- : IDX = dsearchn (X, TRI, XI)
- -- : IDX = dsearchn (X, TRI, XI, OUTVAL)
- -- : IDX = dsearchn (X, XI)
- -- : [IDX, D] = dsearchn (...)
-     Return the index IDX of the closest point in X to the elements XI.
-
-     If OUTVAL is supplied, then the values of XI that are not contained
-     within one of the simplices TRI are set to OUTVAL.  Generally, TRI
-     is returned from ‘delaunayn (X)’.
-
-     See also: *note dsearch: XREFdsearch, *note tsearch: XREFtsearch.
-
-   An example of the use of ‘dsearch’, using the above values of X, Y
-and TRI is
-
-     dsearch (X, Y, TRI, -2, -2)
-     ⇒ 1
-
-   If you wish the points that are outside the tessellation to be
-flagged, then ‘dsearchn’ can be used as
-
-     dsearchn ([X, Y], TRI, [-2, -2], NaN)
-     ⇒ NaN
-     dsearchn ([X, Y], TRI, [-0.5, -0.5], NaN)
-     ⇒ 1
-
-where the point outside the tessellation are then flagged with ‘NaN’.
-
-
-File: octave.info,  Node: Voronoi Diagrams,  Next: Convex Hull,  Prev: Delaunay Triangulation,  Up: Geometry
-
-30.2 Voronoi Diagrams
-=====================
-
-A Voronoi diagram or Voronoi tessellation of a set of points S in an
-N-dimensional space, is the tessellation of the N-dimensional space such
-that all points in ‘V(P)’, a partitions of the tessellation where P is a
-member of S, are closer to P than any other point in S.  The Voronoi
-diagram is related to the Delaunay triangulation of a set of points, in
-that the vertexes of the Voronoi tessellation are the centers of the
-circum-circles of the simplices of the Delaunay tessellation.
-
- -- : voronoi (X, Y)
- -- : voronoi (X, Y, OPTIONS)
- -- : voronoi (..., "linespec")
- -- : voronoi (HAX, ...)
- -- : H = voronoi (...)
- -- : [VX, VY] = voronoi (...)
-     Plot the Voronoi diagram of points ‘(X, Y)’.
-
-     The Voronoi facets with points at infinity are not drawn.
-
-     The OPTIONS argument, which must be a string or cell array of
-     strings, contains options passed to the underlying qhull command.
-     See the documentation for the Qhull library for details
-     <http://www.qhull.org/html/qh-quick.htm#options>.
-
-     If "linespec" is given it is used to set the color and line style
-     of the plot.
-
-     If an axes graphics handle HAX is supplied then the Voronoi diagram
-     is drawn on the specified axes rather than in a new figure.
-
-     If a single output argument is requested then the Voronoi diagram
-     will be plotted and a graphics handle H to the plot is returned.
-
-     [VX, VY] = voronoi (...) returns the Voronoi vertices instead of
-     plotting the diagram.
-
-          x = rand (10, 1);
-          y = rand (size (x));
-          h = convhull (x, y);
-          [vx, vy] = voronoi (x, y);
-          plot (vx, vy, "-b", x, y, "o", x(h), y(h), "-g");
-          legend ("", "points", "hull");
-
-     See also: *note voronoin: XREFvoronoin, *note delaunay:
-     XREFdelaunay, *note convhull: XREFconvhull.
-
- -- : [C, F] = voronoin (PTS)
- -- : [C, F] = voronoin (PTS, OPTIONS)
-     Compute N-dimensional Voronoi facets.
-
-     The input matrix PTS of size [n, dim] contains n points in a space
-     of dimension dim.
-
-     C contains the points of the Voronoi facets.  The list F contains,
-     for each facet, the indices of the Voronoi points.
-
-     An optional second argument, which must be a string or cell array
-     of strings, contains options passed to the underlying qhull
-     command.  See the documentation for the Qhull library for details
-     <http://www.qhull.org/html/qh-quick.htm#options>.
-
-     The default options depend on the dimension of the input:
-
-        • 2-D and 3-D: OPTIONS = ‘{"Qbb"}’
-
-        • 4-D and higher: OPTIONS = ‘{"Qbb", "Qx"}’
-
-     If OPTIONS is not present or ‘[]’ then the default arguments are
-     used.  Otherwise, OPTIONS replaces the default argument list.  To
-     append user options to the defaults it is necessary to repeat the
-     default arguments in OPTIONS.  Use a null string to pass no
-     arguments.
-
-     See also: *note voronoi: XREFvoronoi, *note convhulln:
-     XREFconvhulln, *note delaunayn: XREFdelaunayn.
-
-   An example of the use of ‘voronoi’ is
-
-     rand ("state",9);
-     x = rand (10,1);
-     y = rand (10,1);
-     tri = delaunay (x, y);
-     [vx, vy] = voronoi (x, y, tri);
-     triplot (tri, x, y, "b");
-     hold on;
-     plot (vx, vy, "r");
-
-   Additional information about the size of the facets of a Voronoi
-diagram, and which points of a set of points is in a polygon can be had
-with the ‘polyarea’ and ‘inpolygon’ functions respectively.
-
- -- : polyarea (X, Y)
- -- : polyarea (X, Y, DIM)
-
-     Determine area of a polygon by triangle method.
-
-     The variables X and Y define the vertex pairs, and must therefore
-     have the same shape.  They can be either vectors or arrays.  If
-     they are arrays then the columns of X and Y are treated separately
-     and an area returned for each.
-
-     If the optional DIM argument is given, then ‘polyarea’ works along
-     this dimension of the arrays X and Y.
-
-   An example of the use of ‘polyarea’ might be
-
-     rand ("state", 2);
-     x = rand (10, 1);
-     y = rand (10, 1);
-     [c, f] = voronoin ([x, y]);
-     af = zeros (size (f));
-     for i = 1 : length (f)
-       af(i) = polyarea (c (f {i, :}, 1), c (f {i, :}, 2));
-     endfor
-
-   Facets of the Voronoi diagram with a vertex at infinity have infinity
-area.  A simplified version of ‘polyarea’ for rectangles is available
-with ‘rectint’
-
- -- : AREA = rectint (A, B)
-     Compute area or volume of intersection of rectangles or N-D boxes.
-
-     Compute the area of intersection of rectangles in A and rectangles
-     in B.  N-dimensional boxes are supported in which case the volume,
-     or hypervolume is computed according to the number of dimensions.
-
-     2-dimensional rectangles are defined as ‘[xpos ypos width height]’
-     where xpos and ypos are the position of the bottom left corner.
-     Higher dimensions are supported where the coordinates for the
-     minimum value of each dimension follow the length of the box in
-     that dimension, e.g., ‘[xpos ypos zpos kpos ... width height depth
-     k_length ...]’.
-
-     Each row of A and B define a rectangle, and if both define multiple
-     rectangles, then the output, AREA, is a matrix where the i-th row
-     corresponds to the i-th row of a and the j-th column corresponds to
-     the j-th row of b.
-
-     See also: *note polyarea: XREFpolyarea.
-
- -- : IN = inpolygon (X, Y, XV, YV)
- -- : [IN, ON] = inpolygon (X, Y, XV, YV)
-
-     For a polygon defined by vertex points ‘(XV, YV)’, return true if
-     the points ‘(X, Y)’ are inside (or on the boundary) of the polygon;
-     Otherwise, return false.
-
-     The input variables X and Y, must have the same dimension.
-
-     The optional output ON returns true if the points are exactly on
-     the polygon edge, and false otherwise.
-
-     See also: *note delaunay: XREFdelaunay.
-
-   An example of the use of ‘inpolygon’ might be
-
-     randn ("state", 2);
-     x = randn (100, 1);
-     y = randn (100, 1);
-     vx = cos (pi * [-1 : 0.1: 1]);
-     vy = sin (pi * [-1 : 0.1 : 1]);
-     in = inpolygon (x, y, vx, vy);
-     plot (vx, vy, x(in), y(in), "r+", x(!in), y(!in), "bo");
-     axis ([-2, 2, -2, 2]);
-
-
-File: octave.info,  Node: Convex Hull,  Next: Interpolation on Scattered Data,  Prev: Voronoi Diagrams,  Up: Geometry
-
-30.3 Convex Hull
-================
-
-The convex hull of a set of points is the minimum convex envelope
-containing all of the points.  Octave has the functions ‘convhull’ and
-‘convhulln’ to calculate the convex hull of 2-dimensional and
-N-dimensional sets of points.
-
- -- : H = convhull (X, Y)
- -- : H = convhull (X, Y, OPTIONS)
-     Compute the convex hull of the set of points defined by the arrays
-     X and Y.  The hull H is an index vector into the set of points and
-     specifies which points form the enclosing hull.
-
-     An optional third argument, which must be a string or cell array of
-     strings, contains options passed to the underlying qhull command.
-     See the documentation for the Qhull library for details
-     <http://www.qhull.org/html/qh-quick.htm#options>.  The default
-     option is ‘{"Qt"}’.
-
-     If OPTIONS is not present or ‘[]’ then the default arguments are
-     used.  Otherwise, OPTIONS replaces the default argument list.  To
-     append user options to the defaults it is necessary to repeat the
-     default arguments in OPTIONS.  Use a null string to pass no
-     arguments.
-
-     See also: *note convhulln: XREFconvhulln, *note delaunay:
-     XREFdelaunay, *note voronoi: XREFvoronoi.
-
- -- : H = convhulln (PTS)
- -- : H = convhulln (PTS, OPTIONS)
- -- : [H, V] = convhulln (...)
-     Compute the convex hull of the set of points PTS.
-
-     PTS is a matrix of size [n, dim] containing n points in a space of
-     dimension dim.
-
-     The hull H is an index vector into the set of points and specifies
-     which points form the enclosing hull.
-
-     An optional second argument, which must be a string or cell array
-     of strings, contains options passed to the underlying qhull
-     command.  See the documentation for the Qhull library for details
-     <http://www.qhull.org/html/qh-quick.htm#options>.  The default
-     options depend on the dimension of the input:
-
-        • 2D, 3D, 4D: OPTIONS = ‘{"Qt"}’
-
-        • 5D and higher: OPTIONS = ‘{"Qt", "Qx"}’
-
-     If OPTIONS is not present or ‘[]’ then the default arguments are
-     used.  Otherwise, OPTIONS replaces the default argument list.  To
-     append user options to the defaults it is necessary to repeat the
-     default arguments in OPTIONS.  Use a null string to pass no
-     arguments.
-
-     If the second output V is requested the volume of the enclosing
-     convex hull is calculated.
-
-     See also: *note convhull: XREFconvhull, *note delaunayn:
-     XREFdelaunayn, *note voronoin: XREFvoronoin.
-
-   An example of the use of ‘convhull’ is
-
-     x = -3:0.05:3;
-     y = abs (sin (x));
-     k = convhull (x, y);
-     plot (x(k), y(k), "r-", x, y, "b+");
-     axis ([-3.05, 3.05, -0.05, 1.05]);
-
-
-File: octave.info,  Node: Interpolation on Scattered Data,  Prev: Convex Hull,  Up: Geometry
-
-30.4 Interpolation on Scattered Data
-====================================
-
-An important use of the Delaunay tessellation is that it can be used to
-interpolate from scattered data to an arbitrary set of points.  To do
-this the N-simplex of the known set of points is calculated with
-‘delaunay’ or ‘delaunayn’.  Then the simplices in to which the desired
-points are found are identified.  Finally the vertices of the simplices
-are used to interpolate to the desired points.  The functions that
-perform this interpolation are ‘griddata’, ‘griddata3’ and ‘griddatan’.
-
- -- : ZI = griddata (X, Y, Z, XI, YI)
- -- : ZI = griddata (X, Y, Z, XI, YI, METHOD)
- -- : [XI, YI, ZI] = griddata (...)
-
-     Generate a regular mesh from irregular data using interpolation.
-
-     The function is defined by ‘Z = f (X, Y)’.  Inputs ‘X, Y, Z’ are
-     vectors of the same length or ‘X, Y’ are vectors and ‘Z’ is matrix.
-
-     The interpolation points are all ‘(XI, YI)’.  If XI, YI are vectors
-     then they are made into a 2-D mesh.
-
-     The interpolation method can be "nearest", "cubic" or "linear".  If
-     method is omitted it defaults to "linear".
-
-     See also: *note griddata3: XREFgriddata3, *note griddatan:
-     XREFgriddatan, *note delaunay: XREFdelaunay.
-
- -- : VI = griddata3 (X, Y, Z, V, XI, YI, ZI)
- -- : VI = griddata3 (X, Y, Z, V, XI, YI, ZI, METHOD)
- -- : VI = griddata3 (X, Y, Z, V, XI, YI, ZI, METHOD, OPTIONS)
-
-     Generate a regular mesh from irregular data using interpolation.
-
-     The function is defined by ‘V = f (X, Y, Z)’.  The interpolation
-     points are specified by XI, YI, ZI.
-
-     The interpolation method can be "nearest" or "linear".  If method
-     is omitted it defaults to "linear".
-
-     The optional argument OPTIONS is passed directly to Qhull when
-     computing the Delaunay triangulation used for interpolation.  See
-     ‘delaunayn’ for information on the defaults and how to pass
-     different values.
-
-     See also: *note griddata: XREFgriddata, *note griddatan:
-     XREFgriddatan, *note delaunayn: XREFdelaunayn.
-
- -- : YI = griddatan (X, Y, XI)
- -- : YI = griddatan (X, Y, XI, METHOD)
- -- : YI = griddatan (X, Y, XI, METHOD, OPTIONS)
-
-     Generate a regular mesh from irregular data using interpolation.
-
-     The function is defined by ‘Y = f (X)’.  The interpolation points
-     are all XI.
-
-     The interpolation method can be "nearest" or "linear".  If method
-     is omitted it defaults to "linear".
-
-     The optional argument OPTIONS is passed directly to Qhull when
-     computing the Delaunay triangulation used for interpolation.  See
-     ‘delaunayn’ for information on the defaults and how to pass
-     different values.
-
-     See also: *note griddata: XREFgriddata, *note griddata3:
-     XREFgriddata3, *note delaunayn: XREFdelaunayn.
-
-   An example of the use of the ‘griddata’ function is
-
-     rand ("state", 1);
-     x = 2*rand (1000,1) - 1;
-     y = 2*rand (size (x)) - 1;
-     z = sin (2*(x.^2+y.^2));
-     [xx,yy] = meshgrid (linspace (-1,1,32));
-     zz = griddata (x, y, z, xx, yy);
-     mesh (xx, yy, zz);
-
-that interpolates from a random scattering of points, to a uniform grid.
-
-
-File: octave.info,  Node: Signal Processing,  Next: Image Processing,  Prev: Geometry,  Up: Top
-
-31 Signal Processing
-********************
-
-This chapter describes the signal processing and fast Fourier transform
-functions available in Octave.  Fast Fourier transforms are computed
-with the FFTW or FFTPACK libraries depending on how Octave is built.
-
- -- : fft (X)
- -- : fft (X, N)
- -- : fft (X, N, DIM)
-     Compute the discrete Fourier transform of X using a Fast Fourier
-     Transform (FFT) algorithm.
-
-     The FFT is calculated along the first non-singleton dimension of
-     the array.  Thus if X is a matrix, ‘fft (X)’ computes the FFT for
-     each column of X.
-
-     If called with two arguments, N is expected to be an integer
-     specifying the number of elements of X to use, or an empty matrix
-     to specify that its value should be ignored.  If N is larger than
-     the dimension along which the FFT is calculated, then X is resized
-     and padded with zeros.  Otherwise, if N is smaller than the
-     dimension along which the FFT is calculated, then X is truncated.
-
-     If called with three arguments, DIM is an integer specifying the
-     dimension of the matrix along which the FFT is performed.
-
-     See also: *note ifft: XREFifft, *note fft2: XREFfft2, *note fftn:
-     XREFfftn, *note fftw: XREFfftw.
-
- -- : ifft (X)
- -- : ifft (X, N)
- -- : ifft (X, N, DIM)
-     Compute the inverse discrete Fourier transform of X using a Fast
-     Fourier Transform (FFT) algorithm.
-
-     The inverse FFT is calculated along the first non-singleton
-     dimension of the array.  Thus if X is a matrix, ‘fft (X)’ computes
-     the inverse FFT for each column of X.
-
-     If called with two arguments, N is expected to be an integer
-     specifying the number of elements of X to use, or an empty matrix
-     to specify that its value should be ignored.  If N is larger than
-     the dimension along which the inverse FFT is calculated, then X is
-     resized and padded with zeros.  Otherwise, if N is smaller than the
-     dimension along which the inverse FFT is calculated, then X is
-     truncated.
-
-     If called with three arguments, DIM is an integer specifying the
-     dimension of the matrix along which the inverse FFT is performed.
-
-     See also: *note fft: XREFfft, *note ifft2: XREFifft2, *note ifftn:
-     XREFifftn, *note fftw: XREFfftw.
-
- -- : fft2 (A)
- -- : fft2 (A, M, N)
-     Compute the two-dimensional discrete Fourier transform of A using a
-     Fast Fourier Transform (FFT) algorithm.
-
-     The optional arguments M and N may be used specify the number of
-     rows and columns of A to use.  If either of these is larger than
-     the size of A, A is resized and padded with zeros.
-
-     If A is a multi-dimensional matrix, each two-dimensional sub-matrix
-     of A is treated separately.
-
-     See also: *note ifft2: XREFifft2, *note fft: XREFfft, *note fftn:
-     XREFfftn, *note fftw: XREFfftw.
-
- -- : ifft2 (A)
- -- : ifft2 (A, M, N)
-     Compute the inverse two-dimensional discrete Fourier transform of A
-     using a Fast Fourier Transform (FFT) algorithm.
-
-     The optional arguments M and N may be used specify the number of
-     rows and columns of A to use.  If either of these is larger than
-     the size of A, A is resized and padded with zeros.
-
-     If A is a multi-dimensional matrix, each two-dimensional sub-matrix
-     of A is treated separately.
-
-     See also: *note fft2: XREFfft2, *note ifft: XREFifft, *note ifftn:
-     XREFifftn, *note fftw: XREFfftw.
-
- -- : fftn (A)
- -- : fftn (A, SIZE)
-     Compute the N-dimensional discrete Fourier transform of A using a
-     Fast Fourier Transform (FFT) algorithm.
-
-     The optional vector argument SIZE may be used specify the
-     dimensions of the array to be used.  If an element of SIZE is
-     smaller than the corresponding dimension of A, then the dimension
-     of A is truncated prior to performing the FFT.  Otherwise, if an
-     element of SIZE is larger than the corresponding dimension then A
-     is resized and padded with zeros.
-
-     See also: *note ifftn: XREFifftn, *note fft: XREFfft, *note fft2:
-     XREFfft2, *note fftw: XREFfftw.
-
- -- : ifftn (A)
- -- : ifftn (A, SIZE)
-     Compute the inverse N-dimensional discrete Fourier transform of A
-     using a Fast Fourier Transform (FFT) algorithm.
-
-     The optional vector argument SIZE may be used specify the
-     dimensions of the array to be used.  If an element of SIZE is
-     smaller than the corresponding dimension of A, then the dimension
-     of A is truncated prior to performing the inverse FFT.  Otherwise,
-     if an element of SIZE is larger than the corresponding dimension
-     then A is resized and padded with zeros.
-
-     See also: *note fftn: XREFfftn, *note ifft: XREFifft, *note ifft2:
-     XREFifft2, *note fftw: XREFfftw.
-
-   Octave uses the FFTW libraries to perform FFT computations.  When
-Octave starts up and initializes the FFTW libraries, they read a system
-wide file (on a Unix system, it is typically ‘/etc/fftw/wisdom’) that
-contains information useful to speed up FFT computations.  This
-information is called the _wisdom_.  The system-wide file allows wisdom
-to be shared between all applications using the FFTW libraries.
-
-   Use the ‘fftw’ function to generate and save wisdom.  Using the
-utilities provided together with the FFTW libraries (‘fftw-wisdom’ on
-Unix systems), you can even add wisdom generated by Octave to the
-system-wide wisdom file.
-
- -- : METHOD = fftw ("planner")
- -- : fftw ("planner", METHOD)
- -- : WISDOM = fftw ("dwisdom")
- -- : fftw ("dwisdom", WISDOM)
- -- : fftw ("threads", NTHREADS)
- -- : NTHREADS = fftw ("threads")
-
-     Manage FFTW wisdom data.
-
-     Wisdom data can be used to significantly accelerate the calculation
-     of the FFTs, but implies an initial cost in its calculation.  When
-     the FFTW libraries are initialized, they read a system wide wisdom
-     file (typically in ‘/etc/fftw/wisdom’), allowing wisdom to be
-     shared between applications other than Octave.  Alternatively, the
-     ‘fftw’ function can be used to import wisdom.  For example,
-
-          WISDOM = fftw ("dwisdom")
-
-     will save the existing wisdom used by Octave to the string WISDOM.
-     This string can then be saved to a file and restored using the
-     ‘save’ and ‘load’ commands respectively.  This existing wisdom can
-     be re-imported as follows
-
-          fftw ("dwisdom", WISDOM)
-
-     If WISDOM is an empty string, then the wisdom used is cleared.
-
-     During the calculation of Fourier transforms further wisdom is
-     generated.  The fashion in which this wisdom is generated is also
-     controlled by the ‘fftw’ function.  There are five different
-     manners in which the wisdom can be treated:
-
-     "estimate"
-          Specifies that no run-time measurement of the optimal means of
-          calculating a particular is performed, and a simple heuristic
-          is used to pick a (probably sub-optimal) plan.  The advantage
-          of this method is that there is little or no overhead in the
-          generation of the plan, which is appropriate for a Fourier
-          transform that will be calculated once.
-
-     "measure"
-          In this case a range of algorithms to perform the transform is
-          considered and the best is selected based on their execution
-          time.
-
-     "patient"
-          Similar to "measure", but a wider range of algorithms is
-          considered.
-
-     "exhaustive"
-          Like "measure", but all possible algorithms that may be used
-          to treat the transform are considered.
-
-     "hybrid"
-          As run-time measurement of the algorithm can be expensive,
-          this is a compromise where "measure" is used for transforms up
-          to the size of 8192 and beyond that the "estimate" method is
-          used.
-
-     The default method is "estimate".  The current method can be
-     queried with
-
-          METHOD = fftw ("planner")
-
-     or set by using
-
-          fftw ("planner", METHOD)
-
-     Note that calculated wisdom will be lost when restarting Octave.
-     However, the wisdom data can be reloaded if it is saved to a file
-     as described above.  Saved wisdom files should not be used on
-     different platforms since they will not be efficient and the point
-     of calculating the wisdom is lost.
-
-     The number of threads used for computing the plans and executing
-     the transforms can be set with
-
-          fftw ("threads", NTHREADS)
-
-     Note that octave must be compiled with multi-threaded FFTW support
-     for this feature.  The number of processors available to the
-     current process is used per default.
-
-     See also: *note fft: XREFfft, *note ifft: XREFifft, *note fft2:
-     XREFfft2, *note ifft2: XREFifft2, *note fftn: XREFfftn, *note
-     ifftn: XREFifftn.
-
- -- : fftconv (X, Y)
- -- : fftconv (X, Y, N)
-     Convolve two vectors using the FFT for computation.
-
-     ‘c = fftconv (X, Y)’ returns a vector of length equal to ‘length
-     (X) + length (Y) - 1’.  If X and Y are the coefficient vectors of
-     two polynomials, the returned value is the coefficient vector of
-     the product polynomial.
-
-     The computation uses the FFT by calling the function ‘fftfilt’.  If
-     the optional argument N is specified, an N-point FFT is used.
-
-     See also: *note deconv: XREFdeconv, *note conv: XREFconv, *note
-     conv2: XREFconv2.
-
- -- : fftfilt (B, X)
- -- : fftfilt (B, X, N)
-     Filter X with the FIR filter B using the FFT.
-
-     If X is a matrix, filter each column of the matrix.
-
-     Given the optional third argument, N, ‘fftfilt’ uses the
-     overlap-add method to filter X with B using an N-point FFT.  The
-     FFT size must be an even power of 2 and must be greater than or
-     equal to the length of B.  If the specified N does not meet these
-     criteria, it is automatically adjusted to the nearest value that
-     does.
-
-     See also: *note filter: XREFfilter, *note filter2: XREFfilter2.
-
- -- : Y = filter (B, A, X)
- -- : [Y, SF] = filter (B, A, X, SI)
- -- : [Y, SF] = filter (B, A, X, [], DIM)
- -- : [Y, SF] = filter (B, A, X, SI, DIM)
-     Apply a 1-D digital filter to the data X.
-
-     ‘filter’ returns the solution to the following linear,
-     time-invariant difference equation:
-
-           N                   M
-          SUM a(k+1) y(n-k) = SUM b(k+1) x(n-k)    for 1<=n<=length(x)
-          k=0                 k=0
-
-     where N=length(a)-1 and M=length(b)-1.  The result is calculated
-     over the first non-singleton dimension of X or over DIM if
-     supplied.
-
-     An equivalent form of the equation is:
-
-                    N                   M
-          y(n) = - SUM c(k+1) y(n-k) + SUM d(k+1) x(n-k)  for 1<=n<=length(x)
-                   k=1                 k=0
-
-     where c = a/a(1) and d = b/a(1).
-
-     If the fourth argument SI is provided, it is taken as the initial
-     state of the system and the final state is returned as SF.  The
-     state vector is a column vector whose length is equal to the length
-     of the longest coefficient vector minus one.  If SI is not
-     supplied, the initial state vector is set to all zeros.
-
-     In terms of the Z Transform, Y is the result of passing the
-     discrete-time signal X through a system characterized by the
-     following rational system function:
-
-                    M
-                   SUM d(k+1) z^(-k)
-                   k=0
-          H(z) = ---------------------
-                      N
-                 1 + SUM c(k+1) z^(-k)
-                     k=1
-
-     See also: *note filter2: XREFfilter2, *note fftfilt: XREFfftfilt,
-     *note freqz: XREFfreqz.
-
- -- : Y = filter2 (B, X)
- -- : Y = filter2 (B, X, SHAPE)
-     Apply the 2-D FIR filter B to X.
-
-     If the argument SHAPE is specified, return an array of the desired
-     shape.  Possible values are:
-
-     "full"
-          pad X with zeros on all sides before filtering.
-
-     "same"
-          unpadded X (default)
-
-     "valid"
-          trim X after filtering so edge effects are no included.
-
-     Note this is just a variation on convolution, with the parameters
-     reversed and B rotated 180 degrees.
-
-     See also: *note conv2: XREFconv2.
-
- -- : [H, W] = freqz (B, A, N, "whole")
- -- : [H, W] = freqz (B)
- -- : [H, W] = freqz (B, A)
- -- : [H, W] = freqz (B, A, N)
- -- : H = freqz (B, A, W)
- -- : [H, W] = freqz (..., FS)
- -- : freqz (...)
-
-     Return the complex frequency response H of the rational IIR filter
-     whose numerator and denominator coefficients are B and A,
-     respectively.
-
-     The response is evaluated at N angular frequencies between 0 and
-     2*pi.
-
-     The output value W is a vector of the frequencies.
-
-     If A is omitted, the denominator is assumed to be 1 (this
-     corresponds to a simple FIR filter).
-
-     If N is omitted, a value of 512 is assumed.  For fastest
-     computation, N should factor into a small number of small primes.
-
-     If the fourth argument, "whole", is omitted the response is
-     evaluated at frequencies between 0 and pi.
-
-     ‘freqz (B, A, W)’
-
-     Evaluate the response at the specific frequencies in the vector W.
-     The values for W are measured in radians.
-
-     ‘[...] = freqz (..., FS)’
-
-     Return frequencies in Hz instead of radians assuming a sampling
-     rate FS.  If you are evaluating the response at specific
-     frequencies W, those frequencies should be requested in Hz rather
-     than radians.
-
-     ‘freqz (...)’
-
-     Plot the magnitude and phase response of H rather than returning
-     them.
-
-     See also: *note freqz_plot: XREFfreqz_plot.
-
- -- : freqz_plot (W, H)
- -- : freqz_plot (W, H, FREQ_NORM)
-     Plot the magnitude and phase response of H.
-
-     If the optional FREQ_NORM argument is true, the frequency vector W
-     is in units of normalized radians.  If FREQ_NORM is false, or not
-     given, then W is measured in Hertz.
-
-     See also: *note freqz: XREFfreqz.
-
- -- : sinc (X)
-     Compute the sinc function.
-
-     Return sin (pi*x) / (pi*x).
-
- -- : B = unwrap (X)
- -- : B = unwrap (X, TOL)
- -- : B = unwrap (X, TOL, DIM)
-
-     Unwrap radian phases by adding or subtracting multiples of 2*pi as
-     appropriate to remove jumps greater than TOL.
-
-     TOL defaults to pi.
-
-     Unwrap will work along the dimension DIM.  If DIM is unspecified it
-     defaults to the first non-singleton dimension.
-
- -- : [A, B] = arch_fit (Y, X, P, ITER, GAMMA, A0, B0)
-     Fit an ARCH regression model to the time series Y using the scoring
-     algorithm in Engle’s original ARCH paper.
-
-     The model is
-
-          y(t) = b(1) * x(t,1) + ... + b(k) * x(t,k) + e(t),
-          h(t) = a(1) + a(2) * e(t-1)^2 + ... + a(p+1) * e(t-p)^2
-
-     in which e(t) is N(0, h(t)), given a time-series vector Y up to
-     time t-1 and a matrix of (ordinary) regressors X up to t.  The
-     order of the regression of the residual variance is specified by P.
-
-     If invoked as ‘arch_fit (Y, K, P)’ with a positive integer K, fit
-     an ARCH(K, P) process, i.e., do the above with the t-th row of X
-     given by
-
-          [1, y(t-1), ..., y(t-k)]
-
-     Optionally, one can specify the number of iterations ITER, the
-     updating factor GAMMA, and initial values a0 and b0 for the scoring
-     algorithm.
-
- -- : arch_rnd (A, B, T)
-     Simulate an ARCH sequence of length T with AR coefficients B and CH
-     coefficients A.
-
-     The result y(t) follows the model
-
-          y(t) = b(1) + b(2) * y(t-1) + ... + b(lb) * y(t-lb+1) + e(t),
-
-     where e(t), given Y up to time t-1, is N(0, h(t)), with
-
-          h(t) = a(1) + a(2) * e(t-1)^2 + ... + a(la) * e(t-la+1)^2
-
- -- : [PVAL, LM] = arch_test (Y, X, P)
-     For a linear regression model
-
-          y = x * b + e
-
-     perform a Lagrange Multiplier (LM) test of the null hypothesis of
-     no conditional heteroscedascity against the alternative of CH(P).
-
-     I.e., the model is
-
-          y(t) = b(1) * x(t,1) + ... + b(k) * x(t,k) + e(t),
-
-     given Y up to t-1 and X up to t, e(t) is N(0, h(t)) with
-
-          h(t) = v + a(1) * e(t-1)^2 + ... + a(p) * e(t-p)^2,
-
-     and the null is a(1) == ... == a(p) == 0.
-
-     If the second argument is a scalar integer, k, perform the same
-     test in a linear autoregression model of order k, i.e., with
-
-          [1, y(t-1), ..., y(t-K)]
-
-     as the t-th row of X.
-
-     Under the null, LM approximately has a chisquare distribution with
-     P degrees of freedom and PVAL is the p-value (1 minus the CDF of
-     this distribution at LM) of the test.
-
-     If no output argument is given, the p-value is displayed.
-
- -- : arma_rnd (A, B, V, T, N)
-     Return a simulation of the ARMA model.
-
-     The ARMA model is defined by
-
-          x(n) = a(1) * x(n-1) + ... + a(k) * x(n-k)
-               + e(n) + b(1) * e(n-1) + ... + b(l) * e(n-l)
-
-     in which K is the length of vector A, L is the length of vector B
-     and E is Gaussian white noise with variance V.  The function
-     returns a vector of length T.
-
-     The optional parameter N gives the number of dummy X(I) used for
-     initialization, i.e., a sequence of length T+N is generated and
-     X(N+1:T+N) is returned.  If N is omitted, N = 100 is used.
-
- -- : autoreg_matrix (Y, K)
-     Given a time series (vector) Y, return a matrix with ones in the
-     first column and the first K lagged values of Y in the other
-     columns.
-
-     In other words, for T > K, ‘[1, Y(T-1), ..., Y(T-K)]’ is the t-th
-     row of the result.
-
-     The resulting matrix may be used as a regressor matrix in
-     autoregressions.
-
- -- : bartlett (M)
-     Return the filter coefficients of a Bartlett (triangular) window of
-     length M.
-
-     For a definition of the Bartlett window see, e.g., A.V. Oppenheim &
-     R. W. Schafer, ‘Discrete-Time Signal Processing’.
-
- -- : blackman (M)
- -- : blackman (M, "periodic")
- -- : blackman (M, "symmetric")
-     Return the filter coefficients of a Blackman window of length M.
-
-     If the optional argument "periodic" is given, the periodic form of
-     the window is returned.  This is equivalent to the window of length
-     M+1 with the last coefficient removed.  The optional argument
-     "symmetric" is equivalent to not specifying a second argument.
-
-     For a definition of the Blackman window, see, e.g., A.V. Oppenheim
-     & R. W. Schafer, ‘Discrete-Time Signal Processing’.
-
- -- : detrend (X, P)
-     If X is a vector, ‘detrend (X, P)’ removes the best fit of a
-     polynomial of order P from the data X.
-
-     If X is a matrix, ‘detrend (X, P)’ does the same for each column in
-     X.
-
-     The second argument P is optional.  If it is not specified, a value
-     of 1 is assumed.  This corresponds to removing a linear trend.
-
-     The order of the polynomial can also be given as a string, in which
-     case P must be either "constant" (corresponds to ‘P=0’) or "linear"
-     (corresponds to ‘P=1’).
-
-     See also: *note polyfit: XREFpolyfit.
-
- -- : [D, DD] = diffpara (X, A, B)
-     Return the estimator D for the differencing parameter of an
-     integrated time series.
-
-     The frequencies from [2*pi*a/t, 2*pi*b/T] are used for the
-     estimation.  If B is omitted, the interval [2*pi/T, 2*pi*a/T] is
-     used.  If both B and A are omitted then a = 0.5 * sqrt (T) and b =
-     1.5 * sqrt (T) is used, where T is the sample size.  If X is a
-     matrix, the differencing parameter of each column is estimated.
-
-     The estimators for all frequencies in the intervals described above
-     is returned in DD.
-
-     The value of D is simply the mean of DD.
-
-     Reference: P.J. Brockwell & R.A. Davis.  ‘Time Series: Theory and
-     Methods’.  Springer 1987.
-
- -- : durbinlevinson (C, OLDPHI, OLDV)
-     Perform one step of the Durbin-Levinson algorithm.
-
-     The vector C specifies the autocovariances ‘[gamma_0, ...,
-     gamma_t]’ from lag 0 to T, OLDPHI specifies the coefficients based
-     on C(T-1) and OLDV specifies the corresponding error.
-
-     If OLDPHI and OLDV are omitted, all steps from 1 to T of the
-     algorithm are performed.
-
- -- : fftshift (X)
- -- : fftshift (X, DIM)
-     Perform a shift of the vector X, for use with the ‘fft’ and ‘ifft’
-     functions, in order to move the frequency 0 to the center of the
-     vector or matrix.
-
-     If X is a vector of N elements corresponding to N time samples
-     spaced by dt, then ‘fftshift (fft (X))’ corresponds to frequencies
-
-          f = [ -(ceil((N-1)/2):-1:1), 0, (1:floor((N-1)/2)) ] * df
-
-     where df = 1 / (N * dt).
-
-     If X is a matrix, the same holds for rows and columns.  If X is an
-     array, then the same holds along each dimension.
-
-     The optional DIM argument can be used to limit the dimension along
-     which the permutation occurs.
-
-     See also: *note ifftshift: XREFifftshift.
-
- -- : ifftshift (X)
- -- : ifftshift (X, DIM)
-     Undo the action of the ‘fftshift’ function.
-
-     For even length X, ‘fftshift’ is its own inverse, but odd lengths
-     differ slightly.
-
-     See also: *note fftshift: XREFfftshift.
-
- -- : fractdiff (X, D)
-     Compute the fractional differences (1-L)^d x where L denotes the
-     lag-operator and d is greater than -1.
-
- -- : hamming (M)
- -- : hamming (M, "periodic")
- -- : hamming (M, "symmetric")
-     Return the filter coefficients of a Hamming window of length M.
-
-     If the optional argument "periodic" is given, the periodic form of
-     the window is returned.  This is equivalent to the window of length
-     M+1 with the last coefficient removed.  The optional argument
-     "symmetric" is equivalent to not specifying a second argument.
-
-     For a definition of the Hamming window see, e.g., A.V. Oppenheim &
-     R. W. Schafer, ‘Discrete-Time Signal Processing’.
-
- -- : hanning (M)
- -- : hanning (M, "periodic")
- -- : hanning (M, "symmetric")
-     Return the filter coefficients of a Hanning window of length M.
-
-     If the optional argument "periodic" is given, the periodic form of
-     the window is returned.  This is equivalent to the window of length
-     M+1 with the last coefficient removed.  The optional argument
-     "symmetric" is equivalent to not specifying a second argument.
-
-     For a definition of the Hanning window see, e.g., A.V. Oppenheim &
-     R. W. Schafer, ‘Discrete-Time Signal Processing’.
-
- -- : hurst (X)
-     Estimate the Hurst parameter of sample X via the rescaled range
-     statistic.
-
-     If X is a matrix, the parameter is estimated for every column.
-
- -- : PP = pchip (X, Y)
- -- : YI = pchip (X, Y, XI)
-     Return the Piecewise Cubic Hermite Interpolating Polynomial (pchip)
-     of points X and Y.
-
-     If called with two arguments, return the piecewise polynomial PP
-     that may be used with ‘ppval’ to evaluate the polynomial at
-     specific points.
-
-     When called with a third input argument, ‘pchip’ evaluates the
-     pchip polynomial at the points XI.  The third calling form is
-     equivalent to ‘ppval (pchip (X, Y), XI)’.
-
-     The variable X must be a strictly monotonic vector (either
-     increasing or decreasing) of length N.
-
-     Y can be either a vector or array.  If Y is a vector then it must
-     be the same length N as X.  If Y is an array then the size of Y
-     must have the form ‘[S1, S2, ..., SK, N]’ The array is reshaped
-     internally to a matrix where the leading dimension is given by ‘S1
-     * S2 * ... * SK’ and each row of this matrix is then treated
-     separately.  Note that this is exactly opposite to ‘interp1’ but is
-     done for MATLAB compatibility.
-
-     See also: *note spline: XREFspline, *note ppval: XREFppval, *note
-     mkpp: XREFmkpp, *note unmkpp: XREFunmkpp.
-
- -- : [PXX, W] = periodogram (X)
- -- : [PXX, W] = periodogram (X, WIN)
- -- : [PXX, W] = periodogram (X, WIN, NFFT)
- -- : [PXX, F] = periodogram (X, WIN, NFFT, FS)
- -- : [PXX, F] = periodogram (..., "RANGE")
- -- : periodogram (...)
-     Return the periodogram (Power Spectral Density) of X.
-
-     The possible inputs are:
-
-     X
-
-          data vector.  If X is real-valued a one-sided spectrum is
-          estimated.  If X is complex-valued, or "RANGE" specifies
-          "twosided", the full spectrum is estimated.
-
-     WIN
-          window weight data.  If window is empty or unspecified a
-          default rectangular window is used.  Otherwise, the window is
-          applied to the signal (‘X .* WIN’) before computing the
-          periodogram.  The window data must be a vector of the same
-          length as X.
-
-     NFFT
-          number of frequency bins.  The default is 256 or the next
-          higher power of 2 greater than the length of X (‘max (256,
-          2.^nextpow2 (length (x)))’).  If NFFT is greater than the
-          length of the input then X will be zero-padded to the length
-          of NFFT.
-
-     FS
-          sampling rate.  The default is 1.
-
-     RANGE
-          range of spectrum.  "onesided" computes spectrum from
-          [0:nfft/2+1].  "twosided" computes spectrum from [0:nfft-1].
-
-     The optional second output W are the normalized angular
-     frequencies.  For a one-sided calculation W is in the range [0, pi]
-     if NFFT is even and [0, pi) if NFFT is odd.  Similarly, for a
-     two-sided calculation W is in the range [0, 2*pi] or [0, 2*pi)
-     depending on NFFT.
-
-     If a sampling frequency is specified, FS, then the output
-     frequencies F will be in the range [0, FS/2] or [0, FS/2) for
-     one-sided calculations.  For two-sided calculations the range will
-     be [0, FS).
-
-     When called with no outputs the periodogram is immediately plotted
-     in the current figure window.
-
-     See also: *note fft: XREFfft.
-
- -- : sinetone (FREQ, RATE, SEC, AMPL)
-     Return a sinetone of frequency FREQ with a length of SEC seconds at
-     sampling rate RATE and with amplitude AMPL.
-
-     The arguments FREQ and AMPL may be vectors of common size.
-
-     The defaults are RATE = 8000, SEC = 1, and AMPL = 64.
-
-     See also: *note sinewave: XREFsinewave.
-
- -- : sinewave (M, N, D)
-     Return an M-element vector with I-th element given by ‘sin (2 * pi
-     * (I+D-1) / N)’.
-
-     The default value for D is 0 and the default value for N is M.
-
-     See also: *note sinetone: XREFsinetone.
-
- -- : spectral_adf (C)
- -- : spectral_adf (C, WIN)
- -- : spectral_adf (C, WIN, B)
-     Return the spectral density estimator given a vector of
-     autocovariances C, window name WIN, and bandwidth, B.
-
-     The window name, e.g., "triangle" or "rectangle" is used to search
-     for a function called ‘WIN_lw’.
-
-     If WIN is omitted, the triangle window is used.
-
-     If B is omitted, ‘1 / sqrt (length (X))’ is used.
-
-     See also: *note spectral_xdf: XREFspectral_xdf.
-
- -- : spectral_xdf (X)
- -- : spectral_xdf (X, WIN)
- -- : spectral_xdf (X, WIN, B)
-     Return the spectral density estimator given a data vector X, window
-     name WIN, and bandwidth, B.
-
-     The window name, e.g., "triangle" or "rectangle" is used to search
-     for a function called ‘WIN_sw’.
-
-     If WIN is omitted, the triangle window is used.
-
-     If B is omitted, ‘1 / sqrt (length (X))’ is used.
-
-     See also: *note spectral_adf: XREFspectral_adf.
-
- -- : spencer (X)
-     Return Spencer’s 15 point moving average of each column of X.
-
- -- : Y = stft (X)
- -- : Y = stft (X, WIN_SIZE)
- -- : Y = stft (X, WIN_SIZE, INC)
- -- : Y = stft (X, WIN_SIZE, INC, NUM_COEF)
- -- : Y = stft (X, WIN_SIZE, INC, NUM_COEF, WIN_TYPE)
- -- : [Y, C] = stft (...)
-     Compute the short-time Fourier transform of the vector X with
-     NUM_COEF coefficients by applying a window of WIN_SIZE data points
-     and an increment of INC points.
-
-     Before computing the Fourier transform, one of the following
-     windows is applied:
-
-     "hanning"
-          win_type = 1
-
-     "hamming"
-          win_type = 2
-
-     "rectangle"
-          win_type = 3
-
-     The window names can be passed as strings or by the WIN_TYPE
-     number.
-
-     The following defaults are used for unspecified arguments: WIN_SIZE
-     = 80, INC = 24, NUM_COEF = 64, and WIN_TYPE = 1.
-
-     ‘Y = stft (X, ...)’ returns the absolute values of the Fourier
-     coefficients according to the NUM_COEF positive frequencies.
-
-     ‘[Y, C] = stft (X, ...)’ returns the entire STFT-matrix Y and a
-     3-element vector C containing the window size, increment, and
-     window type, which is needed by the ‘synthesis’ function.
-
-     See also: *note synthesis: XREFsynthesis.
-
- -- : X = synthesis (Y, C)
-     Compute a signal from its short-time Fourier transform Y and a
-     3-element vector C specifying window size, increment, and window
-     type.
-
-     The values Y and C can be derived by
-
-          [Y, C] = stft (X , ...)
-
-     See also: *note stft: XREFstft.
-
- -- : [A, V] = yulewalker (C)
-     Fit an AR (p)-model with Yule-Walker estimates given a vector C of
-     autocovariances ‘[gamma_0, ..., gamma_p]’.
-
-     Returns the AR coefficients, A, and the variance of white noise, V.
 

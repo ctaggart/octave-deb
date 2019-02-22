@@ -3,10 +3,10 @@
 <!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Rational Approximations (GNU Octave (version 4.4.1))</title>
+<title>Rational Approximations (GNU Octave (version 5.0.91))</title>
 
-<meta name="description" content="Rational Approximations (GNU Octave (version 4.4.1))">
-<meta name="keywords" content="Rational Approximations (GNU Octave (version 4.4.1))">
+<meta name="description" content="Rational Approximations (GNU Octave (version 5.0.91))">
+<meta name="keywords" content="Rational Approximations (GNU Octave (version 5.0.91))">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
@@ -59,24 +59,42 @@ Next: <a href="Coordinate-Transformations.html#Coordinate-Transformations" acces
 <h3 class="section">17.7 Rational Approximations</h3>
 
 <a name="XREFrat"></a><dl>
-<dt><a name="index-rat"></a><em><var>s</var> =</em> <strong>rat</strong> <em>(<var>x</var>, <var>tol</var>)</em></dt>
-<dt><a name="index-rat-1"></a><em>[<var>n</var>, <var>d</var>] =</em> <strong>rat</strong> <em>(<var>x</var>, <var>tol</var>)</em></dt>
+<dt><a name="index-rat"></a><em><var>s</var> =</em> <strong>rat</strong> <em>(<var>x</var>)</em></dt>
+<dt><a name="index-rat-1"></a><em><var>s</var> =</em> <strong>rat</strong> <em>(<var>x</var>, <var>tol</var>)</em></dt>
+<dt><a name="index-rat-2"></a><em>[<var>n</var>, <var>d</var>] =</em> <strong>rat</strong> <em>(&hellip;)</em></dt>
 <dd>
-<p>Find a rational approximation to <var>x</var> within the tolerance defined by
-<var>tol</var> using a continued fraction expansion.
+<p>Find a rational approximation of <var>x</var> to within the tolerance defined by
+<var>tol</var>.
+</p>
+<p>If unspecified, the default tolerance is <code>1e-6 * norm (<var>x</var>(:), 1)</code>.
+</p>
+<p>When called with one output argument, return a string containing a
+continued fraction expansion (multiple terms).
+</p>
+<p>When called with two output arguments, return numeric matrices for the
+numerator and denominator of a fractional representation of <var>x</var> such
+that <code><var>x</var> = <var>n</var> ./ <var>d</var></code>.
 </p>
 <p>For example:
 </p>
 <div class="example">
-<pre class="example">rat (pi) = 3 + 1/(7 + 1/16) = 355/113
-rat (e) = 3 + 1/(-4 + 1/(2 + 1/(5 + 1/(-2 + 1/(-7)))))
-        = 1457/536
+<pre class="example">s = rat (pi)
+&rArr; s = 3 + 1/(7 + 1/16)
+
+[n, d] = rat (pi)
+&rArr; n =  355
+&rArr; d =  113
+
+n / d - pi
+&rArr; 0.00000026676
 </pre></div>
 
-<p>When called with two output arguments return the numerator and denominator
-separately as two matrices.
+<p>Programming Note: With one output <code>rat</code> produces a string which is a
+continued fraction expansion.  To produce a string which is a simple
+fraction (one numerator, one denominator) use <code>rats</code>.
 </p>
-<p><strong>See also:</strong> <a href="#XREFrats">rats</a>.
+
+<p><strong>See also:</strong> <a href="#XREFrats">rats</a>, <a href="Terminal-Output.html#XREFformat">format</a>.
 </p></dd></dl>
 
 

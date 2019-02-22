@@ -1,4 +1,4 @@
-## Copyright (C) 2006-2018 John W. Eaton
+## Copyright (C) 2006-2019 John W. Eaton
 ##
 ## This file is part of Octave.
 ##
@@ -212,6 +212,15 @@
 ## The @option{--traditional} or @option{--braindead} startup options for
 ## Octave may also be of use, @pxref{Command Line Options}.
 ##
+## @item Octave:legacy-function
+## If the @code{Octave:legacy-function} warning is enabled, a
+## warning is issued when Octave encounters a function that @sc{matlab} has
+## suggested should be avoided.  The function may become obsolete at some
+## point in the future and removed, in which case the warning will change to
+## @code{Octave:deprecated-function}, and the function will continue to exist
+## for two further versions of Octave before being removed.
+## By default, the @code{Octave:legacy-function} warning is enabled.
+##
 ## @item Octave:logical-conversion
 ## By default, the @code{Octave:logical-conversion} warning is enabled.
 ##
@@ -238,6 +247,7 @@
 ##
 ## @item  Octave:nearly-singular-matrix
 ## @itemx Octave:singular-matrix
+## These warnings are emitted if a (nearly) singular matrix is inverted.
 ## By default, the @code{Octave:nearly-singular-matrix} and
 ## @code{Octave:singular-matrix} warnings are enabled.
 ##
@@ -260,7 +270,7 @@
 ##
 ## @item Octave:num-to-str
 ## If the @code{Octave:num-to-str} warning is enable, a warning is
-## printed for implicit conversions of numbers to their ASCII character
+## printed for implicit conversions of numbers to their UTF-8 encoded character
 ## equivalents when strings are constructed using a mixture of strings and
 ## numbers in matrix notation.  For example,
 ##
@@ -335,8 +345,8 @@
 ##
 ## @item Octave:str-to-num
 ## If the @code{Octave:str-to-num} warning is enabled, a warning is printed
-## for implicit conversions of strings to their numeric ASCII equivalents.
-## For example,
+## for implicit conversions of strings to their numeric UTF-8 encoded byte
+## sequences.  For example,
 ##
 ## @example
 ## @group

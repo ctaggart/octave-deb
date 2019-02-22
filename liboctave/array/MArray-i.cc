@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 1995-2018 John W. Eaton
+Copyright (C) 1995-2019 John W. Eaton
 
 This file is part of Octave.
 
@@ -34,15 +34,6 @@ along with Octave; see the file COPYING.  If not, see
 template class OCTAVE_API MArray<int>;
 #if defined (OCTAVE_ENABLE_64)
 template class OCTAVE_API MArray<int64_t>;
-#endif
-
-#if defined (OCTAVE_USE_DEPRECATED_FUNCTIONS)
-// Explicit instantiation, as this seems to be required by weird compilers
-// like MSVC.  This should be harmless on other compilers.
-template int xmin<int> (int, int);
-template int xmax<int> (int, int);
-template long xmin<long> (long, long);
-template long xmax<long> (long, long);
 #endif
 
 INSTANTIATE_MARRAY_FRIENDS (int, OCTAVE_API)

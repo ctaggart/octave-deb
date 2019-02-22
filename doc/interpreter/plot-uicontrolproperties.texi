@@ -1,6 +1,6 @@
 @c DO NOT EDIT!  Generated automatically by genpropdoc.m.
 
-@c Copyright (C) 2014-2018 Pantxo Diribarne
+@c Copyright (C) 2014-2019 Pantxo Diribarne
 @c
 @c This file is part of Octave.
 @c
@@ -22,7 +22,7 @@
 
 @anchor{XREFuicontrolbackgroundcolor}
 @prindex uicontrol backgroundcolor
-@item @code{backgroundcolor}: def. @code{[1   1   1]}
+@item @code{backgroundcolor}: def. @code{[0.94000   0.94000   0.94000]}
 
 
 
@@ -93,7 +93,7 @@ For information on how to write graphics listener functions see @ref{Callbacks, 
 
 @anchor{XREFuicontrolextent}
 @prindex uicontrol extent
-@item @code{extent} (read-only): def. @code{[0   0   0   0]}
+@item @code{extent} (read-only): four-element vector
 
 
 

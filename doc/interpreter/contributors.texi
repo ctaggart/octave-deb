@@ -37,18 +37,19 @@
 @item Eduardo Gallestey @tab Walter Gautschi @tab Klaus Gebhardt
 @item Driss Ghaddab @tab Eugenio Gianniti @tab Hartmut Gimpel
 @item Michele Ginesi @tab Nicolo Giorgetti @tab Arun Giridhar
-@item Michael D. Godfrey @tab Michael Goffioul @tab Glenn Golden
-@item Tomislav Goles @tab Keith Goodman @tab Brian Gough
-@item Alexander Graf @tab Michael C. Grant @tab Steffen Groot
-@item Etienne Grossmann @tab David Grundberg @tab Kyle Guinn
-@item Vaibhav Gupta @tab Peter Gustafson @tab Kai Habel
-@item Patrick Häcker @tab William P. Y. Hadisoeseno @tab Jaroslav Hajek
-@item Benjamin Hall @tab Alexander Hansen @tab Kim Hansen
-@item Søren Hauberg @tab Dave Hawthorne @tab Oliver Heimlich
-@item Daniel Heiserer @tab Piotr Held @tab Martin Helm
-@item Stefan Hepp @tab Martin Hepperle @tab Jordi Gutiérrez Hermoso
-@item Israel Herraiz @tab Yozo Hida @tab Ryan Hinton
-@item Roman Hodek @tab A. Scottedward Hodel @tab Richard Allan Holcombe
+@item Michael D. Godfrey @tab Dave Goel @tab Michael Goffioul
+@item Glenn Golden @tab Tomislav Goles @tab Keith Goodman
+@item Brian Gough @tab Alexander Graf @tab Michael C. Grant
+@item Steffen Groot @tab Etienne Grossmann @tab David Grundberg
+@item Kyle Guinn @tab Vaibhav Gupta @tab Peter Gustafson
+@item Kai Habel @tab Patrick Häcker @tab William P. Y. Hadisoeseno
+@item Jaroslav Hajek @tab Benjamin Hall @tab Alexander Hansen
+@item Kim Hansen @tab Gene Harvey @tab Søren Hauberg
+@item Dave Hawthorne @tab Oliver Heimlich @tab Daniel Heiserer
+@item Piotr Held @tab Martin Helm @tab Stefan Hepp
+@item Martin Hepperle @tab Jordi Gutiérrez Hermoso @tab Israel Herraiz
+@item Yozo Hida @tab Ryan Hinton @tab Roman Hodek
+@item A. Scottedward Hodel @tab Júlio Hoffimann @tab Richard Allan Holcombe
 @item Tom Holroyd @tab David Hoover @tab Kurt Hornik
 @item Craig Hudson @tab Christopher Hulbert @tab Cyril Humbert
 @item John Hunt @tab Stefan Husmann @tab Teemu Ikonen
@@ -137,12 +138,13 @@
 @item James R. Van Zandt @tab Risto Vanhanen @tab Gregory Vanuxem
 @item Mihas Varantsou @tab Ivana Varekova @tab Sébastien Villemot
 @item Marco Vitetta @tab Daniel Wagenaar @tab Thomas Walter
-@item Andreas Weber @tab Olaf Weber @tab Thomas Weber
-@item Rik Wehbring @tab Bob Weigel @tab Andreas Weingessel
-@item Martin Weiser @tab Michael Weitzel @tab David Wells
-@item Joachim Wiesemann @tab Alexander Wilms @tab Joe Winegarden
-@item Georg Wiora @tab Sahil Yadav @tab Fook Fah Yap
-@item Sean Young @tab Michele Zaffalon @tab Serhiy Zahoriya
-@item Johannes Zarl @tab Michael Zeising @tab Federico Zenith
-@item Claudius Zingerli @tab Alex Zvoleff @tab Richard Zweig
+@item Jun Wang @tab Andreas Weber @tab Olaf Weber
+@item Thomas Weber @tab Rik Wehbring @tab Bob Weigel
+@item Andreas Weingessel @tab Martin Weiser @tab Michael Weitzel
+@item David Wells @tab Joachim Wiesemann @tab Alexander Wilms
+@item Joe Winegarden @tab Georg Wiora @tab Sahil Yadav
+@item Fook Fah Yap @tab Sean Young @tab Michele Zaffalon
+@item Serhiy Zahoriya @tab Johannes Zarl @tab Michael Zeising
+@item Federico Zenith @tab Claudius Zingerli @tab Alex Zvoleff
+@item Richard Zweig
 @end multitable

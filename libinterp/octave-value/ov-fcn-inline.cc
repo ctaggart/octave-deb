@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2004-2018 David Bateman
+Copyright (C) 2004-2019 David Bateman
 
 This file is part of Octave.
 
@@ -29,7 +29,7 @@ Open Source Initiative (www.opensource.org)
 #endif
 
 #include <istream>
-#include <iostream>
+#include <ostream>
 #include <sstream>
 #include <vector>
 
@@ -82,8 +82,12 @@ octave_fcn_inline::octave_fcn_inline (const std::string& f,
 
   buf << ") " << iftext;
 
+  octave::interpreter& interp
+    = octave::__get_interpreter__ ("octave_fcn_inline::octave_fcn_inline");
+
   int parse_status;
-  octave_value anon_fcn_handle = octave::eval_string (buf.str (), true, parse_status);
+  octave_value anon_fcn_handle
+    = interp.eval_string (buf.str (), true, parse_status);
 
   if (parse_status == 0)
     {
@@ -97,8 +101,7 @@ octave_fcn_inline::octave_fcn_inline (const std::string& f,
 
           if (uf)
             {
-              octave::call_stack& cs
-                = octave::__get_call_stack__ ("octave_fcn_inline");
+              octave::call_stack& cs = interp.get_call_stack ();
 
               octave_function *curr_fcn = cs.current ();
 
@@ -797,7 +800,7 @@ functions from strings is through the use of anonymous functions
       if (! args(1).is_scalar_type ())
         error ("inline: N must be an integer");
 
-      int n = args(1).int_value ("inline: N must be an integer");
+      int n = args(1).xint_value ("inline: N must be an integer");
 
       if (n < 0)
         error ("inline: N must be a positive integer or zero");

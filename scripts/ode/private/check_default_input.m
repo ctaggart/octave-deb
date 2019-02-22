@@ -1,4 +1,4 @@
-## Copyright (C) 2016-2018 Francesco Faccio <francesco.faccio@mail.polimi.it>
+## Copyright (C) 2016-2019 Francesco Faccio <francesco.faccio@mail.polimi.it>
 ##
 ## This file is part of Octave.
 ##
@@ -33,7 +33,7 @@ function [fun] = check_default_input (fun, trange, solver, varargin);
       warning (lasterr);
     end_try_catch
   endif
-  if (! isa (fun, "function_handle"))
+  if (! is_function_handle (fun))
     error ("Octave:invalid-input-arg",
                [solver ": invalid value assigned to field '%s'"], "fun");
   endif

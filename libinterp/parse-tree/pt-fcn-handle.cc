@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2003-2018 John W. Eaton
+Copyright (C) 2003-2019 John W. Eaton
 
 This file is part of Octave.
 
@@ -24,7 +24,7 @@ along with Octave; see the file COPYING.  If not, see
 #  include "config.h"
 #endif
 
-#include <iostream>
+#include <ostream>
 
 #include "interpreter-private.h"
 #include "pt-fcn-handle.h"

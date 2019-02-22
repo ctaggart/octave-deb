@@ -1,6 +1,6 @@
 @c DO NOT EDIT!  Generated automatically by munge-texi.pl.
 
-@c Copyright (C) 1996-2018 John W. Eaton
+@c Copyright (C) 1996-2019 John W. Eaton
 @c
 @c This file is part of Octave.
 @c
@@ -53,8 +53,9 @@ convergence is not guaranteed even if a solution exists.
 
 @c fsolve scripts/optimization/fsolve.m
 @anchor{XREFfsolve}
-@deftypefn  {} {} fsolve (@var{fcn}, @var{x0}, @var{options})
-@deftypefnx {} {[@var{x}, @var{fvec}, @var{info}, @var{output}, @var{fjac}] =} fsolve (@var{fcn}, @dots{})
+@deftypefn  {} {} fsolve (@var{fcn}, @var{x0})
+@deftypefnx {} {} fsolve (@var{fcn}, @var{x0}, @var{options})
+@deftypefnx {} {[@var{x}, @var{fval}, @var{info}, @var{output}, @var{fjac}] =} fsolve (@dots{})
 Solve a system of nonlinear equations defined by the function @var{fcn}.
 
 @var{fcn} should accept a vector (array) defining the unknown variables,
@@ -63,64 +64,97 @@ are defined to be zeros.  In other words, this function attempts to
 determine a vector @var{x} such that @code{@var{fcn} (@var{x})} gives
 (approximately) all zeros.
 
-@var{x0} determines a starting guess.  The shape of @var{x0} is preserved
-in all calls to @var{fcn}, but otherwise it is treated as a column vector.
+@var{x0} is an initial guess for the solution.  The shape of @var{x0} is
+preserved in all calls to @var{fcn}, but otherwise is treated as a column
+vector.
 
-@var{options} is a structure specifying additional options.  Currently,
-@code{fsolve} recognizes these options:
-@qcode{"FunValCheck"}, @qcode{"OutputFcn"}, @qcode{"TolX"},
-@qcode{"TolFun"}, @qcode{"MaxIter"}, @qcode{"MaxFunEvals"},
-@qcode{"Jacobian"}, @qcode{"Updating"}, @qcode{"ComplexEqn"}
-@qcode{"TypicalX"}, @qcode{"AutoScaling"} and @qcode{"FinDiffType"}.
+@var{options} is a structure specifying additional parameters which
+control the algorithm.  Currently, @code{fsolve} recognizes these options:
+@qcode{"AutoScaling"}, @qcode{"ComplexEqn"}, @qcode{"FinDiffType"},
+@qcode{"FunValCheck"}, @qcode{"Jacobian"}, @qcode{"MaxFunEvals"},
+@qcode{"MaxIter"}, @qcode{"OutputFcn"}, @qcode{"TolFun"}, @qcode{"TolX"},
+@qcode{"TypicalX"}, and @qcode{"Updating"}.
 
-If @qcode{"Jacobian"} is @qcode{"on"}, it specifies that @var{fcn}, called
-with 2 output arguments also returns the Jacobian matrix of right-hand sides
-at the requested point.  @qcode{"TolX"} specifies the termination tolerance
-in the unknown variables, while @qcode{"TolFun"} is a tolerance for
-equations.  Default is @code{1e-7} for both @qcode{"TolX"} and
-@qcode{"TolFun"}.
+If @qcode{"AutoScaling"} is @qcode{"on"}, the variables will be
+automatically scaled according to the column norms of the (estimated)
+Jacobian.  As a result, @qcode{"TolFun"} becomes scaling-independent.  By
+default, this option is @qcode{"off"} because it may sometimes deliver
+unexpected (though mathematically correct) results.
 
-If @qcode{"AutoScaling"} is on, the variables will be automatically scaled
-according to the column norms of the (estimated) Jacobian.  As a result,
-TolF becomes scaling-independent.  By default, this option is off because
-it may sometimes deliver unexpected (though mathematically correct) results.
-
-If @qcode{"Updating"} is @qcode{"on"}, the function will attempt to use
-@nospell{Broyden} updates to update the Jacobian, in order to reduce the
-amount of Jacobian calculations.  If your user function always calculates
-the Jacobian (regardless of number of output arguments) then this option
-provides no advantage and should be set to false.
-
-@qcode{"ComplexEqn"} is @qcode{"on"}, @code{fsolve} will attempt to solve
+If @qcode{"ComplexEqn"} is @qcode{"on"}, @code{fsolve} will attempt to solve
 complex equations in complex variables, assuming that the equations possess
 a complex derivative (i.e., are holomorphic).  If this is not what you want,
 you should unpack the real and imaginary parts of the system to get a real
 system.
 
-For description of the other options, see @code{optimset}.
+If @qcode{"Jacobian"} is @qcode{"on"}, it specifies that @var{fcn}---when
+called with 2 output arguments---also returns the Jacobian matrix of
+right-hand sides at the requested point.
 
-On return, @var{fval} contains the value of the function @var{fcn}
-evaluated at @var{x}.
+@qcode{"MaxFunEvals"} proscribes the maximum number of function evaluations
+before optimization is halted.  The default value is
+@code{100 * number_of_variables}, i.e., @code{100 * length (@var{x0})}.
+The value must be a positive integer.
 
-@var{info} may be one of the following values:
+If @qcode{"Updating"} is @qcode{"on"}, the function will attempt to use
+@nospell{Broyden} updates to update the Jacobian, in order to reduce the
+number of Jacobian calculations.  If your user function always calculates
+the Jacobian (regardless of number of output arguments) then this option
+provides no advantage and should be disabled.
+
+@qcode{"TolX"} specifies the termination tolerance in the unknown variables,
+while @qcode{"TolFun"} is a tolerance for equations.  Default is @code{1e-6}
+for both @qcode{"TolX"} and @qcode{"TolFun"}.
+
+For a description of the other options, see @code{optimset}.  To initialize
+an options structure with default values for @code{fsolve} use
+@code{options = optimset ("fsolve")}.
+
+The first output @var{x} is the solution while the second output @var{fval}
+contains the value of the function @var{fcn} evaluated at @var{x} (ideally
+a vector of all zeros).
+
+The third output @var{info} reports whether the algorithm succeeded and may
+take one of the following values:
 
 @table @asis
 @item 1
 Converged to a solution point.  Relative residual error is less than
-specified by TolFun.
+specified by @code{TolFun}.
 
 @item 2
-Last relative step size was less that TolX.
+Last relative step size was less than @code{TolX}.
 
 @item 3
-Last relative decrease in residual was less than TolF.
+Last relative decrease in residual was less than @code{TolFun}.
 
 @item 0
-Iteration limit exceeded.
+Iteration limit (either @code{MaxIter} or @code{MaxFunEvals}) exceeded.
+
+@item -1
+Stopped by @code{OutputFcn}.
 
 @item -3
 The trust region radius became excessively small.
 @end table
+
+@var{output} is a structure containing runtime information about the
+@code{fsolve} algorithm.  Fields in the structure are:
+
+@table @code
+@item iterations
+ Number of iterations through loop.
+
+@item successful
+ Number of successful iterations.
+
+@item @nospell{funcCount}
+ Number of function evaluations.
+
+@end table
+
+The final output @var{fjac} contains the value of the Jacobian evaluated
+at @var{x}.
 
 Note: If you only have a single nonlinear equation of one variable, using
 @code{fzero} is usually a much better idea.
@@ -131,21 +165,21 @@ a solution vector whose residual vector is already known, and it is the last
 accepted successful step.  Often this will be one of the last two calls, but
 not always.  If the savings by reusing intermediate results from residual
 calculation in Jacobian calculation are significant, the best strategy is to
-employ OutputFcn: After a vector is evaluated for residuals, if OutputFcn is
-called with that vector, then the intermediate results should be saved for
-future Jacobian evaluation, and should be kept until a Jacobian evaluation
-is requested or until OutputFcn is called with a different vector, in which
-case they should be dropped in favor of this most recent vector.  A short
-example how this can be achieved follows:
+employ @code{OutputFcn}: After a vector is evaluated for residuals, if
+@code{OutputFcn} is called with that vector, then the intermediate results
+should be saved for future Jacobian evaluation, and should be kept until a
+Jacobian evaluation is requested or until @code{OutputFcn} is called with a
+different vector, in which case they should be dropped in favor of this most
+recent vector.  A short example how this can be achieved follows:
 
 @example
-function [fvec, fjac] = user_func (x, optimvalues, state)
+function [fval, fjac] = user_func (x, optimvalues, state)
 persistent sav = [], sav0 = [];
 if (nargin == 1)
   ## evaluation call
   if (nargout == 1)
     sav0.x = x; # mark saved vector
-    ## calculate fvec, save results to sav0.
+    ## calculate fval, save results to sav0.
   elseif (nargout == 2)
     ## calculate fjac using sav.
   endif
@@ -301,14 +335,29 @@ successful, the function fails.
 
 @var{options} is a structure specifying additional options.  Currently,
 @code{fzero} recognizes these options:
-@qcode{"FunValCheck"}, @qcode{"OutputFcn"}, @qcode{"TolX"},
-@qcode{"MaxIter"}, @qcode{"MaxFunEvals"}.
-For a description of these options, see @ref{XREFoptimset,,optimset}.
+@qcode{"FunValCheck"}, @qcode{"MaxFunEvals"}, @qcode{"MaxIter"},
+@qcode{"OutputFcn"}, and @qcode{"TolX"}.
 
-On exit, the function returns @var{x}, the approximate zero point and
-@var{fval}, the function value thereof.
+@qcode{"MaxFunEvals"} proscribes the maximum number of function evaluations
+before the search is halted.  The default value is @code{Inf}.
+The value must be a positive integer.
 
-@var{info} is an exit flag that can have these values:
+@qcode{"MaxIter"} proscribes the maximum number of algorithm iterations
+before the search is halted.  The default value is @code{Inf}.
+The value must be a positive integer.
+
+@qcode{"TolX"} specifies the termination tolerance for the solution @var{x}.
+The default value is @code{eps}.
+
+For a description of the other options, see @ref{XREFoptimset,,optimset}.
+To initialize an options structure with default values for @code{fzero} use
+@code{options = optimset ("fzero")}.
+
+On exit, the function returns @var{x}, the approximate zero point, and
+@var{fval}, the function evaluated at @var{x}.
+
+The third output @var{info} reports whether the algorithm succeeded and
+may take one of the following values:
 
 @itemize
 @item 1
@@ -318,7 +367,7 @@ On exit, the function returns @var{x}, the approximate zero point and
  Maximum number of iterations or function evaluations has been reached.
 
 @item -1
-The algorithm has been terminated from user output function.
+The algorithm has been terminated by a user @code{OutputFcn}.
 
 @item -5
 The algorithm may have converged to a singular point.
@@ -331,8 +380,11 @@ The algorithm may have converged to a singular point.
 @item iterations
  Number of iterations through loop.
 
-@item @nospell{nfev}
+@item @nospell{funcCount}
  Number of function evaluations.
+
+@item algorithm
+ The string @qcode{"bisection, interpolation"}.
 
 @item bracketx
  A two-element vector with the final bracketing of the zero along the
@@ -372,37 +424,58 @@ objective function
 
 @c fminbnd scripts/optimization/fminbnd.m
 @anchor{XREFfminbnd}
-@deftypefn {} {[@var{x}, @var{fval}, @var{info}, @var{output}] =} fminbnd (@var{fun}, @var{a}, @var{b}, @var{options})
+@deftypefn  {} {@var{x} =} fminbnd (@var{fun}, @var{a}, @var{b})
+@deftypefnx {} {@var{x} =} fminbnd (@var{fun}, @var{a}, @var{b}, @var{options})
+@deftypefnx {} {[@var{x}, @var{fval}, @var{info}, @var{output}] =} fminbnd (@dots{})
 Find a minimum point of a univariate function.
 
-@var{fun} should be a function handle or name.  @var{a}, @var{b} specify a
-starting interval.  @var{options} is a structure specifying additional
-options.  Currently, @code{fminbnd} recognizes these options:
-@qcode{"FunValCheck"}, @qcode{"OutputFcn"}, @qcode{"TolX"},
-@qcode{"MaxIter"}, @qcode{"MaxFunEvals"}.  For a description of these
-options, see @ref{XREFoptimset,,optimset}.
+@var{fun} must be a function handle or name.
 
-On exit, the function returns @var{x}, the approximate minimum point and
-@var{fval}, the function value thereof.
+The starting interval is specified by @var{a} (left boundary) and @var{b}
+(right boundary).  The endpoints must be finite.
 
-@var{info} is an exit flag that can have these values:
+@var{options} is a structure specifying additional parameters which
+control the algorithm.  Currently, @code{fminbnd} recognizes these options:
+@qcode{"Display"}, @qcode{"FunValCheck"}, @qcode{"MaxFunEvals"},
+@qcode{"MaxIter"}, @qcode{"OutputFcn"}, @qcode{"TolX"}.
+
+@qcode{"MaxFunEvals"} proscribes the maximum number of function evaluations
+before optimization is halted.  The default value is 500.
+The value must be a positive integer.
+
+@qcode{"MaxIter"} proscribes the maximum number of algorithm iterations
+before optimization is halted.  The default value is 500.
+The value must be a positive integer.
+
+@qcode{"TolX"} specifies the termination tolerance for the solution @var{x}.
+The default is @code{1e-4}.
+
+For a description of the other options, see @ref{XREFoptimset,,optimset}.
+To initialize an options structure with default values for @code{fminbnd}
+use @code{options = optimset ("fminbnd")}.
+
+On exit, the function returns @var{x}, the approximate minimum point, and
+@var{fval}, the function evaluated @var{x}.
+
+The third output @var{info} reports whether the algorithm succeeded and may
+take one of the following values:
 
 @itemize
 @item 1
 The algorithm converged to a solution.
 
 @item 0
-Maximum number of iterations or function evaluations has been exhausted.
+Iteration limit (either @code{MaxIter} or @code{MaxFunEvals}) exceeded.
 
 @item -1
-The algorithm has been terminated from user output function.
+The algorithm was terminated by a user @code{OutputFcn}.
 @end itemize
 
-Notes: The search for a minimum is restricted to be in the interval bound by
-@var{a} and @var{b}.  If you only have an initial point to begin searching
-from you will need to use an unconstrained minimization algorithm such as
-@code{fminunc} or @code{fminsearch}.  @code{fminbnd} internally uses a
-Golden Section search strategy.
+Programming Notes: The search for a minimum is restricted to be in the
+finite interval bound by @var{a} and @var{b}.  If you have only one initial
+point to begin searching from then you will need to use an unconstrained
+minimization algorithm such as @code{fminunc} or @code{fminsearch}.
+@code{fminbnd} internally uses a Golden Section search strategy.
 @seealso{@ref{XREFfzero,,fzero}, @ref{XREFfminunc,,fminunc}, @ref{XREFfminsearch,,fminsearch}, @ref{XREFoptimset,,optimset}}
 @end deftypefn
 
@@ -423,19 +496,34 @@ return the objective function value, optionally with gradient.
 @var{x0} determines a starting guess.  The shape of @var{x0} is preserved in
 all calls to @var{fcn}, but otherwise is treated as a column vector.
 
-@var{options} is a structure specifying additional options.  Currently,
-@code{fminunc} recognizes these options:
-@qcode{"FunValCheck"}, @qcode{"OutputFcn"}, @qcode{"TolX"},
-@qcode{"TolFun"}, @qcode{"MaxIter"}, @qcode{"MaxFunEvals"},
-@qcode{"GradObj"}, @qcode{"FinDiffType"}, @qcode{"TypicalX"},
-@qcode{"AutoScaling"}.
+@var{options} is a structure specifying additional parameters which
+control the algorithm.  Currently, @code{fminunc} recognizes these options:
+@qcode{"AutoScaling"}, @qcode{"FinDiffType"}, @qcode{"FunValCheck"},
+@qcode{"GradObj"}, @qcode{"MaxFunEvals"}, @qcode{"MaxIter"},
+@qcode{"OutputFcn"}, @qcode{"TolFun"}, @qcode{"TolX"}, @qcode{"TypicalX"}.
 
-If @qcode{"GradObj"} is @qcode{"on"}, it specifies that @var{fcn}, when
-called with two output arguments, also returns the Jacobian matrix of
-partial first derivatives at the requested point.  @code{TolX} specifies
-the termination tolerance for the unknown variables @var{x}, while
-@code{TolFun} is a tolerance for the objective function value @var{fval}.
- The default is @code{1e-7} for both options.
+If @qcode{"AutoScaling"} is @qcode{"on"}, the variables will be
+automatically scaled according to the column norms of the (estimated)
+Jacobian.  As a result, @qcode{"TolFun"} becomes scaling-independent.  By
+default, this option is @qcode{"off"} because it may sometimes deliver
+unexpected (though mathematically correct) results.
+
+If @qcode{"GradObj"} is @qcode{"on"}, it specifies that @var{fcn}--when
+called with two output arguments---also returns the Jacobian matrix of
+partial first derivatives at the requested point.
+
+@qcode{"MaxFunEvals"} proscribes the maximum number of function evaluations
+before optimization is halted.  The default value is
+@code{100 * number_of_variables}, i.e., @code{100 * length (@var{x0})}.
+The value must be a positive integer.
+
+@qcode{"MaxIter"} proscribes the maximum number of algorithm iterations
+before optimization is halted.  The default value is 400.
+The value must be a positive integer.
+
+@qcode{"TolX"} specifies the termination tolerance for the unknown variables
+@var{x}, while @qcode{"TolFun"} is a tolerance for the objective function
+value @var{fval}.  The default is @code{1e-6} for both options.
 
 For a description of the other options, see @code{optimset}.
 
@@ -487,9 +575,11 @@ discontinuities it may be better to use a derivative-free algorithm such as
 @deftypefn  {} {@var{x} =} fminsearch (@var{fun}, @var{x0})
 @deftypefnx {} {@var{x} =} fminsearch (@var{fun}, @var{x0}, @var{options})
 @deftypefnx {} {@var{x} =} fminsearch (@var{fun}, @var{x0}, @var{options}, @var{fun_arg1}, @var{fun_arg2}, @dots{})
+@deftypefnx {} {@var{x} =} fminsearch (@var{problem})
 @deftypefnx {} {[@var{x}, @var{fval}, @var{exitflag}, @var{output}] =} fminsearch (@dots{})
 
-Find a value of @var{x} which minimizes the function @var{fun}.
+Find a value of @var{x} which minimizes the multi-variable function
+@var{fun}.
 
 The search begins at the point @var{x0} and iterates using the
 @nospell{Nelder & Mead} Simplex algorithm (a derivative-free method).  This
@@ -498,25 +588,59 @@ which a gradient-based search such as @code{fminunc} fails.
 
 Options for the search are provided in the parameter @var{options} using the
 function @code{optimset}.  Currently, @code{fminsearch} accepts the options:
-@qcode{"TolX"}, @qcode{"TolFun"}, @qcode{"MaxFunEvals"}, @qcode{"MaxIter"},
-@qcode{"Display"}, @qcode{"FunValCheck"}, and @qcode{"OutputFcn"}.
-For a description of these options, see @code{optimset}.
+@qcode{"Display"}, @qcode{"FunValCheck"},@qcode{"MaxFunEvals"},
+@qcode{"MaxIter"}, @qcode{"OutputFcn"}, @qcode{"TolFun"}, @qcode{"TolX"}.
+
+@qcode{"MaxFunEvals"} proscribes the maximum number of function evaluations
+before optimization is halted.  The default value is
+@code{200 * number_of_variables}, i.e., @code{200 * length (@var{x0})}.
+The value must be a positive integer.
+
+@qcode{"MaxIter"} proscribes the maximum number of algorithm iterations
+before optimization is halted.  The default value is
+@code{200 * number_of_variables}, i.e., @code{200 * length (@var{x0})}.
+The value must be a positive integer.
+
+For a description of the other options, see @code{optimset}.  To initialize
+an options structure with default values for @code{fminsearch} use
+@code{options = optimset ("fminsearch")}.
 
 Additional inputs for the function @var{fun} can be passed as the fourth
 and higher arguments.  To pass function arguments while using the default
 @var{options} values, use @code{[]} for @var{options}.
 
+@code{fminsearch} may also be called with a single structure argument
+with the following fields:
+
+@table @code
+@item objective
+The objective function.
+
+@item x0
+The initial point.
+
+@item solver
+Must be set to @qcode{"fminsearch"}.
+
+@item options
+A structure returned from @code{optimset} or an empty matrix to
+indicate that defaults should be used.
+@end table
+
+@noindent
+The field @code{options} is optional.  All others are required.
+
 On exit, the function returns @var{x}, the minimum point, and @var{fval},
 the function value at the minimum.
 
-The third return value @var{exitflag} is
+The third output @var{exitflag} reports whether the algorithm succeeded and
+may take one of the following values:
 
 @table @asis
 @item 1
 if the algorithm converged
-(size of the simplex is smaller than @code{@var{options}.TolX} @strong{AND}
-the step in the function value between iterations is smaller than
-@code{@var{options}.TolFun}).
+(size of the simplex is smaller than @code{TolX} @strong{AND} the step in
+function value between iterations is smaller than @code{TolFun}).
 
 @item 0
 if the maximum number of iterations or the maximum number of function
@@ -526,10 +650,11 @@ evaluations are exceeded.
 if the iteration is stopped by the @qcode{"OutputFcn"}.
 @end table
 
-The fourth return value is a structure @var{output} with the fields,
-@code{funcCount} containing the number of function calls to @var{fun},
-@code{iterations} containing the number of iteration steps,
-@code{algorithm} with the name of the search algorithm (always:
+The fourth output is a structure @var{output} containing runtime
+about the algorithm.  Fields in the structure are @code{funcCount}
+containing the number of function calls to @var{fun}, @code{iterations}
+containing the number of iteration steps, @code{algorithm} with the name of
+the search algorithm (always:
 @nospell{@qcode{"Nelder-Mead simplex direct search"}}), and @code{message}
 with the exit message.
 
@@ -538,6 +663,9 @@ Example:
 @example
 fminsearch (@@(x) (x(1)-5).^2+(x(2)-8).^4, [0;0])
 @end example
+
+Note: If you need to find the minimum of a single variable function it is
+probably better to use @code{fminbnd}.
 @seealso{@ref{XREFfminbnd,,fminbnd}, @ref{XREFfminunc,,fminunc}, @ref{XREFoptimset,,optimset}}
 @end deftypefn
 

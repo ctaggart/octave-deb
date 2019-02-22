@@ -3,10 +3,10 @@
 <!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Axis Configuration (GNU Octave (version 4.4.1))</title>
+<title>Axis Configuration (GNU Octave (version 5.0.91))</title>
 
-<meta name="description" content="Axis Configuration (GNU Octave (version 4.4.1))">
-<meta name="keywords" content="Axis Configuration (GNU Octave (version 4.4.1))">
+<meta name="description" content="Axis Configuration (GNU Octave (version 5.0.91))">
+<meta name="keywords" content="Axis Configuration (GNU Octave (version 5.0.91))">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
@@ -60,7 +60,10 @@ Next: <a href="Two_002ddimensional-Function-Plotting.html#Two_002ddimensional-Fu
 
 <p>The axis function may be used to change the axis limits of an existing
 plot and various other axis properties, such as the aspect ratio and the
-appearance of tic marks.
+appearance of tic marks.  By default, high level plotting functions such as
+<code>plot</code> reset axes properties.  Any customization of properties, for
+example by calling <code>axis</code>, <code>xlim</code>, etc., should happen after the plot
+is done or, alternatively, after calling the <a href="Manipulation-of-Plot-Windows.html#XREFhold">hold function</a>.
 </p>
 <a name="XREFaxis"></a><dl>
 <dt><a name="index-axis"></a><em></em> <strong>axis</strong> <em>()</em></dt>

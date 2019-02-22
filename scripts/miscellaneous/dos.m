@@ -1,4 +1,4 @@
-## Copyright (C) 2004-2018 John W. Eaton
+## Copyright (C) 2004-2019 John W. Eaton
 ##
 ## This file is part of Octave.
 ##
@@ -32,7 +32,7 @@
 ## @seealso{unix, system, isunix, ismac, ispc}
 ## @end deftypefn
 
-## Author: octave-forge ???
+## Author: Octave Forge ???
 ## Adapted by: jwe
 
 function [status, text] = dos (command, echo_arg)

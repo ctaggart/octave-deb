@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2005-2018 John W. Eaton
+Copyright (C) 2005-2019 John W. Eaton
 
 This file is part of Octave.
 
@@ -93,12 +93,5 @@ namespace octave
     };
   }
 }
-
-#if defined (OCTAVE_USE_DEPRECATED_FUNCTIONS)
-
-OCTAVE_DEPRECATED (4.2, "use 'octave::sys::uname' instead")
-typedef octave::sys::uname octave_uname;
-
-#endif
 
 #endif

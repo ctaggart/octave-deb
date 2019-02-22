@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2004-2018 David Bateman
+Copyright (C) 2004-2019 David Bateman
 Copyright (C) 1998-2004 Andy Adler
 Copyright (C) 2010 VZLU Prague
 
@@ -475,7 +475,7 @@ public:
   bool is_square (void) const
   { return issquare (); }
 
-  bool isempty (void) const { return (rows () < 1 && cols () < 1); }
+  bool isempty (void) const { return (rows () < 1 || cols () < 1); }
 
   OCTAVE_DEPRECATED (4.4, "use 'isempty' instead")
   bool is_empty (void) const

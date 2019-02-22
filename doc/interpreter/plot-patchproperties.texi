@@ -1,6 +1,6 @@
 @c DO NOT EDIT!  Generated automatically by genpropdoc.m.
 
-@c Copyright (C) 2014-2018 Pantxo Diribarne
+@c Copyright (C) 2014-2019 Pantxo Diribarne
 @c
 @c This file is part of Octave.
 @c
@@ -155,18 +155,18 @@ When set to a value other than @qcode{"none"}, the faces of the object are drawn
 @anchor{XREFpatchfacenormals}
 @prindex patch facenormals
 @item @code{facenormals}: def. @code{[](0x0)}
-
+Face normals are used for lighting the edges or faces if the @code{edgelighting} or @code{facelighting} properties are set to @qcode{"flat"}.  Setting @code{facenormals} also forces the @code{facenormalsmode} property to be set to @qcode{"manual"}
 
 
 @anchor{XREFpatchfacenormalsmode}
 @prindex patch facenormalsmode
 @item @code{facenormalsmode}: @{@qcode{"auto"}@} | @qcode{"manual"}
-
+If this property is set to @qcode{"auto"}, @code{facenormals} are automatically calculated if the @code{edgelighting} or @code{facelighting} property are set to @qcode{"flat"} and at least one @code{light} object is present and visible in the same axes.
 
 
 @anchor{XREFpatchfaces}
 @prindex patch faces
-@item @code{faces}: def. @code{[1   2   3]}
+@item @code{faces}: vector | matrix, def. @code{[1   2   3]}
 
 
 
@@ -306,13 +306,13 @@ User-defined data to associate with the graphics object.
 @anchor{XREFpatchvertexnormals}
 @prindex patch vertexnormals
 @item @code{vertexnormals}: def. @code{[](0x0)}
-
+Vertex normals are used for lighting the edges or faces if the @code{edgelighting} or @code{facelighting} properties are set to @qcode{"gouraud"}.  Setting @code{vertexnormals} also forces the @code{vertexnormalsmode} property to be set to @qcode{"manual"}
 
 
 @anchor{XREFpatchvertexnormalsmode}
 @prindex patch vertexnormalsmode
 @item @code{vertexnormalsmode}: @{@qcode{"auto"}@} | @qcode{"manual"}
-
+If this property is set to @qcode{"auto"}, @code{vertexnormals} are automatically calculated if the @code{edgelighting} or @code{facelighting} property are set to @qcode{"gouraud"} and at least one @code{light} object is present and visible in the same axes.
 
 
 @anchor{XREFpatchvertices}

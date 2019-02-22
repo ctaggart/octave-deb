@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 1994-2018 John W. Eaton
+Copyright (C) 1994-2019 John W. Eaton
 Copyright (C) 2009 Jaroslav Hajek
 Copyright (C) 2009-2010 VZLU Prague
 Copyright (C) 2012 Carlo de Falco
@@ -101,7 +101,7 @@ If the optional argument @var{dim} is supplied, work along dimension
     print_usage ();
 
   int dim = (nargin == 1 ? -1
-                         : args(1).int_value ("all: DIM must be an integer")-1);
+                         : args(1).xint_value ("all: DIM must be an integer")-1);
 
   if (dim < -1)
     error ("all: invalid dimension argument = %d", dim + 1);
@@ -166,7 +166,7 @@ any (eye (2, 4), 2)
     print_usage ();
 
   int dim = (nargin == 1 ? -1
-                         : args(1).int_value ("any: DIM must be an integer")-1);
+                         : args(1).xint_value ("any: DIM must be an integer")-1);
 
   if (dim < -1)
     error ("any: invalid dimension argument = %d", dim + 1);
@@ -572,9 +572,12 @@ x - y .* fix (x ./ y)
 An error message is printed if the dimensions of the arguments do not agree,
 or if either argument is complex.
 
-Programming Notes: Floating point numbers within a few eps of an integer
-will be rounded to an integer before computation for compatibility with
-@sc{matlab}.
+Programming Notes: When calculating with floating point numbers (double,
+single), values within a few eps of an integer will be rounded to that
+integer before computation for compatibility with @sc{matlab}.  Any floating
+point integers greater than @code{flintmax} (2^53 for double) will not compute
+correctly.  For larger integer values convert the input to @code{uint64} before
+calling this function.
 
 By convention,
 
@@ -582,7 +585,7 @@ By convention,
 @group
 rem (@var{x}, 0) = NaN  if @var{x} is a floating point variable
 rem (@var{x}, 0) = 0    if @var{x} is an integer variable
-rem (@var{x}, @var{y})        returns a value with the signbit from @var{x}
+rem (@var{x}, @var{y})  returns a value with the signbit from @var{x}
 @end group
 @end example
 
@@ -617,7 +620,7 @@ periodic, @code{mod} is a better choice.
         btyp1 = btyp0;
 
       if (btyp0 != btyp1)
-        error ("rem: cannot combine %s and %d",
+        error ("rem: cannot combine %s and %s",
                args(0).class_name ().c_str (),
                args(1).class_name ().c_str ());
 
@@ -753,9 +756,12 @@ This function handles negative values correctly.  That is,
 An error results if the dimensions of the arguments do not agree, or if
 either of the arguments is complex.
 
-Programming Notes: Floating point numbers within a few eps of an integer
-will be rounded to an integer before computation for compatibility with
-@sc{matlab}.
+Programming Notes: When calculating with floating point numbers (double,
+single), values within a few eps of an integer will be rounded to that
+integer before computation for compatibility with @sc{matlab}.  Any floating
+point integers greater than @code{flintmax} (2^53 for double) will not compute
+correctly.  For larger integer values convert the input to @code{uint64} before
+calling this function.
 
 By convention,
 
@@ -796,7 +802,7 @@ negative numbers or when the values are periodic.
         btyp1 = btyp0;
 
       if (btyp0 != btyp1)
-        error ("mod: cannot combine %s and %d",
+        error ("mod: cannot combine %s and %s",
                args(0).class_name ().c_str (),
                args(1).class_name ().c_str ());
 
@@ -904,7 +910,14 @@ negative numbers or when the values are periodic.
 %!assert <*45587> (! signbit (mod (0, -0)))
 
 %!assert <*42627> (mod (0.94, 0.01), 0.0)
+
+%!assert <*54602> (mod (int8 (125), int8 (-25)), int8 (0))
+%!assert <*54602> (mod (int8 (-125), int8 (-25)), int8 (0))
+%!assert <*54602> (mod (int8 (-125), int8 (0)), int8 (-125))
+%!assert <*54602> (mod (int8 (0), int8 (-25)), int8 (0))
+
 */
+
 
 #define DATA_REDUCTION(FCN)                                             \
                                                                         \
@@ -1122,7 +1135,7 @@ and @qcode{"double"}.
         {
           SparseMatrix cs = arg.sparse_matrix_value ().cumsum (dim);
           if (isnative)
-            retval = cs != 0.0;
+            retval = (cs != 0.0);
           else
             retval = cs;
         }
@@ -1130,7 +1143,7 @@ and @qcode{"double"}.
         {
           NDArray cs = arg.array_value ().cumsum (dim);
           if (isnative)
-            retval = cs != 0.0;
+            retval = (cs != 0.0);
           else
             retval = cs;
         }
@@ -2530,7 +2543,8 @@ DEFUN (ndims, args, ,
 Return the number of dimensions of @var{a}.
 
 For any array, the result will always be greater than or equal to 2.
-Trailing singleton dimensions are not counted.
+Trailing singleton dimensions are not counted, i.e., tailing dimensions @var{d}
+greater than 2, for which @code{size (@var{a}, @var{d}) = 1}.
 
 @example
 @group
@@ -2544,8 +2558,24 @@ ndims (ones (4, 1, 2, 1))
   if (args.length () != 1)
     print_usage ();
 
-  return ovl (args(0).ndims ());
+  // This function *must* use size() to determine the desired values to be
+  // compatible with Matlab and to allow user-defined class overloading.
+  Matrix sz = octave_value (args(0)).size ();
+
+  octave_idx_type ndims = sz.numel ();
+
+  // Don't count trailing ones.  Trailing zeros are *not* singleton dimension.
+  while ((ndims > 2) && (sz(ndims - 1) == 1))
+    ndims--;
+
+  return ovl (ndims);
 }
+
+/*
+%!assert (ndims (1:5), 2)
+%!assert (ndims (ones (4, 1, 2, 1)), 3)
+%!assert (ndims (ones (4, 1, 2, 0)), 4)
+*/
 
 DEFUN (numel, args, ,
        doc: /* -*- texinfo -*-
@@ -2603,7 +2633,8 @@ indexing, i.e., @code{object@{@dots{}@}} or @code{object(@dots{}).field}.
     {
       // Don't use numel (const octave_value_list&) here as that corresponds to
       // an overloaded call, not to builtin!
-      retval = dims_to_numel (args(0).dims (), args.slice (1, nargin-1));
+      retval = octave::dims_to_numel (args(0).dims (),
+                                      args.slice (1, nargin-1));
     }
 
   return retval;
@@ -2706,7 +2737,8 @@ Example 4: number of output arguments < number of dimensions
       const dim_vector dv = args(0).dims ();
 
       if (nd < 1)
-        error ("size: requested dimension DIM (= %d) out of range", nd);
+        error ("size: requested dimension DIM (= %" OCTAVE_IDX_TYPE_FORMAT ") "
+               "out of range", nd);
 
       if (nd <= dv.ndims ())
         retval(0) = dv(nd-1);
@@ -2796,14 +2828,18 @@ same as @code{nnz} except for some cases of user-created sparse objects.
 DEFUN (rows, args, ,
        doc: /* -*- texinfo -*-
 @deftypefn {} {} rows (@var{a})
-Return the number of rows of @var{a}.
+Return the number of rows of @var{a}.  This is equivalent to
+@code{size (@var{a}, 1)}.
 @seealso{columns, size, length, numel, isscalar, isvector, ismatrix}
 @end deftypefn */)
 {
   if (args.length () != 1)
     print_usage ();
 
-  return ovl (args(0).rows ());
+  // This function *must* use size() to determine the desired values to
+  // allow user-defined class overloading.
+
+  return ovl ((octave_value (args(0)).size ())(0));
 }
 
 /*
@@ -2836,14 +2872,18 @@ Return the number of rows of @var{a}.
 DEFUN (columns, args, ,
        doc: /* -*- texinfo -*-
 @deftypefn {} {} columns (@var{a})
-Return the number of columns of @var{a}.
+Return the number of columns of @var{a}.  This is equivalent to
+@code{size (@var{a}, 2)}.
 @seealso{rows, size, length, numel, isscalar, isvector, ismatrix}
 @end deftypefn */)
 {
   if (args.length () != 1)
     print_usage ();
 
-  return ovl (args(0).columns ());
+  // This function *must* use size() to determine the desired values to
+  // allow user-defined class overloading.
+
+  return ovl ((octave_value (args(0)).size ())(1));
 }
 
 DEFUN (sum, args, ,
@@ -3216,6 +3256,23 @@ Return true if @var{x} is a complex-valued numeric object.
 
   return ovl (args(0).iscomplex ());
 }
+
+/*
+%!assert (iscomplex (4), false)
+%!assert (iscomplex (i), true)
+%!assert (iscomplex (4+3i), true)
+%!assert (iscomplex ([1, 2, 3]), false)
+%!assert (iscomplex ([1, 2i, 3]), true)
+
+%!assert (iscomplex (0j), false)
+%!assert (iscomplex (complex (0,0)), true)
+%!assert (iscomplex ("4"), false)
+%!assert (iscomplex ({i}), false)
+
+## Test input validation
+%!error iscomplex ()
+%!error iscomplex (1, 2)
+*/
 
 DEFUN (isfloat, args, ,
        doc: /* -*- texinfo -*-
@@ -3612,14 +3669,19 @@ Logical and character arrays are not considered to be numeric.
 DEFUN (isscalar, args, ,
        doc: /* -*- texinfo -*-
 @deftypefn {} {} isscalar (@var{x})
-Return true if @var{x} is a scalar.
+Return true if @var{x} is a scalar, i.e., @code{size (@var{x})} returns
+@code{[1 1]}.
 @seealso{isvector, ismatrix}
 @end deftypefn */)
 {
   if (args.length () != 1)
     print_usage ();
 
-  return ovl (args(0).numel () == 1);
+  // This function *must* use size() to determine the desired values to be
+  // compatible with Matlab and to allow user-defined class overloading.
+  Matrix sz = octave_value (args(0)).size ();
+
+  return ovl (sz.numel () == 2 && sz(0) == 1 && sz(1) == 1);
 }
 
 /*
@@ -3654,9 +3716,11 @@ consequence a 1x1 array, or scalar, is also a vector.
   if (args.length () != 1)
     print_usage ();
 
-  dim_vector sz = args(0).dims ();
+  // This function *must* use size() to determine the desired values to be
+  // compatible with Matlab and to allow user-defined class overloading.
+  Matrix sz = octave_value (args(0)).size ();
 
-  return ovl (sz.ndims () == 2 && (sz(0) == 1 || sz(1) == 1));
+  return ovl (sz.numel () == 2 && (sz(0) == 1 || sz(1) == 1));
 }
 
 /*
@@ -3682,16 +3746,19 @@ consequence a 1x1 array, or scalar, is also a vector.
 DEFUN (isrow, args, ,
        doc: /* -*- texinfo -*-
 @deftypefn {} {} isrow (@var{x})
-Return true if @var{x} is a row vector 1xN with non-negative N.
+Return true if @var{x} is a row vector, i.e., @code{size (@var{x})} returns
+@code{[1 N]} with non-negative N.
 @seealso{iscolumn, isscalar, isvector, ismatrix}
 @end deftypefn */)
 {
   if (args.length () != 1)
     print_usage ();
 
-  dim_vector sz = args(0).dims ();
+  // This function *must* use size() to determine the desired values to be
+  // compatible with Matlab and to allow user-defined class overloading.
+  Matrix sz = octave_value (args(0)).size ();
 
-  return ovl (sz.ndims () == 2 && sz(0) == 1);
+  return ovl (sz.numel () == 2 && sz(0) == 1);
 }
 
 /*
@@ -3726,16 +3793,19 @@ Return true if @var{x} is a row vector 1xN with non-negative N.
 DEFUN (iscolumn, args, ,
        doc: /* -*- texinfo -*-
 @deftypefn {} {} iscolumn (@var{x})
-Return true if @var{x} is a column vector Nx1 with non-negative N.
+Return true if @var{x} is a column vector, i.e., @code{size (@var{x})} returns
+@code{[N 1]} with non-negative N.
 @seealso{isrow, isscalar, isvector, ismatrix}
 @end deftypefn */)
 {
   if (args.length () != 1)
     print_usage ();
 
-  dim_vector sz = args(0).dims ();
+  // This function *must* use size() to determine the desired values to be
+  // compatible with Matlab and to allow user-defined class overloading.
+  Matrix sz = octave_value (args(0)).size ();
 
-  return ovl (sz.ndims () == 2 && sz(1) == 1);
+  return ovl (sz.numel () == 2 && sz(1) == 1);
 }
 
 /*
@@ -3770,16 +3840,19 @@ Return true if @var{x} is a column vector Nx1 with non-negative N.
 DEFUN (ismatrix, args, ,
        doc: /* -*- texinfo -*-
 @deftypefn {} {} ismatrix (@var{a})
-Return true if @var{a} is a 2-D array.
+Return true if @var{a} is a 2-D array, i.e., @code{size (@var{a})} returns
+@code{[M N]} with non-negative M and N.
 @seealso{isscalar, isvector, iscell, isstruct, issparse, isa}
 @end deftypefn */)
 {
   if (args.length () != 1)
     print_usage ();
 
-  dim_vector sz = args(0).dims ();
+  // This function *must* use size() to determine the desired values to be
+  // compatible with Matlab and to allow user-defined class overloading.
+  Matrix sz = octave_value (args(0)).size ();
 
-  return ovl (sz.ndims () == 2 && sz(0) >= 0 && sz(1) >= 0);
+  return ovl (sz.numel () == 2 && sz(0) >= 0 && sz(1) >= 0);
 }
 
 /*
@@ -3813,16 +3886,19 @@ Return true if @var{a} is a 2-D array.
 DEFUN (issquare, args, ,
        doc: /* -*- texinfo -*-
 @deftypefn {} {} issquare (@var{x})
-Return true if @var{x} is a square matrix.
+Return true if @var{x} is a square matrix, i.e., @code{size (@var{x})} returns
+@code{[N N]} with non-negative N.
 @seealso{isscalar, isvector, ismatrix, size}
 @end deftypefn */)
 {
   if (args.length () != 1)
     print_usage ();
 
-  dim_vector sz = args(0).dims ();
+  // This function *must* use size() to determine the desired values to
+  // allow user-defined class overloading.
+  Matrix sz = octave_value (args(0)).size ();
 
-  return ovl (sz.ndims () == 2 && sz(0) == sz(1));
+  return ovl (sz.numel () == 2 && sz(0) == sz(1));
 }
 
 /*
@@ -3871,7 +3947,7 @@ fill_matrix (const octave_value_list& args, int val, const char *fcn)
       break;
 
     case 1:
-      get_dimensions (args(0), fcn, dims);
+      octave::get_dimensions (args(0), fcn, dims);
       break;
 
     default:
@@ -3879,19 +3955,17 @@ fill_matrix (const octave_value_list& args, int val, const char *fcn)
         dims.resize (nargin);
 
         for (int i = 0; i < nargin; i++)
-          dims(i) = (args(i).isempty ()
-                     ? 0 : args(i).xidx_type_value ("%s: dimension arguments must be scalar integers", fcn));
+          dims(i) = (args(i).isempty () ? 0 : args(i).idx_type_value (true));
       }
       break;
     }
 
   dims.chop_trailing_singletons ();
 
-  check_dimensions (dims, fcn);
+  octave::check_dimensions (dims, fcn);
 
-  // FIXME: perhaps this should be made extensible by
-  // using the class name to lookup a function to call to create
-  // the new value.
+  // FIXME: Perhaps this should be made extensible by using the class name
+  //        to lookup a function to call to create the new value.
 
   // Note that automatic narrowing will handle conversion from
   // NDArray to scalar.
@@ -3981,7 +4055,7 @@ fill_matrix (const octave_value_list& args, double val, float fval,
       break;
 
     case 1:
-      get_dimensions (args(0), fcn, dims);
+      octave::get_dimensions (args(0), fcn, dims);
       break;
 
     default:
@@ -3989,15 +4063,14 @@ fill_matrix (const octave_value_list& args, double val, float fval,
         dims.resize (nargin);
 
         for (int i = 0; i < nargin; i++)
-          dims(i) = (args(i).isempty ()
-                     ? 0 : args(i).xidx_type_value ("%s: dimension arguments must be scalar integers", fcn));
+          dims(i) = (args(i).isempty () ? 0 : args(i).idx_type_value (true));
       }
       break;
     }
 
   dims.chop_trailing_singletons ();
 
-  check_dimensions (dims, fcn);
+  octave::check_dimensions (dims, fcn);
 
   // Note that automatic narrowing will handle conversion from
   // NDArray to scalar.
@@ -4045,7 +4118,7 @@ fill_matrix (const octave_value_list& args, double val, const char *fcn)
       break;
 
     case 1:
-      get_dimensions (args(0), fcn, dims);
+      octave::get_dimensions (args(0), fcn, dims);
       break;
 
     default:
@@ -4053,15 +4126,14 @@ fill_matrix (const octave_value_list& args, double val, const char *fcn)
         dims.resize (nargin);
 
         for (int i = 0; i < nargin; i++)
-          dims(i) = (args(i).isempty ()
-                     ? 0 : args(i).xidx_type_value ("%s: dimension arguments must be scalar integers", fcn));
+          dims(i) = (args(i).isempty () ? 0 : args(i).idx_type_value (true));
       }
       break;
     }
 
   dims.chop_trailing_singletons ();
 
-  check_dimensions (dims, fcn);
+  octave::check_dimensions (dims, fcn);
 
   // Note that automatic narrowing will handle conversion from
   // NDArray to scalar.
@@ -4110,7 +4182,7 @@ fill_matrix (const octave_value_list& args, const Complex& val,
       break;
 
     case 1:
-      get_dimensions (args(0), fcn, dims);
+      octave::get_dimensions (args(0), fcn, dims);
       break;
 
     default:
@@ -4118,15 +4190,14 @@ fill_matrix (const octave_value_list& args, const Complex& val,
         dims.resize (nargin);
 
         for (int i = 0; i < nargin; i++)
-          dims(i) = (args(i).isempty ()
-                     ? 0 : args(i).xidx_type_value ("%s: dimension arguments must be scalar integers", fcn));
+          dims(i) = (args(i).isempty () ? 0 : args(i).idx_type_value (true));
       }
       break;
     }
 
   dims.chop_trailing_singletons ();
 
-  check_dimensions (dims, fcn);
+  octave::check_dimensions (dims, fcn);
 
   // Note that automatic narrowing will handle conversion from
   // NDArray to scalar.
@@ -4165,7 +4236,7 @@ fill_matrix (const octave_value_list& args, bool val, const char *fcn)
       break;
 
     case 1:
-      get_dimensions (args(0), fcn, dims);
+      octave::get_dimensions (args(0), fcn, dims);
       break;
 
     default:
@@ -4173,15 +4244,14 @@ fill_matrix (const octave_value_list& args, bool val, const char *fcn)
         dims.resize (nargin);
 
         for (int i = 0; i < nargin; i++)
-          dims(i) = (args(i).isempty ()
-                     ? 0 : args(i).xidx_type_value ("%s: dimension arguments must be scalar integers", fcn));
+          dims(i) = (args(i).isempty () ? 0 : args(i).idx_type_value (true));
       }
       break;
     }
 
   dims.chop_trailing_singletons ();
 
-  check_dimensions (dims, fcn);
+  octave::check_dimensions (dims, fcn);
 
   // Note that automatic narrowing will handle conversion from
   // NDArray to scalar.
@@ -4240,6 +4310,13 @@ val = ones (m,n, "uint8")
 %!assert (ones (2, 3, "int8"), int8 ([1, 1, 1; 1, 1, 1]))
 %!assert (ones (3, 2, "int8"), int8 ([1, 1; 1, 1; 1, 1]))
 %!assert (size (ones (3, 4, 5, "int8")), [3, 4, 5])
+
+%!assert (size (ones (1, -2, 2)), [1, 0, 2])
+
+## Test input validation
+%!error <conversion of 1.1 .*failed> ones (1.1)
+%!error <conversion of 1.1 .*failed> ones (1, 1.1)
+%!error <conversion of 1.1 .*failed> ones ([1, 1.1])
 */
 
 /*
@@ -4301,6 +4378,14 @@ val = zeros (m,n, "uint8")
 %!assert (zeros (2, 3, "int8"), int8 ([0, 0, 0; 0, 0, 0]))
 %!assert (zeros (3, 2, "int8"), int8 ([0, 0; 0, 0; 0, 0]))
 %!assert (size (zeros (3, 4, 5, "int8")), [3, 4, 5])
+
+## Test input validation
+%!error <invalid data type specified> zeros (1, 1, "foobar")
+%!error <conversion of 1.1 .*failed> zeros (1.1)
+%!error <conversion of 1.1 .*failed> zeros (1, 1.1)
+%!error <conversion of 1.1 .*failed> zeros ([1, 1.1])
+%!error <conversion of 1.1 .*failed> zeros (1, 1.1, 2)
+%!error <conversion of 1.1 .*failed> zeros ([1, 1.1, 2])
 */
 
 DEFUN (Inf, args, ,
@@ -4875,9 +4960,8 @@ identity_matrix (int nr, int nc, oct_data_conv::data_type dt)
 {
   octave_value retval;
 
-  // FIXME: perhaps this should be made extensible by using
-  // the class name to lookup a function to call to create the new
-  // value.
+  // FIXME: Perhaps this should be made extensible by using the class name
+  //        to lookup a function to call to create the new value.
 
   switch (dt)
     {
@@ -5009,14 +5093,14 @@ definitions are for compatibility with @sc{matlab}.
   else if (nargin == 1)
     {
       octave_idx_type nr, nc;
-      get_dimensions (args(0), "eye", nr, nc);
+      octave::get_dimensions (args(0), "eye", nr, nc);
 
       retval = identity_matrix (nr, nc, dt);
     }
   else
     {
       octave_idx_type nr, nc;
-      get_dimensions (args(0), args(1), "eye", nr, nc);
+      octave::get_dimensions (args(0), args(1), "eye", nr, nc);
 
       retval = identity_matrix (nr, nc, dt);
     }
@@ -5034,7 +5118,11 @@ definitions are for compatibility with @sc{matlab}.
 %!assert (eye (3, "int8"), int8 ([1, 0, 0; 0, 1, 0; 0, 0, 1]))
 %!assert (eye (2, 3, "int8"), int8 ([1, 0, 0; 0, 1, 0]))
 
+## Test input validation
 %!error eye (1, 2, 3)
+%!error <conversion of 1.1 .*failed> eye (1.1)
+%!error <conversion of 1.1 .*failed> eye (1, 1.1)
+%!error <conversion of 1.1 .*failed> eye ([1, 1.1])
 */
 
 template <typename MT>
@@ -5204,6 +5292,16 @@ only a single value (@var{n} = 1) is requested.
 %!assert (linspace (10, 20, 2.1), [10 20])
 %!assert (linspace (10, 20, 2.9), [10 20])
 %!assert (1 ./ linspace (-0, 0, 4), [-Inf, Inf, Inf, Inf])
+%!assert (linspace (Inf, Inf, 3), [Inf, Inf, Inf])
+%!assert (linspace (-Inf, -Inf, 3), [-Inf, -Inf, -Inf])
+%!assert (linspace (-Inf, Inf, 3), [-Inf, NaN, Inf])
+%!assert (linspace (Inf + 1i, Inf + 1i, 3), [Inf + 1i, Inf + 1i, Inf + 1i])
+%!assert (linspace (-Inf + 1i, Inf + 1i, 3), [-Inf + 1i, NaN + 1i, Inf + 1i])
+%!assert (linspace (0, Inf, 3), [0, Inf, Inf])
+%!assert (linspace (0, -Inf, 3), [0, -Inf, -Inf])
+%!assert (linspace (-Inf, 0, 3), [-Inf, NaN, 0])
+%!assert (linspace (Inf, 0, 3), [Inf, NaN, 0])
+%!assert (linspace (Inf, -Inf, 3), [Inf, NaN, -Inf])
 
 %!error linspace ()
 %!error linspace (1, 2, 3, 4)
@@ -5402,7 +5500,8 @@ the unspecified dimension.
               octave_idx_type size_empty_dim = a_nel / nel;
 
               if (a_nel != size_empty_dim * nel)
-                error ("reshape: SIZE is not divisible by the product of known dimensions (= %d)",
+                error ("reshape: SIZE is not divisible by the product of "
+                       "known dimensions (= %" OCTAVE_IDX_TYPE_FORMAT ")",
                        nel);
 
               new_dims(empty_dim-1) = size_empty_dim;
@@ -5898,14 +5997,12 @@ binary_assoc_op_defun_body (octave_value::binary_op op,
 {
   int nargin = args.length ();
 
-  if (nargin == 0)
+  if (nargin < 2)
     print_usage ();
 
   octave_value retval;
 
-  if (nargin == 1)
-    retval = args(0);
-  else if (nargin == 2)
+  if (nargin == 2)
     retval = do_binary_op (op, args(0), args(1));
   else
     {
@@ -5931,13 +6028,23 @@ cumulatively from left to right:
 (@dots{}((@var{x1} + @var{x2}) + @var{x3}) + @dots{})
 @end example
 
-At least one argument is required.
 @seealso{minus, uplus}
 @end deftypefn */)
 {
   return binary_assoc_op_defun_body (octave_value::op_add,
                                      octave_value::op_add_eq, args);
 }
+
+/*
+%!assert (plus (1,1), 2)
+%!assert (plus (1:3, 1), 2:4)
+%!assert (plus (1:3, 1, 3), 5:7)
+%!assert (plus (1,2,3,4,5,6,7,8,9), sum (1:9))
+
+## Test input validation for all functions which use binary_assoc_op_defun_body
+%!error plus ()
+%!error plus (1)
+*/
 
 DEFUN (minus, args, ,
        doc: /* -*- texinfo -*-
@@ -5963,7 +6070,6 @@ cumulatively from left to right:
 (@dots{}((@var{x1} * @var{x2}) * @var{x3}) * @dots{})
 @end example
 
-At least one argument is required.
 @seealso{times, plus, minus, rdivide, mrdivide, mldivide, mpower}
 @end deftypefn */)
 {
@@ -6085,7 +6191,6 @@ cumulatively from left to right:
 (@dots{}((@var{x1} .* @var{x2}) .* @var{x3}) .* @dots{})
 @end example
 
-At least one argument is required.
 @seealso{mtimes, rdivide}
 @end deftypefn */)
 {
@@ -6150,7 +6255,6 @@ logical AND is applied cumulatively from left to right:
 (@dots{}((@var{x1} & @var{x2}) & @var{x3}) & @dots{})
 @end example
 
-At least one argument is required.
 @seealso{or, not, xor}
 @end deftypefn */)
 {
@@ -6172,7 +6276,6 @@ logical OR is applied cumulatively from left to right:
 (@dots{}((@var{x1} | @var{x2}) | @var{x3}) | @dots{})
 @end example
 
-At least one argument is required.
 @seealso{and, not, xor}
 @end deftypefn */)
 {
@@ -6742,14 +6845,14 @@ get_sort_mode_option (const octave_value& arg)
 
   std::string mode = arg.xstring_value ("issorted: MODE must be a string");
 
-  if (mode == "ascending")
+  if (mode == "ascend")
     smode = ASCENDING;
-  else if (mode == "descending")
+  else if (mode == "descend")
     smode = DESCENDING;
   else if (mode == "either")
     smode = UNSORTED;
   else
-    error (R"(issorted: MODE must be "ascending", "descending", or "either")");
+    error (R"(issorted: MODE must be "ascend", "descend", or "either")");
 
   return smode;
 }
@@ -6799,7 +6902,9 @@ This function does not support sparse matrices.
 
   octave_value arg = args(0);
 
-  if (by_rows)
+  if (arg.isempty ())
+    retval = true;
+  else if (by_rows)
     {
       if (arg.issparse ())
         error ("issorted: sparse matrices not yet supported");
@@ -6833,18 +6938,18 @@ This function does not support sparse matrices.
 %!assert (! issorted (uv))
 %!assert (issorted (sv'))
 %!assert (! issorted (uv'))
-%!assert (issorted (sm, "rows", "ascending"))
-%!assert (! issorted (um, "rows", "ascending"))
-%!assert (issorted (sv, "ascending"))
-%!assert (! issorted (uv, "ascending"))
-%!assert (issorted (sv', "ascending"))
-%!assert (! issorted (uv', "ascending"))
-%!assert (! issorted (sm, "rows", "descending"))
-%!assert (issorted (flipud (sm), "rows", "descending"))
-%!assert (! issorted (sv, "descending"))
-%!assert (issorted (fliplr (sv), "descending"))
-%!assert (! issorted (sv', "descending"))
-%!assert (issorted (fliplr (sv)', "descending"))
+%!assert (issorted (sm, "rows", "ascend"))
+%!assert (! issorted (um, "rows", "ascend"))
+%!assert (issorted (sv, "ascend"))
+%!assert (! issorted (uv, "ascend"))
+%!assert (issorted (sv', "ascend"))
+%!assert (! issorted (uv', "ascend"))
+%!assert (! issorted (sm, "rows", "descend"))
+%!assert (issorted (flipud (sm), "rows", "descend"))
+%!assert (! issorted (sv, "descend"))
+%!assert (issorted (fliplr (sv), "descend"))
+%!assert (! issorted (sv', "descend"))
+%!assert (issorted (fliplr (sv)', "descend"))
 %!assert (! issorted (um, "rows", "either"))
 %!assert (! issorted (uv, "either"))
 %!assert (issorted (sm, "rows", "either"))
@@ -6854,7 +6959,24 @@ This function does not support sparse matrices.
 %!assert (issorted (sv', "either"))
 %!assert (issorted (fliplr (sv)', "either"))
 
-%!error <needs a vector> issorted ([])
+%!assert (issorted ([]))
+%!assert (issorted ([], "rows"))
+%!assert (issorted ([], "ascend"))
+%!assert (issorted ([], "rows", "ascend"))
+%!assert (issorted ([], "descend"))
+%!assert (issorted ([], "rows", "descend"))
+%!assert (issorted ({}))
+%!assert (issorted ({}, "rows"))
+%!assert (issorted ({}, "ascend"))
+%!assert (issorted ({}, "rows", "ascend"))
+%!assert (issorted ({}, "descend"))
+%!assert (issorted ({}, "rows", "descend"))
+%!assert (issorted (""))
+%!assert (issorted ("", "rows"))
+%!assert (issorted ("", "ascend"))
+%!assert (issorted ("", "rows", "ascend"))
+%!assert (issorted ("", "descend"))
+%!assert (issorted ("", "rows", "descend"))
 
 ## Test input validation
 %!error issorted ()

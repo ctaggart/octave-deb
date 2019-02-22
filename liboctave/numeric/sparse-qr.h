@@ -1,7 +1,7 @@
 /*
 
-Copyright (C) 2016-2018 John W. Eaton
-Copyright (C) 2005-2018 David Bateman
+Copyright (C) 2016-2019 John W. Eaton
+Copyright (C) 2005-2019 David Bateman
 
 This file is part of Octave.
 
@@ -25,6 +25,8 @@ along with Octave; see the file COPYING.  If not, see
 #define octave_sparse_qr_h 1
 
 #include "octave-config.h"
+
+#include "oct-cmplx.h"
 
 class Matrix;
 class ComplexMatrix;

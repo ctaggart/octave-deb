@@ -1,4 +1,4 @@
-## Copyright (C) 2017-2018 Pantxo Diribarne
+## Copyright (C) 2017-2019 Pantxo Diribarne
 ##
 ## This file is part of Octave.
 ##
@@ -41,7 +41,7 @@
 ## the figure to be captured.  Regardless of the figure @qcode{"units"}
 ## property, @var{rect} must be defined in @strong{pixels}.
 ##
-## @seealso{im2frame, frame2im}
+## @seealso{im2frame, frame2im, movie}
 ## @end deftypefn
 
 function frame = getframe (h = [], rect = [])
@@ -99,14 +99,18 @@ function frame = getframe (h = [], rect = [])
       || (strcmp (get (hf, "__graphics_toolkit__"), "qt")
           && (strcmp (get (hf, "__gl_window__"), "on")
               || __have_feature__ ("QT_OFFSCREEN"))))
-    cdata = __get_frame__ (hf);
+
+    ## __get_frame__ requires that the figure "units" is "pixels"
+    unwind_protect
+      units = get (hf, "units");
+      set (hf, "units", "pixels");
+      cdata = __get_frame__ (hf);
+    unwind_protect_cleanup
+      set (hf, "units", units)
+    end_unwind_protect
+
   else
-    ## Use OpenGL offscreen rendering with OSMesa for non-visible figures
-    try
-      cdata = __osmesa_print__ (hf);
-    catch
-      error ("getframe: couldn't render invisible figure. %s", lasterr ());
-    end_try_catch
+    error ("getframe: figure must be visible or qt toolkit must be used with __gl_window__ property 'on' or QT_OFFSCREEN feature available");
   endif
 
   i1 = max (floor (pos(1)), 1);
@@ -162,7 +166,7 @@ endfunction
 %! image (frame.cdata);
 %! title ("Lower left hand corner");
 
-%!testif HAVE_QT_OFFSCREEN; have_window_system ()
+%!testif HAVE_QT_OFFSCREEN; have_window_system () && strcmp ("qt", graphics_toolkit ())
 %! hf = figure ("visible", "off");
 %! unwind_protect
 %!   pos = get (hf, "position");
@@ -171,7 +175,7 @@ endfunction
 %!   close (hf);
 %! end_unwind_protect
 
-%!testif HAVE_QT_OFFSCREEN; have_window_system ()
+%!testif HAVE_QT_OFFSCREEN; have_window_system () && strcmp ("qt", graphics_toolkit ())
 %! hf = figure ("visible", "off");
 %! unwind_protect
 %!   hax = axes ("visible", "off", "position", [0 0 1 1]);

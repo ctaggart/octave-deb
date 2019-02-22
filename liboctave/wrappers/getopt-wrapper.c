@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2016-2018 John W. Eaton
+Copyright (C) 2016-2019 John W. Eaton
 
 This file is part of Octave.
 
@@ -49,6 +49,11 @@ make_option_struct (const struct octave_getopt_options *opts)
     }
 
   retval = (struct option *) malloc ((n+1) * sizeof (struct option));
+
+  // If we don't have enough memory even to start Octave
+  // then we might as well quit now.
+  if (! retval)
+    abort ();
 
   p = opts;
   q = retval;

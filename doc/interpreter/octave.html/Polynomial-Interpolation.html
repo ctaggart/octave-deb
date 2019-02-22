@@ -3,10 +3,10 @@
 <!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Polynomial Interpolation (GNU Octave (version 4.4.1))</title>
+<title>Polynomial Interpolation (GNU Octave (version 5.0.91))</title>
 
-<meta name="description" content="Polynomial Interpolation (GNU Octave (version 4.4.1))">
-<meta name="keywords" content="Polynomial Interpolation (GNU Octave (version 4.4.1))">
+<meta name="description" content="Polynomial Interpolation (GNU Octave (version 5.0.91))">
+<meta name="keywords" content="Polynomial Interpolation (GNU Octave (version 5.0.91))">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
@@ -178,7 +178,7 @@ The default is a cubic, <var>order</var>=3.  A spline with P pieces has
 P+<var>order</var> degrees of freedom.  With periodic boundary conditions
 the degrees of freedom are reduced to P.
 </p>
-<p>The optional property, <var>constaints</var>, is a structure specifying linear
+<p>The optional property, <var>constraints</var>, is a structure specifying linear
 constraints on the fit.  The structure has three fields, <code>&quot;xc&quot;</code>,
 <code>&quot;yc&quot;</code>, and <code>&quot;cc&quot;</code>.
 </p>
@@ -473,18 +473,24 @@ intervals is given by <code><var>ni</var> = length (<var>breaks</var>) - 1</code
 <p>When <var>m</var> is the polynomial order <var>coefs</var> must be of size:
 <var>ni</var><span class="nolinebreak">-by-(</span><var>m</var>&nbsp;+&nbsp;1)<!-- /@w -->.
 </p>
-<p>The i-th row of <var>coefs</var>, <code><var>coefs</var> (<var>i</var>,:)</code>, contains the
+<p>The i-th row of <var>coefs</var>, <code><var>coefs</var>(<var>i</var>,:)</code>, contains the
 coefficients for the polynomial over the <var>i</var>-th interval, ordered from
-highest (<var>m</var>) to lowest (<var>0</var>).
+highest (<var>m</var>) to lowest (<var>0</var>) degree.
 </p>
 <p><var>coefs</var> may also be a multi-dimensional array, specifying a
 vector-valued or array-valued polynomial.  In that case the polynomial
 order <var>m</var> is defined by the length of the last dimension of <var>coefs</var>.
 The size of first dimension(s) are given by the scalar or vector <var>d</var>.
-If <var>d</var> is not given it is set to <code>1</code>.  In any case <var>coefs</var> is
-reshaped to a 2-D matrix of size <code>[<var>ni</var>*prod(<var>d</var>) <var>m</var>]</code>.
+If <var>d</var> is not given it is set to <code>1</code>.  In this case
+<code><var>p</var>(<var>r</var>, <var>i</var>, :)</code> contains the coefficients for the
+<var>r</var>-th polynomial defined on interval <var>i</var>.  In any case <var>coefs</var>
+is reshaped to a 2-D matrix of size <code>[<var>ni</var>*prod(<var>d</var>) <var>m</var>]</code>.
 </p>
-
+<p>Programming Note: <code>ppval</code> evaluates polynomials at
+<code><var>xi</var> - <var>breaks</var>(i)</code>, i.e., it subtracts the lower endpoint of
+the current interval from <var>xi</var>.  This must be taken into account when
+creating piecewise polynomials objects with <code>mkpp</code>.
+</p>
 <p><strong>See also:</strong> <a href="#XREFunmkpp">unmkpp</a>, <a href="#XREFppval">ppval</a>, <a href="One_002ddimensional-Interpolation.html#XREFspline">spline</a>, <a href="Signal-Processing.html#XREFpchip">pchip</a>, <a href="#XREFppder">ppder</a>, <a href="#XREFppint">ppint</a>, <a href="#XREFppjumps">ppjumps</a>.
 </p></dd></dl>
 
@@ -494,23 +500,39 @@ reshaped to a 2-D matrix of size <code>[<var>ni</var>*prod(<var>d</var>) <var>m<
 <dd>
 <p>Extract the components of a piecewise polynomial structure <var>pp</var>.
 </p>
+<p>This function is the inverse of <code>mkpp</code>: it extracts the inputs to
+<code>mkpp</code> needed to create the piecewise polynomial structure <var>PP</var>.
+The code below makes this relation explicit:
+</p>
+<div class="example">
+<pre class="example">[breaks, coefs, numinter, order, dim] = unmkpp (pp);
+pp2  = mkpp (breaks, coefs, dim);
+</pre></div>
+
+<p>The piecewise polynomial structure <code>pp2</code> obtained in this way, is
+identical to the original <code>pp</code>.  The same can be obtained by directly
+accessing the fields of the structure <code>pp</code>.
+</p>
 <p>The components are:
 </p>
 <dl compact="compact">
 <dt><var>x</var></dt>
-<dd><p>Sample points.
+<dd><p>Sample points or breaks.
 </p>
 </dd>
 <dt><var>p</var></dt>
 <dd><p>Polynomial coefficients for points in sample interval.
-<code><var>p</var> (<var>i</var>, :)</code> contains the coefficients for the polynomial
-over interval <var>i</var> ordered from highest to lowest.  If
-<code><var>d</var> &gt; 1</code>, <code><var>p</var> (<var>r</var>, <var>i</var>, :)</code> contains the
-coefficients for the r-th polynomial defined on interval <var>i</var>.
+<code><var>p</var>(<var>i</var>, :)</code> contains the coefficients for the polynomial
+over interval <var>i</var> ordered from highest to lowest degree.
+If <code><var>d</var> &gt; 1</code>, then <var>p</var> is a matrix of size
+<code>[<var>n</var>*prod(<var>d</var>) <var>m</var>]</code>, where the
+<code><var>i</var> + (1:<var>d</var>)</code> rows are the coefficients of all the <var>d</var>
+polynomials in the interval <var>i</var>.
 </p>
 </dd>
 <dt><var>n</var></dt>
-<dd><p>Number of polynomial pieces.
+<dd><p>Number of polynomial pieces or intervals,
+<code><var>n</var> = length (<var>x</var>) - 1</code>.
 </p>
 </dd>
 <dt><var>k</var></dt>

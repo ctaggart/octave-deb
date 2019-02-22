@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2001-2018 Ben Sapp
+Copyright (C) 2001-2019 Ben Sapp
 
 This file is part of Octave.
 
@@ -173,10 +173,6 @@ namespace octave
     // List of breakpoint conditions.
     octave_value_list m_bp_cond_list;
   };
-
-  // TRUE means SIGINT should put us in the debugger at the next
-  // available breakpoint.
-  extern bool octave_debug_on_interrupt_state;
 }
 
 #if defined (OCTAVE_USE_DEPRECATED_FUNCTIONS)

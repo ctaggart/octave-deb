@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 1996-2018 John W. Eaton
+Copyright (C) 1996-2019 John W. Eaton
 
 This file is part of Octave.
 
@@ -51,8 +51,6 @@ namespace octave
     {
       tw.visit_break_command (*this);
     }
-
-    static int breaking;
   };
 
   // Continue.
@@ -76,8 +74,6 @@ namespace octave
     {
       tw.visit_continue_command (*this);
     }
-
-    static int continuing;
   };
 
   // Return.
@@ -101,8 +97,6 @@ namespace octave
     {
       tw.visit_return_command (*this);
     }
-
-    static int returning;
   };
 }
 

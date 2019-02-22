@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2005-2018 Ludwig Schwardt, Kevin Ruland
+Copyright (C) 2005-2019 Ludwig Schwardt, Kevin Ruland
 
 This file is part of Octave.
 
@@ -34,7 +34,9 @@ along with Octave; see the file COPYING.  If not, see
 #  include "config.h"
 #endif
 
-#include <iostream>
+#include <iomanip>
+#include <istream>
+#include <ostream>
 
 #include "zfstream.h"
 

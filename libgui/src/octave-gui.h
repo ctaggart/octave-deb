@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2012-2018 John W. Eaton
+Copyright (C) 2012-2019 John W. Eaton
 
 This file is part of Octave.
 
@@ -39,6 +39,8 @@ namespace octave
 
     gui_application& operator = (const gui_application&) = delete;
 
+    ~gui_application (void) = default;
+
     // Should we start the GUI or fall back to the CLI?
     bool start_gui_p (void) const;
 
@@ -51,7 +53,9 @@ namespace octave
 
     int m_argc;
     char **m_argv;
-    bool m_gui_running;
+
+    // If TRUE, the GUI should be started.
+    bool m_gui_running = false;
   };
 }
 

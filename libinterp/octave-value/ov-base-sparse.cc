@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2004-2018 David Bateman
+Copyright (C) 2004-2019 David Bateman
 Copyright (C) 1998-2004 Andy Adler
 Copyright (C) 2010 VZLU Prague
 
@@ -27,7 +27,9 @@ along with Octave; see the file COPYING.  If not, see
 // this file.
 
 #include <iomanip>
-#include <iostream>
+#include <istream>
+#include <ostream>
+#include <sstream>
 
 #include "ovl.h"
 #include "ov-base.h"

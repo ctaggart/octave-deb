@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 1996-2018 John W. Eaton
+Copyright (C) 1996-2019 John W. Eaton
 
 This file is part of Octave.
 
@@ -102,34 +102,5 @@ namespace octave
     extern OCTAVE_API int fcntl (int, int, long, std::string&);
   }
 }
-
-#if defined (OCTAVE_USE_DEPRECATED_FUNCTIONS)
-
-OCTAVE_DEPRECATED (4.2, "use 'octave::sys::popen2' instead")
-inline pid_t
-octave_popen2 (const std::string& cmd, const string_vector& args,
-               bool sync_mode, int *filedes)
-{
-  return octave::sys::popen2 (cmd, args, sync_mode, filedes);
-}
-
-OCTAVE_DEPRECATED (4.2, "use 'octave::sys::popen2' instead")
-inline pid_t
-popen2 (const std::string& cmd, const string_vector& args,
-        bool sync_mode, int *filedes, std::string& msg)
-{
-  return octave::sys::popen2 (cmd, args, sync_mode, filedes, msg);
-}
-
-OCTAVE_DEPRECATED (4.2, "use 'octave::sys::popen2' instead")
-inline pid_t
-popen2 (const std::string& cmd, const string_vector& args,
-        bool sync_mode, int *filedes, std::string& msg,
-        bool &/*interactive*/)
-{
-  return octave::sys::popen2 (cmd, args, sync_mode, filedes, msg);
-}
-
-#endif
 
 #endif

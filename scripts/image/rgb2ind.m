@@ -1,4 +1,4 @@
-## Copyright (C) 1994-2018 John W. Eaton
+## Copyright (C) 1994-2019 John W. Eaton
 ## Copyright (C) 2012 Carnë Draug
 ##
 ## This file is part of Octave.
@@ -78,7 +78,7 @@ function [x, map] = rgb2ind (R, G, B)
     case {"single", "double", "logical"}
       ## do nothing, return the same
     case {"uint8", "uint16"}
-      map = double (map) / double (intmax (class (R)));
+      map = double (map) / double (intmax (R));
     case "int16"
       map = (double (im) + 32768) / 65535;
     otherwise

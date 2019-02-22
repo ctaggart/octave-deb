@@ -1,6 +1,6 @@
 @c DO NOT EDIT!  Generated automatically by munge-texi.pl.
 
-@c Copyright (C) 1996-2018 John W. Eaton
+@c Copyright (C) 1996-2019 John W. Eaton
 @c
 @c This file is part of Octave.
 @c
@@ -86,86 +86,88 @@ is evaluated, the value returned by @code{ans} is 25.
 @anchor{XREFisvarname}
 @deftypefn {} {} isvarname (@var{name})
 Return true if @var{name} is a valid variable name.
+
+A valid variable name is composed of letters, digits, and underscores ("_"),
+and the first character must not be a digit.
 @seealso{@ref{XREFiskeyword,,iskeyword}, @ref{XREFexist,,exist}, @ref{XREFwho,,who}}
 @end deftypefn
 
 
-@c genvarname scripts/miscellaneous/genvarname.m
-@anchor{XREFgenvarname}
-@deftypefn  {} {@var{varname} =} genvarname (@var{str})
-@deftypefnx {} {@var{varname} =} genvarname (@var{str}, @var{exclusions})
-Create valid unique variable name(s) from @var{str}.
+@c matlab.lang.makeValidName scripts/+matlab/+lang/makeValidName.m
+@anchor{XREFmatlab_lang_makeValidName}
+@deftypefn  {} {@var{varname} =} matlab.lang.makeValidName (@var{str})
+@deftypefnx {} {@var{varname} =} matlab.lang.makeValidName (@dots{}, @qcode{"ReplacementStyle"}, @var{rs})
+@deftypefnx {} {@var{varname} =} matlab.lang.makeValidName (@dots{}, @qcode{"Prefix"}, @var{pfx})
+@deftypefnx {} {[@var{varname}, @var{ismodified}] =} matlab.lang.makeValidName (@dots{})
 
-If @var{str} is a cellstr, then a unique variable is created for each cell
-in @var{str}.
+Create valid variable name @var{varname} from @var{str}.
 
-@example
-@group
-genvarname (@{"foo", "foo"@})
-  @result{}
-     @{
-       [1,1] = foo
-       [1,2] = foo1
-     @}
-@end group
-@end example
+The input @var{str} must be a string or a cell array of strings.
+The output @var{varname} will be of the same type.
 
-If @var{exclusions} is given, then the variable(s) will be unique to each
-other and to @var{exclusions} (@var{exclusions} may be either a string or a
-cellstr).
+A valid variable name is a sequence of letters, digits, and underscores that
+does not begin with a digit.
 
-@example
-@group
-x = 3.141;
-genvarname ("x", who ())
-  @result{} x1
-@end group
-@end example
+The @qcode{"ReplacementStyle"} option specifies how invalid characters
+are handled.  Acceptable values are
 
-Note that the result is a char array or cell array of strings, not the
-variables themselves.  To define a variable, @code{eval()} can be used.
-The following trivial example sets @code{x} to 42.
+@table @asis
+@item @qcode{"underscore"} (default)
+Replace all invalid characters with an underscore (@qcode{"_"}).
 
-@example
-@group
-name = genvarname ("x");
-eval ([name " = 42"]);
-  @result{} x =  42
-@end group
-@end example
+@item @qcode{"delete"}
+Remove any invalid character.
 
-This can be useful for creating unique struct field names.
+@item @qcode{"hex"}
+Replace all invalid characters with their hexadecimal representation.
+@end table
 
-@example
-@group
-x = struct ();
-for i = 1:3
-  x.(genvarname ("a", fieldnames (x))) = i;
-endfor
-  @result{} x =
-     @{
-       a =  1
-       a1 =  2
-       a2 =  3
-     @}
-@end group
-@end example
+Whitespace characters are always removed @strong{prior} to the application
+of the @qcode{"ReplacementStyle"}.  Lowercase letters following a whitespace
+will be changed to uppercase.
 
-Since variable names may only contain letters, digits, and underscores,
-@code{genvarname} will replace any sequence of disallowed characters with
-an underscore.  Also, variables may not begin with a digit; in this case
-an @samp{x} is added before the variable name.
+The @qcode{"Prefix"} option specifies the string @var{pfx} to add as a
+prefix to the input if it begins with a digit.  @var{pfx} must be a valid
+variable name itself.  The default prefix is @qcode{"x"}.
 
-Variable names beginning and ending with two underscores @qcode{"__"} are
-valid, but they are used internally by Octave and should generally be
-avoided; therefore, @code{genvarname} will not generate such names.
+The optional output @var{ismodified} is a logical array indicating whether
+the respective element in @var{str} was a valid name or not.
 
-@code{genvarname} will also ensure that returned names do not clash with
-keywords such as @qcode{"for"} and @qcode{"if"}.  A number will be
-appended if necessary.  Note, however, that this does @strong{not} include
-function names such as @qcode{"sin"}.  Such names should be included in
-@var{exclusions} if necessary.
-@seealso{@ref{XREFisvarname,,isvarname}, @ref{XREFiskeyword,,iskeyword}, @ref{XREFexist,,exist}, @ref{XREFwho,,who}, @ref{XREFtempname,,tempname}, @ref{XREFeval,,eval}}
+@seealso{@ref{XREFiskeyword,,iskeyword}, @ref{XREFisvarname,,isvarname}, @ref{XREFmatlab_lang_makeUniqueStrings,,matlab.lang.makeUniqueStrings}}
+@end deftypefn
+
+
+@c matlab.lang.makeUniqueStrings scripts/+matlab/+lang/makeUniqueStrings.m
+@anchor{XREFmatlab_lang_makeUniqueStrings}
+@deftypefn  {} {@var{uniqstr} =} matlab.lang.makeUniqueStrings (@var{str})
+@deftypefnx {} {@var{uniqstr} =} matlab.lang.makeUniqueStrings (@var{str}, @var{ex})
+@deftypefnx {} {@var{uniqstr} =} matlab.lang.makeUniqueStrings (@var{str}, @var{ex}, @var{maxlength})
+@deftypefnx {} {[@var{uniqstr}, @var{ismodified}] =} matlab.lang.makeUniqueStrings (@dots{})
+
+Construct a list of unique strings from a list of strings.
+
+The input @var{str} must be a string or a cell array of strings.
+The output @var{uniqstr} will be of the same type.
+
+The algorithm makes two strings unique by appending an underscore
+(@qcode{"_"} and a numeric count to the second string.
+
+If @var{ex} is a string or a cell array of strings, @var{uniqstr} will
+contain elements that are unique between themselves and with respect to
+@var{ex}.
+
+If @var{ex} is an index array or a logical array for @var{str} then it
+selects the subset of @var{str} that are made unique.  Unselected elements
+are not modified.
+
+The optional input @var{maxlength} specifies the maximum length of any
+string in @var{uniqstr}.  If an input string cannot be made unique without
+exceeding @var{maxlength} an error is emitted.
+
+The optional output @var{ismodified} is a logical array indicating whether
+each element in @var{str} was modified to make it unique.
+
+@seealso{@ref{XREFunique,,unique}, @ref{XREFmatlab_lang_makeValidName,,matlab.lang.makeValidName}}
 @end deftypefn
 
 
@@ -460,7 +462,7 @@ who
 @end group
 @end example
 
-@c who libinterp/corefcn/variables.cc
+@c who libinterp/corefcn/call-stack.cc
 @anchor{XREFwho}
 @deftypefn  {} {} who
 @deftypefnx {} {} who pattern @dots{}
@@ -496,7 +498,7 @@ matching the given patterns.
 @end deftypefn
 
 
-@c whos libinterp/corefcn/variables.cc
+@c whos libinterp/corefcn/call-stack.cc
 @anchor{XREFwhos}
 @deftypefn  {} {} whos
 @deftypefnx {} {} whos pattern @dots{}
@@ -561,7 +563,7 @@ complex, nesting, persistent.
 @end deftypefn
 
 
-@c whos_line_format libinterp/corefcn/variables.cc
+@c whos_line_format libinterp/parse-tree/pt-eval.cc
 @anchor{XREFwhos_line_format}
 @deftypefn  {} {@var{val} =} whos_line_format ()
 @deftypefnx {} {@var{old_val} =} whos_line_format (@var{new_val})
@@ -737,14 +739,104 @@ large_matrix = zeros (4000, 4000);
 @noindent
 Since having this variable in memory might slow down other computations,
 it can be necessary to remove it manually from memory.  The @code{clear}
-function allows this.
+or @code{clearvars} functions do this.
 
 @c clear libinterp/corefcn/variables.cc
 @anchor{XREFclear}
-@deftypefn {} {} clear [options] pattern @dots{}
-Delete the names matching the given patterns from the symbol table.
+@deftypefn  {} {} clear
+@deftypefnx {} {} clear @var{pattern} @dots{}
+@deftypefnx {} {} clear @var{options} @var{pattern} @dots{}
+Delete the names matching the given @var{pattern}s from the symbol table.
 
-The pattern may contain the following special characters:
+The @var{pattern} may contain the following special characters:
+
+@table @code
+@item ?
+Match any single character.
+
+@item *
+Match zero or more characters.
+
+@item [ @var{list} ]
+Match the list of characters specified by @var{list}.  If the first character
+is @code{!} or @code{^}, match all characters except those specified by
+@var{list}.  For example, the pattern @code{[a-zA-Z]} will match all lowercase
+and uppercase alphabetic characters.
+@end table
+
+For example, the command
+
+@example
+clear foo b*r
+@end example
+
+@noindent
+clears the name @code{foo} and all names that begin with the letter @samp{b}
+and end with the letter @samp{r}.
+
+If @code{clear} is called without any arguments, all user-defined variables
+are cleared from the current workspace (i.e., local variables).  Any global
+variables present will no longer be visible in the current workspace, but they
+will continue to exist in the global workspace.  Functions are unaffected by
+this form of @code{clear}.
+
+The following options are available in both long and short form
+
+@table @code
+@item all, -all, -a
+Clear all local and global user-defined variables, and all functions from the
+symbol table.
+
+@item -exclusive, -x
+Clear variables that do @strong{not} match the following pattern.
+
+@item functions, -functions, -f
+Clear function names from the function symbol table.  Persistent variables
+will be re-initialized to their default value unless the function has been
+locked in memory with @code{mlock}.
+
+@item global, -global, -g
+Clear global variable names.
+
+@item variables, -variables, -v
+Clear local variable names.
+
+@item classes, -classes, -c
+Clear the class structure table and all objects.
+
+@item -regexp, -r
+The @var{pattern} arguments are treated as regular expressions and any matches
+will be cleared.
+@end table
+
+With the exception of @option{-exclusive} and @option{-regexp}, all long
+options can be used without the dash as well.  Note that, aside from
+@option{-exclusive}, only one other option may appear.  All options must
+appear before any patterns.
+
+Programming Note: The command @code{clear @var{name}} only clears the variable
+@var{name} when both a variable and a (shadowed) function named @var{name}
+are currently defined.  For example, suppose you have defined a function
+@code{foo}, and then hidden it by performing the assignment @code{foo = 2}.
+Executing the command @code{clear foo} once will clear the variable
+definition and restore the definition of @code{foo} as a function.
+Executing @code{clear foo} a second time will clear the function definition.
+
+@seealso{@ref{XREFwho,,who}, @ref{XREFwhos,,whos}, @ref{XREFexist,,exist}, @ref{XREFmlock,,mlock}}
+@end deftypefn
+
+
+@c clearvars scripts/miscellaneous/clearvars.m
+@anchor{XREFclearvars}
+@deftypefn  {} {} clearvars
+@deftypefnx {} {} clearvars @var{pattern} @dots{}
+@deftypefnx {} {} clearvars -regexp @var{pattern} @dots{}
+@deftypefnx {} {} clearvars @dots{} -except @var{pattern} @dots{}
+@deftypefnx {} {} clearvars @dots{} -except -regexp @var{pattern} @dots{}
+@deftypefnx {} {} clearvars -global @dots{}
+Delete the variables matching the given @var{pattern}s from memory.
+
+The @var{pattern} may contain the following special characters:
 
 @table @code
 @item ?
@@ -756,61 +848,51 @@ Match zero or more characters.
 @item [ @var{list} ]
 Match the list of characters specified by @var{list}.  If the first
 character is @code{!} or @code{^}, match all characters except those
-specified by @var{list}.  For example, the pattern @samp{[a-zA-Z]} will
+specified by @var{list}.  For example, the pattern @code{[a-zA-Z]} will
 match all lowercase and uppercase alphabetic characters.
 @end table
 
-For example, the command
+If the @option{-regexp} option is given then subsequent patterns are treated
+as regular expressions and any matches will be cleared.
+
+If the @option{-except} option is given then subsequent patterns select
+variables that will @strong{not} be cleared.
+
+If the @option{-global} option is given then all patterns will be applied
+to global variables rather than local variables.
+
+When called with no arguments, @code{clearvars} deletes all local variables.
+
+Example Code:
+
+Clear all variables starting with @qcode{'x'} and the specific variable
+@qcode{"foobar"}
 
 @example
-clear foo b*r
+clearvars x* foobar
 @end example
 
-@noindent
-clears the name @code{foo} and all names that begin with the letter
-@code{b} and end with the letter @code{r}.
+Clear the specific variable @qcode{"foobar"} and use regular expressions to
+clear all variables starting with @qcode{'x'} or @qcode{'y'}.
 
-If @code{clear} is called without any arguments, all user-defined
-variables (local and global) are cleared from the symbol table.
+@example
+clearvars foobar -regexp ^x ^y
+@end example
 
-If @code{clear} is called with at least one argument, only the visible
-names matching the arguments are cleared.  For example, suppose you have
-defined a function @code{foo}, and then hidden it by performing the
-assignment @code{foo = 2}.  Executing the command @kbd{clear foo} once
-will clear the variable definition and restore the definition of
-@code{foo} as a function.  Executing @kbd{clear foo} a second time will
-clear the function definition.
+Clear all variables except for @qcode{"foobar"}
 
-The following options are available in both long and short form
+@example
+clearvars -except foobar
+@end example
 
-@table @code
-@item -all, -a
-Clear all local and global user-defined variables and all functions from the
-symbol table.
+Clear all variables beginning with @qcode{"foo"}, except for those ending
+in @qcode{"bar"}
 
-@item -exclusive, -x
-Clear the variables that don't match the following pattern.
+@example
+clearvars foo* -except -regexp bar$
+@end example
 
-@item -functions, -f
-Clear the function names and the built-in symbols names.
-
-@item -global, -g
-Clear global symbol names.
-
-@item -variables, -v
-Clear local variable names.
-
-@item -classes, -c
-Clears the class structure table and clears all objects.
-
-@item -regexp, -r
-The arguments are treated as regular expressions as any variables that
-match will be cleared.
-@end table
-
-With the exception of @code{exclusive}, all long options can be used
-without the dash as well.
-@seealso{@ref{XREFwho,,who}, @ref{XREFwhos,,whos}, @ref{XREFexist,,exist}}
+@seealso{@ref{XREFclear,,clear}, @ref{XREFwho,,who}, @ref{XREFwhos,,whos}, @ref{XREFexist,,exist}}
 @end deftypefn
 
 

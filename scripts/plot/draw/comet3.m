@@ -1,4 +1,4 @@
-## Copyright (C) 2010-2018 Ben Abbott and John W. Eaton
+## Copyright (C) 2010-2019 Ben Abbott and John W. Eaton
 ##
 ## This file is part of Octave.
 ##
@@ -76,7 +76,7 @@ function comet3 (varargin)
                 x(1), y(1), z(1), "color", "b", "marker", "o");
     axis (limits);  # set manual limits to speed up plotting
 
-    for n = 2:(num+dn);
+    for n = 2:(num+dn)
       m = n - dn;
       m = max ([m, 1]);
       k = min ([n, num]);

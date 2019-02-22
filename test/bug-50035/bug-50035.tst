@@ -1,4 +1,4 @@
-## Copyright (C) 2017-2018 John W. Eaton
+## Copyright (C) 2017-2019 John W. Eaton
 ##
 ## This file is part of Octave.
 ##
@@ -29,3 +29,4 @@
 %! assert (in_name, "x");
 %! bug50035 ()
 %! assert (in_name, "ans");
+%! clear -global in_name;  # cleanup after test

@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2002-2018 John W. Eaton
+Copyright (C) 2002-2019 John W. Eaton
 
 This file is part of Octave.
 
@@ -24,6 +24,7 @@ along with Octave; see the file COPYING.  If not, see
 #  include "config.h"
 #endif
 
+#include <cinttypes>
 #include <sstream>
 
 #include "DASRT.h"
@@ -374,8 +375,8 @@ DASRT::integrate (double tout)
     default:
       integration_error = true;
       (*current_liboctave_error_handler)
-        ("unrecognized value of istate (= %d) returned from ddasrt",
-         istate);
+        ("unrecognized value of istate (= %" OCTAVE_IDX_TYPE_FORMAT ") "
+         "returned from ddasrt", istate);
       break;
     }
 }

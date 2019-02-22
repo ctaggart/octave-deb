@@ -1,7 +1,7 @@
 /*
 
-Copyright (C) 2013-2018 Carnë Draug
-Copyright (C) 2002-2018 Andy Adler
+Copyright (C) 2013-2019 Carnë Draug
+Copyright (C) 2002-2019 Andy Adler
 Copyright (C) 2008 Thomas L. Scofield
 Copyright (C) 2010 David Grundberg
 
@@ -769,7 +769,7 @@ maybe_initialize_magick (void)
       // Save locale as GraphicsMagick might change this (fixed in
       // GraphicsMagick since version 1.3.13 released on December 24, 2011)
       const char *static_locale = setlocale (LC_ALL, nullptr);
-      const std::string locale (static_locale);
+      const std::string locale = (static_locale ? static_locale : "");
 
       const std::string program_name
         = octave::sys::env::get_program_invocation_name ();
@@ -877,7 +877,8 @@ Use @code{imread} instead.
         if (nRows != imvec[frameidx(frame)].rows ()
             || nCols != imvec[frameidx(frame)].columns ())
           {
-            error ("imread: all frames must have the same size but frame %i is different",
+            error ("imread: all frames must have the same size but frame "
+                   "%" OCTAVE_IDX_TYPE_FORMAT " is different",
                    frameidx(frame) +1);
           }
       }
@@ -910,8 +911,8 @@ Use @code{imread} instead.
       else if (depth <= 32)
         output = read_images<FloatNDArray>  (imvec, frameidx, nargout, options);
       else
-        error ("imread: reading of images with %i-bit depth is not supported",
-               depth);
+        error ("imread: reading of images with %" OCTAVE_IDX_TYPE_FORMAT
+               "-bit depth is not supported", depth);
     }
 
   return output;
@@ -1161,7 +1162,7 @@ encode_uint_image (std::vector<Magick::Image>& imvec,
   // From GM documentation:
   //  Color arguments are must be scaled to fit the Quantum size according to
   //  the range of MaxRGB
-  const double divisor = static_cast<double>((uint64_t (1) << bitdepth) - 1)
+  const double divisor = static_cast<double> ((uint64_t (1) << bitdepth) - 1)
                          / MaxRGB;
 
   const P *img_fvec = img.fortran_vec ();

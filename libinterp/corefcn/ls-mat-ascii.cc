@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 1996-2018 John W. Eaton
+Copyright (C) 1996-2019 John W. Eaton
 
 This file is part of Octave.
 
@@ -27,7 +27,8 @@ along with Octave; see the file COPYING.  If not, see
 #include <cctype>
 
 #include <iomanip>
-#include <iostream>
+#include <istream>
+#include <ostream>
 #include <sstream>
 #include <string>
 
@@ -54,7 +55,6 @@ along with Octave; see the file COPYING.  If not, see
 #include "ov-cell.h"
 #include "ov.h"
 #include "pager.h"
-#include "pt-exp.h"
 #include "sysdep.h"
 #include "utils.h"
 #include "variables.h"
@@ -96,7 +96,7 @@ get_mat_data_input_line (std::istream& is)
             }
         }
     }
-  while (! (have_data || is.eof ()));
+  while (! (have_data || is.eof () || is.fail ()));
 
   return retval;
 }
@@ -248,17 +248,17 @@ read_mat_ascii_data (std::istream& is, const std::string& filename,
         varname[i] = '_';
     }
 
-  if (octave::is_keyword (varname) || ! isalpha (varname[0]))
+  if (octave::iskeyword (varname) || ! isalpha (varname[0]))
     varname.insert (0, "X");
 
-  if (! valid_identifier (varname))
+  if (! octave::valid_identifier (varname))
     error ("load: unable to convert filename '%s' to valid identifier",
            filename.c_str ());
 
   octave_idx_type nr = 0;
   octave_idx_type nc = 0;
 
-  int total_count = 0;
+  octave_idx_type total_count = 0;
 
   get_lines_and_columns (is, nr, nc, filename);
 
@@ -270,66 +270,59 @@ read_mat_ascii_data (std::istream& is, const std::string& filename,
 
   Matrix tmp (nr, nc);
 
-  if (nr < 1 || nc < 1)
-    is.clear (std::ios::badbit);
-  else
+  double d;
+  for (octave_idx_type i = 0; i < nr; i++)
     {
-      double d;
-      for (octave_idx_type i = 0; i < nr; i++)
+      std::string buf = get_mat_data_input_line (is);
+
+      std::istringstream tmp_stream (buf);
+
+      for (octave_idx_type j = 0; j < nc; j++)
         {
-          std::string buf = get_mat_data_input_line (is);
+          octave_quit ();
 
-          std::istringstream tmp_stream (buf);
+          d = octave_read_value<double> (tmp_stream);
 
-          for (octave_idx_type j = 0; j < nc; j++)
+          if (! tmp_stream && ! tmp_stream.eof ())
+            error ("load: failed to read matrix from file '%s'",
+                   filename.c_str ());
+
+          tmp.elem (i, j) = d;
+          total_count++;
+
+          // Skip whitespace and commas.
+          char c;
+          while (1)
             {
-              octave_quit ();
+              tmp_stream >> c;
 
-              d = octave_read_value<double> (tmp_stream);
-
-              if (! tmp_stream && ! tmp_stream.eof ())
-                error ("load: failed to read matrix from file '%s'",
-                       filename.c_str ());
-
-              tmp.elem (i, j) = d;
-              total_count++;
-
-              // Skip whitespace and commas.
-              char c;
-              while (1)
-                {
-                  tmp_stream >> c;
-
-                  if (! tmp_stream)
-                    break;
-
-                  if (! (c == ' ' || c == '\t' || c == ','))
-                    {
-                      tmp_stream.putback (c);
-                      break;
-                    }
-                }
-
-              if (tmp_stream.eof ())
+              if (! tmp_stream)
                 break;
+
+              if (! (c == ' ' || c == '\t' || c == ','))
+                {
+                  tmp_stream.putback (c);
+                  break;
+                }
             }
+
+          if (tmp_stream.eof ())
+            break;
         }
     }
 
   if (! is && ! is.eof ())
-    error ("load: failed to read matrix from file '%s'",
-           filename.c_str ());
+    error ("load: failed to read matrix from file '%s'", filename.c_str ());
 
   // FIXME: not sure this is best, but it works.
-
   if (is.eof ())
     is.clear ();
 
   octave_idx_type expected = nr * nc;
 
   if (expected != total_count)
-    error ("load: expected %d elements, found %d",
-           expected, total_count);
+    error ("load: expected %" OCTAVE_IDX_TYPE_FORMAT " elements, found "
+           "%" OCTAVE_IDX_TYPE_FORMAT, expected, total_count);
 
   tc = tmp;
 

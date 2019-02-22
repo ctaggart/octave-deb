@@ -3,10 +3,10 @@
 <!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Integer Data Types (GNU Octave (version 4.4.1))</title>
+<title>Integer Data Types (GNU Octave (version 5.0.91))</title>
 
-<meta name="description" content="Integer Data Types (GNU Octave (version 4.4.1))">
-<meta name="keywords" content="Integer Data Types (GNU Octave (version 4.4.1))">
+<meta name="description" content="Integer Data Types (GNU Octave (version 5.0.91))">
+<meta name="keywords" content="Integer Data Types (GNU Octave (version 5.0.91))">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
@@ -158,93 +158,121 @@ Octave are double precision floating point values.
 
 
 <a name="XREFintmax"></a><dl>
-<dt><a name="index-intmax"></a><em></em> <strong>intmax</strong> <em>(<var>type</var>)</em></dt>
-<dd><p>Return the largest integer that can be represented in an integer type.
+<dt><a name="index-intmax"></a><em></em> <strong>intmax</strong> <em>()</em></dt>
+<dt><a name="index-intmax-1"></a><em></em> <strong>intmax</strong> <em>(&quot;<var>type</var>&quot;)</em></dt>
+<dt><a name="index-intmax-2"></a><em></em> <strong>intmax</strong> <em>(<var>var</var>)</em></dt>
+<dd><p>Return the largest integer that can be represented by a specific integer type.
 </p>
-<p>The variable <var>type</var> can be
+<p>The input is either a string <code>&quot;<var>type</var>&quot;</code> specifying an integer type,
+or it is an existing integer variable <var>var</var>.
+</p>
+<p>Possible values for <var>type</var> are
 </p>
 <dl compact="compact">
-<dt><code>int8</code></dt>
+<dt><code>&quot;int8&quot;</code></dt>
 <dd><p>signed 8-bit integer.
 </p>
 </dd>
-<dt><code>int16</code></dt>
+<dt><code>&quot;int16&quot;</code></dt>
 <dd><p>signed 16-bit integer.
 </p>
 </dd>
-<dt><code>int32</code></dt>
+<dt><code>&quot;int32&quot;</code></dt>
 <dd><p>signed 32-bit integer.
 </p>
 </dd>
-<dt><code>int64</code></dt>
+<dt><code>&quot;int64&quot;</code></dt>
 <dd><p>signed 64-bit integer.
 </p>
 </dd>
-<dt><code>uint8</code></dt>
+<dt><code>&quot;uint8&quot;</code></dt>
 <dd><p>unsigned 8-bit integer.
 </p>
 </dd>
-<dt><code>uint16</code></dt>
+<dt><code>&quot;uint16&quot;</code></dt>
 <dd><p>unsigned 16-bit integer.
 </p>
 </dd>
-<dt><code>uint32</code></dt>
+<dt><code>&quot;uint32&quot;</code></dt>
 <dd><p>unsigned 32-bit integer.
 </p>
 </dd>
-<dt><code>uint64</code></dt>
+<dt><code>&quot;uint64&quot;</code></dt>
 <dd><p>unsigned 64-bit integer.
 </p></dd>
 </dl>
 
-<p>The default for <var>type</var> is <code>int32</code>.
+<p>The default for <var>type</var> is <code>&quot;int32&quot;</code>.
 </p>
+<p>Example Code - query an existing variable
+</p>
+<div class="example">
+<pre class="example">x = int8 (1);
+intmax (x)
+  &rArr; 127
+</pre></div>
+
+
 <p><strong>See also:</strong> <a href="#XREFintmin">intmin</a>, <a href="#XREFflintmax">flintmax</a>.
 </p></dd></dl>
 
 
 <a name="XREFintmin"></a><dl>
-<dt><a name="index-intmin"></a><em></em> <strong>intmin</strong> <em>(<var>type</var>)</em></dt>
-<dd><p>Return the smallest integer that can be represented in an integer type.
+<dt><a name="index-intmin"></a><em></em> <strong>intmin</strong> <em>()</em></dt>
+<dt><a name="index-intmin-1"></a><em></em> <strong>intmin</strong> <em>(&quot;<var>type</var>&quot;)</em></dt>
+<dt><a name="index-intmin-2"></a><em></em> <strong>intmin</strong> <em>(<var>var</var>)</em></dt>
+<dd><p>Return the smallest integer that can be represented by a specific integer type.
 </p>
-<p>The variable <var>type</var> can be
+<p>The input is either a string <code>&quot;<var>type</var>&quot;</code> specifying an integer type,
+or it is an existing integer variable <var>var</var>.
+</p>
+<p>Possible values for <var>type</var> are
 </p>
 <dl compact="compact">
-<dt><code>int8</code></dt>
+<dt><code>&quot;int8&quot;</code></dt>
 <dd><p>signed 8-bit integer.
 </p>
 </dd>
-<dt><code>int16</code></dt>
+<dt><code>&quot;int16&quot;</code></dt>
 <dd><p>signed 16-bit integer.
 </p>
 </dd>
-<dt><code>int32</code></dt>
+<dt><code>&quot;int32&quot;</code></dt>
 <dd><p>signed 32-bit integer.
 </p>
 </dd>
-<dt><code>int64</code></dt>
+<dt><code>&quot;int64&quot;</code></dt>
 <dd><p>signed 64-bit integer.
 </p>
 </dd>
-<dt><code>uint8</code></dt>
+<dt><code>&quot;uint8&quot;</code></dt>
 <dd><p>unsigned 8-bit integer.
 </p>
 </dd>
-<dt><code>uint16</code></dt>
+<dt><code>&quot;uint16&quot;</code></dt>
 <dd><p>unsigned 16-bit integer.
 </p>
 </dd>
-<dt><code>uint32</code></dt>
+<dt><code>&quot;uint32&quot;</code></dt>
 <dd><p>unsigned 32-bit integer.
 </p>
 </dd>
-<dt><code>uint64</code></dt>
+<dt><code>&quot;uint64&quot;</code></dt>
 <dd><p>unsigned 64-bit integer.
 </p></dd>
 </dl>
 
-<p>The default for <var>type</var> is <code>int32</code>.
+<p>The default for <var>type</var> is <code>&quot;int32&quot;</code>.
 </p>
+<p>Example Code - query an existing variable
+</p>
+<div class="example">
+<pre class="example">x = int8 (1);
+intmin (x)
+  &rArr; -128
+</pre></div>
+
+
 <p><strong>See also:</strong> <a href="#XREFintmax">intmax</a>, <a href="#XREFflintmax">flintmax</a>.
 </p></dd></dl>
 
@@ -253,14 +281,26 @@ Octave are double precision floating point values.
 <dt><a name="index-flintmax"></a><em></em> <strong>flintmax</strong> <em>()</em></dt>
 <dt><a name="index-flintmax-1"></a><em></em> <strong>flintmax</strong> <em>(&quot;double&quot;)</em></dt>
 <dt><a name="index-flintmax-2"></a><em></em> <strong>flintmax</strong> <em>(&quot;single&quot;)</em></dt>
+<dt><a name="index-flintmax-3"></a><em></em> <strong>flintmax</strong> <em>(<var>var</var>)</em></dt>
 <dd><p>Return the largest integer that can be represented consecutively in a
 floating point value.
 </p>
-<p>The default class is <code>&quot;double&quot;</code>, but <code>&quot;single&quot;</code> is a valid
-option.  On IEEE 754 compatible systems, <code>flintmax</code> is
-<em>2^{53}</em><!-- /@w --> for <code>&quot;double&quot;</code> and <em>2^{24}</em><!-- /@w --> for
-<code>&quot;single&quot;</code>.
+<p>The input is either a string specifying a floating point type, or it is an
+existing floating point variable <var>var</var>.
 </p>
+<p>The default type is <code>&quot;double&quot;</code>, but <code>&quot;single&quot;</code> is a valid option.
+On IEEE 754 compatible systems, <code>flintmax</code> is <em>2^{53}</em><!-- /@w --> for
+<code>&quot;double&quot;</code> and <em>2^{24}</em><!-- /@w --> for <code>&quot;single&quot;</code>.
+</p>
+<p>Example Code - query an existing variable
+</p>
+<div class="example">
+<pre class="example">x = single (1);
+flintmax (x)
+  &rArr; 16777216
+</pre></div>
+
+
 <p><strong>See also:</strong> <a href="#XREFintmax">intmax</a>, <a href="Mathematical-Constants.html#XREFrealmax">realmax</a>, <a href="Mathematical-Constants.html#XREFrealmin">realmin</a>.
 </p></dd></dl>
 

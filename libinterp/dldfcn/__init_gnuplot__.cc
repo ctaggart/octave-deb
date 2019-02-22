@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2007-2018 John W. Eaton
+Copyright (C) 2007-2019 John W. Eaton
 
 This file is part of Octave.
 
@@ -105,9 +105,19 @@ public:
 
   void redraw_figure (const graphics_object& go) const
   {
-    octave_value_list args;
-    args(0) = go.get_handle ().as_octave_value ();
-    octave::feval ("__gnuplot_drawnow__", args);
+    static bool drawnow_executing = false;
+
+    // Prevent recursion
+    if (! drawnow_executing)
+      {
+        octave::unwind_protect frame;
+        frame.protect_var (drawnow_executing);
+
+        drawnow_executing = true;
+        octave_value_list args;
+        args(0) = go.get_handle ().as_octave_value ();
+        octave::feval ("__gnuplot_drawnow__", args);
+      }
   }
 
   void print_figure (const graphics_object& go, const std::string& term,
@@ -184,12 +194,12 @@ have_gnuplot_binary (void)
       octave_value_list tmp
         = octave::feval ("gnuplot_binary", octave_value_list ());
 
-      if (tmp(0).is_string ())
+      if (tmp(0).is_string () && ! tmp(0).isempty ())
         {
           std::string gnuplot_binary = tmp(0).string_value ();
 
           string_vector args (gnuplot_binary);
-          std::string gnuplot_path = search_path_for_file (path, args);
+          std::string gnuplot_path = octave::search_path_for_file (path, args);
 
           octave::sys::file_stat fs (gnuplot_path);
 
@@ -197,7 +207,7 @@ have_gnuplot_binary (void)
             {
               args[0] += exeext;
 
-              gnuplot_path = search_path_for_file (path, args);
+              gnuplot_path = octave::search_path_for_file (path, args);
 
               fs = octave::sys::file_stat (gnuplot_path);
             }

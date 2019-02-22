@@ -1,7 +1,7 @@
 notitle {#mainpage}
 =======
 
-Copyright (C) 1996-2018 John W. Eaton
+Copyright (C) 1996-2019 John W. Eaton
 
 Overview
 --------

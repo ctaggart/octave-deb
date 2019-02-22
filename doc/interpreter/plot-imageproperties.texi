@@ -1,6 +1,6 @@
 @c DO NOT EDIT!  Generated automatically by genpropdoc.m.
 
-@c Copyright (C) 2014-2018 Pantxo Diribarne
+@c Copyright (C) 2014-2019 Pantxo Diribarne
 @c
 @c This file is part of Octave.
 @c
@@ -167,7 +167,7 @@ If @code{visible} is @qcode{"off"}, the image is not rendered on screen.
 @anchor{XREFimagexdata}
 @prindex image xdata
 @item @code{xdata}: two-element vector, def. @code{[1   64]}
-Two-element vector @code{[xmin xmax]} specifying the x coordinates of the first and last columns of the image.
+Two-element vector @code{[xfirst xlast]} specifying the x coordinates of the centers of the first and last columns of the image.
 
 Setting @code{xdata} to the empty matrix ([]) will restore the default value of @code{[1 columns(image)]}.
 
@@ -175,7 +175,7 @@ Setting @code{xdata} to the empty matrix ([]) will restore the default value of 
 @anchor{XREFimageydata}
 @prindex image ydata
 @item @code{ydata}: two-element vector, def. @code{[1   64]}
-Two-element vector @code{[ymin ymax]} specifying the y coordinates of the first and last rows of the image.
+Two-element vector @code{[yfirst ylast]} specifying the y coordinates of the centers of the first and last rows of the image.
 
 Setting @code{ydata} to the empty matrix ([]) will restore the default value of @code{[1 rows(image)]}.
 

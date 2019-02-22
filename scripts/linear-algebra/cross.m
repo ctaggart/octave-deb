@@ -1,4 +1,4 @@
-## Copyright (C) 1995-2018 Kurt Hornik
+## Copyright (C) 1995-2019 Kurt Hornik
 ##
 ## This file is part of Octave.
 ##
@@ -32,8 +32,9 @@
 ##
 ## @example
 ## @group
-## cross ([1,1,0], [0,1,1])
-##      @result{} [ 1; -1; 1 ]
+## cross ([1, 1, 0], [0, 1, 1])
+##   @result{}
+##        1   -1   1
 ## @end group
 ## @end example
 ##

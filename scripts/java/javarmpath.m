@@ -1,5 +1,5 @@
-## Copyright (C) 2007-2018 Michael Goffioul
-## Copyright (C) 2010-2018 Martin Hepperle
+## Copyright (C) 2007-2019 Michael Goffioul
+## Copyright (C) 2010-2019 Martin Hepperle
 ##
 ## This file is part of Octave.
 ##
@@ -42,7 +42,7 @@ function javarmpath (varargin)
     endif
 
     old_path = canonicalize_file_name (tilde_expand (clspath));
-    if (exist (old_path, "dir"))
+    if (isfolder (old_path))
       if (old_path(end) != filesep ())
         old_path = [old_path, filesep()];
       endif

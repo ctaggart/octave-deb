@@ -3,10 +3,10 @@
 <!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Simple File I/O (GNU Octave (version 4.4.1))</title>
+<title>Simple File I/O (GNU Octave (version 5.0.91))</title>
 
-<meta name="description" content="Simple File I/O (GNU Octave (version 4.4.1))">
-<meta name="keywords" content="Simple File I/O (GNU Octave (version 4.4.1))">
+<meta name="description" content="Simple File I/O (GNU Octave (version 5.0.91))">
+<meta name="keywords" content="Simple File I/O (GNU Octave (version 5.0.91))">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
@@ -421,7 +421,7 @@ format.
 <dt><a name="index-fileread"></a><em><var>str</var> =</em> <strong>fileread</strong> <em>(<var>filename</var>)</em></dt>
 <dd><p>Read the contents of <var>filename</var> and return it as a string.
 </p>
-<p><strong>See also:</strong> <a href="Binary-I_002fO.html#XREFfread">fread</a>, <a href="#XREFtextread">textread</a>, <a href="Formatted-Input.html#XREFsscanf">sscanf</a>.
+<p><strong>See also:</strong> <a href="Binary-I_002fO.html#XREFfread">fread</a>, <a href="Formatted-Input.html#XREFfscanf">fscanf</a>, <a href="#XREFimportdata">importdata</a>, <a href="#XREFtextscan">textscan</a>, <a href="Status-of-Variables.html#XREFtype">type</a>.
 </p></dd></dl>
 
 
@@ -570,7 +570,7 @@ latter case, the file is read until end of file is reached.
 fill empty fields.  The default is zero.  Note that any non-numeric values,
 such as text, are also replaced by the <code>&quot;emptyvalue&quot;</code>.
 </p>
-<p><strong>See also:</strong> <a href="#XREFcsvread">csvread</a>, <a href="#XREFtextscan">textscan</a>, <a href="#XREFtextread">textread</a>, <a href="#XREFdlmwrite">dlmwrite</a>.
+<p><strong>See also:</strong> <a href="#XREFcsvread">csvread</a>, <a href="#XREFtextscan">textscan</a>, <a href="#XREFdlmwrite">dlmwrite</a>.
 </p></dd></dl>
 
 
@@ -610,7 +610,7 @@ such as text, are also replaced by the <code>&quot;emptyvalue&quot;</code>.
 <p>Any optional arguments are passed directly to <code>dlmread</code>
 (see <a href="#XREFdlmread">dlmread</a>).
 </p>
-<p><strong>See also:</strong> <a href="#XREFdlmread">dlmread</a>, <a href="#XREFtextread">textread</a>, <a href="#XREFtextscan">textscan</a>, <a href="#XREFcsvwrite">csvwrite</a>, <a href="#XREFdlmwrite">dlmwrite</a>.
+<p><strong>See also:</strong> <a href="#XREFdlmread">dlmread</a>, <a href="#XREFtextscan">textscan</a>, <a href="#XREFcsvwrite">csvwrite</a>, <a href="#XREFdlmwrite">dlmwrite</a>.
 </p></dd></dl>
 
 
@@ -622,7 +622,10 @@ such as text, are also replaced by the <code>&quot;emptyvalue&quot;</code>.
 <dt><a name="index-textread-2"></a><em>[<var>a</var>, &hellip;] =</em> <strong>textread</strong> <em>(<var>filename</var>, <var>format</var>, <var>n</var>)</em></dt>
 <dt><a name="index-textread-3"></a><em>[<var>a</var>, &hellip;] =</em> <strong>textread</strong> <em>(<var>filename</var>, <var>format</var>, <var>prop1</var>, <var>value1</var>, &hellip;)</em></dt>
 <dt><a name="index-textread-4"></a><em>[<var>a</var>, &hellip;] =</em> <strong>textread</strong> <em>(<var>filename</var>, <var>format</var>, <var>n</var>, <var>prop1</var>, <var>value1</var>, &hellip;)</em></dt>
-<dd><p>Read data from a text file.
+<dd>
+<p>This function is obsolete.  Use <code>textscan</code> instead.
+</p>
+<p>Read data from a text file.
 </p>
 <p>The file <var>filename</var> is read and parsed according to <var>format</var>.  The
 function behaves like <code>strread</code> except it works by parsing a file
@@ -698,7 +701,7 @@ the first data line of the file.  Empty fields are returned as zero values.
 </pre></div>
 
 
-<p><strong>See also:</strong> <a href="Manipulating-Strings.html#XREFstrread">strread</a>, <a href="#XREFload">load</a>, <a href="#XREFdlmread">dlmread</a>, <a href="Formatted-Input.html#XREFfscanf">fscanf</a>, <a href="#XREFtextscan">textscan</a>.
+<p><strong>See also:</strong> <a href="#XREFtextscan">textscan</a>, <a href="#XREFload">load</a>, <a href="#XREFdlmread">dlmread</a>, <a href="Formatted-Input.html#XREFfscanf">fscanf</a>, <a href="Manipulating-Strings.html#XREFstrread">strread</a>.
 </p></dd></dl>
 
 

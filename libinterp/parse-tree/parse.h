@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 1993-2018 John W. Eaton
+Copyright (C) 1993-2019 John W. Eaton
 
 This file is part of Octave.
 
@@ -486,20 +486,24 @@ namespace octave
   {
   public:
 
-    parser (void)
-      : base_parser (*(new lexer ()))
+    parser (interpreter& interp)
+      : base_parser (*(new lexer (interp)))
     { }
 
-    parser (FILE *file)
-      : base_parser (*(new lexer (file)))
+    parser (FILE *file, interpreter& interp)
+      : base_parser (*(new lexer (file, interp)))
     { }
 
-    parser (const std::string& eval_string)
-      : base_parser (*(new lexer (eval_string)))
+    parser (const std::string& eval_string, interpreter& interp)
+      : base_parser (*(new lexer (eval_string, interp)))
     { }
 
-    parser (lexer& lxr)
-      : base_parser (lxr)
+    // The lexer must be allocated with new.  The parser object
+    // takes ownership of and deletes the lexer object in its
+    // destructor.
+
+    parser (lexer *lxr)
+      : base_parser (*lxr)
     { }
 
     // No copying!
@@ -517,8 +521,8 @@ namespace octave
   {
   public:
 
-    push_parser (void)
-      : base_parser (*(new push_lexer ()))
+    push_parser (interpreter& interp)
+      : base_parser (*(new push_lexer (interp)))
     { }
 
     // No copying!
@@ -580,15 +584,26 @@ namespace octave
   extern OCTINTERP_API octave_value_list
   feval (const octave_value_list& args, int nargout = 0);
 
+  OCTAVE_DEPRECATED (5, "use 'octave::interpreter::eval_string' instead")
   extern OCTINTERP_API octave_value_list
   eval_string (const std::string&, bool silent, int& parse_status, int nargout);
 
+  OCTAVE_DEPRECATED (5, "use 'octave::interpreter::eval_string' instead")
   extern OCTINTERP_API octave_value
   eval_string (const std::string&, bool silent, int& parse_status);
 
   extern OCTINTERP_API void
   cleanup_statement_list (tree_statement_list **lst);
 }
+
+OCTAVE_DEPRECATED (4.4, "use 'octave::interpreter::eval_string' instead")
+extern OCTINTERP_API octave_value_list
+eval_string (const std::string& str, bool silent, int& parse_status,
+             int nargout);
+
+OCTAVE_DEPRECATED (4.4, "use 'octave::interpreter::eval_string' instead")
+extern OCTINTERP_API octave_value
+eval_string (const std::string& str, bool silent, int& parse_status);
 
 #if defined (OCTAVE_USE_DEPRECATED_FUNCTIONS)
 
@@ -661,21 +676,6 @@ static inline octave_value_list
 feval (const octave_value_list& args, int nargout = 0)
 {
   return octave::feval (args, nargout);
-}
-
-OCTAVE_DEPRECATED (4.4, "use 'octave::eval_string' instead")
-static inline octave_value_list
-eval_string (const std::string& str, bool silent, int& parse_status,
-             int nargout)
-{
-  return octave::eval_string (str, silent, parse_status, nargout);
-}
-
-OCTAVE_DEPRECATED (4.4, "use 'octave::eval_string' instead")
-static inline octave_value
-eval_string (const std::string& str, bool silent, int& parse_status)
-{
-  return octave::eval_string (str, silent, parse_status);
 }
 
 OCTAVE_DEPRECATED (4.4, "use 'octave::cleanup_statement_list' instead")

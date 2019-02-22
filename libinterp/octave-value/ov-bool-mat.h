@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 1996-2018 John W. Eaton
+Copyright (C) 1996-2019 John W. Eaton
 Copyright (C) 2009-2010 VZLU Prague
 
 This file is part of Octave.
@@ -169,7 +169,7 @@ public:
     octave_idx_type nel = numel ();
 
     for (octave_idx_type i = 0; i < nel; i++)
-      retval(i) = static_cast<char>(matrix(i));
+      retval(i) = static_cast<char> (matrix(i));
 
     return retval;
   }

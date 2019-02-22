@@ -3,10 +3,10 @@
 <!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Graphics Objects (GNU Octave (version 4.4.1))</title>
+<title>Graphics Objects (GNU Octave (version 5.0.91))</title>
 
-<meta name="description" content="Graphics Objects (GNU Octave (version 4.4.1))">
-<meta name="keywords" content="Graphics Objects (GNU Octave (version 4.4.1))">
+<meta name="description" content="Graphics Objects (GNU Octave (version 5.0.91))">
+<meta name="keywords" content="Graphics Objects (GNU Octave (version 5.0.91))">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
@@ -145,13 +145,16 @@ Instead of calling <code>line</code>, use <code>plot</code>.  Or use <code>surf<
 <a name="XREFaxes"></a><dl>
 <dt><a name="index-axes"></a><em></em> <strong>axes</strong> <em>()</em></dt>
 <dt><a name="index-axes-1"></a><em></em> <strong>axes</strong> <em>(<var>property</var>, <var>value</var>, &hellip;)</em></dt>
-<dt><a name="index-axes-2"></a><em></em> <strong>axes</strong> <em>(<var>hax</var>)</em></dt>
-<dt><a name="index-axes-3"></a><em><var>h</var> =</em> <strong>axes</strong> <em>(&hellip;)</em></dt>
+<dt><a name="index-axes-2"></a><em></em> <strong>axes</strong> <em>(<var>hpar</var>, <var>property</var>, <var>value</var>, &hellip;)</em></dt>
+<dt><a name="index-axes-3"></a><em></em> <strong>axes</strong> <em>(<var>hax</var>)</em></dt>
+<dt><a name="index-axes-4"></a><em><var>h</var> =</em> <strong>axes</strong> <em>(&hellip;)</em></dt>
 <dd><p>Create a Cartesian axes object and return a handle to it, or set the current
 axes to <var>hax</var>.
 </p>
 <p>Called without any arguments, or with <var>property</var>/<var>value</var> pairs,
-construct a new axes.
+construct a new axes.  The optional argument <var>hpar</var> is a graphics handle
+specifying the parent for the new axes and may be a figure, uipanel, or
+uitab.
 </p>
 <p>Called with a single axes handle argument <var>hax</var>, the function makes
 <var>hax</var> the current axes (as returned by <code>gca</code>).  It also makes
@@ -172,17 +175,31 @@ objects associated with <var>hax</var> so that they are also visible.
 <a name="XREFline"></a><dl>
 <dt><a name="index-line"></a><em></em> <strong>line</strong> <em>()</em></dt>
 <dt><a name="index-line-1"></a><em></em> <strong>line</strong> <em>(<var>x</var>, <var>y</var>)</em></dt>
-<dt><a name="index-line-2"></a><em></em> <strong>line</strong> <em>(<var>x</var>, <var>y</var>, <var>property</var>, <var>value</var>, &hellip;)</em></dt>
-<dt><a name="index-line-3"></a><em></em> <strong>line</strong> <em>(<var>x</var>, <var>y</var>, <var>z</var>)</em></dt>
-<dt><a name="index-line-4"></a><em></em> <strong>line</strong> <em>(<var>x</var>, <var>y</var>, <var>z</var>, <var>property</var>, <var>value</var>, &hellip;)</em></dt>
-<dt><a name="index-line-5"></a><em></em> <strong>line</strong> <em>(<var>property</var>, <var>value</var>, &hellip;)</em></dt>
+<dt><a name="index-line-2"></a><em></em> <strong>line</strong> <em>(<var>x</var>, <var>y</var>, <var>z</var>)</em></dt>
+<dt><a name="index-line-3"></a><em></em> <strong>line</strong> <em>(&quot;xdata&quot;, <var>x</var>, &quot;ydata&quot;, <var>y</var>)</em></dt>
+<dt><a name="index-line-4"></a><em></em> <strong>line</strong> <em>(&quot;xdata&quot;, <var>x</var>, &quot;ydata&quot;, <var>y</var>, &quot;zdata&quot;, <var>z</var>)</em></dt>
+<dt><a name="index-line-5"></a><em></em> <strong>line</strong> <em>(&hellip;, <var>property</var>, <var>value</var>)</em></dt>
 <dt><a name="index-line-6"></a><em></em> <strong>line</strong> <em>(<var>hax</var>, &hellip;)</em></dt>
 <dt><a name="index-line-7"></a><em><var>h</var> =</em> <strong>line</strong> <em>(&hellip;)</em></dt>
-<dd><p>Create line object from <var>x</var> and <var>y</var> (and possibly <var>z</var>) and
-insert in the current axes.
+<dd><p>Create a line object from <var>x</var> and <var>y</var> (and possibly <var>z</var>) and
+insert it in the current axes.
+</p>
+<p>In the standard calling form the data <var>x</var>, <var>y</var>, and <var>z</var> may be
+scalars, vectors, or matrices.  In the case of matrix inputs, <code>line</code>
+will attempt to orient scalars and vectors so the results can be plotted.
+This requires that one of the dimensions of the vector match either the
+number of rows or the number of columns of the matrix.
+</p>
+<p>In the low-level calling form (50% higher performance) where the data is
+specified by name (<code>line (&quot;xdata&quot;, <var>x</var>, &hellip;)</code>) the data must be
+vectors.  If no data is specified (<code>line ()</code>) then
+<code><var>x</var>&nbsp;==&nbsp;<var>y</var>&nbsp;=&nbsp;[0,&nbsp;1]</code><!-- /@w -->.
 </p>
 <p>Multiple property-value pairs may be specified for the line object, but they
 must appear in pairs.
+</p>
+<p>If called with only <var>property</var>/<var>value</var> pairs then any unspecified
+properties use their default values as specified on the root object.
 </p>
 <p>If the first argument <var>hax</var> is an axes handle, then plot into this axes,
 rather than the current axes returned by <code>gca</code>.
@@ -192,6 +209,9 @@ handles) to the line objects created.
 </p>
 <p>Programming Note: The full list of properties is documented at
 <a href="Line-Properties.html#Line-Properties">Line Properties</a>.
+</p>
+<p>The function <code>line</code> differs from <code>plot</code> in that line objects are
+inserted in to the current axes without first clearing the plot.
 </p>
 <p><strong>See also:</strong> <a href="Displaying-Images.html#XREFimage">image</a>, <a href="#XREFpatch">patch</a>, <a href="Two_002ddimensional-Geometric-Shapes.html#XREFrectangle">rectangle</a>, <a href="#XREFsurface">surface</a>, <a href="Plot-Annotations.html#XREFtext">text</a>.
 </p></dd></dl>
@@ -298,13 +318,15 @@ surface object.
 <p>When a light object is present in an axes object, and the properties
 <code>&quot;EdgeLighting&quot;</code> or <code>&quot;FaceLighting&quot;</code> of a <code>patch</code> or
 <code>surface</code> object are set to a value other than <code>&quot;none&quot;</code>, these
-objects are drawn with light and shadow effects.  Supported values for
-Lighting properties are <code>&quot;none&quot;</code> (no lighting effects), <code>&quot;flat&quot;</code>
-(faceted look of the objects), and <code>&quot;gouraud&quot;</code> (linear interpolation
-of the lighting effects between the vertices).  For <code>patch</code> objects,
-the normals must be set manually (property <code>&quot;VertexNormals&quot;</code>).
+objects are drawn with lighting effects.  Supported values for Lighting
+properties are <code>&quot;none&quot;</code> (no lighting effects), <code>&quot;flat&quot;</code> (faceted
+look of the objects), and <code>&quot;gouraud&quot;</code> (linear interpolation of the
+lighting effects between the vertices).  If the lighting mode is set to
+<code>&quot;flat&quot;</code>, the <code>&quot;FaceNormals&quot;</code> property is used for lighting.
+For <code>&quot;gouraud&quot;</code>, the <code>&quot;VertexNormals&quot;</code> property is used.
 </p>
-<p>Up to eight light objects are supported per axes.
+<p>Up to eight light objects are supported per axes.  (Implementation
+dependent)
 </p>
 <p>Lighting is only supported for OpenGL graphic toolkits (i.e., <code>&quot;fltk&quot;</code>
 and <code>&quot;qt&quot;</code>).
@@ -668,10 +690,10 @@ printed to the screen.
 <div class="example">
 <pre class="example">hf = figure ();
 set (hf, &quot;paperorientation&quot;)
-&rArr;  paperorientation:  [ landscape | {portrait} | rotated ]
+&rArr;  [ landscape | {portrait} ]
 </pre></div>
 
-<p>shows the paperorientation property can take three values with the default
+<p>shows the paperorientation property can take two values with the default
 being <code>&quot;portrait&quot;</code>.
 </p>
 <p><strong>See also:</strong> <a href="#XREFget">get</a>.

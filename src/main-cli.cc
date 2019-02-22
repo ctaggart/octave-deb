@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2012-2018 John W. Eaton
+Copyright (C) 2012-2019 John W. Eaton
 
 This file is part of Octave.
 
@@ -36,7 +36,6 @@ along with Octave; see the file COPYING.  If not, see
 #include "oct-env.h"
 #include "signal-wrappers.h"
 
-#include "defaults.h"
 #include "octave.h"
 #include "octave-build-info.h"
 #include "sysdep.h"

@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 1999-2018 John W. Eaton
+Copyright (C) 1999-2019 John W. Eaton
 Copyright (C) 2009 VZLU Prague
 
 This file is part of Octave.
@@ -61,6 +61,10 @@ extern int dlclose (void *);
 #include "lo-error.h"
 #include "oct-shlib.h"
 #include "str-vec.h"
+
+#if defined (HAVE_LOADLIBRARY_API)
+#  include "lo-sysdep.h"
+#endif
 
 namespace octave
 {
@@ -371,7 +375,8 @@ namespace octave
   static void
   set_dll_directory (const std::string& dir = "")
   {
-    SetDllDirectory (dir.empty () ? nullptr : dir.c_str ());
+    SetDllDirectoryW (dir.empty () ? nullptr
+                                   : sys::u8_to_wstring (dir).c_str ());
   }
 
   octave_w32_shlib::octave_w32_shlib (const std::string& f)
@@ -387,7 +392,7 @@ namespace octave
 
     set_dll_directory (dir);
 
-    handle = LoadLibrary (file.c_str ());
+    handle = LoadLibraryW (sys::u8_to_wstring (file).c_str ());
 
     set_dll_directory ();
 

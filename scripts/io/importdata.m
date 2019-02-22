@@ -1,4 +1,4 @@
-## Copyright (C) 2012-2018 Erik Kjellson
+## Copyright (C) 2012-2019 Erik Kjellson
 ##
 ## This file is part of Octave.
 ##
@@ -257,7 +257,7 @@ function [output, delimiter, header_rows] = importdata_ascii (fname, delimiter, 
   endif
   if (any (na_idx(:)))
 
-    file_content = ostrsplit (fileread (fname), "\n");
+    file_content = ostrsplit (fileread (fname), "\r\n", true);
 
     na_rows = find (any (na_idx, 2));
     for ridx = na_rows(:)'

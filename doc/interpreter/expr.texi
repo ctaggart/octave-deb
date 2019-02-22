@@ -1,6 +1,6 @@
 @c DO NOT EDIT!  Generated automatically by munge-texi.pl.
 
-@c Copyright (C) 1996-2018 John W. Eaton
+@c Copyright (C) 1996-2019 John W. Eaton
 @c
 @c This file is part of Octave.
 @c
@@ -1075,7 +1075,6 @@ cumulatively from left to right:
 (@dots{}((@var{x1} * @var{x2}) * @var{x3}) * @dots{})
 @end example
 
-At least one argument is required.
 @seealso{@ref{XREFtimes,,times}, @ref{XREFplus,,plus}, @ref{XREFminus,,minus}, @ref{XREFrdivide,,rdivide}, @ref{XREFmrdivide,,mrdivide}, @ref{XREFmldivide,,mldivide}, @ref{XREFmpower,,mpower}}
 @end deftypefn
 
@@ -1094,7 +1093,6 @@ cumulatively from left to right:
 (@dots{}((@var{x1} + @var{x2}) + @var{x3}) + @dots{})
 @end example
 
-At least one argument is required.
 @seealso{@ref{XREFminus,,minus}, @ref{XREFuplus,,uplus}}
 @end deftypefn
 
@@ -1143,7 +1141,6 @@ cumulatively from left to right:
 (@dots{}((@var{x1} .* @var{x2}) .* @var{x3}) .* @dots{})
 @end example
 
-At least one argument is required.
 @seealso{@ref{XREFmtimes,,mtimes}, @ref{XREFrdivide,,rdivide}}
 @end deftypefn
 
@@ -1443,7 +1440,6 @@ logical AND is applied cumulatively from left to right:
 (@dots{}((@var{x1} & @var{x2}) & @var{x3}) & @dots{})
 @end example
 
-At least one argument is required.
 @seealso{@ref{XREFor,,or}, @ref{XREFnot,,not}, @ref{XREFxor,,xor}}
 @end deftypefn
 
@@ -1475,7 +1471,6 @@ logical OR is applied cumulatively from left to right:
 (@dots{}((@var{x1} | @var{x2}) | @var{x3}) | @dots{})
 @end example
 
-At least one argument is required.
 @seealso{@ref{XREFand,,and}, @ref{XREFnot,,not}, @ref{XREFxor,,xor}}
 @end deftypefn
 

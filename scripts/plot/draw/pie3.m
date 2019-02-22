@@ -1,4 +1,4 @@
-## Copyright (C) 2007-2018 David Bateman
+## Copyright (C) 2007-2019 David Bateman
 ## Copyright (C) 2010 Kai Habel
 ##
 ## This file is part of Octave.
@@ -50,7 +50,7 @@
 ## @seealso{pie, bar, hist, rose}
 ## @end deftypefn
 
-## Very roughly based on pie.m from octave-forge whose author was
+## Very roughly based on pie.m from Octave Forge whose author was
 ## Daniel Heiserer <Daniel.heiserer@physik.tu-muenchen.de>
 
 function h = pie3 (varargin)
@@ -59,6 +59,10 @@ function h = pie3 (varargin)
 
   if (nargin < 1)
     print_usage ();
+  endif
+
+  if (! all (isfinite (varargin{1})))
+    error ("pie3: all data in X must be finite");
   endif
 
   oldfig = [];
@@ -100,3 +104,8 @@ endfunction
 %! colormap ([1,0,0;0,1,0;0,0,1;1,1,0;1,0,1;0,1,1]);
 %! axis ([-2,2,-2,2]);
 %! title ("pie3() with missing slice");
+
+## Test input validation
+%!error pie3 ()
+%!error <all data in X must be finite> pie3 ([1 2 Inf])
+%!error <all data in X must be finite> pie3 ([1 2 NaN])

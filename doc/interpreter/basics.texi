@@ -1,6 +1,6 @@
 @c DO NOT EDIT!  Generated automatically by munge-texi.pl.
 
-@c Copyright (C) 1996-2018 John W. Eaton
+@c Copyright (C) 1996-2019 John W. Eaton
 @c
 @c This file is part of Octave.
 @c
@@ -835,7 +835,9 @@ Return the first sentence of a function's help text.
 The first sentence is defined as the text after the function declaration
 until either the first period (".") or the first appearance of two
 consecutive newlines ("\n\n").  The text is truncated to a maximum length of
-@var{max_len}, which defaults to 80.
+@var{max_len}, which defaults to 80.  If the text must be truncated the last
+three characters of the text are replaced with @qcode{"..."} to indicate
+that more text was available.
 
 The optional output argument @var{status} returns the status reported by
 @code{makeinfo}.  If only one output argument is requested, and @var{status}

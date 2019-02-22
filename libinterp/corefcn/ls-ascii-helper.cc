@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2009-2018 Benjamin Lindner
+Copyright (C) 2009-2019 Benjamin Lindner
 
 This file is part of Octave.
 
@@ -26,7 +26,7 @@ along with Octave; see the file COPYING.  If not, see
 
 #include "ls-ascii-helper.h"
 
-#include <iostream>
+#include <istream>
 #include <sstream>
 
 // Helper functions when reading from ascii files.

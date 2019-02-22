@@ -3,10 +3,10 @@
 <!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Utility Functions (GNU Octave (version 4.4.1))</title>
+<title>Utility Functions (GNU Octave (version 5.0.91))</title>
 
-<meta name="description" content="Utility Functions (GNU Octave (version 4.4.1))">
-<meta name="keywords" content="Utility Functions (GNU Octave (version 4.4.1))">
+<meta name="description" content="Utility Functions (GNU Octave (version 5.0.91))">
+<meta name="keywords" content="Utility Functions (GNU Octave (version 5.0.91))">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
@@ -414,8 +414,9 @@ along the specified dimension.
 <p>Example Code:
 </p>
 <div class="example">
-<pre class="example">cross ([1,1,0], [0,1,1])
-     &rArr; [ 1; -1; 1 ]
+<pre class="example">cross ([1, 1, 0], [0, 1, 1])
+  &rArr;
+       1   -1   1
 </pre></div>
 
 
@@ -542,14 +543,14 @@ such cases consider <code>gammaln</code>.
 </p>
 <p>The prime factorization is defined as <code>prod (<var>pf</var>) == <var>q</var></code>
 where every element of <var>pf</var> is a prime number.  If <code><var>q</var> == 1</code>,
-return 1.
+return 1.  The output <var>pf</var> is of the same numeric class as the input.
 </p>
 <p>With two output arguments, return the unique prime factors <var>pf</var> and
 their multiplicities.  That is,
 <code>prod (<var>pf</var> .^ <var>n</var>) == <var>q</var></code>.
 </p>
-<p>Implementation Note: The input <var>q</var> must be less than
-<code>flintmax</code> (9.0072e+15) in order to factor correctly.
+<p>Implementation Note: The input <var>q</var> must be less than <code>flintmax</code>
+(9.0072e+15) in order to factor correctly.
 </p>
 <p><strong>See also:</strong> <a href="#XREFgcd">gcd</a>, <a href="#XREFlcm">lcm</a>, <a href="Predicates-for-Numeric-Objects.html#XREFisprime">isprime</a>, <a href="#XREFprimes">primes</a>.
 </p></dd></dl>
@@ -613,16 +614,19 @@ all arguments.
 <p>An error message is printed if the dimensions of the arguments do not agree,
 or if either argument is complex.
 </p>
-<p>Programming Notes: Floating point numbers within a few eps of an integer
-will be rounded to an integer before computation for compatibility with
-<small>MATLAB</small>.
+<p>Programming Notes: When calculating with floating point numbers (double,
+single), values within a few eps of an integer will be rounded to that
+integer before computation for compatibility with <small>MATLAB</small>.  Any floating
+point integers greater than <code>flintmax</code> (2^53 for double) will not compute
+correctly.  For larger integer values convert the input to <code>uint64</code> before
+calling this function.
 </p>
 <p>By convention,
 </p>
 <div class="example">
 <pre class="example">rem (<var>x</var>, 0) = NaN  if <var>x</var> is a floating point variable
 rem (<var>x</var>, 0) = 0    if <var>x</var> is an integer variable
-rem (<var>x</var>, <var>y</var>)        returns a value with the signbit from <var>x</var>
+rem (<var>x</var>, <var>y</var>)  returns a value with the signbit from <var>x</var>
 </pre></div>
 
 <p>For the opposite conventions see the <code>mod</code> function.  In general,
@@ -651,9 +655,12 @@ This function handles negative values correctly.  That is,
 <p>An error results if the dimensions of the arguments do not agree, or if
 either of the arguments is complex.
 </p>
-<p>Programming Notes: Floating point numbers within a few eps of an integer
-will be rounded to an integer before computation for compatibility with
-<small>MATLAB</small>.
+<p>Programming Notes: When calculating with floating point numbers (double,
+single), values within a few eps of an integer will be rounded to that
+integer before computation for compatibility with <small>MATLAB</small>.  Any floating
+point integers greater than <code>flintmax</code> (2^53 for double) will not compute
+correctly.  For larger integer values convert the input to <code>uint64</code> before
+calling this function.
 </p>
 <p>By convention,
 </p>

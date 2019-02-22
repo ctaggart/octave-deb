@@ -1,6 +1,6 @@
 @c DO NOT EDIT!  Generated automatically by munge-texi.pl.
 
-@c Copyright (C) 1996-2018 John W. Eaton
+@c Copyright (C) 1996-2019 John W. Eaton
 @c
 @c This file is part of Octave.
 @c
@@ -917,7 +917,7 @@ Force Octave to assume the file is in Octave's text format.
 @anchor{XREFfileread}
 @deftypefn {} {@var{str} =} fileread (@var{filename})
 Read the contents of @var{filename} and return it as a string.
-@seealso{@ref{XREFfread,,fread}, @ref{XREFtextread,,textread}, @ref{XREFsscanf,,sscanf}}
+@seealso{@ref{XREFfread,,fread}, @ref{XREFfscanf,,fscanf}, @ref{XREFimportdata,,importdata}, @ref{XREFtextscan,,textscan}, @ref{XREFtype,,type}}
 @end deftypefn
 
 
@@ -1067,7 +1067,7 @@ latter case, the file is read until end of file is reached.
 The @qcode{"emptyvalue"} option may be used to specify the value used to
 fill empty fields.  The default is zero.  Note that any non-numeric values,
 such as text, are also replaced by the @qcode{"emptyvalue"}.
-@seealso{@ref{XREFcsvread,,csvread}, @ref{XREFtextscan,,textscan}, @ref{XREFtextread,,textread}, @ref{XREFdlmwrite,,dlmwrite}}
+@seealso{@ref{XREFcsvread,,csvread}, @ref{XREFtextscan,,textscan}, @ref{XREFdlmwrite,,dlmwrite}}
 @end deftypefn
 
 
@@ -1107,19 +1107,22 @@ This function is equivalent to
 
 Any optional arguments are passed directly to @code{dlmread}
 (@pxref{XREFdlmread,,dlmread}).
-@seealso{@ref{XREFdlmread,,dlmread}, @ref{XREFtextread,,textread}, @ref{XREFtextscan,,textscan}, @ref{XREFcsvwrite,,csvwrite}, @ref{XREFdlmwrite,,dlmwrite}}
+@seealso{@ref{XREFdlmread,,dlmread}, @ref{XREFtextscan,,textscan}, @ref{XREFcsvwrite,,csvwrite}, @ref{XREFdlmwrite,,dlmwrite}}
 @end deftypefn
 
 
 Formatted data from can be read from, or written to, text files as well.
 
-@c textread scripts/io/textread.m
+@c textread scripts/legacy/textread.m
 @anchor{XREFtextread}
 @deftypefn  {} {[@var{a}, @dots{}] =} textread (@var{filename})
 @deftypefnx {} {[@var{a}, @dots{}] =} textread (@var{filename}, @var{format})
 @deftypefnx {} {[@var{a}, @dots{}] =} textread (@var{filename}, @var{format}, @var{n})
 @deftypefnx {} {[@var{a}, @dots{}] =} textread (@var{filename}, @var{format}, @var{prop1}, @var{value1}, @dots{})
 @deftypefnx {} {[@var{a}, @dots{}] =} textread (@var{filename}, @var{format}, @var{n}, @var{prop1}, @var{value1}, @dots{})
+
+This function is obsolete.  Use @code{textscan} instead.
+
 Read data from a text file.
 
 The file @var{filename} is read and parsed according to @var{format}.  The
@@ -1203,7 +1206,7 @@ Examples:
 @end group
 @end example
 
-@seealso{@ref{XREFstrread,,strread}, @ref{XREFload,,load}, @ref{XREFdlmread,,dlmread}, @ref{XREFfscanf,,fscanf}, @ref{XREFtextscan,,textscan}}
+@seealso{@ref{XREFtextscan,,textscan}, @ref{XREFload,,load}, @ref{XREFdlmread,,dlmread}, @ref{XREFfscanf,,fscanf}, @ref{XREFstrread,,strread}}
 @end deftypefn
 
 

@@ -1,4 +1,4 @@
-## Copyright (C) 2005-2018 Søren Hauberg
+## Copyright (C) 2005-2019 Søren Hauberg
 ## Copyright (C) 2010 VZLU Prague, a.s.
 ##
 ## This file is part of Octave.
@@ -25,7 +25,7 @@
 function configure_make (desc, packdir, verbose)
 
   ## Perform ./configure, make, make install in "src".
-  if (exist (fullfile (packdir, "src"), "dir"))
+  if (isfolder (fullfile (packdir, "src")))
     src = fullfile (packdir, "src");
     octave_bindir = __octave_config_info__ ("bindir");
     ver = version ();

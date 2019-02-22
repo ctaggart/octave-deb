@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2000-2018 John W. Eaton
+Copyright (C) 2000-2019 John W. Eaton
 
 This file is part of Octave.
 
@@ -26,9 +26,7 @@ along with Octave; see the file COPYING.  If not, see
 #include "octave-config.h"
 
 #include <cstdio>
-
-#include <iostream>
-#include <streambuf>
+#include <istream>
 
 class
 c_file_ptr_buf : public std::streambuf

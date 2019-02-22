@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 1996-2018 John W. Eaton
+Copyright (C) 1996-2019 John W. Eaton
 
 This file is part of Octave.
 
@@ -73,7 +73,6 @@ namespace octave
     extern const char *DEFS;
     extern const char *DL_LD;
     extern const char *DL_LDFLAGS;
-    extern const char *DL_LIBS;
     extern const char *EXEEXT;
     extern const char *GCC_VERSION;
     extern const char *GXX_VERSION;
@@ -132,9 +131,6 @@ namespace octave
     extern const char *OCT_LINK_DEPS;
     extern const char *OCT_LINK_OPTS;
     extern const char *OPENGL_LIBS;
-    extern const char *OSMESA_CPPFLAGS;
-    extern const char *OSMESA_LDFLAGS;
-    extern const char *OSMESA_LIBS;
     extern const char *PCRE_CPPFLAGS;
     extern const char *PCRE_LDFLAGS;
     extern const char *PCRE_LIBS;
@@ -150,10 +146,10 @@ namespace octave
     extern const char *QT_CPPFLAGS;
     extern const char *QT_LDFLAGS;
     extern const char *QT_LIBS;
+    extern const char *QT_OPENGL_LIBS;
     extern const char *RANLIB;
     extern const char *RDYNAMIC_FLAG;
     extern const char *READLINE_LIBS;
-    extern const char *SED;
     extern const char *SHARED_LIBS;
     extern const char *SH_LD;
     extern const char *SH_LDFLAGS;

@@ -1,6 +1,6 @@
-## Copyright (C) 2017-2018 -2018 Rik Wehbring
-## Copyright (C) 2005-2018 William Poetra Yoga Hadisoeseno
-## Copyright (C) 2000-2018 Paul Kienzle
+## Copyright (C) 2017-2019 -2018 Rik Wehbring
+## Copyright (C) 2005-2019 William Poetra Yoga Hadisoeseno
+## Copyright (C) 2000-2019 Paul Kienzle
 ##
 ## This file is part of Octave.
 ##
@@ -162,7 +162,7 @@ function t = isequal (x, varargin)
           idx += 1;
         endwhile
 
-      elseif (isa (x, "function_handle"))
+      elseif (is_function_handle (x))
         ## function type.  Use '==' operator which is overloaded.
         t = (x == y);
 
@@ -291,7 +291,7 @@ function t = isequal (x, varargin)
           idx += 1;
         endwhile
 
-      elseif (isa (x, "function_handle"))
+      elseif (is_function_handle (x))
         ## function type.  Use '==' operator which is overloaded.
         t = all (cellfun ("eq", {x}, varargin));
 

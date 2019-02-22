@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2016-2018 John W. Eaton
+Copyright (C) 2016-2019 John W. Eaton
 
 This file is part of Octave.
 
@@ -80,9 +80,6 @@ kpse_element_dir (const std::string& elt);
 
 extern std::list<std::string>
 kpse_all_path_search (const std::string& path, const std::string& name);
-
-extern std::string
-kpse_expand_default (const std::string& path, const std::string& fallback);
 
 extern std::string
 kpse_path_expand (const std::string& path);

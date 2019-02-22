@@ -3,10 +3,10 @@
 <!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Hardware vs. Software Rendering (GNU Octave (version 4.4.1))</title>
+<title>Hardware vs. Software Rendering (GNU Octave (version 5.0.91))</title>
 
-<meta name="description" content="Hardware vs. Software Rendering (GNU Octave (version 4.4.1))">
-<meta name="keywords" content="Hardware vs. Software Rendering (GNU Octave (version 4.4.1))">
+<meta name="description" content="Hardware vs. Software Rendering (GNU Octave (version 5.0.91))">
+<meta name="keywords" content="Hardware vs. Software Rendering (GNU Octave (version 5.0.91))">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
@@ -61,17 +61,16 @@ Previous: <a href="Customizing-Toolkit-Behavior.html#Customizing-Toolkit-Behavio
 
 <p>On Windows platforms, Octave uses software rendering for the OpenGL graphics
 toolkits (<code>&quot;qt&quot;</code> and <code>&quot;fltk&quot;</code>) by default.  This is done to avoid
-rendering and printing issues due to imperfect OpenGL driver implementations for
-diverse graphic cards from different vendors.  As a down-side, software
-rendering might be considerably slower than hardware accelerated rendering.  To
-permanently switch back to hardware accelerated rendering with your graphic card
-drivers, rename the following file while Octave is closed:
+rendering and printing issues due to imperfect OpenGL driver implementations
+for diverse graphic cards from different vendors.  As a down-side, software
+rendering might be considerably slower than hardware accelerated rendering.
+To permanently switch back to hardware accelerated rendering with your graphic
+card drivers, rename the following file while Octave is closed:
 </p>
 <p><samp><var>octave-home</var>\bin\opengl32.dll</samp>
 <br>where <var>octave-home</var> is the directory in which Octave is installed (the
 default is <samp>C:\Octave\Octave-<var>version</var></samp>).
 </p>
-
 
 
 

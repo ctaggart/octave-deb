@@ -1,4 +1,4 @@
-## Copyright (C) 1994-2018 John W. Eaton
+## Copyright (C) 1994-2019 John W. Eaton
 ##
 ## This file is part of Octave.
 ##
@@ -66,7 +66,7 @@ endfunction
 
 
 ## FIXME: Borrow tests from conv.m.  May need tolerance on the assert stmt.
-%!test
+%!testif HAVE_FFTW
 %! x = ones (3,1);
 %! y = ones (1,3);
 %! b = 2;

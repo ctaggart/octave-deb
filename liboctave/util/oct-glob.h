@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2010-2018 John W. Eaton
+Copyright (C) 2010-2019 John W. Eaton
 
 This file is part of Octave.
 
@@ -42,15 +42,5 @@ namespace octave
     windows_glob (const string_vector&);
   }
 }
-
-#if defined (OCTAVE_USE_DEPRECATED_FUNCTIONS)
-
-OCTAVE_DEPRECATED (4.2, "use 'octave::sys::fnmatch' instead")
-const auto octave_fnmatch = octave::sys::fnmatch;
-
-OCTAVE_DEPRECATED (4.2, "use 'octave::sys::glob' instead")
-const auto octave_glob = octave::sys::glob;
-
-#endif
 
 #endif

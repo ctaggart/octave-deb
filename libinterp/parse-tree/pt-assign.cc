@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 1996-2018 John W. Eaton
+Copyright (C) 1996-2019 John W. Eaton
 
 This file is part of Octave.
 
@@ -24,7 +24,6 @@ along with Octave; see the file COPYING.  If not, see
 #  include "config.h"
 #endif
 
-#include <iostream>
 #include <string>
 
 #include "error.h"
@@ -41,7 +40,7 @@ namespace octave
                                                   bool plhs, int l, int c,
                                                   octave_value::assign_op t)
     : tree_expression (l, c), m_lhs (le), m_rhs (re), m_preserve (plhs),
-      m_etype (t)
+      m_ans_assign (), m_etype (t)
   { }
 
   tree_simple_assignment::~tree_simple_assignment (void)

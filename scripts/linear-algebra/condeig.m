@@ -1,4 +1,4 @@
-## Copyright (C) 2006-2018 Arno Onken <asnelt@asnelt.org>
+## Copyright (C) 2006-2019 Arno Onken <asnelt@asnelt.org>
 ##
 ## This file is part of Octave.
 ##
@@ -50,7 +50,9 @@
 ## @group
 ## a = [1, 2; 3, 4];
 ## c = condeig (a)
-## @result{} [1.0150; 1.0150]
+##   @result{} c =
+##        1.0150
+##        1.0150
 ## @end group
 ## @end example
 ## @seealso{eig, cond, balance}
@@ -91,7 +93,9 @@ function [v, lambda, c] = condeig (a)
     c = [];
   else
     ## Corresponding left eigenvectors
-    vl = inv (v)';
+    ## Use 2-argument form to suppress possible singular matrix warning.
+    [vl, ~] = inv (v);
+    vl = vl';
     ## Normalize vectors
     vl ./= repmat (sqrt (sum (abs (vl .^ 2))), rows (vl), 1);
 

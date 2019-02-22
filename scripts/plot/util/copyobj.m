@@ -1,4 +1,4 @@
-## Copyright (C) 2012-2018 pdiribarne
+## Copyright (C) 2012-2019 pdiribarne
 ##
 ## This file is part of Octave.
 ##
@@ -41,7 +41,7 @@
 function hnew = copyobj (horig, hparent = 0)
 
   partypes = {"root", "figure", "axes", "hggroup"};
-  othertypes = {"line", "patch", "surface", "image", "text"};
+  othertypes = {"line", "patch", "surface", "image", "text", "uicontrol"};
   alltypes = [partypes othertypes];
 
   if (! ishghandle (horig) || nargin > 2)

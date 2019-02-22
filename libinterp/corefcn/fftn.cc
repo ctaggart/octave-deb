@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2004-2018 David Bateman
+Copyright (C) 2004-2019 David Bateman
 
 This file is part of Octave.
 
@@ -33,12 +33,6 @@ along with Octave; see the file COPYING.  If not, see
 #include "utils.h"
 
 // This function should be merged with Fifft.
-
-#if defined (HAVE_FFTW)
-#  define FFTSRC "@sc{fftw}"
-#else
-#  define FFTSRC "@sc{fftpack}"
-#endif
 
 static octave_value
 do_fftn (const octave_value_list& args, const char *fcn, int type)

@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 1996-2018 John W. Eaton
+Copyright (C) 1996-2019 John W. Eaton
 
 This file is part of Octave.
 
@@ -25,9 +25,6 @@ along with Octave; see the file COPYING.  If not, see
 #endif
 
 #include <string>
-
-#include <iomanip>
-#include <iostream>
 
 #include "Quad.h"
 #include "lo-mappers.h"
@@ -347,7 +344,7 @@ variable by routines @code{dblquad} and @code{triplequad}.
 
           have_sing = true;
 
-          sing = args(4).vector_value ("quad: fifth argument SING must be a vector of singularities");
+          sing = args(4).xvector_value ("quad: fifth argument SING must be a vector of singularities");
           OCTAVE_FALLTHROUGH;
 
         case 4:

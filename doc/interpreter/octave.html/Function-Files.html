@@ -3,10 +3,10 @@
 <!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Function Files (GNU Octave (version 4.4.1))</title>
+<title>Function Files (GNU Octave (version 5.0.91))</title>
 
-<meta name="description" content="Function Files (GNU Octave (version 4.4.1))">
-<meta name="keywords" content="Function Files (GNU Octave (version 4.4.1))">
+<meta name="description" content="Function Files (GNU Octave (version 5.0.91))">
+<meta name="keywords" content="Function Files (GNU Octave (version 5.0.91))">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
@@ -221,13 +221,17 @@ whether they are modifiable or not.  The default is <code>false</code>.
 <dt><a name="index-mfilename-2"></a><em></em> <strong>mfilename</strong> <em>(&quot;fullpathext&quot;)</em></dt>
 <dd><p>Return the name of the currently executing file.
 </p>
-<p>When called from outside an m-file return the empty string.
+<p>The base name of the currently executing script or function is returned without
+any extension.  If called from outside an m-file, such as the command line,
+return the empty string.
 </p>
 <p>Given the argument <code>&quot;fullpath&quot;</code>, include the directory part of the
 filename, but not the extension.
 </p>
 <p>Given the argument <code>&quot;fullpathext&quot;</code>, include the directory part of
 the filename and the extension.
+</p>
+<p><strong>See also:</strong> <a href="Defining-Functions.html#XREFinputname">inputname</a>, <a href="Call-Stack.html#XREFdbstack">dbstack</a>.
 </p></dd></dl>
 
 

@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2009-2018 Shai Ayal
+Copyright (C) 2009-2019 Shai Ayal
 
 This file is part of Octave.
 
@@ -31,21 +31,11 @@ along with Octave; see the file COPYING.  If not, see
 
 namespace octave
 {
+  class opengl_functions;
+
   extern OCTINTERP_API void
-  gl2ps_print (const graphics_object& fig, const std::string& stream,
-               const std::string& term);
+  gl2ps_print (opengl_functions& glfcns, const graphics_object& fig,
+               const std::string& stream, const std::string& term);
 }
-
-#if defined (OCTAVE_USE_DEPRECATED_FUNCTIONS)
-
-OCTAVE_DEPRECATED (4.2, "use 'octave::gl2ps_print' instead")
-inline void
-gl2ps_print (const graphics_object& fig, const std::string& stream,
-             const std::string& term)
-{
-  return octave::gl2ps_print (fig, stream, term);
-}
-
-#endif
 
 #endif

@@ -1,5 +1,5 @@
 /*  Copyright (C) 2008 e_k (e_k@users.sourceforge.net)
-    Copyright (C) 2012-2018 Jacob Dawid <jacob.dawid@cybercatalyst.com>
+    Copyright (C) 2012-2019 Jacob Dawid <jacob.dawid@cybercatalyst.com>
 
     This library is free software: you can redistribute it and/or
     modify it under the terms of the GNU Library General Public
@@ -28,7 +28,6 @@ QUnixTerminalImpl::QUnixTerminalImpl(QWidget *p)
     : QTerminal(p),
       _parent (p)
 {
-    setMinimumSize(300, 200);
     initialize();
 }
 
@@ -187,6 +186,11 @@ void QUnixTerminalImpl::setBackgroundColor (const QColor& color)
     cols[DEFAULT_BACK_COLOR].color = color;
 
     m_terminalView->setColorTable(cols);
+
+    QString css = QString ("TerminalView {\n"
+                           "  background: %1;\n"
+                           "}\n").arg (color.name ());
+    setStyleSheet (css);
 
   }
 void QUnixTerminalImpl::setForegroundColor (const QColor& color)

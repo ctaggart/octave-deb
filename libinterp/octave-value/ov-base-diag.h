@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2008-2018 Jaroslav Hajek
+Copyright (C) 2008-2019 Jaroslav Hajek
 
 This file is part of Octave.
 
@@ -80,7 +80,7 @@ public:
 
   dim_vector dims (void) const { return matrix.dims (); }
 
-  octave_idx_type nnz (void) const { return to_dense ().nnz (); }
+  octave_idx_type nnz (void) const { return diag ().nnz (); }
 
   octave_value reshape (const dim_vector& new_dims) const
   { return to_dense ().reshape (new_dims); }

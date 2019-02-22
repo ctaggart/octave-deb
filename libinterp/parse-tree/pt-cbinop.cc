@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2008-2018 Jaroslav Hajek
+Copyright (C) 2008-2019 Jaroslav Hajek
 
 This file is part of Octave.
 
@@ -36,12 +36,12 @@ namespace octave
   // the argument and corresponding operator.
 
   static octave_value::unary_op
-  strip_trans_herm (octave::tree_expression_ptr_t& exp)
+  strip_trans_herm (tree_expression_ptr_t& exp)
   {
     if (exp->is_unary_expression ())
       {
-        octave::tree_unary_expression *uexp =
-          dynamic_cast<octave::tree_unary_expression *> (exp);
+        tree_unary_expression *uexp =
+          dynamic_cast<tree_unary_expression *> (exp);
 
         octave_value::unary_op op = uexp->op_type ();
 
@@ -57,13 +57,17 @@ namespace octave
       return octave_value::unknown_unary_op;
   }
 
+#if 0
+  // Restore this code if short-circuit behavior can be preserved when needed.
+  // See bug #54465.
+
   static octave_value::unary_op
-  strip_not (octave::tree_expression_ptr_t& exp)
+  strip_not (tree_expression_ptr_t& exp)
   {
     if (exp->is_unary_expression ())
       {
-        octave::tree_unary_expression *uexp =
-          dynamic_cast<octave::tree_unary_expression *> (exp);
+        tree_unary_expression *uexp =
+          dynamic_cast<tree_unary_expression *> (exp);
 
         octave_value::unary_op op = uexp->op_type ();
 
@@ -77,13 +81,13 @@ namespace octave
     else
       return octave_value::unknown_unary_op;
   }
+#endif
 
   // Possibly convert multiplication to trans_mul, mul_trans, herm_mul,
   // or mul_herm.
 
   static octave_value::compound_binary_op
-  simplify_mul_op (octave::tree_expression_ptr_t& a,
-                   octave::tree_expression_ptr_t& b)
+  simplify_mul_op (tree_expression_ptr_t& a, tree_expression_ptr_t& b)
   {
     octave_value::compound_binary_op retop
       = octave_value::unknown_compound_binary_op;
@@ -110,8 +114,7 @@ namespace octave
   // Possibly convert left division to trans_ldiv or herm_ldiv.
 
   static octave_value::compound_binary_op
-  simplify_ldiv_op (octave::tree_expression_ptr_t& a,
-                    octave::tree_expression_ptr_t&)
+  simplify_ldiv_op (tree_expression_ptr_t& a, tree_expression_ptr_t&)
   {
     octave_value::compound_binary_op retop
       = octave_value::unknown_compound_binary_op;
@@ -128,9 +131,11 @@ namespace octave
 
   // Possibly contract and/or with negation.
 
+#if 0
+  // Restore this code if short-circuit behavior can be preserved when needed.
+  // See bug #54465.
   static octave_value::compound_binary_op
-  simplify_and_or_op (octave::tree_expression_ptr_t& a,
-                      octave::tree_expression_ptr_t& b,
+  simplify_and_or_op (tree_expression_ptr_t& a, tree_expression_ptr_t& b,
                       octave_value::binary_op op)
   {
     octave_value::compound_binary_op retop
@@ -160,6 +165,7 @@ namespace octave
 
     return retop;
   }
+#endif
 
   tree_binary_expression *
   maybe_compound_binary_expression (tree_expression *a, tree_expression *b,
@@ -179,10 +185,14 @@ namespace octave
         ct = simplify_ldiv_op (ca, cb);
         break;
 
+#if 0
+      // Restore this case if short-circuit behavior can be preserved
+      // when needed.  See bug #54465.
       case octave_value::op_el_and:
       case octave_value::op_el_or:
         ct = simplify_and_or_op (ca, cb, t);
         break;
+#endif
 
       default:
         ct = octave_value::unknown_compound_binary_op;

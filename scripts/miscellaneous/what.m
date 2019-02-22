@@ -1,4 +1,4 @@
-## Copyright (C) 2007-2018 David Bateman
+## Copyright (C) 2007-2019 David Bateman
 ##
 ## This file is part of Octave.
 ##
@@ -116,7 +116,7 @@ function retval = what (dir)
         w.oct{end+1} = n;
       elseif (strcmp (e, mexext ()))
         w.mex{end+1} = n;
-      elseif (n(1) == "@" && isdir (fullfile (dir, n)))
+      elseif (n(1) == "@" && isfolder (fullfile (dir, n)))
         w.classes{end+1} = n;
       endif
     endif

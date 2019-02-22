@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 1999-2018 John W. Eaton
+Copyright (C) 1999-2019 John W. Eaton
 
 This file is part of Octave.
 
@@ -28,8 +28,8 @@ along with Octave; see the file COPYING.  If not, see
 #include <ctime>
 
 #include <iomanip>
-#include <iostream>
 #include <limits>
+#include <ostream>
 
 #include "lo-error.h"
 #include "lo-utils.h"

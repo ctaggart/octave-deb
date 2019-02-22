@@ -1,4 +1,4 @@
-## Copyright (C) 2009-2018 Jaroslav Hajek
+## Copyright (C) 2009-2019 Jaroslav Hajek
 ##
 ## This file is part of Octave.
 ##
@@ -87,7 +87,8 @@
 ## Examples with @nospell{regularexpression} delimiters:
 ##
 ## @smallexample
-## strsplit ("a foo b,bar c", ',|\s|foo|bar', "delimitertype", "regularexpression")
+## strsplit ("a foo b,bar c", ',|\s|foo|bar', ...
+##           "delimitertype", "regularexpression")
 ##       @result{}
 ##           @{
 ##             [1,1] = a
@@ -95,7 +96,8 @@
 ##             [1,3] = c
 ##           @}
 ##
-## strsplit ("a,,b, c", '[, ]', "collapsedelimiters", false, "delimitertype", "regularexpression")
+## strsplit ("a,,b, c", '[, ]', "collapsedelimiters", false, ...
+##           "delimitertype", "regularexpression")
 ##       @result{}
 ##           @{
 ##             [1,1] = a
@@ -177,6 +179,8 @@ function [cstr, matches] = strsplit (str, del, varargin)
 
   if (! ischar (str) || (! ischar (del) && ! iscellstr (del)))
     error ("strsplit: S and DEL must be string values");
+  elseif (! isempty (str) && ! isrow (str))
+    error ("strsplit: S must be a char row vector")
   elseif (! isscalar (args.collapsedelimiters))
     error ("strsplit: COLLAPSEDELIMITERS must be a scalar value");
   endif
@@ -307,5 +311,7 @@ endfunction
 %!error strsplit ("abc", "b", true, 4)
 %!error <invalid parameter name, 'foo'> strsplit ("abc", "b", "foo", "true")
 %!error <S and DEL must be string values> strsplit (123, "b")
+%!error <S must be a char row vector> strsplit (["abc"; "xyz"])
+%!error <S must be a char row vector> strsplit (reshape ("axbycz", [1 3 2]))
 %!error <COLLAPSEDELIMITERS must be a scalar value> strsplit ("abc", "def", "collapsedelimiters", ones (3,3))
 %!error <Invalid DELIMITERTYPE> strsplit ("abc", "b", "delimitertype", "foobar")

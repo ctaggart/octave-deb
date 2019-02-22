@@ -1,4 +1,4 @@
-## Copyright (C) 2012-2018 Ben Abbott, Jonas Lundgren
+## Copyright (C) 2012-2019 Ben Abbott, Jonas Lundgren
 ##
 ## This file is part of Octave.
 ##
@@ -189,7 +189,7 @@ function set_graphics_toolkit ()
 endfunction
 
 function set_print_size ()
-  image_size = [8.0, 6.0]; # in inches, 4:3 format
+  image_size = [5.0, 3.5]; # in inches, 16:9 format
   border = 0;              # For postscript use 50/72
   set (groot, "defaultfigurepapertype", "<custom>");
   set (groot, "defaultfigurepaperorientation", "landscape");

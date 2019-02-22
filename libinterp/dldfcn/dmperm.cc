@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2005-2018 David Bateman
+Copyright (C) 2005-2019 David Bateman
 Copyright (C) 1998-2005 Andy Adler
 
 This file is part of Octave.
@@ -91,7 +91,7 @@ dmperm_internal (bool rank, const octave_value arg, int nargout)
           for (octave_idx_type i = 0; i < nc; i++)
             if (jmatch[nr+i] >= 0)
               r++;
-          retval(0) = static_cast<double>(r);
+          retval(0) = static_cast<double> (r);
         }
       else
         retval(0) = put_int (jmatch + nr, nc);

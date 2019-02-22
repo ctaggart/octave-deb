@@ -265,7 +265,7 @@ QScintilla
 
 Qt
      GUI and utility libraries (<https://www.qt.io>).  Qt is required
-     for building the GUI. It is a large framework, but the only
+     for building the GUI.  It is a large framework, but the only
      components required are the GUI, core, and network modules.
 
 SuiteSparse
@@ -368,14 +368,6 @@ zlib
 
           You may also want to build a shared version of 'libstdc++', if
           your system doesn't already have one.
-
-     '--enable-dl'
-          Use 'dlopen' and friends to make Octave capable of dynamically
-          linking externally compiled functions (this is the default if
-          '--enable-shared' is specified).  This option only works on
-          systems that actually have these functions.  If you plan on
-          using this feature, you should probably also use
-          '--enable-shared' to reduce the size of your '.oct' files.
 
      '--with-blas=<lib>'
           By default, configure looks for the best BLAS matrix libraries

@@ -1,6 +1,6 @@
 @c DO NOT EDIT!  Generated automatically by genpropdoc.m.
 
-@c Copyright (C) 2014-2018 Pantxo Diribarne
+@c Copyright (C) 2014-2019 Pantxo Diribarne
 @c
 @c This file is part of Octave.
 @c
@@ -22,7 +22,7 @@
 
 @anchor{XREFuipanelbackgroundcolor}
 @prindex uipanel backgroundcolor
-@item @code{backgroundcolor}: def. @code{[1   1   1]}
+@item @code{backgroundcolor}: def. @code{[0.94000   0.94000   0.94000]}
 
 
 
@@ -166,8 +166,8 @@ Specify whether uipanel will accept mouse clicks.  By default, @code{pickablepar
 
 @anchor{XREFuipanelresizefcn}
 @prindex uipanel resizefcn
-@item @code{resizefcn}: def. @code{[](0x0)}
-
+@item @code{resizefcn}: string | function handle, def. @code{[](0x0)}
+@code{resizefcn} is deprecated.  Use @code{sizechangedfcn} instead.
 
 
 @anchor{XREFuipanelselected}
@@ -184,8 +184,16 @@ Specify whether uipanel will accept mouse clicks.  By default, @code{pickablepar
 
 @anchor{XREFuipanelshadowcolor}
 @prindex uipanel shadowcolor
-@item @code{shadowcolor}: def. @code{[0   0   0]}
+@item @code{shadowcolor}: def. @code{[0.70000   0.70000   0.70000]}
 
+
+
+@anchor{XREFuipanelsizechangedfcn}
+@prindex uipanel sizechangedfcn
+@item @code{sizechangedfcn}: string | function handle, def. @code{[](0x0)}
+Callback triggered when the uipanel size is changed.
+
+For information on how to write graphics listener functions see @ref{Callbacks, , @w{Callbacks section}}.
 
 
 @anchor{XREFuipaneltag}

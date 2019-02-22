@@ -1,6 +1,6 @@
 @c DO NOT EDIT!  Generated automatically by munge-texi.pl.
 
-@c Copyright (C) 2004-2018 David Bateman
+@c Copyright (C) 2004-2019 David Bateman
 @c
 @c This file is part of Octave.
 @c
@@ -510,10 +510,10 @@ Example 1 (sum at repeated indices):
 @var{i} = [1 1 2]; @var{j} = [1 1 2]; @var{sv} = [3 4 5];
 sparse (@var{i}, @var{j}, @var{sv}, 3, 4)
 @result{}
-Compressed Column Sparse (rows = 3, cols = 4, nnz = 2 [17%])
+   Compressed Column Sparse (rows = 3, cols = 4, nnz = 2 [17%])
 
-  (1, 1) ->  7
-  (2, 2) ->  5
+     (1, 1) ->  7
+     (2, 2) ->  5
 @end group
 @end example
 
@@ -524,10 +524,10 @@ Example 2 ("unique" option):
 @var{i} = [1 1 2]; @var{j} = [1 1 2]; @var{sv} = [3 4 5];
 sparse (@var{i}, @var{j}, @var{sv}, 3, 4, "unique")
 @result{}
-Compressed Column Sparse (rows = 3, cols = 4, nnz = 2 [17%])
+   Compressed Column Sparse (rows = 3, cols = 4, nnz = 2 [17%])
 
-  (1, 1) ->  4
-  (2, 2) ->  5
+     (1, 1) ->  4
+     (2, 2) ->  5
 @end group
 @end example
 @seealso{@ref{XREFfull,,full}, @ref{XREFaccumarray,,accumarray}, @ref{XREFspalloc,,spalloc}, @ref{XREFspdiags,,spdiags}, @ref{XREFspeye,,speye}, @ref{XREFspones,,spones}, @ref{XREFsprand,,sprand}, @ref{XREFsprandn,,sprandn}, @ref{XREFsprandsym,,sprandsym}, @ref{XREFspconvert,,spconvert}, @ref{XREFspfun,,spfun}}
@@ -590,8 +590,8 @@ Return the number of nonzero elements in @var{a}.
 
 @c nonzeros scripts/sparse/nonzeros.m
 @anchor{XREFnonzeros}
-@deftypefn {} {} nonzeros (@var{s})
-Return a vector of the nonzero values of the sparse matrix @var{s}.
+@deftypefn {} {@var{v} =} nonzeros (@var{A})
+Return a column vector of the nonzero values of the matrix @var{A}.
 @seealso{@ref{XREFfind,,find}, @ref{XREFnnz,,nnz}}
 @end deftypefn
 

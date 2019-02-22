@@ -1,4 +1,4 @@
-## Copyright (C) 2000-2018 Paul Kienzle
+## Copyright (C) 2000-2019 Paul Kienzle
 ## Copyright (C) 2010 VZLU Prague
 ##
 ## This file is part of Octave.
@@ -41,14 +41,14 @@
 ## @example
 ## @group
 ## isprime (1:6)
-##     @result{} [0, 1, 1, 0, 1, 0]
+##   @result{}  0  1  1  0  1  0
 ## @end group
 ## @end example
 ##
 ## @example
 ## @group
 ## isprime ([i, 2, 3, 5])
-##     @result{} [0, 0, 1, 0]
+##   @result{}  0  0  1  0
 ## @end group
 ## @end example
 ##

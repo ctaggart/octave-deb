@@ -3,10 +3,10 @@
 <!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Convex Hull (GNU Octave (version 4.4.1))</title>
+<title>Convex Hull (GNU Octave (version 5.0.91))</title>
 
-<meta name="description" content="Convex Hull (GNU Octave (version 4.4.1))">
-<meta name="keywords" content="Convex Hull (GNU Octave (version 4.4.1))">
+<meta name="description" content="Convex Hull (GNU Octave (version 5.0.91))">
+<meta name="keywords" content="Convex Hull (GNU Octave (version 5.0.91))">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
@@ -65,12 +65,21 @@ N-dimensional sets of points.
 </p>
 <a name="XREFconvhull"></a><dl>
 <dt><a name="index-convhull"></a><em><var>H</var> =</em> <strong>convhull</strong> <em>(<var>x</var>, <var>y</var>)</em></dt>
-<dt><a name="index-convhull-1"></a><em><var>H</var> =</em> <strong>convhull</strong> <em>(<var>x</var>, <var>y</var>, <var>options</var>)</em></dt>
-<dd><p>Compute the convex hull of the set of points defined by the
-arrays <var>x</var> and <var>y</var>.  The hull <var>H</var> is an index vector into
-the set of points and specifies which points form the enclosing hull.
+<dt><a name="index-convhull-1"></a><em><var>H</var> =</em> <strong>convhull</strong> <em>(<var>x</var>, <var>y</var>, <var>z</var>)</em></dt>
+<dt><a name="index-convhull-2"></a><em><var>H</var> =</em> <strong>convhull</strong> <em>(<var>x</var>)</em></dt>
+<dt><a name="index-convhull-3"></a><em><var>H</var> =</em> <strong>convhull</strong> <em>(&hellip;, <var>options</var>)</em></dt>
+<dt><a name="index-convhull-4"></a><em>[<var>H</var>, <var>V</var>] =</em> <strong>convhull</strong> <em>(&hellip;)</em></dt>
+<dd><p>Compute the convex hull of a 2-D or 3-D set of points.
 </p>
-<p>An optional third argument, which must be a string or cell array of strings,
+<p>The hull <var>H</var> is a linear index vector into the original set of points
+that specifies which points form the enclosing hull.  For 2-D inputs only,
+the output is ordered in a counterclockwise manner around the hull.
+</p>
+<p>The input <var>x</var> may also be a matrix with two or three columns where the
+first column contains x-data, the second y-data, and the optional third
+column contains z-data.
+</p>
+<p>An optional final argument, which must be a string or cell array of strings,
 contains options passed to the underlying qhull command.
 See the documentation for the Qhull library for details
 <a href="http://www.qhull.org/html/qh-quick.htm#options">http://www.qhull.org/html/qh-quick.htm#options</a>.
@@ -80,6 +89,9 @@ The default option is <code>{&quot;Qt&quot;}</code>.
 used.  Otherwise, <var>options</var> replaces the default argument list.
 To append user options to the defaults it is necessary to repeat the
 default arguments in <var>options</var>.  Use a null string to pass no arguments.
+</p>
+<p>If the second output <var>V</var> is requested the volume of the enclosing
+convex hull is calculated.
 </p>
 
 <p><strong>See also:</strong> <a href="#XREFconvhulln">convhulln</a>, <a href="Delaunay-Triangulation.html#XREFdelaunay">delaunay</a>, <a href="Voronoi-Diagrams.html#XREFvoronoi">voronoi</a>.

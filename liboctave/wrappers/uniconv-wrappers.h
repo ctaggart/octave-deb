@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2017-2018 John W. Eaton
+Copyright (C) 2017-2019 John W. Eaton
 
 This file is part of Octave.
 
@@ -45,6 +45,16 @@ octave_u8_conv_from_encoding (const char *fromcode, const char *src,
 extern char *
 octave_u8_conv_to_encoding (const char *tocode, const uint8_t *src,
                             size_t srclen, size_t *lengthp);
+
+extern char *
+octave_u32_conv_to_encoding_strict (const char *tocode, const uint32_t *src,
+                                    size_t srclen, size_t *lengthp);
+
+extern char *
+u8_from_wchar (const wchar_t *wc);
+
+extern wchar_t *
+u8_to_wchar (const char *u8_char);
 
 #if defined __cplusplus
 }

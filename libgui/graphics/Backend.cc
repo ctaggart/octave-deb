@@ -1,6 +1,6 @@
 /*
 
-Copyright (C) 2011-2018 Michael Goffioul
+Copyright (C) 2011-2019 Michael Goffioul
 
 This file is part of Octave.
 
@@ -58,6 +58,7 @@ namespace QtHandles
              || go.isa ("uibuttongroup")
              || go.isa ("uimenu")
              || go.isa ("uicontextmenu")
+             || go.isa ("uitable")
              || go.isa ("uitoolbar")
              || go.isa ("uipushtool")
              || go.isa ("uitoggletool"))
@@ -75,7 +76,8 @@ namespace QtHandles
     ObjectFactory *factory = ObjectFactory::instance ();
 
     connect (this, SIGNAL (createObject (double)),
-             factory, SLOT (createObject (double)));
+             factory, SLOT (createObject (double)),
+             Qt::BlockingQueuedConnection);
   }
 
   Backend::~Backend (void)
@@ -90,10 +92,16 @@ namespace QtHandles
         || go.isa ("uibuttongroup")
         || go.isa ("uimenu")
         || go.isa ("uicontextmenu")
+        || go.isa ("uitable")
         || go.isa ("uitoolbar")
         || go.isa ("uipushtool")
         || go.isa ("uitoggletool"))
       {
+        // FIXME: We need to unlock the mutex here but we have no way to know if
+        // if it was previously locked by this thread, and thus if we should
+        // re-lock it.
+        gh_manager::unlock ();
+
         Logger::debug ("Backend::initialize %s from thread %08x",
                        go.type ().c_str (), QThread::currentThreadId ());
 
@@ -121,6 +129,7 @@ namespace QtHandles
         || pId == uibuttongroup::properties::ID___OBJECT__
         || pId == uimenu::properties::ID___OBJECT__
         || pId == uicontextmenu::properties::ID___OBJECT__
+        || pId == uitable::properties::ID___OBJECT__
         || pId == uitoolbar::properties::ID___OBJECT__
         || pId == uipushtool::properties::ID___OBJECT__
         || pId == uitoggletool::properties::ID___OBJECT__
@@ -151,6 +160,11 @@ namespace QtHandles
   void
   Backend::finalize (const graphics_object& go)
   {
+    // FIXME: We need to unlock the mutex here but we have no way to know if
+    // if it was previously locked by this thread, and thus if we should
+    // re-lock it.
+    gh_manager::unlock ();
+
     Logger::debug ("Backend::finalize %s from thread %08x",
                    go.type ().c_str (), QThread::currentThreadId ());
 
@@ -176,6 +190,18 @@ namespace QtHandles
 
         if (proxy)
           proxy->redraw ();
+      }
+  }
+
+  void
+  Backend::show_figure (const graphics_object& go) const
+  {
+    if (go.get_properties ().is_visible ())
+      {
+        ObjectProxy *proxy = toolkitObjectProxy (go);
+
+        if (proxy)
+          proxy->show ();
       }
   }
 
