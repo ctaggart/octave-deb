@@ -1,3 +1,19 @@
+octave (5.0.91-1) experimental; urgency=medium
+
+  * New upstream release candidate
+  * Update d/copyright
+  * unimplemented-functions.patch: drop patch, applied upstream
+  * Bump SONAME to liboctave7
+  * debian_missing_handler.m: point to octave-doc instead of octave-info
+  * d/upstream/signing-key.asc: shrink key to a minimal version
+  * Bump to debhelper compat level 12
+    + disable dh_swz, it fails with a cryptic error message
+    + some stuff is now installed under /usr/libexec
+  * Add --fail-missing flag to dh_missing, so that we don't forget something.
+    As a consequence, we now ship octave.pc and octinterp.pc in liboctave-dev.
+
+ -- Sébastien Villemot <sebastien@debian.org>  Fri, 22 Feb 2019 16:26:56 +0100
+
 octave (4.4.1-4) unstable; urgency=medium
 
   * Add libglu1-mesa-dev to Build-Depends. This is necessary to have
