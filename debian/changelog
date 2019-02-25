@@ -1,3 +1,10 @@
+octave (5.1.0-1) experimental; urgency=medium
+
+  * New upstream version 5.1.0
+  * Update d/copyright
+
+ -- Sébastien Villemot <sebastien@debian.org>  Mon, 25 Feb 2019 18:01:12 +0100
+
 octave (5.0.91-1) experimental; urgency=medium
 
   * New upstream release candidate
