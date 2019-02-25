@@ -3,10 +3,10 @@
 <!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Matrix Factorizations (GNU Octave (version 5.0.91))</title>
+<title>Matrix Factorizations (GNU Octave (version 5.1.0))</title>
 
-<meta name="description" content="Matrix Factorizations (GNU Octave (version 5.0.91))">
-<meta name="keywords" content="Matrix Factorizations (GNU Octave (version 5.0.91))">
+<meta name="description" content="Matrix Factorizations (GNU Octave (version 5.1.0))">
+<meta name="keywords" content="Matrix Factorizations (GNU Octave (version 5.1.0))">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
@@ -963,10 +963,10 @@ is calculated.
 </p>
 <p>Algorithm Notes: When calculating the full decomposition (left and right
 singular matrices in addition to singular values) there is a choice of two
-routines in <small>LAPACK</small>.  The default routine used by Octave is <code>gesdd</code>
-which is 5X faster than the alternative <code>gesvd</code>, but may use more memory
-and may be less accurate for some matrices.  See the documentation for
-<code>svd_driver</code> for more information.
+routines in <small>LAPACK</small>.  The default routine used by Octave is <code>gesvd</code>.
+The alternative is <code>gesdd</code> which is 5X faster, but may use more memory
+and may be inaccurate for some input matrices.  See the documentation for
+<code>svd_driver</code> for more information on choosing a driver.
 </p>
 <p><strong>See also:</strong> <a href="#XREFsvd_005fdriver">svd_driver</a>, <a href="Sparse-Linear-Algebra.html#XREFsvds">svds</a>, <a href="Basic-Matrix-Functions.html#XREFeig">eig</a>, <a href="#XREFlu">lu</a>, <a href="#XREFchol">chol</a>, <a href="#XREFhess">hess</a>, <a href="#XREFqr">qr</a>, <a href="#XREFqz">qz</a>.
 </p></dd></dl>

@@ -3,10 +3,10 @@
 <!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Minimizers (GNU Octave (version 5.0.91))</title>
+<title>Minimizers (GNU Octave (version 5.1.0))</title>
 
-<meta name="description" content="Minimizers (GNU Octave (version 5.0.91))">
-<meta name="keywords" content="Minimizers (GNU Octave (version 5.0.91))">
+<meta name="description" content="Minimizers (GNU Octave (version 5.1.0))">
+<meta name="keywords" content="Minimizers (GNU Octave (version 5.1.0))">
 <meta name="resource-type" content="document">
 <meta name="distribution" content="global">
 <meta name="Generator" content="makeinfo">
@@ -231,9 +231,8 @@ discontinuities it may be better to use a derivative-free algorithm such as
 <a name="XREFfminsearch"></a><dl>
 <dt><a name="index-fminsearch"></a><em><var>x</var> =</em> <strong>fminsearch</strong> <em>(<var>fun</var>, <var>x0</var>)</em></dt>
 <dt><a name="index-fminsearch-1"></a><em><var>x</var> =</em> <strong>fminsearch</strong> <em>(<var>fun</var>, <var>x0</var>, <var>options</var>)</em></dt>
-<dt><a name="index-fminsearch-2"></a><em><var>x</var> =</em> <strong>fminsearch</strong> <em>(<var>fun</var>, <var>x0</var>, <var>options</var>, <var>fun_arg1</var>, <var>fun_arg2</var>, &hellip;)</em></dt>
-<dt><a name="index-fminsearch-3"></a><em><var>x</var> =</em> <strong>fminsearch</strong> <em>(<var>problem</var>)</em></dt>
-<dt><a name="index-fminsearch-4"></a><em>[<var>x</var>, <var>fval</var>, <var>exitflag</var>, <var>output</var>] =</em> <strong>fminsearch</strong> <em>(&hellip;)</em></dt>
+<dt><a name="index-fminsearch-2"></a><em><var>x</var> =</em> <strong>fminsearch</strong> <em>(<var>problem</var>)</em></dt>
+<dt><a name="index-fminsearch-3"></a><em>[<var>x</var>, <var>fval</var>, <var>exitflag</var>, <var>output</var>] =</em> <strong>fminsearch</strong> <em>(&hellip;)</em></dt>
 <dd>
 <p>Find a value of <var>x</var> which minimizes the multi-variable function
 <var>fun</var>.
@@ -261,10 +260,6 @@ The value must be a positive integer.
 <p>For a description of the other options, see <code>optimset</code>.  To initialize
 an options structure with default values for <code>fminsearch</code> use
 <code>options = optimset (&quot;fminsearch&quot;)</code>.
-</p>
-<p>Additional inputs for the function <var>fun</var> can be passed as the fourth
-and higher arguments.  To pass function arguments while using the default
-<var>options</var> values, use <code>[]</code> for <var>options</var>.
 </p>
 <p><code>fminsearch</code> may also be called with a single structure argument
 with the following fields:

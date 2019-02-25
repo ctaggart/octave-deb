@@ -115,7 +115,7 @@
 ## renderer is used.  This is equivalent to changing the figure's
 ## @qcode{"Renderer"} property.  When the figure @code{RendererMode} property
 ## is @qcode{"auto"} Octave will use the @qcode{"opengl"} renderer for raster
-## formats (e.g., JPEG) and @qcode{"painters"} for vector formats (e.g., PDF).
+## formats (e.g., JPEG) and @qcode{"painters"} for vector formats (e.g., PDF)@.
 ## Those options are only supported for the "qt" graphics tookit.
 ##
 ## @item -svgconvert
@@ -189,9 +189,9 @@
 ## Octave interpreter from recognizing the embedded comma (',').  For example,
 ## by writing @w{"-S640,480"}.
 ##
-## @item  -tight
-## @itemx -loose
-##   Force a tight or loose bounding box for EPS files.  The default is tight.
+## @item  -loose
+## @itemx -tight
+##   Force a tight or loose bounding box for EPS files.  The default is loose.
 ##
 ## @item -@var{preview}
 ##   Add a preview to EPS files.  Supported formats are:

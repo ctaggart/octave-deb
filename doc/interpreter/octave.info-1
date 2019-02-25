@@ -23,12 +23,12 @@ versions.
 
 File: octave.info,  Node: Top,  Next: Preface,  Up: (dir)
 
-GNU Octave (version 5.0.91)
-***************************
+GNU Octave (version 5.1.0)
+**************************
 
 This manual documents how to run, install and port GNU Octave, as well
 as its new features and incompatibilities, and how to report bugs.  It
-corresponds to GNU Octave version 5.0.91.
+corresponds to GNU Octave version 5.1.0.
 
 * Menu:
 
@@ -1186,7 +1186,7 @@ manual, *note Copying::.
 run, use, and extend GNU Octave.  Additional chapters describe how to
 report bugs and help contribute code.
 
-   This document corresponds to Octave version 5.0.91.
+   This document corresponds to Octave version 5.1.0.
 
 * Menu:
 

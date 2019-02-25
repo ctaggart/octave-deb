@@ -6944,8 +6944,8 @@ is very efficient and is of order O(log2(n)) which is preferable to the
           a = {"abc"};
           s = {"abc", "def"};
           [tf, s_idx] = ismember (a, s)
-               ⇒ tf = [1, 0]
-               ⇒ s_idx = [1, 0]
+               ⇒ tf = 1
+               ⇒ s_idx = 1
 
      If the optional third argument "rows" is given then compare rows in
      A with rows in S.  The inputs must be 2-D matrices with the same

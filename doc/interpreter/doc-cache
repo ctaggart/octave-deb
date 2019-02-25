@@ -20593,7 +20593,7 @@ svd
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 1867
+# length: 1891
  -- : S = svd (A)
  -- : [U, S, V] = svd (A)
  -- : [U, S, V] = svd (A, "econ")
@@ -20644,7 +20644,7 @@ svd
 
      If the second argument is exactly 0, then the choice of decomposition is based on the matrix A.  If A has more rows than columns then an economy-sized decomposition is returned, otherwise a regular decomposition is calculated.
 
-     Algorithm Notes: When calculating the full decomposition (left and right singular matrices in addition to singular values) there is a choice of two routines in LAPACK.  The default routine used by Octave is ‘gesdd’ which is 5X faster than the alternative ‘gesvd’, but may use more memory and may be less accurate for some matrices.  See the documentation for ‘svd_driver’ for more information.
+     Algorithm Notes: When calculating the full decomposition (left and right singular matrices in addition to singular values) there is a choice of two routines in LAPACK.  The default routine used by Octave is ‘gesvd’.  The alternative is ‘gesdd’ which is 5X faster, but may use more memory and may be inaccurate for some input matrices.  See the documentation for ‘svd_driver’ for more information on choosing a driver.
 
      See also: svd_driver, svds, eig, lu, chol, hess, qr, qz.
    
@@ -42316,10 +42316,9 @@ fminsearch
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 3277
+# length: 3023
  -- : X = fminsearch (FUN, X0)
  -- : X = fminsearch (FUN, X0, OPTIONS)
- -- : X = fminsearch (FUN, X0, OPTIONS, FUN_ARG1, FUN_ARG2, ...)
  -- : X = fminsearch (PROBLEM)
  -- : [X, FVAL, EXITFLAG, OUTPUT] = fminsearch (...)
 
@@ -42334,8 +42333,6 @@ fminsearch
      "MaxIter" proscribes the maximum number of algorithm iterations before optimization is halted.  The default value is ‘200 * number_of_variables’, i.e., ‘200 * length (X0)’.  The value must be a positive integer.
 
      For a description of the other options, see ‘optimset’.  To initialize an options structure with default values for ‘fminsearch’ use ‘options = optimset ("fminsearch")’.
-
-     Additional inputs for the function FUN can be passed as the fourth and higher arguments.  To pass function arguments while using the default OPTIONS values, use ‘[]’ for OPTIONS.
 
      ‘fminsearch’ may also be called with a single structure argument with the following fields:
 
@@ -51480,7 +51477,7 @@ print
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 13205
+# length: 13206
  -- : print ()
  -- : print (OPTIONS)
  -- : print (FILENAME, OPTIONS)
@@ -51539,7 +51536,7 @@ print
 
      ‘-opengl’
      ‘-painters’
-          Specifies whether the opengl (pixel-based) or painters (vector-based) renderer is used.  This is equivalent to changing the figure’s "Renderer" property.  When the figure ‘RendererMode’ property is "auto" Octave will use the "opengl" renderer for raster formats (e.g., JPEG) and "painters" for vector formats (e.g., PDF). Those options are only supported for the "qt" graphics tookit.
+          Specifies whether the opengl (pixel-based) or painters (vector-based) renderer is used.  This is equivalent to changing the figure’s "Renderer" property.  When the figure ‘RendererMode’ property is "auto" Octave will use the "opengl" renderer for raster formats (e.g., JPEG) and "painters" for vector formats (e.g., PDF).  Those options are only supported for the "qt" graphics tookit.
 
      ‘-svgconvert’
           For OpenGL-based graphic toolkits, this enables a different backend toolchain with enhanced characteristics.  The toolchain adds support for printing arbitrary characters and fonts in PDF outputs; it avoids some anti-aliasing artifacts in the rendering of patch and surface objects (particularly for 2-D scenes); and it supports transparency of line, patch, and surface objects.
@@ -51580,9 +51577,9 @@ print
      ‘-SXSIZE,YSIZE’
           Plot size in pixels for raster formats including PNG, JPEG, PNG, and (unusually (SVG)).  For all vector formats, including PDF, PS, and EPS, the plot size is specified in points.  This option is equivalent to changing the width and height of the output by setting the figure property ‘paperposition(3:4)’.  When using the command form of the print function you must quote the XSIZE,YSIZE option to prevent the Octave interpreter from recognizing the embedded comma (’,’).  For example, by writing "-S640,480".
 
-     ‘-tight’
      ‘-loose’
-          Force a tight or loose bounding box for EPS files.  The default is tight.
+     ‘-tight’
+          Force a tight or loose bounding box for EPS files.  The default is loose.
 
      ‘-PREVIEW’
           Add a preview to EPS files.  Supported formats are:
@@ -53699,7 +53696,7 @@ ismember
 # name: <cell-element>
 # type: sq_string
 # elements: 1
-# length: 1165
+# length: 1155
  -- : TF = ismember (A, S)
  -- : TF = ismember (A, S, "rows")
  -- : [TF, S_IDX] = ismember (...)
@@ -53719,8 +53716,8 @@ ismember
           a = {"abc"};
           s = {"abc", "def"};
           [tf, s_idx] = ismember (a, s)
-               ⇒ tf = [1, 0]
-               ⇒ s_idx = [1, 0]
+               ⇒ tf = 1
+               ⇒ s_idx = 1
 
      If the optional third argument "rows" is given then compare rows in A with rows in S.  The inputs must be 2-D matrices with the same number of columns to use this option.
 

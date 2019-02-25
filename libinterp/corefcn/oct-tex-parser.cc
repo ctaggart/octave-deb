@@ -1,8 +1,9 @@
-/* A Bison parser, made by GNU Bison 3.2.4.  */
+/* A Bison parser, made by GNU Bison 3.3.2.  */
 
 /* Bison implementation for Yacc-like parsers in C
 
-   Copyright (C) 1984, 1989-1990, 2000-2015, 2018 Free Software Foundation, Inc.
+   Copyright (C) 1984, 1989-1990, 2000-2015, 2018-2019 Free Software Foundation,
+   Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -47,7 +48,7 @@
 #define YYBISON 1
 
 /* Bison version.  */
-#define YYBISON_VERSION "3.2.4"
+#define YYBISON_VERSION "3.3.2"
 
 /* Skeleton name.  */
 #define YYSKELETON_NAME "yacc.c"
@@ -72,7 +73,7 @@
 
 
 /* First part of user prologue.  */
-#line 23 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:338  */
+#line 23 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:337  */
 
 
 #define YYDEBUG 1
@@ -102,7 +103,7 @@ extern int octave_tex_lex (YYSTYPE *, void *);
 #endif
 
 
-#line 106 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:338  */
+#line 107 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:337  */
 # ifndef YY_NULLPTR
 #  if defined __cplusplus
 #   if 201103L <= __cplusplus
@@ -143,10 +144,10 @@ extern int octave_tex_lex (YYSTYPE *, void *);
 extern int octave_tex_debug;
 #endif
 /* "%code requires" blocks.  */
-#line 59 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:353  */
+#line 59 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:352  */
 #include <string>
 
-#line 150 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:353  */
+#line 151 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:352  */
 
 /* Token type.  */
 #ifndef OCTAVE_TEX_TOKENTYPE
@@ -196,7 +197,7 @@ extern int octave_tex_debug;
 
 union OCTAVE_TEX_STYPE
 {
-#line 62 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:353  */
+#line 62 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:352  */
 
   // Leaf symbols produced by the scanner.
   char ch;
@@ -210,7 +211,7 @@ union OCTAVE_TEX_STYPE
   octave::text_element *e_base;
   octave::text_element_list *e_list;
 
-#line 214 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:353  */
+#line 215 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:352  */
 };
 
 typedef union OCTAVE_TEX_STYPE OCTAVE_TEX_STYPE;
@@ -468,16 +469,16 @@ union yyalloc
 /* YYNSTATES -- Number of states.  */
 #define YYNSTATES  55
 
-/* YYTRANSLATE[YYX] -- Symbol number corresponding to YYX as returned
-   by yylex, with out-of-bounds checking.  */
 #define YYUNDEFTOK  2
 #define YYMAXUTOK   274
 
+/* YYTRANSLATE(TOKEN-NUM) -- Symbol number corresponding to TOKEN-NUM
+   as returned by yylex, with out-of-bounds checking.  */
 #define YYTRANSLATE(YYX)                                                \
   ((unsigned) (YYX) <= YYMAXUTOK ? yytranslate[YYX] : YYUNDEFTOK)
 
 /* YYTRANSLATE[TOKEN-NUM] -- Symbol number corresponding to TOKEN-NUM
-   as returned by yylex, without out-of-bounds checking.  */
+   as returned by yylex.  */
 static const yytype_uint8 yytranslate[] =
 {
        0,     2,     2,     2,     2,     2,     2,     2,     2,     2,
@@ -667,22 +668,22 @@ static const yytype_uint8 yyr2[] =
 
 #define YYRECOVERING()  (!!yyerrstatus)
 
-#define YYBACKUP(Token, Value)                                  \
-do                                                              \
-  if (yychar == YYEMPTY)                                        \
-    {                                                           \
-      yychar = (Token);                                         \
-      yylval = (Value);                                         \
-      YYPOPSTACK (yylen);                                       \
-      yystate = *yyssp;                                         \
-      goto yybackup;                                            \
-    }                                                           \
-  else                                                          \
-    {                                                           \
-      yyerror (parser, YY_("syntax error: cannot back up")); \
-      YYERROR;                                                  \
-    }                                                           \
-while (0)
+#define YYBACKUP(Token, Value)                                    \
+  do                                                              \
+    if (yychar == YYEMPTY)                                        \
+      {                                                           \
+        yychar = (Token);                                         \
+        yylval = (Value);                                         \
+        YYPOPSTACK (yylen);                                       \
+        yystate = *yyssp;                                         \
+        goto yybackup;                                            \
+      }                                                           \
+    else                                                          \
+      {                                                           \
+        yyerror (parser, YY_("syntax error: cannot back up")); \
+        YYERROR;                                                  \
+      }                                                           \
+  while (0)
 
 /* Error token number */
 #define YYTERROR        1
@@ -798,7 +799,7 @@ yy_reduce_print (yytype_int16 *yyssp, YYSTYPE *yyvsp, int yyrule, octave::text_p
       YYFPRINTF (stderr, "   $%d = ", yyi + 1);
       yy_symbol_print (stderr,
                        yystos[yyssp[yyi + 1 - yynrhs]],
-                       &(yyvsp[(yyi + 1) - (yynrhs)])
+                       &yyvsp[(yyi + 1) - (yynrhs)]
                                               , parser);
       YYFPRINTF (stderr, "\n");
     }
@@ -902,7 +903,10 @@ yytnamerr (char *yyres, const char *yystr)
           case '\\':
             if (*++yyp != '\\')
               goto do_not_strip_quotes;
-            /* Fall through.  */
+            else
+              goto append;
+
+          append:
           default:
             if (yyres)
               yyres[yyn] = *yyp;
@@ -998,10 +1002,10 @@ yysyntax_error (YYSIZE_T *yymsg_alloc, char **yymsg,
                 yyarg[yycount++] = yytname[yyx];
                 {
                   YYSIZE_T yysize1 = yysize + yytnamerr (YY_NULLPTR, yytname[yyx]);
-                  if (! (yysize <= yysize1
-                         && yysize1 <= YYSTACK_ALLOC_MAXIMUM))
+                  if (yysize <= yysize1 && yysize1 <= YYSTACK_ALLOC_MAXIMUM)
+                    yysize = yysize1;
+                  else
                     return 2;
-                  yysize = yysize1;
                 }
               }
         }
@@ -1025,9 +1029,10 @@ yysyntax_error (YYSIZE_T *yymsg_alloc, char **yymsg,
 
   {
     YYSIZE_T yysize1 = yysize + yystrlen (yyformat);
-    if (! (yysize <= yysize1 && yysize1 <= YYSTACK_ALLOC_MAXIMUM))
+    if (yysize <= yysize1 && yysize1 <= YYSTACK_ALLOC_MAXIMUM)
+      yysize = yysize1;
+    else
       return 2;
-    yysize = yysize1;
   }
 
   if (*yymsg_alloc < yysize)
@@ -1077,96 +1082,95 @@ yydestruct (const char *yymsg, int yytype, YYSTYPE *yyvaluep, octave::text_parse
   YY_IGNORE_MAYBE_UNINITIALIZED_BEGIN
   switch (yytype)
     {
-          case 15: /* CH  */
-#line 92 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1254  */
+    case 15: /* CH  */
+#line 92 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1257  */
       { }
-#line 1084 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1254  */
+#line 1089 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1257  */
         break;
 
     case 16: /* NUM  */
-#line 92 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1254  */
+#line 92 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1257  */
       { }
-#line 1090 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1254  */
+#line 1095 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1257  */
         break;
 
     case 17: /* SYM  */
-#line 92 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1254  */
+#line 92 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1257  */
       { }
-#line 1096 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1254  */
+#line 1101 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1257  */
         break;
 
     case 21: /* simple_string  */
-#line 93 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1254  */
+#line 93 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1257  */
       { delete ((*yyvaluep).str); }
-#line 1102 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1254  */
+#line 1107 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1257  */
         break;
 
     case 22: /* symbol_element  */
-#line 93 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1254  */
+#line 93 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1257  */
       { delete ((*yyvaluep).e_base); }
-#line 1108 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1254  */
+#line 1113 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1257  */
         break;
 
     case 23: /* font_modifier_element  */
-#line 93 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1254  */
+#line 93 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1257  */
       { delete ((*yyvaluep).e_base); }
-#line 1114 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1254  */
+#line 1119 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1257  */
         break;
 
     case 24: /* fontsize_element  */
-#line 93 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1254  */
+#line 93 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1257  */
       { delete ((*yyvaluep).e_base); }
-#line 1120 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1254  */
+#line 1125 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1257  */
         break;
 
     case 25: /* fontname_element  */
-#line 93 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1254  */
+#line 93 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1257  */
       { delete ((*yyvaluep).e_base); }
-#line 1126 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1254  */
+#line 1131 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1257  */
         break;
 
     case 26: /* color_element  */
-#line 93 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1254  */
+#line 93 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1257  */
       { delete ((*yyvaluep).e_base); }
-#line 1132 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1254  */
+#line 1137 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1257  */
         break;
 
     case 27: /* string_element  */
-#line 93 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1254  */
+#line 93 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1257  */
       { delete ((*yyvaluep).e_base); }
-#line 1138 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1254  */
+#line 1143 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1257  */
         break;
 
     case 28: /* superscript_element  */
-#line 93 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1254  */
+#line 93 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1257  */
       { delete ((*yyvaluep).e_base); }
-#line 1144 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1254  */
+#line 1149 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1257  */
         break;
 
     case 29: /* subscript_element  */
-#line 93 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1254  */
+#line 93 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1257  */
       { delete ((*yyvaluep).e_base); }
-#line 1150 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1254  */
+#line 1155 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1257  */
         break;
 
     case 30: /* combined_script_element  */
-#line 93 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1254  */
+#line 93 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1257  */
       { delete ((*yyvaluep).e_base); }
-#line 1156 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1254  */
+#line 1161 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1257  */
         break;
 
     case 31: /* string_element_list  */
-#line 93 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1254  */
+#line 93 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1257  */
       { delete ((*yyvaluep).e_list); }
-#line 1162 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1254  */
+#line 1167 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1257  */
         break;
 
     case 32: /* scoped_string_element_list  */
-#line 93 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1254  */
+#line 93 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1257  */
       { delete ((*yyvaluep).e_list); }
-#line 1168 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1254  */
+#line 1173 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1257  */
         break;
-
 
       default:
         break;
@@ -1253,23 +1257,31 @@ YYSTYPE yylval YY_INITIAL_VALUE (= yyval_default);
   yychar = YYEMPTY; /* Cause a token to be read.  */
   goto yysetstate;
 
+
 /*------------------------------------------------------------.
-| yynewstate -- Push a new state, which is found in yystate.  |
+| yynewstate -- push a new state, which is found in yystate.  |
 `------------------------------------------------------------*/
- yynewstate:
+yynewstate:
   /* In all cases, when you get here, the value and location stacks
      have just been pushed.  So pushing a state here evens the stacks.  */
   yyssp++;
 
- yysetstate:
+
+/*--------------------------------------------------------------------.
+| yynewstate -- set current state (the top of the stack) to yystate.  |
+`--------------------------------------------------------------------*/
+yysetstate:
   *yyssp = (yytype_int16) yystate;
 
   if (yyss + yystacksize - 1 <= yyssp)
+#if !defined yyoverflow && !defined YYSTACK_RELOCATE
+    goto yyexhaustedlab;
+#else
     {
       /* Get the current used size of the three stacks, in elements.  */
       YYSIZE_T yysize = (YYSIZE_T) (yyssp - yyss + 1);
 
-#ifdef yyoverflow
+# if defined yyoverflow
       {
         /* Give user a chance to reallocate the stack.  Use copies of
            these so that the &'s don't force the real ones into
@@ -1288,10 +1300,7 @@ YYSTYPE yylval YY_INITIAL_VALUE (= yyval_default);
         yyss = yyss1;
         yyvs = yyvs1;
       }
-#else /* no yyoverflow */
-# ifndef YYSTACK_RELOCATE
-      goto yyexhaustedlab;
-# else
+# else /* defined YYSTACK_RELOCATE */
       /* Extend the stack our own way.  */
       if (YYMAXDEPTH <= yystacksize)
         goto yyexhaustedlab;
@@ -1307,12 +1316,11 @@ YYSTYPE yylval YY_INITIAL_VALUE (= yyval_default);
           goto yyexhaustedlab;
         YYSTACK_RELOCATE (yyss_alloc, yyss);
         YYSTACK_RELOCATE (yyvs_alloc, yyvs);
-#  undef YYSTACK_RELOCATE
+# undef YYSTACK_RELOCATE
         if (yyss1 != yyssa)
           YYSTACK_FREE (yyss1);
       }
 # endif
-#endif /* no yyoverflow */
 
       yyssp = yyss + yysize - 1;
       yyvsp = yyvs + yysize - 1;
@@ -1323,6 +1331,7 @@ YYSTYPE yylval YY_INITIAL_VALUE (= yyval_default);
       if (yyss + yystacksize - 1 <= yyssp)
         YYABORT;
     }
+#endif /* !defined yyoverflow && !defined YYSTACK_RELOCATE */
 
   YYDPRINTF ((stderr, "Entering state %d\n", yystate));
 
@@ -1331,11 +1340,11 @@ YYSTYPE yylval YY_INITIAL_VALUE (= yyval_default);
 
   goto yybackup;
 
+
 /*-----------.
 | yybackup.  |
 `-----------*/
 yybackup:
-
   /* Do appropriate processing given the current state.  Read a
      lookahead token if we need one and don't already have one.  */
 
@@ -1408,7 +1417,7 @@ yydefault:
 
 
 /*-----------------------------.
-| yyreduce -- Do a reduction.  |
+| yyreduce -- do a reduction.  |
 `-----------------------------*/
 yyreduce:
   /* yyn is the number of a rule to reduce with.  */
@@ -1429,180 +1438,180 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 106 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1645  */
+#line 106 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1652  */
     { (yyval.str) = new std::string (1, (yyvsp[0].ch)); }
-#line 1435 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1645  */
+#line 1444 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1652  */
     break;
 
   case 3:
-#line 108 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1645  */
+#line 108 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1652  */
     { (yyvsp[-1].str)->append (1, (yyvsp[0].ch)); (yyval.str) = (yyvsp[-1].str); }
-#line 1441 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1645  */
+#line 1450 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1652  */
     break;
 
   case 4:
-#line 112 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1645  */
+#line 112 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1652  */
     { (yyval.e_base) = new octave::text_element_symbol ((yyvsp[0].sym)); }
-#line 1447 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1645  */
+#line 1456 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1652  */
     break;
 
   case 5:
-#line 116 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1645  */
+#line 116 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1652  */
     { (yyval.e_base) = new octave::text_element_fontstyle (octave::text_element_fontstyle::bold); }
-#line 1453 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1645  */
+#line 1462 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1652  */
     break;
 
   case 6:
-#line 118 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1645  */
+#line 118 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1652  */
     { (yyval.e_base) = new octave::text_element_fontstyle (octave::text_element_fontstyle::italic); }
-#line 1459 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1645  */
+#line 1468 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1652  */
     break;
 
   case 7:
-#line 120 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1645  */
+#line 120 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1652  */
     { (yyval.e_base) = new octave::text_element_fontstyle (octave::text_element_fontstyle::oblique); }
-#line 1465 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1645  */
+#line 1474 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1652  */
     break;
 
   case 8:
-#line 122 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1645  */
+#line 122 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1652  */
     { (yyval.e_base) = new octave::text_element_fontstyle (octave::text_element_fontstyle::normal); }
-#line 1471 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1645  */
+#line 1480 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1652  */
     break;
 
   case 9:
-#line 126 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1645  */
+#line 126 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1652  */
     { (yyval.e_base) = new octave::text_element_fontsize ((yyvsp[-1].num)); }
-#line 1477 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1645  */
+#line 1486 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1652  */
     break;
 
   case 10:
-#line 130 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1645  */
+#line 130 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1652  */
     {
                             (yyval.e_base) = new octave::text_element_fontname (*(yyvsp[-1].str));
                             delete (yyvsp[-1].str);
                           }
-#line 1486 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1645  */
+#line 1495 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1652  */
     break;
 
   case 11:
-#line 137 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1645  */
+#line 137 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1652  */
     {
                             (yyval.e_base) = new octave::text_element_color (*(yyvsp[-1].str));
                             delete (yyvsp[-1].str);
                           }
-#line 1495 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1645  */
+#line 1504 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1652  */
     break;
 
   case 12:
-#line 142 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1645  */
+#line 142 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1652  */
     {
                             (yyval.e_base) = new octave::text_element_color ((yyvsp[-3].num), (yyvsp[-2].num), (yyvsp[-1].num));
                           }
-#line 1503 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1645  */
+#line 1512 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1652  */
     break;
 
   case 13:
-#line 148 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1645  */
+#line 148 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1652  */
     {
                             (yyval.e_base) = new octave::text_element_string (*(yyvsp[0].str));
                             delete (yyvsp[0].str);
                           }
-#line 1512 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1645  */
+#line 1521 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1652  */
     break;
 
   case 14:
-#line 153 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1645  */
+#line 153 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1652  */
     { (yyval.e_base) = (yyvsp[0].e_list); }
-#line 1518 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1645  */
+#line 1527 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1652  */
     break;
 
   case 23:
-#line 165 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1645  */
+#line 165 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1652  */
     { (yyval.e_base) = new octave::text_element_superscript ((yyvsp[0].ch)); }
-#line 1524 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1645  */
+#line 1533 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1652  */
     break;
 
   case 24:
-#line 167 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1645  */
+#line 167 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1652  */
     { (yyval.e_base) = new octave::text_element_superscript ((yyvsp[0].e_list)); }
-#line 1530 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1645  */
+#line 1539 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1652  */
     break;
 
   case 25:
-#line 169 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1645  */
+#line 169 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1652  */
     { (yyval.e_base) = new octave::text_element_superscript ((yyvsp[0].e_base)); }
-#line 1536 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1645  */
+#line 1545 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1652  */
     break;
 
   case 26:
-#line 173 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1645  */
+#line 173 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1652  */
     { (yyval.e_base) = new octave::text_element_subscript ((yyvsp[0].ch)); }
-#line 1542 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1645  */
+#line 1551 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1652  */
     break;
 
   case 27:
-#line 175 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1645  */
+#line 175 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1652  */
     { (yyval.e_base) = new octave::text_element_subscript ((yyvsp[0].e_list)); }
-#line 1548 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1645  */
+#line 1557 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1652  */
     break;
 
   case 28:
-#line 177 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1645  */
+#line 177 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1652  */
     { (yyval.e_base) = new octave::text_element_subscript ((yyvsp[0].e_base)); }
-#line 1554 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1645  */
+#line 1563 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1652  */
     break;
 
   case 29:
-#line 181 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1645  */
+#line 181 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1652  */
     { (yyval.e_base) = new octave::text_element_combined ((yyvsp[-1].e_base), (yyvsp[0].e_base)); }
-#line 1560 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1645  */
+#line 1569 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1652  */
     break;
 
   case 30:
-#line 183 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1645  */
+#line 183 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1652  */
     { (yyval.e_base) = new octave::text_element_combined ((yyvsp[-1].e_base), (yyvsp[0].e_base)); }
-#line 1566 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1645  */
+#line 1575 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1652  */
     break;
 
   case 31:
-#line 187 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1645  */
+#line 187 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1652  */
     { (yyval.e_list) = new octave::text_element_list ((yyvsp[0].e_base)); }
-#line 1572 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1645  */
+#line 1581 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1652  */
     break;
 
   case 32:
-#line 189 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1645  */
+#line 189 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1652  */
     { (yyvsp[-1].e_list)->push_back ((yyvsp[0].e_base)); (yyval.e_list) = (yyvsp[-1].e_list); }
-#line 1578 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1645  */
+#line 1587 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1652  */
     break;
 
   case 33:
-#line 194 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1645  */
+#line 194 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1652  */
     { (yyval.e_list) = (yyvsp[-1].e_list); }
-#line 1584 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1645  */
+#line 1593 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1652  */
     break;
 
   case 34:
-#line 196 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1645  */
+#line 196 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1652  */
     { (yyval.e_list) = new octave::text_element_list (); }
-#line 1590 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1645  */
+#line 1599 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1652  */
     break;
 
   case 35:
-#line 200 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1645  */
+#line 200 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1652  */
     { parser.set_parse_result (new octave::text_element_string ("")); }
-#line 1596 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1645  */
+#line 1605 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1652  */
     break;
 
   case 36:
-#line 202 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1645  */
+#line 202 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1652  */
     { parser.set_parse_result ((yyvsp[0].e_list)); }
-#line 1602 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1645  */
+#line 1611 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1652  */
     break;
 
 
-#line 1606 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1645  */
+#line 1615 "libinterp/corefcn/oct-tex-parser.cc" /* yacc.c:1652  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1716,12 +1725,10 @@ yyerrlab:
 | yyerrorlab -- error raised explicitly by YYERROR.  |
 `---------------------------------------------------*/
 yyerrorlab:
-
-  /* Pacify compilers like GCC when the user code never invokes
-     YYERROR and the label yyerrorlab therefore never appears in user
-     code.  */
-  if (/*CONSTCOND*/ 0)
-     goto yyerrorlab;
+  /* Pacify compilers when the user code never invokes YYERROR and the
+     label yyerrorlab therefore never appears in user code.  */
+  if (0)
+    YYERROR;
 
   /* Do not reclaim the symbols of the rule whose action triggered
      this YYERROR.  */
@@ -1783,12 +1790,14 @@ yyacceptlab:
   yyresult = 0;
   goto yyreturn;
 
+
 /*-----------------------------------.
 | yyabortlab -- YYABORT comes here.  |
 `-----------------------------------*/
 yyabortlab:
   yyresult = 1;
   goto yyreturn;
+
 
 #if !defined yyoverflow || YYERROR_VERBOSE
 /*-------------------------------------------------.
@@ -1800,6 +1809,10 @@ yyexhaustedlab:
   /* Fall through.  */
 #endif
 
+
+/*-----------------------------------------------------.
+| yyreturn -- parsing is finished, return the result.  |
+`-----------------------------------------------------*/
 yyreturn:
   if (yychar != YYEMPTY)
     {
@@ -1829,7 +1842,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 205 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1903  */
+#line 205 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1918  */
 
 
 #if defined (HAVE_PRAGMA_GCC_DIAGNOSTIC)
