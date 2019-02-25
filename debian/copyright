@@ -667,7 +667,7 @@ License: GPL-3+
 
 Files: libinterp/corefcn/oct-tex-parser.cc
   libinterp/corefcn/oct-tex-parser.h
-Copyright: 1984-2018, Free Software Foundation, Inc.
+Copyright: 1984, 1989, 1990, 2000-2015, 2018, 2019, Free Software Foundation
 License: GPL-3+
 
 Files: libinterp/corefcn/octave-default-image.h
@@ -1034,7 +1034,7 @@ License: GPL-3+
 
 Files: libinterp/parse-tree/oct-parse.cc
   libinterp/parse-tree/oct-parse.h
-Copyright: 1984-2018, Free Software Foundation, Inc.
+Copyright: 1984, 1989, 1990, 2000-2015, 2018, 2019, Free Software Foundation
 License: GPL-3+
 
 Files: libinterp/parse-tree/oct-parse.yy
@@ -3601,6 +3601,10 @@ License: GPL-3+
 
 Files: test/bug-52075/bug-52075.tst
 Copyright: 2015-2019, Piotr Held
+License: GPL-3+
+
+Files: test/bug-53468/bug-53468.tst
+Copyright: 2014-2019, Pantxo Diribarne
 License: GPL-3+
 
 Files: test/bug-54995/bug-54995.tst
