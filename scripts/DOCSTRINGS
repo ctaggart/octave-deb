@@ -12448,7 +12448,6 @@ minimization algorithm such as @code{fminunc} or @code{fminsearch}.
 -*- texinfo -*-
 @deftypefn  {} {@var{x} =} fminsearch (@var{fun}, @var{x0})
 @deftypefnx {} {@var{x} =} fminsearch (@var{fun}, @var{x0}, @var{options})
-@deftypefnx {} {@var{x} =} fminsearch (@var{fun}, @var{x0}, @var{options}, @var{fun_arg1}, @var{fun_arg2}, @dots{})
 @deftypefnx {} {@var{x} =} fminsearch (@var{problem})
 @deftypefnx {} {[@var{x}, @var{fval}, @var{exitflag}, @var{output}] =} fminsearch (@dots{})
 
@@ -12478,10 +12477,6 @@ The value must be a positive integer.
 For a description of the other options, see @code{optimset}.  To initialize
 an options structure with default values for @code{fminsearch} use
 @code{options = optimset ("fminsearch")}.
-
-Additional inputs for the function @var{fun} can be passed as the fourth
-and higher arguments.  To pass function arguments while using the default
-@var{options} values, use @code{[]} for @var{options}.
 
 @code{fminsearch} may also be called with a single structure argument
 with the following fields:
@@ -21250,7 +21245,7 @@ surf (peaks);
 renderer is used.  This is equivalent to changing the figure's
 @qcode{"Renderer"} property.  When the figure @code{RendererMode} property
 is @qcode{"auto"} Octave will use the @qcode{"opengl"} renderer for raster
-formats (e.g., JPEG) and @qcode{"painters"} for vector formats (e.g., PDF).
+formats (e.g., JPEG) and @qcode{"painters"} for vector formats (e.g., PDF)@.
 Those options are only supported for the "qt" graphics tookit.
 
 @item -svgconvert
@@ -21324,9 +21319,9 @@ function you must quote the @var{xsize},@var{ysize} option to prevent the
 Octave interpreter from recognizing the embedded comma (',').  For example,
 by writing @w{"-S640,480"}.
 
-@item  -tight
-@itemx -loose
-  Force a tight or loose bounding box for EPS files.  The default is tight.
+@item  -loose
+@itemx -tight
+  Force a tight or loose bounding box for EPS files.  The default is loose.
 
 @item -@var{preview}
   Add a preview to EPS files.  Supported formats are:
@@ -23085,8 +23080,8 @@ The inputs @var{a} and @var{s} may also be cell arrays.
 a = @{"abc"@};
 s = @{"abc", "def"@};
 [tf, s_idx] = ismember (a, s)
-     @result{} tf = [1, 0]
-     @result{} s_idx = [1, 0]
+     @result{} tf = 1
+     @result{} s_idx = 1
 @end group
 @end example
 

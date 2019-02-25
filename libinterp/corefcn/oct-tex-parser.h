@@ -1,8 +1,9 @@
-/* A Bison parser, made by GNU Bison 3.2.4.  */
+/* A Bison parser, made by GNU Bison 3.3.2.  */
 
 /* Bison interface for Yacc-like parsers in C
 
-   Copyright (C) 1984, 1989-1990, 2000-2015, 2018 Free Software Foundation, Inc.
+   Copyright (C) 1984, 1989-1990, 2000-2015, 2018-2019 Free Software Foundation,
+   Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -51,10 +52,10 @@
 extern int octave_tex_debug;
 #endif
 /* "%code requires" blocks.  */
-#line 59 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1906  */
+#line 59 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1921  */
 #include <string>
 
-#line 58 "libinterp/corefcn/oct-tex-parser.h" /* yacc.c:1906  */
+#line 59 "libinterp/corefcn/oct-tex-parser.h" /* yacc.c:1921  */
 
 /* Token type.  */
 #ifndef OCTAVE_TEX_TOKENTYPE
@@ -104,7 +105,7 @@ extern int octave_tex_debug;
 
 union OCTAVE_TEX_STYPE
 {
-#line 62 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1906  */
+#line 62 "/home/jwe/src/octave-stable/libinterp/corefcn/oct-tex-parser.yy" /* yacc.c:1921  */
 
   // Leaf symbols produced by the scanner.
   char ch;
@@ -118,7 +119,7 @@ union OCTAVE_TEX_STYPE
   octave::text_element *e_base;
   octave::text_element_list *e_list;
 
-#line 122 "libinterp/corefcn/oct-tex-parser.h" /* yacc.c:1906  */
+#line 123 "libinterp/corefcn/oct-tex-parser.h" /* yacc.c:1921  */
 };
 
 typedef union OCTAVE_TEX_STYPE OCTAVE_TEX_STYPE;

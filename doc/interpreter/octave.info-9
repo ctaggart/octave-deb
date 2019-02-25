@@ -4303,7 +4303,6 @@ Function Index
 * fminsearch <1>:                        Minimizers.         (line  160)
 * fminsearch <2>:                        Minimizers.         (line  161)
 * fminsearch <3>:                        Minimizers.         (line  162)
-* fminsearch <4>:                        Minimizers.         (line  163)
 * fminunc:                               Minimizers.         (line   72)
 * fminunc <1>:                           Minimizers.         (line   73)
 * fminunc <2>:                           Minimizers.         (line   74)
@@ -4864,13 +4863,13 @@ Function Index
 * hot <1>:                               Representing Images.
                                                              (line  439)
 * housh:                                 Matrix Factorizations.
-                                                             (line  807)
+                                                             (line  808)
 * hsv:                                   Representing Images.
                                                              (line  448)
 * hsv2rgb:                               Color Conversion.   (line   28)
 * hsv2rgb <1>:                           Color Conversion.   (line   29)
-* humps:                                 Minimizers.         (line  251)
-* humps <1>:                             Minimizers.         (line  252)
+* humps:                                 Minimizers.         (line  246)
+* humps <1>:                             Minimizers.         (line  247)
 * hurst:                                 Signal Processing.  (line  602)
 * hypot:                                 Utility Functions.  (line  209)
 * hypot <1>:                             Utility Functions.  (line  210)
@@ -5487,7 +5486,7 @@ Function Index
 * kron <1>:                              Functions of a Matrix.
                                                              (line   58)
 * krylov:                                Matrix Factorizations.
-                                                             (line  833)
+                                                             (line  834)
 * kurtosis:                              Descriptive Statistics.
                                                              (line  326)
 * kurtosis <1>:                          Descriptive Statistics.
@@ -8262,11 +8261,11 @@ Function Index
 * svds <5>:                              Sparse Linear Algebra.
                                                              (line  584)
 * svd_driver:                            Matrix Factorizations.
-                                                             (line  774)
-* svd_driver <1>:                        Matrix Factorizations.
                                                              (line  775)
-* svd_driver <2>:                        Matrix Factorizations.
+* svd_driver <1>:                        Matrix Factorizations.
                                                              (line  776)
+* svd_driver <2>:                        Matrix Factorizations.
+                                                             (line  777)
 * swapbytes:                             Built-in Data Types.
                                                              (line  141)
 * sylvester:                             Functions of a Matrix.

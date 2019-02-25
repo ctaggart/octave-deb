@@ -1,3 +1,275 @@
+2019-02-23  John W. Eaton  <jwe@octave.org>
+
+	Version 5.1.0 released
+
+	* configure.ac (AC_INIT): Update version info for release.
+	(OCTAVE_MINOR_VERSION): Set to 1.
+	(OCTAVE_PATCH_VERSION): Set to 0.
+	(OCTAVE_RELEASE_DATE): Set to 2019-02-23.
+
+	* org.octave.Octave.appdata.xml: Add 5.1.0 to the list of version
+	numbers and release dates.
+
+	Files: configure.ac etc/icons/org.octave.Octave.appdata.xml
+
+2019-02-22  Markus M?tzel  <markus.muetzel@gmx.de>
+
+	__scatter__.m: Add comment to explain order of properties (bug #55751).
+
+	Files: scripts/plot/draw/private/__scatter__.m
+
+2019-02-22  Pantxo Diribarne  <pantxo.diribarne@gmail.com>
+
+	Simply show the doc browser when the search query is empty (bug #55756).
+
+	* documentation.cc (documentation::load_ref): Return early if the search string
+	is empty.
+
+	Files: libgui/src/documentation.cc
+
+2019-02-21  Markus M?tzel  <markus.muetzel@gmx.de>
+
+	Fix slowdown of scatter3 (bug #55751).
+
+	* graphics.cc: Don't check co-planarity if facecolor and edgecolor are none.
+	  Use faster driver for svd.
+	* __scatter__.m: Set facecolor and edgecolor of patches before any other
+	  properties.
+
+	Files: libinterp/corefcn/graphics.cc
+	scripts/plot/draw/private/__scatter__.m
+
+2019-02-21  Kai T. Ohlhus  <k.ohlhus@gmail.com>
+
+	Overhaul classdef tests (bug #54783, bug #54966, bug #55223).
+
+	* test/classdef/classdef.tst: Make the test run under Matlab R2018b again.
+	New tests for bug #54783 and bug #55223.  New xtest for bug #54966.
+	Fix spelling "correctly".
+
+	* test/classdef/struct_wrapper.m: Convert unused function to constructor.
+	Otherwise this function does not make sense, maybe forgotten to rename properly.
+	* test/classdef/foo_subsref_subsasgn.m: New classdef test file .
+	* test/classdef/module.mk: Add new classdef test file to build system.
+
+	* test/bug-55223/*: Include tests to test/classdef.
+	* test/module.mk: Remove test/bug-55223 from build system.
+
+	Files: test/bug-55223/bug-55223.tst test/bug-55223/class_bug55223.m
+	test/bug-55223/module.mk test/classdef/classdef.tst
+	test/classdef/foo_subsref_subsasgn.m test/classdef/module.mk
+	test/classdef/struct_wrapper.m test/module.mk
+
+2019-02-21  S?bastien Villemot  <sebastien@debian.org>
+
+	fix overloaded classdef subsasgn with curly braces (bug #55223, bug #54783)
+
+	* ov-classdef.h, ov-classdef.cc (octave_classdef::subsref (..., bool auto_add)):
+	Call user method overload if present.
+
+	* test/bug-55223/bug-55223.tst, test/bug-55223/class_bug55223.m,
+	test/bug-55223/module.mk: New files.
+	* test/module.mk: Update.
+
+	Files: libinterp/octave-value/ov-classdef.cc test/bug-55223/bug-55223.tst
+	test/bug-55223/class_bug55223.m test/bug-55223/module.mk
+	test/module.mk
+
+2019-02-21  John W. Eaton  <jwe@octave.org>
+
+	avoid crash in doc browser when help engine init fails (bug #55736)
+
+	* documentation.cc (documentation::documentation): If help engine init
+	fails, skip any further construction of widgets that require it.
+	(documentation::global_search, documentation::global_search_finished,
+	documentation::unregisterDoc): Return immediately if m_help_engine is
+	nullptr.
+	(documentation_browser::loadResource): Avoid dereferencing
+	m_help_engine if it is nullptr.
+
+	Files: libgui/src/documentation.cc
+
+2019-02-20  Rik  <rik@octave.org>
+
+	fminsearch.m: Remove documentation showing unimplemented passing of extra fcn arguments.
+
+	* fminsearch.m: Remove documentation showing unimplemented passing of extra fcn
+	arguments.
+
+	Files: scripts/optimization/fminsearch.m
+
+2019-02-20  Pantxo Diribarne  <pantxo.diribarne@gmail.com>
+
+	annotation.m: use "*" rather than "Helvetica" as default font name (bug #53091)
+
+	Files: scripts/plot/appearance/annotation.m
+
+2019-02-19  John W. Eaton  <jwe@octave.org>
+
+	avoid crash if help engine setup fails (bug #55736)
+
+	* documentation.cc (documentation::documentation): Don't return early
+	if help engine setup fails.  Do disconnect existing help engine
+	signals, delete help engine object, and set m_help_engine to nullptr.
+
+	Files: libgui/src/documentation.cc
+
+2019-02-18  John W. Eaton  <jwe@octave.org>
+
+	avoid crash when calling script recursively (bug #55728)
+
+	* symrec.h (symbol_record::symbol_record_rep::bind_fwd_rep):
+	Don't forward to self.
+
+	Files: libinterp/corefcn/symrec.h
+
+2019-02-16  Rik  <rik@octave.org>
+
+	Use "-loose" option for printing by default until bug resolved (bug #48689).
+
+	* NEWS: Remove paragraph about "-tight" being default.
+
+	* print.m: Change default in documentation to "-tight".
+
+	* __print_parse_opts__.m: Change arg_st.tight default to false.
+
+	Files: NEWS scripts/plot/util/print.m
+	scripts/plot/util/private/__print_parse_opts__.m
+
+2019-02-16  Markus M?tzel  <markus.muetzel@gmx.de>
+
+	__makeinfo__.m: Fix error if path to temporary directory contains spaces (bug #55725).
+
+	Files: scripts/help/__makeinfo__.m
+
+2019-02-15  Torsten  <mttl@mailbox.org>
+
+	fix the shortcut context for savin a variable in variable editor (bug #54464)
+
+	* variable-editor.cc (construct_tool_bar): add the action to the widget
+	  itself and set the appropriate shortcut context
+
+	Files: libgui/src/variable-editor.cc
+
+2019-02-15  Rik  <rik@octave.org>
+
+	doc: Update docstring for svd to state that gesvd is default driver.
+
+	* svd.cc (Fsvd): Update docstring to state that gesvd is default driver.
+
+	Files: libinterp/corefcn/svd.cc
+
+2019-02-12  Markus M?tzel  <markus.muetzel@gmx.de>
+
+	Fix printing with gnuplot on Windows (bug #55648).
+
+	* __gnuplot_get_var__.m: Add signature to end of result to avoid
+	  incomplete read. Don't use "pause" between fputs and fread. Use
+	  time-out for fread loop.
+
+	Files: scripts/plot/util/private/__gnuplot_get_var__.m
+
+2019-02-14  Pantxo Diribarne  <pantxo.diribarne@gmail.com>
+
+	colorbar.m: fix regression when peer axes is reset (bug #55713)
+
+	* colobar.m (cb_clim): Don't run listener if the colorbar has already been
+	  deleted.
+
+	Files: scripts/plot/draw/colorbar.m
+
+2019-02-12  John Donoghue  <John Donoghue>
+
+	Mark qt documentation as readonly (bug #53841).
+
+	* libgui/src/documentation.cc: Set qt readonly flag on qt documentation.
+
+	Files: libgui/src/documentation.cc
+
+2019-02-12  Pantxo Diribarne  <pantxo.diribarne@gmail.com>
+
+	Properly close figures after tests on hgload (bug #53468)
+
+	Files: test/bug-53468/bug-53468.tst
+
+2019-02-09  Pantxo Diribarne  <pantxo.diribarne@gmail.com>
+
+	Properly integrate hgload tests in the build system (bug #53468)
+
+	* test/bug-53468: New directory with its module.mk.
+	* test/figure_files: Move contents to bug-53468 and remove directory
+	* test/hgload.tst: Rename bug-53468.tst and move to bug-53468.
+
+	Files: test/bug-53468/bug-53468.tst test/bug-53468/module.mk
+	test/bug-53468/ofig403.ofig test/bug-53468/ofig421.ofig
+	test/bug-53468/ofig51.ofig test/figure_files/ofig403.ofig
+	test/figure_files/ofig421.ofig test/figure_files/ofig51.ofig
+	test/hgload.tst test/module.mk
+
+2019-02-08  Mike Miller  <mtmiller@octave.org>
+
+	maint: remove unused icon from repository
+
+	* libgui/src/icons/warning.png: Remove unused icon that should have been
+	deleted in cset ded81845c597.
+
+	Files: libgui/src/icons/warning.png
+
+2019-02-08  Rik  <rik@octave.org>
+
+	Fix display of column vector struct arrays in Variable Editor (bug #55666).
+
+	* variable-editor-model.cc (vector_struct_model::vector_struct_model):
+	In constructor, set the number of rows to display equal to the number
+	of data columns.
+
+	Files: libgui/src/variable-editor-model.cc
+
+2019-02-06  Rik  <rik@octave.org>
+
+	qmr.m: Fix mistaken call to "print usage" without underscore (bug #55599).
+
+	* qmr.m: Add missing '_' so that print_usage () is called in input validation.
+
+	Files: scripts/sparse/qmr.m
+
+	print.m: Use sentence-ending period @. in Texinfo doc.
+
+	* print.m: Use sentence-ending period @. in Texinfo doc.
+
+	Files: scripts/plot/util/print.m
+
+	ismember.m: Fix incorrect example in documentation (bug #55659).
+
+	* ismember.m: Correct return results of second example using cell strings.
+
+	Files: scripts/set/ismember.m
+
+	bug-45969.tst: save/restore save_default_options when doing test.
+
+	* bug-45969.tst: Use save_default_options (..., "local") to temporarily
+	change the behavior of save for the duration of the BIST tests.
+
+	Files: test/bug-45969.tst
+
+2019-02-05  Mike Miller  <mtmiller@octave.org>
+
+	gammainc.m: relax tolerances of BIST tests
+
+	* gammainc.m: Relax tolerances of BIST tests failing on some systems.  Add
+	missing whitespace to conform to Octave coding style.
+
+	Files: scripts/specfun/gammainc.m
+
+2019-02-04  Rik  <rik@octave.org>
+
+	variables.cc: Don't leak variables into global namespace from BIST tests.
+
+	* variables.cc: Use unwind_protect block to guarantee that global variable "x",
+	created in BIST tests, is removed.
+
+	Files: libinterp/corefcn/variables.cc
+
 2019-02-04  John W. Eaton  <jwe@octave.org>
 
 	Added tag rc-5-0-91 for changeset af47f245a2ad

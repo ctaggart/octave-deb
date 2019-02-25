@@ -277,7 +277,7 @@ the ‘-dpdflatexstandalone’ option is:
           changing the figure’s "Renderer" property.  When the figure
           ‘RendererMode’ property is "auto" Octave will use the "opengl"
           renderer for raster formats (e.g., JPEG) and "painters" for
-          vector formats (e.g., PDF). Those options are only supported
+          vector formats (e.g., PDF).  Those options are only supported
           for the "qt" graphics tookit.
 
      ‘-svgconvert’
@@ -352,10 +352,10 @@ the ‘-dpdflatexstandalone’ option is:
           from recognizing the embedded comma (’,’).  For example, by
           writing "-S640,480".
 
-     ‘-tight’
      ‘-loose’
+     ‘-tight’
           Force a tight or loose bounding box for EPS files.  The
-          default is tight.
+          default is loose.
 
      ‘-PREVIEW’
           Add a preview to EPS files.  Supported formats are:
