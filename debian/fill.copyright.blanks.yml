@@ -11,6 +11,9 @@ BUGS:
   skip: '1'
 doc/.*:
   override-license: GPL-3+
+etc/fonts/FreeSans.*:
+  override-copyright: 2002-2012, GNU Freefont contributors
+  override-license: GPL-3+ with Font-exception-2.0
 etc/icons/org.octave.Octave.appdata.xml:
   override-license: FSFAP
 libgui/src/m-editor/find-dialog.*:

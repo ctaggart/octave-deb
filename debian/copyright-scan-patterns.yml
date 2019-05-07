@@ -9,6 +9,7 @@ check:
     - ui
     - xml
     - txi
+    - otf
 ignore:
   pattern:
     - /debian/
@@ -17,5 +18,3 @@ ignore:
     - Makefile.in
   suffixes:
     - html
-
-    
