@@ -1,3 +1,12 @@
+octave (5.1.0-3) unstable; urgency=medium
+
+  * On mipsel, disable debugging symbols.
+    Otherwise, it FTBFS because the assembler hits the virtual space memory
+    limit of 2Gb.
+  * Drop provisions for the now obsolete mips architecture
+
+ -- Sébastien Villemot <sebastien@debian.org>  Tue, 01 Oct 2019 21:34:08 +0200
+
 octave (5.1.0-2) unstable; urgency=medium
 
   [ Sébastien Villemot ]
