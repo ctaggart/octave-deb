@@ -44,6 +44,15 @@ override_dh_auto_configure:
 DOC_FLAG := --disable-docs
 endif
 
+# On mipsel, disable debugging symbols. Otherwise, it FTBFS because the
+# assembler hits the virtual space memory limit of 2Gb. See e.g.
+# https://buildd.debian.org/status/fetch.php?pkg=octave&arch=mipsel&ver=5.1.0-2&stamp=1569871716
+# See also this thread:
+# https://lists.debian.org/debian-devel/2019/08/msg00171.html
+ifeq ($(DEB_HOST_ARCH),mipsel)
+export DEB_CXXFLAGS_MAINT_STRIP := -g
+endif
+
 %:
 	dh $@
 
