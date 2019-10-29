@@ -152,6 +152,7 @@ Section: libs
 Depends: ${shlibs:Depends},
          ${misc:Depends}
 Pre-Depends: ${misc:Pre-Depends}
+Provides: ${octave-abi:Provides}
 Description: shared libraries of the GNU Octave language
  Octave is a (mostly Matlab (R) compatible) high-level language, primarily
  intended for numerical computations. It provides a convenient command-line

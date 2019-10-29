@@ -53,6 +53,9 @@ ifeq ($(DEB_HOST_ARCH),mipsel)
 export DEB_CXXFLAGS_MAINT_STRIP := -g
 endif
 
+# Get the current API version
+API_VERSION = $(shell grep ^OCTAVE_API_VERSION= configure.ac | sed -e 's/OCTAVE_API_VERSION="api-v\(.*\)"/\1/')
+
 %:
 	dh $@
 
@@ -112,3 +115,7 @@ override_dh_dwz:
 # Ensure we package everything
 override_dh_missing:
 	dh_missing --fail-missing
+
+# Make liboctaveN provide the virtual package octave-abi-MM
+override_dh_gencontrol:
+	dh_gencontrol -- -Voctave-abi:Provides=octave-abi-$(API_VERSION)
