@@ -1,1 +1,1 @@
-extend-diff-ignore=.*\.pdf|.*\.dvi|.*\.png|.*\.eps|.*\.ps|.*\.texi|.*\.info.*|stamp-.*|libinterp/parse-tree/oct-gperf\.h|AUTHORS|doc/interpreter/doc-cache|oct-tex-lexer\.cc|.*\.html|config\.guess|config\.sub|config\.log
+extend-diff-ignore=.*\.pdf|.*\.dvi|.*\.png|.*\.eps|.*\.ps|.*\.texi|.*\.info.*|stamp-.*|libinterp/parse-tree/oct-gperf\.h|AUTHORS|doc/interpreter/doc-cache|oct-tex-lexer\.cc|.*\.html|config\.guess|config\.sub|config\.log|.*\.qch|.*\.qhc
