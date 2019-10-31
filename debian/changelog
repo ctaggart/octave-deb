@@ -1,3 +1,10 @@
+octave (5.1.0-4) unstable; urgency=medium
+
+  * The liboctaveN package provides now the virtual package octave-abi-MM
+  * d/s/options: Add *.qch and *.qhc to the list of ignored files
+
+ -- Rafael Laboissiere <rafael@debian.org>  Thu, 31 Oct 2019 02:02:46 -0300
+
 octave (5.1.0-3) unstable; urgency=medium
 
   * On mipsel, disable debugging symbols.
