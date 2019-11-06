@@ -70,7 +70,7 @@ Depends: ${shlibs:Depends},
          octave-common (= ${source:Version}),
          liboctave7 (= ${binary:Version})
 Recommends: gnuplot-qt | gnuplot-x11 | gnuplot-nox,
-            libopenblas-base | libatlas3-base,
+            libopenblas0 | libatlas3-base,
             pstoedit,
             epstool,
             default-jre-headless [!armel !hppa !hurd-i386 !kfreebsd-any !mipsel !powerpc !riscv64],
