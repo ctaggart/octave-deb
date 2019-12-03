@@ -6,7 +6,7 @@ Debian Sid has a deb package avaiable for Octave 5.1.0, but it isn't available y
 ### Building
 [cargo-deb](https://github.com/mmstick/cargo-deb) is used to create the Debian package. Install Rust with Cargo, then run:
 ``` sh
-cargo install deb
+cargo install cargo-deb
 ```
 
 Build the deb by running:
