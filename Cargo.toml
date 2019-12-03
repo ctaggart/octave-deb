@@ -1,0 +1,24 @@
+[package]
+name = "octave-dev"
+version = "5.1.0-1"
+description = """GNU Octave language for numerical computations
+  Octave is a (mostly Matlab (R) compatible) high-level language, primarily
+  intended for numerical computations. It provides a convenient command-line
+  interface for solving linear and nonlinear problems numerically.
+  .
+  Octave can be dynamically extended with user-supplied C++ files.""" 
+license = "GPL-3+"
+authors = ["help@octave.org"]
+homepage = "https://www.octave.org/"
+
+[package.metadata.deb]
+copyright = "1992-2019, John W. Eaton"
+depends = "libhdf5-100, libgraphicsmagick++-q16-12, libgl1, libglu1-mesa, libfontconfig1,    libgl2ps1.4, liblapack-dev, libcurl3-gnutls, libcholmod3, libumfpack5, libcxsparse3,    libarpack2, libqrupdate1, libfftw3-dev, libreadline-dev"
+section = "math"
+priority = "optional"
+assets = [
+    ["octave/bin/octave-cli", "usr/bin/octave-cli", "755"],
+    ["octave/include/**/*", "usr/include", "644"],
+    ["octave/lib/octave/5.1.0/liboctave.so.7.0.0", "usr/lib/x86_64-linux-gnu/liboctave.so", "644"],
+    ["octave/lib/octave/5.1.0/liboctinterp.so.7.0.0", "usr/lib/x86_64-linux-gnu/liboctinterp.so", "644"]
+]
